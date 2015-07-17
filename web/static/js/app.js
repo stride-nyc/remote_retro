@@ -1,4 +1,4 @@
-import {Socket} from "phoenix"
+import {Socket} from "../vendor/phoenix";
 
 // let socket = new Socket("/ws")
 // socket.connect()
