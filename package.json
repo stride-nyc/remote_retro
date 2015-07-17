@@ -1,0 +1,18 @@
+{
+  "name": "webpack_example",
+  "version": "1.0.0",
+  "description": "To start your new Phoenix application:",
+  "main": "index.js",
+  "directories": {
+    "test": "test"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "node-libs-browser": "^0.5.2",
+    "webpack": "^1.10.1"
+  }
+}

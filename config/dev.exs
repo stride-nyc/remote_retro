@@ -10,8 +10,9 @@ config :webpack_example, WebpackExample.Endpoint,
   http: [port: 4000],
   debug_errors: true,
   code_reloader: true,
-  cache_static_lookup: false#,
-  # watchers: [node: ["node_modules/brunch/bin/brunch", "watch"]]
+  cache_static_lookup: false,
+  watchers: [{Path.expand("node_modules/webpack/bin/webpack.js"), ["--watch",
+        "--colors", "--progress"]}]
 
 # Watch static and templates for browser reloading.
 config :webpack_example, WebpackExample.Endpoint,
