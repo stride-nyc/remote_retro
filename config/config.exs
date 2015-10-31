@@ -10,7 +10,7 @@ config :webpack_example, WebpackExample.Endpoint,
   url: [host: "localhost"],
   root: Path.dirname(__DIR__),
   secret_key_base: "x4KbWPtieC/U+FHsgnbFd+nmElLV8tpAg5615wnHD9MMSjKYS1mNDdETi3lksMUX",
-  render_errors: [default_format: "html"],
+  render_errors: [accepts: ["html"]],
   pubsub: [name: WebpackExample.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
