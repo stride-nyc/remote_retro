@@ -16,4 +16,4 @@ config :webpack_example, WebpackExample.Repo,
   password: "postgres",
   database: "webpack_example_test",
   pool: Ecto.Adapters.SQL.Sandbox, # Use a sandbox for transactional testing
-  size: 1
+  pool_size: 1

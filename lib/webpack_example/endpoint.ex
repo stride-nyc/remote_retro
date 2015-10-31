@@ -32,5 +32,5 @@ defmodule WebpackExample.Endpoint do
     key: "_webpack_example_key",
     signing_salt: "N+1+UasQ"
 
-  plug :router, WebpackExample.Router
+  plug WebpackExample.Router
 end

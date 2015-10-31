@@ -33,4 +33,4 @@ config :webpack_example, WebpackExample.Repo,
   username: "postgres",
   password: "postgres",
   database: "webpack_example_dev",
-  size: 10 # The amount of database connections in the pool
+  pool_size: 10 # The amount of database connections in the pool
