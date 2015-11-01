@@ -21,7 +21,9 @@ module.exports = {
         test: /\.js$/,
         exclude: /node_modules/,
         loader: "babel",
-        include: __dirname
+        query: {
+          presets: ['es2015']
+        }
       }, {
         test: /\.css$/,
         loader: ExtractTextPlugin.extract("style", "css")
