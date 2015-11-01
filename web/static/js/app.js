@@ -1,4 +1,4 @@
-import {Socket} from "../vendor/phoenix";
+// import { Socket } from "phoenix";
 
 // let socket = new Socket("/ws")
 // socket.connect()
@@ -7,4 +7,6 @@ import {Socket} from "../vendor/phoenix";
 //   console.log("Success!")
 // })
 
-console.log("This is coming from webpack!");
+let message = "This is coming from webpack!";
+
+console.log(message);

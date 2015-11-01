@@ -12,7 +12,9 @@ module.exports = {
   },
 
   resolve: {
-    moduleDirectories: [ __dirname ]
+    alias: {
+      phoenix: __dirname + "/deps/phoenix/web/static/js/phoenix.js"
+    }
   },
 
   module: {
@@ -40,7 +42,9 @@ module.exports = {
   plugins: [
     new ExtractTextPlugin("css/app.css"),
     new CopyWebpackPlugin([
-      { from: "./web/static/assets", force: true }
+      { from: "./web/static/assets" },
+      { from: "./deps/phoenix_html/web/static/js/phoenix_html.js",
+        to: "js/phoenix_html.js" }
     ])
   ]
 }
