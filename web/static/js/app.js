@@ -7,7 +7,4 @@ import {Socket} from "../vendor/phoenix";
 //   console.log("Success!")
 // })
 
-let App = {
-}
-
-export default App
+console.log("This is coming from webpack!");

@@ -2,10 +2,17 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var path = require("path");
 
 module.exports = {
-  entry: ["./web/static/css/app.scss", "./web/static/js/app.js"],
+  entry: {
+    "app": ["./web/static/css/app.scss", "./web/static/js/app.js"],
+  },
+
   output: {
     path: "./priv/static",
     filename: "js/app.js"
+  },
+
+  resolve: {
+    moduleDirectories: [ __dirname ]
   },
 
   module: {
@@ -13,17 +20,17 @@ module.exports = {
       {
         test: /\.js$/,
         exclude: /node_modules/,
-        loader: "babel-loader"
-      },
-      {
+        loader: "babel",
+        include: __dirname
+      }, {
         test: /\.css$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader")
-      },
-      {
+        loader: ExtractTextPlugin.extract("style", "css")
+      }, {
         test: /\.scss$/,
-        loader: ExtractTextPlugin.extract("style-loader", "css-loader!sass-loader?" +
-                                          "includePaths[]=" +
-                                           (path.resolve(__dirname, "./node_modules")))
+        loader: ExtractTextPlugin.extract(
+          "style",
+          "css!sass?includePaths[]=" + __dirname +  "/node_modules"
+        )
       }
     ]
   },
