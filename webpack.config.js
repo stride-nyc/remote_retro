@@ -2,6 +2,7 @@ var ExtractTextPlugin = require("extract-text-webpack-plugin");
 var CopyWebpackPlugin = require("copy-webpack-plugin");
 
 module.exports = {
+  devtool: "source-map",
   entry: {
     "app": ["./web/static/css/app.scss", "./web/static/js/app.js"],
   },
@@ -12,6 +13,7 @@ module.exports = {
   },
 
   resolve: {
+    modulesDirectories: [ __dirname + "/web/static/js" ],
     alias: {
       phoenix: __dirname + "/deps/phoenix/web/static/js/phoenix.js"
     }

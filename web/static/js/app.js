@@ -8,5 +8,7 @@
 // })
 
 let message = "This is coming from webpack!";
+console.info(message);
 
-console.log(message);
+import { logTestImport } from 'testing';
+logTestImport();
