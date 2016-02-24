@@ -13,7 +13,7 @@ module.exports = {
   },
 
   resolve: {
-    modulesDirectories: [ __dirname + "/web/static/js" ],
+    modulesDirectories: [ "node_modules", __dirname + "/web/static/js" ],
     alias: {
       phoenix: __dirname + "/deps/phoenix/web/static/js/phoenix.js"
     }
