@@ -11,8 +11,7 @@ config :webpack_example, WebpackExample.Endpoint,
   debug_errors: true,
   code_reloader: true,
   cache_static_lookup: false,
-  watchers: [{Path.expand("node_modules/webpack/bin/webpack.js"),
-      ["--watch-stdin", "--colors", "--progress"]}]
+  watchers: [npm: ["start"]]
 
 # Watch static and templates for browser reloading.
 config :webpack_example, WebpackExample.Endpoint,
