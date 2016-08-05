@@ -11,7 +11,9 @@ config :webpack_example, WebpackExample.Endpoint,
   debug_errors: true,
   code_reloader: true,
   cache_static_lookup: false,
-  watchers: [npm: ["start"]]
+  watchers: [
+    npm: ["start", cd: Path.expand("../", __DIR__)]
+  ]
 
 # Watch static and templates for browser reloading.
 config :webpack_example, WebpackExample.Endpoint,
