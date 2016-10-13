@@ -38,4 +38,3 @@ defmodule WebpackExample.ErrorHelpers do
     end
   end
 end
-

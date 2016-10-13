@@ -1,13 +1,15 @@
 defmodule WebpackExample.Endpoint do
   use Phoenix.Endpoint, otp_app: :webpack_example
 
+  socket "/socket", WebpackExample.UserSocket
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
   plug Plug.Static,
     at: "/", from: :webpack_example, gzip: false,
-    only: ~w(css images js favicon.ico robots.txt)
+    only: ~w(css fonts images js favicon.ico robots.txt)
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -28,10 +30,13 @@ defmodule WebpackExample.Endpoint do
   plug Plug.MethodOverride
   plug Plug.Head
 
+  # The session will be stored in the cookie and signed,
+  # this means its contents can be read but not tampered with.
+  # Set :encryption_salt if you would also like to encrypt it.
   plug Plug.Session,
     store: :cookie,
     key: "_webpack_example_key",
-    signing_salt: "N+1+UasQ"
+    signing_salt: "D76dW6Sl"
 
   plug WebpackExample.Router
 end

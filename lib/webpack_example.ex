@@ -4,14 +4,15 @@ defmodule WebpackExample do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec, warn: false
+    import Supervisor.Spec
 
+    # Define workers and child supervisors to be supervised
     children = [
+      # Start the Ecto repository
+      supervisor(WebpackExample.Repo, []),
       # Start the endpoint when the application starts
       supervisor(WebpackExample.Endpoint, []),
-      # Start the Ecto repository
-      worker(WebpackExample.Repo, []),
-      # Here you could define other workers and supervisors as children
+      # Start your own worker by calling: WebpackExample.Worker.start_link(arg1, arg2, arg3)
       # worker(WebpackExample.Worker, [arg1, arg2, arg3]),
     ]
 

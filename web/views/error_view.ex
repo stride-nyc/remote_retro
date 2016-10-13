@@ -6,7 +6,7 @@ defmodule WebpackExample.ErrorView do
   end
 
   def render("500.html", _assigns) do
-    "Server internal error"
+    "Internal server error"
   end
 
   # In case no render clause matches or no

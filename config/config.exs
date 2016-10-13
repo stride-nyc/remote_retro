@@ -5,12 +5,15 @@
 # is restricted to this project.
 use Mix.Config
 
+# General application configuration
+config :webpack_example,
+  ecto_repos: [WebpackExample.Repo]
+
 # Configures the endpoint
 config :webpack_example, WebpackExample.Endpoint,
   url: [host: "localhost"],
-  root: Path.dirname(__DIR__),
-  secret_key_base: "x4KbWPtieC/U+FHsgnbFd+nmElLV8tpAg5615wnHD9MMSjKYS1mNDdETi3lksMUX",
-  render_errors: [accepts: ["html"]],
+  secret_key_base: "O3MLJ1Bu2p3iEKTRu9DsKQj7ahKyfBfvTxQfW5HehdWq/NtN3ffL1LsAStFlg8YQ",
+  render_errors: [view: WebpackExample.ErrorView, accepts: ~w(html json)],
   pubsub: [name: WebpackExample.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

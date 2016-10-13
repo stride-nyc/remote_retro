@@ -1,18 +1,20 @@
-# Use Webpack for assets with Phoenix
+# WebpackExample
 
-Example repo from [Using Webpack with Phoenix and Elixir](http://matthewlehner.net/using-webpack-with-phoenix-and-elixir/)
+To start your Phoenix app:
 
-The important files are:
+  * Install dependencies with `mix deps.get`
+  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+  * Install Node.js dependencies with `npm install`
+  * Start Phoenix endpoint with `mix phoenix.server`
 
-- [`webpack.config.js`](https://github.com/matthewlehner/phoenix-webpack-example/blob/master/webpack.config.js)
-- [`package.json`](https://github.com/matthewlehner/phoenix-webpack-example/blob/master/package.json)
-- [`config/dev.exs`](https://github.com/matthewlehner/phoenix-webpack-example/blob/master/config/dev.exs#L14-L15)
+Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-### Getting Started
+Ready to run in production? Please [check our deployment guides](http://www.phoenixframework.org/docs/deployment).
 
-Clone this repo then:
+## Learn more
 
-1. Install dependencies with `mix deps.get && npm i`
-2. Start Phoenix endpoint with `mix phoenix.server`
-
-Now you can visit `localhost:4000` from your browser.
+  * Official website: http://www.phoenixframework.org/
+  * Guides: http://phoenixframework.org/docs/overview
+  * Docs: https://hexdocs.pm/phoenix
+  * Mailing list: http://groups.google.com/group/phoenix-talk
+  * Source: https://github.com/phoenixframework/phoenix
