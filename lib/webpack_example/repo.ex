@@ -1,3 +1,3 @@
-defmodule WebpackExample.Repo do
-  use Ecto.Repo, otp_app: :webpack_example
+defmodule RemoteRetro.Repo do
+  use Ecto.Repo, otp_app: :remote_retro
 end

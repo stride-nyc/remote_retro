@@ -1,3 +1,3 @@
-defmodule WebpackExample.PageView do
-  use WebpackExample.Web, :view
+defmodule RemoteRetro.PageView do
+  use RemoteRetro.Web, :view
 end

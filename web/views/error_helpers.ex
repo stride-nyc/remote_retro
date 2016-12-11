@@ -1,4 +1,4 @@
-defmodule WebpackExample.ErrorHelpers do
+defmodule RemoteRetro.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -32,9 +32,9 @@ defmodule WebpackExample.ErrorHelpers do
     #     dgettext "errors", "is invalid"
     #
     if count = opts[:count] do
-      Gettext.dngettext(WebpackExample.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(RemoteRetro.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(WebpackExample.Gettext, "errors", msg, opts)
+      Gettext.dgettext(RemoteRetro.Gettext, "errors", msg, opts)
     end
   end
 end

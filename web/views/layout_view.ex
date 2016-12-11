@@ -1,3 +1,3 @@
-defmodule WebpackExample.LayoutView do
-  use WebpackExample.Web, :view
+defmodule RemoteRetro.LayoutView do
+  use RemoteRetro.Web, :view
 end

@@ -1,3 +1,3 @@
-defmodule WebpackExample.LayoutViewTest do
-  use WebpackExample.ConnCase, async: true
+defmodule RemoteRetro.LayoutViewTest do
+  use RemoteRetro.ConnCase, async: true
 end

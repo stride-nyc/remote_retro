@@ -1,4 +1,4 @@
-# WebpackExample
+# RemoteRetro
 
 To start your Phoenix app:
 

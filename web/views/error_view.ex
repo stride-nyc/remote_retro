@@ -1,5 +1,5 @@
-defmodule WebpackExample.ErrorView do
-  use WebpackExample.Web, :view
+defmodule RemoteRetro.ErrorView do
+  use RemoteRetro.Web, :view
 
   def render("404.html", _assigns) do
     "Page not found"

@@ -1,12 +1,12 @@
-defmodule WebpackExample.Web do
+defmodule RemoteRetro.Web do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use WebpackExample.Web, :controller
-      use WebpackExample.Web, :view
+      use RemoteRetro.Web, :controller
+      use RemoteRetro.Web, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -30,12 +30,12 @@ defmodule WebpackExample.Web do
     quote do
       use Phoenix.Controller
 
-      alias WebpackExample.Repo
+      alias RemoteRetro.Repo
       import Ecto
       import Ecto.Query
 
-      import WebpackExample.Router.Helpers
-      import WebpackExample.Gettext
+      import RemoteRetro.Router.Helpers
+      import RemoteRetro.Gettext
     end
   end
 
@@ -49,9 +49,9 @@ defmodule WebpackExample.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import WebpackExample.Router.Helpers
-      import WebpackExample.ErrorHelpers
-      import WebpackExample.Gettext
+      import RemoteRetro.Router.Helpers
+      import RemoteRetro.ErrorHelpers
+      import RemoteRetro.Gettext
     end
   end
 
@@ -65,10 +65,10 @@ defmodule WebpackExample.Web do
     quote do
       use Phoenix.Channel
 
-      alias WebpackExample.Repo
+      alias RemoteRetro.Repo
       import Ecto
       import Ecto.Query
-      import WebpackExample.Gettext
+      import RemoteRetro.Gettext
     end
   end
 

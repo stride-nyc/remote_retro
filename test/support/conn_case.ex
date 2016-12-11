@@ -1,4 +1,4 @@
-defmodule WebpackExample.ConnCase do
+defmodule RemoteRetro.ConnCase do
   @moduledoc """
   This module defines the test case to be used by
   tests that require setting up a connection.
@@ -20,23 +20,23 @@ defmodule WebpackExample.ConnCase do
       # Import conveniences for testing with connections
       use Phoenix.ConnTest
 
-      alias WebpackExample.Repo
+      alias RemoteRetro.Repo
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
 
-      import WebpackExample.Router.Helpers
+      import RemoteRetro.Router.Helpers
 
       # The default endpoint for testing
-      @endpoint WebpackExample.Endpoint
+      @endpoint RemoteRetro.Endpoint
     end
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(WebpackExample.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(WebpackExample.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
     end
 
     {:ok, conn: Phoenix.ConnTest.build_conn()}

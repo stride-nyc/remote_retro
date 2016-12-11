@@ -2,7 +2,7 @@ use Mix.Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
-config :webpack_example, WebpackExample.Endpoint,
+config :remote_retro, RemoteRetro.Endpoint,
   http: [port: 4001],
   server: false
 
@@ -10,10 +10,10 @@ config :webpack_example, WebpackExample.Endpoint,
 config :logger, level: :warn
 
 # Configure your database
-config :webpack_example, WebpackExample.Repo,
+config :remote_retro, RemoteRetro.Repo,
   adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
-  database: "webpack_example_test",
+  database: "remote_retro_test",
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox

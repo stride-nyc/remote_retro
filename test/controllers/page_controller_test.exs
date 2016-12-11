@@ -1,5 +1,5 @@
-defmodule WebpackExample.PageControllerTest do
-  use WebpackExample.ConnCase
+defmodule RemoteRetro.PageControllerTest do
+  use RemoteRetro.ConnCase
 
   test "GET /", %{conn: conn} do
     conn = get conn, "/"

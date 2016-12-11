@@ -1,5 +1,5 @@
-defmodule WebpackExample.Router do
-  use WebpackExample.Web, :router
+defmodule RemoteRetro.Router do
+  use RemoteRetro.Web, :router
 
   pipeline :browser do
     plug :accepts, ["html"]
@@ -13,14 +13,14 @@ defmodule WebpackExample.Router do
     plug :accepts, ["json"]
   end
 
-  scope "/", WebpackExample do
+  scope "/", RemoteRetro do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
   end
 
   # Other scopes may use custom stacks.
-  # scope "/api", WebpackExample do
+  # scope "/api", RemoteRetro do
   #   pipe_through :api
   # end
 end
