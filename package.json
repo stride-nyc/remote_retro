@@ -6,9 +6,12 @@
     "watch": "webpack --watch-stdin --progress --color"
   },
   "dependencies": {
+    "babel-preset-react": "^6.16.0",
     "node-sass": "^3.8.0",
     "phoenix": "file:deps/phoenix",
-    "phoenix_html": "file:deps/phoenix_html"
+    "phoenix_html": "file:deps/phoenix_html",
+    "react": "^15.4.1",
+    "react-dom": "^15.4.1"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
