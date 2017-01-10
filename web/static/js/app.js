@@ -13,3 +13,8 @@ class ReactPlayground extends Component {
 
 render(<ReactPlayground/>, document.querySelector('.react-root'))
 
+import {Socket, Presence} from "phoenix"
+
+let socket = new Socket("/socket", {params: {user: 'Travis'}})
+socket.connect()
+

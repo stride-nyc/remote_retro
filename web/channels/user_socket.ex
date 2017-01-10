@@ -2,7 +2,7 @@ defmodule RemoteRetro.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  # channel "room:*", RemoteRetro.RoomChannel
+  channel "room:*", RemoteRetro.RoomChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000
@@ -19,6 +19,11 @@ defmodule RemoteRetro.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
+  def connect(%{"user" => user}, socket) do
+    IO.puts user
+    {:ok, assign(socket, :user, user)}
+  end
+
   def connect(_params, socket) do
     {:ok, socket}
   end
