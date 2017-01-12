@@ -1,5 +1,3 @@
-import "phoenix_html"
-
 import React, { Component } from 'react'
 import { render } from 'react-dom'
 
