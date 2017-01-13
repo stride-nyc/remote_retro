@@ -1,5 +1,6 @@
 import SocketUtils from 'socket_utils'
 import PresenceUtils from 'presence_utils'
+
 import UserList from 'components/user_list'
 
 import { Presence } from "phoenix"
