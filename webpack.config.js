@@ -28,6 +28,7 @@ module.exports = {
       loader: ExtractTextPlugin.extract("style", "css")
     }]
   },
+  devtool: "source-map",
 
   plugins: [
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
