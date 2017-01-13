@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "webpack -p",
-    "watch": "webpack --watch-stdin --progress --color"
+    "watch": "webpack --watch-stdin --color"
   },
   "dependencies": {
     "babel-preset-react": "^6.16.0",
