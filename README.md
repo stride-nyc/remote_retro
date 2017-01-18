@@ -5,6 +5,7 @@ To start your Phoenix app:
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
   * Install the yarn package manager for sane node package management `npm install yarn`
+  * Install PhantomJS for headless browser testing: `npm install -g phantomjs`
   * Install Node.js dependencies with `yarn`
   * Start Phoenix endpoint with `mix phoenix.server`
 
