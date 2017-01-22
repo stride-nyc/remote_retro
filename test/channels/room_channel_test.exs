@@ -16,4 +16,23 @@ defmodule RemoteRetro.RoomChannelTest do
 
     assert_push "presence_diff", %{ joins: %{ "wyatt derp" => %{} } }
   end
+
+  test "the inclusion of a user map with metadata about their joining the room" do
+    { :ok, _, _socket } = socket("", %{ user: "wyatt derp" })
+      |> subscribe_and_join(RoomChannel, "room:lobby")
+
+    assert_push "presence_state", %{
+      "wyatt derp" => %{
+        user: %{ name: _, online_at: _online_at }
+      }
+    }
+
+    assert_push "presence_diff", %{
+      joins: %{
+        "wyatt derp" => %{
+          user: %{ name: _, online_at: _online_at }
+        }
+      }
+    }
+  end
 end

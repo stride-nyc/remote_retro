@@ -74,4 +74,14 @@ defmodule RemoteRetro.Presence do
   """
   use Phoenix.Presence, otp_app: :remote_retro,
                         pubsub_server: RemoteRetro.PubSub
+
+  def fetch(_topic, entries) do
+    for {username, %{metas: metas}} <- entries, into: %{} do
+      metas_list = Kernel.get_in(entries, [username, :metas])
+      first_online_at = List.first(metas_list)
+        |> Map.get(:online_at)
+
+      {username, %{ metas: metas, user: %{ name: username, online_at: first_online_at }}}
+    end
+  end
 end
