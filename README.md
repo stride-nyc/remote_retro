@@ -15,15 +15,15 @@ To start your Phoenix app:
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-#### Tests
+## Tests
 
-Backend Unit Tests + Wallaby Feature Specs
+To execute the backend unit tests + Wallaby feature specs, run:
 
 ```
 mix test
 ```
 
-Client-side Unit Tests
+To execute the client-side unit tests, run:
 
 ```
 mocha
