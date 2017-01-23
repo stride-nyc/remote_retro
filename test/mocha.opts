@@ -1,4 +1,5 @@
 test/**/*_test.js
+--color
 --require mock-css-modules
 --compilers jsx:babel-register
 --require babel-register
