@@ -5,14 +5,26 @@ To start your Phoenix app:
   * Install dependencies with `mix deps.get`
   * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
   * Install the yarn package manager for sane node package management `npm install yarn`
-  * Install PhantomJS for headless browser testing: `npm install -g phantomjs`
-  * Install Node.js dependencies with `yarn`
-  * Start Phoenix endpoint with `mix phoenix.server`
+  * Node Global Installs
+    - PhantomJS for headless browser testing: `yarn global add phantomjs`
+    - Mocha for JS unit test executable: `yarn global add mocha`
+  * Install local node dependencies with `yarn`
+  * Start Phoenix endpoint with `mix`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
-#### Client-Side JavaScript Entrypoint
+#### Tests
 
-Start playing around with your new toy by writing some sweet, sweet ES6 in `web/static/js/app.js`
+Backend Unit Tests + Wallaby Feature Specs
 
-Oh! Look at that!
+```
+mix test
+```
+
+Client-side Unit Tests
+
+```
+mocha
+```
+
+
