@@ -1,5 +1,4 @@
 import SocketUtils from 'socket_utils'
-import PresenceUtils from 'presence_utils'
 
 import UserList from 'components/user_list'
 
@@ -14,13 +13,15 @@ const room = socket.channel("room:lobby")
 let presences = {}
 room.on("presence_state", state => {
   presences = Presence.syncState(presences, state)
-  let users = PresenceUtils.usersSortedByArrivalAsc(presences)
+  const users = Object.values(presences).map(presence => presence.user)
+
   render(<UserList users={ users }/>, document.querySelector('.react-root'))
 })
 
 room.on("presence_diff", diff => {
   presences = Presence.syncDiff(presences, diff)
-  let users = PresenceUtils.usersSortedByArrivalAsc(presences)
+  const users = Object.values(presences).map(presence => presence.user)
+
   render(<UserList users={ users }/>, document.querySelector('.react-root'))
 })
 
