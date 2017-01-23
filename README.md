@@ -26,5 +26,3 @@ Client-side Unit Tests
 ```
 mocha
 ```
-
-
