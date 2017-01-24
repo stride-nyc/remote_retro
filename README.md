@@ -17,10 +17,10 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Tests
 
-To execute the backend unit tests + Wallaby feature specs, run:
+To continually execute the backend tests on file change:
 
 ```
-mix test
+mix test.watch
 ```
 
 To execute the client-side unit tests, run:
