@@ -1,0 +1,4 @@
+priv/static/
+web/static/js/phoenix.js
+
+deps/**/*.js

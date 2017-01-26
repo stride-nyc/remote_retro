@@ -28,3 +28,11 @@ To execute the client-side unit tests, run:
 ```
 mocha
 ```
+
+## Code
+
+To run the local eslint:
+
+```
+mix lint
+```
