@@ -31,4 +31,8 @@ class UserForm extends Component {
   }
 }
 
+UserForm.propTypes = {
+  submitAction: React.PropTypes.func
+}
+
 export default UserForm

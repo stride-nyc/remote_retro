@@ -1,19 +1,21 @@
-import React, { Component } from 'react'
-import sortBy from 'lodash/sortBy'
+import React from "react"
+import sortBy from "lodash/sortBy"
 
-class UserList extends Component {
-  render(){
-    const usersSortedByArrival = sortBy(this.props.users, 'online_at')
+function UserList(props) {
+  const usersSortedByArrival = sortBy(props.users, "online_at")
 
-    return (
-      <section>
-        <p>Online:</p>
-        <ul className="user-list">
-          { usersSortedByArrival.map(user => <li key={user.name}>{user.name}</li>) }
-        </ul>
-      </section>
-    )
-  }
+  return (
+    <section>
+      <p>Online:</p>
+      <ul className="user-list">
+        { usersSortedByArrival.map(user => <li key={user.name}>{user.name}</li>) }
+      </ul>
+    </section>
+  )
+}
+
+UserList.propTypes = {
+  users: React.PropTypes.array
 }
 
 export default UserList
