@@ -4,6 +4,10 @@ module.exports = {
     "es6": true,
     "node": true
   },
+  "globals": {
+    "describe": false,
+    "it": false
+  },
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parserOptions": {
     "ecmaFeatures": {
