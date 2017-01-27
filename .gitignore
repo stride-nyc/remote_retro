@@ -4,6 +4,8 @@
 /deps
 /*.ez
 
+# Test artifacts
+screenshots/
 # Generated on crash by the VM
 erl_crash.dump
 
