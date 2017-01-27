@@ -15,7 +15,7 @@ function UserList(props) {
 }
 
 UserList.propTypes = {
-  users: React.PropTypes.array
+  users: React.PropTypes.array.isRequired
 }
 
 export default UserList

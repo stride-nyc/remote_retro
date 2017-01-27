@@ -32,7 +32,7 @@ class UserForm extends Component {
 }
 
 UserForm.propTypes = {
-  submitAction: React.PropTypes.func
+  submitAction: React.PropTypes.func.isRequired
 }
 
 export default UserForm
