@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { Socket, Presence } from "phoenix"
+import values from "lodash/values"
 
 import UserForm from "./user_form"
 import UserList from "./user_list"
@@ -21,13 +22,13 @@ class Retro extends Component {
 
     room.on("presence_state", state => {
       presences = Presence.syncState(presences, state)
-      const users = Object.values(presences).map(presence => presence.user)
+      const users = values(presences).map(presence => presence.user)
       this.setState({ users })
     })
 
     room.on("presence_diff", diff => {
       presences = Presence.syncDiff(presences, diff)
-      const users = Object.values(presences).map(presence => presence.user)
+      const users = values(presences).map(presence => presence.user)
       this.setState({ users })
     })
 
