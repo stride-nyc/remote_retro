@@ -1,15 +1,8 @@
-import React, { Component } from 'react'
-import { render } from 'react-dom'
+import React from "react"
+import { render } from "react-dom"
 
-class ReactPlayground extends Component {
-  render(){
-    return (
-      <div className="react-playground">
-        <p>The React Playground</p>
-      </div>
-    )
-  }
-}
+import Retro from "components/retro"
 
-render(<ReactPlayground/>, document.querySelector('.react-root'))
+const reactRoot = document.querySelector(".react-root")
+render(<Retro />, reactRoot)
 

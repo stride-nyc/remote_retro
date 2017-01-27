@@ -12,6 +12,8 @@ defmodule RemoteRetro do
       supervisor(RemoteRetro.Repo, []),
       # Start the endpoint when the application starts
       supervisor(RemoteRetro.Endpoint, []),
+      supervisor(RemoteRetro.Presence, []),
+
       # Start your own worker by calling: RemoteRetro.Worker.start_link(arg1, arg2, arg3)
       # worker(RemoteRetro.Worker, [arg1, arg2, arg3]),
     ]
