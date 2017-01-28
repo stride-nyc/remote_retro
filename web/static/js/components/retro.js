@@ -10,10 +10,10 @@ class Retro extends Component {
     super(props)
     this.state = { users: [] }
 
-    this.setUser = this.setUser.bind(this)
+    this.handleSubmitUsername = this.handleSubmitUsername.bind(this)
   }
 
-  setUser(user) {
+  handleSubmitUsername(user) {
     let socket = new Socket("/socket", {params: { user }})
     socket.connect()
     let presences = {}
@@ -43,7 +43,7 @@ class Retro extends Component {
     if (user) {
       content = <UserList users={ this.state.users }/>
     } else {
-      content = <UserForm submitAction={this.setUser} />
+      content = <UserForm onSubmitUsername={this.handleSubmitUsername} />
     }
 
     return <div>{ content }</div>
