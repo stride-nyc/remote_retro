@@ -35,4 +35,13 @@ defmodule RemoteRetro.RoomChannelTest do
       }
     }
   end
+
+  test "the broadcasting of new messages to clients when pushed to the socket" do
+    { :ok, _, socket } = socket("", %{ user: "wyatt derp" })
+      |> subscribe_and_join(RoomChannel, "room:lobby")
+
+    push(socket, "new_idea", %{ body: ":happy: we're pacing well" })
+
+    assert_broadcast("new_idea_received", %{ body: ":happy: we're pacing well" })
+  end
 end

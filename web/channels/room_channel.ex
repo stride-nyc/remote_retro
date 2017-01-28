@@ -14,4 +14,9 @@ defmodule RemoteRetro.RoomChannel do
     push socket, "presence_state", Presence.list(socket)
     {:noreply, socket}
   end
+
+  def handle_in("new_idea", %{"body" => body}, socket) do
+    broadcast! socket, "new_idea_received", %{body: body}
+    {:noreply, socket}
+  end
 end
