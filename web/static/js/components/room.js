@@ -25,6 +25,7 @@ class Room extends Component {
 
 Room.propTypes = {
   roomChannel: React.PropTypes.object.isRequired,
+  users: React.PropTypes.array.isRequired,
 }
 
 export default Room
