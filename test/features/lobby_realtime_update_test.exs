@@ -10,7 +10,7 @@ defmodule LobbyRealtimeUpdateTest do
       |> click
 
     user_list_text = session_one
-      |> find("ul")
+      |> find("#user-list")
       |> text
 
     assert user_list_text == "Todd Grundy"
@@ -26,7 +26,7 @@ defmodule LobbyRealtimeUpdateTest do
       |> click
 
     user_list_text = session_one
-      |> find("ul")
+      |> find("#user-list")
       |> text
 
     assert String.contains?(user_list_text, "Todd Grundy")
@@ -35,7 +35,7 @@ defmodule LobbyRealtimeUpdateTest do
     delete(session_two)
 
     user_list_text = session_one
-      |> find("ul")
+      |> find("#user-list")
       |> text
 
     refute String.contains?(user_list_text, "Martha Bernham")

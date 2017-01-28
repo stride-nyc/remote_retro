@@ -7,7 +7,7 @@ function UserList(props) {
   return (
     <section>
       <p>Online:</p>
-      <ul className="user-list">
+      <ul id="user-list">
         { usersSortedByArrival.map(user => <li key={user.name}>{user.name}</li>) }
       </ul>
     </section>
