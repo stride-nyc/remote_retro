@@ -23,6 +23,7 @@ class IdeaSubmissionForm extends Component {
       <form onSubmit={ this.handleSubmit }>
         <input type="text"
                tabIndex="0"
+               name="idea"
                value={ this.state.ideaText }
                onChange={ this.handleChange }
                placeholder=":happy: we're actively trying to improve"/>

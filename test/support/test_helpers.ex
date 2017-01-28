@@ -6,7 +6,17 @@ defmodule RemoteRetro.TestHelpers do
     |> visit("/")
     |> find("form")
     |> fill_in("username", with: username)
-    |> find("input[type='submit']")
-    |> click
+    |> click_button("Submit")
+
+    session
+  end
+
+  def submit_idea(session, idea) do
+    session
+    |> find("form")
+    |> fill_in("idea", with: idea)
+    |> click_button("Submit")
+
+    session
   end
 end

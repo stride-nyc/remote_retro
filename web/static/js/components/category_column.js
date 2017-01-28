@@ -4,7 +4,7 @@ function CategoryColumn(props) {
   return (
     <section>
       <p>Ideas:</p>
-      <ul>
+      <ul className="ideas">
         { props.ideas.map(idea => <li key={idea.body}>{idea.body}</li>) }
       </ul>
     </section>
