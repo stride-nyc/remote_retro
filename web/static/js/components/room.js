@@ -10,17 +10,21 @@ class Room extends Component {
   }
 
   handleIdeaSubmission(idea) {
-    console.log(idea)
+    this.props.roomChannel.push("new_idea", { body: idea })
   }
 
   render() {
     return (
       <div>
         <UserList users={ this.props.users } />
-        <IdeaSubmissionForm user={ this.props.user } onIdeaSubmission={ this.handleIdeaSubmission }/>
+        <IdeaSubmissionForm onIdeaSubmission={ this.handleIdeaSubmission }/>
       </div>
     )
   }
+}
+
+Room.propTypes = {
+  roomChannel: React.PropTypes.object.isRequired,
 }
 
 export default Room

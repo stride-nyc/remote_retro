@@ -8,7 +8,7 @@ import Room from "./room"
 class RemoteRetro extends Component {
   constructor(props) {
     super(props)
-    this.state = { users: [] }
+    this.state = { users: [], roomChannel: {} }
 
     this.handleSubmitUsername = this.handleSubmitUsername.bind(this)
   }
@@ -33,7 +33,7 @@ class RemoteRetro extends Component {
     })
 
     roomChannel.join()
-    this.setState({ user })
+    this.setState({ user, roomChannel })
   }
 
   render() {
@@ -41,7 +41,7 @@ class RemoteRetro extends Component {
 
     let content
     if (user) {
-      content = <Room users={ this.state.users } />
+      content = <Room users={ this.state.users } roomChannel={ this.state.roomChannel } />
     } else {
       content = <UserForm onSubmitUsername={this.handleSubmitUsername} />
     }
