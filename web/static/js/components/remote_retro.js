@@ -3,7 +3,7 @@ import { Socket, Presence } from "phoenix"
 import values from "lodash/values"
 
 import UserForm from "./user_form"
-import Retro from "./retro"
+import Room from "./room"
 
 class RemoteRetro extends Component {
   constructor(props) {
@@ -41,7 +41,7 @@ class RemoteRetro extends Component {
 
     let content
     if (user) {
-      content = <Retro users={ this.state.users }/>
+      content = <Room users={ this.state.users } />
     } else {
       content = <UserForm onSubmitUsername={this.handleSubmitUsername} />
     }

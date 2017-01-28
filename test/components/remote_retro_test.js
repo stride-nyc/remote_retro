@@ -2,12 +2,12 @@ import React from "react"
 import { shallow } from "enzyme"
 import { expect } from "chai"
 
-import Retro from "../../web/static/js/components/retro"
+import RemoteRetro from "../../web/static/js/components/remote_retro"
 import UserForm from "../../web/static/js/components/user_form"
 
-describe("Retro component", () => {
+describe("RemoteRetro component", () => {
   it("conditionally renders the UserForm based on username state", () => {
-    const wrapper = shallow(<Retro />)
+    const wrapper = shallow(<RemoteRetro />)
 
     expect(wrapper.find(UserForm)).to.have.length(1)
 
