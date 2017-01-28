@@ -14,7 +14,7 @@ class UserForm extends Component {
   }
 
   handleSubmit(event) {
-    this.props.submitAction(this.state.username)
+    this.props.onSubmitUsername(this.state.username)
     event.preventDefault()
   }
 
@@ -32,7 +32,7 @@ class UserForm extends Component {
 }
 
 UserForm.propTypes = {
-  submitAction: React.PropTypes.func.isRequired
+  onSubmitUsername: React.PropTypes.func.isRequired
 }
 
 export default UserForm

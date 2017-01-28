@@ -3,19 +3,19 @@ import { shallow } from "enzyme"
 import { expect } from "chai"
 import sinon from "sinon"
 
-import UserForm from "../../web/static/js/components/user_form"
+import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"
 
-describe("UserForm component", () => {
+describe("IdeaSubmissionForm component", () => {
   it("invokes the function passed as the onSubmitUsername prop", () => {
     const fakeEvent = {
       stopPropagation: ()=> undefined,
       preventDefault: ()=> undefined,
     }
 
-    const onSubmitUsernameSpy = sinon.spy(() => {})
-    const wrapper = shallow(<UserForm onSubmitUsername={onSubmitUsernameSpy}/>)
+    const onSubmitIdeaSpy = sinon.spy(() => {})
+    const wrapper = shallow(<IdeaSubmissionForm onIdeaSubmission={ onSubmitIdeaSpy }/>)
     wrapper.find("form").simulate("submit", fakeEvent)
 
-    expect(onSubmitUsernameSpy.called).to.equal(true)
+    expect(onSubmitIdeaSpy.called).to.equal(true)
   })
 })

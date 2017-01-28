@@ -1,8 +1,8 @@
 import React from "react"
 import { render } from "react-dom"
 
-import Retro from "components/retro"
+import RemoteRetro from "components/remote_retro"
 
 const reactRoot = document.querySelector(".react-root")
-render(<Retro />, reactRoot)
+render(<RemoteRetro />, reactRoot)
 
