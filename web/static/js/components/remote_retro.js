@@ -18,21 +18,21 @@ class RemoteRetro extends Component {
     socket.connect()
     let presences = {}
 
-    const room = socket.channel("room:lobby")
+    const roomChannel = socket.channel("room:lobby")
 
-    room.on("presence_state", state => {
+    roomChannel.on("presence_state", state => {
       presences = Presence.syncState(presences, state)
       const users = values(presences).map(presence => presence.user)
       this.setState({ users })
     })
 
-    room.on("presence_diff", diff => {
+    roomChannel.on("presence_diff", diff => {
       presences = Presence.syncDiff(presences, diff)
       const users = values(presences).map(presence => presence.user)
       this.setState({ users })
     })
 
-    room.join()
+    roomChannel.join()
     this.setState({ user })
   }
 
