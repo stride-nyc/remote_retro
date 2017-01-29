@@ -4,3 +4,13 @@ i {
   font-size: 5rem;
   font-style: normal;
 }
+
+.room {
+  display: flex;
+  min-height: 98vh;
+  flex-direction: column;
+}
+
+.category-columns-wrapper {
+  flex: 1;
+}

@@ -24,8 +24,8 @@ class Room extends Component {
 
   render() {
     return (
-      <section>
-        <div className="ui three column padded grid">
+      <section className="room">
+        <div className="ui three column padded grid category-columns-wrapper">
           <CategoryColumn category="happy" ideas={ this.state.ideas }/>
           <CategoryColumn category="sad" ideas={ this.state.ideas }/>
           <CategoryColumn category="confused" ideas={ this.state.ideas }/>
