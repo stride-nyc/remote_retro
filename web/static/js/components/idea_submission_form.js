@@ -20,14 +20,20 @@ class IdeaSubmissionForm extends Component {
 
   render() {
     return (
-      <form onSubmit={ this.handleSubmit } >
-        <input type="text"
-               tabIndex="0"
-               name="idea"
-               value={ this.state.ideaText }
-               onChange={ this.handleChange }
-               placeholder=":happy: we're actively trying to improve"/>
-        <input type="submit" value="Submit" />
+      <form onSubmit={ this.handleSubmit } className="ui form">
+        <div className="inline fields">
+          <div className="ten wide field">
+            <input type="text"
+                   tabIndex="0"
+                   name="idea"
+                   value={ this.state.ideaText }
+                   onChange={ this.handleChange }
+                   placeholder=":happy: we're actively trying to improve"/>
+          </div>
+          <div className="two wide field">
+            <input type="submit" value="Submit" className="ui button"/>
+          </div>
+        </div>
       </form>
     )
   }
