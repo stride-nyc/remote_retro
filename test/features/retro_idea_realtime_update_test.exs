@@ -9,12 +9,12 @@ defmodule RetroIdeaRealtimeUpdateTest do
     session_one = join_retro_as_user(session_one, "McKenneth McTickles")
     session_two = join_retro_as_user(session_two, "Travis Vander Hoop")
 
-    ideas_list_text = session_one |> find(".ideas", visible: false) |> text
+    ideas_list_text = session_one |> find(".happy.ideas", visible: false) |> text
     refute String.contains?(ideas_list_text, ":happy: user stories with clear business value")
 
     submit_idea(session_two, ":happy: user stories with clear business value")
 
-    ideas_list_text = session_one |> find(".ideas") |> text
+    ideas_list_text = session_one |> find(".happy.ideas") |> text
     assert String.contains?(ideas_list_text, ":happy: user stories with clear business value")
 
     Wallaby.end_session(session_one)
