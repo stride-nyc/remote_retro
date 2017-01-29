@@ -14,3 +14,7 @@ i {
 .category-columns-wrapper {
   flex: 1;
 }
+
+/* Semantic Overrides */
+
+ul.ui.list li::before { content: ""; }

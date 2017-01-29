@@ -1,14 +1,15 @@
 import React from "react"
 import sortBy from "lodash/sortBy"
 
+import UserListItem from "./user_list_item"
+
 function UserList(props) {
   const usersSortedByArrival = sortBy(props.users, "online_at")
 
   return (
-    <section>
-      <p>Online:</p>
-      <ul id="user-list">
-        { usersSortedByArrival.map(user => <li key={user.name}>{user.name}</li>) }
+    <section className="ui center aligned basic segment">
+      <ul id="user-list" className="ui horizontal list">
+        { usersSortedByArrival.map(user => <UserListItem key={ user.name } user={ user }/>) }
       </ul>
     </section>
   )
