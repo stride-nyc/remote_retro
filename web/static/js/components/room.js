@@ -24,11 +24,16 @@ class Room extends Component {
 
   render() {
     return (
-      <div>
+      <section>
+        <div className="ui three column padded grid">
+          <CategoryColumn category="happy" ideas={ this.state.ideas }/>
+          <CategoryColumn category="sad" ideas={ this.state.ideas }/>
+          <CategoryColumn category="confused" ideas={ this.state.ideas }/>
+        </div>
+
         <UserList users={ this.props.users } />
-        <CategoryColumn ideas={ this.state.ideas }/>
         <IdeaSubmissionForm onIdeaSubmission={ this.handleIdeaSubmission }/>
-      </div>
+      </section>
     )
   }
 }
