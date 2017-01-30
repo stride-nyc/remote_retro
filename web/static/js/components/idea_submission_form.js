@@ -28,7 +28,7 @@ class IdeaSubmissionForm extends Component {
                  value={ this.state.ideaText }
                  onChange={ this.handleChange }
                  placeholder=":happy: we're actively trying to improve"/>
-          <button type="submit" className="ui button">Submit</button>
+          <button type="submit" className="ui teal button">Submit</button>
         </div>
       </form>
     )
