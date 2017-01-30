@@ -23,7 +23,11 @@ class UserForm extends Component {
       <section>
         <p>Welcome to Remote Retro! What's your name?</p>
         <form onSubmit={this.handleSubmit} >
-          <input type="text" name="username" value={this.state.username} onChange={this.handleChange} />
+          <input type="text"
+                 name="username"
+                 autoFocus
+                 value={this.state.username}
+                 onChange={this.handleChange} />
           <input type="submit" value="Submit" />
         </form>
       </section>

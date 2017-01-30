@@ -24,7 +24,7 @@ class IdeaSubmissionForm extends Component {
         <div className="inline fields">
           <div className="ten wide field">
             <input type="text"
-                   tabIndex="0"
+                   autoFocus
                    name="idea"
                    value={ this.state.ideaText }
                    onChange={ this.handleChange }
