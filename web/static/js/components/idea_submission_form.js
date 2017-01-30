@@ -20,7 +20,7 @@ class IdeaSubmissionForm extends Component {
 
   render() {
     return (
-      <form onSubmit={ this.handleSubmit } className="ui form basic segment">
+      <form onSubmit={ this.handleSubmit } className="ui form basic attached segment">
         <div className="ui fluid action input">
           <input type="text"
                  autoFocus
