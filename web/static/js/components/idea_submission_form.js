@@ -20,7 +20,7 @@ class IdeaSubmissionForm extends Component {
 
   render() {
     return (
-      <form onSubmit={ this.handleSubmit } className="ui form">
+      <form onSubmit={ this.handleSubmit } className="ui form basic segment">
         <div className="inline fields">
           <div className="ten wide field">
             <input type="text"

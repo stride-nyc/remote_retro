@@ -7,7 +7,7 @@ i {
 
 .room {
   display: flex;
-  min-height: 98vh;
+  min-height: 100vh;
   flex-direction: column;
 }
 
