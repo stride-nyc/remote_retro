@@ -15,8 +15,8 @@ function CategoryColumn(props) {
         <p>:{ props.category }:</p>
       </div>
       <div className="ui divider"></div>
-      <ul className={ `${props.category} ideas` }>
-        { props.ideas.map(idea => <li key={idea.body}>{idea.body}</li>) }
+      <ul className={ `${props.category} ideas ui divided list` }>
+        { props.ideas.map(idea => <li className="item" key={idea.body}>{idea.body}</li>) }
       </ul>
     </section>
   )
