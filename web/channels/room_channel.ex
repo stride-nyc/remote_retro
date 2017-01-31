@@ -15,8 +15,8 @@ defmodule RemoteRetro.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("new_idea", %{"body" => body}, socket) do
-    broadcast! socket, "new_idea_received", %{body: body}
+  def handle_in("new_idea", %{"body" => body, "category" => category}, socket) do
+    broadcast! socket, "new_idea_received", %{body: body, category: category }
     {:noreply, socket}
   end
 end

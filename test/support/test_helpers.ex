@@ -11,10 +11,11 @@ defmodule RemoteRetro.TestHelpers do
     session
   end
 
-  def submit_idea(session, idea) do
+  def submit_idea(session, %{ category: category, body: body }) do
     session
     |> find("form")
-    |> fill_in("idea", with: idea)
+    |> fill_in("category", with: category)
+    |> fill_in("idea", with: body)
     |> click_button("Submit")
 
     session
