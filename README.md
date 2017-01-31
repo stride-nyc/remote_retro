@@ -25,7 +25,7 @@ psql -h localhost
 
 #### Elixir/Phoenix Dependencies
   - [Install Elixir](http://elixir-lang.org/install.html)
-  - Install elixir dependencies with `mix deps.get`
+  - Install the Phoenix application's dependencies via `mix deps.get`
   - Create and migrate your database with `mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
