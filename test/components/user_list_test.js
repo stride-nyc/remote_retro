@@ -21,7 +21,6 @@ describe("passed an array of users", () => {
 
   it("sorts the users by their arrival in the room, ascending", () => {
     const wrapper = render(<UserList users={users} />)
-    const names = wrapper.find(UserList)
     expect(wrapper.text()).to.match(/zandertreezy/i)
   })
 })
