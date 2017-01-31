@@ -17,10 +17,10 @@ describe("Room component", () => {
 
       roomComponent
         .instance()
-        .handleIdeaSubmission(":sad: we don't use our linter")
+        .handleIdeaSubmission({ category: "sad", body: "we don't use our linter" })
 
       expect(
-        roomChannel.push.calledWith("new_idea", { body: ":sad: we don't use our linter" })
+        roomChannel.push.calledWith("new_idea", { category: "sad", body: "we don't use our linter" })
       ).to.equal(true)
     })
   })

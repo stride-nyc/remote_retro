@@ -3,7 +3,7 @@ import React, { Component } from "react"
 class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { ideaText: "", ideaCategory: "" }
+    this.state = { body: "", category: "" }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
@@ -11,17 +11,17 @@ class IdeaSubmissionForm extends Component {
 
   handleSubmit(event) {
     event.preventDefault()
-    this.setState({ ideaText: "" })
-    this.props.onIdeaSubmission(this.state.ideaText)
+    this.setState({ body: "" })
+    this.props.onIdeaSubmission(this.state)
   }
 
   handleIdeaChange(event) {
-    const newState = { ...this.state, ideaText: event.target.value }
+    const newState = { ...this.state, body: event.target.value }
     this.setState(newState)
   }
 
   handleCategoryChange(event) {
-    const newState = { ...this.state, ideaCategory: event.target.value }
+    const newState = { ...this.state, category: event.target.value }
     this.setState(newState)
   }
 
@@ -34,7 +34,7 @@ class IdeaSubmissionForm extends Component {
             <input type="text"
                    autoFocus
                    name="category"
-                   value={ this.state.ideaCategory }
+                   value={ this.state.category }
                    onChange={ this.handleCategoryChange }
                    placeholder="happy"/>
           </div>
@@ -42,7 +42,7 @@ class IdeaSubmissionForm extends Component {
             <div className="ui fluid action input">
               <input type="text"
                      name="idea"
-                     value={ this.state.ideaText }
+                     value={ this.state.body }
                      onChange={ this.handleIdeaChange }
                      placeholder="we're actively trying to improve"/>
               <button type="submit" className="ui teal button">Submit</button>

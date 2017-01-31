@@ -19,7 +19,7 @@ class Room extends Component {
   }
 
   handleIdeaSubmission(idea) {
-    this.props.roomChannel.push("new_idea", { body: idea })
+    this.props.roomChannel.push("new_idea", idea)
   }
 
   render() {
