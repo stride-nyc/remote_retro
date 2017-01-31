@@ -27,8 +27,8 @@ class Room extends Component {
       <section className="room">
         <div className="ui equal width padded grid category-columns-wrapper">
           <CategoryColumn category="happy" ideas={ this.state.ideas }/>
-          <CategoryColumn category="sad" ideas={ [] }/>
-          <CategoryColumn category="confused" ideas={ [] }/>
+          <CategoryColumn category="sad" ideas={ this.state.ideas }/>
+          <CategoryColumn category="confused" ideas={ this.state.ideas }/>
         </div>
 
         <UserList users={ this.props.users } />
