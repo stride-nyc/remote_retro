@@ -23,10 +23,10 @@ To continually execute the backend tests on file change:
 mix test.watch
 ```
 
-To execute the client-side unit tests, run:
+To continually execute the client-side unit tests, run:
 
 ```
-mocha
+mocha --watch
 ```
 
 ## Code
