@@ -1,5 +1,7 @@
 # RemoteRetro
 
+## Dev Environment Setup
+
 To start your Phoenix app:
 
   * Install elixir dependencies with `mix deps.get`
@@ -36,3 +38,12 @@ To run the local eslint:
 ```
 mix lint
 ```
+
+## Project Management
+
+Initially, we will be using ZenHub as our project management tool
+
+- Installation
+  - visit [ZenHub.io](http://zenhub.io), install the ZenHub Chrome Extension, and authorize when prompted
+    - __Note:__ this installation assumes you visit zenhub.io using Chrome
+  - once the extension is installed, you should be able to visit the boards by typing 'b', or, if clicking is more your speed, simply click the "Boards" tab on the repo's homepage (it should be fourth from the left)
