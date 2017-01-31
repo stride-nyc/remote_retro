@@ -2,18 +2,34 @@
 
 ## Dev Environment Setup
 
-To start your Phoenix app:
+- Install [Homebrew](http://brew.sh/)
+  - __Note:__ You'll be prompted to install the command-line developer tools. Do it.
+- Install PostgreSQL via Homebrew:
 
-  * Install elixir dependencies with `mix deps.get`
-  * Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-  * Install the yarn package manager for sane node package management `npm install yarn`
-  * Node Dependencies
+```
+brew install postgresql
+
+# start postgresql at login
+ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
+# load postgresql now
+launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+
+initdb /usr/local/var/postgres -E utf8
+createdb
+
+# make sure you can log in to default database
+psql -h localhost
+```
+  - Install elixir dependencies with `mix deps.get`
+  - Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+  - Install the yarn package manager for sane node package management `npm install yarn`
+  - Node Dependencies
     - Global
       - PhantomJS for headless browser testing: `yarn global add phantomjs`
       - Mocha for JS unit test executable: `yarn global add mocha`
     - Local
       - `yarn`
-  * Start Phoenix endpoint with `mix`
+  - Start Phoenix endpoint with `mix`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
