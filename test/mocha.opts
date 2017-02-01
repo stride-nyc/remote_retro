@@ -1,3 +1,4 @@
 test/**/*_test.js
 --require babel-register
+--require jsdom-global/register
 --reporter dot
