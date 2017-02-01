@@ -7,6 +7,7 @@ import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_f
 describe("IdeaSubmissionForm component", () => {
   let wrapper
 
+  const onSubmitIdeaStub = () => {}
   const fakeEvent = {
     stopPropagation: ()=> undefined,
     preventDefault: ()=> undefined,
@@ -24,18 +25,31 @@ describe("IdeaSubmissionForm component", () => {
 
     describe("when the category input lacks focus", () => {
       beforeEach(() => {
-        const onSubmitIdeaStub = () => {}
         wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={ onSubmitIdeaStub }/>)
         wrapper.find("input[name='idea']").node.focus()
       })
 
       it("resets the focus to the category input", () => {
-        const selectCategoryInput = wrapper.find("select")
+        const categorySelect = wrapper.find("select")
 
-        expect(document.activeElement).not.to.equal(selectCategoryInput.node)
+        expect(document.activeElement).not.to.equal(categorySelect.node)
         wrapper.simulate("submit", fakeEvent)
-        expect(document.activeElement).to.equal(selectCategoryInput.node)
+        expect(document.activeElement).to.equal(categorySelect.node)
       })
     })
   })
+
+  describe("when a category is selected", () => {
+    it("shifts focus to the idea input", () => {
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={ onSubmitIdeaStub }/>)
+
+      const ideaInput = wrapper.find("input[name='idea']")
+      const categorySelect = wrapper.find("select")
+
+      expect(document.activeElement).not.to.equal(ideaInput.node)
+      categorySelect.simulate('change')
+      expect(document.activeElement).to.equal(ideaInput.node)
+    })
+  })
 })
+

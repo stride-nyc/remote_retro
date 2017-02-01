@@ -23,6 +23,7 @@ class IdeaSubmissionForm extends Component {
 
   handleCategoryChange(event) {
     const newState = { ...this.state, category: event.target.value }
+    this.ideaInput.focus()
     this.setState(newState)
   }
 
@@ -47,6 +48,7 @@ class IdeaSubmissionForm extends Component {
             <div className="ui fluid action input">
               <input type="text"
                      name="idea"
+                     ref={ input => { this.ideaInput = input }}
                      value={ this.state.body }
                      onChange={ this.handleIdeaChange }
                      placeholder="we're actively trying to improve"/>
