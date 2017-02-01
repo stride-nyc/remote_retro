@@ -6,7 +6,9 @@ module.exports = {
   },
   "globals": {
     "describe": false,
-    "it": false
+    "it": false,
+    "beforeEach": false,
+    "afterEach": false,
   },
   "extends": ["eslint:recommended", "plugin:react/recommended"],
   "parserOptions": {
