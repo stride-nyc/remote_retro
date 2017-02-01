@@ -12,6 +12,7 @@ class IdeaSubmissionForm extends Component {
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ body: "" })
+    this.categoryInput.focus()
     this.props.onIdeaSubmission(this.state)
   }
 
@@ -30,13 +31,17 @@ class IdeaSubmissionForm extends Component {
       <form onSubmit={ this.handleSubmit } className="ui form basic attached center aligned secondary segment">
         <div className="inline fields">
           <div className="two wide field">
-            <label htmlFor="category">@</label>
-            <input type="text"
-                   autoFocus
-                   name="category"
-                   value={ this.state.category }
-                   onChange={ this.handleCategoryChange }
-                   placeholder="happy"/>
+            <label htmlFor="category">Category:</label>
+
+            <select name="category"
+                    autoFocus
+                    ref={ input => { this.categoryInput = input }}
+                    value={ this.state.category }
+                    onChange={ this.handleCategoryChange } >
+              <option value="happy">happy</option>
+              <option value="sad">sad</option>
+              <option value="confused">confused</option>
+            </select>
           </div>
           <div className="five wide field">
             <div className="ui fluid action input">
