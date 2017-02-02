@@ -51,5 +51,18 @@ describe("IdeaSubmissionForm component", () => {
       expect(document.activeElement).to.equal(ideaInput.node)
     })
   })
+
+  describe("at the outset the form submit is disabled", () => {
+    it("is enabled once there is an idea of 3 characters or longer", () => {
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={ onSubmitIdeaStub }/>)
+      const submitButton = wrapper.find("button[type='submit']")
+      const ideaInput = wrapper.find("input[name='idea']")
+
+      expect(submitButton.prop('disabled')).to.equal(true)
+      ideaInput.simulate("change", { target: { value: "farts" }})
+      expect(submitButton.prop('disabled')).to.equal(false)
+    })
+  })
 })
+
 

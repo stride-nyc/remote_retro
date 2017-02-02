@@ -3,7 +3,7 @@ import React, { Component } from "react"
 class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { body: "", category: "" }
+    this.state = { body: "", category: "happy" }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
@@ -28,12 +28,13 @@ class IdeaSubmissionForm extends Component {
   }
 
   render() {
+    const disabled = this.state.body.length < 3
+
     return (
       <form onSubmit={ this.handleSubmit } className="ui form basic attached center aligned secondary segment">
         <div className="inline fields">
           <div className="two wide field">
             <label htmlFor="category">Category:</label>
-
             <select name="category"
                     autoFocus
                     ref={ input => { this.categoryInput = input }}
@@ -52,7 +53,10 @@ class IdeaSubmissionForm extends Component {
                      value={ this.state.body }
                      onChange={ this.handleIdeaChange }
                      placeholder="we're actively trying to improve"/>
-              <button type="submit" className="ui teal button">Submit</button>
+              <button type="submit"
+                      disabled={ disabled }
+                      className="ui teal button">Submit
+              </button>
             </div>
           </div>
         </div>
