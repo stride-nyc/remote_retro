@@ -31,7 +31,6 @@ psql -h localhost
 #### Node Dependencies
   - Install the yarn package manager for sane node package management `npm install yarn`
   - Global installs
-    - PhantomJS for headless browser testing: `yarn global add phantomjs`
     - Mocha for JS unit test executable: `yarn global add mocha`
   - Local
     - `yarn`
