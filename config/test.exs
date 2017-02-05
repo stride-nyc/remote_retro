@@ -8,9 +8,7 @@ config :remote_retro, RemoteRetro.Endpoint,
 
 config :remote_retro, :sql_sandbox, true
 
-config :wallaby,
-  screenshot_on_failure: true,
-  phantomjs: "node_modules/phantomjs/bin/phantomjs"
+config :wallaby, screenshot_on_failure: true
 
 # Print only warnings and errors during test
 config :logger, level: :warn
