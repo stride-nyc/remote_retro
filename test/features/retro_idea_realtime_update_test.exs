@@ -1,7 +1,6 @@
 defmodule RetroIdeaRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
 
-  # @tag :skip
   test "the immediate appearance of other users submitted' ideas" do
     {:ok, session_one} = Wallaby.start_session()
     {:ok, session_two} = Wallaby.start_session()
