@@ -9,17 +9,17 @@ class Room extends Component {
     super(props)
     this.state = { ideas: [] }
     this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
-    this._setupRoomChannelEventHandlers()
+    this._setupRetroChannelEventHandlers()
   }
 
-  _setupRoomChannelEventHandlers() {
-    this.props.roomChannel.on("new_idea_received", newIdea => {
+  _setupRetroChannelEventHandlers() {
+    this.props.retroChannel.on("new_idea_received", newIdea => {
       this.setState({ ideas: [...this.state.ideas, newIdea] })
     })
   }
 
   handleIdeaSubmission(idea) {
-    this.props.roomChannel.push("new_idea", idea)
+    this.props.retroChannel.push("new_idea", idea)
   }
 
   render() {
@@ -39,7 +39,7 @@ class Room extends Component {
 }
 
 Room.propTypes = {
-  roomChannel: React.PropTypes.object.isRequired,
+  retroChannel: React.PropTypes.object.isRequired,
   users: React.PropTypes.array.isRequired,
 }
 

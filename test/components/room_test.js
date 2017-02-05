@@ -9,10 +9,10 @@ describe("Room component", () => {
   describe(".handleIdeaSubmission", () => {
     it("pushes the idea to the room channel", () => {
       const onStub = () => {}
-      const roomChannel = { push: sinon.spy(), on: onStub }
+      const retroChannel = { push: sinon.spy(), on: onStub }
 
       const roomComponent = shallow(
-        <Room roomChannel={ roomChannel } users={ [] }/>
+        <Room retroChannel={ retroChannel } users={ [] }/>
       )
 
       roomComponent
@@ -20,7 +20,7 @@ describe("Room component", () => {
         .handleIdeaSubmission({ category: "sad", body: "we don't use our linter" })
 
       expect(
-        roomChannel.push.calledWith("new_idea", { category: "sad", body: "we don't use our linter" })
+        retroChannel.push.calledWith("new_idea", { category: "sad", body: "we don't use our linter" })
       ).to.equal(true)
     })
   })

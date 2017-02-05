@@ -1,8 +1,8 @@
-defmodule RemoteRetro.RoomChannel do
+defmodule RemoteRetro.RetroChannel do
   use RemoteRetro.Web, :channel
   alias RemoteRetro.Presence
 
-  def join("room:lobby", _, socket) do
+  def join("retro:" <> _retro_id, _, socket) do
     send self(), :after_join
     {:ok, socket}
   end

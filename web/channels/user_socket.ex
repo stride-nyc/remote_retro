@@ -2,7 +2,7 @@ defmodule RemoteRetro.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "room:*", RemoteRetro.RoomChannel
+  channel "retro:*", RemoteRetro.RetroChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000
