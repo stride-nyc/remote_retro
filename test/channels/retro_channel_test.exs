@@ -5,6 +5,13 @@ defmodule RemoteRetro.RetroChannelTest do
 
   @retro_uuid "hdfkwke-838340-ahdk3"
 
+  test "the assignment of the retro_id to the socket" do
+    { :ok, _, socket } = socket("", %{ user: "wyatt derp" })
+      |> subscribe_and_join(RetroChannel, "retro:" <> @retro_uuid)
+
+    assert socket.assigns.retro_id == @retro_uuid
+  end
+
   test "the push of a new presence state when a user joins the retro" do
     { :ok, _, _socket } = socket("", %{ user: "wyatt derp" })
       |> subscribe_and_join(RetroChannel, "retro:" <> @retro_uuid)
