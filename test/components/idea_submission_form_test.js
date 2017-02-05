@@ -47,7 +47,7 @@ describe("IdeaSubmissionForm component", () => {
       const categorySelect = wrapper.find("select")
 
       expect(document.activeElement).not.to.equal(ideaInput.node)
-      categorySelect.simulate('change')
+      categorySelect.simulate("change")
       expect(document.activeElement).to.equal(ideaInput.node)
     })
   })
@@ -58,9 +58,9 @@ describe("IdeaSubmissionForm component", () => {
       const submitButton = wrapper.find("button[type='submit']")
       const ideaInput = wrapper.find("input[name='idea']")
 
-      expect(submitButton.prop('disabled')).to.equal(true)
+      expect(submitButton.prop("disabled")).to.equal(true)
       ideaInput.simulate("change", { target: { value: "farts" }})
-      expect(submitButton.prop('disabled')).to.equal(false)
+      expect(submitButton.prop("disabled")).to.equal(false)
     })
   })
 })

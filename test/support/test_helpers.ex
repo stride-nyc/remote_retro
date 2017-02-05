@@ -3,7 +3,6 @@ defmodule RemoteRetro.TestHelpers do
 
   def join_retro_as_user(session, username) do
     session
-    |> visit("/")
     |> find("form")
     |> fill_in("username", with: username)
     |> click_button("Submit")

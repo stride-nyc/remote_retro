@@ -20,6 +20,8 @@
       <%= render @view_module, @view_template, assigns %>
     </main>
 
-    <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <%= if @view_module.include_js do %>
+      <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
+    <% end %>
   </body>
 </html>

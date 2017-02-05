@@ -1,25 +1,27 @@
-defmodule RemoteRetro.RoomChannelTest do
+defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetro.ChannelCase, async: true
 
-  alias RemoteRetro.RoomChannel
+  alias RemoteRetro.RetroChannel
 
-  test "the push of a new presence state when a user joins the lobby" do
+  @retro_uuid "hdfkwke-838340-ahdk3"
+
+  test "the push of a new presence state when a user joins the retro" do
     { :ok, _, _socket } = socket("", %{ user: "wyatt derp" })
-      |> subscribe_and_join(RoomChannel, "room:lobby")
+      |> subscribe_and_join(RetroChannel, "retro:" <> @retro_uuid)
 
     assert_push "presence_state", %{ "wyatt derp" => %{} }
   end
 
-  test "the push of a new presence diff when a user joins the lobby" do
+  test "the push of a new presence diff when a user joins the retro" do
     { :ok, _, _socket } = socket("", %{ user: "wyatt derp" })
-      |> subscribe_and_join(RoomChannel, "room:lobby")
+      |> subscribe_and_join(RetroChannel, "retro:" <> @retro_uuid)
 
     assert_push "presence_diff", %{ joins: %{ "wyatt derp" => %{} } }
   end
 
-  test "the inclusion of a user map with metadata about their joining the room" do
+  test "the inclusion of a user map with metadata about their joining the retro" do
     { :ok, _, _socket } = socket("", %{ user: "wyatt derp" })
-      |> subscribe_and_join(RoomChannel, "room:lobby")
+      |> subscribe_and_join(RetroChannel, "retro:" <> @retro_uuid)
 
     assert_push "presence_state", %{
       "wyatt derp" => %{
@@ -38,7 +40,7 @@ defmodule RemoteRetro.RoomChannelTest do
 
   test "the broadcasting of new ideas to clients when pushed to the socket" do
     { :ok, _, socket } = socket("", %{ user: "wyatt derp" })
-      |> subscribe_and_join(RoomChannel, "room:lobby")
+      |> subscribe_and_join(RetroChannel, "retro:" <> @retro_uuid)
 
     push(socket, "new_idea", %{ category: "happy", body: "we're pacing well" })
 
