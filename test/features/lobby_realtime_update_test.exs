@@ -2,13 +2,18 @@ defmodule LobbyRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
 
   test "the realtime updates of other users entering/leaving the room", %{session: session_one} do
-    join_retro_as_user(session_one, "Todd Grundy")
+    retro_uuid = "8373-ahjk-333"
+
+    visit(session_one, "/retros/" <> retro_uuid)
+    |> join_retro_as_user("Todd Grundy")
+
     user_list_text = session_one |> find("#user-list") |> text
     assert user_list_text == "Todd Grundy"
 
     {:ok, session_two} = Wallaby.start_session()
 
-    join_retro_as_user(session_two, "Martha Bernham")
+    visit(session_two, "/retros/" <> retro_uuid)
+    |> join_retro_as_user("Martha Bernham")
 
     user_list_text = session_one |> find("#user-list") |> text
 
