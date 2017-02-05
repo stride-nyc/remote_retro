@@ -1,5 +1,5 @@
 defmodule LobbyRealtimeUpdateTest do
-  use RemoteRetro.IntegrationCase, async: false
+  use RemoteRetro.IntegrationCase, async: true
 
   test "the realtime updates of other users entering/leaving the room", %{session: session_one} do
     retro_uuid = "8373-ahjk-333"
