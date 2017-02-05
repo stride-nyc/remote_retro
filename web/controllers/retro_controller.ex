@@ -1,7 +1,7 @@
 defmodule RemoteRetro.RetroController do
   use RemoteRetro.Web, :controller
 
-  def show(conn, params) do
+  def show(conn, _params) do
     render conn, "show.html"
   end
 

@@ -1,3 +1,3 @@
-<%= form_for @conn, retro_path(@conn, :create), [as: :retro], fn f -> %>
+<%= form_for @conn, retro_path(@conn, :create), [as: :retro], fn _f -> %>
   <%= submit "Create a Retrospective" %>
 <% end %>
