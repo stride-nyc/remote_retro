@@ -36,6 +36,7 @@ defmodule RemoteRetro.ChannelCase do
 
     Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
 
-    :ok
+    retro = RemoteRetro.Repo.insert!(%RemoteRetro.Retro{})
+    { :ok, retro: retro }
   end
 end
