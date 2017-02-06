@@ -1,6 +1,8 @@
 defmodule RemoteRetro.IntegrationCase do
 
   use ExUnit.CaseTemplate
+  alias RemoteRetro.Repo
+  alias RemoteRetro.Retro
 
   using do
     quote do
@@ -17,14 +19,16 @@ defmodule RemoteRetro.IntegrationCase do
   end
 
   setup tags do
-    :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
+    :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
 
     unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
+      Ecto.Adapters.SQL.Sandbox.mode(Repo, {:shared, self()})
     end
 
-    metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(RemoteRetro.Repo, self())
+    metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(Repo, self())
+    {:ok, retro} = Repo.insert(%Retro{})
+
     {:ok, session} = Wallaby.start_session(metadata: metadata)
-    {:ok, session: session}
+    {:ok, session: session, retro: retro}
   end
 end
