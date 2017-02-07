@@ -21,14 +21,16 @@ class UserForm extends Component {
   render(){
     return (
       <section>
-        <p>Welcome to Remote Retro! What's your name?</p>
-        <form onSubmit={this.handleSubmit} >
-          <input type="text"
-                 name="username"
-                 autoFocus
-                 value={this.state.username}
-                 onChange={this.handleChange} />
-          <input type="submit" value="Submit" />
+        <p className="ui header">Welcome to Remote Retro! What's your name?</p>
+        <form onSubmit={this.handleSubmit} className="ui form">
+          <div className="ui action input">
+            <input type="text"
+                   name="username"
+                   autoFocus
+                   value={this.state.username}
+                   onChange={this.handleChange} />
+            <input type="submit" value="Submit" className="ui button teal" />
+          </div>
         </form>
       </section>
     )
