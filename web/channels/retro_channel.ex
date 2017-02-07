@@ -4,6 +4,9 @@ defmodule RemoteRetro.RetroChannel do
   alias RemoteRetro.Idea
 
   def join("retro:" <> retro_id, _, socket) do
+    query = from idea in Idea, select: map(idea, [:body, :category, :inserted_at, :retro_id]), where: idea.retro_id == ^retro_id
+    existing_ideas = Repo.all(query)
+    socket = Phoenix.Socket.assign(socket, :ideas, existing_ideas)
     socket = Phoenix.Socket.assign(socket, :retro_id, retro_id)
     send self(), :after_join
     {:ok, socket}
