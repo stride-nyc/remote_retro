@@ -12,7 +12,6 @@ class IdeaSubmissionForm extends Component {
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ body: "" })
-    this.categoryInput.focus()
     this.props.onIdeaSubmission(this.state)
   }
 
@@ -36,8 +35,6 @@ class IdeaSubmissionForm extends Component {
           <div className="two wide field">
             <label htmlFor="category">Category:</label>
             <select name="category"
-                    autoFocus
-                    ref={ input => { this.categoryInput = input }}
                     value={ this.state.category }
                     onChange={ this.handleCategoryChange } >
               <option value="happy">happy</option>
@@ -49,6 +46,7 @@ class IdeaSubmissionForm extends Component {
             <div className="ui fluid action input">
               <input type="text"
                      name="idea"
+                     autoFocus
                      ref={ input => { this.ideaInput = input }}
                      value={ this.state.body }
                      onChange={ this.handleIdeaChange }

@@ -22,21 +22,6 @@ describe("IdeaSubmissionForm component", () => {
 
       expect(onSubmitIdeaSpy.called).to.equal(true)
     })
-
-    describe("when the category input lacks focus", () => {
-      beforeEach(() => {
-        wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={ onSubmitIdeaStub }/>)
-        wrapper.find("input[name='idea']").node.focus()
-      })
-
-      it("resets the focus to the category input", () => {
-        const categorySelect = wrapper.find("select")
-
-        expect(document.activeElement).not.to.equal(categorySelect.node)
-        wrapper.simulate("submit", fakeEvent)
-        expect(document.activeElement).to.equal(categorySelect.node)
-      })
-    })
   })
 
   describe("when a category is selected", () => {
@@ -45,8 +30,12 @@ describe("IdeaSubmissionForm component", () => {
 
       const ideaInput = wrapper.find("input[name='idea']")
       const categorySelect = wrapper.find("select")
+      const categoryLabel = wrapper.find("label")
 
-      expect(document.activeElement).not.to.equal(ideaInput.node)
+      expect(document.activeElement).to.equal(ideaInput.node)
+      document.activeElement.blur()
+      expect(document.activeElement).not.to.equal(wrapper.find("input[name='idea']").node)
+
       categorySelect.simulate("change")
       expect(document.activeElement).to.equal(ideaInput.node)
     })
