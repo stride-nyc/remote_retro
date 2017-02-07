@@ -13,6 +13,10 @@ class Room extends Component {
   }
 
   _setupRetroChannelEventHandlers() {
+    this.props.retroChannel.on("existing_ideas", payload => {
+      this.setState({ ideas: [...this.state.ideas, ...payload.ideas] })
+    })
+
     this.props.retroChannel.on("new_idea_received", newIdea => {
       this.setState({ ideas: [...this.state.ideas, newIdea] })
     })

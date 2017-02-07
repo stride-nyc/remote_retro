@@ -34,10 +34,9 @@ defmodule RemoteRetro.ChannelCase do
   setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
 
-    unless tags[:async] do
-      Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
-    end
+    Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
 
-    :ok
+    retro = RemoteRetro.Repo.insert!(%RemoteRetro.Retro{})
+    { :ok, retro: retro }
   end
 end

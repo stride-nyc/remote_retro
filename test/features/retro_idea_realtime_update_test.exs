@@ -1,16 +1,12 @@
 defmodule RetroIdeaRealtimeUpdateTest do
-  use RemoteRetro.IntegrationCase, async: true
+  use RemoteRetro.IntegrationCase, async: false
 
-  test "the immediate appearance of other users submitted' ideas" do
-    {:ok, session_one} = Wallaby.start_session()
+  test "the immediate appearance of other users submitted' ideas", %{session: session_one, retro: retro} do
     {:ok, session_two} = Wallaby.start_session()
-    retro_uuid = "93939-ag35kd"
 
-    session_one = visit(session_one, "/retros/" <> retro_uuid)
-    |> join_retro_as_user("McKenneth McTickles")
-
-    session_two = visit(session_two, "/retros/" <> retro_uuid)
-    |> join_retro_as_user("Travis Vander Hoop")
+    retro_path = "/retros/" <> retro.id
+    session_one = visit(session_one, retro_path) |> join_retro_as_user("McKenneth McTickles")
+    session_two = visit(session_two, retro_path) |> join_retro_as_user("Travis Vander Hoop")
 
     ideas_list_text = session_one |> find(".sad.ideas", visible: false) |> text
     refute String.contains?(ideas_list_text, "user stories lack clear business value")
