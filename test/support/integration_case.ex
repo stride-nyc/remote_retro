@@ -3,6 +3,7 @@ defmodule RemoteRetro.IntegrationCase do
   use ExUnit.CaseTemplate
   alias RemoteRetro.Repo
   alias RemoteRetro.Retro
+  use Wallaby.DSL
 
   using do
     quote do
@@ -29,6 +30,9 @@ defmodule RemoteRetro.IntegrationCase do
     {:ok, retro} = Repo.insert(%Retro{})
 
     {:ok, session} = Wallaby.start_session(metadata: metadata)
+
+    session = set_window_size(session, 1000, 1000)
+
     {:ok, session: session, retro: retro}
   end
 end
