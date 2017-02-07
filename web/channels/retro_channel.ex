@@ -17,6 +17,7 @@ defmodule RemoteRetro.RetroChannel do
       online_at: :os.system_time(:milli_seconds)
     })
     push socket, "presence_state", Presence.list(socket)
+    push socket, "existing_ideas", %{ ideas: socket.assigns.ideas }
     {:noreply, socket}
   end
 

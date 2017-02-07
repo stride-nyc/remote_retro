@@ -65,6 +65,14 @@ defmodule RemoteRetro.RetroChannelTest do
     }
   end
 
+  test "the push of all existing ideas when a user joins the retro", %{ retro: retro } do
+    { :ok, _, _socket } =
+      socket("", %{ user: "wyatt derp" })
+      |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
+
+    assert_push "existing_ideas", %{ ideas: [] }
+  end
+
   test "the broadcasting of new ideas to clients when pushed to the socket", %{ retro: retro } do
     { :ok, _, socket } =
       socket("", %{ user: "wyatt derp" })
