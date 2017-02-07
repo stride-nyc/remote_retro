@@ -26,13 +26,13 @@ class RemoteRetro extends Component {
     retroChannel.on("presence_state", state => {
       presences = Presence.syncState(presences, state)
       const users = values(presences).map(presence => presence.user)
-      this.setState({ users })
+      this.setState({ users, retroChannel })
     })
 
     retroChannel.on("presence_diff", diff => {
       presences = Presence.syncDiff(presences, diff)
       const users = values(presences).map(presence => presence.user)
-      this.setState({ users })
+      this.setState({ users, retroChannel })
     })
 
     retroChannel.join()
