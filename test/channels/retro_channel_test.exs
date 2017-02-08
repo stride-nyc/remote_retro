@@ -70,7 +70,7 @@ defmodule RemoteRetro.RetroChannelTest do
       socket("", %{ user: "wyatt derp" })
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
-    context = Map.put(context, :socket, socket)
+    Map.put(context, :socket, socket)
   end
 
   defp persist_idea_for_retro(context) do
