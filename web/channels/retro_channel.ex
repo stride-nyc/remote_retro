@@ -8,14 +8,15 @@ defmodule RemoteRetro.RetroChannel do
     existing_ideas = Repo.all(query)
     socket = Phoenix.Socket.assign(socket, :ideas, existing_ideas)
     socket = Phoenix.Socket.assign(socket, :retro_id, retro_id)
+
     send self(), :after_join
     {:ok, socket}
   end
 
   def handle_info(:after_join, socket) do
-    Presence.track(socket, socket.assigns.user, %{
-      online_at: :os.system_time(:milli_seconds)
-    })
+    join_metadata = %{ online_at: :os.system_time(:milli_seconds) }
+    Presence.track(socket, socket.assigns.user, join_metadata)
+
     push socket, "presence_state", Presence.list(socket)
     push socket, "existing_ideas", %{ ideas: socket.assigns.ideas }
     {:noreply, socket}
