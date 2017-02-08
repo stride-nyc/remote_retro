@@ -27,13 +27,14 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "joining a retro that already has a persisted idea" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
+    @tag idea_category: "sad", idea_body: "WIP commits on master"
     test "results in the assignment of all of those ideas to the socket", %{ retro: retro, socket: socket } do
       assert length(socket.assigns.ideas) == 1
 
       sole_existing_idea = List.first(socket.assigns.ideas)
       %{ body: body, category: category, retro_id: retro_id } = sole_existing_idea
 
-      assert body == "errbody lovin"
+      assert body == "WIP commits on master"
       assert category == "sad"
       assert retro_id == retro.id
     end
@@ -73,7 +74,10 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   defp persist_idea_for_retro(context) do
-    Repo.insert!(%Idea{ category: "sad", body: "errbody lovin", retro_id: context[:retro].id })
+    %{idea_category: category, idea_body: body, retro: retro} = context
+
+    changesest = %Idea{ category: category, body: body, retro_id: retro.id }
+    Repo.insert!(changesest)
     context
   end
 end
