@@ -42,7 +42,7 @@ class IdeaSubmissionForm extends Component {
               <option value="confused">confused</option>
             </select>
           </div>
-          <div className="five wide field">
+          <div className="seven wide field">
             <div className="ui fluid action input">
               <input type="text"
                      name="idea"
