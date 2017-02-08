@@ -28,15 +28,12 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea_category: "sad", idea_body: "WIP commits on master"
-    test "results in the assignment of all of those ideas to the socket", %{ retro: retro, socket: socket } do
+    test "results in the assignment of all of those ideas to the socket", %{socket: socket} do
       assert length(socket.assigns.ideas) == 1
 
       sole_existing_idea = List.first(socket.assigns.ideas)
-      %{ body: body, category: category, retro_id: retro_id } = sole_existing_idea
 
-      assert body == "WIP commits on master"
-      assert category == "sad"
-      assert retro_id == retro.id
+      assert %{ body: "WIP commits on master", category: "sad", retro_id: _ } = sole_existing_idea
     end
   end
 
