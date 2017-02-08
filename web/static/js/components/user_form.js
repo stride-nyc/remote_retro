@@ -20,7 +20,7 @@ class UserForm extends Component {
 
   render(){
     return (
-      <section>
+      <section className="ui basic segment">
         <p className="ui header">Welcome to Remote Retro! What's your name?</p>
         <form onSubmit={this.handleSubmit} className="ui form">
           <div className="ui action input">
