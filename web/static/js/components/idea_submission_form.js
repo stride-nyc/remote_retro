@@ -30,7 +30,7 @@ class IdeaSubmissionForm extends Component {
     const disabled = this.state.body.length < 3
 
     return (
-      <form onSubmit={ this.handleSubmit } className="ui form basic attached center aligned secondary segment">
+      <form onSubmit={ this.handleSubmit } className="ui form basic attached secondary segment">
         <div className="inline fields">
           <div className="two wide field">
             <label htmlFor="category">Category:</label>
