@@ -29,7 +29,7 @@ class UserForm extends Component {
                    autoFocus
                    value={this.state.username}
                    onChange={this.handleChange} />
-            <input type="submit" value="Submit" className="ui button teal" />
+            <button type="submit" className="ui button teal">Submit</button>
           </div>
         </form>
       </section>
