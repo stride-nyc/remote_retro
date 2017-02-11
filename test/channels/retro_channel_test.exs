@@ -4,9 +4,26 @@ defmodule RemoteRetro.RetroChannelTest do
   alias RemoteRetro.Repo
   alias RemoteRetro.Idea
 
-  setup [:join_the_retro_channel]
+  defp join_the_retro_channel(context) do
+    retro = context[:retro]
+    { :ok, _, socket } =
+      socket("", %{ user: "wyatt derp" })
+      |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
+
+    Map.put(context, :socket, socket)
+  end
+
+  defp persist_idea_for_retro(context) do
+    %{idea_category: category, idea_body: body, retro: retro} = context
+
+    changesest = %Idea{ category: category, body: body, retro_id: retro.id }
+    Repo.insert!(changesest)
+    context
+  end
 
   describe "joining a RetroChannel" do
+    setup [:join_the_retro_channel]
+
     test "assigns the retro_id to the socket", %{ socket: socket, retro: retro } do
       assert socket.assigns.retro_id == retro.id
     end
@@ -17,6 +34,22 @@ defmodule RemoteRetro.RetroChannelTest do
 
     test "results in the broadcast of a new presence diff to all connected clients" do
       assert_broadcast "presence_diff", %{ joins: %{ "wyatt derp" => %{} } }
+    end
+
+    test "the inclusion of a user map with metadata about a user's presence in the retro" do
+      assert_push "presence_state", %{
+        "wyatt derp" => %{
+          user: %{ name: _, online_at: _online_at }
+        }
+      }
+
+      assert_push "presence_diff", %{
+        joins: %{
+          "wyatt derp" => %{
+            user: %{ name: _, online_at: _online_at }
+          }
+        }
+      }
     end
 
     test "results in a push of existing ideas to the new user" do
@@ -37,23 +70,8 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  test "the inclusion of a user map with metadata about a user's presence in the retro" do
-    assert_push "presence_state", %{
-      "wyatt derp" => %{
-        user: %{ name: _, online_at: _online_at }
-      }
-    }
-
-    assert_push "presence_diff", %{
-      joins: %{
-        "wyatt derp" => %{
-          user: %{ name: _, online_at: _online_at }
-        }
-      }
-    }
-  end
-
   describe "pushing a new idea to the socket" do
+    setup [:join_the_retro_channel]
     test "results in the broadcast of the new idea to all connected clients", %{ socket: socket } do
       push(socket, "new_idea", %{ category: "happy", body: "we're pacing well" })
 
@@ -61,20 +79,4 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  defp join_the_retro_channel(context) do
-    retro = context[:retro]
-    { :ok, _, socket } =
-      socket("", %{ user: "wyatt derp" })
-      |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
-
-    Map.put(context, :socket, socket)
-  end
-
-  defp persist_idea_for_retro(context) do
-    %{idea_category: category, idea_body: body, retro: retro} = context
-
-    changesest = %Idea{ category: category, body: body, retro_id: retro.id }
-    Repo.insert!(changesest)
-    context
-  end
 end
