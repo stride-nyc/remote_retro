@@ -25,7 +25,7 @@ dependencies:
     - yes | mix local.rebar
     - yarn global add mocha
     - yarn global add phantomjs
-    - yarn global add webpack
+    - yarn global add webpack --ignore-engines
     - webpack
 test:
   override:
