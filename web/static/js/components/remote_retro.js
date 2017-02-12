@@ -44,12 +44,10 @@ class RemoteRetro extends Component {
 
     let content
     if (user) {
-      content = <Room users={ this.state.users } retroChannel={ this.state.retroChannel } />
+      return <Room users={ this.state.users } retroChannel={ this.state.retroChannel } />
     } else {
-      content = <UserForm onSubmitUsername={this.handleSubmitUsername} />
+      return <UserForm onSubmitUsername={this.handleSubmitUsername} />
     }
-
-    return <div>{ content }</div>
   }
 }
 
