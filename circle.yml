@@ -1,0 +1,30 @@
+machine:
+  node:
+    version: 5.6.0
+  environment:
+    PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
+    MIX_ENV: "test"
+general:
+  artifacts:
+    - "screenshots"
+dependencies:
+  cache_directories:
+    - ~/.asdf
+    - _build
+    - deps
+  pre:
+    - if ! asdf | grep version; then git clone https://github.com/HashNuke/asdf.git ~/.asdf; fi
+    - if ! asdf plugin-list | grep erlang; then asdf plugin-add erlang https://github.com/HashNuke/asdf-erlang.git; fi
+    - if ! asdf plugin-list | grep elixir; then asdf plugin-add elixir https://github.com/HashNuke/asdf-elixir.git; fi
+    - erlang_version=$(awk '/erlang/ { print $2 }' .tool-versions) && asdf install erlang ${erlang_version}
+    - elixir_version=$(awk '/elixir/ { print $2 }' .tool-versions) && asdf install elixir ${elixir_version}
+    - yes | mix deps.get
+    - yes | mix local.rebar
+    - npm install -g mocha
+    - npm install -g phantomjs
+    - npm install -g webpack
+    - webpack
+test:
+  override:
+    - mocha
+    - mix test

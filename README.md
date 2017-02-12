@@ -1,3 +1,5 @@
+[![CircleCI](https://circleci.com/gh/vanderhoop/remote_retro.svg?style=svg)](https://circleci.com/gh/vanderhoop/remote_retro)
+
 # RemoteRetro
 
 ## Dev Environment Setup
