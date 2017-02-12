@@ -11,6 +11,7 @@ dependencies:
   cache_directories:
     - ~/.asdf
     - _build
+    - deps
   pre:
     - if ! asdf | grep version; then git clone https://github.com/HashNuke/asdf.git ~/.asdf; fi
     - if ! asdf plugin-list | grep erlang; then asdf plugin-add erlang https://github.com/HashNuke/asdf-erlang.git; fi
