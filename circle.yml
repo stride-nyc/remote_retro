@@ -4,6 +4,9 @@ machine:
   environment:
     PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
     MIX_ENV: "test"
+general:
+  artifacts:
+    - "screenshots"
 dependencies:
   cache_directories:
     - ~/.asdf
