@@ -36,11 +36,11 @@ class RemoteRetro extends Component {
     })
 
     retroChannel.join()
-    this.setState({ user: username, retroChannel })
+    this.setState({ username, retroChannel })
   }
 
   render() {
-    if (this.state.user) {
+    if (this.state.username) {
       return <Room users={ this.state.users } retroChannel={ this.state.retroChannel } />
     } else {
       return <UserForm onSubmitUsername={this.handleSubmitUsername} />

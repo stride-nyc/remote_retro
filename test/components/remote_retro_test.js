@@ -11,7 +11,7 @@ describe("RemoteRetro component", () => {
 
     expect(wrapper.find(UserForm)).to.have.length(1)
 
-    wrapper.setState({ user: "treezy" })
+    wrapper.setState({ username: "treezy" })
 
     expect(wrapper.find(UserForm)).to.have.length(0)
   })
