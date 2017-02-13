@@ -15,7 +15,10 @@ erl_crash.dump
 # Since we are building assets from web/static,
 # we ignore priv/static. You may want to comment
 # this depending on your deployment strategy.
-/priv/static/
+/priv/static/*
+!/priv/static/css
+/priv/static/css/*
+!/priv/static/css/semantic.min.css
 
 # The config/prod.secret.exs file by default contains sensitive
 # data and you should not commit it into version control.
