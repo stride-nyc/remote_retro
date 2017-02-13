@@ -30,7 +30,6 @@ describe("IdeaSubmissionForm component", () => {
 
       const ideaInput = wrapper.find("input[name='idea']")
       const categorySelect = wrapper.find("select")
-      const categoryLabel = wrapper.find("label")
 
       expect(document.activeElement).to.equal(ideaInput.node)
       document.activeElement.blur()
