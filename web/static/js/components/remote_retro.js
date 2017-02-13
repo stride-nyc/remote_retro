@@ -15,8 +15,8 @@ class RemoteRetro extends Component {
     this.handleSubmitUsername = this.handleSubmitUsername.bind(this)
   }
 
-  handleSubmitUsername(user) {
-    let socket = new Socket("/socket", {params: { user }})
+  handleSubmitUsername(username) {
+    let socket = new Socket("/socket", {params: { user: username }})
     socket.connect()
     let presences = {}
 
@@ -36,7 +36,7 @@ class RemoteRetro extends Component {
     })
 
     retroChannel.join()
-    this.setState({ user, retroChannel })
+    this.setState({ user: username, retroChannel })
   }
 
   render() {
