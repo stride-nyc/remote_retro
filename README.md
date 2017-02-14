@@ -31,7 +31,7 @@ psql -h localhost
   - Create and migrate your database with `mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
-  - Install the yarn package manager for sane node package management `npm install yarn`
+  - Install the yarn package manager for sane node package management `npm install -g yarn`
   - Global installs
     - Webpack for futuristic asset management: `yarn global add webpack`
     - PhantomJS for headless browser testing: `yarn global add phantomjs`
