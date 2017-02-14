@@ -8,7 +8,7 @@
     <meta name="author" content="">
 
     <title>Hello RemoteRetro!</title>
-    <link rel="stylesheet" href="<%= static_path(@conn, "/css/semantic.min.css") %>">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.7/semantic.min.css">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
