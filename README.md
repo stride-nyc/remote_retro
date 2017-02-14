@@ -36,7 +36,7 @@ psql -h localhost
     - Webpack for futuristic asset management: `yarn global add webpack`
     - PhantomJS for headless browser testing: `yarn global add phantomjs`
     - Mocha for JS unit test executable: `yarn global add mocha`
-  - Local
+  - Install Local NPM Packages
     - `yarn`
 
 #### And Voila!
