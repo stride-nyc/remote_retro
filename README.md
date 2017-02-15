@@ -37,7 +37,7 @@ Note: if the prior two commands are throwing errors, ensure that Postgres is set
 
 #### Node Dependencies
 
-Install Global NPM Packages via Yarn
+Install Global NPM Packages
 
  ```
  npm install -g yarn webpack phantomjs mocha
