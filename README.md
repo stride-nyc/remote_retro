@@ -36,13 +36,24 @@ Note: if the prior two commands are throwing errors, ensure that Postgres is set
   3. If there is not, run `CREATE USER postgres WITH SUPERUSER;`
 
 #### Node Dependencies
-  - Install the yarn package manager for sane node package management `npm install -g yarn`
-  - Global installs
-    - Webpack for futuristic asset management: `yarn global add webpack`
-    - PhantomJS for headless browser testing: `yarn global add phantomjs`
-    - Mocha for JS unit test executable: `yarn global add mocha`
-  - Install Local NPM Packages
-    - `yarn`
+Install the yarn package manager for sane node package management
+```
+npm install -g yarn
+```
+
+Install Global NPM Packages via Yarn
+
+ ```
+ yarn global add webpack`
+ yarn global add phantomjs
+ yarn global add mocha
+ ```
+ 
+Install Local NPM Packages via Yarn
+
+```
+yarn
+```
 
 #### And Voila!
 
