@@ -2,6 +2,16 @@
 
 # RemoteRetro
 
+This repository houses the web application code for Remote Retro, an open source professional development project written in Elixir/Phoenix and sponsored by [Stride Consulting](https://stridenyc.com).
+
+## Project Management
+
+To see the project's current feature pipeline, simply install the wonderful [ZenHub](http://zenhub.io) Chrome Extension.
+
+  - visit [ZenHub.io](http://zenhub.io), install the ZenHub Chrome Extension, and authorize when prompted
+    - __Note:__ this installation assumes you visit zenhub.io using Chrome
+  - once the extension is installed, you should be able to visit the boards by typing 'b', or, if clicking is more your speed, simply click the "Boards" tab on the repo's homepage
+
 ## Dev Environment Setup
 
 #### PostgreSQL
@@ -82,12 +92,7 @@ To run the local eslint:
 ```
 mix lint
 ```
+  
+## Acknowledgements
 
-## Project Management
-
-Initially, we will be using ZenHub as our project management tool
-
-- Installation
-  - visit [ZenHub.io](http://zenhub.io), install the ZenHub Chrome Extension, and authorize when prompted
-    - __Note:__ this installation assumes you visit zenhub.io using Chrome
-  - once the extension is installed, you should be able to visit the boards by typing 'b', or, if clicking is more your speed, simply click the "Boards" tab on the repo's homepage (it should be fourth from the left)
+Many thanks to the project's contributors for devoting their time, energy, and passion, and additional thanks go out to the leadership of [Stride Consulting](https://stridenyc.com) for giving this project the opportunity it needed to bloom. 
