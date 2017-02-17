@@ -40,6 +40,11 @@ psql -h localhost
   - Install the Phoenix application's dependencies via `mix deps.get`
   - Create and migrate your database with `mix ecto.create && mix ecto.migrate`
 
+Note: if the prior two commands are throwing errors, ensure that Postgres is setup properly:
+ 1. Login to the default database `psql -h localhost`
+ 2. Check that there is a postgres usename by entering `SELECT usename from pg_user;`
+ 3. If there is not, enter `CREATE USER postgres WITH SUPERUSER;`
+
 #### Node Dependencies
 
 Install Global NPM Packages
