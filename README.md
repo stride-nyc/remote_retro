@@ -47,10 +47,16 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ## Tests
 
-To continually execute the backend tests on file change:
+To continually execute the backend unit tests on file change:
 
 ```
 mix test.watch
+```
+
+To execute the end-to-end tests:
+
+```
+mix test --only feature_test
 ```
 
 To continually execute the client-side unit tests, run:
