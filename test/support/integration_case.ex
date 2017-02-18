@@ -16,6 +16,7 @@ defmodule RemoteRetro.IntegrationCase do
 
       import RemoteRetro.Router.Helpers
       import RemoteRetro.TestHelpers
+      @moduletag :feature_test
     end
   end
 
