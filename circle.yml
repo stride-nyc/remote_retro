@@ -28,3 +28,4 @@ test:
   override:
     - mocha
     - mix test
+    - mix e2e
