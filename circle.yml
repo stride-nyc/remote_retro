@@ -27,5 +27,5 @@ dependencies:
 test:
   override:
     - mocha
-    - mix test
-    - mix e2e
+    - mix test --exclude feature_test
+    - mix test --only feature_test
