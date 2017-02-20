@@ -1,4 +1,4 @@
-import { Socket, Channel } from "phoenix"
+import { Socket } from "phoenix"
 
 class RetroChannel {
   static configure(config) {
