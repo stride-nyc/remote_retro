@@ -1,3 +1,10 @@
-<%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form basic segment"], fn _f -> %>
-  <%= submit "Create a Retrospective", class: "ui button teal" %>
-<% end %>
+<div class="ui basic segment">
+  <div class="ui header">
+    Get Better With Your Team
+    <p class="sub header">Remote Retro lets you get together, even when you're far apart.</p>
+  </div>
+
+  <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
+    <%= submit "Create a Retrospective", class: "ui tiny button teal" %>
+  <% end %>
+</div>
