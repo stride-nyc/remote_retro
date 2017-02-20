@@ -1,7 +1,8 @@
 import React, { Component } from "react"
-import { Socket, Presence } from "phoenix"
+import { Presence } from "phoenix"
 import values from "lodash/values"
 
+import RetroChannel from "../services/retro_channel"
 import UserForm from "./user_form"
 import Room from "./room"
 
@@ -16,13 +17,10 @@ class RemoteRetro extends Component {
   }
 
   handleSubmitUsername(username) {
-    let socket = new Socket("/socket", {params: { user: username }})
-    socket.connect()
-    let presences = {}
-
     const retroUUID = UrlHelpers.parseRetroUUID(location.pathname)
-    const retroChannel = socket.channel("retro:" + retroUUID)
+    const retroChannel = RetroChannel.configure({ username, retroUUID })
 
+    let presences = {}
     retroChannel.on("presence_state", state => {
       presences = Presence.syncState(presences, state)
       const users = values(presences).map(presence => presence.user)
