@@ -2,6 +2,16 @@
 
 # RemoteRetro
 
+This repository houses the web application code for Remote Retro, an open source professional development project written in Elixir/Phoenix and sponsored by [Stride Consulting](http://stridenyc.com).
+
+## Project Management
+
+To see the project's current feature pipeline, simply install the wonderful [ZenHub](http://zenhub.io) Chrome Extension.
+
+  - visit [ZenHub.io](http://zenhub.io), install the ZenHub Chrome Extension, and authorize when prompted
+    - __Note:__ this installation assumes you visit zenhub.io using Chrome
+  - once the extension is installed, you should be able to visit the boards by typing 'b', or, if clicking is more your speed, simply click the "Boards" tab on the repo's homepage
+
 ## Dev Environment Setup
 
 #### PostgreSQL
@@ -30,14 +40,24 @@ psql -h localhost
   - Install the Phoenix application's dependencies via `mix deps.get`
   - Create and migrate your database with `mix ecto.create && mix ecto.migrate`
 
+Note: if the prior two commands are throwing errors, ensure that Postgres is setup properly:
+ 1. Login to the default database `psql -h localhost`
+ 2. Check that there is a postgres usename by entering `SELECT usename from pg_user;`
+ 3. If there is not, enter `CREATE USER postgres WITH SUPERUSER;`
+
 #### Node Dependencies
-  - Install the yarn package manager for sane node package management `npm install yarn`
-  - Global installs
-    - Webpack for futuristic asset management: `yarn global add webpack`
-    - PhantomJS for headless browser testing: `yarn global add phantomjs`
-    - Mocha for JS unit test executable: `yarn global add mocha`
-  - Local
-    - `yarn`
+
+Install Global NPM Packages
+
+ ```
+ npm install -g yarn webpack phantomjs mocha
+ ```
+ 
+Install Local NPM Packages via Yarn
+
+```
+yarn
+```
 
 #### And Voila!
 
@@ -72,12 +92,7 @@ To run the local eslint:
 ```
 mix lint
 ```
+  
+## Acknowledgements
 
-## Project Management
-
-Initially, we will be using ZenHub as our project management tool
-
-- Installation
-  - visit [ZenHub.io](http://zenhub.io), install the ZenHub Chrome Extension, and authorize when prompted
-    - __Note:__ this installation assumes you visit zenhub.io using Chrome
-  - once the extension is installed, you should be able to visit the boards by typing 'b', or, if clicking is more your speed, simply click the "Boards" tab on the repo's homepage (it should be fourth from the left)
+Many thanks to the project's contributors for devoting their time, energy, and passion, and additional thanks go out to the leadership of [Stride Consulting](http://stridenyc.com) for giving this project the opportunity it needed to bloom. 
