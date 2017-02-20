@@ -56,7 +56,7 @@ mix test.watch
 To execute the end-to-end tests:
 
 ```
-mix test --only feature_test
+mix e2e
 ```
 
 To continually execute the client-side unit tests, run:
