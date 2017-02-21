@@ -12,23 +12,28 @@ module.exports = {
     filename: "js/app.js"
   },
   resolve: {
-    modulesDirectories: [ "node_modules", __dirname + "/web/static/js" ]
+    modules: [ "node_modules", __dirname + "/web/static/js" ]
   },
   module: {
-    loaders: [{
-      test: /\.js$/,
-      exclude: /node_modules/,
-      loader: "babel",
-      query: {}
-    }, {
-      test: /\.css$/,
-      loader: ExtractTextPlugin.extract("style", "css")
-    }]
+    rules: [
+      {
+        test: /\.js$/,
+        use: [
+          {
+            loader: "babel-loader"
+          }
+        ]
+      },
+      {
+        test: /\.css$/,
+        use: ExtractTextPlugin.extract({ fallback: "style-loader", use: "css-loader"})
+      }
+    ]
   },
   devtool: "source-map",
   plugins: [
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
-    new ExtractTextPlugin("css/app.css"),
+    new ExtractTextPlugin({ filename: "css/app.css" }),
     new CopyWebpackPlugin([{ from: "./web/static/assets" }]),
     new webpack.DefinePlugin({
       "process.env": {
