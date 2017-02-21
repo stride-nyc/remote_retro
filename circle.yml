@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 5.6.0
+    version: 7.5.0
   environment:
     PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
     MIX_ENV: "test"
