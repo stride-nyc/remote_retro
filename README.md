@@ -39,11 +39,10 @@ psql -h localhost
   - [Install Elixir](http://elixir-lang.org/install.html)
   - Install the Phoenix application's dependencies via `mix deps.get`
   - Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-
-Note: if the prior two commands are throwing errors, ensure that Postgres is setup properly on your machine:
-  1. Login to the default database `psql -h localhost`
-  2. Check that there is a postgres usename with `SELECT usename from pg_user;`
-  3. If there is not, run `CREATE USER postgres WITH SUPERUSER;`
+    -  __Note:__ if the prior two commands are throwing errors, ensure that Postgres is setup properly on your machine:
+     1. Login to the default database `psql -h localhost`
+     2. Check that there is a postgres usename with `SELECT usename from pg_user;`
+     3. If there is not, run `CREATE USER postgres WITH SUPERUSER;`
 
 #### Node Dependencies
 
