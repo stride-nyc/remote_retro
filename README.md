@@ -49,7 +49,7 @@ psql -h localhost
 Install Global NPM Packages
 
  ```
- npm install -g yarn webpack phantomjs mocha
+ npm install -g yarn phantomjs mocha
  ```
  
 Install Local NPM Packages via Yarn

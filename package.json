@@ -2,8 +2,8 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "deploy": "webpack -p",
-    "watch": "webpack --watch-stdin --color"
+    "deploy": "node_modules/.bin/webpack -p",
+    "watch": "node_modules/.bin/webpack --watch-stdin --color"
   },
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.22.0",
