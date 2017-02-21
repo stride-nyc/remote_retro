@@ -36,6 +36,7 @@ class IdeaSubmissionForm extends Component {
             <label htmlFor="category">Category:</label>
             <select name="category"
                     value={ this.state.category }
+                    className="ui dropdown"
                     onChange={ this.handleCategoryChange } >
               <option value="happy">happy</option>
               <option value="sad">sad</option>
