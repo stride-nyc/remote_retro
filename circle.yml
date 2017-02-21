@@ -8,7 +8,10 @@ general:
   artifacts:
     - "screenshots"
 dependencies:
+  override:
+    - yarn
   cache_directories:
+    - ~/.cache/yarn
     - ~/.asdf
     - _build
     - deps
@@ -20,9 +23,9 @@ dependencies:
     - elixir_version=$(awk '/elixir/ { print $2 }' .tool-versions) && asdf install elixir ${elixir_version}
     - yes | mix deps.get
     - yes | mix local.rebar
-    - npm install -g mocha
-    - npm install -g phantomjs
-    - npm install -g webpack
+    - yarn global add mocha
+    - yarn global add phantomjs
+    - yarn global add webpack --ignore-engines
     - webpack
 test:
   override:
