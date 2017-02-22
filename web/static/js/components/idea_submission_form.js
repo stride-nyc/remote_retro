@@ -41,6 +41,7 @@ class IdeaSubmissionForm extends Component {
               <option value="happy">happy</option>
               <option value="sad">sad</option>
               <option value="confused">confused</option>
+              <option value="action-item">action-item</option>
             </select>
           </div>
           <div className="seven wide field">

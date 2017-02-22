@@ -5,6 +5,7 @@ function CategoryColumn(props) {
     happy: "😊",
     sad: "😥",
     confused: "😕",
+    "action-item": "🚀"
   }
 
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
