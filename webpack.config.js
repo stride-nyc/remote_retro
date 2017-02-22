@@ -12,12 +12,13 @@ module.exports = {
     filename: "js/app.js"
   },
   resolve: {
-    modules: [ "node_modules", __dirname + "/web/static/js" ]
+    modules: [ "node_modules", __dirname + "/web/static/js" ],
+    extensions: ['.js', '.jsx']
   },
   module: {
     rules: [
       {
-        test: /\.js$/,
+        test: /\.jsx?$/,
         use: [
           {
             loader: "babel-loader"
