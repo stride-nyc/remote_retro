@@ -11,16 +11,14 @@ describe("Room component", () => {
       const onStub = () => {}
       const retroChannel = { push: sinon.spy(), on: onStub }
 
-      const roomComponent = shallow(
-        <Room retroChannel={ retroChannel } users={ [] }/>
-      )
+      const roomComponent = shallow(<Room retroChannel={retroChannel} users={[]} />)
 
       roomComponent
         .instance()
         .handleIdeaSubmission({ category: "sad", body: "we don't use our linter" })
 
       expect(
-        retroChannel.push.calledWith("new_idea", { category: "sad", body: "we don't use our linter" })
+        retroChannel.push.calledWith("new_idea", { category: "sad", body: "we don't use our linter" }),
       ).to.equal(true)
     })
   })

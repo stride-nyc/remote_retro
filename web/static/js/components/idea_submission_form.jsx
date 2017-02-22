@@ -30,14 +30,16 @@ class IdeaSubmissionForm extends Component {
     const disabled = this.state.body.length < 3
 
     return (
-      <form onSubmit={ this.handleSubmit } className="ui form basic attached secondary segment">
+      <form onSubmit={this.handleSubmit} className="ui form basic attached secondary segment">
         <div className="inline fields">
           <div className="two wide field">
             <label htmlFor="category">Category:</label>
-            <select name="category"
-                    value={ this.state.category }
-                    className="ui dropdown"
-                    onChange={ this.handleCategoryChange } >
+            <select
+              name="category"
+              value={this.state.category}
+              className="ui dropdown"
+              onChange={this.handleCategoryChange}
+            >
               <option value="happy">happy</option>
               <option value="sad">sad</option>
               <option value="confused">confused</option>
@@ -46,16 +48,21 @@ class IdeaSubmissionForm extends Component {
           </div>
           <div className="seven wide field">
             <div className="ui fluid action input">
-              <input type="text"
-                     name="idea"
-                     autoFocus
-                     ref={ input => { this.ideaInput = input }}
-                     value={ this.state.body }
-                     onChange={ this.handleIdeaChange }
-                     placeholder="we're actively trying to improve"/>
-              <button type="submit"
-                      disabled={ disabled }
-                      className="ui teal button">Submit
+              <input
+                type="text"
+                name="idea"
+                autoFocus
+                ref={(input) => { this.ideaInput = input }}
+                value={this.state.body}
+                onChange={this.handleIdeaChange}
+                placeholder="we're actively trying to improve"
+              />
+              <button
+                type="submit"
+                disabled={disabled}
+                className="ui teal button"
+              >
+                Submit
               </button>
             </div>
           </div>

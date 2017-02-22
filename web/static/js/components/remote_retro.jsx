@@ -19,12 +19,12 @@ class RemoteRetro extends Component {
     const retroUUID = UrlHelpers.parseRetroUUID(location.pathname)
     const retroChannel = RetroChannel.configure({ username, retroUUID })
 
-    retroChannel.on("presence_state", state => {
+    retroChannel.on("presence_state", (state) => {
       const presences = Presence.syncState(this.state.presences, state)
       this.setState({ presences, retroChannel })
     })
 
-    retroChannel.on("presence_diff", diff => {
+    retroChannel.on("presence_diff", (diff) => {
       const presences = Presence.syncDiff(this.state.presences, diff)
       this.setState({ presences, retroChannel })
     })
@@ -34,15 +34,12 @@ class RemoteRetro extends Component {
   }
 
   render() {
-    const users = Presence.list(this.state.presences, (username, presence) => {
-      return presence.user
-    })
+    const users = Presence.list(this.state.presences, (_username, presence) => presence.user)
 
     if (this.state.username) {
-      return <Room users={ users } retroChannel={ this.state.retroChannel } />
-    } else {
-      return <UserForm onSubmitUsername={this.handleSubmitUsername} />
+      return <Room users={users} retroChannel={this.state.retroChannel} />
     }
+    return <UserForm onSubmitUsername={this.handleSubmitUsername} />
   }
 }
 

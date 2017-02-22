@@ -5,21 +5,24 @@ function CategoryColumn(props) {
     happy: "😊",
     sad: "😥",
     confused: "😕",
-    "action-item": "🚀"
+    "action-item": "🚀",
   }
 
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
+  const filteredIdeasList = filteredIdeas.map((idea, index) =>
+    <li className="item" key={index}>{idea.body}</li>,
+  )
 
   return (
     <section className="column">
       <div className="ui center aligned basic segment">
-        <i>{ emoticonUnicode }</i>
-        <p><a>@{ props.category }</a></p>
+        <i>{emoticonUnicode}</i>
+        <p><a>@{props.category}</a></p>
       </div>
-      <div className="ui divider"></div>
-      <ul className={ `${props.category} ideas ui divided list` }>
-        { filteredIdeas.map((idea, index) => <li className="item" key={index}>{idea.body}</li>) }
+      <div className="ui divider" />
+      <ul className={`${props.category} ideas ui divided list`}>
+        {filteredIdeasList}
       </ul>
     </section>
   )

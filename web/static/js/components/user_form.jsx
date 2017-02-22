@@ -18,17 +18,19 @@ class UserForm extends Component {
     event.preventDefault()
   }
 
-  render(){
+  render() {
     return (
       <section className="ui basic segment">
         <p className="ui header">Welcome to Remote Retro! What's your name?</p>
         <form onSubmit={this.handleSubmit} className="ui form">
           <div className="ui action input">
-            <input type="text"
-                   name="username"
-                   autoFocus
-                   value={this.state.username}
-                   onChange={this.handleChange} />
+            <input
+              type="text"
+              name="username"
+              autoFocus
+              value={this.state.username}
+              onChange={this.handleChange}
+            />
             <button type="submit" className="ui button teal">Submit</button>
           </div>
         </form>
@@ -38,7 +40,7 @@ class UserForm extends Component {
 }
 
 UserForm.propTypes = {
-  onSubmitUsername: React.PropTypes.func.isRequired
+  onSubmitUsername: React.PropTypes.func.isRequired,
 }
 
 export default UserForm

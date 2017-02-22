@@ -8,7 +8,7 @@ import UserListItem from "../../web/static/js/components/user_list_item"
 describe("passed an array of users", () => {
   const users = [{
     name: "treezy",
-    online_at: 803
+    online_at: 803,
   }, {
     name: "zander",
     online_at: 801,

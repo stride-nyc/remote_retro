@@ -13,11 +13,11 @@ class Room extends Component {
   }
 
   _setupRetroChannelEventHandlers() {
-    this.props.retroChannel.on("existing_ideas", payload => {
+    this.props.retroChannel.on("existing_ideas", (payload) => {
       this.setState({ ideas: [...this.state.ideas, ...payload.ideas] })
     })
 
-    this.props.retroChannel.on("new_idea_received", newIdea => {
+    this.props.retroChannel.on("new_idea_received", (newIdea) => {
       this.setState({ ideas: [...this.state.ideas, newIdea] })
     })
   }
@@ -30,14 +30,14 @@ class Room extends Component {
     return (
       <section className="room">
         <div className="ui equal width padded grid category-columns-wrapper">
-          <CategoryColumn category="happy" ideas={ this.state.ideas }/>
-          <CategoryColumn category="sad" ideas={ this.state.ideas }/>
-          <CategoryColumn category="confused" ideas={ this.state.ideas }/>
-          <CategoryColumn category="action-item" ideas={ this.state.ideas }/>
+          <CategoryColumn category="happy" ideas={this.state.ideas} />
+          <CategoryColumn category="sad" ideas={this.state.ideas} />
+          <CategoryColumn category="confused" ideas={this.state.ideas} />
+          <CategoryColumn category="action-item" ideas={this.state.ideas} />
         </div>
 
-        <UserList users={ this.props.users } />
-        <IdeaSubmissionForm onIdeaSubmission={ this.handleIdeaSubmission }/>
+        <UserList users={this.props.users} />
+        <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} />
       </section>
     )
   }
