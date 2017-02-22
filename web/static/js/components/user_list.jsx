@@ -5,18 +5,19 @@ import UserListItem from "./user_list_item"
 
 function UserList(props) {
   const usersSortedByArrival = sortBy(props.users, "online_at")
+  const listItems = usersSortedByArrival.map(user => <UserListItem key={user.name} user={user} />)
 
   return (
     <section className="ui center aligned basic segment">
       <ul id="user-list" className="ui horizontal list">
-        { usersSortedByArrival.map(user => <UserListItem key={ user.name } user={ user }/>) }
+        {listItems}
       </ul>
     </section>
   )
 }
 
 UserList.propTypes = {
-  users: React.PropTypes.array.isRequired
+  users: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
 }
 
 export default UserList

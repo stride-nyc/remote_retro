@@ -1,4 +1,5 @@
 priv/static/
 web/static/js/phoenix.js
+webpack.config.js
 
 deps/**/*.js

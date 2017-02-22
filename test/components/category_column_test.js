@@ -15,7 +15,7 @@ describe("CategoryColumn", () => {
         category: "happy",
       }]
 
-      const wrapper = shallow(<CategoryColumn ideas={ideas} category="happy"/>)
+      const wrapper = shallow(<CategoryColumn ideas={ideas} category="happy" />)
       expect(wrapper.find("li")).to.have.length(2)
     })
   })

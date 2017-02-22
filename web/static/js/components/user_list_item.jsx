@@ -5,14 +5,17 @@ function UserListItem(props) {
     <li className="item">
       <div className="ui center aligned grid">
         <div className="ui row">{ props.user.name }</div>
-        <i className="huge user icon"></i>
+        <i className="huge user icon" />
       </div>
     </li>
   )
 }
 
 UserListItem.propTypes = {
-  user: React.PropTypes.object.isRequired
+  user: React.PropTypes.shape({
+    name: React.PropTypes.string,
+    online_at: React.PropTypes.number,
+  }).isRequired,
 }
 
 export default UserListItem
