@@ -7,6 +7,7 @@ defmodule RemoteRetro.AuthController do
   end
 
   def callback(conn, %{"code" => code}) do
+    token = RemoteRetro.Google.get_token!(code)
     redirect conn, to: "/"
   end
 

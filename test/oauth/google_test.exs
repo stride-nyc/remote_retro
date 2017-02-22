@@ -10,4 +10,12 @@ defmodule RemoteRetro.GoogleTest do
       assert result =~ "scope=email+profile"
     end
   end
+
+  describe "get_token!/1" do
+    test "returns a OAuth2 client equipped with a token" do
+      _result = Google.get_token!("arbitrary-access-code")
+
+      assert _result = %OAuth2.Client{token: %OAuth2.AccessToken{}}
+    end
+  end
 end
