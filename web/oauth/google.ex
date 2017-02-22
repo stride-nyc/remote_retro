@@ -1,12 +1,14 @@
 defmodule RemoteRetro.Google do
   use OAuth2.Strategy
 
+  @oauth_client Application.get_env(:remote_retro, :oauth_client)
+
   def authorize_url!(params \\ []) do
-    OAuth2.Client.authorize_url!(client(), params)
+    @oauth_client.authorize_url!(client(), params)
   end
 
   defp client do
-    OAuth2.Client.new([
+    @oauth_client.new([
       client_id: System.get_env("GOOGLE_OAUTH_CLIENT_ID"),
       client_secret: System.get_env("GOOGLE_OAUTH_CLIENT_SECRET"),
       redirect_uri: System.get_env("GOOGLE_OAUTH_REDIRECT_URI"),
