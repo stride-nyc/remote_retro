@@ -60,10 +60,10 @@ Additional nvm installation notes found at [the nvm repo](https://github.com/cre
 
 Install Global NPM Packages
 
- ```
- npm install -g yarn phantomjs mocha
- ```
- 
+```
+npm install -g yarn phantomjs mocha
+```
+
 Install Local NPM Packages via Yarn
 
 ```
