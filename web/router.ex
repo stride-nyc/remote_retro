@@ -25,5 +25,6 @@ defmodule RemoteRetro.Router do
     pipe_through :browser
 
     get "/google", AuthController, :index
+    get "/google/callback", AuthController, :callback
   end
 end
