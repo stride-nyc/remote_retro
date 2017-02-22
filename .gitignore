@@ -3,6 +3,7 @@
 /db
 /deps
 /*.ez
+mix.lock
 
 # Test artifacts
 screenshots/
