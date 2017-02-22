@@ -33,6 +33,7 @@ class Room extends Component {
           <CategoryColumn category="happy" ideas={ this.state.ideas }/>
           <CategoryColumn category="sad" ideas={ this.state.ideas }/>
           <CategoryColumn category="confused" ideas={ this.state.ideas }/>
+          <CategoryColumn category="action-item" ideas={ this.state.ideas }/>
         </div>
 
         <UserList users={ this.props.users } />
