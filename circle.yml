@@ -1,6 +1,6 @@
 machine:
   node:
-    version: 5.6.0
+    version: 7.5.0
   environment:
     PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
     MIX_ENV: "test"
@@ -22,8 +22,9 @@ dependencies:
     - yes | mix local.rebar
     - npm install -g mocha
     - npm install -g phantomjs
-    - npm install -g webpack
-    - webpack
+    - npm install -g yarn
+    - yarn
+    - node_modules/.bin/webpack
 test:
   override:
     - mocha

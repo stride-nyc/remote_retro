@@ -39,18 +39,29 @@ psql -h localhost
   - [Install Elixir](http://elixir-lang.org/install.html)
   - Install the Phoenix application's dependencies via `mix deps.get`
   - Create and migrate your database with `mix ecto.create && mix ecto.migrate`
-
-Note: if the prior two commands are throwing errors, ensure that Postgres is setup properly on your machine:
-  1. Login to the default database `psql -h localhost`
-  2. Check that there is a postgres usename with `SELECT usename from pg_user;`
-  3. If there is not, run `CREATE USER postgres WITH SUPERUSER;`
+    -  __Note:__ if the prior two commands are throwing errors, ensure that Postgres is setup properly on your machine:
+     1. Login to the default database `psql -h localhost`
+     2. Check that there is a postgres usename with `SELECT usename from pg_user;`
+     3. If there is not, run `CREATE USER postgres WITH SUPERUSER;`
 
 #### Node Dependencies
+
+Install nvm (node version manager):
+
+```
+curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
+```
+
+Install the latest node via nvm:
+```
+nvm install 7.5
+```
+Additional nvm installation notes found at [the nvm repo](https://github.com/creationix/nvm#install-script).
 
 Install Global NPM Packages
 
  ```
- npm install -g yarn webpack phantomjs mocha
+ npm install -g yarn phantomjs mocha
  ```
  
 Install Local NPM Packages via Yarn
