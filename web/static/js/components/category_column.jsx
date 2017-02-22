@@ -10,8 +10,8 @@ function CategoryColumn(props) {
 
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
-  const filteredIdeasList = filteredIdeas.map((idea, index) =>
-    <li className="item" key={index}>{idea.body}</li>,
+  const filteredIdeasList = filteredIdeas.map(idea =>
+    <li className="item" key={`${idea.body}`}>{idea.body}</li>,
   )
 
   return (
@@ -29,7 +29,12 @@ function CategoryColumn(props) {
 }
 
 CategoryColumn.propTypes = {
-  ideas: React.PropTypes.array.isRequired,
+  ideas: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      category: React.PropTypes.string,
+      body: React.PropTypes.string,
+    }),
+  ).isRequired,
   category: React.PropTypes.string.isRequired,
 }
 

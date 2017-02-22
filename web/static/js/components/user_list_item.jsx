@@ -14,6 +14,7 @@ function UserListItem(props) {
 UserListItem.propTypes = {
   user: React.PropTypes.shape({
     name: React.PropTypes.string,
+    online_at: React.PropTypes.number,
   }).isRequired,
 }
 

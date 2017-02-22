@@ -9,10 +9,9 @@ class Room extends Component {
     super(props)
     this.state = { ideas: [] }
     this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
-    this._setupRetroChannelEventHandlers()
   }
 
-  _setupRetroChannelEventHandlers() {
+  componentDidMount() {
     this.props.retroChannel.on("existing_ideas", (payload) => {
       this.setState({ ideas: [...this.state.ideas, ...payload.ideas] })
     })
@@ -44,8 +43,16 @@ class Room extends Component {
 }
 
 Room.propTypes = {
-  retroChannel: React.PropTypes.object.isRequired,
-  users: React.PropTypes.array.isRequired,
+  retroChannel: React.PropTypes.shape({
+    on: React.PropTypes.func,
+    push: React.PropTypes.func,
+  }).isRequired,
+  users: React.PropTypes.arrayOf(
+    React.PropTypes.shape({
+      name: React.PropTypes.string,
+      online_at: React.PropTypes.number,
+    }),
+  ).isRequired,
 }
 
 export default Room
