@@ -8,9 +8,9 @@ module.exports = {
     "describe": false,
     "it": false,
     "beforeEach": false,
-    "afterEach": false,
+    "afterEach": false
   },
-  "extends": ["eslint:recommended", "plugin:react/recommended"],
+  "extends": "airbnb",
   "parserOptions": {
     "ecmaFeatures": {
       "experimentalObjectRestSpread": true,
@@ -37,6 +37,7 @@ module.exports = {
     "semi": [
       "error",
       "never"
-    ]
+    ],
+    "react/no-unescaped-entities": "off"
   }
 }
