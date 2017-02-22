@@ -27,3 +27,5 @@ erl_crash.dump
 
 # Intellij ide config
 .idea
+
+/priv/static/robots.txt
