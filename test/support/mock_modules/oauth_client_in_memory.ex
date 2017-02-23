@@ -22,4 +22,31 @@ defmodule RemoteRetro.OAuth.Client.InMemory do
       token_url: "https://accounts.google.com/o/oauth2/token"
     }
   end
+
+  def get!(client_with_token, resource_url) do
+    %OAuth2.Response{
+      body: %{
+        "email" => "mistertestuser@gmail.com",
+        "email_verified" => "true", "family_name" => "Vander Hoop",
+        "gender" => "male", "given_name" => "Travis",
+        "kind" => "plus#personOpenIdConnect", "locale" => "en",
+        "name" => "Test User",
+        "picture" => "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
+        "profile" => "https://plus.google.com/108658712426577966861",
+        "sub" => "108658712426577966861"
+      },
+      headers: [
+        {"expires", "Thu, 23 Feb 2017 00:45:51 GMT"},
+        {"date", "Thu, 23 Feb 2017 00:45:51 GMT"},
+        {"cache-control", "private, max-age=0, must-revalidate, no-transform"},
+        {"etag", "\"FT7X6cYw9BSnPtIywEFNNGVVdio/Wjcax47M6XtrzyDF_L-4DQXFNDs\""},
+        {"vary", "Origin"}, {"vary", "X-Origin"},
+        {"content-type", "application/json; charset=UTF-8"},
+        {"x-content-type-options", "nosniff"}, {"x-frame-options", "SAMEORIGIN"},
+        {"x-xss-protection", "1; mode=block"}, {"content-length", "438"},
+        {"server", "GSE"}, {"alt-svc", "quic=\":443\"; ma=2592000; v=\"35,34\""}
+      ],
+      status_code: 200
+    }
+  end
 end

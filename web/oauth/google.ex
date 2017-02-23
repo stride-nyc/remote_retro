@@ -13,6 +13,11 @@ defmodule RemoteRetro.Google do
     |> @oauth_client.get_token!(code: code)
   end
 
+  def get_user_info!(client_with_token) do
+    user_info_endpoint= "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
+    @oauth_client.get!(client_with_token, user_info_endpoint).body
+  end
+
   defp client do
     @oauth_client.new([
       client_id: System.get_env("GOOGLE_OAUTH_CLIENT_ID"),

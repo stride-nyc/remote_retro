@@ -18,4 +18,12 @@ defmodule RemoteRetro.GoogleTest do
       assert _result = %OAuth2.Client{token: %OAuth2.AccessToken{}}
     end
   end
+
+  describe "get_user_info!/1" do
+    test "returns the test user's info" do
+      _result = Google.get_user_info!(%{})
+
+      assert _result = %{ "email" => "mistertestuser@gmail.com" }
+    end
+  end
 end
