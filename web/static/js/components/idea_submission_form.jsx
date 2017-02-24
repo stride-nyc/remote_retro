@@ -16,14 +16,12 @@ class IdeaSubmissionForm extends Component {
   }
 
   handleIdeaChange(event) {
-    const newState = { ...this.state, body: event.target.value }
-    this.setState(newState)
+    this.setState({ body: event.target.value })
   }
 
   handleCategoryChange(event) {
-    const newState = { ...this.state, category: event.target.value }
     this.ideaInput.focus()
-    this.setState(newState)
+    this.setState({ category: event.target.value })
   }
 
   render() {
