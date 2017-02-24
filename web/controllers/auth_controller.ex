@@ -7,9 +7,7 @@ defmodule RemoteRetro.AuthController do
   end
 
   def callback(conn, %{"code" => code}) do
-    user = Google.get_token!(code) |> Google.get_user_info!
-
-    conn = put_session(conn, :current_user, user)
+    conn = put_session(conn, :current_user, Google.get_user_info!(code))
 
     redirect conn, to: "/"
   end

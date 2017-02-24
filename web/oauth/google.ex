@@ -7,15 +7,18 @@ defmodule RemoteRetro.Google do
     @oauth_client.authorize_url!(client, params)
   end
 
-  def get_token!(code) do
+  def get_user_info!(code) do
+    user_info_endpoint= "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
+
+    retrieve_token!(code)
+    |> @oauth_client.get!(user_info_endpoint)
+    |> Map.get(:body)
+  end
+
+  defp retrieve_token!(code) do
     client
     |> @oauth_client.put_param(:client_secret, client.client_secret)
     |> @oauth_client.get_token!(code: code)
-  end
-
-  def get_user_info!(client_with_token) do
-    user_info_endpoint= "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
-    @oauth_client.get!(client_with_token, user_info_endpoint).body
   end
 
   defp client do
