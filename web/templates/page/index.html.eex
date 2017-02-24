@@ -1,10 +1,21 @@
 <div class="ui basic segment">
-  <div class="ui header">
-    Get Better With Your Team
-    <p class="sub header">Remote Retro lets you get together, even when you're far apart.</p>
-  </div>
+  <%= if @current_user do %>
+    <div class="ui header">
+      Glad to have you, <%= @current_user["given_name"] %>!
+    </div>
 
-  <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
-    <%= submit "Create a Retrospective", class: "ui button teal" %>
+    <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
+      <%= submit "Create a Retrospective", class: "ui button teal" %>
+    <% end %>
+  <%= else %>
+    <div class="ui header">
+      Get Better With Your Team
+      <p class="sub header">Remote Retro lets you get together, even when you're far apart.</p>
+    </div>
+
+    <a href="/auth/google" class="ui blue button">
+      <i class="google icon"></i>
+      Sign in with Google to Get Started
+    </a>
   <% end %>
 </div>

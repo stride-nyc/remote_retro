@@ -21,8 +21,10 @@ defmodule RemoteRetro.Router do
     resources "/retros", RetroController, only: [:create, :show]
   end
 
-  # Other scopes may use custom stacks.
-  # scope "/api", RemoteRetro do
-  #   pipe_through :api
-  # end
+  scope "/auth", RemoteRetro do
+    pipe_through :browser
+
+    get "/google", AuthController, :index
+    get "/google/callback", AuthController, :callback
+  end
 end

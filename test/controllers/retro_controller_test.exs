@@ -1,8 +1,8 @@
 defmodule RemoteRetro.RetroControllerTest do
   use RemoteRetro.ConnCase
 
-  test "POST requests to /retros end in redirect", %{conn: conn} do
+  test "POST requests to /retros redirect to the new retro", %{conn: conn} do
     conn = post conn, "/retros"
-    assert conn.status == 302
+    assert redirected_to(conn) =~ ~r/\/retros\/.+$/
   end
 end

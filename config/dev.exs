@@ -39,3 +39,5 @@ config :remote_retro, RemoteRetro.Repo,
   database: "remote_retro_dev",
   hostname: "localhost",
   pool_size: 10
+
+config :remote_retro, :oauth_client, OAuth2.Client
