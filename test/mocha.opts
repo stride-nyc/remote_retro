@@ -1,4 +1,5 @@
 test/**/*_test.js
+--compilers jsx:babel-register
 --require babel-register
 --require jsdom-global/register
 --reporter dot
