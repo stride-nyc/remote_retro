@@ -26,6 +26,7 @@ defmodule RemoteRetro.ConnCase do
       import Ecto.Query
 
       import RemoteRetro.Router.Helpers
+      import RemoteRetro.ConnCase.Helpers
 
       # The default endpoint for testing
       @endpoint RemoteRetro.Endpoint

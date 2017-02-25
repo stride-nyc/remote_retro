@@ -19,9 +19,4 @@ defmodule RemoteRetro.PageControllerTest do
       assert conn.resp_body =~ ~r/sign in with google/i
     end
   end
-
-  defp authenticate_connection(context) do
-    conn = get context[:conn], "/auth/google/callback?code=derp"
-    Map.put(context, :conn, conn)
-  end
 end
