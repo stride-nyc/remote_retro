@@ -1,4 +1,5 @@
 defmodule RemoteRetro.OAuth.Client.InMemory do
+  @mock_user Application.get_env(:remote_retro, :mock_user)
 
   defdelegate new(config), to: OAuth2.Client
   defdelegate authorize_url!(client, scope), to: OAuth2.Client
@@ -25,16 +26,7 @@ defmodule RemoteRetro.OAuth.Client.InMemory do
 
   def get!(client_with_token, resource_url) do
     %OAuth2.Response{
-      body: %{
-        "email" => "mistertestuser@gmail.com",
-        "email_verified" => "true", "family_name" => "Vander Hoop",
-        "gender" => "male", "given_name" => "Travis",
-        "kind" => "plus#personOpenIdConnect", "locale" => "en",
-        "name" => "Test User",
-        "picture" => "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
-        "profile" => "https://plus.google.com/108658712426577966861",
-        "sub" => "108658712426577966861"
-      },
+      body: @mock_user,
       headers: [
         {"expires", "Thu, 23 Feb 2017 00:45:51 GMT"},
         {"date", "Thu, 23 Feb 2017 00:45:51 GMT"},

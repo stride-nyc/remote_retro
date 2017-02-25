@@ -43,3 +43,15 @@ config :remote_retro, RemoteRetro.Repo,
 config :remote_retro, :oauth_client, OAuth2.Client
 
 config :remote_retro, :add_mock_user_to_session, true
+config :remote_retro, :mock_user, %{
+  "given_name" => "Kris",
+  "family_name" => "Tenderloin",
+  "email" => "kris@thedevioustenderloin.io",
+  "email_verified" => "true",
+  "gender" => "male",
+  "kind" => "plus#personOpenIdConnect", "locale" => "en",
+  "name" => "Dev User",
+  "picture" => "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
+  "profile" => "https://plus.google.com/108658712426577966861",
+  "sub" => "108658712426577966861"
+}
