@@ -77,10 +77,9 @@ defmodule RemoteRetro.Presence do
 
   def fetch(_topic, entries) do
     Enum.into entries, %{}, fn({token, presence}) ->
-      first_online_at = List.first(presence.metas) |> Map.get(:online_at)
       presence = Map.put(presence, :user, %{
-        online_at: first_online_at,
-        name: token
+        online_at: List.first(presence.metas).online_at,
+        name: token,
       })
       {token, presence}
     end
