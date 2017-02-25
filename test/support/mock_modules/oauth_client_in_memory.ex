@@ -24,7 +24,7 @@ defmodule RemoteRetro.OAuth.Client.InMemory do
     }
   end
 
-  def get!(client_with_token, resource_url) do
+  def get!(_client_with_token, _resource_url) do
     %OAuth2.Response{
       body: @mock_user,
       headers: [
