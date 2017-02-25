@@ -2,6 +2,7 @@ machine:
   node:
     version: 7.5.0
   environment:
+    PATH: "${PATH}:${HOME}/${CIRCLE_PROJECT_REPONAME}/node_modules/.bin"
     PATH: "$HOME/.asdf/bin:$HOME/.asdf/shims:$PATH"
     MIX_ENV: "test"
 general:
@@ -10,8 +11,11 @@ general:
 dependencies:
   cache_directories:
     - ~/.asdf
+    - ~/.cache/yarn
     - _build
     - deps
+  override:
+    - yarn
   pre:
     - if ! asdf | grep version; then git clone https://github.com/HashNuke/asdf.git ~/.asdf; fi
     - if ! asdf plugin-list | grep erlang; then asdf plugin-add erlang https://github.com/HashNuke/asdf-erlang.git; fi
@@ -22,8 +26,6 @@ dependencies:
     - yes | mix local.rebar
     - npm install -g mocha
     - npm install -g phantomjs
-    - npm install -g yarn
-    - yarn
     - node_modules/.bin/webpack
 test:
   override:
