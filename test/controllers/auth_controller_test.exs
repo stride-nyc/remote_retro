@@ -1,5 +1,5 @@
 defmodule RemoteRetro.AuthControllerTest do
-  use RemoteRetro.ConnCase
+  use RemoteRetro.ConnCase, async: true
 
   setup context do
     if desired_endpoint = context[:desired_endpoint_on_session] do

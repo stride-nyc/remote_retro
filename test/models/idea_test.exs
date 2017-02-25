@@ -1,5 +1,5 @@
 defmodule RemoteRetro.IdeaTest do
-  use RemoteRetro.ModelCase
+  use RemoteRetro.ModelCase, async: true
 
   alias RemoteRetro.Idea
 
