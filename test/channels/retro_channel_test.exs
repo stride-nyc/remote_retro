@@ -38,17 +38,11 @@ defmodule RemoteRetro.RetroChannelTest do
 
     test "the inclusion of a user map with metadata about a user's presence in the retro" do
       assert_push "presence_state", %{
-        "wyatt derp" => %{
-          user: %{ name: _, online_at: _online_at }
-        }
+        "wyatt derp" => %{user: %{name: _, online_at: _}}
       }
 
       assert_push "presence_diff", %{
-        joins: %{
-          "wyatt derp" => %{
-            user: %{ name: _, online_at: _online_at }
-          }
-        }
+        joins: %{"wyatt derp" => %{user: %{name: _, online_at: _}}}
       }
     end
 
