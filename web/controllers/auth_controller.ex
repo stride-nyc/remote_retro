@@ -9,7 +9,7 @@ defmodule RemoteRetro.AuthController do
   def callback(conn, %{"code" => code}) do
     conn = put_session(conn, :current_user, Google.get_user_info!(code))
 
-    redirect conn, to: "/"
+    redirect conn, to: get_session(conn, "requested_endpoint") || "/"
   end
 
   defp authorize_url! do
