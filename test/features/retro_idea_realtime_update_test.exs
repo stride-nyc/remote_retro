@@ -5,8 +5,8 @@ defmodule RetroIdeaRealtimeUpdateTest do
     {:ok, session_two} = Wallaby.start_session()
 
     retro_path = "/retros/" <> retro.id
-    session_one = visit(session_one, retro_path) |> join_retro_as_user("McKenneth McTickles")
-    session_two = visit(session_two, retro_path) |> join_retro_as_user("Travis Vander Hoop")
+    session_one = authenticate(session_one) |> visit(retro_path) |> join_retro_as_user("McKenneth McTickles")
+    session_two = authenticate(session_two) |> visit(retro_path) |> join_retro_as_user("Travis Vander Hoop")
 
     ideas_list_text = session_one |> find(".sad.ideas", visible: false) |> text
     refute String.contains?(ideas_list_text, "user stories lack clear business value")

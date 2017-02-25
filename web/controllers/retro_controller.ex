@@ -3,7 +3,13 @@ defmodule RemoteRetro.RetroController do
   alias RemoteRetro.Retro
 
   def show(conn, _params) do
-    render conn, "show.html"
+    case get_session(conn, "current_user") do
+      nil ->
+        conn = put_session conn, "requested_endpoint", conn.request_path
+        redirect conn, to: "/auth/google"
+
+      _ -> render conn, "show.html"
+    end
   end
 
   def create(conn, _params) do

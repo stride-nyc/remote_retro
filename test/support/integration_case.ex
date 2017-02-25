@@ -3,6 +3,8 @@ defmodule RemoteRetro.IntegrationCase do
   use ExUnit.CaseTemplate
   alias RemoteRetro.Repo
   alias RemoteRetro.Retro
+  import RemoteRetro.TestHelpers
+
   use Wallaby.DSL
 
   using do
@@ -34,6 +36,7 @@ defmodule RemoteRetro.IntegrationCase do
 
     session = set_window_size(session, 1000, 1000)
 
+    session = authenticate(session)
     {:ok, session: session, retro: retro}
   end
 end

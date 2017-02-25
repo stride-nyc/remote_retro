@@ -1,6 +1,10 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
 
+  def authenticate(session) do
+    visit(session, "/auth/google/callback?code=love")
+  end
+
   def join_retro_as_user(session, username) do
     session
     |> find("form")

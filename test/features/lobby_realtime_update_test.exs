@@ -10,7 +10,8 @@ defmodule LobbyRealtimeUpdateTest do
 
     {:ok, session_two} = Wallaby.start_session()
 
-    visit(session_two, retro_path)
+    authenticate(session_two)
+    |> visit(retro_path)
     |> join_retro_as_user("Martha Bernham")
 
     user_list_text = session_one |> find("#user-list") |> text
