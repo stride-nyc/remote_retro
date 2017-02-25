@@ -12,14 +12,6 @@ defmodule RemoteRetro.Router do
     end
   end
 
-  def add_mock_user_to_session(conn, _options) do
-    put_session(conn, :current_user, %{
-      "given_name" => "Kris",
-      "family_name" => "Tenderloin",
-      "email" => "kris@thedevioustenderloin.io",
-    })
-  end
-
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -37,5 +29,13 @@ defmodule RemoteRetro.Router do
 
     get "/google", AuthController, :index
     get "/google/callback", AuthController, :callback
+  end
+
+  defp add_mock_user_to_session(conn, _options) do
+    put_session(conn, :current_user, %{
+      "given_name" => "Kris",
+      "family_name" => "Tenderloin",
+      "email" => "kris@thedevioustenderloin.io",
+    })
   end
 end
