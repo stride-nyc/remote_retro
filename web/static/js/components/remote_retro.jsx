@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import { Presence } from "phoenix"
 
 import RetroChannel from "../services/retro_channel"
-import UserForm from "./user_form"
 import Room from "./room"
 
 import UrlHelpers from "../services/url_helpers"
@@ -10,14 +9,18 @@ import UrlHelpers from "../services/url_helpers"
 class RemoteRetro extends Component {
   constructor(props) {
     super(props)
-    this.state = { presences: {}, retroChannel: {} }
-
-    this.handleSubmitUsername = this.handleSubmitUsername.bind(this)
+    this.state = {
+      presences: {},
+      retroChannel: {},
+      retroUUID: UrlHelpers.parseRetroUUID(location.pathname),
+    }
   }
 
-  handleSubmitUsername(username) {
-    const retroUUID = UrlHelpers.parseRetroUUID(location.pathname)
-    const retroChannel = RetroChannel.configure({ username, retroUUID })
+  componentWillMount() {
+    const retroChannel = RetroChannel.configure({
+      token: window.token,
+      retroUUID: this.state.retroUUID,
+    })
 
     retroChannel.on("presence_state", (state) => {
       this.setState({ presences: Presence.syncState(this.state.presences, state) })
@@ -28,16 +31,13 @@ class RemoteRetro extends Component {
     })
 
     retroChannel.join()
-    this.setState({ username, retroChannel })
+    this.setState({ retroChannel })
   }
 
   render() {
     const users = Presence.list(this.state.presences, (_username, presence) => presence.user)
 
-    if (this.state.username) {
-      return <Room users={users} retroChannel={this.state.retroChannel} />
-    }
-    return <UserForm onSubmitUsername={this.handleSubmitUsername} />
+    return <Room users={users} retroChannel={this.state.retroChannel} />
   }
 }
 

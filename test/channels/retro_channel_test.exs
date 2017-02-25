@@ -7,7 +7,7 @@ defmodule RemoteRetro.RetroChannelTest do
   defp join_the_retro_channel(context) do
     retro = context[:retro]
     { :ok, _, socket } =
-      socket("", %{ user: "wyatt derp" })
+      socket("", %{ token: "arbitr@ryToken" })
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
     Map.put(context, :socket, socket)

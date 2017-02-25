@@ -5,15 +5,6 @@ defmodule RemoteRetro.TestHelpers do
     visit(session, "/auth/google/callback?code=love")
   end
 
-  def join_retro_as_user(session, username) do
-    session
-    |> find("form")
-    |> fill_in("username", with: username)
-    |> click_button("Submit")
-
-    session
-  end
-
   def submit_idea(session, %{ category: category, body: body }) do
     session
     |> find("form")

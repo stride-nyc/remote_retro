@@ -15,7 +15,7 @@ defmodule RemoteRetro.RetroChannel do
 
   def handle_info(:after_join, socket) do
     join_metadata = %{ online_at: :os.system_time(:milli_seconds) }
-    Presence.track(socket, socket.assigns.user, join_metadata)
+    Presence.track(socket, socket.assigns.token, join_metadata)
 
     push socket, "presence_state", Presence.list(socket)
     push socket, "existing_ideas", %{ ideas: socket.assigns.ideas }

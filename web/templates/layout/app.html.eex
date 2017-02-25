@@ -21,6 +21,7 @@
     </main>
 
     <%= if @view_module.include_js do %>
+      <script>window.token = "<%= assigns[:token] %>"</script>
       <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <% end %>
   </body>

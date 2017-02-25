@@ -6,7 +6,7 @@ defmodule ExistingIdeasRenderedOnJoiningRetroTest do
     Repo.insert!(%Idea{ category: "happy", body: "continuous delivery!", retro_id: retro.id })
 
     retro_path = "/retros/" <> retro.id
-    session = visit(session, retro_path) |> join_retro_as_user("Mr Pantelones Negros")
+    session = visit(session, retro_path)
 
     ideas_list_text = session |> find(".happy.ideas") |> text
 
