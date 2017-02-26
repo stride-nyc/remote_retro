@@ -19,10 +19,32 @@ defmodule RemoteRetro.PresenceTest do
       assert is_map(result["9sah2y"].user)
     end
 
-    test "adds the first online_at within the metas list to the user" do
-      result = Presence.fetch("retro:some_retro", @basic_presence_structure)
+    test "augments the user map with all attributes from the first metas map" do
+      presence = %{
+        "arbitrary_key" => %{
+          metas: [%{
+            :online_at => 1500,
+            "given_name" => "Hilary",
+            "family_name" => "Cassel",
+            "email" => "hilly@dilly.com",
+            "gender" => "female",
+            "name" => "Stub User",
+            "picture" => "stub",
+          }, %{
+            :online_at => 10,
+            "given_name" => "other name"
+          }]
+        }
+      }
 
-      assert result["9sah2y"].user.online_at == 1500
+      result = Presence.fetch("retro:some_retro", presence)
+      user = result["arbitrary_key"].user
+
+      assert user.online_at == 1500
+      assert user["given_name"] == "Hilary"
+      assert user["family_name"] == "Cassel"
+      assert user["email"] == "hilly@dilly.com"
+      assert user["gender"] == "female"
     end
   end
 end
