@@ -16,8 +16,8 @@ defmodule RemoteRetro.RetroChannelTest do
   defp persist_idea_for_retro(context) do
     %{idea_category: category, idea_body: body, retro: retro} = context
 
-    changesest = %Idea{ category: category, body: body, retro_id: retro.id }
-    Repo.insert!(changesest)
+    changeset = %Idea{category: category, body: body, retro_id: retro.id}
+    Repo.insert!(changeset)
     context
   end
 
