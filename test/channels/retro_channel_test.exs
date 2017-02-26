@@ -3,11 +3,14 @@ defmodule RemoteRetro.RetroChannelTest do
   alias RemoteRetro.RetroChannel
   alias RemoteRetro.Repo
   alias RemoteRetro.Idea
+  alias RemoteRetro.Presence
+
+  @mock_user Application.get_env(:remote_retro, :mock_user)
 
   defp join_the_retro_channel(context) do
     retro = context[:retro]
     { :ok, _, socket } =
-      socket("", %{ token: "arbitr@ryToken" })
+      socket("", %{ token: Phoenix.Token.sign(socket, "user", @mock_user) })
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
     Map.put(context, :socket, socket)
@@ -38,6 +41,20 @@ defmodule RemoteRetro.RetroChannelTest do
 
     test "results in a push of existing ideas to the new user" do
       assert_push "existing_ideas", %{ ideas: [] }
+    end
+
+    test "results in a Presence tracking of the new user", %{retro: retro} do
+      result = Presence.list("retro:" <> retro.id)
+
+      presence_object =
+        Map.values(result)
+        |> List.first
+        |> Map.get(:metas)
+        |> List.first
+
+      assert presence_object["email"] == @mock_user["email"]
+      assert presence_object["given_name"] == @mock_user["given_name"]
+      assert presence_object["family_name"] == @mock_user["family_name"]
     end
   end
 

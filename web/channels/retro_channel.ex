@@ -14,8 +14,9 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_info(:after_join, socket) do
-    join_metadata = %{ online_at: :os.system_time(:milli_seconds) }
-    Presence.track(socket, socket.assigns.token, join_metadata)
+    {:ok, user} = Phoenix.Token.verify(socket, "user", socket.assigns.token)
+    user = Map.put(user, :online_at, :os.system_time(:milli_seconds))
+    Presence.track(socket, socket.assigns.token, user)
 
     push socket, "presence_state", Presence.list(socket)
     push socket, "existing_ideas", %{ ideas: socket.assigns.ideas }
