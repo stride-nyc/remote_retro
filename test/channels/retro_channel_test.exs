@@ -29,21 +29,11 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     test "results in the push of a presence state to the new user" do
-      assert_push "presence_state", %{ "wyatt derp" => %{} }
+      assert_push "presence_state", %{}
     end
 
     test "results in the broadcast of a new presence diff to all connected clients" do
-      assert_broadcast "presence_diff", %{ joins: %{ "wyatt derp" => %{} } }
-    end
-
-    test "the inclusion of a user map with metadata about a user's presence in the retro" do
-      assert_push "presence_state", %{
-        "wyatt derp" => %{user: %{name: _, online_at: _}}
-      }
-
-      assert_push "presence_diff", %{
-        joins: %{"wyatt derp" => %{user: %{name: _, online_at: _}}}
-      }
+      assert_broadcast "presence_diff", %{joins: %{}, leaves: %{}}
     end
 
     test "results in a push of existing ideas to the new user" do
