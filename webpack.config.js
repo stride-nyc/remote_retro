@@ -12,8 +12,8 @@ module.exports = {
     filename: "js/app.js"
   },
   resolve: {
-    modules: [ "node_modules", __dirname + "/web/static/js" ],
-    extensions: ['.js', '.jsx']
+    modules: ["node_modules", __dirname + "/web/static/js"],
+    extensions: [".js", ".jsx"]
   },
   module: {
     rules: [
@@ -27,7 +27,10 @@ module.exports = {
       },
       {
         test: /\.css$/,
-        use: ExtractTextPlugin.extract({ fallback: "style-loader", use: "css-loader"})
+        use: ExtractTextPlugin.extract({
+          fallback: "style-loader",
+          use: "css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]",
+        }),
       }
     ]
   },
