@@ -4,6 +4,8 @@ import UserList from "./user_list"
 import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
 
+import styles from "./css_modules/room.css"
+
 class Room extends Component {
   constructor(props) {
     super(props)
@@ -27,8 +29,8 @@ class Room extends Component {
 
   render() {
     return (
-      <section className="room">
-        <div className="ui equal width padded grid category-columns-wrapper">
+      <section className={styles.wrapper}>
+        <div className={`ui equal width padded grid ${styles["category-columns-wrapper"]}`}>
           <CategoryColumn category="happy" ideas={this.state.ideas} />
           <CategoryColumn category="sad" ideas={this.state.ideas} />
           <CategoryColumn category="confused" ideas={this.state.ideas} />

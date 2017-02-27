@@ -1,4 +1,5 @@
 import React from "react"
+import styles from "./css_modules/category_column.css"
 
 function CategoryColumn(props) {
   const categoryToEmoticonUnicodeMap = {
@@ -17,7 +18,7 @@ function CategoryColumn(props) {
   return (
     <section className="column">
       <div className="ui center aligned basic segment">
-        <i>{emoticonUnicode}</i>
+        <i className={styles.icon}>{emoticonUnicode}</i>
         <p><a>@{props.category}</a></p>
       </div>
       <div className="ui divider" />

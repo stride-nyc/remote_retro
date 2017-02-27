@@ -1,20 +1,11 @@
-/* This file is for your main application css. */
+/*
 
-i {
-  font-size: 5rem;
-  font-style: normal;
-}
+Hi! This file would normally be the entry-point for the CSS in your phoenix app.
+In our case, it isn't! We use Semantic UI for the majority of our styling, and
+leverage CSS modules where we need to do any custom styling. CSS modules are
+better than excellent, and, if you've never used them, will make your life better
+by leaps and bounds. Look em up! Use em!
 
-.room {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
+  - https://github.com/css-modules/css-modules
 
-.category-columns-wrapper {
-  flex: 1;
-}
-
-/* Semantic Overrides */
-
-ul.ui.list li::before { content: ""; }
+*/
