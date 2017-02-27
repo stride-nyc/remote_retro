@@ -1,5 +1,1 @@
 /* This file is for your main application css. */
-
-/* Semantic Overrides */
-
-ul.ui.list li::before { content: ""; }
