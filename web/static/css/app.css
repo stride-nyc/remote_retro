@@ -1,20 +1,5 @@
 /* This file is for your main application css. */
 
-i {
-  font-size: 5rem;
-  font-style: normal;
-}
-
-.room {
-  display: flex;
-  min-height: 100vh;
-  flex-direction: column;
-}
-
-.category-columns-wrapper {
-  flex: 1;
-}
-
 /* Semantic Overrides */
 
 ul.ui.list li::before { content: ""; }

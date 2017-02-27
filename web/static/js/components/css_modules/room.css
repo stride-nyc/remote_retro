@@ -1,0 +1,9 @@
+.wrapper {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+}
+
+.category-columns-wrapper {
+  flex: 1;
+}
