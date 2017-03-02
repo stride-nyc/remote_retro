@@ -3,7 +3,7 @@ import React, { Component } from "react"
 import UserList from "./user_list"
 import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
-import chimeSound from "./chime_sound"
+import DoorChime from "./door_chime"
 
 import styles from "./css_modules/room.css"
 
@@ -24,12 +24,6 @@ class Room extends Component {
     })
   }
 
-  componentWillReceiveProps(nextProps) {
-    if (this.props.users.length !== nextProps.users.length) {
-      this.chime.play()
-    }
-  }
-
   handleIdeaSubmission(idea) {
     this.props.retroChannel.push("new_idea", idea)
   }
@@ -46,9 +40,7 @@ class Room extends Component {
 
         <UserList users={this.props.users} />
         <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} />
-        <audio
-          ref={audio => { this.chime = audio }}
-          src={chimeSound} />
+        <DoorChime users={this.props.users} />
       </section>
     )
   }
