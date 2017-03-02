@@ -3,7 +3,7 @@ import React, { Component } from "react"
 import UserList from "./user_list"
 import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
-import chimeSound from "./chime_sound.js"
+import chimeSound from "./chime_sound"
 
 import styles from "./css_modules/room.css"
 
