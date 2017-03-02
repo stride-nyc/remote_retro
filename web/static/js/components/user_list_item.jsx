@@ -3,10 +3,12 @@ import React from "react"
 import styles from "./css_modules/user_list_item.css"
 
 function UserListItem(props) {
+  let userName = props.user.name
+  if (props.facilitator) userName += "(Facilitator)"
   return (
     <li className={`item ${styles.wrapper}`}>
       <div className="ui center aligned grid">
-        <div className="ui row">{ props.user.name }</div>
+        <div className="ui row">{ userName }</div>
         <i className="huge user icon" />
       </div>
     </li>
