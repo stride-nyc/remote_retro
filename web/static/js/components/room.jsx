@@ -3,6 +3,7 @@ import React, { Component } from "react"
 import UserList from "./user_list"
 import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
+import DoorChime from "./door_chime"
 
 import styles from "./css_modules/room.css"
 
@@ -39,6 +40,7 @@ class Room extends Component {
 
         <UserList users={this.props.users} />
         <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} />
+        <DoorChime users={this.props.users} />
       </section>
     )
   }
