@@ -26,7 +26,6 @@ describe("passed an array of users", () => {
 
   it("labels the user with the oldest session as '(Facilitator)'", () => {
     const wrapper = render(<UserList users={users} />)
-    console.log(wrapper.debug)
     expect(wrapper.text()).to.match(/zander\(Facilitator\)treezy/i)
   })
 
