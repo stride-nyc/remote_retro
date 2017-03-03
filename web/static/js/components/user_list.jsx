@@ -5,7 +5,7 @@ import UserListItem from "./user_list_item"
 
 function UserList(props) {
   const usersSortedByArrival = sortBy(props.users, "online_at")
-  const listItems = usersSortedByArrival.map((user, index) => <UserListItem key={index} user={user} facilitator={index === 0}/>)
+  const listItems = usersSortedByArrival.map((user, index) => <UserListItem key={index} user={user} />)
 
   return (
     <section className="ui center aligned basic segment">
