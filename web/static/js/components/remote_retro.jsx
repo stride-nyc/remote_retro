@@ -20,12 +20,8 @@ class RemoteRetro extends Component {
   componentWillMount() {
     const retroChannel = RetroChannel.configure(this.state)
 
-    retroChannel.on("presence_state", (state) => {
-      this.setState({ presences: Presence.syncState(this.state.presences, state) })
-    })
-
-    retroChannel.on("presence_diff", (diff) => {
-      this.setState({ presences: Presence.syncDiff(this.state.presences, diff) })
+    retroChannel.on("presence_state", presences => {
+      this.setState({ presences })
     })
 
     retroChannel.join()

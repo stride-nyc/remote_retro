@@ -35,10 +35,6 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_push "presence_state", %{}
     end
 
-    test "results in the broadcast of a new presence diff to all connected clients" do
-      assert_broadcast "presence_diff", %{joins: %{}, leaves: %{}}
-    end
-
     test "results in a push of existing ideas to the new user" do
       assert_push "existing_ideas", %{ ideas: [] }
     end
@@ -80,4 +76,17 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "the emission of a `presence_diff` event" do
+    setup [:join_the_retro_channel]
+
+    test "does not make its way to the client", %{socket: socket} do
+      broadcast_from socket, "presence_diff", %{}
+      refute_push "presence_diff", %{}
+    end
+
+    test "results in the push of a `presence_state` event", %{socket: socket} do
+      broadcast_from socket, "presence_diff", %{}
+      assert_push "presence_state", %{}
+    end
+  end
 end

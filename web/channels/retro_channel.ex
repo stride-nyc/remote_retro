@@ -1,6 +1,7 @@
 defmodule RemoteRetro.RetroChannel do
   use RemoteRetro.Web, :channel
   alias RemoteRetro.Presence
+  alias RemoteRetro.PresenceUtils
   alias RemoteRetro.Idea
 
   def join("retro:" <> retro_id, _, socket) do
@@ -28,6 +29,15 @@ defmodule RemoteRetro.RetroChannel do
     _idea = Repo.insert!(changeset)
 
     broadcast! socket, "new_idea_received", %{ body: body, category: category }
+    {:noreply, socket}
+  end
+
+  intercept ["presence_diff"]
+  def handle_out("presence_diff", _msg, socket) do
+    presences = Presence.list(socket)
+    new_state = PresenceUtils.give_facilitator_role_to_longest_tenured(presences)
+
+    push socket, "presence_state", new_state
     {:noreply, socket}
   end
 end
