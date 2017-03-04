@@ -1,5 +1,7 @@
 import React, { Component } from "react"
 
+import styles from "./css_modules/idea_submission_form.css"
+
 class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
@@ -35,7 +37,7 @@ class IdeaSubmissionForm extends Component {
             <select
               name="category"
               value={this.state.category}
-              className="ui dropdown"
+              className={`ui dropdown ${styles.select}`}
               onChange={this.handleCategoryChange}
             >
               <option value="happy">happy</option>

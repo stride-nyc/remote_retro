@@ -1,0 +1,4 @@
+/* ensure select shares focus border styling consistent with other focused semantic ui inputs */
+.select:focus {
+  border-color: #85B7D9 !important;
+}
