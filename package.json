@@ -28,6 +28,7 @@
     "react-css-transition-replace": "^2.2.1",
     "react-dom": "^15.4.1",
     "react-flip-move": "^2.9.14",
+    "react-hot-loader": "^3.1.1",
     "react-modal": "^1.7.7",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
@@ -56,6 +57,7 @@
     "mock-css-modules": "^1.0.0",
     "react-test-renderer": "^15.6.1",
     "style-loader": "^0.13.1",
+    "webpack-dev-server": "^2.9.2",
     "webpack-notifier": "^1.5.0"
   }
 }
