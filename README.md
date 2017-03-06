@@ -51,21 +51,24 @@ Install nvm (node version manager):
 ```
 curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
 ```
+__Note:__ additional nvm installation notes found at [the nvm repo](https://github.com/creationix/nvm#install-script).
 
 Install the latest node via nvm:
 ```
 nvm install 7.5
 ```
-Additional nvm installation notes found at [the nvm repo](https://github.com/creationix/nvm#install-script).
+
+Ensure the latest node is your default node version in new shells:
+```
+nvm alias default 7.5
+```
 
 Install Global NPM Packages
-
 ```
 npm install -g yarn phantomjs mocha
 ```
 
 Install Local NPM Packages via Yarn
-
 ```
 yarn
 ```
