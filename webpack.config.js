@@ -8,9 +8,22 @@ const WebpackNotifierPlugin = require("webpack-notifier")
 
 process.noDeprecation = true
 
+const DEV_SERVER_PORT = 5001
+const OUTPUT_PATH = `${__dirname}/priv/static`
+const OUTPUT_PUBLIC_PATH = `http://localhost:${DEV_SERVER_PORT}/`
+
+const inDev = process.env.NODE_ENV === "dev"
+const devEntrypoints = [
+  "react-hot-loader/patch",
+  `webpack-dev-server/client?${OUTPUT_PUBLIC_PATH}`,
+  "webpack/hot/only-dev-server",
+]
+const supplementalEntrypoints = inDev ? devEntrypoints : []
+
 module.exports = {
   cache: true,
   entry: [
+    ...supplementalEntrypoints,
     "./web/static/js/polyfills/array.find",
     "./web/static/js/polyfills/array.find_index",
     "./web/static/js/polyfills/array.includes",
@@ -19,8 +32,14 @@ module.exports = {
     "./web/static/js/app.js"
   ],
   output: {
-    path: __dirname + "/priv/static",
-    filename: "js/app.js"
+    path: OUTPUT_PATH,
+    filename: "js/app.js",
+    publicPath: OUTPUT_PUBLIC_PATH,
+  },
+  devServer: {
+    port: DEV_SERVER_PORT,
+    contentBase: OUTPUT_PATH,
+    publicPath: OUTPUT_PUBLIC_PATH,
   },
   resolve: {
     modules: ["node_modules", __dirname + "/web/static/js"],
@@ -38,7 +57,7 @@ module.exports = {
       }],
     }, {
       test: /\.css$/,
-      use: ExtractTextPlugin.extract({
+      use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
         fallback: "style-loader",
         use: [
           {
@@ -54,7 +73,7 @@ module.exports = {
             loader: 'postcss-loader',
           }
         ]
-      }),
+      })),
     }]
   },
   plugins: [
@@ -67,7 +86,9 @@ module.exports = {
       filename: "js/app.js.map",
       columns: false,
     }),
+    new webpack.NoEmitOnErrorsPlugin(),
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
+    new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({ filename: "css/app.css" }),
     new CopyWebpackPlugin([{ from: "./web/static/assets" }]),
   ]

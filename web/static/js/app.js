@@ -1,21 +1,18 @@
-/* eslint-disable react/jsx-filename-extension */
+/* eslint-disable react/jsx-filename-extension, global-require */
 
 import React from "react"
 import { render } from "react-dom"
-import { createStore, bindActionCreators } from "redux"
+import { bindActionCreators } from "redux"
 import { Provider } from "react-redux"
+import { AppContainer } from "react-hot-loader"
 
-import RemoteRetro from "./components/remote_retro"
 import RetroChannel from "./services/retro_channel"
-import rootReducer from "./reducers"
+import configureStore from "./configure_store"
 import actions from "./actions"
 
 const { userToken, retroUUID } = window
 
-const store = createStore(
-  rootReducer,
-  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
-)
+const store = configureStore()
 
 const actionz = bindActionCreators({ ...actions }, store.dispatch)
 const retroChannel = RetroChannel.configure({ userToken, retroUUID, store, actions: actionz })
@@ -25,10 +22,24 @@ retroChannel.join()
   .receive("ok", initialState => {
     actionz.setInitialState(initialState)
 
-    render(
-      <Provider store={store}>
-        <RemoteRetro retroChannel={retroChannel} userToken={userToken} />
-      </Provider>,
-      document.querySelector(".react-root")
-    )
+    const renderWithHotReload = () => {
+      const RemoteRetro = require("./components/remote_retro").default
+
+      render(
+        <AppContainer>
+          <Provider store={store} key={Date.now()}>
+            <RemoteRetro retroChannel={retroChannel} userToken={userToken} />
+          </Provider>
+        </AppContainer>,
+        document.querySelector(".react-root")
+      )
+    }
+
+    // initial render
+    renderWithHotReload()
+
+    if (module.hot) {
+      // ensure rerenders on module updates
+      module.hot.accept(() => { renderWithHotReload() })
+    }
   })

@@ -35,7 +35,7 @@ export class RemoteRetro extends Component {
         />
         <Alert config={alert} />
         <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
-        <DoorChime {...this.props} />
+        <DoorChime users={users} />
       </div>
     )
   }
