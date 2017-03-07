@@ -8,7 +8,7 @@ defmodule RemoteRetro.Google do
   end
 
   def get_user_info!(code) do
-    user_info_endpoint= "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
+    user_info_endpoint = "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
 
     code
     |> retrieve_token!

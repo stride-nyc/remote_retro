@@ -20,15 +20,15 @@ defmodule RemoteRetro.RetroChannel do
     Presence.track(socket, socket.assigns.token, user_stamped)
 
     push socket, "presence_state", Presence.list(socket)
-    push socket, "existing_ideas", %{ ideas: socket.assigns.ideas }
+    push socket, "existing_ideas", %{ideas: socket.assigns.ideas}
     {:noreply, socket}
   end
 
   def handle_in("new_idea", %{"body" => body, "category" => category}, socket) do
-    changeset = Idea.changeset(%Idea{ body: body, category: category, retro_id: socket.assigns.retro_id })
+    changeset = Idea.changeset(%Idea{body: body, category: category, retro_id: socket.assigns.retro_id})
     _idea = Repo.insert!(changeset)
 
-    broadcast! socket, "new_idea_received", %{ body: body, category: category }
+    broadcast! socket, "new_idea_received", %{body: body, category: category}
     {:noreply, socket}
   end
 
