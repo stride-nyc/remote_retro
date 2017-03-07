@@ -3,7 +3,7 @@ defmodule RemoteRetro.IdeaTest do
 
   alias RemoteRetro.Idea
 
-  test "body, category, and retro id are required" do
+  test "body, category, and retro_id are required" do
     changeset = Idea.changeset(%Idea{})
 
     { body_error, _ } = Keyword.fetch!(changeset.errors, :body)
