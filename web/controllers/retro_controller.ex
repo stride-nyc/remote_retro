@@ -13,7 +13,7 @@ defmodule RemoteRetro.RetroController do
   end
 
   def create(conn, _params) do
-    { :ok, retro } = Repo.insert(%Retro{})
+    {:ok, retro} = Repo.insert(%Retro{})
     redirect conn, to: "/retros/" <> retro.id
   end
 end

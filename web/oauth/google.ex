@@ -1,4 +1,8 @@
 defmodule RemoteRetro.Google do
+  @moduledoc """
+  Module for Google Oath.
+  """
+
   use OAuth2.Strategy
 
   @oauth_client Application.get_env(:remote_retro, :oauth_client)
@@ -8,9 +12,10 @@ defmodule RemoteRetro.Google do
   end
 
   def get_user_info!(code) do
-    user_info_endpoint= "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
+    user_info_endpoint = "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
 
-    retrieve_token!(code)
+    code
+    |> retrieve_token!
     |> @oauth_client.get!(user_info_endpoint)
     |> Map.get(:body)
   end

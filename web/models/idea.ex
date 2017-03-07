@@ -1,4 +1,5 @@
 defmodule RemoteRetro.Idea do
+  @moduledoc false
   use RemoteRetro.Web, :model
 
   schema "ideas" do

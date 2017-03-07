@@ -1,4 +1,8 @@
 defmodule RemoteRetro.Presence do
+  @moduledoc """
+  Handle users joining and leaving retros.
+  """
+
   use Phoenix.Presence, otp_app: :remote_retro,
                         pubsub_server: RemoteRetro.PubSub
 
