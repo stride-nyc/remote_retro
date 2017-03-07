@@ -1,4 +1,8 @@
 defmodule RemoteRetro.RetroChannel do
+  @moduledoc """
+  Implement our Retro channel.
+  """
+
   use RemoteRetro.Web, :channel
   alias RemoteRetro.Presence
   alias RemoteRetro.PresenceUtils
