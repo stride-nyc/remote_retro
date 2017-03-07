@@ -10,7 +10,8 @@ defmodule RemoteRetro.Google do
   def get_user_info!(code) do
     user_info_endpoint= "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
 
-    retrieve_token!(code)
+    code
+    |> retrieve_token!
     |> @oauth_client.get!(user_info_endpoint)
     |> Map.get(:body)
   end
