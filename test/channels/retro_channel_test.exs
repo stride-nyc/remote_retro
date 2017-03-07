@@ -63,7 +63,7 @@ defmodule RemoteRetro.RetroChannelTest do
 
       sole_existing_idea = List.first(socket.assigns.ideas)
 
-      assert %{ body: "WIP commits on master", category: "sad", retro_id: _ } = sole_existing_idea
+      assert %{ body: "WIP commits on master", category: "sad", retro_id: _, id: _ } = sole_existing_idea
     end
   end
 
