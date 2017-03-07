@@ -41,7 +41,8 @@ defmodule RemoteRetro.Mixfile do
      {:oauth2, "~> 0.9"},
      {:gettext, "~> 0.11"},
      {:wallaby, "~> 0.14.0"},
-     {:cowboy, "~> 1.0"}]
+     {:cowboy, "~> 1.0"},
+     {:credo, "~> 0.3", only: [:dev, :test]} ]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
