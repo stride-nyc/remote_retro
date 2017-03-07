@@ -72,7 +72,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "results in the broadcast of the new idea to all connected clients", %{ socket: socket } do
       push(socket, "new_idea", %{ category: "happy", body: "we're pacing well" })
 
-      assert_broadcast("new_idea_received", %{ category: "happy", body: "we're pacing well" })
+      assert_broadcast("new_idea_received", %{ category: "happy", body: "we're pacing well", id: _ })
     end
   end
 

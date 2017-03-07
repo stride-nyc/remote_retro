@@ -30,9 +30,10 @@ defmodule RemoteRetro.RetroChannel do
 
   def handle_in("new_idea", %{"body" => body, "category" => category}, socket) do
     changeset = Idea.changeset(%Idea{body: body, category: category, retro_id: socket.assigns.retro_id})
-    _idea = Repo.insert!(changeset)
+    idea = Repo.insert!(changeset)
 
-    broadcast! socket, "new_idea_received", %{body: body, category: category}
+    serialized_idea = Map.from_struct(idea) |> Map.drop([:__meta__, :retro])
+    broadcast! socket, "new_idea_received", serialized_idea
     {:noreply, socket}
   end
 
