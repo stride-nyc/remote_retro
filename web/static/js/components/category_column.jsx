@@ -1,6 +1,9 @@
 import React from "react"
 import styles from "./css_modules/category_column.css"
 
+import IdeaListItem from "./idea_list_item"
+
+
 function CategoryColumn(props) {
   const categoryToEmoticonUnicodeMap = {
     happy: "😊",
@@ -12,7 +15,7 @@ function CategoryColumn(props) {
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
   const filteredIdeasList = filteredIdeas.map(idea =>
-    <li className="item" title={idea.body} key={idea.id}>{idea.body}</li>,
+    <IdeaListItem key={idea.body} body={idea.body} />
   )
 
   return (
