@@ -3,7 +3,7 @@ defmodule RemoteRetro.AuthController do
   alias RemoteRetro.Google
 
   def index(conn, _params) do
-    redirect conn, external: authorize_url!
+    redirect conn, external: authorize_url!()
   end
 
   def callback(conn, %{"code" => code}) do

@@ -4,7 +4,7 @@ defmodule RemoteRetro.Google do
   @oauth_client Application.get_env(:remote_retro, :oauth_client)
 
   def authorize_url!(params) do
-    @oauth_client.authorize_url!(client, params)
+    @oauth_client.authorize_url!(client(), params)
   end
 
   def get_user_info!(code) do
@@ -16,8 +16,8 @@ defmodule RemoteRetro.Google do
   end
 
   defp retrieve_token!(code) do
-    client
-    |> @oauth_client.put_param(:client_secret, client.client_secret)
+    client()
+    |> @oauth_client.put_param(:client_secret, client().client_secret)
     |> @oauth_client.get_token!(code: code)
   end
 
