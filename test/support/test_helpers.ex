@@ -14,4 +14,14 @@ defmodule RemoteRetro.TestHelpers do
 
     session
   end
+
+  def delete_idea(session, %{body: body}) do
+    session
+    |> find(Query.css(".sad.ideas", text: body), fn(item) ->
+      item
+      |> click(Query.button("x"))
+    end)
+
+    session
+  end
 end

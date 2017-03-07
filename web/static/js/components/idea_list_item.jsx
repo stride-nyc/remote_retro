@@ -1,9 +1,13 @@
 import React from "react"
+import styles from "./css_modules/idea_item.css"
 
 function IdeaListItem(props) {
-  let body = props.body
+  let idea = props.idea
   return (
-    <li className="item" title={body} key={`${body}`}>{body}</li>
+    <li className="item" title={idea.body}>
+    {idea.body}
+      <button id={idea.id} type='button' onClick={props.handleDelete} className={styles.delete}>x</button>
+    </li>
   )
 }
 

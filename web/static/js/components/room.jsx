@@ -13,7 +13,9 @@ class Room extends Component {
     super(props)
     this.state = { ideas: [], showActionItem: false }
     this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
+    this.handleIdeaDeletion = this.handleIdeaDeletion.bind(this)
     this.handleToggleActionItem = this.handleToggleActionItem.bind(this)
+    this._removeIdea = this._removeIdea.bind(this)
   }
 
   componentDidMount() {
@@ -24,10 +26,31 @@ class Room extends Component {
     this.props.retroChannel.on("new_idea_received", (newIdea) => {
       this.setState({ ideas: [...this.state.ideas, newIdea] })
     })
+
+    this.props.retroChannel.on("idea_deleted", idea => {
+      this.setState({ ideas: this._removeIdea(this.state.ideas, idea.id)})
+    })
+  }
+
+  _removeIdea(ideas, id) {
+    let index = ideas.map(idea => idea.id).indexOf(id)
+    if (index == -1) {
+      return ideas
+    }
+
+    return [
+      ...ideas.slice(0, index),
+      ...ideas.slice(index+1)
+    ]
   }
 
   handleIdeaSubmission(idea) {
     this.props.retroChannel.push("new_idea", idea)
+  }
+
+  handleIdeaDeletion(idea_id) {
+    this._removeIdea(this.state.ideas, idea_id)
+    this.props.retroChannel.push("delete_idea", idea_id)
   }
 
   handleToggleActionItem() {
@@ -38,9 +61,9 @@ class Room extends Component {
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles["category-columns-wrapper"]}`}>
-          <CategoryColumn category="happy" ideas={this.state.ideas} />
-          <CategoryColumn category="sad" ideas={this.state.ideas} />
-          <CategoryColumn category="confused" ideas={this.state.ideas} />
+          <CategoryColumn category="happy" ideas={this.state.ideas} onIdeaDelete={this.handleIdeaDeletion}/>
+          <CategoryColumn category="sad" ideas={this.state.ideas} onIdeaDelete={this.handleIdeaDeletion}/>
+          <CategoryColumn category="confused" ideas={this.state.ideas} onIdeaDelete={this.handleIdeaDeletion}/>
           { this.state.showActionItem ? <CategoryColumn category="action-item" ideas={this.state.ideas} /> : null }
         </div>
 
