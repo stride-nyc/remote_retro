@@ -3,7 +3,7 @@ import React from "react"
 import styles from "./css_modules/user_list_item.css"
 
 function UserListItem(props) {
-  let userName = props.user.name
+  let userName = props.user.given_name
   if (props.user.facilitator) userName += " (Facilitator)"
   return (
     <li className={`item ${styles.wrapper}`}>
@@ -17,7 +17,7 @@ function UserListItem(props) {
 
 UserListItem.propTypes = {
   user: React.PropTypes.shape({
-    name: React.PropTypes.string,
+    given_name: React.PropTypes.string,
     online_at: React.PropTypes.number,
     facilitator: React.PropTypes.boolean,
   }).isRequired,

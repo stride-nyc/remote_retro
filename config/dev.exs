@@ -44,7 +44,7 @@ config :remote_retro, :oauth_client, OAuth2.Client
 
 config :remote_retro, :add_mock_user_to_session, true
 config :remote_retro, :mock_user, %{
-  "given_name" => "Kris",
+  "given_name" => "Dev",
   "family_name" => "Tenderloin",
   "email" => "kris@thedevioustenderloin.io",
   "email_verified" => "true",

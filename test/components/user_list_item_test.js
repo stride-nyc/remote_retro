@@ -7,7 +7,7 @@ import UserListItem from "../../web/static/js/components/user_list_item"
 describe("UserListItem", () => {
   describe("passed a non-facilitator user", () => {
     const user = {
-      name: "dylan",
+      given_name: "dylan",
       online_at: 803,
       facilitator: false,
     }
@@ -20,7 +20,7 @@ describe("UserListItem", () => {
 
   describe("passed a facilitator user", () => {
     const user = {
-      name: "treezy",
+      given_name: "treezy",
       online_at: 803,
       facilitator: true,
     }
