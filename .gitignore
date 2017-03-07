@@ -29,3 +29,4 @@ erl_crash.dump
 .idea
 
 /priv/static/robots.txt
+.DS_Store

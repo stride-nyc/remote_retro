@@ -14,7 +14,9 @@ class Room extends Component {
     super(props)
     this.state = { ideas: [], showActionItem: false }
     this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
+    this.handleIdeaDeletion = this.handleIdeaDeletion.bind(this)
     this.handleStageProgression = this.handleStageProgression.bind(this)
+    this._removeIdea = this._removeIdea.bind(this)
   }
 
   componentDidMount() {
@@ -29,6 +31,22 @@ class Room extends Component {
     this.props.retroChannel.on("set_show_action_item", (eventPayload) => {
       this.setState({ showActionItem: eventPayload.show_action_item })
     })
+
+    this.props.retroChannel.on("idea_deleted", idea => {
+      this.setState({ ideas: this._removeIdea(this.state.ideas, idea.id)})
+    })
+  }
+
+  _removeIdea(ideas, id) {
+    let index = ideas.map(idea => idea.id).indexOf(id)
+    if (index == -1) {
+      return ideas
+    }
+
+    return [
+      ...ideas.slice(0, index),
+      ...ideas.slice(index+1)
+    ]
   }
 
   handleIdeaSubmission(idea) {
@@ -39,6 +57,12 @@ class Room extends Component {
     this.props.retroChannel.push("show_action_item", { show_action_item: true })
   }
 
+  handleIdeaDeletion(idea_id) {
+    this._removeIdea(this.state.ideas, idea_id)
+    this.props.retroChannel.push("delete_idea", idea_id)
+  }
+
+
   render() {
     const retroHasYetToProgressToActionItems = !this.state.showActionItem
     const { currentPresence, users } = this.props
@@ -46,10 +70,12 @@ class Room extends Component {
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-          <CategoryColumn category="happy" ideas={ideas} />
-          <CategoryColumn category="sad" ideas={ideas} />
-          <CategoryColumn category="confused" ideas={ideas} />
-          { showActionItem ? <CategoryColumn category="action-item" ideas={ideas} /> : null }
+          <CategoryColumn category="happy" ideas={ideas} onIdeaDelete={this.handleIdeaDeletion} />
+          <CategoryColumn category="sad" ideas={ideas} onIdeaDelete={this.handleIdeaDeletion} />
+          <CategoryColumn category="confused" ideas={ideas} onIdeaDelete={this.handleIdeaDeletion} />
+          { this.state.showActionItem
+            ? <CategoryColumn category="action-item" ideas={ideas} /> : null
+          }
         </div>
 
         <UserList users={users} />
