@@ -12,7 +12,7 @@ function CategoryColumn(props) {
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
   const filteredIdeasList = filteredIdeas.map(idea =>
-    <li className="item" title={idea.body} key={`${idea.body}`}>{idea.body}</li>,
+    <li className="item" title={idea.body} key={idea.id}>{idea.body}</li>,
   )
 
   return (
