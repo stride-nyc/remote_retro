@@ -1,4 +1,5 @@
 import React from "react"
+import IdeaListItem from "./idea_list_item"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 
@@ -12,9 +13,7 @@ function CategoryColumn(props) {
 
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
-  const filteredIdeasList = filteredIdeas.map(idea => {
-    return <li className="item" title={idea.body} key={idea.id}>{idea.author}: {idea.body}</li>
-  })
+  const filteredIdeasList = filteredIdeas.map(idea => <IdeaListItem idea={idea} />)
 
   return (
     <section className={`${props.category} column`}>
@@ -32,7 +31,7 @@ function CategoryColumn(props) {
 
 CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
-  category: AppPropTypes.category.isRequired 
+  category: AppPropTypes.category.isRequired
 }
 
 export default CategoryColumn

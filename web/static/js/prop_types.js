@@ -20,8 +20,10 @@ export const retroChannel = PropTypes.shape({
 })
 
 const idea = PropTypes.shape({
-  category,
+  id: PropTypes.number,
+  author: PropTypes.string,
   body: PropTypes.string,
+  category,
 })
 
 export const ideas = PropTypes.arrayOf(idea)
