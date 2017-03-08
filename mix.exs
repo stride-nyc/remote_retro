@@ -40,7 +40,7 @@ defmodule RemoteRetro.Mixfile do
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:oauth2, "~> 0.9"},
      {:gettext, "~> 0.11"},
-     {:wallaby, "~> 0.14.0"},
+     {:wallaby, "~> 0.16.1"},
      {:cowboy, "~> 1.0"},
      {:credo, "~> 0.3", only: [:dev, :test]} ]
   end
