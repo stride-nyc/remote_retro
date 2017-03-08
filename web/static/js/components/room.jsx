@@ -10,8 +10,9 @@ import styles from "./css_modules/room.css"
 class Room extends Component {
   constructor(props) {
     super(props)
-    this.state = { ideas: [] }
+    this.state = { ideas: [], showActionItem: false }
     this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
+    this.handleToggleActionItem = this.handleToggleActionItem.bind(this)
   }
 
   componentDidMount() {
@@ -28,6 +29,10 @@ class Room extends Component {
     this.props.retroChannel.push("new_idea", idea)
   }
 
+  handleToggleActionItem() {
+    this.setState({ showActionItem: !this.state.showActionItem })
+  }
+
   render() {
     return (
       <section className={styles.wrapper}>
@@ -35,11 +40,11 @@ class Room extends Component {
           <CategoryColumn category="happy" ideas={this.state.ideas} />
           <CategoryColumn category="sad" ideas={this.state.ideas} />
           <CategoryColumn category="confused" ideas={this.state.ideas} />
-          <CategoryColumn category="action-item" ideas={this.state.ideas} />
+          { this.state.showActionItem ? <CategoryColumn category="action-item" ideas={ this.state.ideas }/> : null }
         </div>
 
         <UserList users={this.props.users} />
-        <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} />
+        <IdeaSubmissionForm onIdeaSubmission={ this.handleIdeaSubmission } onToggleActionItem={ this.handleToggleActionItem }/>
         <DoorChime users={this.props.users} />
       </section>
     )
