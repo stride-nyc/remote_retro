@@ -2,6 +2,7 @@ defmodule RemoteRetro.Idea do
   @moduledoc false
   use RemoteRetro.Web, :model
 
+  @derive {Poison.Encoder, only: [:body, :category, :id]}
   schema "ideas" do
     field :category, :string
     field :body, :string
