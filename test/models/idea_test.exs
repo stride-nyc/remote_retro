@@ -15,8 +15,8 @@ defmodule RemoteRetro.IdeaTest do
     assert retro_id_error == "can't be blank"
   end
 
-  describe "JSON encoding" do
-    test "includes body, category, and id attributes" do
+  describe "JSON encoding of the model struct" do
+    test "is enabled" do
       idea = %Idea{category: "sad", body: "flaky e2e test", id: 5}
 
       encoded = Poison.encode!(idea)
