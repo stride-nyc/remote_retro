@@ -34,7 +34,7 @@ defmodule RemoteRetro.IntegrationCase do
 
     {:ok, session} = Wallaby.start_session(metadata: metadata)
 
-    session = set_window_size(session, 1000, 1000)
+    session = resize_window(session, 1000, 1000)
 
     session = authenticate(session)
     {:ok, session: session, retro: retro}

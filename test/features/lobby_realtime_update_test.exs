@@ -5,16 +5,16 @@ defmodule LobbyRealtimeUpdateTest do
     retro_path = "/retros/" <> retro.id
     session_one = visit(session_one, retro_path)
 
-    assert session_one |> find("#user-list li", count: 1)
+    assert session_one |> find(Query.css("#user-list li", count: 1))
 
     {:ok, session_two} = Wallaby.start_session()
     authenticate(session_two) |> visit(retro_path)
 
-    assert session_one |> find("#user-list li", count: 2)
+    assert session_one |> find(Query.css("#user-list li", count: 2))
 
     Wallaby.end_session(session_two)
 
-    assert session_one |> find("#user-list li", count: 1)
+    assert session_one |> find(Query.css("#user-list li", count: 1))
 
     Wallaby.end_session(session_one)
   end

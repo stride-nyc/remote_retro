@@ -7,10 +7,10 @@ defmodule RemoteRetro.TestHelpers do
 
   def submit_idea(session, %{ category: category, body: body }) do
     session
-    |> find("form")
-    |> select("category", option: category)
-    |> fill_in("idea", with: body)
-    |> click_button("Submit")
+    |> find(Query.css("form"))
+    |> click(Query.option(category))
+    |> fill_in(Query.text_field("idea"), with: body)
+    |> click(Query.button("Submit"))
 
     session
   end
