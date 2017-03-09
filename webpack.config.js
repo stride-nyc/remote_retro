@@ -16,23 +16,18 @@ module.exports = {
     extensions: [".js", ".jsx"]
   },
   module: {
-    rules: [
-      {
-        test: /\.jsx?$/,
-        use: [
-          {
-            loader: "babel-loader"
-          }
-        ]
-      },
-      {
-        test: /\.css$/,
-        use: ExtractTextPlugin.extract({
-          fallback: "style-loader",
-          use: "css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]",
-        }),
-      }
-    ]
+    rules: [{
+      test: /\.jsx?$/,
+      use: [{
+        loader: "babel-loader"
+      }]
+    }, {
+      test: /\.css$/,
+      use: ExtractTextPlugin.extract({
+        fallback: "style-loader",
+        use: "css-loader?modules&importLoaders=1&localIdentName=[name]__[local]___[hash:base64:5]",
+      }),
+    }]
   },
   devtool: "source-map",
   plugins: [
