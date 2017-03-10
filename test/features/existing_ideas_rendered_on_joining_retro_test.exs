@@ -8,7 +8,7 @@ defmodule ExistingIdeasRenderedOnJoiningRetroTest do
     retro_path = "/retros/" <> retro.id
     session = visit(session, retro_path)
 
-    ideas_list_text = session |> find(".happy.ideas") |> text
+    ideas_list_text = session |> find(Query.css(".happy.ideas")) |> Element.text
 
     assert String.contains?(ideas_list_text, "continuous delivery!")
   end
