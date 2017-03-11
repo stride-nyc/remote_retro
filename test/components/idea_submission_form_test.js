@@ -9,6 +9,7 @@ describe("IdeaSubmissionForm component", () => {
   let wrapper
 
   const onSubmitIdeaStub = () => {}
+  const onToggleActionItemStub = () => {}
   const fakeEvent = {
     stopPropagation: () => undefined,
     preventDefault: () => undefined,
@@ -50,6 +51,15 @@ describe("IdeaSubmissionForm component", () => {
       expect(submitButton.prop("disabled")).to.equal(true)
       ideaInput.simulate("change", { target: { value: "farts" } })
       expect(submitButton.prop("disabled")).to.equal(false)
+    })
+  })
+
+  describe("action items toggle", () => {
+    it("is false on render", () => {
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
+      const actionItemsToggle = wrapper.find("input[type='checkbox']")
+
+      expect(actionItemsToggle.getNode().checked).to.equal(false)
     })
   })
 })
