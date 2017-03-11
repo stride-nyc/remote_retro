@@ -61,5 +61,15 @@ describe("IdeaSubmissionForm component", () => {
 
       expect(actionItemsToggle.getNode().checked).to.equal(false)
     })
+
+    it("invokes the method passed as onToggleActionItem on change", () => {
+      const onToggleActionItemSpy = sinon.spy()
+
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemSpy}/>)
+
+      const actionItemsToggle = wrapper.find("input[type='checkbox']")
+      actionItemsToggle.simulate("change")
+      expect(onToggleActionItemSpy.called).to.equal(true)
+    })
   })
 })
