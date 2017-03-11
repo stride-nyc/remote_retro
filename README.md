@@ -97,7 +97,7 @@ mix e2e
 To continually execute the client-side unit tests, run:
 
 ```
-mocha --watch
+mix mocha.watch
 ```
 
 ## Code
