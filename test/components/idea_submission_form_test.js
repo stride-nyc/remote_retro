@@ -71,5 +71,14 @@ describe("IdeaSubmissionForm component", () => {
       actionItemsToggle.simulate("change")
       expect(onToggleActionItemSpy.called).to.equal(true)
     })
+
+    it("toggles the state of showCategories", () => {
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
+      expect(wrapper.state('showCategories')).to.equal(true)
+
+      const actionItemsToggle = wrapper.find("input[type='checkbox']")
+      actionItemsToggle.simulate("change")
+      expect(wrapper.state('showCategories')).to.equal(false)
+    })
   })
 })
