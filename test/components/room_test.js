@@ -26,9 +26,19 @@ describe("Room component", () => {
   describe("Action item column", () => {
     it("is not visible on render", () => {
       const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
+
       expect(roomComponent.containsMatchingElement(
         <CategoryColumn category="action-item" ideas={[]}/>
       )).to.equal(false)
+    })
+
+    it("becomes visible when showActionItem is true", () => {
+      const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
+      roomComponent.setState({ showActionItem: true })
+
+      expect(roomComponent.containsMatchingElement(
+        <CategoryColumn category="action-item" ideas={[]}/>
+      )).to.equal(true)
     })
   })
 })
