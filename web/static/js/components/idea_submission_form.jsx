@@ -34,6 +34,7 @@ class IdeaSubmissionForm extends Component {
   handleToggleChange(event) {
     this.props.onToggleActionItem()
     this.handleToggleShowCategories()
+    this.setState({ category: "action-item"})
   }
 
   render() {
