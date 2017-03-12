@@ -10,7 +10,6 @@ class IdeaSubmissionForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
-    this.handleToggleChange = this.handleToggleChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -36,10 +35,6 @@ class IdeaSubmissionForm extends Component {
 
   handleCategoryChange(event) {
     this.setState({ category: event.target.value })
-  }
-
-  handleToggleChange() {
-    this.props.onToggleActionItem()
   }
 
   render() {
@@ -86,10 +81,6 @@ class IdeaSubmissionForm extends Component {
               </button>
             </div>
           </div>
-          <div className="ui toggle checkbox field">
-            <input type="checkbox" onChange={this.handleToggleChange} id="action-item-toggle" />
-            <label htmlFor="action-item-toggle">Toggle Action Items</label>
-          </div>
         </div>
       </form>
     )
@@ -98,7 +89,6 @@ class IdeaSubmissionForm extends Component {
 
 IdeaSubmissionForm.propTypes = {
   onIdeaSubmission: React.PropTypes.func.isRequired,
-  onToggleActionItem: React.PropTypes.func.isRequired,
 }
 
 export default IdeaSubmissionForm

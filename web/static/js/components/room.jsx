@@ -3,6 +3,7 @@ import React, { Component } from "react"
 import UserList from "./user_list"
 import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
+import ActionItemToggle from "./action_item_toggle"
 import DoorChime from "./door_chime"
 
 import styles from "./css_modules/room.css"
@@ -46,10 +47,10 @@ class Room extends Component {
         <UserList users={this.props.users} />
         <IdeaSubmissionForm
           onIdeaSubmission={this.handleIdeaSubmission}
-          onToggleActionItem={this.handleToggleActionItem}
           showActionItem={this.state.showActionItem}
         />
         <DoorChime users={this.props.users} />
+        <ActionItemToggle onToggleActionItem={this.handleToggleActionItem} />
       </section>
     )
   }

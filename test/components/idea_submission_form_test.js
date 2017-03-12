@@ -9,7 +9,6 @@ describe("IdeaSubmissionForm component", () => {
   let wrapper
 
   const onSubmitIdeaStub = () => {}
-  const onToggleActionItemStub = () => {}
   const fakeEvent = {
     stopPropagation: () => undefined,
     preventDefault: () => undefined,
@@ -18,7 +17,7 @@ describe("IdeaSubmissionForm component", () => {
   describe("on submit", () => {
     it("invokes the function passed as the onIdeaSubmission prop", () => {
       const onSubmitIdeaSpy = sinon.spy(() => {})
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaSpy} onToggleActionItem={onToggleActionItemStub}/>)
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaSpy} />)
 
       wrapper.simulate("submit", fakeEvent)
 
@@ -28,7 +27,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("when the state's `category` value changes", () => {
     it("shifts focus to the idea input", () => {
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} />)
 
       const ideaInput = wrapper.find("input[name='idea']")
 
@@ -43,7 +42,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("at the outset the form submit is disabled", () => {
     it("is enabled once there is an idea of 3 characters or longer", () => {
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} />)
       const submitButton = wrapper.find("button[type='submit']")
       const ideaInput = wrapper.find("input[name='idea']")
 
@@ -53,32 +52,12 @@ describe("IdeaSubmissionForm component", () => {
     })
   })
 
-  describe("action items toggle", () => {
-    it("is false on render", () => {
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub} />)
-      const actionItemsToggle = wrapper.find("input[type='checkbox']")
-
-      expect(actionItemsToggle.getNode().checked).to.equal(false)
-    })
-
-    it("invokes the method passed as onToggleActionItem on change", () => {
-      const onToggleActionItemSpy = sinon.spy()
-
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemSpy} />)
-
-      const actionItemsToggle = wrapper.find("input[type='checkbox']")
-      actionItemsToggle.simulate("change")
-      expect(onToggleActionItemSpy.called).to.equal(true)
-    })
-  })
-
   describe(".componentWillReceiveProps", () => {
     describe("when the `category` state attribute is stubbed with nonsense", () => {
       beforeEach(() => {
         wrapper = mount(
           <IdeaSubmissionForm
             onIdeaSubmission={onSubmitIdeaStub}
-            onToggleActionItem={onToggleActionItemStub}
             showActionItem={false}
           />
         )
@@ -105,13 +84,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("the showActionItem prop", () => {
     it("when true results in the category list only rendering an 'action-item' option", () => {
-      wrapper = mount(
-        <IdeaSubmissionForm
-          onIdeaSubmission={onSubmitIdeaStub}
-          onToggleActionItem={onToggleActionItemStub}
-          showActionItem={true}
-        />
-      )
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} showActionItem={true} />)
 
       const categorySelect = wrapper.find('select')
       expect(
@@ -120,13 +93,7 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     it("when false results in the category list rendering options for the basic retro categories", () => {
-      wrapper = mount(
-        <IdeaSubmissionForm
-          onIdeaSubmission={onSubmitIdeaStub}
-          onToggleActionItem={onToggleActionItemStub}
-          showActionItem={false}
-        />
-      )
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} showActionItem={false} />)
 
       const categorySelect = wrapper.find('select')
 
