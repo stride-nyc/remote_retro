@@ -46,7 +46,7 @@ class IdeaSubmissionForm extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="ui form basic attached secondary segment">
         <div className="inline fields">
-            <div className="two wide field">
+            <div className="three wide field">
               <label htmlFor="category">Category:</label>
                 <select
                   name="category"
@@ -59,7 +59,7 @@ class IdeaSubmissionForm extends Component {
                   }
                 </select>
             </div>
-          <div className="seven wide field">
+          <div className="eight wide field">
             <div className="ui fluid action input">
               <input
                 type="text"
@@ -79,11 +79,9 @@ class IdeaSubmissionForm extends Component {
               </button>
             </div>
           </div>
-          <div className="three wide field">
-            <div className="ui toggle checkbox">
-              <input type="checkbox" onChange={this.handleToggleChange} id="action-item-toggle" />
-              <label htmlFor="action-item-toggle">Toggle Action Items</label>
-            </div>
+          <div className="ui toggle checkbox field">
+            <input type="checkbox" onChange={this.handleToggleChange} id="action-item-toggle" />
+            <label htmlFor="action-item-toggle">Toggle Action Items</label>
           </div>
         </div>
       </form>
