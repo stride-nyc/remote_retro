@@ -17,7 +17,7 @@ describe("IdeaSubmissionForm component", () => {
   describe("on submit", () => {
     it("invokes the function passed as the onIdeaSubmission prop", () => {
       const onSubmitIdeaSpy = sinon.spy(() => {})
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaSpy} />)
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaSpy} showActionItem={true} />)
 
       wrapper.simulate("submit", fakeEvent)
 
@@ -27,7 +27,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("when the state's `category` value changes", () => {
     it("shifts focus to the idea input", () => {
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} />)
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} showActionItem={true} />)
 
       const ideaInput = wrapper.find("input[name='idea']")
 
@@ -42,7 +42,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("at the outset the form submit is disabled", () => {
     it("is enabled once there is an idea of 3 characters or longer", () => {
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} />)
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} showActionItem={true} />)
       const submitButton = wrapper.find("button[type='submit']")
       const ideaInput = wrapper.find("input[name='idea']")
 

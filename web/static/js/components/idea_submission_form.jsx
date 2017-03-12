@@ -83,6 +83,7 @@ class IdeaSubmissionForm extends Component {
 
 IdeaSubmissionForm.propTypes = {
   onIdeaSubmission: React.PropTypes.func.isRequired,
+  showActionItem: React.PropTypes.bool.isRequired,
 }
 
 export default IdeaSubmissionForm
