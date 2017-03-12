@@ -71,23 +71,49 @@ describe("IdeaSubmissionForm component", () => {
       actionItemsToggle.simulate("change")
       expect(onToggleActionItemSpy.called).to.equal(true)
     })
+  })
 
-    it("toggles the state of showCategories", () => {
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub} />)
-      expect(wrapper.state("showCategories")).to.equal(true)
+  describe("the showActionItem prop", () => {
+    it("when true results in the category list only rendering an 'action-item' option", () => {
+      wrapper = mount(
+        <IdeaSubmissionForm
+          onIdeaSubmission={onSubmitIdeaStub}
+          onToggleActionItem={onToggleActionItemStub}
+          showActionItem={true}
+        />
+      )
 
-      const actionItemsToggle = wrapper.find("input[type='checkbox']")
-      actionItemsToggle.simulate("change")
-      expect(wrapper.state("showCategories")).to.equal(false)
+      const categorySelect = wrapper.find('select')
+      expect(
+        categorySelect.contains(<option value="action-item">action-item</option>)
+      ).to.equal(true)
     })
 
-    it("toggles the state of categories between prior selection and 'action-item'", () => {
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub} />)
-      expect(wrapper.state("category")).to.equal("happy")
+    it("when false results in the category list rendering options for the basic retro categories", () => {
+      wrapper = mount(
+        <IdeaSubmissionForm
+          onIdeaSubmission={onSubmitIdeaStub}
+          onToggleActionItem={onToggleActionItemStub}
+          showActionItem={false}
+        />
+      )
 
-      const actionItemsToggle = wrapper.find("input[type='checkbox']")
-      actionItemsToggle.simulate("change")
-      expect(wrapper.state("category")).to.equal("action-item")
+      const categorySelect = wrapper.find('select')
+
+      const presumedMatches = [
+        <option key="happy" value="happy">happy</option>,
+        <option key="sad" value="sad">sad</option>,
+        <option key="confused" value="confused">confused</option>,
+      ]
+
+      expect(
+        categorySelect.contains(presumedMatches)
+      ).to.equal(true)
+
+
+      expect(
+        categorySelect.contains(<option value="action-item">action-item</option>)
+      ).to.equal(false)
     })
   })
 })

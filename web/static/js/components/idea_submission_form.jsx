@@ -6,7 +6,7 @@ class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
     this.defaultCategory = "happy"
-    this.state = { body: "", category: this.defaultCategory, showCategories: true }
+    this.state = { body: "", category: this.defaultCategory }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
@@ -30,9 +30,8 @@ class IdeaSubmissionForm extends Component {
 
   handleToggleChange() {
     this.props.onToggleActionItem()
-    const showCategories = !this.state.showCategories
-    const category = showCategories ? this.defaultCategory : "action-item"
-    this.setState({ showCategories, category })
+    const category = this.props.showActionItem ? "action-item" : this.defaultCategory
+    this.setState({ category })
   }
 
   render() {
@@ -54,8 +53,8 @@ class IdeaSubmissionForm extends Component {
                   className={`ui dropdown ${styles.select}`}
                   onChange={this.handleCategoryChange}
                 >
-                  { this.state.showCategories ? defaultCategoryOptions :
-                    <option value="action-item">action-item</option>
+                  { this.props.showActionItem ? <option value="action-item">action-item</option> :
+                    defaultCategoryOptions
                   }
                 </select>
             </div>
