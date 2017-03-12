@@ -80,5 +80,15 @@ describe("IdeaSubmissionForm component", () => {
       actionItemsToggle.simulate("change")
       expect(wrapper.state('showCategories')).to.equal(false)
     })
+
+    it("toggles the state of categories between prior selection and 'action-item'", () => {
+      const onToggleActionItemSpy = sinon.spy()
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
+      expect(wrapper.state('category')).to.equal('happy')
+
+      const actionItemsToggle = wrapper.find("input[type='checkbox']")
+      actionItemsToggle.simulate("change")
+      expect(wrapper.state('category')).to.equal('action-item')
+    })
   })
 })
