@@ -79,23 +79,25 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             onIdeaSubmission={onSubmitIdeaStub}
             onToggleActionItem={onToggleActionItemStub}
+            showActionItem={false}
           />
         )
 
         wrapper.setState({ category: "stub" })
       })
 
-      describe("passing the `showActionItem` prop as true", () => {
-        it("changes the state `category` to 'action-item'", () => {
+
+      describe("passing a new `showActionItem` prop value", () => {
+        it("changes the state's `category` to 'action-item'", () => {
           wrapper.setProps({ showActionItem: true })
           expect(wrapper.state("category")).to.equal("action-item")
         })
       })
 
-      describe("passing the `showActionItem` prop as false", () => {
-        it("changes the state `category` to 'happy'", () => {
+      describe("passing a `showActionItem` prop value identical to the previous value", () => {
+        it("does not change the state's `category` value", () => {
           wrapper.setProps({ showActionItem: false })
-          expect(wrapper.state("category")).to.equal("happy")
+          expect(wrapper.state("category")).to.equal("stub")
         })
       })
     })

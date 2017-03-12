@@ -14,8 +14,10 @@ class IdeaSubmissionForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const category = nextProps.showActionItem ? "action-item" : this.defaultCategory
-    this.setState({ category })
+    if (nextProps.showActionItem !== this.props.showActionItem) {
+      const category = nextProps.showActionItem ? "action-item" : this.defaultCategory
+      this.setState({ category })
+    }
   }
 
   componentDidUpdate(prevProps, prevState) {
