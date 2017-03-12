@@ -45,12 +45,11 @@ class Room extends Component {
         </div>
 
         <UserList users={this.props.users} />
-        <IdeaSubmissionForm
-          onIdeaSubmission={this.handleIdeaSubmission}
-          showActionItem={this.state.showActionItem}
-        />
+        <div className="ui stackable grid basic attached secondary segment">
+          <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} showActionItem={this.state.showActionItem} />
+          <ActionItemToggle onToggleActionItem={this.handleToggleActionItem} />
+        </div>
         <DoorChime users={this.props.users} />
-        <ActionItemToggle onToggleActionItem={this.handleToggleActionItem} />
       </section>
     )
   }

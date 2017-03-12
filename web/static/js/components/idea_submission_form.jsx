@@ -46,9 +46,9 @@ class IdeaSubmissionForm extends Component {
     ]
 
     return (
-      <form onSubmit={this.handleSubmit} className="ui form basic attached secondary segment">
+      <form onSubmit={this.handleSubmit} className="ui form twelve wide column">
         <div className="inline fields">
-          <div className="three wide field">
+          <div className="five wide field">
             <label htmlFor="category">Category:</label>
               <select
                 name="category"
@@ -61,7 +61,7 @@ class IdeaSubmissionForm extends Component {
                 }
               </select>
           </div>
-          <div className="eight wide field">
+          <div className="eleven wide field">
             <div className="ui fluid action input">
               <input
                 type="text"
