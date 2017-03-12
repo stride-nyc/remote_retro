@@ -18,6 +18,10 @@ class IdeaSubmissionForm extends Component {
     this.setState({ category })
   }
 
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.category !== prevState.category) { this.ideaInput.focus() }
+  }
+
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ body: "" })
@@ -29,7 +33,6 @@ class IdeaSubmissionForm extends Component {
   }
 
   handleCategoryChange(event) {
-    this.ideaInput.focus()
     this.setState({ category: event.target.value })
   }
 

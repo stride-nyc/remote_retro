@@ -26,18 +26,17 @@ describe("IdeaSubmissionForm component", () => {
     })
   })
 
-  describe("when a category is selected", () => {
+  describe("when the state's `category` value changes", () => {
     it("shifts focus to the idea input", () => {
       wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
 
       const ideaInput = wrapper.find("input[name='idea']")
-      const categorySelect = wrapper.find("select")
 
       expect(document.activeElement).to.equal(ideaInput.node)
       document.activeElement.blur()
       expect(document.activeElement).not.to.equal(wrapper.find("input[name='idea']").node)
 
-      categorySelect.simulate("change")
+      wrapper.setState({ category: "derp" })
       expect(document.activeElement).to.equal(ideaInput.node)
     })
   })
