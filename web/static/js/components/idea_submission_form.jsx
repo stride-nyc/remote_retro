@@ -78,8 +78,8 @@ class IdeaSubmissionForm extends Component {
           </div>
           <div className="three wide field">
             <div className="ui toggle checkbox">
-              <input type="checkbox" onChange={this.handleToggleChange} />
-              <label>Toggle Action Items</label>
+              <input type="checkbox" onChange={this.handleToggleChange} id="action-item-toggle" />
+              <label htmlFor="action-item-toggle">Toggle Action Items</label>
             </div>
           </div>
         </div>
