@@ -37,25 +37,28 @@ class IdeaSubmissionForm extends Component {
 
   render() {
     const disabled = this.state.body.length < 3
+    const defaultCategoryOptions = [
+      <option key="happy" value="happy">happy</option>,
+      <option key="sad" value="sad">sad</option>,
+      <option key="confused" value="confused">confused</option>,
+    ]
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form basic attached secondary segment">
         <div className="inline fields">
-          { this.state.showCategories ?
             <div className="two wide field">
               <label htmlFor="category">Category:</label>
-              <select
-                name="category"
-                value={this.state.category}
-                className={`ui dropdown ${styles.select}`}
-                onChange={this.handleCategoryChange}
-              >
-                <option value="happy">happy</option>
-                <option value="sad">sad</option>
-                <option value="confused">confused</option>
-              </select>
+                <select
+                  name="category"
+                  value={this.state.category}
+                  className={`ui dropdown ${styles.select}`}
+                  onChange={this.handleCategoryChange}
+                >
+                  { this.state.showCategories ? defaultCategoryOptions :
+                    <option value="action-item">action-item</option>
+                  }
+                </select>
             </div>
-           : null }
           <div className="seven wide field">
             <div className="ui fluid action input">
               <input
