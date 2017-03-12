@@ -5,7 +5,8 @@ import styles from "./css_modules/idea_submission_form.css"
 class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { body: "", category: "happy", showCategories: true }
+    this.defaultCategory = "happy"
+    this.state = { body: "", category: this.defaultCategory, showCategories: true }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
@@ -27,14 +28,11 @@ class IdeaSubmissionForm extends Component {
     this.setState({ category: event.target.value })
   }
 
-  handleToggleShowCategories(event) {
-    this.setState({ showCategories: !this.state.showCategories })
-  }
-
   handleToggleChange(event) {
     this.props.onToggleActionItem()
-    this.handleToggleShowCategories()
-    this.setState({ category: "action-item"})
+    const showCategories = !this.state.showCategories
+    const category = showCategories ? this.defaultCategory : "action-item"
+    this.setState({ showCategories, category })
   }
 
   render() {
