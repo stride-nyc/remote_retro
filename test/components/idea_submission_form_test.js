@@ -9,6 +9,7 @@ describe("IdeaSubmissionForm component", () => {
   let wrapper
 
   const onSubmitIdeaStub = () => {}
+  const onToggleActionItemStub = () => {}
   const fakeEvent = {
     stopPropagation: () => undefined,
     preventDefault: () => undefined,
@@ -50,6 +51,44 @@ describe("IdeaSubmissionForm component", () => {
       expect(submitButton.prop("disabled")).to.equal(true)
       ideaInput.simulate("change", { target: { value: "farts" } })
       expect(submitButton.prop("disabled")).to.equal(false)
+    })
+  })
+
+  describe("action items toggle", () => {
+    it("is false on render", () => {
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
+      const actionItemsToggle = wrapper.find("input[type='checkbox']")
+
+      expect(actionItemsToggle.getNode().checked).to.equal(false)
+    })
+
+    it("invokes the method passed as onToggleActionItem on change", () => {
+      const onToggleActionItemSpy = sinon.spy()
+
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemSpy}/>)
+
+      const actionItemsToggle = wrapper.find("input[type='checkbox']")
+      actionItemsToggle.simulate("change")
+      expect(onToggleActionItemSpy.called).to.equal(true)
+    })
+
+    it("toggles the state of showCategories", () => {
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
+      expect(wrapper.state('showCategories')).to.equal(true)
+
+      const actionItemsToggle = wrapper.find("input[type='checkbox']")
+      actionItemsToggle.simulate("change")
+      expect(wrapper.state('showCategories')).to.equal(false)
+    })
+
+    it("toggles the state of categories between prior selection and 'action-item'", () => {
+      const onToggleActionItemSpy = sinon.spy()
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
+      expect(wrapper.state('category')).to.equal('happy')
+
+      const actionItemsToggle = wrapper.find("input[type='checkbox']")
+      actionItemsToggle.simulate("change")
+      expect(wrapper.state('category')).to.equal('action-item')
     })
   })
 })
