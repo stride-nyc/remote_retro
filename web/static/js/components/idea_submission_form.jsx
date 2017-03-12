@@ -13,6 +13,11 @@ class IdeaSubmissionForm extends Component {
     this.handleToggleChange = this.handleToggleChange.bind(this)
   }
 
+  componentWillReceiveProps(nextProps) {
+    const category = nextProps.showActionItem ? "action-item" : this.defaultCategory
+    this.setState({ category })
+  }
+
   handleSubmit(event) {
     event.preventDefault()
     this.setState({ body: "" })
@@ -30,8 +35,6 @@ class IdeaSubmissionForm extends Component {
 
   handleToggleChange() {
     this.props.onToggleActionItem()
-    const category = this.props.showActionItem ? "action-item" : this.defaultCategory
-    this.setState({ category })
   }
 
   render() {

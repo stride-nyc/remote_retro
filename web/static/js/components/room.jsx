@@ -44,7 +44,11 @@ class Room extends Component {
         </div>
 
         <UserList users={this.props.users} />
-        <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} onToggleActionItem={this.handleToggleActionItem} showActionItem={this.state.showActionItem} />
+        <IdeaSubmissionForm
+          onIdeaSubmission={this.handleIdeaSubmission}
+          onToggleActionItem={this.handleToggleActionItem}
+          showActionItem={this.state.showActionItem}
+        />
         <DoorChime users={this.props.users} />
       </section>
     )

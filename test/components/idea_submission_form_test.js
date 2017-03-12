@@ -73,6 +73,35 @@ describe("IdeaSubmissionForm component", () => {
     })
   })
 
+  describe(".componentWillReceiveProps", () => {
+    describe("when the `category` state attribute is stubbed with nonsense", () => {
+      beforeEach(() => {
+        wrapper = mount(
+          <IdeaSubmissionForm
+            onIdeaSubmission={onSubmitIdeaStub}
+            onToggleActionItem={onToggleActionItemStub}
+          />
+        )
+
+        wrapper.setState({ category: "stub" })
+      })
+
+      describe("passing the `showActionItem` prop as true", () => {
+        it("changes the state `category` to 'action-item'", () => {
+          wrapper.setProps({ showActionItem: true })
+          expect(wrapper.state("category")).to.equal("action-item")
+        })
+      })
+
+      describe("passing the `showActionItem` prop as false", () => {
+        it("changes the state `category` to 'happy'", () => {
+          wrapper.setProps({ showActionItem: false })
+          expect(wrapper.state("category")).to.equal("happy")
+        })
+      })
+    })
+  })
+
   describe("the showActionItem prop", () => {
     it("when true results in the category list only rendering an 'action-item' option", () => {
       wrapper = mount(
