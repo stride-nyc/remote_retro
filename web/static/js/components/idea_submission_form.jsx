@@ -48,19 +48,19 @@ class IdeaSubmissionForm extends Component {
     return (
       <form onSubmit={this.handleSubmit} className="ui form basic attached secondary segment">
         <div className="inline fields">
-            <div className="three wide field">
-              <label htmlFor="category">Category:</label>
-                <select
-                  name="category"
-                  value={this.state.category}
-                  className={`ui dropdown ${styles.select}`}
-                  onChange={this.handleCategoryChange}
-                >
-                  { this.props.showActionItem ? <option value="action-item">action-item</option> :
-                    defaultCategoryOptions
-                  }
-                </select>
-            </div>
+          <div className="three wide field">
+            <label htmlFor="category">Category:</label>
+              <select
+                name="category"
+                value={this.state.category}
+                className={`ui dropdown ${styles.select}`}
+                onChange={this.handleCategoryChange}
+              >
+                { this.props.showActionItem ? <option value="action-item">action-item</option> :
+                  defaultCategoryOptions
+                }
+              </select>
+          </div>
           <div className="eight wide field">
             <div className="ui fluid action input">
               <input
@@ -72,13 +72,7 @@ class IdeaSubmissionForm extends Component {
                 onChange={this.handleIdeaChange}
                 placeholder="we're actively trying to improve"
               />
-              <button
-                type="submit"
-                disabled={disabled}
-                className="ui teal button"
-              >
-                Submit
-              </button>
+              <button type="submit" disabled={disabled} className="ui teal button">Submit</button>
             </div>
           </div>
         </div>
