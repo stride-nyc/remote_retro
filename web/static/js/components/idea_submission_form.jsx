@@ -46,7 +46,7 @@ class IdeaSubmissionForm extends Component {
     ]
 
     return (
-      <form onSubmit={this.handleSubmit} className="ui form twelve wide column">
+      <form onSubmit={this.handleSubmit} className="ui form">
         <div className="inline fields">
           <div className="five wide field">
             <label htmlFor="category">Category:</label>
