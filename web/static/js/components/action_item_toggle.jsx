@@ -12,7 +12,6 @@ class ActionItemToggle extends Component {
 
   render() {
     return (
-      <div className="ui toggle checkbox field">
         <input type="checkbox" onChange={this.handleToggleChange} id="action-item-toggle" />
         <label htmlFor="action-item-toggle">Toggle Action Items</label>
       </div>
