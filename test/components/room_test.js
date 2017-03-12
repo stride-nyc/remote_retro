@@ -28,7 +28,7 @@ describe("Room component", () => {
       const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]}/>
+        <CategoryColumn category="action-item" ideas={[]} />,
       )).to.equal(false)
     })
 
@@ -37,7 +37,7 @@ describe("Room component", () => {
       roomComponent.setState({ showActionItem: true })
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]}/>
+        <CategoryColumn category="action-item" ideas={[]} />,
       )).to.equal(true)
     })
   })

@@ -56,7 +56,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("action items toggle", () => {
     it("is false on render", () => {
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub} />)
       const actionItemsToggle = wrapper.find("input[type='checkbox']")
 
       expect(actionItemsToggle.getNode().checked).to.equal(false)
@@ -65,7 +65,7 @@ describe("IdeaSubmissionForm component", () => {
     it("invokes the method passed as onToggleActionItem on change", () => {
       const onToggleActionItemSpy = sinon.spy()
 
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemSpy}/>)
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemSpy} />)
 
       const actionItemsToggle = wrapper.find("input[type='checkbox']")
       actionItemsToggle.simulate("change")
@@ -73,22 +73,21 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     it("toggles the state of showCategories", () => {
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
-      expect(wrapper.state('showCategories')).to.equal(true)
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub} />)
+      expect(wrapper.state("showCategories")).to.equal(true)
 
       const actionItemsToggle = wrapper.find("input[type='checkbox']")
       actionItemsToggle.simulate("change")
-      expect(wrapper.state('showCategories')).to.equal(false)
+      expect(wrapper.state("showCategories")).to.equal(false)
     })
 
     it("toggles the state of categories between prior selection and 'action-item'", () => {
-      const onToggleActionItemSpy = sinon.spy()
-      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub}/>)
-      expect(wrapper.state('category')).to.equal('happy')
+      wrapper = mount(<IdeaSubmissionForm onIdeaSubmission={onSubmitIdeaStub} onToggleActionItem={onToggleActionItemStub} />)
+      expect(wrapper.state("category")).to.equal("happy")
 
       const actionItemsToggle = wrapper.find("input[type='checkbox']")
       actionItemsToggle.simulate("change")
-      expect(wrapper.state('category')).to.equal('action-item')
+      expect(wrapper.state("category")).to.equal("action-item")
     })
   })
 })

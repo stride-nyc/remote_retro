@@ -40,11 +40,11 @@ class Room extends Component {
           <CategoryColumn category="happy" ideas={this.state.ideas} />
           <CategoryColumn category="sad" ideas={this.state.ideas} />
           <CategoryColumn category="confused" ideas={this.state.ideas} />
-          { this.state.showActionItem ? <CategoryColumn category="action-item" ideas={ this.state.ideas }/> : null }
+          { this.state.showActionItem ? <CategoryColumn category="action-item" ideas={this.state.ideas} /> : null }
         </div>
 
         <UserList users={this.props.users} />
-        <IdeaSubmissionForm onIdeaSubmission={ this.handleIdeaSubmission } onToggleActionItem={ this.handleToggleActionItem }/>
+        <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} onToggleActionItem={this.handleToggleActionItem} />
         <DoorChime users={this.props.users} />
       </section>
     )
