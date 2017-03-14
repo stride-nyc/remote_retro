@@ -7,6 +7,12 @@ defmodule RemoteRetro.IntegrationCase do
 
   use Wallaby.DSL
 
+  setup_all context do
+    {:ok, _} = Application.ensure_all_started(:wallaby)
+    Application.put_env(:wallaby, :base_url, "http://localhost:4001")
+    context
+  end
+
   using do
     quote do
       use Wallaby.DSL
