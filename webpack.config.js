@@ -23,8 +23,11 @@ module.exports = {
     rules: [{
       test: /\.jsx?$/,
       use: [{
-        loader: "babel-loader"
-      }]
+        loader: "babel-loader",
+        query: {
+          cacheDirectory: true
+        },
+      }],
     }, {
       test: /\.css$/,
       use: ExtractTextPlugin.extract({
