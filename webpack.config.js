@@ -13,7 +13,11 @@ module.exports = {
   },
   resolve: {
     modules: ["node_modules", __dirname + "/web/static/js"],
-    extensions: [".js", ".jsx"]
+    extensions: [".js", ".jsx"],
+    alias: {
+      "react": "react/dist/react.min.js",
+      "react-dom": "react-dom/dist/react-dom.min.js",
+    },
   },
   module: {
     rules: [{
