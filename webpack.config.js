@@ -29,7 +29,7 @@ module.exports = {
       }),
     }]
   },
-  devtool: "source-map",
+  devtool: "cheap-module-eval-source-map",
   plugins: [
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
     new ExtractTextPlugin({ filename: "css/app.css" }),
