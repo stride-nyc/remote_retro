@@ -1,10 +1,12 @@
 import React from "react"
-import sortBy from "lodash/sortBy"
 
 import UserListItem from "./user_list_item"
 
 function UserList(props) {
-  const usersSortedByArrival = sortBy(props.users, "online_at")
+  const usersSortedByArrival = props.users.sort((userOne, userTwo) => {
+    return userOne.online_at > userTwo.online_at
+  })
+
   const listItems = usersSortedByArrival.map(user =>
     <UserListItem key={user.online_at} user={user} />,
   )
