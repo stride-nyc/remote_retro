@@ -17,9 +17,9 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   defp persist_idea_for_retro(context) do
-    %{idea_category: category, idea_body: body, retro: retro} = context
+    %{idea_category: category, idea_body: body, retro: retro, id: id} = context
 
-    changeset = %Idea{category: category, body: body, retro_id: retro.id}
+    changeset = %Idea{category: category, body: body, retro_id: retro.id, id: id}
     Repo.insert!(changeset)
     context
   end
@@ -57,7 +57,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "joining a retro that already has a persisted idea" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
-    @tag idea_category: "sad", idea_body: "WIP commits on master"
+    @tag idea_category: "sad", idea_body: "WIP commits on master", id: 1
     test "results in the assignment of all of those ideas to the socket", %{socket: socket} do
       assert length(socket.assigns.ideas) == 1
 
@@ -73,6 +73,17 @@ defmodule RemoteRetro.RetroChannelTest do
       push(socket, "new_idea", %{ category: "happy", body: "we're pacing well" })
 
       assert_broadcast("new_idea_received", %{ category: "happy", body: "we're pacing well", id: _ })
+    end
+  end
+
+  describe "pushing a delete event to the socket" do
+    setup [:join_the_retro_channel, :persist_idea_for_retro]
+
+    @tag idea_category: "sad", idea_body: "WIP commits on master", id: 1
+    test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket} do
+      push(socket, "delete_idea", 1)
+
+      assert_broadcast("idea_deleted", %{id: 1, category: "sad"})
     end
   end
 
