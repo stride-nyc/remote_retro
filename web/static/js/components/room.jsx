@@ -5,6 +5,7 @@ import UserList from "./user_list"
 import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
 import StageProgressionButton from "./stage_progression_button"
+import SendActionItemsEmail from "./send_action_items_email"
 import DoorChime from "./door_chime"
 import * as AppPropTypes from "../prop_types"
 
@@ -89,6 +90,7 @@ class Room extends Component {
             />
           </div>
           <div className="three wide right aligned column">
+            <SendActionItemsEmail retroChannel={retroChannel} />
             { isFacilitator && stage === "idea-generation" &&
               <StageProgressionButton retroChannel={retroChannel} />
             }
