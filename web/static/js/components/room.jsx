@@ -42,13 +42,18 @@ class Room extends Component {
           <CategoryColumn category="happy" ideas={this.state.ideas} />
           <CategoryColumn category="sad" ideas={this.state.ideas} />
           <CategoryColumn category="confused" ideas={this.state.ideas} />
-          { this.state.showActionItem ? <CategoryColumn category="action-item" ideas={this.state.ideas} /> : null }
+          { this.state.showActionItem
+            ? <CategoryColumn category="action-item" ideas={this.state.ideas} /> : null
+          }
         </div>
 
         <UserList users={this.props.users} />
         <div className="ui stackable grid basic attached secondary segment">
           <div className="thirteen wide column">
-            <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} showActionItem={this.state.showActionItem} />
+            <IdeaSubmissionForm
+              onIdeaSubmission={this.handleIdeaSubmission}
+              showActionItem={this.state.showActionItem}
+            />
           </div>
           <div className="three wide column">
             <ActionItemToggle onToggleActionItem={this.handleToggleActionItem} />
@@ -60,9 +65,14 @@ class Room extends Component {
   }
 }
 
+Room.defaultProps = {
+  isFacilitator: false,
+}
+
 Room.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   users: AppPropTypes.users.isRequired,
+  isFacilitator: React.PropTypes.bool,
 }
 
 export default Room
