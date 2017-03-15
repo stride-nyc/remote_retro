@@ -6,6 +6,7 @@ import sinon from "sinon"
 import Room from "../../web/static/js/components/room"
 import CategoryColumn from "../../web/static/js/components/category_column"
 import RetroChannel from "../../web/static/js/services/retro_channel"
+import ActionItemToggle from "../../web/static/js/components/action_item_toggle"
 
 describe("Room component", () => {
   const mockRetroChannel = { push: sinon.spy(), on: () => {} }
@@ -21,6 +22,21 @@ describe("Room component", () => {
       expect(
         mockRetroChannel.push.calledWith("new_idea", { category: "sad", body: "we don't use our linter" }),
       ).to.equal(true)
+    })
+  })
+
+  describe("ActionItemToggle rendering", () => {
+    it("when the current user is facilitator renders the <ActionItemToggle>", () => {
+      const roomComponent = shallow(
+        <Room retroChannel={mockRetroChannel} isFacilitator users={[]} />)
+
+      expect(roomComponent.find(ActionItemToggle)).to.have.length(1)
+    })
+
+    it("when the current user is not facilitator does not render <ActionItemToggle>", () => {
+      const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
+
+      expect(roomComponent.find(ActionItemToggle)).to.have.length(0)
     })
   })
 
@@ -59,12 +75,12 @@ describe("Room component", () => {
       retroChannel.trigger("existing_ideas", mockPayloadFromServer)
 
       expect(roomComponent.state("ideas")).to.eql([
-        { arbitrary: "content" }
+        { arbitrary: "content" },
       ])
     })
 
     it("pushes the value passed with `new_idea_received` into the `ideas` array", () => {
-      roomComponent.setState({ ideas: [{ body: "first idear" }]})
+      roomComponent.setState({ ideas: [{ body: "first idear" }] })
 
       retroChannel.trigger("new_idea_received", { body: "zerp" })
 
