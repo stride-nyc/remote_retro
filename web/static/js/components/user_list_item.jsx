@@ -1,5 +1,5 @@
 import React from "react"
-
+import * as AppPropTypes from '../prop-types'
 import styles from "./css_modules/user_list_item.css"
 
 function UserListItem(props) {
@@ -16,11 +16,7 @@ function UserListItem(props) {
 }
 
 UserListItem.propTypes = {
-  user: React.PropTypes.shape({
-    given_name: React.PropTypes.string,
-    online_at: React.PropTypes.number,
-    facilitator: React.PropTypes.boolean,
-  }).isRequired,
+  user: AppPropTypes.user.isRequired
 }
 
 export default UserListItem
