@@ -24,6 +24,7 @@ dependencies:
     - elixir_version=$(awk '/elixir/ { print $2 }' .tool-versions) && asdf install elixir ${elixir_version}
     - yes | mix deps.get
     - yes | mix local.rebar
+    - yarn
     - npm install -g mocha
     - npm install -g phantomjs
     - node_modules/.bin/webpack
