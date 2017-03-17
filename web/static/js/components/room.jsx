@@ -5,7 +5,7 @@ import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
 import ActionItemToggle from "./action_item_toggle"
 import DoorChime from "./door_chime"
-import * as AppPropTypes from '../prop-types'
+import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/room.css"
 

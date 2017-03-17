@@ -1,5 +1,5 @@
 import React from "react"
-import * as AppPropTypes from '../prop-types'
+import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list_item.css"
 
 function UserListItem(props) {

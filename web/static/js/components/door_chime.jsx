@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-import * as AppPropTypes from '../prop-types'
+import * as AppPropTypes from "../prop_types"
 import chimeSound from "./chime_sound"
 
 class DoorChime extends Component {
