@@ -1,6 +1,6 @@
 import React from "react"
-
 import UserListItem from "./user_list_item"
+import * as AppPropTypes from '../prop-types'
 
 function UserList(props) {
   const usersSortedByArrival = props.users.sort((userOne, userTwo) => {
@@ -21,7 +21,7 @@ function UserList(props) {
 }
 
 UserList.propTypes = {
-  users: React.PropTypes.arrayOf(React.PropTypes.object).isRequired,
+  users: AppPropTypes.users.isRequired
 }
 
 export default UserList

@@ -5,6 +5,7 @@ import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
 import ActionItemToggle from "./action_item_toggle"
 import DoorChime from "./door_chime"
+import * as AppPropTypes from '../prop-types'
 
 import styles from "./css_modules/room.css"
 
@@ -60,16 +61,8 @@ class Room extends Component {
 }
 
 Room.propTypes = {
-  retroChannel: React.PropTypes.shape({
-    on: React.PropTypes.func,
-    push: React.PropTypes.func,
-  }).isRequired,
-  users: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      name: React.PropTypes.string,
-      online_at: React.PropTypes.number,
-    }),
-  ).isRequired,
+  retroChannel: AppPropTypes.retroChannel.isRequired,
+  users: AppPropTypes.users.isRequired,
 }
 
 export default Room

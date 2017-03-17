@@ -1,5 +1,5 @@
 import React, { Component } from "react"
-
+import * as AppPropTypes from '../prop-types'
 import chimeSound from "./chime_sound"
 
 class DoorChime extends Component {
@@ -27,12 +27,7 @@ class DoorChime extends Component {
 }
 
 DoorChime.propTypes = {
-  users: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      name: React.PropTypes.string,
-      online_at: React.PropTypes.number,
-    }),
-  ).isRequired,
+  users: AppPropTypes.users.isRequired,
 }
 
 export default DoorChime

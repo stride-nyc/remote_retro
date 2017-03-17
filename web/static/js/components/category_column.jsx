@@ -1,4 +1,5 @@
 import React from "react"
+import * as AppPropTypes from '../prop-types'
 import styles from "./css_modules/category_column.css"
 
 function CategoryColumn(props) {
@@ -30,13 +31,8 @@ function CategoryColumn(props) {
 }
 
 CategoryColumn.propTypes = {
-  ideas: React.PropTypes.arrayOf(
-    React.PropTypes.shape({
-      category: React.PropTypes.string,
-      body: React.PropTypes.string,
-    }),
-  ).isRequired,
-  category: React.PropTypes.string.isRequired,
+  ideas: AppPropTypes.ideas.isRequired,
+  category: AppPropTypes.category.isRequired 
 }
 
 export default CategoryColumn
