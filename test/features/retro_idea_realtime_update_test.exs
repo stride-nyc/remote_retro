@@ -2,7 +2,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
 
   test "the immediate appearance of other users submitted' ideas", %{session: session_one, retro: retro} do
-    {:ok, session_two} = Wallaby.start_session()
+    session_two = new_browser_session()
 
     retro_path = "/retros/" <> retro.id
     session_one = authenticate(session_one) |> visit(retro_path)

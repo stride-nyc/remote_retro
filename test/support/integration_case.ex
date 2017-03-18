@@ -38,10 +38,7 @@ defmodule RemoteRetro.IntegrationCase do
     metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(Repo, self())
     {:ok, retro} = Repo.insert(%Retro{})
 
-    {:ok, session} = Wallaby.start_session(metadata: metadata)
-
-    session = resize_window(session, 1000, 1000)
-
+    session = new_browser_session(metadata)
     session = authenticate(session)
     {:ok, session: session, retro: retro}
   end

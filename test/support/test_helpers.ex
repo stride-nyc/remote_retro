@@ -1,6 +1,11 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
 
+  def new_browser_session(metadata \\ %{}) do
+    {:ok, session} = Wallaby.start_session(metadata: metadata)
+    resize_window(session, 1000, 1000)
+  end
+
   def authenticate(session) do
     visit(session, "/auth/google/callback?code=love")
   end

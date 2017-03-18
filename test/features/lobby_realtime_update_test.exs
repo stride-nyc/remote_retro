@@ -7,7 +7,7 @@ defmodule LobbyRealtimeUpdateTest do
 
     assert session_one |> find(Query.css("#user-list li", count: 1))
 
-    {:ok, session_two} = Wallaby.start_session()
+    session_two = new_browser_session()
     authenticate(session_two) |> visit(retro_path)
 
     assert session_one |> find(Query.css("#user-list li", count: 2))
