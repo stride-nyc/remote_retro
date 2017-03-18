@@ -20,7 +20,7 @@ function CategoryColumn(props) {
     <section className="column">
       <div className="ui center aligned basic segment">
         <i className={styles.icon}>{emoticonUnicode}</i>
-        <p><a>@{props.category}</a></p>
+        <p><strong>{props.category}</strong></p>
       </div>
       <div className="ui divider" />
       <ul className={`${props.category} ideas ui divided list`}>
