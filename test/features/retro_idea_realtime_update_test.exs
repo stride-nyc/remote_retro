@@ -15,8 +15,5 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
     ideas_list_text = session_one |> find(Query.css(".sad.ideas")) |> Element.text
     assert String.contains?(ideas_list_text, "user stories lack clear business value")
-
-    Wallaby.end_session(session_one)
-    Wallaby.end_session(session_two)
   end
 end
