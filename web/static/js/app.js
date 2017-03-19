@@ -5,6 +5,11 @@ import { render } from "react-dom"
 
 import RemoteRetro from "./components/remote_retro"
 
+const remoteRetroProps = {
+  userToken: window.userToken,
+  retroUUID: window.retroUUID,
+}
+
 const reactRoot = document.querySelector(".react-root")
-render(<RemoteRetro />, reactRoot)
+render(<RemoteRetro {...remoteRetroProps} />, reactRoot)
 

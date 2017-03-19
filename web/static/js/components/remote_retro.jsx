@@ -4,21 +4,18 @@ import { Presence } from "phoenix"
 import RetroChannel from "../services/retro_channel"
 import Room from "./room"
 
-import UrlHelpers from "../services/url_helpers"
-
 class RemoteRetro extends Component {
   constructor(props) {
     super(props)
     this.state = {
       presences: {},
       retroChannel: {},
-      userToken: window.userToken,
-      retroUUID: UrlHelpers.parseRetroUUID(location.pathname),
     }
   }
 
   componentWillMount() {
-    const retroChannel = RetroChannel.configure(this.state)
+    const channelConfiguration = { userToken, retroUUID } = this.props
+    const retroChannel = RetroChannel.configure(channelConfiguration)
 
     retroChannel.on("presence_state", presences => this.setState({ presences }))
 
@@ -31,6 +28,12 @@ class RemoteRetro extends Component {
 
     return <Room users={users} retroChannel={this.state.retroChannel} />
   }
+}
+
+
+RemoteRetro.propTypes = {
+  retroUUID: React.PropTypes.string.isRequired,
+  userToken: React.PropTypes.string.isRequired,
 }
 
 export default RemoteRetro

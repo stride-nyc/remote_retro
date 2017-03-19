@@ -3,12 +3,16 @@ defmodule RemoteRetro.RetroController do
   alias RemoteRetro.Retro
   alias Phoenix.Token
 
-  def show(conn, _params) do
+  def show(conn, params) do
     case get_session(conn, "current_user") do
       nil ->
         conn = put_session conn, "requested_endpoint", conn.request_path
         redirect conn, to: "/auth/google"
-      user -> render conn, "show.html", %{user_token: Token.sign(conn, "user", user)}
+      user ->
+        render conn, "show.html", %{
+          user_token: Token.sign(conn, "user", user),
+          retro_uuid: params["id"]
+        }
     end
   end
 
