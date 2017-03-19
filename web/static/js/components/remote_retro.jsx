@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { Presence } from "phoenix"
 
+import * as AppPropTypes from "../prop_types"
 import RetroChannel from "../services/retro_channel"
 import Room from "./room"
 
@@ -9,31 +10,24 @@ class RemoteRetro extends Component {
     super(props)
     this.state = {
       presences: {},
-      retroChannel: {},
     }
   }
 
   componentWillMount() {
-    const channelConfiguration = { userToken, retroUUID } = this.props
-    const retroChannel = RetroChannel.configure(channelConfiguration)
-
-    retroChannel.on("presence_state", presences => this.setState({ presences }))
-
-    retroChannel.join()
-    this.setState({ retroChannel })
+    this.props.retroChannel.on("presence_state", presences => this.setState({ presences }))
+    this.props.retroChannel.join()
   }
 
   render() {
     const users = Presence.list(this.state.presences, (_username, presence) => presence.user)
 
-    return <Room users={users} retroChannel={this.state.retroChannel} />
+    return <Room users={users} retroChannel={this.props.retroChannel} />
   }
 }
 
 
 RemoteRetro.propTypes = {
-  retroUUID: React.PropTypes.string.isRequired,
-  userToken: React.PropTypes.string.isRequired,
+  retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 
 export default RemoteRetro
