@@ -7,9 +7,9 @@ defmodule RemoteRetro.Presence do
                         pubsub_server: RemoteRetro.PubSub
 
   def fetch(_topic, entries) do
-    Enum.into entries, %{}, fn({token, presence}) ->
+    Enum.into entries, %{}, fn({user_token, presence}) ->
       presence = Map.put(presence, :user, List.first(presence.metas))
-      {token, presence}
+      {user_token, presence}
     end
   end
 end

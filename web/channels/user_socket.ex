@@ -19,8 +19,8 @@ defmodule RemoteRetro.UserSocket do
   #
   # See `Phoenix.Token` documentation for examples in
   # performing token verification on connect.
-  def connect(%{"token" => token}, socket) do
-    {:ok, assign(socket, :token, token)}
+  def connect(%{"userToken" => user_token}, socket) do
+    {:ok, assign(socket, :user_token, user_token)}
   end
 
   # Socket id's are topics that allow you to identify all sockets for a given user:

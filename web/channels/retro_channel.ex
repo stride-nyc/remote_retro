@@ -19,9 +19,9 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_info(:after_join, socket) do
-    {:ok, user} = Phoenix.Token.verify(socket, "user", socket.assigns.token)
+    {:ok, user} = Phoenix.Token.verify(socket, "user", socket.assigns.user_token)
     user_stamped = Map.put(user, :online_at, :os.system_time(:milli_seconds))
-    Presence.track(socket, socket.assigns.token, user_stamped)
+    Presence.track(socket, socket.assigns.user_token, user_stamped)
 
     push socket, "presence_state", Presence.list(socket)
     push socket, "existing_ideas", %{ideas: socket.assigns.ideas}

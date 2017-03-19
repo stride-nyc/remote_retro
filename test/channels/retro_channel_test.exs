@@ -10,7 +10,7 @@ defmodule RemoteRetro.RetroChannelTest do
   defp join_the_retro_channel(context) do
     retro = context[:retro]
     { :ok, _, socket } =
-      socket("", %{ token: Phoenix.Token.sign(socket(), "user", @mock_user) })
+      socket("", %{ user_token: Phoenix.Token.sign(socket(), "user", @mock_user) })
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
     Map.put(context, :socket, socket)

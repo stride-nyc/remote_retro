@@ -8,7 +8,7 @@ defmodule RemoteRetro.RetroController do
       nil ->
         conn = put_session conn, "requested_endpoint", conn.request_path
         redirect conn, to: "/auth/google"
-      user -> render conn, "show.html", %{token: Token.sign(conn, "user", user)}
+      user -> render conn, "show.html", %{user_token: Token.sign(conn, "user", user)}
     end
   end
 

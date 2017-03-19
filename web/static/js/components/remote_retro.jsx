@@ -12,7 +12,7 @@ class RemoteRetro extends Component {
     this.state = {
       presences: {},
       retroChannel: {},
-      token: window.token,
+      userToken: window.userToken,
       retroUUID: UrlHelpers.parseRetroUUID(location.pathname),
     }
   }
