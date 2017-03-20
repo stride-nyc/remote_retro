@@ -13,7 +13,9 @@ describe("Room component", () => {
 
   describe(".handleIdeaSubmission", () => {
     it("pushes the idea to the room channel", () => {
-      const roomComponent = shallow(<Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />)
+      const roomComponent = shallow(
+        <Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />,
+      )
 
       roomComponent
         .instance()
@@ -27,7 +29,9 @@ describe("Room component", () => {
 
   describe("Action item column", () => {
     it("is not visible on render", () => {
-      const roomComponent = shallow(<Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />)
+      const roomComponent = shallow(
+        <Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />,
+      )
 
       expect(roomComponent.containsMatchingElement(
         <CategoryColumn category="action-item" ideas={[]} />,
@@ -35,7 +39,9 @@ describe("Room component", () => {
     })
 
     it("becomes visible when showActionItem is true", () => {
-      const roomComponent = shallow(<Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />)
+      const roomComponent = shallow(
+        <Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />,
+      )
       roomComponent.setState({ showActionItem: true })
 
       expect(roomComponent.containsMatchingElement(
@@ -50,7 +56,9 @@ describe("Room component", () => {
 
     beforeEach(() => {
       retroChannel = RetroChannel.configure({})
-      roomComponent = mount(<Room currentUser={stubbedUser} retroChannel={retroChannel} users={[]} />)
+      roomComponent = mount(
+        <Room currentUser={stubbedUser} retroChannel={retroChannel} users={[]} />,
+      )
     })
 
     it("on `existing_ideas` sets the associated payload's `ideas` value on state", () => {
@@ -60,12 +68,12 @@ describe("Room component", () => {
       retroChannel.trigger("existing_ideas", mockPayloadFromServer)
 
       expect(roomComponent.state("ideas")).to.eql([
-        { arbitrary: "content" }
+        { arbitrary: "content" },
       ])
     })
 
     it("pushes the value passed with `new_idea_received` into the `ideas` array", () => {
-      roomComponent.setState({ ideas: [{ body: "first idear" }]})
+      roomComponent.setState({ ideas: [{ body: "first idear" }] })
 
       retroChannel.trigger("new_idea_received", { body: "zerp" })
 
