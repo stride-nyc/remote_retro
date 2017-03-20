@@ -43,6 +43,8 @@ class RemoteRetro extends Component {
 }
 
 RemoteRetro.propTypes = {
+  userToken: React.PropTypes.string.isRequired,
+  retroUUID: React.PropTypes.string.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   userToken: PropTypes.string.isRequired,
 }
