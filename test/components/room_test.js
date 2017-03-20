@@ -9,10 +9,11 @@ import RetroChannel from "../../web/static/js/services/retro_channel"
 
 describe("Room component", () => {
   const mockRetroChannel = { push: sinon.spy(), on: () => {} }
+  const stubbedUser = "Mugatu"
 
   describe(".handleIdeaSubmission", () => {
     it("pushes the idea to the room channel", () => {
-      const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
+      const roomComponent = shallow(<Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />)
 
       roomComponent
         .instance()
@@ -26,7 +27,7 @@ describe("Room component", () => {
 
   describe("Action item column", () => {
     it("is not visible on render", () => {
-      const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
+      const roomComponent = shallow(<Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />)
 
       expect(roomComponent.containsMatchingElement(
         <CategoryColumn category="action-item" ideas={[]} />,
@@ -34,7 +35,7 @@ describe("Room component", () => {
     })
 
     it("becomes visible when showActionItem is true", () => {
-      const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
+      const roomComponent = shallow(<Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />)
       roomComponent.setState({ showActionItem: true })
 
       expect(roomComponent.containsMatchingElement(
@@ -49,7 +50,7 @@ describe("Room component", () => {
 
     beforeEach(() => {
       retroChannel = RetroChannel.configure({})
-      roomComponent = mount(<Room retroChannel={retroChannel} users={[]} />)
+      roomComponent = mount(<Room currentUser={stubbedUser} retroChannel={retroChannel} users={[]} />)
     })
 
     it("on `existing_ideas` sets the associated payload's `ideas` value on state", () => {

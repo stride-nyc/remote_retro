@@ -19,14 +19,20 @@ class RemoteRetro extends Component {
   }
 
   render() {
-    const users = Presence.list(this.state.presences, (_username, presence) => presence.user)
+    const { presences } = this.state
+    const { userToken } = this.props
+    const hasPresences = Object.keys(presences).length > 0
+    const currentUser = hasPresences ? presences[userToken].user.given_name : false
+    const users = Presence.list(presences, (_username, presence) => presence.user)
 
-    return <Room users={users} retroChannel={this.props.retroChannel} />
+    return <Room currentUser={currentUser} users={users} retroChannel={this.props.retroChannel} />
   }
 }
 
 
 RemoteRetro.propTypes = {
+  userToken: React.PropTypes.string.isRequired,
+  retroUUID: React.PropTypes.string.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 

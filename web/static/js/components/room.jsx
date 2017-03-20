@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React, { Component, PropTypes } from "react"
 
 import UserList from "./user_list"
 import CategoryColumn from "./category_column"
@@ -36,31 +36,34 @@ class Room extends Component {
   }
 
   render() {
+    const { currentUser, users } = this.props
+    const { ideas, showActionItem } = this.state
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-          <CategoryColumn category="happy" ideas={this.state.ideas} />
-          <CategoryColumn category="sad" ideas={this.state.ideas} />
-          <CategoryColumn category="confused" ideas={this.state.ideas} />
-          { this.state.showActionItem ? <CategoryColumn category="action-item" ideas={this.state.ideas} /> : null }
+          <CategoryColumn category="happy" currentUser={currentUser} ideas={ideas} />
+          <CategoryColumn category="sad" currentUser={currentUser} ideas={ideas} />
+          <CategoryColumn category="confused" currentUser={currentUser} ideas={ideas} />
+          { showActionItem ? <CategoryColumn category="action-item" ideas={ideas} /> : null }
         </div>
 
-        <UserList users={this.props.users} />
+        <UserList users={users} />
         <div className="ui stackable grid basic attached secondary segment">
           <div className="thirteen wide column">
-            <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} showActionItem={this.state.showActionItem} />
+            <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} showActionItem={showActionItem} />
           </div>
           <div className="three wide column">
             <ActionItemToggle onToggleActionItem={this.handleToggleActionItem} />
           </div>
         </div>
-        <DoorChime users={this.props.users} />
+        <DoorChime users={users} />
       </section>
     )
   }
 }
 
 Room.propTypes = {
+  currentUser: PropTypes.string.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   users: AppPropTypes.users.isRequired,
 }

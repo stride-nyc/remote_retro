@@ -6,13 +6,13 @@ import { render } from "react-dom"
 import RemoteRetro from "./components/remote_retro"
 import RetroChannel from "./services/retro_channel"
 
-const retroChannelConfiguration = {
+const remoteRetroProps = {
   userToken: window.userToken,
   retroUUID: window.retroUUID,
 }
 
-const retroChannel = RetroChannel.configure(retroChannelConfiguration)
+const retroChannel = RetroChannel.configure(remoteRetroProps)
 
 const reactRoot = document.querySelector(".react-root")
-render(<RemoteRetro retroChannel={retroChannel} />, reactRoot)
+render(<RemoteRetro {...remoteRetroProps} retroChannel={retroChannel} />, reactRoot)
 

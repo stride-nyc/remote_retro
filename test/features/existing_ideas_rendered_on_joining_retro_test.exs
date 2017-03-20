@@ -10,6 +10,6 @@ defmodule ExistingIdeasRenderedOnJoiningRetroTest do
 
     ideas_list_text = session |> find(Query.css(".happy.ideas")) |> Element.text
 
-    assert String.contains?(ideas_list_text, "continuous delivery!")
+    assert String.contains?(ideas_list_text, "Travis: continuous delivery!")
   end
 end
