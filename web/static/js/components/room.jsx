@@ -56,9 +56,7 @@ class Room extends Component {
             />
           </div>
           <div className="three wide column">
-            { this.props.isFacilitator
-              ? <ActionItemToggle onToggleActionItem={this.handleToggleActionItem} /> : null
-            }
+            <ActionItemToggle onToggleActionItem={this.handleToggleActionItem} />
           </div>
         </div>
         <DoorChime users={this.props.users} />
