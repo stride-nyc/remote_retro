@@ -4,7 +4,7 @@ defmodule Mix.Tasks.EndToEnd do
 
   @shortdoc "Runs feature tests"
   def run(_) do
-    compile_js
+    compile_js()
     System.cmd(
       "mix",
       ["test", "--only", "feature_test", "--color"],
