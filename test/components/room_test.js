@@ -53,7 +53,8 @@ describe("Room component", () => {
     })
 
     it("pushes a show_action_item event with the inverse value of showActionItem", () => {
-      expect(retroChannel.push.calledWith("show_action_item", true)).to.eql(true)
+      expect(retroChannel.push.calledWith("show_action_item", { show_action_item: true }))
+        .to.eql(true)
     })
   })
 
@@ -105,6 +106,13 @@ describe("Room component", () => {
         { body: "first idear" },
         { body: "zerp" },
       ])
+    })
+
+    it("updates the state for showActionItem to the value from set_show_action_item", () => {
+      roomComponent.setState({ showActionItem: true })
+      retroChannel.trigger("set_show_action_item", { show_action_item: false })
+
+      expect(roomComponent.state("showActionItem")).to.eql(false)
     })
   })
 })

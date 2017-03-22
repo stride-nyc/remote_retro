@@ -25,6 +25,10 @@ class Room extends Component {
     this.props.retroChannel.on("new_idea_received", (newIdea) => {
       this.setState({ ideas: [...this.state.ideas, newIdea] })
     })
+
+    this.props.retroChannel.on("set_show_action_item", (eventPayload) => {
+      this.setState({ showActionItem: eventPayload.show_action_item })
+    })
   }
 
   handleIdeaSubmission(idea) {
@@ -32,7 +36,10 @@ class Room extends Component {
   }
 
   handleToggleActionItem() {
-    this.props.retroChannel.push("show_action_item", !this.state.showActionItem)
+    this.props.retroChannel.push(
+      "show_action_item",
+      { show_action_item: !this.state.showActionItem },
+    )
   }
 
   render() {
