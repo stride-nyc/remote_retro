@@ -35,10 +35,10 @@ describe("Room component", () => {
   })
 
   context("when the current user is not facilitator", () => {
-    it("does render <ActionItemToggle>", () => {
+    it("does not render <ActionItemToggle>", () => {
       const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
 
-      expect(roomComponent.find(ActionItemToggle)).to.have.length(1)
+      expect(roomComponent.find(ActionItemToggle)).to.have.length(0)
     })
   })
 
@@ -46,7 +46,7 @@ describe("Room component", () => {
     const retroChannel = { push: spy() }
 
     before(() => {
-      const wrapper = shallow(<Room retroChannel={retroChannel} users={[]} />)
+      const wrapper = shallow(<Room retroChannel={retroChannel} isFacilitator users={[]} />)
       wrapper.setState({ showActionItem: false })
 
       wrapper.find(ActionItemToggle).props().onToggleActionItem()

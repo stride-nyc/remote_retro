@@ -63,7 +63,9 @@ class Room extends Component {
             />
           </div>
           <div className="three wide column">
-            <ActionItemToggle onToggleActionItem={this.handleToggleActionItem} />
+            { this.props.isFacilitator &&
+              <ActionItemToggle onToggleActionItem={this.handleToggleActionItem} />
+            }
           </div>
         </div>
         <DoorChime users={this.props.users} />
