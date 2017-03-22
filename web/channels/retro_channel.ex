@@ -36,6 +36,11 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
+  def handle_in("show_action_item", show_action_item, socket) do
+    broadcast! socket, "set_show_action_item", %{show_action_item: show_action_item}
+    {:noreply, socket}
+  end
+
   intercept ["presence_diff"]
   def handle_out("presence_diff", _msg, socket) do
     presences = Presence.list(socket)
