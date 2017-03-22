@@ -76,6 +76,15 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "pushing a show_action_item" do
+    setup [:join_the_retro_channel]
+    test "broadcasts the show_action_item value to all connected clients", %{ socket: socket } do
+      push(socket, "show_action_item", false)
+
+      assert_broadcast("set_show_action_item", %{show_action_item: false})
+    end
+  end
+
   describe "the emission of a `presence_diff` event" do
     setup [:join_the_retro_channel]
 
