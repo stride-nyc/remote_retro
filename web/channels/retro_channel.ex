@@ -37,7 +37,7 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("show_action_item", show_action_item, socket) do
-    broadcast! socket, "set_show_action_item", %{show_action_item: show_action_item}
+    broadcast! socket, "set_show_action_item", show_action_item
     {:noreply, socket}
   end
 
