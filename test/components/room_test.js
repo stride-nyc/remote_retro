@@ -1,7 +1,7 @@
 import React from "react"
 import { shallow, mount } from "enzyme"
 import { expect } from "chai"
-import sinon from "sinon"
+import { spy } from "sinon"
 
 import Room from "../../web/static/js/components/room"
 import CategoryColumn from "../../web/static/js/components/category_column"
@@ -9,7 +9,7 @@ import RetroChannel from "../../web/static/js/services/retro_channel"
 import ActionItemToggle from "../../web/static/js/components/action_item_toggle"
 
 describe("Room component", () => {
-  const mockRetroChannel = { push: sinon.spy(), on: () => {} }
+  const mockRetroChannel = { push: spy(), on: () => {} }
 
   describe(".handleIdeaSubmission", () => {
     it("pushes the idea to the room channel", () => {
@@ -39,6 +39,21 @@ describe("Room component", () => {
       const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
 
       expect(roomComponent.find(ActionItemToggle)).to.have.length(1)
+    })
+  })
+
+  context("when onToggleActionItem property is fired by <ActionItemToggle>", () => {
+    const retroChannel = { push: spy() }
+
+    before(() => {
+      const wrapper = shallow(<Room retroChannel={retroChannel} users={[]} />)
+      wrapper.setState({ showActionItem: false })
+
+      wrapper.find(ActionItemToggle).props().onToggleActionItem()
+    })
+
+    it("pushes a show_action_item event with the inverse value of showActionItem", () => {
+      expect(retroChannel.push.calledWith("show_action_item", true)).to.eql(true)
     })
   })
 
