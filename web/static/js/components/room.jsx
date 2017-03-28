@@ -58,7 +58,6 @@ class Room extends Component {
   }
 
   handleIdeaDeletion(ideaId) {
-    this._removeIdea(this.state.ideas, ideaId)
     this.props.retroChannel.push("delete_idea", ideaId)
   }
 
