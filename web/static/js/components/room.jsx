@@ -16,7 +16,6 @@ class Room extends Component {
     this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
     this.handleIdeaDeletion = this.handleIdeaDeletion.bind(this)
     this.handleStageProgression = this.handleStageProgression.bind(this)
-    this._removeIdea = this._removeIdea.bind(this)
   }
 
   componentDidMount() {
@@ -32,21 +31,10 @@ class Room extends Component {
       this.setState({ showActionItem: eventPayload.show_action_item })
     })
 
-    this.props.retroChannel.on("idea_deleted", idea => {
-      this.setState({ ideas: this._removeIdea(this.state.ideas, idea.id)})
+    this.props.retroChannel.on("idea_deleted", deletedIdea => {
+      const ideas = this.state.ideas.filter(idea => idea.id !== deletedIdea.id)
+      this.setState({ ideas })
     })
-  }
-
-  _removeIdea(ideas, id) {
-    let index = ideas.map(idea => idea.id).indexOf(id)
-    if (index == -1) {
-      return ideas
-    }
-
-    return [
-      ...ideas.slice(0, index),
-      ...ideas.slice(index+1)
-    ]
   }
 
   handleIdeaSubmission(idea) {
