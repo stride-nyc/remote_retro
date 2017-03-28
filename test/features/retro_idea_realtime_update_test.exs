@@ -1,8 +1,9 @@
 defmodule RetroIdeaRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
 
+  @tag :skip
   test "deleting an idea from a list", %{session: session_one, retro: retro} do
-    {:ok, session_two} = Wallaby.start_session()
+    session_two = new_browser_session()
 
     retro_path = "/retros/" <> retro.id
     session_one = authenticate(session_one) |> visit(retro_path)
