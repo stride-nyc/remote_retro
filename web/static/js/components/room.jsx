@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
 
 import UserList from "./user_list"
 import CategoryColumn from "./category_column"
@@ -46,16 +46,16 @@ class Room extends Component {
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-          <CategoryColumn category="happy" currentUser={currentUser} ideas={ideas} />
-          <CategoryColumn category="sad" currentUser={currentUser} ideas={ideas} />
-          <CategoryColumn category="confused" currentUser={currentUser} ideas={ideas} />
-          { showActionItem ? <CategoryColumn category="action-item" ideas={ideas} /> : null }
+          <CategoryColumn category="happy" ideas={ideas} />
+          <CategoryColumn category="sad" ideas={ideas} />
+          <CategoryColumn category="confused" ideas={ideas} />
+          { showActionItem ? <CategoryColumn category="action-item" /> : null }
         </div>
 
         <UserList users={users} />
         <div className="ui stackable grid basic attached secondary segment">
           <div className="thirteen wide column">
-            <IdeaSubmissionForm onIdeaSubmission={this.handleIdeaSubmission} showActionItem={showActionItem} />
+            <IdeaSubmissionForm currentUser={currentUser} onIdeaSubmission={this.handleIdeaSubmission} showActionItem={showActionItem} />
           </div>
           <div className="three wide right aligned column">
             { this.props.isFacilitator && retroHasYetToProgressToActionItems &&
@@ -74,7 +74,6 @@ Room.defaultProps = {
 }
 
 Room.propTypes = {
-  currentUser: PropTypes.string.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   users: AppPropTypes.users.isRequired,
   isFacilitator: React.PropTypes.bool,

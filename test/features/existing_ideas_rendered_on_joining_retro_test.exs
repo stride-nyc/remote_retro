@@ -3,7 +3,7 @@ defmodule ExistingIdeasRenderedOnJoiningRetroTest do
   alias RemoteRetro.Idea
 
   test "the rendering of ideas submitted prior to the user joining", %{session: session, retro: retro} do
-    Repo.insert!(%Idea{ category: "happy", body: "continuous delivery!", retro_id: retro.id })
+    Repo.insert!(%Idea{ category: "happy", body: "continuous delivery!", retro_id: retro.id, author: "Travis" })
 
     retro_path = "/retros/" <> retro.id
     session = visit(session, retro_path)

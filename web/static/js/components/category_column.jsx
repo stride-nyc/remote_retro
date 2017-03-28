@@ -12,9 +12,9 @@ function CategoryColumn(props) {
 
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
-  const filteredIdeasList = filteredIdeas.map(idea =>
-    <li className="item" title={idea.body} key={idea.id}>{props.currentUser}: {idea.body}</li>,
-  )
+  const filteredIdeasList = filteredIdeas.map(idea => {
+    return <li className="item" title={idea.body} key={idea.id}>{idea.author}: {idea.body}</li>
+  })
 
   return (
     <section className={`${props.category} column`}>
