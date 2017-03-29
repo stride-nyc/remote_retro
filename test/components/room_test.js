@@ -47,12 +47,11 @@ describe("Room component", () => {
 
     before(() => {
       const wrapper = shallow(<Room retroChannel={retroChannel} isFacilitator users={[]} />)
-      wrapper.setState({ showActionItem: false })
 
       wrapper.find(StageProgressionButton).props().onToggleActionItem()
     })
 
-    it("pushes a show_action_item event with the inverse value of showActionItem", () => {
+    it("pushes a show_action_item event with a `show_action_item` value of true", () => {
       expect(retroChannel.push.calledWith("show_action_item", { show_action_item: true }))
         .to.eql(true)
     })

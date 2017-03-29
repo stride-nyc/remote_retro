@@ -38,7 +38,7 @@ class Room extends Component {
   handleToggleActionItem() {
     this.props.retroChannel.push(
       "show_action_item",
-      { show_action_item: !this.state.showActionItem },
+      { show_action_item: true },
     )
   }
 
