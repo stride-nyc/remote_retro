@@ -12,10 +12,14 @@ class StageProgressionButton extends Component {
 
   render() {
     return (
-      <div className="ui toggle checkbox">
-        <input type="checkbox" onChange={this.handleToggleChange} id="action-item-toggle" />
-        <label htmlFor="action-item-toggle">Toggle Action Items</label>
-      </div>
+      <button
+        id="action-item-toggle"
+        className="ui right labeled teal icon button"
+        onClick={this.handleToggleChange}
+      >
+        Proceed to Action Items
+        <i className="arrow right icon"></i>
+      </button>
     )
   }
 }
