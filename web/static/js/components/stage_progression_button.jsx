@@ -7,7 +7,7 @@ class StageProgressionButton extends Component {
   }
 
   handleToggleChange() {
-    this.props.onToggleActionItem()
+    this.props.onProceedToActionItems()
   }
 
   render() {
@@ -25,7 +25,7 @@ class StageProgressionButton extends Component {
 }
 
 StageProgressionButton.propTypes = {
-  onToggleActionItem: React.PropTypes.func.isRequired,
+  onProceedToActionItems: React.PropTypes.func.isRequired,
 }
 
 export default StageProgressionButton

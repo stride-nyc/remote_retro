@@ -42,13 +42,13 @@ describe("Room component", () => {
     })
   })
 
-  context("when onToggleActionItem property is fired by <StageProgressionButton>", () => {
+  context("when onProceedToActionItems property is fired by <StageProgressionButton>", () => {
     const retroChannel = { push: spy() }
 
     before(() => {
       const wrapper = shallow(<Room retroChannel={retroChannel} isFacilitator users={[]} />)
 
-      wrapper.find(StageProgressionButton).props().onToggleActionItem()
+      wrapper.find(StageProgressionButton).props().onProceedToActionItems()
     })
 
     it("pushes a show_action_item event with a `show_action_item` value of true", () => {
