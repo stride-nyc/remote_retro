@@ -7,7 +7,9 @@ class StageProgressionButton extends Component {
   }
 
   handleToggleChange() {
-    this.props.onProceedToActionItems()
+    if (confirm("Are you sure you would like to proceed to the action items stage?")) {
+      this.props.onProceedToActionItems()
+    }
   }
 
   render() {
