@@ -49,7 +49,7 @@ class Room extends Component {
           <CategoryColumn category="happy" ideas={ideas} />
           <CategoryColumn category="sad" ideas={ideas} />
           <CategoryColumn category="confused" ideas={ideas} />
-          { showActionItem ? <CategoryColumn category="action-item" /> : null }
+          { showActionItem ? <CategoryColumn category="action-item" ideas={ideas} /> : null }
         </div>
 
         <UserList users={users} />

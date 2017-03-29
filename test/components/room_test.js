@@ -10,7 +10,7 @@ import StageProgressionButton from "../../web/static/js/components/stage_progres
 
 describe("Room component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
-  const stubbedUser = "Mugatu"
+  const stubbedUser = { user: { given_name: "Mugatu" } }
 
   describe(".handleIdeaSubmission", () => {
     it("pushes the idea to the room channel", () => {
@@ -32,7 +32,7 @@ describe("Room component", () => {
     context("and showActionItems is false", () => {
       it("renders the <StageProgressionButton>", () => {
         const roomComponent = shallow(
-          <Room retroChannel={mockRetroChannel} isFacilitator users={[]} />)
+          <Room currentUser={stubbedUser} retroChannel={mockRetroChannel} isFacilitator users={[]} />)
 
         expect(roomComponent.find(StageProgressionButton)).to.have.length(1)
       })
@@ -41,7 +41,7 @@ describe("Room component", () => {
     context("and showActionItems is true", () => {
       it("does not render the <StageProgressionButton>", () => {
         const roomComponent = shallow(
-          <Room retroChannel={mockRetroChannel} isFacilitator users={[]} />)
+          <Room currentUser={stubbedUser} retroChannel={mockRetroChannel} isFacilitator users={[]} />)
         roomComponent.setState({ showActionItem: true })
 
         expect(roomComponent.find(StageProgressionButton)).to.have.length(0)
@@ -51,7 +51,7 @@ describe("Room component", () => {
 
   context("when the current user is not facilitator", () => {
     it("does not render <StageProgressionButton>", () => {
-      const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
+      const roomComponent = shallow(<Room currentUser={stubbedUser} retroChannel={mockRetroChannel} users={[]} />)
 
       expect(roomComponent.find(StageProgressionButton)).to.have.length(0)
     })
@@ -61,7 +61,7 @@ describe("Room component", () => {
     const retroChannel = { push: spy() }
 
     before(() => {
-      const wrapper = shallow(<Room retroChannel={retroChannel} isFacilitator users={[]} />)
+      const wrapper = shallow(<Room currentUser={stubbedUser} retroChannel={retroChannel} isFacilitator users={[]} />)
 
       wrapper.find(StageProgressionButton).props().onProceedToActionItems()
     })
