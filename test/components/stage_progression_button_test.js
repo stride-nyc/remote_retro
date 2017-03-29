@@ -3,13 +3,13 @@ import { mount } from "enzyme"
 import { expect } from "chai"
 import sinon from "sinon"
 
-import ActionItemToggle from "../../web/static/js/components/action_item_toggle"
+import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 
-describe("ActionItemToggle", () => {
+describe("StageProgressionButton", () => {
   it("invokes the method passed as onToggleActionItem on change", () => {
     const onToggleActionItemSpy = sinon.spy()
 
-    const wrapper = mount(<ActionItemToggle onToggleActionItem={onToggleActionItemSpy} />)
+    const wrapper = mount(<StageProgressionButton onToggleActionItem={onToggleActionItemSpy} />)
 
     const actionItemsToggle = wrapper.find("input[type='checkbox']")
     actionItemsToggle.simulate("change")

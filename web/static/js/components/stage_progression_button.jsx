@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 
-class ActionItemToggle extends Component {
+class StageProgressionButton extends Component {
   constructor(props) {
     super(props)
     this.handleToggleChange = this.handleToggleChange.bind(this)
@@ -20,8 +20,8 @@ class ActionItemToggle extends Component {
   }
 }
 
-ActionItemToggle.propTypes = {
+StageProgressionButton.propTypes = {
   onToggleActionItem: React.PropTypes.func.isRequired,
 }
 
-export default ActionItemToggle
+export default StageProgressionButton

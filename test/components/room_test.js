@@ -6,7 +6,7 @@ import { spy } from "sinon"
 import Room from "../../web/static/js/components/room"
 import CategoryColumn from "../../web/static/js/components/category_column"
 import RetroChannel from "../../web/static/js/services/retro_channel"
-import ActionItemToggle from "../../web/static/js/components/action_item_toggle"
+import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 
 describe("Room component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
@@ -26,30 +26,30 @@ describe("Room component", () => {
   })
 
   context("when the current user is facilitator", () => {
-    it("renders the <ActionItemToggle>", () => {
+    it("renders the <StageProgressionButton>", () => {
       const roomComponent = shallow(
         <Room retroChannel={mockRetroChannel} isFacilitator users={[]} />)
 
-      expect(roomComponent.find(ActionItemToggle)).to.have.length(1)
+      expect(roomComponent.find(StageProgressionButton)).to.have.length(1)
     })
   })
 
   context("when the current user is not facilitator", () => {
-    it("does not render <ActionItemToggle>", () => {
+    it("does not render <StageProgressionButton>", () => {
       const roomComponent = shallow(<Room retroChannel={mockRetroChannel} users={[]} />)
 
-      expect(roomComponent.find(ActionItemToggle)).to.have.length(0)
+      expect(roomComponent.find(StageProgressionButton)).to.have.length(0)
     })
   })
 
-  context("when onToggleActionItem property is fired by <ActionItemToggle>", () => {
+  context("when onToggleActionItem property is fired by <StageProgressionButton>", () => {
     const retroChannel = { push: spy() }
 
     before(() => {
       const wrapper = shallow(<Room retroChannel={retroChannel} isFacilitator users={[]} />)
       wrapper.setState({ showActionItem: false })
 
-      wrapper.find(ActionItemToggle).props().onToggleActionItem()
+      wrapper.find(StageProgressionButton).props().onToggleActionItem()
     })
 
     it("pushes a show_action_item event with the inverse value of showActionItem", () => {
