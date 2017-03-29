@@ -63,7 +63,7 @@ class Room extends Component {
             />
           </div>
           <div className="three wide right aligned column">
-            { this.props.isFacilitator &&
+            { this.props.isFacilitator && !this.state.showActionItem &&
               <StageProgressionButton onProceedToActionItems={this.handleToggleActionItem} />
             }
           </div>

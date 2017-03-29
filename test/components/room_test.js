@@ -26,11 +26,23 @@ describe("Room component", () => {
   })
 
   context("when the current user is facilitator", () => {
-    it("renders the <StageProgressionButton>", () => {
-      const roomComponent = shallow(
-        <Room retroChannel={mockRetroChannel} isFacilitator users={[]} />)
+    context("and showActionItems is false", () => {
+      it("renders the <StageProgressionButton>", () => {
+        const roomComponent = shallow(
+          <Room retroChannel={mockRetroChannel} isFacilitator users={[]} />)
 
-      expect(roomComponent.find(StageProgressionButton)).to.have.length(1)
+        expect(roomComponent.find(StageProgressionButton)).to.have.length(1)
+      })
+    })
+
+    context("and showActionItems is true", () => {
+      it("does not render the <StageProgressionButton>", () => {
+        const roomComponent = shallow(
+          <Room retroChannel={mockRetroChannel} isFacilitator users={[]} />)
+        roomComponent.setState({ showActionItem: true })
+
+        expect(roomComponent.find(StageProgressionButton)).to.have.length(0)
+      })
     })
   })
 
