@@ -43,6 +43,8 @@ class Room extends Component {
   }
 
   render() {
+    const retroHasYetToProgressToActionItems = !this.state.showActionItem
+
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
@@ -63,7 +65,7 @@ class Room extends Component {
             />
           </div>
           <div className="three wide right aligned column">
-            { this.props.isFacilitator && !this.state.showActionItem &&
+            { this.props.isFacilitator && retroHasYetToProgressToActionItems &&
               <StageProgressionButton onProceedToActionItems={this.handleToggleActionItem} />
             }
           </div>
