@@ -1,4 +1,4 @@
-defmodule LobbyRealtimeUpdateTest do
+defmodule UserPresenceRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
 
   test "the realtime updates of other users entering/leaving the room", %{session: session_one, retro: retro} do
