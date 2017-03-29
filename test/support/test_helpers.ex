@@ -6,6 +6,10 @@ defmodule RemoteRetro.TestHelpers do
     resize_window(session, 1000, 1000)
   end
 
+  def stub_js_confirms_for_phantomjs(session) do
+    execute_script(session, "window.confirm = function(){ return true; }")
+  end
+
   def authenticate(session) do
     visit(session, "/auth/google/callback?code=love")
   end
