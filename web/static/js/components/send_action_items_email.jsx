@@ -23,7 +23,7 @@ class SendActionItemsEmail extends Component {
 
   render() {
     return (
-      <button className="ui right labeled teal icon button sendActionEmal" disabled={this.state.disabled} onClick={this.sendActionItemsEmail}>
+      <button className="ui right labeled teal icon button" disabled={this.state.disabled} onClick={this.sendActionItemsEmail}>
         Send Action Items
         <i className="send icon"></i>
       </button>

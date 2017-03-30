@@ -9,7 +9,6 @@ defmodule RemoteRetro.RetroChannel do
   alias RemoteRetro.Idea
   alias RemoteRetro.Emails
   alias RemoteRetro.Mailer
-  alias RemoteRetro.Retro
 
   def join("retro:" <> retro_id, _, socket) do
     query = from idea in Idea, where: idea.retro_id == ^retro_id
