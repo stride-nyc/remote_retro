@@ -13,6 +13,8 @@ config :wallaby, screenshot_on_failure: true
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.TestAdapter
+
 # Configure your database
 config :remote_retro, RemoteRetro.Repo,
   adapter: Ecto.Adapters.Postgres,

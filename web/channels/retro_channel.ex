@@ -80,7 +80,7 @@ defmodule RemoteRetro.RetroChannel do
                         |> Emails.action_items_email(socket.assigns.retro_id)
                         |> Mailer.deliver_now
 
-    push socket, "email_send_status", %{success: !!email_send_status}
+    push socket, "email_send_status", %{"success" => !!email_send_status}
     {:noreply, socket}
   end
 
