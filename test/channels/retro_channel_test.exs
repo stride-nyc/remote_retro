@@ -142,6 +142,13 @@ defmodule RemoteRetro.RetroChannelTest do
 
   describe "pushing a send_action_items_email to the socket" do
     setup [:join_the_retro_channel]
+
+    test "triggers an email containing the retro action items", %{socket: socket} do
+      push(socket, "send_action_items_email", %{})
+
+      assert_delivered_with(subject: "Action items from Retro")
+    end
+
     test "results in the push of a email_send_status event back to the client", %{socket: socket} do
       push(socket, "send_action_items_email", %{})
 
