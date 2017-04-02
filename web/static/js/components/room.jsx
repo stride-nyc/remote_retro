@@ -41,7 +41,7 @@ class Room extends Component {
 
   render() {
     const retroHasYetToProgressToActionItems = !this.state.showActionItem
-    const { currentUser, users } = this.props
+    const { currentPresence, users } = this.props
     const { ideas, showActionItem } = this.state
     return (
       <section className={styles.wrapper}>
@@ -55,7 +55,7 @@ class Room extends Component {
         <UserList users={users} />
         <div className="ui stackable grid basic attached secondary segment">
           <div className="thirteen wide column">
-            <IdeaSubmissionForm currentUser={currentUser} onIdeaSubmission={this.handleIdeaSubmission} showActionItem={showActionItem} />
+            <IdeaSubmissionForm currentPresence={currentPresence} onIdeaSubmission={this.handleIdeaSubmission} showActionItem={showActionItem} />
           </div>
           <div className="three wide right aligned column">
             { this.props.isFacilitator && retroHasYetToProgressToActionItems &&

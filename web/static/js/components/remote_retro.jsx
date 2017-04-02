@@ -34,7 +34,7 @@ class RemoteRetro extends Component {
 
     return (
       <Room
-        currentUser={currentPresence}
+        currentPresence={currentPresence}
         users={users}
         isFacilitator={isFacilitator(currentPresence)}
         retroChannel={retroChannel}

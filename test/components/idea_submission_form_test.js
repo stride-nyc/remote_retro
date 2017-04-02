@@ -18,7 +18,7 @@ describe("IdeaSubmissionForm component", () => {
   describe("on submit", () => {
     it("invokes the function passed as the onIdeaSubmission prop", () => {
       const onSubmitIdeaSpy = sinon.spy(() => {})
-      wrapper = mount(<IdeaSubmissionForm currentUser={stubbedUser} onIdeaSubmission={onSubmitIdeaSpy} showActionItem={true} />)
+      wrapper = mount(<IdeaSubmissionForm currentPresence={stubbedUser} onIdeaSubmission={onSubmitIdeaSpy} showActionItem={true} />)
 
       wrapper.simulate("submit", fakeEvent)
 
@@ -28,7 +28,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("when the state's `category` value changes", () => {
     it("shifts focus to the idea input", () => {
-      wrapper = mount(<IdeaSubmissionForm currentUser={stubbedUser} onIdeaSubmission={onSubmitIdeaStub} showActionItem={true} />)
+      wrapper = mount(<IdeaSubmissionForm currentPresence={stubbedUser} onIdeaSubmission={onSubmitIdeaStub} showActionItem={true} />)
 
       const ideaInput = wrapper.find("input[name='idea']")
 
@@ -43,7 +43,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("at the outset the form submit is disabled", () => {
     it("is enabled once there is an idea of 3 characters or longer", () => {
-      wrapper = mount(<IdeaSubmissionForm currentUser={stubbedUser} onIdeaSubmission={onSubmitIdeaStub} showActionItem={true} />)
+      wrapper = mount(<IdeaSubmissionForm currentPresence={stubbedUser} onIdeaSubmission={onSubmitIdeaStub} showActionItem={true} />)
       const submitButton = wrapper.find("button[type='submit']")
       const ideaInput = wrapper.find("input[name='idea']")
 
@@ -58,7 +58,7 @@ describe("IdeaSubmissionForm component", () => {
       beforeEach(() => {
         wrapper = mount(
           <IdeaSubmissionForm
-            currentUser={stubbedUser}
+            currentPresence={stubbedUser}
             onIdeaSubmission={onSubmitIdeaStub}
             showActionItem={false}
           />
@@ -86,7 +86,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("the showActionItem prop", () => {
     it("when true results in the category list only rendering an 'action-item' option", () => {
-      wrapper = mount(<IdeaSubmissionForm currentUser={stubbedUser} onIdeaSubmission={onSubmitIdeaStub} showActionItem={true} />)
+      wrapper = mount(<IdeaSubmissionForm currentPresence={stubbedUser} onIdeaSubmission={onSubmitIdeaStub} showActionItem={true} />)
 
       const categorySelect = wrapper.find('select')
       expect(
@@ -95,7 +95,7 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     it("when false results in the category list rendering options for the basic retro categories", () => {
-      wrapper = mount(<IdeaSubmissionForm currentUser={stubbedUser} onIdeaSubmission={onSubmitIdeaStub} showActionItem={false} />)
+      wrapper = mount(<IdeaSubmissionForm currentPresence={stubbedUser} onIdeaSubmission={onSubmitIdeaStub} showActionItem={false} />)
 
       const categorySelect = wrapper.find('select')
 
