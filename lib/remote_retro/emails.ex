@@ -2,9 +2,10 @@ defmodule RemoteRetro.Emails do
   import Bamboo.Email, except: [from: 2]
   import Ecto.Query
   alias RemoteRetro.Repo
-  def action_items_email(email_address, retro_id) do
+
+  def action_items_email(retro_id) do
     new_email(
-      to: email_address,
+      to: "vanderhoop@me.com",
       from: "do-not-reply@remote_retro.dev",
       subject: "Action items from Retro",
       text_body: text_retro_action_items(retro_id),

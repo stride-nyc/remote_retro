@@ -75,9 +75,7 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("send_action_items_email", _, socket) do
-    email = "brian@glusman.me"
-    email_send_status = email
-                        |> Emails.action_items_email(socket.assigns.retro_id)
+    email_send_status = Emails.action_items_email(socket.assigns.retro_id)
                         |> Mailer.deliver_now
 
     push socket, "email_send_status", %{"success" => !!email_send_status}
