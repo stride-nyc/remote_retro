@@ -17,9 +17,9 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   defp persist_idea_for_retro(context) do
-    %{idea_category: category, idea_body: body, retro: retro} = context
+    %{idea_category: category, idea_body: body, retro: retro, author: author} = context
 
-    changeset = %Idea{category: category, body: body, retro_id: retro.id}
+    changeset = %Idea{category: category, body: body, retro_id: retro.id, author: author}
     Repo.insert!(changeset)
     context
   end
@@ -57,22 +57,22 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "joining a retro that already has a persisted idea" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
-    @tag idea_category: "sad", idea_body: "WIP commits on master"
+    @tag idea_category: "sad", idea_body: "WIP commits on master", author: "Travis"
     test "results in the assignment of all of those ideas to the socket", %{socket: socket} do
       assert length(socket.assigns.ideas) == 1
 
       sole_existing_idea = List.first(socket.assigns.ideas)
 
-      assert %{ body: "WIP commits on master", category: "sad", retro_id: _, id: _ } = sole_existing_idea
+      assert %{ body: "WIP commits on master", category: "sad", author: "Travis", retro_id: _, id: _ } = sole_existing_idea
     end
   end
 
   describe "pushing a new idea to the socket" do
     setup [:join_the_retro_channel]
     test "results in the broadcast of the new idea to all connected clients", %{ socket: socket } do
-      push(socket, "new_idea", %{ category: "happy", body: "we're pacing well" })
+      push(socket, "new_idea", %{ category: "happy", body: "we're pacing well", author: "Travis" })
 
-      assert_broadcast("new_idea_received", %{ category: "happy", body: "we're pacing well", id: _ })
+      assert_broadcast("new_idea_received", %{ category: "happy", body: "we're pacing well", id: _, author: "Travis" })
     end
   end
 

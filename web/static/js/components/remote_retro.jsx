@@ -34,6 +34,7 @@ class RemoteRetro extends Component {
 
     return (
       <Room
+        currentPresence={currentPresence}
         users={users}
         isFacilitator={isFacilitator(currentPresence)}
         retroChannel={retroChannel}
@@ -43,6 +44,7 @@ class RemoteRetro extends Component {
 }
 
 RemoteRetro.propTypes = {
+  userToken: React.PropTypes.string.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   userToken: PropTypes.string.isRequired,
 }

@@ -24,9 +24,10 @@ class IdeaSubmissionForm extends Component {
   }
 
   handleSubmit(event) {
+    const { currentPresence } = this.props
     event.preventDefault()
     this.setState({ body: "" })
-    this.props.onIdeaSubmission(this.state)
+    this.props.onIdeaSubmission({ ...this.state, author: currentPresence.user.given_name })
   }
 
   handleIdeaChange(event) {

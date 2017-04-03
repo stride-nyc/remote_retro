@@ -41,25 +41,21 @@ class Room extends Component {
 
   render() {
     const retroHasYetToProgressToActionItems = !this.state.showActionItem
-
+    const { currentPresence, users } = this.props
+    const { ideas, showActionItem } = this.state
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-          <CategoryColumn category="happy" ideas={this.state.ideas} />
-          <CategoryColumn category="sad" ideas={this.state.ideas} />
-          <CategoryColumn category="confused" ideas={this.state.ideas} />
-          { this.state.showActionItem
-            ? <CategoryColumn category="action-item" ideas={this.state.ideas} /> : null
-          }
+          <CategoryColumn category="happy" ideas={ideas} />
+          <CategoryColumn category="sad" ideas={ideas} />
+          <CategoryColumn category="confused" ideas={ideas} />
+          { showActionItem ? <CategoryColumn category="action-item" ideas={ideas} /> : null }
         </div>
 
-        <UserList users={this.props.users} />
+        <UserList users={users} />
         <div className="ui stackable grid basic attached secondary segment">
           <div className="thirteen wide column">
-            <IdeaSubmissionForm
-              onIdeaSubmission={this.handleIdeaSubmission}
-              showActionItem={this.state.showActionItem}
-            />
+            <IdeaSubmissionForm currentPresence={currentPresence} onIdeaSubmission={this.handleIdeaSubmission} showActionItem={showActionItem} />
           </div>
           <div className="three wide right aligned column">
             { this.props.isFacilitator && retroHasYetToProgressToActionItems &&
@@ -67,7 +63,7 @@ class Room extends Component {
             }
           </div>
         </div>
-        <DoorChime users={this.props.users} />
+        <DoorChime users={users} />
       </section>
     )
   }

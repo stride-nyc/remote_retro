@@ -9,7 +9,7 @@ defmodule RemoteRetro.RetroChannel do
   alias RemoteRetro.Idea
 
   def join("retro:" <> retro_id, _, socket) do
-    query = from idea in Idea, select: map(idea, [:body, :category, :inserted_at, :retro_id, :id]), where: idea.retro_id == ^retro_id
+    query = from idea in Idea, where: idea.retro_id == ^retro_id
     existing_ideas = Repo.all(query)
     socket_ideas = Phoenix.Socket.assign(socket, :ideas, existing_ideas)
     socket_retro = Phoenix.Socket.assign(socket_ideas, :retro_id, retro_id)
@@ -28,8 +28,8 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("new_idea", %{"body" => body, "category" => category}, socket) do
-    changeset = Idea.changeset(%Idea{body: body, category: category, retro_id: socket.assigns.retro_id})
+  def handle_in("new_idea", %{"body" => body, "category" => category, "author" => author}, socket) do
+    changeset = Idea.changeset(%Idea{body: body, category: category, retro_id: socket.assigns.retro_id, author: author})
     idea = Repo.insert!(changeset)
 
     broadcast! socket, "new_idea_received", idea
