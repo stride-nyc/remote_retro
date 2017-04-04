@@ -49,7 +49,6 @@ class Room extends Component {
     this.props.retroChannel.push("delete_idea", ideaId)
   }
 
-
   render() {
     const retroHasYetToProgressToActionItems = !this.state.showActionItem
     const { currentPresence, users } = this.props
@@ -57,11 +56,31 @@ class Room extends Component {
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-          <CategoryColumn category="happy" ideas={ideas} onIdeaDelete={this.handleIdeaDeletion} />
-          <CategoryColumn category="sad" ideas={ideas} onIdeaDelete={this.handleIdeaDeletion} />
-          <CategoryColumn category="confused" ideas={ideas} onIdeaDelete={this.handleIdeaDeletion} />
+          <CategoryColumn
+            category="happy"
+            ideas={ideas}
+            onIdeaDelete={this.handleIdeaDeletion}
+            currentPresence={currentPresence}
+          />
+          <CategoryColumn
+            category="sad"
+            ideas={ideas}
+            onIdeaDelete={this.handleIdeaDeletion}
+            currentPresence={currentPresence}
+          />
+          <CategoryColumn
+            category="confused"
+            ideas={ideas}
+            onIdeaDelete={this.handleIdeaDeletion}
+            currentPresence={currentPresence}
+          />
           { this.state.showActionItem
-            ? <CategoryColumn category="action-item" ideas={ideas} /> : null
+            ? <CategoryColumn
+                category="action-item"
+                ideas={ideas}
+                currentPresence={currentPresence}
+                onIdeaDelete={this.handleIdeaDeletion}
+              /> : null
           }
         </div>
 
@@ -87,6 +106,7 @@ Room.defaultProps = {
 }
 
 Room.propTypes = {
+  currentPresence: AppPropTypes.presence,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   users: AppPropTypes.users.isRequired,
   isFacilitator: React.PropTypes.bool,

@@ -18,7 +18,9 @@ function CategoryColumn(props) {
 
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
-  const filteredIdeasList = filteredIdeas.map(idea => <IdeaListItem idea={idea} handleDelete={handleDelete} />)
+  const filteredIdeasList = filteredIdeas.map(idea => {
+    return <IdeaListItem idea={idea} handleDelete={handleDelete} />
+  })
 
   return (
     <section className={`${props.category} column`}>
@@ -36,7 +38,8 @@ function CategoryColumn(props) {
 
 CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
-  category: AppPropTypes.category.isRequired
+  currentPresence: AppPropTypes.presence,
+  category: AppPropTypes.category.isRequired,
 }
 
 export default CategoryColumn
