@@ -1,5 +1,5 @@
 import React from "react"
-import { idea } from "../prop_types"
+import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_item.css"
 
 function IdeaListItem(props) {
@@ -20,7 +20,7 @@ function IdeaListItem(props) {
 }
 
 IdeaListItem.propTypes = {
-  idea,
+  idea: AppPropTypes.idea.isRequired,
 }
 
 export default IdeaListItem

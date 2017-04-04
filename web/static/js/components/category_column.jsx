@@ -19,7 +19,12 @@ function CategoryColumn(props) {
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
   const filteredIdeasList = filteredIdeas.map(idea => {
-    return <IdeaListItem idea={idea} handleDelete={handleDelete} />
+    return (
+      <IdeaListItem
+        idea={idea}
+        handleDelete={handleDelete}
+      />
+    )
   })
 
   return (

@@ -23,7 +23,7 @@ export const presence = PropTypes.shape({
   user: user,
 })
 
-const idea = PropTypes.shape({
+export const idea = PropTypes.shape({
   id: PropTypes.number,
   author: PropTypes.string,
   body: PropTypes.string,
