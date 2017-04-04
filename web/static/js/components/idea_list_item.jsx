@@ -8,7 +8,13 @@ function IdeaListItem(props) {
   return (
     <li className="item" title={idea.body} key={idea.id}>
       {idea.author}: {idea.body}
-      <button id={idea.id} type='button' onClick={props.handleDelete} className={styles.delete}>x</button>
+      <button
+        id={idea.id}
+        type="button"
+        onClick={props.handleDelete}
+        className={styles.delete}>
+        x
+      </button>
     </li>
   )
 }
