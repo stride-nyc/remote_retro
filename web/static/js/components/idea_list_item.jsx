@@ -21,6 +21,7 @@ function IdeaListItem(props) {
 
 IdeaListItem.propTypes = {
   idea: AppPropTypes.idea.isRequired,
+  currentPresence: AppPropTypes.presence.isRequired,
 }
 
 export default IdeaListItem

@@ -23,6 +23,7 @@ function CategoryColumn(props) {
       <IdeaListItem
         idea={idea}
         handleDelete={handleDelete}
+        currentPresence={props.currentPresence}
       />
     )
   })
