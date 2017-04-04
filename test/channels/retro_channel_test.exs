@@ -94,7 +94,7 @@ defmodule RemoteRetro.RetroChannelTest do
       idea_id = idea.id
       push(socket, "delete_idea", idea_id)
 
-      assert_broadcast("idea_deleted", %{id: ^idea_id, category: "sad"})
+      assert_broadcast("idea_deleted", %{id: ^idea_id})
     end
   end
 
