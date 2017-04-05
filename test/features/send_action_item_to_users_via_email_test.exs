@@ -2,7 +2,7 @@ defmodule SendActionItemToUsersViaEmailTest do
   use RemoteRetro.IntegrationCase, async: false
   use Bamboo.Test, shared: true
 
-  test "Entering an action item into the text field and sending action items delivers email", %{session: facilitator_session, retro: retro} do
+  test "Distributing action items via email", %{session: facilitator_session, retro: retro} do
     retro_path = "/retros/" <> retro.id
     facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
     stub_js_confirms_for_phantomjs(facilitator_session)
