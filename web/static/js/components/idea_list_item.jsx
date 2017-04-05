@@ -9,13 +9,12 @@ function IdeaListItem(props) {
     <li className="item" title={idea.body} key={idea.id}>
       {idea.author}: {idea.body}
       { currentPresence.user.facilitator ?
-        <button
+        <i
           id={idea.id}
-          type="button"
+          className={styles.delete + ` remove circle icon`}
           onClick={props.handleDelete}
-          className={styles.delete}>
-          x
-        </button> : null
+        >
+        </i> : null
       }
     </li>
   )
