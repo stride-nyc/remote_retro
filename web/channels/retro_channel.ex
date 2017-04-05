@@ -41,6 +41,13 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
+  def handle_in("delete_idea", id, socket) do
+    idea = RemoteRetro.Repo.delete!(%Idea{id: id})
+
+    broadcast! socket, "idea_deleted", idea
+    {:noreply, socket}
+  end
+
   intercept ["presence_diff"]
   def handle_out("presence_diff", _msg, socket) do
     presences = Presence.list(socket)

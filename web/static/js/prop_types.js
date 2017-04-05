@@ -19,9 +19,15 @@ export const retroChannel = PropTypes.shape({
   push: PropTypes.func,
 })
 
-const idea = PropTypes.shape({
-  category,
+export const presence = PropTypes.shape({
+  user: user,
+})
+
+export const idea = PropTypes.shape({
+  id: PropTypes.number,
+  author: PropTypes.string,
   body: PropTypes.string,
+  category,
 })
 
 export const ideas = PropTypes.arrayOf(idea)

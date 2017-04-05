@@ -20,8 +20,9 @@ defmodule RemoteRetro.RetroChannelTest do
     %{idea_category: category, idea_body: body, retro: retro, author: author} = context
 
     changeset = %Idea{category: category, body: body, retro_id: retro.id, author: author}
-    Repo.insert!(changeset)
-    context
+    idea = Repo.insert!(changeset)
+
+    Map.put(context, :idea, idea)
   end
 
   describe "joining a RetroChannel" do
@@ -76,12 +77,24 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a show_action_item" do
+  describe "pushing a show_action_item event" do
     setup [:join_the_retro_channel]
     test "broadcasts the show_action_item value to all connected clients", %{ socket: socket } do
       push(socket, "show_action_item", %{show_action_item: false})
 
       assert_broadcast("set_show_action_item", %{ "show_action_item" => false})
+    end
+  end
+
+  describe "pushing a delete event to the socket" do
+    setup [:join_the_retro_channel, :persist_idea_for_retro]
+
+    @tag idea_category: "sad", idea_body: "WIP commits on master", author: "Zander"
+    test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
+      idea_id = idea.id
+      push(socket, "delete_idea", idea_id)
+
+      assert_broadcast("idea_deleted", %{id: ^idea_id})
     end
   end
 

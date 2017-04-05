@@ -14,6 +14,7 @@ class Room extends Component {
     super(props)
     this.state = { ideas: [], showActionItem: false }
     this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
+    this.handleIdeaDeletion = this.handleIdeaDeletion.bind(this)
     this.handleStageProgression = this.handleStageProgression.bind(this)
   }
 
@@ -29,6 +30,11 @@ class Room extends Component {
     this.props.retroChannel.on("set_show_action_item", (eventPayload) => {
       this.setState({ showActionItem: eventPayload.show_action_item })
     })
+
+    this.props.retroChannel.on("idea_deleted", deletedIdea => {
+      const ideas = this.state.ideas.filter(idea => idea.id !== deletedIdea.id)
+      this.setState({ ideas })
+    })
   }
 
   handleIdeaSubmission(idea) {
@@ -39,6 +45,10 @@ class Room extends Component {
     this.props.retroChannel.push("show_action_item", { show_action_item: true })
   }
 
+  handleIdeaDeletion(ideaId) {
+    this.props.retroChannel.push("delete_idea", ideaId)
+  }
+
   render() {
     const retroHasYetToProgressToActionItems = !this.state.showActionItem
     const { currentPresence, users } = this.props
@@ -46,10 +56,32 @@ class Room extends Component {
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-          <CategoryColumn category="happy" ideas={ideas} />
-          <CategoryColumn category="sad" ideas={ideas} />
-          <CategoryColumn category="confused" ideas={ideas} />
-          { showActionItem ? <CategoryColumn category="action-item" ideas={ideas} /> : null }
+          <CategoryColumn
+            category="happy"
+            ideas={ideas}
+            onIdeaDelete={this.handleIdeaDeletion}
+            currentPresence={currentPresence}
+          />
+          <CategoryColumn
+            category="sad"
+            ideas={ideas}
+            onIdeaDelete={this.handleIdeaDeletion}
+            currentPresence={currentPresence}
+          />
+          <CategoryColumn
+            category="confused"
+            ideas={ideas}
+            onIdeaDelete={this.handleIdeaDeletion}
+            currentPresence={currentPresence}
+          />
+          { this.state.showActionItem
+            ? <CategoryColumn
+                category="action-item"
+                ideas={ideas}
+                currentPresence={currentPresence}
+                onIdeaDelete={this.handleIdeaDeletion}
+              /> : null
+          }
         </div>
 
         <UserList users={users} />
@@ -74,6 +106,7 @@ Room.defaultProps = {
 }
 
 Room.propTypes = {
+  currentPresence: AppPropTypes.presence,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   users: AppPropTypes.users.isRequired,
   isFacilitator: React.PropTypes.bool,
