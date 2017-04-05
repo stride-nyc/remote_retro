@@ -9,7 +9,7 @@ describe("CategoryColumn", () => {
   const stubbedPresence = { user: { given_name: "daniel" } }
 
   describe("when every idea passed in the ideas prop matches the column's category", () => {
-    it("is renders a list item for each idea passed the ideas prop", () => {
+    it("renders a list item for each idea passed the ideas prop", () => {
       const ideas = [{
         id: 1,
         body: "tests!",
