@@ -9,7 +9,7 @@ describe("IdeaListItem component", () => {
   const idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
 
   context("when the user is a facilitator", () => {
-    const presence = { user: { facilitator: true } }
+    const presence = { user: { is_facilitator: true } }
     const wrapper = shallow(<IdeaListItem idea={idea} currentPresence={presence} />)
 
     it("renders a delete icon", () => {
@@ -18,7 +18,7 @@ describe("IdeaListItem component", () => {
   })
 
   context("when the user is not a facilitator", () => {
-    const presence = { user: { facilitator: false } }
+    const presence = { user: { is_facilitator: false } }
     const wrapper = shallow(<IdeaListItem idea={idea} currentPresence={presence} />)
 
     it("does not render a delete icon", () => {

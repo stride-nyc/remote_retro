@@ -6,7 +6,7 @@ import Room from "./room"
 
 const isFacilitator = (currentPresence) => {
   if (currentPresence) {
-    return currentPresence.user.facilitator
+    return currentPresence.user.is_facilitator
   }
 
   return false

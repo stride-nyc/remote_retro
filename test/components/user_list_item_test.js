@@ -9,7 +9,7 @@ describe("UserListItem", () => {
     const user = {
       given_name: "dylan",
       online_at: 803,
-      facilitator: false,
+      is_facilitator: false,
     }
 
     it("renders a list item that does not label the user a facilitator", () => {
@@ -22,7 +22,7 @@ describe("UserListItem", () => {
     const user = {
       given_name: "treezy",
       online_at: 803,
-      facilitator: true,
+      is_facilitator: true,
     }
 
     it("renders a list item with text labeling the user facilitator", () => {

@@ -13,8 +13,8 @@ defmodule RemoteRetro.PresenceUtilsTest do
         @presence_structure_with_two_users
       )
 
-      assert presences["tvh121"].user.facilitator == true
-      assert presences["nme999"].user.facilitator == false
+      assert presences["tvh121"].user.is_facilitator == true
+      assert presences["nme999"].user.is_facilitator == false
     end
   end
 end

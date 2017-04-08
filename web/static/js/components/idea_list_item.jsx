@@ -8,7 +8,7 @@ function IdeaListItem(props) {
   return (
     <li className="item" title={idea.body} key={idea.id}>
       {idea.author}: {idea.body}
-      { currentPresence.user.facilitator ?
+      { currentPresence.user.is_facilitator ?
         <i
           id={idea.id}
           className={styles.delete + ` remove circle icon`}

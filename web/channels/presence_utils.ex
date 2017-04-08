@@ -7,7 +7,7 @@ defmodule RemoteRetro.PresenceUtils do
     {facilitator_token, _facilitator} = earliest_arrival(presences)
 
     Enum.into presences, %{}, fn({user_token, presence}) ->
-      presence = put_in(presence, [:user, :facilitator], user_token == facilitator_token)
+      presence = put_in(presence, [:user, :is_facilitator], user_token == facilitator_token)
       {user_token, presence}
     end
   end

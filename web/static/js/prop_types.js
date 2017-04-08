@@ -9,7 +9,7 @@ export const category = PropTypes.string
 export const user = PropTypes.shape({
   given_name: PropTypes.string,
   online_at: PropTypes.number,
-  facilitator: PropTypes.boolean,
+  is_facilitator: PropTypes.boolean,
 })
 
 export const users = PropTypes.arrayOf(PropTypes.object)
