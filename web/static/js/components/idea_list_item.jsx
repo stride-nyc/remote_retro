@@ -11,6 +11,7 @@ function IdeaListItem(props) {
       { currentPresence.user.is_facilitator ?
         <i
           id={idea.id}
+          title="Delete Idea"
           className={styles.delete + ` remove circle icon`}
           onClick={props.handleDelete}
         >
