@@ -11,10 +11,17 @@ function IdeaListItem(props) {
         <i
           id={idea.id}
           title="Delete Idea"
-          className={`${styles.delete} remove circle icon`}
+          className={styles.actionIcon + ` remove circle icon`}
           onClick={props.handleDelete}
         />
         : null
+      }
+      { currentPresence.user.is_facilitator ?
+        <i
+          title="Edit Idea"
+          className={styles.actionIcon + ` edit icon`}
+        >
+        </i> : null
       }
       <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
     </li>

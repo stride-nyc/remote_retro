@@ -11,8 +11,12 @@ describe("IdeaListItem component", () => {
     const presence = { user: { is_facilitator: true } }
     const wrapper = shallow(<IdeaListItem idea={idea} currentPresence={presence} />)
 
-    it("renders a delete icon", () => {
+    it("renders an delete icon", () => {
       expect(wrapper.find(".remove.icon").length).to.equal(1)
+    })
+
+    it("renders an edit icon", () => {
+      expect(wrapper.find(".edit.icon").length).to.equal(1)
     })
   })
 
@@ -22,6 +26,10 @@ describe("IdeaListItem component", () => {
 
     it("does not render a delete icon", () => {
       expect(wrapper.find(".remove.icon").length).to.equal(0)
+    })
+
+    it("does not render an edit icon", () => {
+      expect(wrapper.find(".edit.icon").length).to.equal(0)
     })
   })
 })
