@@ -7,7 +7,6 @@ function IdeaListItem(props) {
 
   return (
     <li className="item" title={idea.body} key={idea.id}>
-      <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
       { currentPresence.user.is_facilitator ?
         <i
           id={idea.id}
@@ -17,6 +16,7 @@ function IdeaListItem(props) {
         >
         </i> : null
       }
+      <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
     </li>
   )
 }
