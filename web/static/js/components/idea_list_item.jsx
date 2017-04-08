@@ -3,11 +3,22 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_list_item.css"
 
 class IdeaListItem extends Component {
+  constructor(props) {
+    super(props)
+    this.state = { editing: false }
+    this.enableEditState = this.enableEditState.bind(this)
+  }
+
+  enableEditState() {
+    this.setState({ editing: true })
+  }
+
   render() {
     let { idea, currentPresence, handleDelete } = this.props
 
     return (
       <li className={styles.index} title={idea.body} key={idea.id}>
+        Editing: { this.state.editing && 'true' }
         { currentPresence.user.is_facilitator ?
           <span>
             <i
@@ -20,6 +31,7 @@ class IdeaListItem extends Component {
             <i
               title="Edit Idea"
               className={styles.actionIcon + ` edit icon`}
+              onClick={this.enableEditState}
             >
             </i>
           </span> : null
