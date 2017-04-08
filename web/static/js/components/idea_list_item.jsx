@@ -7,7 +7,7 @@ function IdeaListItem(props) {
 
   return (
     <li className="item" title={idea.body} key={idea.id}>
-      {idea.author}: {idea.body}
+      <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
       { currentPresence.user.is_facilitator ?
         <i
           id={idea.id}

@@ -3,3 +3,7 @@
   font-size: 1.2rem !important;
   float: right;
 }
+
+.author-attribution {
+  font-weight: bold;
+}
