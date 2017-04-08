@@ -1,6 +1,6 @@
 import React from "react"
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/idea_item.css"
+import styles from "./css_modules/idea_list_item.css"
 
 function IdeaListItem(props) {
   let { idea, currentPresence } = props
