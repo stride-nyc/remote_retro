@@ -3,12 +3,6 @@
   border-bottom: 1px solid rgba(34,36,38, 0.15);
 }
 
-.action-icon {
-  cursor: pointer;
-  font-size: 1.2rem !important;
-  float: right;
-}
-
 .author-attribution {
   font-weight: bold;
 }
