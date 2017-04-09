@@ -15,27 +15,28 @@ class IdeaListItem extends Component {
 
   render() {
     let { idea, currentPresence, handleDelete } = this.props
+    const ideaControls = (
+      <span>
+        <i
+          id={idea.id}
+          title="Delete Idea"
+          className={styles.actionIcon + ` remove circle icon`}
+          onClick={handleDelete}
+        >
+        </i>
+        <i
+          title="Edit Idea"
+          className={styles.actionIcon + ` edit icon`}
+          onClick={this.enableEditState}
+        >
+        </i>
+      </span>
+    )
 
     return (
       <li className={styles.index} title={idea.body} key={idea.id}>
         Editing: { this.state.editing && 'true' }
-        { currentPresence.user.is_facilitator ?
-          <span>
-            <i
-              id={idea.id}
-              title="Delete Idea"
-              className={styles.actionIcon + ` remove circle icon`}
-              onClick={handleDelete}
-            >
-            </i>
-            <i
-              title="Edit Idea"
-              className={styles.actionIcon + ` edit icon`}
-              onClick={this.enableEditState}
-            >
-            </i>
-          </span> : null
-        }
+        { currentPresence.user.is_facilitator ? ideaControls : null }
         <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
       </li>
     )
