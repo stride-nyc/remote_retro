@@ -20,7 +20,14 @@ class Idea extends Component {
 
     return (
       <li className={styles.index} title={idea.body} key={idea.id}>
-        { isFacilitator && <IdeaControls idea={idea} handleDelete={handleDelete} /> }
+        { this.state.editing && 'true' }
+        { isFacilitator &&
+          <IdeaControls
+            idea={idea}
+            handleDelete={handleDelete}
+            handleEnableEditState={this.enableEditState}
+          />
+        }
         <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
       </li>
     )

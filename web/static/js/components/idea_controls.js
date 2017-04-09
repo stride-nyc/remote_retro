@@ -27,6 +27,7 @@ function IdeaControls(props) {
 IdeaControls.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   handleDelete: React.PropTypes.func.isRequired,
+  handleEnableEditState: React.PropTypes.func.isRequired,
 }
 
 export default IdeaControls
