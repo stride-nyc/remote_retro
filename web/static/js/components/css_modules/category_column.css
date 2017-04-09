@@ -2,3 +2,7 @@
   font-size: 5rem;
   font-style: normal;
 }
+
+.index ul {
+  margin-left: 0rem !important;
+}
