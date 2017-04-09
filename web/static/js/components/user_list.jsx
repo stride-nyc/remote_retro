@@ -3,12 +3,12 @@ import UserListItem from "./user_list_item"
 import * as AppPropTypes from "../prop_types"
 
 function UserList(props) {
-  const usersSortedByArrival = props.users.sort((userOne, userTwo) => {
-    return userOne.online_at > userTwo.online_at
-  })
+  const usersSortedByArrival = props.users.sort((userOne, userTwo) =>
+    userOne.online_at > userTwo.online_at
+  )
 
   const listItems = usersSortedByArrival.map(user =>
-    <UserListItem key={user.online_at} user={user} />,
+    <UserListItem key={user.online_at} user={user} />
   )
 
   return (
@@ -21,7 +21,7 @@ function UserList(props) {
 }
 
 UserList.propTypes = {
-  users: AppPropTypes.users.isRequired
+  users: AppPropTypes.users.isRequired,
 }
 
 export default UserList

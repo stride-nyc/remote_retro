@@ -1,9 +1,9 @@
-import React from "react"
+import React, { PropTypes } from "react"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_list_item.css"
 
 function IdeaListItem(props) {
-  let { idea, currentPresence } = props
+  const { idea, currentPresence } = props
 
   return (
     <li className={styles.index} title={idea.body} key={idea.id}>
@@ -11,10 +11,10 @@ function IdeaListItem(props) {
         <i
           id={idea.id}
           title="Delete Idea"
-          className={styles.delete + ` remove circle icon`}
+          className={`${styles.delete} remove circle icon`}
           onClick={props.handleDelete}
-        >
-        </i> : null
+        />
+        : null
       }
       <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
     </li>
@@ -24,6 +24,7 @@ function IdeaListItem(props) {
 IdeaListItem.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentPresence: AppPropTypes.presence.isRequired,
+  handleDelete: PropTypes.func,
 }
 
 export default IdeaListItem

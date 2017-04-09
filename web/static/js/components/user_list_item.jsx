@@ -16,7 +16,7 @@ function UserListItem(props) {
 }
 
 UserListItem.propTypes = {
-  user: AppPropTypes.user.isRequired
+  user: AppPropTypes.user.isRequired,
 }
 
 export default UserListItem

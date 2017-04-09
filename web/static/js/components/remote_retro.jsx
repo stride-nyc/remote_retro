@@ -4,7 +4,7 @@ import { Presence } from "phoenix"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 
-const isFacilitator = (currentPresence) => {
+const isFacilitator = currentPresence => {
   if (currentPresence) {
     return currentPresence.user.is_facilitator
   }
@@ -44,7 +44,6 @@ class RemoteRetro extends Component {
 }
 
 RemoteRetro.propTypes = {
-  userToken: React.PropTypes.string.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   userToken: PropTypes.string.isRequired,
 }

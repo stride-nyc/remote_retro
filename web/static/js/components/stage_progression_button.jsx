@@ -20,7 +20,7 @@ class StageProgressionButton extends Component {
         onClick={this.handleToggleChange}
       >
         Proceed to Action Items
-        <i className="arrow right icon"></i>
+        <i className="arrow right icon" />
       </button>
     )
   }
