@@ -19,15 +19,15 @@ class Room extends Component {
   }
 
   componentDidMount() {
-    this.props.retroChannel.on("existing_ideas", (payload) => {
+    this.props.retroChannel.on("existing_ideas", payload => {
       this.setState({ ideas: payload.ideas })
     })
 
-    this.props.retroChannel.on("new_idea_received", (newIdea) => {
+    this.props.retroChannel.on("new_idea_received", newIdea => {
       this.setState({ ideas: [...this.state.ideas, newIdea] })
     })
 
-    this.props.retroChannel.on("set_show_action_item", (eventPayload) => {
+    this.props.retroChannel.on("set_show_action_item", eventPayload => {
       this.setState({ showActionItem: eventPayload.show_action_item })
     })
 
@@ -74,20 +74,24 @@ class Room extends Component {
             onIdeaDelete={this.handleIdeaDeletion}
             currentPresence={currentPresence}
           />
-          { this.state.showActionItem
-            ? <CategoryColumn
-                category="action-item"
-                ideas={ideas}
-                currentPresence={currentPresence}
-                onIdeaDelete={this.handleIdeaDeletion}
-              /> : null
+          { this.state.showActionItem ?
+            <CategoryColumn
+              category="action-item"
+              ideas={ideas}
+              currentPresence={currentPresence}
+              onIdeaDelete={this.handleIdeaDeletion}
+            /> : null
           }
         </div>
 
         <UserList users={users} />
         <div className="ui stackable grid basic attached secondary segment">
           <div className="thirteen wide column">
-            <IdeaSubmissionForm currentPresence={currentPresence} onIdeaSubmission={this.handleIdeaSubmission} showActionItem={showActionItem} />
+            <IdeaSubmissionForm
+              currentPresence={currentPresence}
+              onIdeaSubmission={this.handleIdeaSubmission}
+              showActionItem={showActionItem}
+            />
           </div>
           <div className="three wide right aligned column">
             { this.props.isFacilitator && retroHasYetToProgressToActionItems &&

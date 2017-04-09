@@ -38,6 +38,21 @@ module.exports = {
       "error",
       "never"
     ],
-    "react/no-unescaped-entities": "off"
+    "arrow-parens": [
+      "error",
+      "as-needed",
+    ],
+    "comma-dangle": [
+      "error",
+      {
+        "functions": "never",
+        "objects": "always-multiline",
+        "arrays": "always-multiline",
+        "imports": "ignore",
+        "exports": "ignore",
+      }
+    ],
+    "react/no-unescaped-entities": "off",
+    "jsx-a11y/no-static-element-interactions": 0,
   }
 }

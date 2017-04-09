@@ -15,7 +15,7 @@ describe("Room component", () => {
   describe(".handleIdeaSubmission", () => {
     it("pushes the idea to the room channel", () => {
       const roomComponent = shallow(
-        <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} users={[]} />,
+        <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} users={[]} />
       )
 
       roomComponent
@@ -23,7 +23,7 @@ describe("Room component", () => {
         .handleIdeaSubmission({ category: "sad", body: "we don't use our linter" })
 
       expect(
-        mockRetroChannel.push.calledWith("new_idea", { category: "sad", body: "we don't use our linter" }),
+        mockRetroChannel.push.calledWith("new_idea", { category: "sad", body: "we don't use our linter" })
       ).to.equal(true)
     })
   })
@@ -32,7 +32,13 @@ describe("Room component", () => {
     context("and showActionItems is false", () => {
       it("renders the <StageProgressionButton>", () => {
         const roomComponent = shallow(
-          <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} isFacilitator users={[]} />)
+          <Room
+            currentPresence={stubbedPresence}
+            retroChannel={mockRetroChannel}
+            isFacilitator
+            users={[]}
+          />
+        )
 
         expect(roomComponent.find(StageProgressionButton)).to.have.length(1)
       })
@@ -41,7 +47,13 @@ describe("Room component", () => {
     context("and showActionItems is true", () => {
       it("does not render the <StageProgressionButton>", () => {
         const roomComponent = shallow(
-          <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} isFacilitator users={[]} />)
+          <Room
+            currentPresence={stubbedPresence}
+            retroChannel={mockRetroChannel}
+            isFacilitator
+            users={[]}
+          />
+        )
         roomComponent.setState({ showActionItem: true })
 
         expect(roomComponent.find(StageProgressionButton)).to.have.length(0)
@@ -51,7 +63,13 @@ describe("Room component", () => {
 
   context("when the current user is not facilitator", () => {
     it("does not render <StageProgressionButton>", () => {
-      const roomComponent = shallow(<Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} users={[]} />)
+      const roomComponent = shallow(
+        <Room
+          currentPresence={stubbedPresence}
+          retroChannel={mockRetroChannel}
+          users={[]}
+        />
+      )
 
       expect(roomComponent.find(StageProgressionButton)).to.have.length(0)
     })
@@ -61,7 +79,14 @@ describe("Room component", () => {
     const retroChannel = { push: spy() }
 
     before(() => {
-      const wrapper = shallow(<Room currentPresence={stubbedPresence} retroChannel={retroChannel} isFacilitator users={[]} />)
+      const wrapper = shallow(
+        <Room
+          currentPresence={stubbedPresence}
+          retroChannel={retroChannel}
+          isFacilitator
+          users={[]}
+        />
+      )
 
       wrapper.find(StageProgressionButton).props().onProceedToActionItems()
     })
@@ -75,22 +100,22 @@ describe("Room component", () => {
   describe("Action item column", () => {
     it("is not visible on render", () => {
       const roomComponent = shallow(
-        <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} users={[]} />,
+        <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} users={[]} />
       )
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]} />,
+        <CategoryColumn category="action-item" ideas={[]} />
       )).to.equal(false)
     })
 
     it("becomes visible when showActionItem is true", () => {
       const roomComponent = shallow(
-        <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} users={[]} />,
+        <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} users={[]} />
       )
       roomComponent.setState({ showActionItem: true })
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]} />,
+        <CategoryColumn category="action-item" ideas={[]} />
       )).to.equal(true)
     })
   })
@@ -102,7 +127,7 @@ describe("Room component", () => {
     beforeEach(() => {
       retroChannel = RetroChannel.configure({})
       roomComponent = mount(
-        <Room currentPresence={stubbedPresence} retroChannel={retroChannel} users={[]} />,
+        <Room currentPresence={stubbedPresence} retroChannel={retroChannel} users={[]} />
       )
     })
 

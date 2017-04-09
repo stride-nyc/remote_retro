@@ -12,7 +12,11 @@ describe("StageProgressionButton", () => {
       const confirmSpy = sinon.spy(global, "confirm")
 
       const onProceedToActionItemsStub = () => {}
-      const wrapper = mount(<StageProgressionButton onProceedToActionItems={onProceedToActionItemsStub} />)
+      const wrapper = mount(
+        <StageProgressionButton
+          onProceedToActionItems={onProceedToActionItemsStub}
+        />
+      )
 
       wrapper.simulate("click")
       expect(confirmSpy.called).to.equal(true)
@@ -29,7 +33,11 @@ describe("StageProgressionButton", () => {
         confirmStub = sinon.stub(global, "confirm")
         onProceedToActionItemsSpy = sinon.spy()
 
-        stageProgressionButton = mount(<StageProgressionButton onProceedToActionItems={onProceedToActionItemsSpy} />)
+        stageProgressionButton = mount(
+          <StageProgressionButton
+            onProceedToActionItems={onProceedToActionItemsSpy}
+          />
+        )
       })
 
       afterEach(() => {

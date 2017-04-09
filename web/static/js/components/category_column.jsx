@@ -11,23 +11,21 @@ function CategoryColumn(props) {
     "action-item": "🚀",
   }
 
-  const handleDelete = (e)=> {
-    let id = Number.parseInt(e.target.id)
+  const handleDelete = e => {
+    const id = Number.parseInt(e.target.id, 10)
     props.onIdeaDelete(id)
   }
 
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
-  const filteredIdeasList = filteredIdeas.map(idea => {
-    return (
-      <IdeaListItem
-        idea={idea}
-        key={idea.id}
-        handleDelete={handleDelete}
-        currentPresence={props.currentPresence}
-      />
-    )
-  })
+  const filteredIdeasList = filteredIdeas.map(idea => (
+    <IdeaListItem
+      idea={idea}
+      key={idea.id}
+      handleDelete={handleDelete}
+      currentPresence={props.currentPresence}
+    />
+  ))
 
   return (
     <section className={`${props.category} ${styles.index} column`}>

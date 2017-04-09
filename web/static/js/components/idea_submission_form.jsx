@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/idea_submission_form.css"
 
@@ -51,16 +52,16 @@ class IdeaSubmissionForm extends Component {
         <div className="inline fields">
           <div className="five wide field">
             <label htmlFor="category">Category:</label>
-              <select
-                name="category"
-                value={this.state.category}
-                className={`ui dropdown ${styles.select}`}
-                onChange={this.handleCategoryChange}
-              >
-                { this.props.showActionItem ? <option value="action-item">action-item</option> :
-                  defaultCategoryOptions
-                }
-              </select>
+            <select
+              name="category"
+              value={this.state.category}
+              className={`ui dropdown ${styles.select}`}
+              onChange={this.handleCategoryChange}
+            >
+              { this.props.showActionItem ? <option value="action-item">action-item</option> :
+                defaultCategoryOptions
+              }
+            </select>
           </div>
           <div className="eleven wide field">
             <div className="ui fluid action input">
@@ -68,7 +69,7 @@ class IdeaSubmissionForm extends Component {
                 type="text"
                 name="idea"
                 autoFocus
-                ref={(input) => { this.ideaInput = input }}
+                ref={input => { this.ideaInput = input }}
                 value={this.state.body}
                 onChange={this.handleIdeaChange}
                 placeholder="we're actively trying to improve"
@@ -84,6 +85,7 @@ class IdeaSubmissionForm extends Component {
 
 IdeaSubmissionForm.propTypes = {
   onIdeaSubmission: React.PropTypes.func.isRequired,
+  currentPresence: AppPropTypes.presence.isRequired,
   showActionItem: React.PropTypes.bool.isRequired,
 }
 

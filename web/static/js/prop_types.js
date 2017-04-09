@@ -1,7 +1,7 @@
 //
 // Reusable, domain-specific prop types
 //
-import { PropTypes } from 'react';
+import { PropTypes } from "react"
 
 // could be an enum if this is a fixed set of strings?
 export const category = PropTypes.string
@@ -20,7 +20,7 @@ export const retroChannel = PropTypes.shape({
 })
 
 export const presence = PropTypes.shape({
-  user: user,
+  user,
 })
 
 export const idea = PropTypes.shape({
