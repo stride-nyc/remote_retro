@@ -35,8 +35,8 @@ function CategoryColumn(props) {
         <i className={styles.icon}>{emoticonUnicode}</i>
         <p><strong>{props.category}</strong></p>
       </div>
-      <div className="ui divider" />
-      <ul className={`${props.category} ideas ui divided list`}>
+      <div className="ui fitted divider" />
+      <ul className={`${props.category} ${styles.list} ideas`}>
         {filteredIdeasList}
       </ul>
     </section>
