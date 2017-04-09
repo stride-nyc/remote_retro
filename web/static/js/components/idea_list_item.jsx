@@ -6,7 +6,7 @@ function IdeaListItem(props) {
   let { idea, currentPresence } = props
 
   return (
-    <li className={`item ${styles.index}`} title={idea.body} key={idea.id}>
+    <li className={styles.index} title={idea.body} key={idea.id}>
       { currentPresence.user.is_facilitator ?
         <i
           id={idea.id}
