@@ -3,7 +3,7 @@ import { shallow } from "enzyme"
 import { expect } from "chai"
 
 import CategoryColumn from "../../web/static/js/components/category_column"
-import IdeaListItem from "../../web/static/js/components/idea_list_item"
+import Idea from "../../web/static/js/components/idea"
 
 describe("CategoryColumn", () => {
   const stubbedPresence = { user: { given_name: "daniel" } }
@@ -23,7 +23,7 @@ describe("CategoryColumn", () => {
       const wrapper = shallow(
         <CategoryColumn ideas={ideas} category="happy" currentPresence={stubbedPresence} />
       )
-      expect(wrapper.find(IdeaListItem)).to.have.length(2)
+      expect(wrapper.find(Idea)).to.have.length(2)
     })
   })
 

@@ -1,5 +1,5 @@
 import React from "react"
-import IdeaListItem from "./idea_list_item"
+import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 

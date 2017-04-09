@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/idea_list_item.css"
+import styles from "./css_modules/idea.css"
 
-class IdeaListItem extends Component {
+class Idea extends Component {
   constructor(props) {
     super(props)
     this.state = { editing: false }
@@ -43,10 +43,10 @@ class IdeaListItem extends Component {
   }
 }
 
-IdeaListItem.propTypes = {
+Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentPresence: AppPropTypes.presence.isRequired,
   handleDelete: PropTypes.func,
 }
 
-export default IdeaListItem
+export default Idea
