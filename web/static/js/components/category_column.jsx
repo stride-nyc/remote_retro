@@ -45,6 +45,7 @@ CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   currentPresence: AppPropTypes.presence,
   category: AppPropTypes.category.isRequired,
+  retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 
 export default CategoryColumn

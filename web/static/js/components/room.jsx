@@ -61,18 +61,21 @@ class Room extends Component {
             ideas={ideas}
             onIdeaDelete={this.handleIdeaDeletion}
             currentPresence={currentPresence}
+            retroChannel={this.props.retroChannel}
           />
           <CategoryColumn
             category="sad"
             ideas={ideas}
             onIdeaDelete={this.handleIdeaDeletion}
             currentPresence={currentPresence}
+            retroChannel={this.props.retroChannel}
           />
           <CategoryColumn
             category="confused"
             ideas={ideas}
             onIdeaDelete={this.handleIdeaDeletion}
             currentPresence={currentPresence}
+            retroChannel={this.props.retroChannel}
           />
           { this.state.showActionItem ?
             <CategoryColumn
@@ -80,6 +83,7 @@ class Room extends Component {
               ideas={ideas}
               currentPresence={currentPresence}
               onIdeaDelete={this.handleIdeaDeletion}
+              retroChannel={this.props.retroChannel}
             /> : null
           }
         </div>

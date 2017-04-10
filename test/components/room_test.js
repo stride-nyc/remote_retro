@@ -104,7 +104,7 @@ describe("Room component", () => {
       )
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]} />
+        <CategoryColumn category="action-item" ideas={[]} retroChannel={mockRetroChannel} />
       )).to.equal(false)
     })
 
@@ -115,7 +115,7 @@ describe("Room component", () => {
       roomComponent.setState({ showActionItem: true })
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]} />
+        <CategoryColumn category="action-item" ideas={[]} retroChannel={mockRetroChannel} />
       )).to.equal(true)
     })
   })
