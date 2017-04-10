@@ -24,6 +24,7 @@ function CategoryColumn(props) {
       key={idea.id}
       handleDelete={handleDelete}
       currentPresence={props.currentPresence}
+      retroChannel={props.retroChannel}
     />
   ))
 

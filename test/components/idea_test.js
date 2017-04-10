@@ -8,12 +8,19 @@ import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("Idea component", () => {
   const idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
-  const handleDeleteStub = () => {}
+  const mockHandleDelete = () => {}
+  const mockRetroChannel = { on: () => {}, push: () => {} }
 
   context("when the user is a facilitator", () => {
     const presence = { user: { is_facilitator: true } }
     const wrapper = shallow(
-      <Idea idea={idea} currentPresence={presence} handleDelete={handleDeleteStub} />)
+      <Idea
+        idea={idea}
+        currentPresence={presence}
+        handleDelete={mockHandleDelete}
+        retroChannel={mockRetroChannel}
+      />
+    )
 
     it("renders <IdeaControls />", () => {
       expect(wrapper.find(IdeaControls).length).to.equal(1)
@@ -21,14 +28,20 @@ describe("Idea component", () => {
 
     it("passes the handleDelete prop to <IdeaControls />", () => {
       const ideaControls = wrapper.find(IdeaControls)
-      expect(ideaControls.props().handleDelete).to.equal(handleDeleteStub)
+      expect(ideaControls.props().handleDelete).to.equal(mockHandleDelete)
     })
   })
 
   context("when the user is not a facilitator", () => {
     const presence = { user: { is_facilitator: false } }
     const wrapper = shallow(
-      <Idea idea={idea} currentPresence={presence} handleDelete={handleDeleteStub} />)
+      <Idea
+        idea={idea}
+        currentPresence={presence}
+        handleDelete={mockHandleDelete}
+        retroChannel={mockRetroChannel}
+      />
+    )
 
     it("does not render IdeaControls", () => {
       expect(wrapper.find(IdeaControls).length).to.equal(0)
@@ -38,7 +51,13 @@ describe("Idea component", () => {
   context("when the idea is in its default state", () => {
     const presence = { user: { is_facilitator: false } }
     const wrapper = shallow(
-      <Idea idea={idea} currentPresence={presence} handleDelete={handleDeleteStub} />)
+      <Idea
+        idea={idea}
+        currentPresence={presence}
+        handleDelete={mockHandleDelete}
+        retroChannel={mockRetroChannel}
+      />
+    )
 
     it("does not have a raised appearance", () => {
       expect(wrapper.hasClass("raised")).to.equal(false)
@@ -52,7 +71,13 @@ describe("Idea component", () => {
   context("when the idea is being edited", () => {
     const presence = { user: { is_facilitator: false } }
     const wrapper = shallow(
-      <Idea idea={idea} currentPresence={presence} handleDelete={handleDeleteStub} />)
+      <Idea
+        idea={idea}
+        currentPresence={presence}
+        handleDelete={mockHandleDelete}
+        retroChannel={mockRetroChannel}
+      />
+    )
     wrapper.setState({ editing: true })
 
     it("has a raised appearance", () => {

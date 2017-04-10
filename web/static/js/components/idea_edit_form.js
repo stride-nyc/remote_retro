@@ -6,10 +6,17 @@ class IdeaEditForm extends Component {
     super(props)
     this.state = { ideaBody: props.idea.body }
     this.onChange = this.onChange.bind(this)
+    this.onSave = this.onSave.bind(this)
   }
 
   onChange(event) {
     this.setState({ ideaBody: event.target.value })
+  }
+
+  onSave(event) {
+    const { idea, retroChannel } = this.props
+    const { ideaBody } = this.state
+    retroChannel.push("idea_edited", { id: idea.id, body: ideaBody })
   }
 
   render() {
@@ -21,7 +28,7 @@ class IdeaEditForm extends Component {
         <div className="ui buttons">
           <button className="ui button">Cancel</button>
           <div className="or"></div>
-          <button className="ui positive button">Save</button>
+          <button className="ui positive button" onClick={this.onSave}>Save</button>
         </div>
       </form>
     )
@@ -30,6 +37,7 @@ class IdeaEditForm extends Component {
 
 IdeaEditForm.propTypes = {
   idea: AppPropTypes.idea.isRequired,
+  retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 
 export default IdeaEditForm

@@ -16,7 +16,7 @@ class Idea extends Component {
   }
 
   render() {
-    let { idea, currentPresence, handleDelete } = this.props
+    let { idea, currentPresence, handleDelete, retroChannel } = this.props
     let isFacilitator = currentPresence.user.is_facilitator
     let classes = styles.index
     classes += this.state.editing ? " ui raised segment" : ""
@@ -36,7 +36,9 @@ class Idea extends Component {
 
     return (
       <li className={classes} title={idea.body} key={idea.id}>
-        { this.state.editing ? <IdeaEditForm idea={idea} /> : readOnlyIdea }
+        { this.state.editing ?
+          <IdeaEditForm idea={idea} retroChannel={retroChannel} /> : readOnlyIdea
+        }
       </li>
     )
   }
@@ -45,6 +47,7 @@ class Idea extends Component {
 Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   handleDelete: React.PropTypes.func.isRequired,
+  retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 
 export default Idea
