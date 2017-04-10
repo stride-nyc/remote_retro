@@ -42,6 +42,10 @@ describe("Idea component", () => {
     it("does not have a raised appearance", () => {
       expect(wrapper.hasClass("raised")).to.equal(false)
     })
+
+    it("does not render an <IdeaEditForm/> as a child", () => {
+      expect(wrapper.find(IdeaEditForm).length).to.equal(0)
+    })
   })
 
   context("when the idea is being edited", () => {
@@ -55,5 +59,7 @@ describe("Idea component", () => {
       expect(wrapper.hasClass("raised")).to.equal(true)
       expect(wrapper.hasClass("segment")).to.equal(true)
     })
+
+    // write test ensuring that idea is passed as prop
   })
 })

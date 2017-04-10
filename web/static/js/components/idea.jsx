@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import IdeaControls from "./idea_controls"
+import IdeaEditForm from "./idea_edit_form"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
 
@@ -20,8 +21,8 @@ class Idea extends Component {
     let classes = styles.index
     classes += this.state.editing ? " ui raised segment" : ""
 
-    return (
-      <li className={classes} title={idea.body} key={idea.id}>
+    const readOnlyIdea = (
+      <div>
         { isFacilitator &&
           <IdeaControls
             idea={idea}
@@ -30,6 +31,12 @@ class Idea extends Component {
           />
         }
         <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
+      </div>
+    )
+
+    return (
+      <li className={classes} title={idea.body} key={idea.id}>
+        { this.state.editing ? <IdeaEditForm idea={idea} /> : readOnlyIdea }
       </li>
     )
   }
