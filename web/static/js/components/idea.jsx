@@ -17,10 +17,11 @@ class Idea extends Component {
   render() {
     let { idea, currentPresence, handleDelete } = this.props
     let isFacilitator = currentPresence.user.is_facilitator
+    let classes = styles.index
+    classes += this.state.editing ? " ui raised segment" : ""
 
     return (
-      <li className={styles.index} title={idea.body} key={idea.id}>
-        { this.state.editing && 'true' }
+      <li className={classes} title={idea.body} key={idea.id}>
         { isFacilitator &&
           <IdeaControls
             idea={idea}

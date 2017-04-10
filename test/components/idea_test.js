@@ -33,4 +33,27 @@ describe("Idea component", () => {
       expect(wrapper.find(IdeaControls).length).to.equal(0)
     })
   })
+
+  context("when the idea is in its default state", () => {
+    const presence = { user: { is_facilitator: false } }
+    const wrapper = shallow(
+      <Idea idea={idea} currentPresence={presence} handleDelete={handleDeleteStub} />)
+
+    it("does not have a raised appearance", () => {
+      expect(wrapper.hasClass("raised")).to.equal(false)
+    })
+  })
+
+  context("when the idea is being edited", () => {
+    const presence = { user: { is_facilitator: false } }
+    const wrapper = shallow(
+      <Idea idea={idea} currentPresence={presence} handleDelete={handleDeleteStub} />)
+    wrapper.setState({ editing: true })
+
+    it("has a raised appearance", () => {
+      expect(wrapper.hasClass("ui")).to.equal(true)
+      expect(wrapper.hasClass("raised")).to.equal(true)
+      expect(wrapper.hasClass("segment")).to.equal(true)
+    })
+  })
 })
