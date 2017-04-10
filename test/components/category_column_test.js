@@ -6,7 +6,7 @@ import CategoryColumn from "../../web/static/js/components/category_column"
 import Idea from "../../web/static/js/components/idea"
 
 describe("CategoryColumn", () => {
-  const stubbedPresence = { user: { given_name: "daniel" } }
+  const mockPresence = { user: { given_name: "daniel" } }
 
   describe("when every idea passed in the ideas prop matches the column's category", () => {
     it("renders a list item for each idea passed the ideas prop", () => {
@@ -21,7 +21,7 @@ describe("CategoryColumn", () => {
       }]
 
       const wrapper = shallow(
-        <CategoryColumn ideas={ideas} category="happy" currentPresence={stubbedPresence} />
+        <CategoryColumn ideas={ideas} category="happy" currentPresence={mockPresence} />
       )
       expect(wrapper.find(Idea)).to.have.length(2)
     })
@@ -40,7 +40,7 @@ describe("CategoryColumn", () => {
         <CategoryColumn
           ideas={ideas}
           category={differentCategory}
-          currentPresence={stubbedPresence}
+          currentPresence={mockPresence}
         />
       )
 
