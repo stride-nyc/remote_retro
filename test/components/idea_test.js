@@ -4,6 +4,7 @@ import { expect } from "chai"
 
 import Idea from "../../web/static/js/components/idea"
 import IdeaControls from "../../web/static/js/components/idea_controls"
+import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("Idea component", () => {
   const idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
@@ -60,6 +61,8 @@ describe("Idea component", () => {
       expect(wrapper.hasClass("segment")).to.equal(true)
     })
 
-    // write test ensuring that idea is passed as prop
+    it("renders an <IdeaEditForm/> as a child", () => {
+      expect(wrapper.find(IdeaEditForm).length).to.equal(1)
+    })
   })
 })
