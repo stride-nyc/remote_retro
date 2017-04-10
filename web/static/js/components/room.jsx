@@ -53,38 +53,23 @@ class Room extends Component {
     const retroHasYetToProgressToActionItems = !this.state.showActionItem
     const { currentPresence, users } = this.props
     const { ideas, showActionItem } = this.state
+    const categories = ["happy", "sad", "confused"]
+    if (showActionItem) { categories.push("action-item") }
+
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-          <CategoryColumn
-            category="happy"
-            ideas={ideas}
-            onIdeaDelete={this.handleIdeaDeletion}
-            currentPresence={currentPresence}
-            retroChannel={this.props.retroChannel}
-          />
-          <CategoryColumn
-            category="sad"
-            ideas={ideas}
-            onIdeaDelete={this.handleIdeaDeletion}
-            currentPresence={currentPresence}
-            retroChannel={this.props.retroChannel}
-          />
-          <CategoryColumn
-            category="confused"
-            ideas={ideas}
-            onIdeaDelete={this.handleIdeaDeletion}
-            currentPresence={currentPresence}
-            retroChannel={this.props.retroChannel}
-          />
-          { this.state.showActionItem ?
-            <CategoryColumn
-              category="action-item"
-              ideas={ideas}
-              currentPresence={currentPresence}
-              onIdeaDelete={this.handleIdeaDeletion}
-              retroChannel={this.props.retroChannel}
-            /> : null
+          {
+            categories.map(category => (
+              <CategoryColumn
+                category={category}
+                key={category}
+                ideas={ideas}
+                onIdeaDelete={this.handleIdeaDeletion}
+                currentPresence={currentPresence}
+                retroChannel={this.props.retroChannel}
+              />
+            ))
           }
         </div>
 
