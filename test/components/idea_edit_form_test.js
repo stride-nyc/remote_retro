@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow } from "enzyme"
+import { shallow, mount } from "enzyme"
 import { expect } from "chai"
 import sinon from "sinon"
 
@@ -14,6 +14,17 @@ describe("<IdeaEditForm />", () => {
 
       const textAreaValue = wrapper.find("textarea").props().value
       expect(textAreaValue).to.equal("redundant tests")
+    })
+  })
+
+  describe("on change of the textarea", () => {
+    it("the value prop of the textarea updates in turn", () => {
+      const wrapper = mount(<IdeaEditForm idea={idea} />)
+      const textarea = wrapper.find("textarea")
+
+      textarea.simulate("change", { target: { value: "some value" }})
+
+      expect(textarea.props().value).to.equal("some value")
     })
   })
 })
