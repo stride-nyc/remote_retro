@@ -174,5 +174,21 @@ describe("Room component", () => {
         expect(roomComponent.state("ideas")).to.eql([])
       })
     })
+
+    describe("on `idea_edited`", () => {
+      it("updates the idea with matching id on state", () => {
+        const ideas = [
+          { id: 1 },
+          { id: 2, body: "i like turtles" },
+          { id: 3 },
+        ]
+        roomComponent.setState({ ideas })
+        retroChannel.trigger("idea_edited", { id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES" })
+
+        expect(roomComponent.state("ideas")[1]).to.eql({
+          id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES"
+        })
+      })
+    })
   })
 })

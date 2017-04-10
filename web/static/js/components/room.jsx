@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import update from "immutability-helper"
 
 import UserList from "./user_list"
 import CategoryColumn from "./category_column"
@@ -29,6 +30,17 @@ class Room extends Component {
 
     this.props.retroChannel.on("set_show_action_item", eventPayload => {
       this.setState({ showActionItem: eventPayload.show_action_item })
+    })
+
+    this.props.retroChannel.on("idea_edited", editedIdea => {
+      let { ideas } = this.state
+      const index = ideas.findIndex(idea => editedIdea.id === idea.id)
+      ideas = update(ideas, {
+        [index]: {
+          $set: editedIdea
+        }
+      })
+      this.setState({ ideas })
     })
 
     this.props.retroChannel.on("idea_deleted", deletedIdea => {
