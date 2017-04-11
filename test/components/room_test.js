@@ -165,5 +165,14 @@ describe("Room component", () => {
         expect(roomComponent.state("showActionItem")).to.eql(false)
       })
     })
+
+    describe("on `idea_deleted`", () => {
+      it("removes the idea passed in the payload from state.ideas", () => {
+        roomComponent.setState({ ideas: [{ id: 6, body: "turtles" }] })
+        retroChannel.trigger("idea_deleted", { id: 6 })
+
+        expect(roomComponent.state("ideas")).to.eql([])
+      })
+    })
   })
 })
