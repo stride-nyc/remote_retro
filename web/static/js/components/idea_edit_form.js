@@ -14,6 +14,7 @@ class IdeaEditForm extends Component {
   }
 
   onSave(event) {
+    event.preventDefault()
     const { idea, retroChannel } = this.props
     const { ideaBody } = this.state
     retroChannel.push("idea_edited", { id: idea.id, body: ideaBody })
