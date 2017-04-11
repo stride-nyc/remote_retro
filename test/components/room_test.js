@@ -131,33 +131,39 @@ describe("Room component", () => {
       )
     })
 
-    it("on `existing_ideas` sets the associated payload's `ideas` value on state", () => {
-      expect(roomComponent.state("ideas")).to.eql([])
+    describe("on `existing_ideas`", () => {
+      it("sets the associated payload's `ideas` value on state", () => {
+        expect(roomComponent.state("ideas")).to.eql([])
 
-      const mockPayloadFromServer = { ideas: [{ arbitrary: "content" }] }
-      retroChannel.trigger("existing_ideas", mockPayloadFromServer)
+        const mockPayloadFromServer = { ideas: [{ arbitrary: "content" }] }
+        retroChannel.trigger("existing_ideas", mockPayloadFromServer)
 
-      expect(roomComponent.state("ideas")).to.eql([
-        { arbitrary: "content" },
-      ])
+        expect(roomComponent.state("ideas")).to.eql([
+          { arbitrary: "content" },
+        ])
+      })
     })
 
-    it("pushes the value passed with `new_idea_received` into the `ideas` array", () => {
-      roomComponent.setState({ ideas: [{ body: "first idear" }] })
+    describe("on `new_idea_received`", () => {
+      it("pushes the value passed in the payload into the `ideas` array", () => {
+        roomComponent.setState({ ideas: [{ body: "first idear" }] })
 
-      retroChannel.trigger("new_idea_received", { body: "zerp" })
+        retroChannel.trigger("new_idea_received", { body: "zerp" })
 
-      expect(roomComponent.state("ideas")).to.eql([
-        { body: "first idear" },
-        { body: "zerp" },
-      ])
+        expect(roomComponent.state("ideas")).to.eql([
+          { body: "first idear" },
+          { body: "zerp" },
+        ])
+      })
     })
 
-    it("updates the state for showActionItem to the value from set_show_action_item", () => {
-      roomComponent.setState({ showActionItem: true })
-      retroChannel.trigger("set_show_action_item", { show_action_item: false })
+    describe("on `set_show_action_item`", () => {
+      it("updates the state for showActionItem to the value from set_show_action_item", () => {
+        roomComponent.setState({ showActionItem: true })
+        retroChannel.trigger("set_show_action_item", { show_action_item: false })
 
-      expect(roomComponent.state("showActionItem")).to.eql(false)
+        expect(roomComponent.state("showActionItem")).to.eql(false)
+      })
     })
   })
 })
