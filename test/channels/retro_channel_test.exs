@@ -87,14 +87,24 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing an edit of an idea to the socket" do
-    setup [:join_the_retro_channel, :persist_idea_for_retro]
+    setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea_category: "sad", idea_body: "JavaScript", author: "Maryanne"
     test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "idea_edited", %{id: idea_id, body: "hell's bells"})
 
-      assert_broadcast("idea_edited", %{"body" => "hell's bells", "id" => ^idea_id})
+      assert_broadcast("idea_edited", %{body: "hell's bells", id: ^idea_id})
+    end
+
+    @tag idea_category: "sad", idea_body: "doggone keeper", author: "Maryanne"
+    test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
+      idea_id = idea.id
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells"})
+
+      :timer.sleep(50)
+      idea = Repo.get!(Idea, idea_id)
+      assert idea.body == "hell's bells"
     end
   end
 
