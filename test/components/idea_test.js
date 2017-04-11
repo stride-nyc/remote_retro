@@ -7,7 +7,7 @@ import IdeaControls from "../../web/static/js/components/idea_controls"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("Idea component", () => {
-  const idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
+  let idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
   const mockHandleDelete = () => {}
   const mockRetroChannel = { on: () => {}, push: () => {} }
 
@@ -50,6 +50,8 @@ describe("Idea component", () => {
 
   context("when the idea is in its default state", () => {
     const presence = { user: { is_facilitator: false } }
+    let idea = { ...idea, editing: false }
+
     const wrapper = shallow(
       <Idea
         idea={idea}
@@ -70,6 +72,8 @@ describe("Idea component", () => {
 
   context("when the idea is being edited", () => {
     const presence = { user: { is_facilitator: false } }
+    let idea = { ...idea, editing: true }
+
     const wrapper = shallow(
       <Idea
         idea={idea}
@@ -78,7 +82,6 @@ describe("Idea component", () => {
         retroChannel={mockRetroChannel}
       />
     )
-    wrapper.setState({ editing: true })
 
     it("has a raised appearance", () => {
       expect(wrapper.hasClass("ui")).to.equal(true)

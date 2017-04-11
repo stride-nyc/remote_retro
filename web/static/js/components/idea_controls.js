@@ -3,7 +3,7 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
 
 function IdeaControls(props) {
-  const { handleDelete, idea, handleEnableEditState } = props
+  const { handleDelete, idea, retroChannel } = props
 
   return (
     <span>
@@ -17,7 +17,7 @@ function IdeaControls(props) {
       <i
         title="Edit Idea"
         className={styles.actionIcon + ` edit icon`}
-        onClick={handleEnableEditState}
+        onClick={() => { retroChannel.push("enable_edit_state", idea) }}
       >
       </i>
     </span>
@@ -27,7 +27,7 @@ function IdeaControls(props) {
 IdeaControls.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   handleDelete: React.PropTypes.func.isRequired,
-  handleEnableEditState: React.PropTypes.func.isRequired,
+  retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 
 export default IdeaControls

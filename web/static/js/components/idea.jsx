@@ -7,19 +7,13 @@ import styles from "./css_modules/idea.css"
 class Idea extends Component {
   constructor(props) {
     super(props)
-    this.state = { editing: false }
-    this.enableEditState = this.enableEditState.bind(this)
-  }
-
-  enableEditState() {
-    this.setState({ editing: true })
   }
 
   render() {
     let { idea, currentPresence, handleDelete, retroChannel } = this.props
     let isFacilitator = currentPresence.user.is_facilitator
     let classes = styles.index
-    classes += this.state.editing ? " ui raised segment" : ""
+    classes += idea.editing ? " ui raised segment" : ""
 
     const readOnlyIdea = (
       <div>
@@ -27,7 +21,7 @@ class Idea extends Component {
           <IdeaControls
             idea={idea}
             handleDelete={handleDelete}
-            handleEnableEditState={this.enableEditState}
+            retroChannel={retroChannel}
           />
         }
         <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
@@ -36,7 +30,7 @@ class Idea extends Component {
 
     return (
       <li className={classes} title={idea.body} key={idea.id}>
-        { this.state.editing ?
+        { idea.editing ?
           <IdeaEditForm idea={idea} retroChannel={retroChannel} /> : readOnlyIdea
         }
       </li>

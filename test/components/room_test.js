@@ -166,6 +166,22 @@ describe("Room component", () => {
       })
     })
 
+    describe("on `enable_edit_state`", () => {
+      it("updates the idea with matching id, setting its editing value to true", () => {
+        const ideas = [
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+        ]
+
+        roomComponent.setState({ ideas })
+
+        retroChannel.trigger("enable_edit_state", { id: 2 })
+
+        expect(roomComponent.state("ideas")[1]).to.eql({ id: 2, editing: true })
+      })
+    })
+
     describe("on `idea_deleted`", () => {
       it("removes the idea passed in the payload from state.ideas", () => {
         roomComponent.setState({ ideas: [{ id: 6, body: "turtles" }] })

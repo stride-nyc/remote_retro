@@ -32,6 +32,15 @@ class Room extends Component {
       this.setState({ showActionItem: eventPayload.show_action_item })
     })
 
+    this.props.retroChannel.on("enable_edit_state", nominatedIdea => {
+      let { ideas } = this.state
+      const index = ideas.findIndex(idea => nominatedIdea.id === idea.id)
+      ideas = update(ideas, {
+        [index]: { $set: { ...ideas[index], editing: true } }
+      })
+      this.setState({ ideas })
+    })
+
     this.props.retroChannel.on("idea_edited", editedIdea => {
       let { ideas } = this.state
       const index = ideas.findIndex(idea => editedIdea.id === idea.id)
