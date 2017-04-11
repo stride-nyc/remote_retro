@@ -159,10 +159,10 @@ describe("Room component", () => {
 
     describe("on `set_show_action_item`", () => {
       it("updates the state for showActionItem to the value from set_show_action_item", () => {
-        roomComponent.setState({ showActionItem: true })
-        retroChannel.trigger("set_show_action_item", { show_action_item: false })
-
         expect(roomComponent.state("showActionItem")).to.eql(false)
+        retroChannel.trigger("set_show_action_item", { show_action_item: true })
+
+        expect(roomComponent.state("showActionItem")).to.eql(true)
       })
     })
 
