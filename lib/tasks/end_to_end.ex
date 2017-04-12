@@ -7,7 +7,7 @@ defmodule Mix.Tasks.EndToEnd do
     compile_js()
     System.cmd(
       "mix",
-      ["test", "--only", "feature_test", "--color"],
+      ["test", "test/features/", "--only", "feature_test", "--color"],
       into: IO.stream(:stdio, :line)
     )
   end
