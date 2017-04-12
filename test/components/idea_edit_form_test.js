@@ -29,14 +29,14 @@ describe("<IdeaEditForm />", () => {
     })
   })
 
-  describe("on click of the save button", () => {
+  describe("on submitting the form", () => {
     it("pushes an `idea_edited` event to the given retroChannel", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
 
       const wrapper = mount(<IdeaEditForm idea={idea} retroChannel={retroChannel} />)
       const saveButton = wrapper.findWhere(element => (element.text() === "Save"))
 
-      saveButton.simulate("click")
+      saveButton.simulate("submit")
 
       expect(
         retroChannel.push.calledWith("idea_edited", { id: idea.id, body: idea.body })

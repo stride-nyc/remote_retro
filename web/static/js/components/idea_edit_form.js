@@ -6,14 +6,14 @@ class IdeaEditForm extends Component {
     super(props)
     this.state = { ideaBody: props.idea.body }
     this.onChange = this.onChange.bind(this)
-    this.onSave = this.onSave.bind(this)
+    this.onSubmit = this.onSubmit.bind(this)
   }
 
   onChange(event) {
     this.setState({ ideaBody: event.target.value })
   }
 
-  onSave(event) {
+  onSubmit(event) {
     event.preventDefault()
     const { idea, retroChannel } = this.props
     const { ideaBody } = this.state
@@ -22,14 +22,14 @@ class IdeaEditForm extends Component {
 
   render() {
     return (
-      <form className="ui form">
+      <form onSubmit={this.onSubmit} className="ui form">
         <div className="field">
           <textarea autoFocus rows="2" value={this.state.ideaBody} onChange={this.onChange}></textarea>
         </div>
         <div className="ui buttons">
           <button className="ui button">Cancel</button>
           <div className="or"></div>
-          <button className="ui positive button" onClick={this.onSave}>Save</button>
+          <button type="submit" className="ui positive button">Save</button>
         </div>
       </form>
     )
