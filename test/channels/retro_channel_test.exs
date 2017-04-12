@@ -16,15 +16,6 @@ defmodule RemoteRetro.RetroChannelTest do
     Map.put(context, :socket, socket)
   end
 
-  defp persist_idea_for_retro(context) do
-    %{idea_category: category, idea_body: body, retro: retro, author: author} = context
-
-    changeset = %Idea{category: category, body: body, retro_id: retro.id, author: author}
-    idea = Repo.insert!(changeset)
-
-    Map.put(context, :idea, idea)
-  end
-
   describe "joining a RetroChannel" do
     setup [:join_the_retro_channel]
 
