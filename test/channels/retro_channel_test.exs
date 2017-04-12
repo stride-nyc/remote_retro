@@ -49,7 +49,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "joining a retro that already has a persisted idea" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
-    @tag idea_category: "sad", idea_body: "WIP commits on master", author: "Travis"
+    @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Travis" }
     test "results in the assignment of all of those ideas to the socket", %{socket: socket} do
       assert length(socket.assigns.ideas) == 1
 
@@ -89,7 +89,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing an edit of an idea to the socket" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
-    @tag idea_category: "sad", idea_body: "JavaScript", author: "Maryanne"
+    @tag idea: %Idea{category: "sad", body: "JavaScript", author: "Maryanne"}
     test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "idea_edited", %{id: idea_id, body: "hell's bells"})
@@ -97,7 +97,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_broadcast("idea_edited", %{body: "hell's bells", id: ^idea_id})
     end
 
-    @tag idea_category: "sad", idea_body: "doggone keeper", author: "Maryanne"
+    @tag idea: %Idea{category: "sad", body: "doggone keeper", author: "Maryanne"}
     test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "idea_edited", %{id: idea_id, body: "hell's bells"})
@@ -111,7 +111,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a delete event to the socket" do
     setup [:join_the_retro_channel, :persist_idea_for_retro]
 
-    @tag idea_category: "sad", idea_body: "WIP commits on master", author: "Zander"
+    @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Zander"}
     test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "delete_idea", idea_id)

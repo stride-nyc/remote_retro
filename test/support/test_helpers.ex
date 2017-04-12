@@ -4,10 +4,9 @@ defmodule RemoteRetro.TestHelpers do
   alias RemoteRetro.Repo
 
   def persist_idea_for_retro(context) do
-    %{idea_category: category, idea_body: body, retro: retro, author: author} = context
-
-    changeset = %Idea{category: category, body: body, retro_id: retro.id, author: author}
-    idea = Repo.insert!(changeset)
+    %{idea: idea, retro: retro} = context
+    idea = Map.put(idea, :retro_id, retro.id)
+    idea = Repo.insert!(idea)
 
     Map.put(context, :idea, idea)
   end
