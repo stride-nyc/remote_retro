@@ -71,13 +71,13 @@ describe("Idea component", () => {
   })
 
   context("when the idea is being edited", () => {
-    const presence = { user: { is_facilitator: false } }
+    const mockPresence = { user: {} }
     let idea = { ...idea, editing: true }
 
     const wrapper = shallow(
       <Idea
         idea={idea}
-        currentPresence={presence}
+        currentPresence={mockPresence}
         handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
       />
@@ -89,8 +89,36 @@ describe("Idea component", () => {
       expect(wrapper.hasClass("segment")).to.equal(true)
     })
 
-    it("renders an <IdeaEditForm/> as a child", () => {
-      expect(wrapper.find(IdeaEditForm).length).to.equal(1)
+    context("and the user is a facilitator", () => {
+      const presence = { user: { is_facilitator: true } }
+      const wrapper = shallow(
+        <Idea
+          idea={idea}
+          currentPresence={presence}
+          handleDelete={mockHandleDelete}
+          retroChannel={mockRetroChannel}
+        />
+      )
+
+      it("renders an <IdeaEditForm/> as a child", () => {
+        expect(wrapper.find(IdeaEditForm).length).to.equal(1)
+      })
+    })
+
+    context("and the user is not a facilitator", () => {
+      const presence = { user: { is_facilitator: false } }
+      const wrapper = shallow(
+        <Idea
+          idea={idea}
+          currentPresence={presence}
+          handleDelete={mockHandleDelete}
+          retroChannel={mockRetroChannel}
+        />
+      )
+
+      it("does not render an <IdeaEditForm/> as a child", () => {
+        expect(wrapper.find(IdeaEditForm).length).to.equal(0)
+      })
     })
   })
 })

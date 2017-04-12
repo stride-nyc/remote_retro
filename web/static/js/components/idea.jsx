@@ -30,7 +30,7 @@ class Idea extends Component {
 
     return (
       <li className={classes} title={idea.body} key={idea.id}>
-        { idea.editing ?
+        { idea.editing && isFacilitator ?
           <IdeaEditForm idea={idea} retroChannel={retroChannel} /> : readOnlyIdea
         }
       </li>
