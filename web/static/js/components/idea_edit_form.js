@@ -24,7 +24,7 @@ class IdeaEditForm extends Component {
     return (
       <form onSubmit={this.onSubmit} className="ui form">
         <div className="field">
-          <textarea autoFocus rows="2" value={this.state.ideaBody} onChange={this.onChange}></textarea>
+          <textarea name="editable_idea" autoFocus rows="2" value={this.state.ideaBody} onChange={this.onChange}></textarea>
         </div>
         <div className="ui buttons">
           <button className="ui button">Cancel</button>
