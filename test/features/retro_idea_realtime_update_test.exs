@@ -20,7 +20,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     Wallaby.end_session(session_two)
   end
 
-  test "the immediate appearance of other users submitted' ideas", %{session: session_one, retro: retro} do
+  test "the immediate appearance of other users' submitted ideas", %{session: session_one, retro: retro} do
     session_two = new_browser_session()
 
     retro_path = "/retros/" <> retro.id
