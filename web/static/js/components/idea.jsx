@@ -17,6 +17,9 @@ class Idea extends Component {
 
     const readOnlyIdea = (
       <div>
+        { idea.editing && !isFacilitator ?
+          <p>Facilitator is Editing:</p> : ''
+        }
         { isFacilitator &&
           <IdeaControls
             idea={idea}

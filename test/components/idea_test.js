@@ -103,6 +103,10 @@ describe("Idea component", () => {
       it("renders an <IdeaEditForm/> as a child", () => {
         expect(wrapper.find(IdeaEditForm).length).to.equal(1)
       })
+
+      it("does not inform the user that the idea is being edited", () => {
+        expect(wrapper.text()).to.not.match(/editing/i)
+      })
     })
 
     context("and the user is not a facilitator", () => {
@@ -118,6 +122,10 @@ describe("Idea component", () => {
 
       it("does not render an <IdeaEditForm/> as a child", () => {
         expect(wrapper.find(IdeaEditForm).length).to.equal(0)
+      })
+
+      it("informs the user that the idea is being edited", () => {
+        expect(wrapper.text()).to.match(/facilitator.*editing/i)
       })
     })
   })
