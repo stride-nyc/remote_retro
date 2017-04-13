@@ -1,5 +1,6 @@
 priv/static/
 web/static/js/phoenix.js
+web/static/js/polyfills/
 webpack.config.js
 
 deps/**/*.js
