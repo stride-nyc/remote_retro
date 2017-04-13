@@ -7,10 +7,16 @@ class IdeaEditForm extends Component {
     this.state = { ideaBody: props.idea.body }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
+    this.onCancel = this.onCancel.bind(this)
   }
 
   onChange(event) {
     this.setState({ ideaBody: event.target.value })
+  }
+
+  onCancel(event) {
+    const { retroChannel, idea } = this.props
+    retroChannel.push("disable_edit_state", { id: idea.id })
   }
 
   onSubmit(event) {
@@ -27,7 +33,7 @@ class IdeaEditForm extends Component {
           <textarea name="editable_idea" autoFocus rows="2" value={this.state.ideaBody} onChange={this.onChange}></textarea>
         </div>
         <div className="ui buttons">
-          <button className="ui button">Cancel</button>
+          <button onClick={this.onCancel} className="ui button">Cancel</button>
           <div className="or"></div>
           <button type="submit" className="ui positive button">Save</button>
         </div>
