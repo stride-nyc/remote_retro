@@ -33,32 +33,18 @@ class Room extends Component {
     })
 
     this.props.retroChannel.on("enable_edit_state", nominatedIdea => {
-      let { ideas } = this.state
-      const index = ideas.findIndex(idea => nominatedIdea.id === idea.id)
-      ideas = update(ideas, {
-        [index]: { $set: { ...ideas[index], editing: true } },
-      })
-      this.setState({ ideas })
+      const newIdeas = updateIdeas(this.state.ideas, nominatedIdea.id, { editing: true })
+      this.setState({ ideas: newIdeas })
     })
 
     this.props.retroChannel.on("disable_edit_state", disabledIdea => {
-      let { ideas } = this.state
-      const index = ideas.findIndex(idea => disabledIdea.id === idea.id)
-      ideas = update(ideas, {
-        [index]: { $set: { ...ideas[index], editing: false } },
-      })
-      this.setState({ ideas })
+      const newIdeas = updateIdeas(this.state.ideas, disabledIdea.id, { editing: false })
+      this.setState({ ideas: newIdeas })
     })
 
     this.props.retroChannel.on("idea_edited", editedIdea => {
-      let { ideas } = this.state
-      const index = ideas.findIndex(idea => editedIdea.id === idea.id)
-      ideas = update(ideas, {
-        [index]: {
-          $set: editedIdea,
-        },
-      })
-      this.setState({ ideas })
+      const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, editedIdea)
+      this.setState({ ideas: newIdeas })
     })
 
     this.props.retroChannel.on("idea_deleted", deletedIdea => {
@@ -122,6 +108,13 @@ class Room extends Component {
       </section>
     )
   }
+}
+
+const updateIdeas = (ideas, idOfIdeaToUpdate, newAttributes) => {
+  const index = ideas.findIndex(idea => idOfIdeaToUpdate === idea.id)
+  return update(ideas, {
+    [index]: { $set: { ...ideas[index], ...newAttributes } },
+  })
 }
 
 Room.defaultProps = {
