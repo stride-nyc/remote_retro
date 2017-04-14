@@ -10,6 +10,7 @@ describe("Idea component", () => {
   let idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
   const mockHandleDelete = () => {}
   const mockRetroChannel = { on: () => {}, push: () => {} }
+  const mockPresence = { user: {} }
 
   context("when the user is a facilitator", () => {
     const presence = { user: { is_facilitator: true } }
@@ -71,7 +72,6 @@ describe("Idea component", () => {
   })
 
   context("when the idea is being edited", () => {
-    const mockPresence = { user: {} }
     let idea = { ...idea, editing: true }
 
     const wrapper = shallow(
