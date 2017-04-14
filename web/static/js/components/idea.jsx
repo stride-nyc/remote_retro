@@ -13,7 +13,7 @@ function Idea(props) {
   const readOnlyIdea = (
     <div>
       { idea.editing && !isFacilitator ?
-        <p>Facilitator is Editing:</p> : ""
+        <p className="ui center aligned sub dividing header">Facilitator is Editing</p> : ""
       }
       { isFacilitator &&
         <IdeaControls
