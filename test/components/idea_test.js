@@ -7,17 +7,17 @@ import IdeaControls from "../../web/static/js/components/idea_controls"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("Idea component", () => {
-  let idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
+  const idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
   const mockHandleDelete = () => {}
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const mockPresence = { user: {} }
 
   context("when the user is a facilitator", () => {
-    const presence = { user: { is_facilitator: true } }
+    const facilitatorPresence = { user: { is_facilitator: true } }
     const wrapper = shallow(
       <Idea
         idea={idea}
-        currentPresence={presence}
+        currentPresence={facilitatorPresence}
         handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
       />
@@ -34,11 +34,11 @@ describe("Idea component", () => {
   })
 
   context("when the user is not a facilitator", () => {
-    const presence = { user: { is_facilitator: false } }
+    const nonFacilitatorPresence = { user: { is_facilitator: false } }
     const wrapper = shallow(
       <Idea
         idea={idea}
-        currentPresence={presence}
+        currentPresence={nonFacilitatorPresence}
         handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
       />
@@ -50,13 +50,12 @@ describe("Idea component", () => {
   })
 
   context("when the idea is in its default state", () => {
-    const presence = { user: { is_facilitator: false } }
-    let idea = { ...idea, editing: false }
+    const ideaInDefaultState = { ...idea, editing: false }
 
     const wrapper = shallow(
       <Idea
-        idea={idea}
-        currentPresence={presence}
+        idea={ideaInDefaultState}
+        currentPresence={mockPresence}
         handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
       />
@@ -72,11 +71,11 @@ describe("Idea component", () => {
   })
 
   context("when the idea is being edited", () => {
-    let idea = { ...idea, editing: true }
+    const ideaInEditState = { ...idea, editing: true }
 
     const wrapper = shallow(
       <Idea
-        idea={idea}
+        idea={ideaInEditState}
         currentPresence={mockPresence}
         handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
@@ -90,11 +89,11 @@ describe("Idea component", () => {
     })
 
     context("and the user is a facilitator", () => {
-      const presence = { user: { is_facilitator: true } }
+      const facilitatorPresence = { user: { is_facilitator: true } }
       const wrapper = shallow(
         <Idea
-          idea={idea}
-          currentPresence={presence}
+          idea={ideaInEditState}
+          currentPresence={facilitatorPresence}
           handleDelete={mockHandleDelete}
           retroChannel={mockRetroChannel}
         />
@@ -110,11 +109,11 @@ describe("Idea component", () => {
     })
 
     context("and the user is not a facilitator", () => {
-      const presence = { user: { is_facilitator: false } }
+      const nonFacilitatorPresence = { user: { is_facilitator: false } }
       const wrapper = shallow(
         <Idea
-          idea={idea}
-          currentPresence={presence}
+          idea={ideaInEditState}
+          currentPresence={nonFacilitatorPresence}
           handleDelete={mockHandleDelete}
           retroChannel={mockRetroChannel}
         />
