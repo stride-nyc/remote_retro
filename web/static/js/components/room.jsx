@@ -43,7 +43,8 @@ class Room extends Component {
     })
 
     this.props.retroChannel.on("idea_edited", editedIdea => {
-      const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, editedIdea)
+      const updatedIdea = { ...editedIdea, editing: false }
+      const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, updatedIdea)
       this.setState({ ideas: newIdeas })
     })
 

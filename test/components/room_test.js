@@ -208,18 +208,27 @@ describe("Room component", () => {
     })
 
     describe("on `idea_edited`", () => {
-      it("updates the idea with matching id on state", () => {
-        const ideas = [
+      let ideas
+      let editedIdea
+
+      beforeEach(() => {
+        ideas = [
           { id: 1 },
-          { id: 2, body: "i like turtles" },
+          { id: 2, body: "i like turtles", editing: true },
           { id: 3 },
         ]
+
         roomComponent.setState({ ideas })
         retroChannel.trigger("idea_edited", { id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES" })
+        editedIdea = roomComponent.state("ideas").find(idea => (idea.id === 2))
+      })
 
-        expect(roomComponent.state("ideas")[1]).to.eql({
-          id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES",
-        })
+      it("updates the idea with matching id on state", () => {
+        expect(editedIdea.body).to.eql("i like TEENAGE MUTANT NINJA TURTLES")
+      })
+
+      it("sets the idea's `editing` value to false", () => {
+        expect(editedIdea.editing).to.eql(false)
       })
     })
   })
