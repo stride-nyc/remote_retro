@@ -5,20 +5,16 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
 
 class Idea extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   render() {
-    let { idea, currentPresence, handleDelete, retroChannel } = this.props
-    let isFacilitator = currentPresence.user.is_facilitator
+    const { idea, currentPresence, handleDelete, retroChannel } = this.props
+    const isFacilitator = currentPresence.user.is_facilitator
     let classes = styles.index
     classes += idea.editing ? " ui raised segment" : ""
 
     const readOnlyIdea = (
       <div>
         { idea.editing && !isFacilitator ?
-          <p>Facilitator is Editing:</p> : ''
+          <p>Facilitator is Editing:</p> : ""
         }
         { isFacilitator &&
           <IdeaControls
@@ -45,6 +41,7 @@ Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   handleDelete: React.PropTypes.func.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
+  currentPresence: AppPropTypes.presence.isRequired,
 }
 
 export default Idea

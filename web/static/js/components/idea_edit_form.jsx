@@ -1,4 +1,4 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
 import * as AppPropTypes from "../prop_types"
 
 class IdeaEditForm extends Component {
@@ -31,11 +31,17 @@ class IdeaEditForm extends Component {
     return (
       <form onSubmit={this.onSubmit} className="ui form">
         <div className="field">
-          <textarea name="editable_idea" autoFocus rows="2" value={this.state.ideaBody} onChange={this.onChange}></textarea>
+          <textarea
+            name="editable_idea"
+            autoFocus
+            rows="2"
+            value={this.state.ideaBody}
+            onChange={this.onChange}
+          />
         </div>
         <div className="ui buttons">
           <button onClick={this.onCancel} className="ui button">Cancel</button>
-          <div className="or"></div>
+          <div className="or" />
           <button type="submit" className="ui positive button">Save</button>
         </div>
       </form>

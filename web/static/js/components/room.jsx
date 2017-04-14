@@ -36,7 +36,7 @@ class Room extends Component {
       let { ideas } = this.state
       const index = ideas.findIndex(idea => nominatedIdea.id === idea.id)
       ideas = update(ideas, {
-        [index]: { $set: { ...ideas[index], editing: true } }
+        [index]: { $set: { ...ideas[index], editing: true } },
       })
       this.setState({ ideas })
     })
@@ -45,7 +45,7 @@ class Room extends Component {
       let { ideas } = this.state
       const index = ideas.findIndex(idea => disabledIdea.id === idea.id)
       ideas = update(ideas, {
-        [index]: { $set: { ...ideas[index], editing: false } }
+        [index]: { $set: { ...ideas[index], editing: false } },
       })
       this.setState({ ideas })
     })
@@ -55,8 +55,8 @@ class Room extends Component {
       const index = ideas.findIndex(idea => editedIdea.id === idea.id)
       ideas = update(ideas, {
         [index]: {
-          $set: editedIdea
-        }
+          $set: editedIdea,
+        },
       })
       this.setState({ ideas })
     })

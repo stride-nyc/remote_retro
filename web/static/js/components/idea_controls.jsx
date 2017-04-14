@@ -10,16 +10,14 @@ function IdeaControls(props) {
       <i
         id={idea.id}
         title="Delete Idea"
-        className={styles.actionIcon + ` remove circle icon`}
+        className={`${styles.actionIcon} remove circle icon`}
         onClick={handleDelete}
-      >
-      </i>
+      />
       <i
         title="Edit Idea"
-        className={styles.actionIcon + ` edit icon`}
+        className={`${styles.actionIcon} edit icon`}
         onClick={() => { retroChannel.push("enable_edit_state", idea) }}
-      >
-      </i>
+      />
     </span>
   )
 }

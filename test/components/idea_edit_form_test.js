@@ -23,7 +23,7 @@ describe("<IdeaEditForm />", () => {
       const wrapper = mount(<IdeaEditForm idea={idea} retroChannel={mockRetroChannel} />)
       const textarea = wrapper.find("textarea")
 
-      textarea.simulate("change", { target: { value: "some value" }})
+      textarea.simulate("change", { target: { value: "some value" } })
 
       expect(textarea.props().value).to.equal("some value")
     })

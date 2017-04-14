@@ -218,7 +218,7 @@ describe("Room component", () => {
         retroChannel.trigger("idea_edited", { id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES" })
 
         expect(roomComponent.state("ideas")[1]).to.eql({
-          id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES"
+          id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES",
         })
       })
     })
