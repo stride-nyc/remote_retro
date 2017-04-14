@@ -6,3 +6,8 @@
 .author-attribution {
   font-weight: bold;
 }
+
+.edited-indicator {
+  color: #A0A0A8;
+  font-size: 0.85rem;
+}

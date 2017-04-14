@@ -7,6 +7,7 @@ import styles from "./css_modules/idea.css"
 function Idea(props) {
   const { idea, currentPresence, handleDelete, retroChannel } = props
   const isFacilitator = currentPresence.user.is_facilitator
+  const isEdited = new Date(idea.updated_at) > new Date(idea.inserted_at)
   let classes = styles.index
   classes += idea.editing ? " ui raised segment" : ""
 
@@ -22,7 +23,9 @@ function Idea(props) {
           retroChannel={retroChannel}
         />
       }
-      <span className={styles.authorAttribution}>{idea.author}:</span> {idea.body}
+      <span className={styles.authorAttribution}>
+        {idea.author}:
+      </span> {idea.body} { isEdited && <span className={styles.editedIndicator}>(edited)</span> }
     </div>
   )
 
