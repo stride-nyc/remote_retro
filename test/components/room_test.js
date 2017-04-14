@@ -167,7 +167,7 @@ describe("Room component", () => {
     })
 
     describe("on `enable_edit_state`", () => {
-      it("updates the idea with matching id, setting its editing value to true", () => {
+      it("updates the idea with matching id, setting `editing` to true", () => {
         const ideas = [
           { id: 1 },
           { id: 2 },
@@ -179,6 +179,22 @@ describe("Room component", () => {
         retroChannel.trigger("enable_edit_state", { id: 2 })
 
         expect(roomComponent.state("ideas")[1]).to.eql({ id: 2, editing: true })
+      })
+    })
+
+    describe("on `disable_edit_state`", () => {
+      it("updates the idea with matching id, setting `editing` to false", () => {
+        const ideas = [
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+        ]
+
+        roomComponent.setState({ ideas })
+
+        retroChannel.trigger("disable_edit_state", { id: 3 })
+
+        expect(roomComponent.state("ideas")[2]).to.eql({ id: 3, editing: false })
       })
     })
 

@@ -41,6 +41,15 @@ class Room extends Component {
       this.setState({ ideas })
     })
 
+    this.props.retroChannel.on("disable_edit_state", disabledIdea => {
+      let { ideas } = this.state
+      const index = ideas.findIndex(idea => disabledIdea.id === idea.id)
+      ideas = update(ideas, {
+        [index]: { $set: { ...ideas[index], editing: false } }
+      })
+      this.setState({ ideas })
+    })
+
     this.props.retroChannel.on("idea_edited", editedIdea => {
       let { ideas } = this.state
       const index = ideas.findIndex(idea => editedIdea.id === idea.id)
