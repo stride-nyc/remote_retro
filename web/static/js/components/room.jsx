@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import update from "immutability-helper"
 
 import UserList from "./user_list"
 import CategoryColumn from "./category_column"
@@ -31,6 +32,22 @@ class Room extends Component {
       this.setState({ showActionItem: eventPayload.show_action_item })
     })
 
+    this.props.retroChannel.on("enable_edit_state", nominatedIdea => {
+      const newIdeas = updateIdeas(this.state.ideas, nominatedIdea.id, { editing: true })
+      this.setState({ ideas: newIdeas })
+    })
+
+    this.props.retroChannel.on("disable_edit_state", disabledIdea => {
+      const newIdeas = updateIdeas(this.state.ideas, disabledIdea.id, { editing: false })
+      this.setState({ ideas: newIdeas })
+    })
+
+    this.props.retroChannel.on("idea_edited", editedIdea => {
+      const updatedIdea = { ...editedIdea, editing: false }
+      const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, updatedIdea)
+      this.setState({ ideas: newIdeas })
+    })
+
     this.props.retroChannel.on("idea_deleted", deletedIdea => {
       const ideas = this.state.ideas.filter(idea => idea.id !== deletedIdea.id)
       this.setState({ ideas })
@@ -53,34 +70,23 @@ class Room extends Component {
     const retroHasYetToProgressToActionItems = !this.state.showActionItem
     const { currentPresence, users } = this.props
     const { ideas, showActionItem } = this.state
+    const categories = ["happy", "sad", "confused"]
+    if (showActionItem) { categories.push("action-item") }
+
     return (
       <section className={styles.wrapper}>
         <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-          <CategoryColumn
-            category="happy"
-            ideas={ideas}
-            onIdeaDelete={this.handleIdeaDeletion}
-            currentPresence={currentPresence}
-          />
-          <CategoryColumn
-            category="sad"
-            ideas={ideas}
-            onIdeaDelete={this.handleIdeaDeletion}
-            currentPresence={currentPresence}
-          />
-          <CategoryColumn
-            category="confused"
-            ideas={ideas}
-            onIdeaDelete={this.handleIdeaDeletion}
-            currentPresence={currentPresence}
-          />
-          { this.state.showActionItem ?
-            <CategoryColumn
-              category="action-item"
-              ideas={ideas}
-              currentPresence={currentPresence}
-              onIdeaDelete={this.handleIdeaDeletion}
-            /> : null
+          {
+            categories.map(category => (
+              <CategoryColumn
+                category={category}
+                key={category}
+                ideas={ideas}
+                onIdeaDelete={this.handleIdeaDeletion}
+                currentPresence={currentPresence}
+                retroChannel={this.props.retroChannel}
+              />
+            ))
           }
         </div>
 
@@ -103,6 +109,13 @@ class Room extends Component {
       </section>
     )
   }
+}
+
+const updateIdeas = (ideas, idOfIdeaToUpdate, newAttributes) => {
+  const index = ideas.findIndex(idea => idOfIdeaToUpdate === idea.id)
+  return update(ideas, {
+    [index]: { $set: { ...ideas[index], ...newAttributes } },
+  })
 }
 
 Room.defaultProps = {

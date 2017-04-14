@@ -52,6 +52,7 @@ module.exports = {
         "exports": "ignore",
       }
     ],
+    "no-shadow": "off",
     "react/no-unescaped-entities": "off",
     "jsx-a11y/no-static-element-interactions": 0,
   }

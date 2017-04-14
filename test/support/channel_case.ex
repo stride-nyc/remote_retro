@@ -24,7 +24,7 @@ defmodule RemoteRetro.ChannelCase do
       import Ecto
       import Ecto.Changeset
       import Ecto.Query
-
+      import RemoteRetro.TestHelpers
 
       # The default endpoint for testing
       @endpoint RemoteRetro.Endpoint

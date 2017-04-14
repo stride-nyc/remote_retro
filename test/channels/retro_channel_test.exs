@@ -16,15 +16,6 @@ defmodule RemoteRetro.RetroChannelTest do
     Map.put(context, :socket, socket)
   end
 
-  defp persist_idea_for_retro(context) do
-    %{idea_category: category, idea_body: body, retro: retro, author: author} = context
-
-    changeset = %Idea{category: category, body: body, retro_id: retro.id, author: author}
-    idea = Repo.insert!(changeset)
-
-    Map.put(context, :idea, idea)
-  end
-
   describe "joining a RetroChannel" do
     setup [:join_the_retro_channel]
 
@@ -58,22 +49,13 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "joining a retro that already has a persisted idea" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
-    @tag idea_category: "sad", idea_body: "WIP commits on master", author: "Travis"
+    @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Travis" }
     test "results in the assignment of all of those ideas to the socket", %{socket: socket} do
       assert length(socket.assigns.ideas) == 1
 
       sole_existing_idea = List.first(socket.assigns.ideas)
 
       assert %{ body: "WIP commits on master", category: "sad", author: "Travis", retro_id: _, id: _ } = sole_existing_idea
-    end
-  end
-
-  describe "pushing a new idea to the socket" do
-    setup [:join_the_retro_channel]
-    test "results in the broadcast of the new idea to all connected clients", %{ socket: socket } do
-      push(socket, "new_idea", %{ category: "happy", body: "we're pacing well", author: "Travis" })
-
-      assert_broadcast("new_idea_received", %{ category: "happy", body: "we're pacing well", id: _, author: "Travis" })
     end
   end
 
@@ -86,10 +68,59 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "pushing a new idea to the socket" do
+    setup [:join_the_retro_channel]
+    test "results in the broadcast of the new idea to all connected clients", %{ socket: socket } do
+      push(socket, "new_idea", %{ category: "happy", body: "we're pacing well", author: "Travis" })
+
+      assert_broadcast("new_idea_received", %{ category: "happy", body: "we're pacing well", id: _, author: "Travis" })
+    end
+  end
+
+  describe "pushing an `enable_edit_state` event to the socket" do
+    setup [:join_the_retro_channel]
+    test "broadcasts the same event with the given payload", %{socket: socket} do
+      push(socket, "enable_edit_state", %{id: 4})
+
+      assert_broadcast("enable_edit_state", %{id: 4})
+    end
+  end
+
+  describe "pushing an `disable_edit_state` event to the socket" do
+    setup [:join_the_retro_channel]
+    test "broadcasts the same event with the given payload", %{socket: socket} do
+      push(socket, "disable_edit_state", %{id: 4})
+
+      assert_broadcast("disable_edit_state", %{id: 4})
+    end
+  end
+
+  describe "pushing an edit of an idea to the socket" do
+    setup [:persist_idea_for_retro, :join_the_retro_channel]
+
+    @tag idea: %Idea{category: "sad", body: "JavaScript", author: "Maryanne"}
+    test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
+      idea_id = idea.id
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells"})
+
+      assert_broadcast("idea_edited", %{body: "hell's bells", id: ^idea_id})
+    end
+
+    @tag idea: %Idea{category: "sad", body: "doggone keeper", author: "Maryanne"}
+    test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
+      idea_id = idea.id
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells"})
+
+      :timer.sleep(50)
+      idea = Repo.get!(Idea, idea_id)
+      assert idea.body == "hell's bells"
+    end
+  end
+
   describe "pushing a delete event to the socket" do
     setup [:join_the_retro_channel, :persist_idea_for_retro]
 
-    @tag idea_category: "sad", idea_body: "WIP commits on master", author: "Zander"
+    @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Zander"}
     test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "delete_idea", idea_id)

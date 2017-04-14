@@ -1,5 +1,5 @@
 import React from "react"
-import IdeaListItem from "./idea_list_item"
+import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 
@@ -19,11 +19,12 @@ function CategoryColumn(props) {
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
   const filteredIdeasList = filteredIdeas.map(idea => (
-    <IdeaListItem
+    <Idea
       idea={idea}
       key={idea.id}
       handleDelete={handleDelete}
       currentPresence={props.currentPresence}
+      retroChannel={props.retroChannel}
     />
   ))
 
@@ -45,6 +46,7 @@ CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   currentPresence: AppPropTypes.presence,
   category: AppPropTypes.category.isRequired,
+  retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 
 export default CategoryColumn

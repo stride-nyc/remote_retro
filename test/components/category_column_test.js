@@ -3,10 +3,11 @@ import { shallow } from "enzyme"
 import { expect } from "chai"
 
 import CategoryColumn from "../../web/static/js/components/category_column"
-import IdeaListItem from "../../web/static/js/components/idea_list_item"
+import Idea from "../../web/static/js/components/idea"
 
 describe("CategoryColumn", () => {
-  const stubbedPresence = { user: { given_name: "daniel" } }
+  const mockPresence = { user: { given_name: "daniel" } }
+  const mockRetroChannel = { on: () => {}, push: () => {} }
 
   describe("when every idea passed in the ideas prop matches the column's category", () => {
     it("renders a list item for each idea passed the ideas prop", () => {
@@ -21,9 +22,14 @@ describe("CategoryColumn", () => {
       }]
 
       const wrapper = shallow(
-        <CategoryColumn ideas={ideas} category="happy" currentPresence={stubbedPresence} />
+        <CategoryColumn
+          ideas={ideas}
+          category="happy"
+          currentPresence={mockPresence}
+          retroChannel={mockRetroChannel}
+        />
       )
-      expect(wrapper.find(IdeaListItem)).to.have.length(2)
+      expect(wrapper.find(Idea)).to.have.length(2)
     })
   })
 
@@ -40,7 +46,8 @@ describe("CategoryColumn", () => {
         <CategoryColumn
           ideas={ideas}
           category={differentCategory}
-          currentPresence={stubbedPresence}
+          currentPresence={mockPresence}
+          retroChannel={mockRetroChannel}
         />
       )
 

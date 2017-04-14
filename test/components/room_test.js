@@ -104,7 +104,7 @@ describe("Room component", () => {
       )
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]} />
+        <CategoryColumn category="action-item" ideas={[]} retroChannel={mockRetroChannel} />
       )).to.equal(false)
     })
 
@@ -115,7 +115,7 @@ describe("Room component", () => {
       roomComponent.setState({ showActionItem: true })
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]} />
+        <CategoryColumn category="action-item" ideas={[]} retroChannel={mockRetroChannel} />
       )).to.equal(true)
     })
   })
@@ -166,12 +166,69 @@ describe("Room component", () => {
       })
     })
 
+    describe("on `enable_edit_state`", () => {
+      it("updates the idea with matching id, setting `editing` to true", () => {
+        const ideas = [
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+        ]
+
+        roomComponent.setState({ ideas })
+
+        retroChannel.trigger("enable_edit_state", { id: 2 })
+
+        expect(roomComponent.state("ideas")[1]).to.eql({ id: 2, editing: true })
+      })
+    })
+
+    describe("on `disable_edit_state`", () => {
+      it("updates the idea with matching id, setting `editing` to false", () => {
+        const ideas = [
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+        ]
+
+        roomComponent.setState({ ideas })
+
+        retroChannel.trigger("disable_edit_state", { id: 3 })
+
+        expect(roomComponent.state("ideas")[2]).to.eql({ id: 3, editing: false })
+      })
+    })
+
     describe("on `idea_deleted`", () => {
       it("removes the idea passed in the payload from state.ideas", () => {
         roomComponent.setState({ ideas: [{ id: 6, body: "turtles" }] })
         retroChannel.trigger("idea_deleted", { id: 6 })
 
         expect(roomComponent.state("ideas")).to.eql([])
+      })
+    })
+
+    describe("on `idea_edited`", () => {
+      let ideas
+      let editedIdea
+
+      beforeEach(() => {
+        ideas = [
+          { id: 1 },
+          { id: 2, body: "i like turtles", editing: true },
+          { id: 3 },
+        ]
+
+        roomComponent.setState({ ideas })
+        retroChannel.trigger("idea_edited", { id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES" })
+        editedIdea = roomComponent.state("ideas").find(idea => (idea.id === 2))
+      })
+
+      it("updates the idea with matching id on state", () => {
+        expect(editedIdea.body).to.eql("i like TEENAGE MUTANT NINJA TURTLES")
+      })
+
+      it("sets the idea's `editing` value to false", () => {
+        expect(editedIdea.editing).to.eql(false)
       })
     })
   })

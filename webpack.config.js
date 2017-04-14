@@ -6,7 +6,11 @@ const CopyWebpackPlugin = require("copy-webpack-plugin")
 const WebpackNotifierPlugin = require("webpack-notifier")
 
 module.exports = {
-  entry: ["./web/static/css/app.css", "./web/static/js/app.js"],
+  entry: [
+    "./web/static/js/polyfills/array.find_index",
+    "./web/static/css/app.css",
+    "./web/static/js/app.js"
+  ],
   output: {
     path: "./priv/static",
     filename: "js/app.js"
