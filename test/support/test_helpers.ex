@@ -1,6 +1,5 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
-  alias RemoteRetro.Idea
   alias RemoteRetro.Repo
 
   def persist_idea_for_retro(context) do
