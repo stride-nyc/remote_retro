@@ -35,11 +35,7 @@ defmodule RemoteRetro.TestHelpers do
 
   def delete_idea(session, %{body: body}) do
     session
-    |> find(Query.css(".happy.ideas", text: body), fn(item) ->
-      item
-      |> click(Query.css(".remove.icon"))
-    end)
-
-    session
+    |> find(Query.css(".ideas li", text: body))
+    |> click(Query.css(".remove.icon"))
   end
 end
