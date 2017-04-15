@@ -8,7 +8,6 @@ function IdeaControls(props) {
   return (
     <span>
       <i
-        id={idea.id}
         title="Delete Idea"
         className={`${styles.actionIcon} remove circle icon`}
         onClick={() => { retroChannel.push("delete_idea", idea.id) }}
