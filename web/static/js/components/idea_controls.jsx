@@ -11,7 +11,7 @@ function IdeaControls(props) {
         id={idea.id}
         title="Delete Idea"
         className={`${styles.actionIcon} remove circle icon`}
-        onClick={handleDelete}
+        onClick={() => { retroChannel.push("delete_idea", idea.id) }}
       />
       <i
         title="Edit Idea"

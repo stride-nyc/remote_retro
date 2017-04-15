@@ -24,6 +24,23 @@ describe("<IdeaControls />", () => {
       wrapper.find(".remove.icon").simulate("click")
       expect(handleDeleteSpy.called).to.equal(true)
     })
+
+    it("pushes an `delete_idea` event to the retro channel, passing the given idea's id", () => {
+      const retroChannel = { on: () => {}, push: sinon.spy() }
+
+      const wrapper = shallow(
+        <IdeaControls
+          idea={idea}
+          handleDelete={() => {}}
+          retroChannel={retroChannel}
+        />
+      )
+
+      wrapper.find(".remove.icon").simulate("click")
+      expect(
+        retroChannel.push.calledWith("delete_idea", 666)
+      ).to.equal(true)
+    })
   })
 
   describe("on click of the edit icon", () => {
