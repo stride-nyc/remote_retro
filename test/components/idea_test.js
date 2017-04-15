@@ -8,7 +8,6 @@ import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("Idea component", () => {
   const idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
-  const mockHandleDelete = () => {}
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const mockPresence = { user: {} }
 
@@ -18,18 +17,12 @@ describe("Idea component", () => {
       <Idea
         idea={idea}
         currentPresence={facilitatorPresence}
-        handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
       />
     )
 
     it("renders <IdeaControls />", () => {
       expect(wrapper.find(IdeaControls).length).to.equal(1)
-    })
-
-    it("passes the handleDelete prop to <IdeaControls />", () => {
-      const ideaControls = wrapper.find(IdeaControls)
-      expect(ideaControls.props().handleDelete).to.equal(mockHandleDelete)
     })
   })
 
@@ -39,7 +32,6 @@ describe("Idea component", () => {
       <Idea
         idea={idea}
         currentPresence={nonFacilitatorPresence}
-        handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
       />
     )
@@ -56,7 +48,6 @@ describe("Idea component", () => {
       <Idea
         idea={ideaInDefaultState}
         currentPresence={mockPresence}
-        handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
       />
     )
@@ -77,7 +68,6 @@ describe("Idea component", () => {
       <Idea
         idea={ideaInEditState}
         currentPresence={mockPresence}
-        handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
       />
     )
@@ -94,7 +84,6 @@ describe("Idea component", () => {
         <Idea
           idea={ideaInEditState}
           currentPresence={facilitatorPresence}
-          handleDelete={mockHandleDelete}
           retroChannel={mockRetroChannel}
         />
       )
@@ -114,7 +103,6 @@ describe("Idea component", () => {
         <Idea
           idea={ideaInEditState}
           currentPresence={nonFacilitatorPresence}
-          handleDelete={mockHandleDelete}
           retroChannel={mockRetroChannel}
         />
       )
@@ -139,7 +127,6 @@ describe("Idea component", () => {
       <Idea
         idea={editedIdea}
         currentPresence={mockPresence}
-        handleDelete={mockHandleDelete}
         retroChannel={mockRetroChannel}
       />
     )

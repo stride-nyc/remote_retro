@@ -3,7 +3,7 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
 
 function IdeaControls(props) {
-  const { handleDelete, idea, retroChannel } = props
+  const { idea, retroChannel } = props
 
   return (
     <span>
@@ -24,7 +24,6 @@ function IdeaControls(props) {
 
 IdeaControls.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  handleDelete: React.PropTypes.func.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 

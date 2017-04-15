@@ -9,31 +9,11 @@ describe("<IdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", author: "Trizzle" }
 
   describe("on click of the removal icon", () => {
-    it("invokes the callback passed as handleDelete", () => {
-      const handleDeleteSpy = sinon.spy()
-      const mockRetroChannel = { on: () => {}, push: () => {} }
-
-      const wrapper = shallow(
-        <IdeaControls
-          idea={idea}
-          handleDelete={handleDeleteSpy}
-          retroChannel={mockRetroChannel}
-        />
-      )
-
-      wrapper.find(".remove.icon").simulate("click")
-      expect(handleDeleteSpy.called).to.equal(true)
-    })
-
     it("pushes an `delete_idea` event to the retro channel, passing the given idea's id", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
 
       const wrapper = shallow(
-        <IdeaControls
-          idea={idea}
-          handleDelete={() => {}}
-          retroChannel={retroChannel}
-        />
+        <IdeaControls idea={idea} retroChannel={retroChannel} />
       )
 
       wrapper.find(".remove.icon").simulate("click")
@@ -48,11 +28,7 @@ describe("<IdeaControls />", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
 
       const wrapper = shallow(
-        <IdeaControls
-          idea={idea}
-          handleDelete={() => {}}
-          retroChannel={retroChannel}
-        />
+        <IdeaControls idea={idea} retroChannel={retroChannel} />
       )
 
       wrapper.find(".edit.icon").simulate("click")

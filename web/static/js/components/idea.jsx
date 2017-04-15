@@ -5,7 +5,7 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
 
 function Idea(props) {
-  const { idea, currentPresence, handleDelete, retroChannel } = props
+  const { idea, currentPresence, retroChannel } = props
   const isFacilitator = currentPresence.user.is_facilitator
   const isEdited = new Date(idea.updated_at) > new Date(idea.inserted_at)
   let classes = styles.index
@@ -19,7 +19,6 @@ function Idea(props) {
       { isFacilitator &&
         <IdeaControls
           idea={idea}
-          handleDelete={handleDelete}
           retroChannel={retroChannel}
         />
       }
@@ -41,7 +40,6 @@ function Idea(props) {
 
 Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  handleDelete: React.PropTypes.func.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentPresence: AppPropTypes.presence.isRequired,
 }

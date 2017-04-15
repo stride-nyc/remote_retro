@@ -11,18 +11,12 @@ function CategoryColumn(props) {
     "action-item": "🚀",
   }
 
-  const handleDelete = e => {
-    const id = Number.parseInt(e.target.id, 10)
-    props.onIdeaDelete(id)
-  }
-
   const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
   const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
   const filteredIdeasList = filteredIdeas.map(idea => (
     <Idea
       idea={idea}
       key={idea.id}
-      handleDelete={handleDelete}
       currentPresence={props.currentPresence}
       retroChannel={props.retroChannel}
     />

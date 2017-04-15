@@ -15,7 +15,6 @@ class Room extends Component {
     super(props)
     this.state = { ideas: [], showActionItem: false }
     this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
-    this.handleIdeaDeletion = this.handleIdeaDeletion.bind(this)
     this.handleStageProgression = this.handleStageProgression.bind(this)
   }
 
@@ -62,10 +61,6 @@ class Room extends Component {
     this.props.retroChannel.push("show_action_item", { show_action_item: true })
   }
 
-  handleIdeaDeletion(ideaId) {
-    this.props.retroChannel.push("delete_idea", ideaId)
-  }
-
   render() {
     const retroHasYetToProgressToActionItems = !this.state.showActionItem
     const { currentPresence, users } = this.props
@@ -82,7 +77,6 @@ class Room extends Component {
                 category={category}
                 key={category}
                 ideas={ideas}
-                onIdeaDelete={this.handleIdeaDeletion}
                 currentPresence={currentPresence}
                 retroChannel={this.props.retroChannel}
               />
