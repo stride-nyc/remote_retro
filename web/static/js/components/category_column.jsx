@@ -24,7 +24,7 @@ function CategoryColumn(props) {
 
   return (
     <section className={`${props.category} ${styles.index} column`}>
-      <div className="ui center aligned basic segment">
+      <div className={` ${styles.columnHead} ui center aligned basic segment`}>
         <i className={styles.icon}>{emoticonUnicode}</i>
         <p><strong>{props.category}</strong></p>
       </div>

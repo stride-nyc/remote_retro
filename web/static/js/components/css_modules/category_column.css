@@ -1,3 +1,7 @@
+.column-head {
+  margin-bottom: 0 !important;
+}
+
 .divider {
   background-color: #e2e2e2;
 }
