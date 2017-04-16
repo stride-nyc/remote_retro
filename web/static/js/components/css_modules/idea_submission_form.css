@@ -1,4 +1,17 @@
+.select {
+  width: 100% !important;
+}
+
 /* ensure select shares focus border styling consistent with other focused semantic ui inputs */
 .select:focus {
   border-color: #85B7D9 !important;
+}
+
+.fields {
+  margin-bottom: 0 !important;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
 }

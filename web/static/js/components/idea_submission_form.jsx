@@ -49,8 +49,8 @@ class IdeaSubmissionForm extends Component {
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
-        <div className="inline fields">
-          <div className="five wide field">
+        <div className={`${styles.fields} fields`}>
+          <div className={`${styles.flex} five wide inline field`}>
             <label htmlFor="category">Category:</label>
             <select
               name="category"
