@@ -86,6 +86,7 @@ class IdeaSubmissionForm extends Component {
 IdeaSubmissionForm.propTypes = {
   onIdeaSubmission: React.PropTypes.func.isRequired,
   currentPresence: AppPropTypes.presence.isRequired,
+  retroChannel: AppPropTypes.retroChannel.isRequired,
   showActionItem: React.PropTypes.bool.isRequired,
 }
 

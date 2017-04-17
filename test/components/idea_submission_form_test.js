@@ -9,6 +9,7 @@ describe("IdeaSubmissionForm component", () => {
   let wrapper
 
   const stubbedPresence = { user: { given_name: "Mugatu" } }
+  const mockRetroChannel = { on: () => {}, push: () => {} }
   const onSubmitIdeaStub = () => {}
   const fakeEvent = {
     stopPropagation: () => undefined,
@@ -22,6 +23,7 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentPresence={stubbedPresence}
           onIdeaSubmission={onSubmitIdeaSpy}
+          retroChannel={mockRetroChannel}
           showActionItem
         />
       )
@@ -38,6 +40,7 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentPresence={stubbedPresence}
           onIdeaSubmission={onSubmitIdeaStub}
+          retroChannel={mockRetroChannel}
           showActionItem
         />
       )
@@ -59,6 +62,7 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentPresence={stubbedPresence}
           onIdeaSubmission={onSubmitIdeaStub}
+          retroChannel={mockRetroChannel}
           showActionItem
         />
       )
@@ -78,6 +82,7 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             currentPresence={stubbedPresence}
             onIdeaSubmission={onSubmitIdeaStub}
+            retroChannel={mockRetroChannel}
             showActionItem={false}
           />
         )
@@ -108,6 +113,7 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentPresence={stubbedPresence}
           onIdeaSubmission={onSubmitIdeaStub}
+          retroChannel={mockRetroChannel}
           showActionItem
         />
       )
@@ -123,6 +129,7 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentPresence={stubbedPresence}
           onIdeaSubmission={onSubmitIdeaStub}
+          retroChannel={mockRetroChannel}
           showActionItem={false}
         />
       )

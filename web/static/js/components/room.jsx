@@ -85,6 +85,7 @@ class Room extends Component {
             <IdeaSubmissionForm
               currentPresence={currentPresence}
               onIdeaSubmission={this.handleIdeaSubmission}
+              retroChannel={retroChannel}
               showActionItem={showActionItem}
             />
           </div>
