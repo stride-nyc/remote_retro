@@ -12,11 +12,7 @@ describe("StageProgressionButton", () => {
       const mockRetroChannel = { on: () => {}, push: () => {} }
       const confirmSpy = sinon.spy(global, "confirm")
 
-      const wrapper = mount(
-        <StageProgressionButton
-          retroChannel={mockRetroChannel}
-        />
-      )
+      const wrapper = mount(<StageProgressionButton retroChannel={mockRetroChannel} />)
 
       wrapper.simulate("click")
       expect(confirmSpy.called).to.equal(true)
@@ -33,11 +29,7 @@ describe("StageProgressionButton", () => {
         confirmStub = sinon.stub(global, "confirm")
         retroChannel = { on: () => {}, push: sinon.spy() }
 
-        stageProgressionButton = mount(
-          <StageProgressionButton
-            retroChannel={retroChannel}
-          />
-        )
+        stageProgressionButton = mount(<StageProgressionButton retroChannel={retroChannel} />)
       })
 
       afterEach(() => {
@@ -45,7 +37,7 @@ describe("StageProgressionButton", () => {
       })
 
       context("when the user confirms", () => {
-        it("pushes a `show_action_item` event to the retro channel, passing show_action_item: true", () => {
+        it("pushes a `show_action_item` event to the retro channel with show_action_item: true", () => {
           confirmStub.returns(true)
           stageProgressionButton.simulate("click")
 
