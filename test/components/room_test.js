@@ -75,28 +75,6 @@ describe("Room component", () => {
     })
   })
 
-  context("when onProceedToActionItems property is fired by <StageProgressionButton>", () => {
-    const retroChannel = { push: spy() }
-
-    before(() => {
-      const wrapper = shallow(
-        <Room
-          currentPresence={stubbedPresence}
-          retroChannel={retroChannel}
-          isFacilitator
-          users={[]}
-        />
-      )
-
-      wrapper.find(StageProgressionButton).props().onProceedToActionItems()
-    })
-
-    it("pushes a show_action_item event with a `show_action_item` value of true", () => {
-      expect(retroChannel.push.calledWith("show_action_item", { show_action_item: true }))
-        .to.eql(true)
-    })
-  })
-
   describe("Action item column", () => {
     it("is not visible on render", () => {
       const roomComponent = shallow(

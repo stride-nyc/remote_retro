@@ -15,7 +15,6 @@ class Room extends Component {
     super(props)
     this.state = { ideas: [], showActionItem: false }
     this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
-    this.handleStageProgression = this.handleStageProgression.bind(this)
   }
 
   componentDidMount() {
@@ -57,14 +56,10 @@ class Room extends Component {
     this.props.retroChannel.push("new_idea", idea)
   }
 
-  handleStageProgression() {
-    this.props.retroChannel.push("show_action_item", { show_action_item: true })
-  }
-
   render() {
-    const retroHasYetToProgressToActionItems = !this.state.showActionItem
-    const { currentPresence, users } = this.props
     const { ideas, showActionItem } = this.state
+    const { currentPresence, users, retroChannel, isFacilitator } = this.props
+    const retroHasYetToProgressToActionItems = !showActionItem
     const categories = ["happy", "sad", "confused"]
     if (showActionItem) { categories.push("action-item") }
 
@@ -78,7 +73,7 @@ class Room extends Component {
                 key={category}
                 ideas={ideas}
                 currentPresence={currentPresence}
-                retroChannel={this.props.retroChannel}
+                retroChannel={retroChannel}
               />
             ))
           }
@@ -94,8 +89,8 @@ class Room extends Component {
             />
           </div>
           <div className="three wide right aligned column">
-            { this.props.isFacilitator && retroHasYetToProgressToActionItems &&
-              <StageProgressionButton onProceedToActionItems={this.handleStageProgression} />
+            { isFacilitator && retroHasYetToProgressToActionItems &&
+              <StageProgressionButton retroChannel={retroChannel} />
             }
           </div>
         </div>

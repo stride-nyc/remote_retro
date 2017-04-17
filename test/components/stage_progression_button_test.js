@@ -9,14 +9,10 @@ import StageProgressionButton from "../../web/static/js/components/stage_progres
 describe("StageProgressionButton", () => {
   context("onClick", () => {
     it("invokes a javascript confirmation", () => {
+      const mockRetroChannel = { on: () => {}, push: () => {} }
       const confirmSpy = sinon.spy(global, "confirm")
 
-      const onProceedToActionItemsStub = () => {}
-      const wrapper = mount(
-        <StageProgressionButton
-          onProceedToActionItems={onProceedToActionItemsStub}
-        />
-      )
+      const wrapper = mount(<StageProgressionButton retroChannel={mockRetroChannel} />)
 
       wrapper.simulate("click")
       expect(confirmSpy.called).to.equal(true)
@@ -26,18 +22,14 @@ describe("StageProgressionButton", () => {
 
     describe("stage progression confirmation", () => {
       let confirmStub
-      let onProceedToActionItemsSpy
       let stageProgressionButton
+      let retroChannel
 
       beforeEach(() => {
         confirmStub = sinon.stub(global, "confirm")
-        onProceedToActionItemsSpy = sinon.spy()
+        retroChannel = { on: () => {}, push: sinon.spy() }
 
-        stageProgressionButton = mount(
-          <StageProgressionButton
-            onProceedToActionItems={onProceedToActionItemsSpy}
-          />
-        )
+        stageProgressionButton = mount(<StageProgressionButton retroChannel={retroChannel} />)
       })
 
       afterEach(() => {
@@ -45,20 +37,24 @@ describe("StageProgressionButton", () => {
       })
 
       context("when the user confirms", () => {
-        it("invokes the method passed as onProceedToActionItems", () => {
+        it("pushes a `show_action_item` event to the retro channel with show_action_item: true", () => {
           confirmStub.returns(true)
           stageProgressionButton.simulate("click")
 
-          expect(onProceedToActionItemsSpy.called).to.equal(true)
+          expect(
+            retroChannel.push.calledWith("show_action_item", { show_action_item: true })
+          ).to.equal(true)
         })
       })
 
       context("when the user does not confirm", () => {
-        it("does not invoke the method passed as onProceedToActionItems", () => {
+        it("does not push an event to the retro channel", () => {
           confirmStub.returns(false)
           stageProgressionButton.simulate("click")
 
-          expect(onProceedToActionItemsSpy.called).to.equal(false)
+          expect(
+            retroChannel.push.called
+          ).to.equal(false)
         })
       })
     })

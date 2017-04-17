@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import * as AppPropTypes from "../prop_types"
 
 class StageProgressionButton extends Component {
   constructor(props) {
@@ -8,14 +9,13 @@ class StageProgressionButton extends Component {
 
   handleToggleChange() {
     if (confirm("Are you sure you would like to proceed to the action items stage?")) {
-      this.props.onProceedToActionItems()
+      this.props.retroChannel.push("show_action_item", { show_action_item: true })
     }
   }
 
   render() {
     return (
       <button
-        id="action-item-toggle"
         className="fluid ui right labeled teal icon button"
         onClick={this.handleToggleChange}
       >
@@ -27,7 +27,7 @@ class StageProgressionButton extends Component {
 }
 
 StageProgressionButton.propTypes = {
-  onProceedToActionItems: React.PropTypes.func.isRequired,
+  retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 
 export default StageProgressionButton
