@@ -58,7 +58,7 @@ class Room extends Component {
 
   render() {
     const retroHasYetToProgressToActionItems = !this.state.showActionItem
-    const { currentPresence, users } = this.props
+    const { currentPresence, users, retroChannel, isFacilitator } = this.props
     const { ideas, showActionItem } = this.state
     const categories = ["happy", "sad", "confused"]
     if (showActionItem) { categories.push("action-item") }
@@ -73,7 +73,7 @@ class Room extends Component {
                 key={category}
                 ideas={ideas}
                 currentPresence={currentPresence}
-                retroChannel={this.props.retroChannel}
+                retroChannel={retroChannel}
               />
             ))
           }
@@ -89,8 +89,8 @@ class Room extends Component {
             />
           </div>
           <div className="three wide right aligned column">
-            { this.props.isFacilitator && retroHasYetToProgressToActionItems &&
-              <StageProgressionButton retroChannel={this.props.retroChannel} />
+            { isFacilitator && retroHasYetToProgressToActionItems &&
+              <StageProgressionButton retroChannel={retroChannel} />
             }
           </div>
         </div>
