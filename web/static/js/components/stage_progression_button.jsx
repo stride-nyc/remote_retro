@@ -17,7 +17,6 @@ class StageProgressionButton extends Component {
   render() {
     return (
       <button
-        id="action-item-toggle"
         className="fluid ui right labeled teal icon button"
         onClick={this.handleToggleChange}
       >
