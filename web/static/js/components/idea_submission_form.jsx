@@ -28,7 +28,6 @@ class IdeaSubmissionForm extends Component {
     const { currentPresence } = this.props
     event.preventDefault()
     const newIdea = { ...this.state, author: currentPresence.user.given_name }
-    this.props.onIdeaSubmission(newIdea)
     this.props.retroChannel.push("new_idea", newIdea)
     this.setState({ body: "" })
   }
@@ -86,7 +85,6 @@ class IdeaSubmissionForm extends Component {
 }
 
 IdeaSubmissionForm.propTypes = {
-  onIdeaSubmission: React.PropTypes.func.isRequired,
   currentPresence: AppPropTypes.presence.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   showActionItem: React.PropTypes.bool.isRequired,

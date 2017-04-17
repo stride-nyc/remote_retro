@@ -12,22 +12,6 @@ describe("Room component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
   const stubbedPresence = { user: { given_name: "Mugatu" } }
 
-  describe(".handleIdeaSubmission", () => {
-    it("pushes the idea to the room channel", () => {
-      const roomComponent = shallow(
-        <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} users={[]} />
-      )
-
-      roomComponent
-        .instance()
-        .handleIdeaSubmission({ category: "sad", body: "we don't use our linter" })
-
-      expect(
-        mockRetroChannel.push.calledWith("new_idea", { category: "sad", body: "we don't use our linter" })
-      ).to.equal(true)
-    })
-  })
-
   context("when the current user is facilitator", () => {
     context("and showActionItems is false", () => {
       it("renders the <StageProgressionButton>", () => {

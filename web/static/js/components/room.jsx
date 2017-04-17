@@ -14,7 +14,6 @@ class Room extends Component {
   constructor(props) {
     super(props)
     this.state = { ideas: [], showActionItem: false }
-    this.handleIdeaSubmission = this.handleIdeaSubmission.bind(this)
   }
 
   componentDidMount() {
@@ -52,10 +51,6 @@ class Room extends Component {
     })
   }
 
-  handleIdeaSubmission(idea) {
-    this.props.retroChannel.push("new_idea", idea)
-  }
-
   render() {
     const { ideas, showActionItem } = this.state
     const { currentPresence, users, retroChannel, isFacilitator } = this.props
@@ -84,7 +79,6 @@ class Room extends Component {
           <div className="thirteen wide column">
             <IdeaSubmissionForm
               currentPresence={currentPresence}
-              onIdeaSubmission={this.handleIdeaSubmission}
               retroChannel={retroChannel}
               showActionItem={showActionItem}
             />
