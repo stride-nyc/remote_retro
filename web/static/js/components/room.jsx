@@ -57,9 +57,9 @@ class Room extends Component {
   }
 
   render() {
-    const retroHasYetToProgressToActionItems = !this.state.showActionItem
-    const { currentPresence, users, retroChannel, isFacilitator } = this.props
     const { ideas, showActionItem } = this.state
+    const { currentPresence, users, retroChannel, isFacilitator } = this.props
+    const retroHasYetToProgressToActionItems = !showActionItem
     const categories = ["happy", "sad", "confused"]
     if (showActionItem) { categories.push("action-item") }
 
