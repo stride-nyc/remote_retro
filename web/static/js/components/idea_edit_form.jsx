@@ -30,6 +30,7 @@ class IdeaEditForm extends Component {
   render() {
     return (
       <form onSubmit={this.onSubmit} className="ui form">
+        <p className="ui center aligned sub header">Editing</p>
         <div className="field">
           <textarea
             name="editable_idea"
