@@ -9,12 +9,14 @@ import StageProgressionButton from "../../web/static/js/components/stage_progres
 describe("StageProgressionButton", () => {
   context("onClick", () => {
     it("invokes a javascript confirmation", () => {
+      const mockRetroChannel = { on: () => {}, push: () => {} }
       const confirmSpy = sinon.spy(global, "confirm")
 
       const onProceedToActionItemsStub = () => {}
       const wrapper = mount(
         <StageProgressionButton
           onProceedToActionItems={onProceedToActionItemsStub}
+          retroChannel={mockRetroChannel}
         />
       )
 
@@ -28,14 +30,17 @@ describe("StageProgressionButton", () => {
       let confirmStub
       let onProceedToActionItemsSpy
       let stageProgressionButton
+      let retroChannel
 
       beforeEach(() => {
         confirmStub = sinon.stub(global, "confirm")
         onProceedToActionItemsSpy = sinon.spy()
+        retroChannel = { on: () => {}, push: sinon.spy() }
 
         stageProgressionButton = mount(
           <StageProgressionButton
             onProceedToActionItems={onProceedToActionItemsSpy}
+            retroChannel={retroChannel}
           />
         )
       })
@@ -51,6 +56,15 @@ describe("StageProgressionButton", () => {
 
           expect(onProceedToActionItemsSpy.called).to.equal(true)
         })
+
+        it("pushes a `show_action_item` event to the retro channel, passing show_action_item: true", () => {
+          confirmStub.returns(true)
+          stageProgressionButton.simulate("click")
+
+          expect(
+            retroChannel.push.calledWith("show_action_item", { show_action_item: true })
+          ).to.equal(true)
+        })
       })
 
       context("when the user does not confirm", () => {
@@ -59,6 +73,15 @@ describe("StageProgressionButton", () => {
           stageProgressionButton.simulate("click")
 
           expect(onProceedToActionItemsSpy.called).to.equal(false)
+        })
+
+        it("does not push an event to the retro channel", () => {
+          confirmStub.returns(false)
+          stageProgressionButton.simulate("click")
+
+          expect(
+            retroChannel.push.called
+          ).to.equal(false)
         })
       })
     })

@@ -95,7 +95,7 @@ class Room extends Component {
           </div>
           <div className="three wide right aligned column">
             { this.props.isFacilitator && retroHasYetToProgressToActionItems &&
-              <StageProgressionButton onProceedToActionItems={this.handleStageProgression} />
+              <StageProgressionButton onProceedToActionItems={this.handleStageProgression} retroChannel={this.props.retroChannel} />
             }
           </div>
         </div>
