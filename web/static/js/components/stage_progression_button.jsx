@@ -9,7 +9,6 @@ class StageProgressionButton extends Component {
 
   handleToggleChange() {
     if (confirm("Are you sure you would like to proceed to the action items stage?")) {
-      this.props.onProceedToActionItems()
       this.props.retroChannel.push("show_action_item", { show_action_item: true })
     }
   }
@@ -28,7 +27,6 @@ class StageProgressionButton extends Component {
 }
 
 StageProgressionButton.propTypes = {
-  onProceedToActionItems: React.PropTypes.func.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
 }
 

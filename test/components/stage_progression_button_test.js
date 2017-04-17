@@ -12,10 +12,8 @@ describe("StageProgressionButton", () => {
       const mockRetroChannel = { on: () => {}, push: () => {} }
       const confirmSpy = sinon.spy(global, "confirm")
 
-      const onProceedToActionItemsStub = () => {}
       const wrapper = mount(
         <StageProgressionButton
-          onProceedToActionItems={onProceedToActionItemsStub}
           retroChannel={mockRetroChannel}
         />
       )
@@ -28,18 +26,15 @@ describe("StageProgressionButton", () => {
 
     describe("stage progression confirmation", () => {
       let confirmStub
-      let onProceedToActionItemsSpy
       let stageProgressionButton
       let retroChannel
 
       beforeEach(() => {
         confirmStub = sinon.stub(global, "confirm")
-        onProceedToActionItemsSpy = sinon.spy()
         retroChannel = { on: () => {}, push: sinon.spy() }
 
         stageProgressionButton = mount(
           <StageProgressionButton
-            onProceedToActionItems={onProceedToActionItemsSpy}
             retroChannel={retroChannel}
           />
         )
@@ -50,13 +45,6 @@ describe("StageProgressionButton", () => {
       })
 
       context("when the user confirms", () => {
-        it("invokes the method passed as onProceedToActionItems", () => {
-          confirmStub.returns(true)
-          stageProgressionButton.simulate("click")
-
-          expect(onProceedToActionItemsSpy.called).to.equal(true)
-        })
-
         it("pushes a `show_action_item` event to the retro channel, passing show_action_item: true", () => {
           confirmStub.returns(true)
           stageProgressionButton.simulate("click")
@@ -68,13 +56,6 @@ describe("StageProgressionButton", () => {
       })
 
       context("when the user does not confirm", () => {
-        it("does not invoke the method passed as onProceedToActionItems", () => {
-          confirmStub.returns(false)
-          stageProgressionButton.simulate("click")
-
-          expect(onProceedToActionItemsSpy.called).to.equal(false)
-        })
-
         it("does not push an event to the retro channel", () => {
           confirmStub.returns(false)
           stageProgressionButton.simulate("click")
