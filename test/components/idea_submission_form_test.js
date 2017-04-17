@@ -32,6 +32,25 @@ describe("IdeaSubmissionForm component", () => {
 
       expect(onSubmitIdeaSpy.called).to.equal(true)
     })
+
+    it("pushes a `new_idea` event to the retro channel with the idea", () => {
+      let retroChannel = { on: () => {}, push: sinon.spy() }
+
+      wrapper = mount(
+        <IdeaSubmissionForm
+          currentPresence={stubbedPresence}
+          onIdeaSubmission={onSubmitIdeaStub}
+          retroChannel={retroChannel}
+          showActionItem
+        />
+      )
+
+      wrapper.simulate("submit", fakeEvent)
+
+      expect(
+        retroChannel.push.calledWith("new_idea", { category: "happy", body: "", author: "Mugatu" })
+      ).to.equal(true)
+    })
   })
 
   describe("when the state's `category` value changes", () => {
