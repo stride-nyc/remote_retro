@@ -145,18 +145,48 @@ describe("Room component", () => {
     })
 
     describe("on `disable_edit_state`", () => {
-      it("updates the idea with matching id, setting `editing` to false", () => {
-        const ideas = [
+      let ideas
+      let ideaWithMatchingId
+
+      beforeEach(() => {
+        ideas = [
           { id: 1 },
           { id: 2 },
           { id: 3 },
         ]
 
         roomComponent.setState({ ideas })
-
         retroChannel.trigger("disable_edit_state", { id: 3 })
+        ideaWithMatchingId = roomComponent.state("ideas").find(idea => idea.id === 3)
+      })
 
-        expect(roomComponent.state("ideas")[2]).to.eql({ id: 3, editing: false })
+      it("updates the idea with matching id, setting `editing` to false", () => {
+        expect(ideaWithMatchingId.editing).to.equal(false)
+      })
+
+      it("updates the idea with matching id, setting `liveEditText` to null", () => {
+        expect(ideaWithMatchingId.liveEditText).to.equal(null)
+      })
+    })
+
+    describe("on `idea_live_edit`", () => {
+      let ideas
+      let ideaWithMatchingId
+
+      beforeEach(() => {
+        ideas = [
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+        ]
+
+        roomComponent.setState({ ideas })
+        retroChannel.trigger("idea_live_edit", { id: 2, liveEditText: "lalala" })
+        ideaWithMatchingId = roomComponent.state("ideas").find(idea => idea.id === 2)
+      })
+
+      it("updates the idea with matching id, setting `liveEditText` to the payload value", () => {
+        expect(ideaWithMatchingId.liveEditText).to.equal("lalala")
       })
     })
 
@@ -191,6 +221,10 @@ describe("Room component", () => {
 
       it("sets the idea's `editing` value to false", () => {
         expect(editedIdea.editing).to.eql(false)
+      })
+
+      it("sets the idea's `liveEditText` value to null", () => {
+        expect(editedIdea.liveEditText).to.equal(null)
       })
     })
   })

@@ -114,6 +114,20 @@ describe("Idea component", () => {
       it("informs the user that the idea is being edited", () => {
         expect(wrapper.text()).to.match(/facilitator.*editing/i)
       })
+
+      context("when the idea has a `liveEditText` value", () => {
+        const wrapper = shallow(
+          <Idea
+            idea={{ ...ideaInEditState, liveEditText: "editing bigtime" }}
+            currentPresence={nonFacilitatorPresence}
+            retroChannel={mockRetroChannel}
+          />
+        )
+        it("displays the `liveEditText` value rather than the body value", () => {
+          expect(wrapper.text()).to.match(/editing bigtime/i)
+          expect(wrapper.text()).to.not.match(/redundant tests/i)
+        })
+      })
     })
   })
 

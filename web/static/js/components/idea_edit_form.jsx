@@ -11,6 +11,7 @@ class IdeaEditForm extends Component {
   }
 
   onChange(event) {
+    this.props.retroChannel.push("idea_live_edit", { id: this.props.idea.id, liveEditText: event.target.value })
     this.setState({ ideaBody: event.target.value })
   }
 

@@ -35,12 +35,17 @@ class Room extends Component {
     })
 
     this.props.retroChannel.on("disable_edit_state", disabledIdea => {
-      const newIdeas = updateIdeas(this.state.ideas, disabledIdea.id, { editing: false })
+      const newIdeas = updateIdeas(this.state.ideas, disabledIdea.id, { editing: false, liveEditText: null })
+      this.setState({ ideas: newIdeas })
+    })
+
+    this.props.retroChannel.on("idea_live_edit", editedIdea => {
+      const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, editedIdea)
       this.setState({ ideas: newIdeas })
     })
 
     this.props.retroChannel.on("idea_edited", editedIdea => {
-      const updatedIdea = { ...editedIdea, editing: false }
+      const updatedIdea = { ...editedIdea, editing: false, liveEditText: null }
       const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, updatedIdea)
       this.setState({ ideas: newIdeas })
     })

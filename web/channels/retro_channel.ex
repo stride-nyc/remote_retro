@@ -51,6 +51,11 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
+  def handle_in("idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}, socket) do
+    broadcast! socket, "idea_live_edit", %{id: id, liveEditText: live_edit_text}
+    {:noreply, socket}
+  end
+
   def handle_in("idea_edited", %{"id" => id, "body" => body}, socket) do
     idea = Repo.get(Idea, id)
     idea = Ecto.Changeset.change(idea, body: body)

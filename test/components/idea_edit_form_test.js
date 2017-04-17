@@ -6,7 +6,7 @@ import sinon from "sinon"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("<IdeaEditForm />", () => {
-  const idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
+  const idea = { id: 999, category: "sad", body: "redundant tests", author: "Trizzle" }
   const mockRetroChannel = { on: () => {}, push: () => {} }
 
   describe("on initial render", () => {
@@ -19,13 +19,25 @@ describe("<IdeaEditForm />", () => {
   })
 
   describe("on change of the textarea", () => {
-    it("the value prop of the textarea updates in turn", () => {
-      const wrapper = mount(<IdeaEditForm idea={idea} retroChannel={mockRetroChannel} />)
-      const textarea = wrapper.find("textarea")
+    let retroChannel
+    let textarea
+    let wrapper
 
+    beforeEach(() => {
+      retroChannel = { on: () => {}, push: sinon.spy() }
+      wrapper = mount(<IdeaEditForm idea={idea} retroChannel={retroChannel} />)
+      textarea = wrapper.find("textarea")
       textarea.simulate("change", { target: { value: "some value" } })
+    })
 
+    it("the value prop of the textarea updates in turn", () => {
       expect(textarea.props().value).to.equal("some value")
+    })
+
+    it("pushes a `idea_live_edit` event to the retroChannel, passing current input value", () => {
+      expect(
+        retroChannel.push.calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
+      ).to.equal(true)
     })
   })
 
