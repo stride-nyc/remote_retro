@@ -7,7 +7,7 @@ import { Provider } from "react-redux"
 
 import RemoteRetro from "./components/remote_retro"
 import RetroChannel from "./services/retro_channel"
-import rootReducer from "./reducers/index"
+import rootReducer from "./reducers"
 
 const userToken = window.userToken
 

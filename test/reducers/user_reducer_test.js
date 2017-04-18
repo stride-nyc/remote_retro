@@ -1,41 +1,37 @@
-import { expect } from 'chai'
+import { expect } from "chai"
 
-import userReducer from '../../web/static/js/reducers/user'
+import userReducer from "../../web/static/js/reducers/user"
 
+describe("user reducer", () => {
+  const user = { given_name: "Tiny Rick" }
 
-describe('user reducer', () => {
-  describe('when no state is passed', () => {
-    it('should return the initial state', () => {
+  describe("when no new state is passed", () => {
+    it("should return the initial state of an empty array", () => {
       expect(userReducer(undefined, {})).to.deep.equal([])
     })
   })
 
-  describe('when there are no users', () => {
-    it('should handle ADD_USER', () => {
-      const user = { given_name: 'Tiny Rick' }
-      const action = { type: 'ADD_USER', user }
-      const expectedState = [user]
+  describe("when there are no users", () => {
+    const action = { type: "ADD_USER", user }
 
-      expect(userReducer([], action)).to.deep.equal(expectedState)
+    it("should handle ADD_USER", () => {
+      expect(userReducer([], action)).to.deep.equal([user])
     })
   })
 
-  describe('when there are existing users', () => {
-    it('should handle ADD_USER', () => {
-      const user = { given_name: 'Tiny Rick' }
-      const action = { type: 'ADD_USER', user }
-      const expectedState = [{ given_name: 'Morty' }, user]
+  describe("when there are existing users", () => {
+    const action = { type: "ADD_USER", user }
 
-      expect(userReducer([{ given_name: 'Morty' }], action)).to.deep.equal(expectedState)
+    it("should handle ADD_USER", () => {
+      expect(userReducer([{ given_name: "Morty" }], action)).to.deep.equal([{ given_name: "Morty" }, user])
     })
   })
 
-  describe('when the action is unhandled', () => {
-    it('returns the previous state', () => {
-      const action = { type: 'IHAVENOIDEAWHATSHAPPENING' }
-      const previousState = [{ given_name: 'Morty' }]
+  describe("when the action is unhandled", () => {
+    const action = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-      expect(userReducer(previousState, action)).to.deep.equal(previousState)
+    it("returns the previous state", () => {
+      expect(userReducer([{ given_name: "Morty" }], action)).to.deep.equal([{ given_name: "Morty" }])
     })
   })
 })
