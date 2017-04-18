@@ -59,12 +59,12 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a show_action_item event" do
+  describe "pushing a `proceed_to_next_stage` event" do
     setup [:join_the_retro_channel]
-    test "broadcasts the show_action_item value to all connected clients", %{ socket: socket } do
-      push(socket, "show_action_item", %{show_action_item: false})
+    test "broadcasts the same event to connected clients, along with stage", %{ socket: socket } do
+      push(socket, "proceed_to_next_stage", %{stage: 0})
 
-      assert_broadcast("set_show_action_item", %{ "show_action_item" => false})
+      assert_broadcast("proceed_to_next_stage", %{stage: 0})
     end
   end
 

@@ -28,8 +28,8 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("show_action_item", show_action_item, socket) do
-    broadcast! socket, "set_show_action_item", show_action_item
+  def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
+    broadcast! socket, "proceed_to_next_stage", %{stage: stage}
     {:noreply, socket}
   end
 

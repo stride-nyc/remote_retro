@@ -37,12 +37,12 @@ describe("StageProgressionButton", () => {
       })
 
       context("when the user confirms", () => {
-        it("pushes a `show_action_item` event to the retro channel with show_action_item: true", () => {
+        it("pushes a `proceed_to_next_stage` event to the retro channel with stage: 'action-items'", () => {
           confirmStub.returns(true)
           stageProgressionButton.simulate("click")
 
           expect(
-            retroChannel.push.calledWith("show_action_item", { show_action_item: true })
+            retroChannel.push.calledWith("proceed_to_next_stage", { stage: "action-items" })
           ).to.equal(true)
         })
       })

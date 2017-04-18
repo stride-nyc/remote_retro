@@ -13,7 +13,7 @@ import styles from "./css_modules/room.css"
 class Room extends Component {
   constructor(props) {
     super(props)
-    this.state = { ideas: [], showActionItem: false }
+    this.state = { ideas: [], stage: "idea-generation" }
   }
 
   componentDidMount() {
@@ -25,8 +25,8 @@ class Room extends Component {
       this.setState({ ideas: [...this.state.ideas, newIdea] })
     })
 
-    this.props.retroChannel.on("set_show_action_item", eventPayload => {
-      this.setState({ showActionItem: eventPayload.show_action_item })
+    this.props.retroChannel.on("proceed_to_next_stage", payload => {
+      this.setState({ stage: payload.stage })
     })
 
     this.props.retroChannel.on("enable_edit_state", nominatedIdea => {
@@ -57,10 +57,10 @@ class Room extends Component {
   }
 
   render() {
-    const { ideas, showActionItem } = this.state
+    const { ideas, stage } = this.state
     const { currentPresence, users, retroChannel, isFacilitator } = this.props
-    const retroHasYetToProgressToActionItems = !showActionItem
     const categories = ["happy", "sad", "confused"]
+    const showActionItem = stage === "action-items"
     if (showActionItem) { categories.push("action-item") }
 
     return (
@@ -89,7 +89,7 @@ class Room extends Component {
             />
           </div>
           <div className="three wide right aligned column">
-            { isFacilitator && retroHasYetToProgressToActionItems &&
+            { isFacilitator && stage === "idea-generation" &&
               <StageProgressionButton retroChannel={retroChannel} />
             }
           </div>

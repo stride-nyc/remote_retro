@@ -28,7 +28,7 @@ describe("Room component", () => {
       })
     })
 
-    context("and showActionItems is true", () => {
+    context("and stage is 'action-items'", () => {
       it("does not render the <StageProgressionButton>", () => {
         const roomComponent = shallow(
           <Room
@@ -38,7 +38,7 @@ describe("Room component", () => {
             users={[]}
           />
         )
-        roomComponent.setState({ showActionItem: true })
+        roomComponent.setState({ stage: 'action-items' })
 
         expect(roomComponent.find(StageProgressionButton)).to.have.length(0)
       })
@@ -70,11 +70,11 @@ describe("Room component", () => {
       )).to.equal(false)
     })
 
-    it("becomes visible when showActionItem is true", () => {
+    it("becomes visible when stage is 'action-items'", () => {
       const roomComponent = shallow(
         <Room currentPresence={stubbedPresence} retroChannel={mockRetroChannel} users={[]} />
       )
-      roomComponent.setState({ showActionItem: true })
+      roomComponent.setState({ stage: "action-items" })
 
       expect(roomComponent.containsMatchingElement(
         <CategoryColumn category="action-item" ideas={[]} retroChannel={mockRetroChannel} />
@@ -119,12 +119,12 @@ describe("Room component", () => {
       })
     })
 
-    describe("on `set_show_action_item`", () => {
-      it("updates the state for showActionItem to the value from set_show_action_item", () => {
-        expect(roomComponent.state("showActionItem")).to.eql(false)
-        retroChannel.trigger("set_show_action_item", { show_action_item: true })
+    describe("on `proceed_to_next_stage`", () => {
+      it("updates the state's `stage` attribute to the value from proceed_to_next_stage", () => {
+        expect(roomComponent.state("stage")).to.equal("idea-generation")
+        retroChannel.trigger("proceed_to_next_stage", { stage: "dummy value" })
 
-        expect(roomComponent.state("showActionItem")).to.eql(true)
+        expect(roomComponent.state("stage")).to.equal("dummy value")
       })
     })
 

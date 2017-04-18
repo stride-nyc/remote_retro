@@ -9,7 +9,7 @@ class StageProgressionButton extends Component {
 
   handleStageProgression() {
     if (confirm("Are you sure you would like to proceed to the action items stage?")) {
-      this.props.retroChannel.push("show_action_item", { show_action_item: true })
+      this.props.retroChannel.push("proceed_to_next_stage", { stage: "action-items" })
     }
   }
 
