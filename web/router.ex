@@ -11,9 +11,7 @@ defmodule RemoteRetro.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    if Application.get_env(:remote_retro, :add_mock_user_to_session) do
-      plug :add_mock_user_to_session
-    end
+  
   end
 
   pipeline :api do

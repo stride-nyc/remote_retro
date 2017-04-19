@@ -1,6 +1,6 @@
 defmodule RemoteRetro.GoogleTest do
   use ExUnit.Case, async: true
-  alias RemoteRetro.Google
+  alias RemoteRetro.OAuth.Google
 
   describe "authorize_url!/1" do
     test "returns a google authorization url containing the given scope" do

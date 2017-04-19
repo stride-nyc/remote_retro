@@ -1,4 +1,4 @@
-defmodule RemoteRetro.Google do
+defmodule RemoteRetro.OAuth.Google do
   @moduledoc """
   Module for Google Oath.
   """

@@ -1,5 +1,6 @@
 defmodule RemoteRetro.AuthControllerTest do
   use RemoteRetro.ConnCase, async: true
+  alias RemoteRetro.User
 
   setup context do
     if desired_endpoint = context[:desired_endpoint_on_session] do
@@ -39,6 +40,32 @@ defmodule RemoteRetro.AuthControllerTest do
 
       session = retrieve_session(conn)
       assert get_in(session, ["current_user", "email"]) == "mistertestuser@gmail.com"
+    end
+
+    test "user on the session exists in the db", %{conn: conn} do
+      mock_google_info = Application.get_env(:remote_retro, :mock_user)
+      conn = get conn, "/auth/google/callback?code=schlarpdarp"
+
+      session = retrieve_session(conn)
+      session_email = get_in(session, ["current_user", "email"])
+
+      user = Repo.get_by(User, email: mock_google_info["email"])
+      assert user.email == session_email
+    end
+
+    test "when a user logs in more than once, ensure last_login is updated and doesn't match inserted_at", %{conn: conn} do
+      conn = get conn, "/auth/google/callback?code=schlarpdarp"
+      session = retrieve_session(conn)
+      session_email = get_in(session, ["current_user", "email"])
+      user_first_login = Repo.get_by(User, email: session_email)
+
+      conn = conn |> clear_session |> get("/auth/google/callback?code=schlarpdarp")
+
+      session = retrieve_session(conn)
+      session_email = get_in(session, ["current_user", "email"])
+      user_second_login = Repo.get_by(User, email: session_email)
+
+      refute user_first_login.last_login == user_second_login.last_login
     end
   end
 
