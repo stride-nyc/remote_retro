@@ -90,10 +90,7 @@ class Room extends Component {
             />
           </div>
           <div className="three wide right aligned column">
-            <SendActionItemsEmail retroChannel={retroChannel} />
-            { isFacilitator && stage === "idea-generation" &&
-              <StageProgressionButton retroChannel={retroChannel} />
-            }
+            { isFacilitator && <StageProgressionButton retroChannel={retroChannel} stage={stage} /> }
           </div>
         </div>
         <DoorChime users={users} />

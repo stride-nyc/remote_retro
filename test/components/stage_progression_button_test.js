@@ -7,12 +7,51 @@ import StageProgressionButton from "../../web/static/js/components/stage_progres
 
 
 describe("StageProgressionButton", () => {
+  const mockRetroChannel = { on: () => {}, push: () => {} }
+
+  context("when the stage is 'idea-generation'", () => {
+    let stageProgressionButton
+
+    beforeEach(() => {
+      stageProgressionButton = mount(
+        <StageProgressionButton retroChannel={mockRetroChannel} stage="idea-generation" />
+      )
+    })
+
+    it("displays Proceed to Action Items", () => {
+      expect(stageProgressionButton.text()).to.match(/proceed to action items/i)
+    })
+
+    it("uses a right-pointing arrow icon", () => {
+      expect(stageProgressionButton.find("i").hasClass("arrow")).to.equal(true)
+    })
+  })
+
+  context("when the stage is 'action-items'", () => {
+    let stageProgressionButton
+
+    beforeEach(() => {
+      stageProgressionButton = mount(
+        <StageProgressionButton retroChannel={mockRetroChannel} stage="action-items" />
+      )
+    })
+
+    it("displays 'Send Action Items'", () => {
+      expect(stageProgressionButton.text()).to.match(/send action items/i)
+    })
+
+    it("uses a 'send' icon", () => {
+      expect(stageProgressionButton.find("i").hasClass("send")).to.equal(true)
+    })
+  })
+
   context("onClick", () => {
     it("invokes a javascript confirmation", () => {
-      const mockRetroChannel = { on: () => {}, push: () => {} }
       const confirmSpy = sinon.spy(global, "confirm")
 
-      const wrapper = mount(<StageProgressionButton retroChannel={mockRetroChannel} />)
+      const wrapper = mount(
+        <StageProgressionButton retroChannel={mockRetroChannel} stage="idea-generation" />
+      )
 
       wrapper.simulate("click")
       expect(confirmSpy.called).to.equal(true)
@@ -29,7 +68,9 @@ describe("StageProgressionButton", () => {
         confirmStub = sinon.stub(global, "confirm")
         retroChannel = { on: () => {}, push: sinon.spy() }
 
-        stageProgressionButton = mount(<StageProgressionButton retroChannel={retroChannel} />)
+        stageProgressionButton = mount(
+          <StageProgressionButton retroChannel={retroChannel} stage="idea-generation" />
+        )
       })
 
       afterEach(() => {
@@ -37,7 +78,7 @@ describe("StageProgressionButton", () => {
       })
 
       context("when the user confirms", () => {
-        it("pushes a `proceed_to_next_stage` event to the retro channel with stage: 'action-items'", () => {
+        it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
           confirmStub.returns(true)
           stageProgressionButton.simulate("click")
 

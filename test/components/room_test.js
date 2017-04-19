@@ -27,22 +27,6 @@ describe("Room component", () => {
         expect(roomComponent.find(StageProgressionButton)).to.have.length(1)
       })
     })
-
-    context("and stage is 'action-items'", () => {
-      it("does not render the <StageProgressionButton>", () => {
-        const roomComponent = shallow(
-          <Room
-            currentPresence={stubbedPresence}
-            retroChannel={mockRetroChannel}
-            isFacilitator
-            users={[]}
-          />
-        )
-        roomComponent.setState({ stage: 'action-items' })
-
-        expect(roomComponent.find(StageProgressionButton)).to.have.length(0)
-      })
-    })
   })
 
   context("when the current user is not facilitator", () => {
