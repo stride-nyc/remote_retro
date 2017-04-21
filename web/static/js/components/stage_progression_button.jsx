@@ -11,7 +11,7 @@ const stageConfigurationMap = {
     },
   },
   "action-items": {
-    confirmationMessage: "Are you sure you would like to distribute the action items? This will result in the conclusion of the retro.",
+    confirmationMessage: null,
     nextStage: "action-item-distribution",
     buttonConfig: {
       copy: "Send Action Items",
@@ -28,8 +28,9 @@ class StageProgressionButton extends Component {
 
   handleStageProgression() {
     const stageConfig = stageConfigurationMap[this.props.stage]
+    const noConfirmationNecessary = !stageConfig.confirmationMessage
 
-    if (confirm(stageConfig.confirmationMessage)) {
+    if (noConfirmationNecessary || confirm(stageConfig.confirmationMessage)) {
       this.props.retroChannel.push("proceed_to_next_stage", { stage: stageConfig.nextStage })
     }
   }
