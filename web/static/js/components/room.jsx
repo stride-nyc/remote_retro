@@ -29,6 +29,12 @@ class Room extends Component {
       this.setState({ stage: payload.stage })
     })
 
+    this.props.retroChannel.on("email_send_status", payload => {
+      const successMessage = `Consider it done. Participants will receive an email breakdown of the action items shortly.`
+      const errorMessage   =  `It seems there was an error. Please try to send the action items again in a few minutes. Thanks for your patience.`
+      alert(payload.success ? successMessage : errorMessage)
+    })
+
     this.props.retroChannel.on("enable_edit_state", nominatedIdea => {
       const newIdeas = updateIdeas(this.state.ideas, nominatedIdea.id, { editing: true })
       this.setState({ ideas: newIdeas })
@@ -89,9 +95,7 @@ class Room extends Component {
             />
           </div>
           <div className="three wide right aligned column">
-            { isFacilitator && stage === "idea-generation" &&
-              <StageProgressionButton retroChannel={retroChannel} />
-            }
+            { isFacilitator && <StageProgressionButton retroChannel={retroChannel} stage={stage} /> }
           </div>
         </div>
         <DoorChime users={users} />

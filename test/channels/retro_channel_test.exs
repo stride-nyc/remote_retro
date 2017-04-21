@@ -1,5 +1,7 @@
 defmodule RemoteRetro.RetroChannelTest do
-  use RemoteRetro.ChannelCase, async: true
+  use RemoteRetro.ChannelCase, async: false
+  use Bamboo.Test, shared: true
+
   alias RemoteRetro.RetroChannel
   alias RemoteRetro.Repo
   alias RemoteRetro.Idea
@@ -56,6 +58,22 @@ defmodule RemoteRetro.RetroChannelTest do
       sole_existing_idea = List.first(socket.assigns.ideas)
 
       assert %{ body: "WIP commits on master", category: "sad", author: "Travis", retro_id: _, id: _ } = sole_existing_idea
+    end
+  end
+
+  describe "pushing `proceed_to_next_stage` with a stage of 'action-item-distribution'" do
+    setup [:join_the_retro_channel]
+
+    test "triggers an email containing the retro action items", %{socket: socket} do
+      push(socket, "proceed_to_next_stage", %{stage: "action-item-distribution"})
+
+      assert_delivered_with(subject: "Action items from Retro")
+    end
+
+    test "pushes the event back to the client, with email success boolean", %{socket: socket} do
+      push(socket, "proceed_to_next_stage", %{stage: "action-item-distribution"})
+
+      assert_push("email_send_status", %{success: _})
     end
   end
 

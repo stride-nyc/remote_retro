@@ -40,6 +40,8 @@ config :remote_retro, RemoteRetro.Repo,
   hostname: "localhost",
   pool_size: 10
 
+config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.LocalAdapter
+
 config :remote_retro, :oauth_client, OAuth2.Client
 
 config :remote_retro, :add_mock_user_to_session, true

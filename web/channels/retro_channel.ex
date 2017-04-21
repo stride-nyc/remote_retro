@@ -7,6 +7,8 @@ defmodule RemoteRetro.RetroChannel do
   alias RemoteRetro.Presence
   alias RemoteRetro.PresenceUtils
   alias RemoteRetro.Idea
+  alias RemoteRetro.Emails
+  alias RemoteRetro.Mailer
 
   def join("retro:" <> retro_id, _, socket) do
     query = from idea in Idea, where: idea.retro_id == ^retro_id
@@ -25,6 +27,14 @@ defmodule RemoteRetro.RetroChannel do
 
     push socket, "presence_state", Presence.list(socket)
     push socket, "existing_ideas", %{ideas: socket.assigns.ideas}
+    {:noreply, socket}
+  end
+
+  def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
+    email_send_status = Emails.action_items_email(socket.assigns.retro_id)
+                        |> Mailer.deliver_now
+
+    push socket, "email_send_status", %{success: !!email_send_status}
     {:noreply, socket}
   end
 

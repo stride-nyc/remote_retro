@@ -17,6 +17,9 @@ config :remote_retro, RemoteRetro.Endpoint,
   pubsub: [name: RemoteRetro.PubSub,
            adapter: Phoenix.PubSub.PG2]
 
+# Configures Email API
+config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.SendgridAdapter, api_key: System.get_env("SENDGRID_API_KEY")
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",
