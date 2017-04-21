@@ -1,3 +1,9 @@
 .wrapper::before {
   content: "" !important;
 }
+
+.picture {
+  display: inline-block;
+  height: 75px;
+  border-radius: 50%;
+}

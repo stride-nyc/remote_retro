@@ -8,12 +8,21 @@ function UserListItem(props) {
   return (
     <li className={`item ${styles.wrapper}`}>
       <div className="ui center aligned grid">
-        <div className="ui row">{ userName }</div>
-        <i className="huge user icon" />
+         {IconTag(props.user)}
+         <div className="ui row">{ userName }</div>
       </div>
     </li>
   )
 }
+
+const IconTag = function(user) {
+  if (user.picture) {
+    return <img className={`${styles.picture}`} src={user.picture} />
+  }
+  else {
+    return <i className="huge user icon" />
+  }
+};
 
 UserListItem.propTypes = {
   user: AppPropTypes.user.isRequired,
