@@ -30,6 +30,14 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
+  def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
+    email_send_status = Emails.action_items_email(socket.assigns.retro_id)
+                        |> Mailer.deliver_now
+
+    push socket, "email_send_status", %{success: !!email_send_status}
+    {:noreply, socket}
+  end
+
   def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
     broadcast! socket, "proceed_to_next_stage", %{stage: stage}
     {:noreply, socket}
@@ -71,14 +79,6 @@ defmodule RemoteRetro.RetroChannel do
     idea = RemoteRetro.Repo.delete!(%Idea{id: id})
 
     broadcast! socket, "idea_deleted", idea
-    {:noreply, socket}
-  end
-
-  def handle_in("send_action_items_email", _, socket) do
-    email_send_status = Emails.action_items_email(socket.assigns.retro_id)
-                        |> Mailer.deliver_now
-
-    push socket, "email_send_status", %{"success" => !!email_send_status}
     {:noreply, socket}
   end
 

@@ -61,6 +61,22 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "pushing `proceed_to_next_stage` with a stage of 'action-item-distribution'" do
+    setup [:join_the_retro_channel]
+
+    test "triggers an email containing the retro action items", %{socket: socket} do
+      push(socket, "proceed_to_next_stage", %{stage: "action-item-distribution"})
+
+      assert_delivered_with(subject: "Action items from Retro")
+    end
+
+    test "pushes the event back to the client, with email success boolean", %{socket: socket} do
+      push(socket, "proceed_to_next_stage", %{stage: "action-item-distribution"})
+
+      assert_push("email_send_status", %{success: _})
+    end
+  end
+
   describe "pushing a `proceed_to_next_stage` event" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event to connected clients, along with stage", %{ socket: socket } do
@@ -137,22 +153,6 @@ defmodule RemoteRetro.RetroChannelTest do
       push(socket, "delete_idea", idea_id)
 
       assert_broadcast("idea_deleted", %{id: ^idea_id})
-    end
-  end
-
-  describe "pushing a send_action_items_email to the socket" do
-    setup [:join_the_retro_channel]
-
-    test "triggers an email containing the retro action items", %{socket: socket} do
-      push(socket, "send_action_items_email", %{})
-
-      assert_delivered_with(subject: "Action items from Retro")
-    end
-
-    test "results in the push of a email_send_status event back to the client", %{socket: socket} do
-      push(socket, "send_action_items_email", %{})
-
-      assert_push("email_send_status", %{"success" => _})
     end
   end
 
