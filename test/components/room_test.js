@@ -211,5 +211,35 @@ describe("Room component", () => {
         expect(editedIdea.liveEditText).to.equal(null)
       })
     })
+
+    describe("on `email_send_status`", () => {
+      let alertSpy
+
+      beforeEach(() => {
+        alertSpy = spy(global, "alert")
+      })
+
+      afterEach(() => alertSpy.restore())
+
+      context("when the payload represents success", () => {
+        beforeEach(() => {
+          retroChannel.trigger("email_send_status", { success: true })
+        })
+
+        it("alerts the user to the success", () => {
+          expect(alertSpy.getCall(0).args[0]).to.match(/will receive/i)
+        })
+      })
+
+      context("when the payload represents a failure", () => {
+        beforeEach(() => {
+          retroChannel.trigger("email_send_status", { success: false })
+        })
+
+        it("alerts the user to the failure", () => {
+          expect(alertSpy.getCall(0).args[0]).to.not.match(/will receive/i)
+        })
+      })
+    })
   })
 })

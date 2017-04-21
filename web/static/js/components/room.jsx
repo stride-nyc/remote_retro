@@ -5,7 +5,6 @@ import UserList from "./user_list"
 import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
 import StageProgressionButton from "./stage_progression_button"
-import SendActionItemsEmail from "./send_action_items_email"
 import DoorChime from "./door_chime"
 import * as AppPropTypes from "../prop_types"
 
@@ -28,6 +27,12 @@ class Room extends Component {
 
     this.props.retroChannel.on("proceed_to_next_stage", payload => {
       this.setState({ stage: payload.stage })
+    })
+
+    this.props.retroChannel.on("email_send_status", payload => {
+      const successMessage = `Consider it done. Participants will receive an email breakdown of the action items shortly.`
+      const errorMessage   =  `It seems there was an error. Please try to send the action items again in a few minutes. Thanks for your patience.`
+      alert(payload.success ? successMessage : errorMessage)
     })
 
     this.props.retroChannel.on("enable_edit_state", nominatedIdea => {
