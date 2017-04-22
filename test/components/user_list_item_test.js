@@ -16,6 +16,11 @@ describe("UserListItem", () => {
       const wrapper = shallow(<UserListItem user={user} />)
       expect(wrapper.text()).to.match(/dylan$/i)
     })
+
+    it("renders a list item that does not have a picture", () => {
+      const wrapper = shallow(<UserListItem user={user} />)
+      expect(wrapper.find('i.icon').html())
+    })
   })
 
   describe("passed a facilitator user", () => {
