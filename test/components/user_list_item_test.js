@@ -16,7 +16,6 @@ describe("UserListItem", () => {
       const wrapper = shallow(<UserListItem user={user} />)
       expect(wrapper.text()).to.match(/dylan$/i)
     })
-
   })
 
   describe("passed a facilitator user", () => {
@@ -33,22 +32,34 @@ describe("UserListItem", () => {
   })
 
   describe("user pictures", () => {
-    const user = {
-      given_name: "treezy",
-      online_at: 803,
-      is_facilitator: true,
-      picture: "http://some/image.jpg"
-    }
+    let user
+    let wrapper
 
-    it("renders a list item that has a picture", () => {
-      const wrapper = shallow(<UserListItem user={user} />)
-      expect(wrapper.find('img.picture')).to.have.length(1)
+    context("when the user has a picture attribute", () => {
+      beforeEach(() => {
+        user = { picture: "http://some/image.jpg?sz=50" }
+        wrapper = shallow(<UserListItem user={user} />)
+      })
+
+      it("renders a list item that has a picture", () => {
+        expect(wrapper.find('img.picture')).to.have.length(1)
+      })
+
+      it("changes the `sz` query attribute's value from 50 to 200", () => {
+        const imageSrc = wrapper.find('img.picture').prop("src")
+        expect(imageSrc).to.equal("http://some/image.jpg?sz=200")
+      })
     })
 
-    it("renders a list item that displays an icon when a picture isn't present", () => {
-      user.picture = '';
-      const wrapper = shallow(<UserListItem user={user} />)
-      expect(wrapper.find('i.icon')).to.have.length(1)
+    context("when the user lacks a picture attribute", () => {
+      beforeEach(() => {
+        user = { picture: undefined }
+        wrapper = shallow(<UserListItem user={user} />)
+      })
+
+      it("renders a list item that displays an icon", () => {
+        expect(wrapper.find('i.icon')).to.have.length(1)
+      })
     })
   })
 })

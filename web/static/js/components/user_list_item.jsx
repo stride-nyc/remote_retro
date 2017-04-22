@@ -19,7 +19,8 @@ const IconTag = user => {
   let icon
 
   if (user.picture) {
-    icon = <img className={styles.picture} src={user.picture} alt={user.given_name} />
+    const src = user.picture.replace("sz=50", "sz=200")
+    icon = <img className={styles.picture} src={src} alt={user.given_name} />
   } else {
     icon = <i className="huge user icon" />
   }
