@@ -9,10 +9,19 @@ defmodule RemoteRetro.AuthController do
 
   def callback(conn, %{"code" => code}) do
     user_info = Google.get_user_info!(code)
-    conn = put_session(conn, :current_user, user_info)
-
     user = Repo.get_by(User, email: user_info["email"])
-    user_params = %{email: user_info["email"], google_user_info: user_info, last_login: DateTime.utc_now}
+
+    user_params = %{
+      email: user_info["email"],
+      google_user_info: user_info,
+      family_name: user_info["family_name"],
+      given_name: user_info["given_name"],
+      locale: user_info["locale"],
+      name: user_info["name"],
+      picture: user_info["picture"],
+      profile: user_info["profile"],
+      last_login: DateTime.utc_now
+    }
 
     if !user do
       changeset = User.changeset(%User{}, user_params)
@@ -21,6 +30,8 @@ defmodule RemoteRetro.AuthController do
       changeset = User.changeset(user, user_params)
       Repo.update!(changeset)
     end
+
+    conn = put_session(conn, :current_user, user_info)
 
     redirect conn, to: get_session(conn, "requested_endpoint") || "/"
   end
