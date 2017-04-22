@@ -40,15 +40,15 @@ describe("UserListItem", () => {
       picture: "http://some/image.jpg"
     }
 
-    it("renders a list item that does have a picture", () => {
+    it("renders a list item that has a picture", () => {
       const wrapper = shallow(<UserListItem user={user} />)
-      expect(wrapper.find('img.picture').html())
+      expect(wrapper.find('img.picture')).to.have.length(1)
     })
 
-    it("renders a list item that does not have a picture", () => {
+    it("renders a list item that displays an icon when a picture isn't present", () => {
       user.picture = '';
       const wrapper = shallow(<UserListItem user={user} />)
-      expect(wrapper.find('i.icon').html())
+      expect(wrapper.find('i.icon')).to.have.length(1)
     })
   })
 })
