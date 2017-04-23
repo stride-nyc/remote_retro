@@ -86,7 +86,7 @@ class Room extends Component {
         </div>
 
         <UserList users={users} />
-        <div className="ui stackable grid basic attached secondary segment">
+        <div className="ui stackable grid basic attached secondary center aligned segment">
           <div className="thirteen wide column">
             <IdeaSubmissionForm
               currentPresence={currentPresence}
@@ -97,6 +97,9 @@ class Room extends Component {
           <div className="three wide right aligned column">
             { isFacilitator && <StageProgressionButton retroChannel={retroChannel} stage={stage} /> }
           </div>
+          <p className={styles.poweredBy}>
+            Built by <a href="http://www.stridenyc.com/">Stride Consulting</a> and Open Source Badasses
+          </p>
         </div>
         <DoorChime users={users} />
       </section>
