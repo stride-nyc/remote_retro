@@ -1,6 +1,5 @@
 import React from "react"
 import { shallow, render } from "enzyme"
-import { expect } from "chai"
 
 import UserList from "../../web/static/js/components/user_list"
 import UserListItem from "../../web/static/js/components/user_list_item"

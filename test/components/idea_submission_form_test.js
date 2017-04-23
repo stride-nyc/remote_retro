@@ -1,6 +1,5 @@
 import React from "react"
 import { mount } from "enzyme"
-import { expect } from "chai"
 import sinon from "sinon"
 
 import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"

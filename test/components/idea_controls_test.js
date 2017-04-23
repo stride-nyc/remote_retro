@@ -1,6 +1,5 @@
 import React from "react"
 import { shallow } from "enzyme"
-import { expect } from "chai"
 import sinon from "sinon"
 
 import IdeaControls from "../../web/static/js/components/idea_controls"

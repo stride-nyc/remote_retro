@@ -1,6 +1,5 @@
 import React from "react"
 import { mount } from "enzyme"
-import { expect } from "chai"
 import sinon from "sinon"
 
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"

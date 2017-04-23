@@ -1,6 +1,5 @@
 import React from "react"
 import { shallow, mount } from "enzyme"
-import { expect } from "chai"
 import { spy } from "sinon"
 
 import Room from "../../web/static/js/components/room"

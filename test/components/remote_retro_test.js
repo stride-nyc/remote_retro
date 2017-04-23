@@ -1,6 +1,5 @@
 import React from "react"
 import { shallow } from "enzyme"
-import { expect } from "chai"
 import RemoteRetro from "../../web/static/js/components/remote_retro"
 
 describe("<RemoteRetro>", () => {

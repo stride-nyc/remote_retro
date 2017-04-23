@@ -1,6 +1,5 @@
 import React from "react"
 import { shallow } from "enzyme"
-import { expect } from "chai"
 
 import CategoryColumn from "../../web/static/js/components/category_column"
 import Idea from "../../web/static/js/components/idea"
