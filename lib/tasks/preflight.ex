@@ -10,13 +10,7 @@ defmodule Mix.Tasks.Preflight do
       "REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI"
     ]
 
-    missing_envars = Enum.reduce(required_envars, [], fn x, acc ->
-      if !System.get_env(x) do
-        acc ++ [x]
-      else
-        acc
-      end
-    end)
+    missing_envars = Enum.reject(required_envars, &System.get_env/1)
 
     num_missing = length(missing_envars)
     if num_missing > 0 do
