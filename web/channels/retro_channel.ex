@@ -4,11 +4,7 @@ defmodule RemoteRetro.RetroChannel do
   """
 
   use RemoteRetro.Web, :channel
-  alias RemoteRetro.Presence
-  alias RemoteRetro.PresenceUtils
-  alias RemoteRetro.Idea
-  alias RemoteRetro.Emails
-  alias RemoteRetro.Mailer
+  alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer}
 
   def join("retro:" <> retro_id, _, socket) do
     query = from idea in Idea, where: idea.retro_id == ^retro_id
