@@ -4,7 +4,7 @@ defmodule RemoteRetro.Mixfile do
   def project do
     [app: :remote_retro,
      version: "0.0.1",
-     default_task: "phoenix.server",
+     default_task: "defaults",
      elixir: "~> 1.2",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
@@ -56,6 +56,8 @@ defmodule RemoteRetro.Mixfile do
     ["ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
      "ecto.reset": ["ecto.drop", "ecto.setup"],
      "test": ["ecto.create --quiet", "ecto.migrate", "test --exclude feature_test"],
-     "e2e": ["end_to_end"]]
+     "e2e": ["end_to_end"],
+     "defaults": ["preflight", "phoenix.server"]
+    ]
   end
 end
