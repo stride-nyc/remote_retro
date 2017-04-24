@@ -3,15 +3,15 @@ defmodule RemoteRetro.Repo.Migrations.CreateUser do
 
   def change do
     create table(:users) do
-      add :email, :string
-      add :google_user_info, :jsonb
-      add :family_name, :string
-      add :given_name, :string
-      add :locale, :string
-      add :name, :string
-      add :picture, :string
+      add :email, :string, null: false
+      add :google_user_info, :jsonb, null: false
+      add :family_name, :string, null: false
+      add :given_name, :string, null: false
+      add :locale, :string, null: false
+      add :name, :string, null: false
+      add :picture, :string, null: false
+      add :last_login, :datetime, null: false
       add :profile, :string
-      add :last_login, :datetime
 
       timestamps()
     end
