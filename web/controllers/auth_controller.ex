@@ -1,13 +1,33 @@
 defmodule RemoteRetro.AuthController do
   use RemoteRetro.Web, :controller
-  alias RemoteRetro.Google
+  alias RemoteRetro.OAuth.Google
+  alias RemoteRetro.User
 
   def index(conn, _params) do
     redirect conn, external: authorize_url!()
   end
 
   def callback(conn, %{"code" => code}) do
-    conn = put_session(conn, :current_user, Google.get_user_info!(code))
+    user_info = Google.get_user_info!(code)
+    user = Repo.get_by(User, email: user_info["email"])
+
+    user_params = %{
+      "email" => user_info["email"],
+      "google_user_info"=> user_info,
+      "last_login"=> DateTime.utc_now
+    }
+
+    user_params = Map.merge(user_params, user_info)
+
+    if !user do
+      changeset = User.changeset(%User{}, user_params)
+      Repo.insert!(changeset)
+    else
+      changeset = User.changeset(user, user_params)
+      Repo.update!(changeset)
+    end
+
+    conn = put_session(conn, :current_user, user_info)
 
     redirect conn, to: get_session(conn, "requested_endpoint") || "/"
   end

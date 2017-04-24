@@ -11,9 +11,7 @@ defmodule RemoteRetro.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
-    if Application.get_env(:remote_retro, :add_mock_user_to_session) do
-      plug :add_mock_user_to_session
-    end
+
   end
 
   pipeline :api do
@@ -33,10 +31,5 @@ defmodule RemoteRetro.Router do
 
     get "/google", AuthController, :index
     get "/google/callback", AuthController, :callback
-  end
-
-  defp add_mock_user_to_session(conn, _options) do
-    mock_user = Application.get_env(:remote_retro, :mock_user)
-    put_session(conn, :current_user, mock_user)
   end
 end
