@@ -12,16 +12,12 @@ defmodule RemoteRetro.AuthController do
     user = Repo.get_by(User, email: user_info["email"])
 
     user_params = %{
-      email: user_info["email"],
-      google_user_info: user_info,
-      family_name: user_info["family_name"],
-      given_name: user_info["given_name"],
-      locale: user_info["locale"],
-      name: user_info["name"],
-      picture: user_info["picture"],
-      profile: user_info["profile"],
-      last_login: DateTime.utc_now
+      "email" => user_info["email"],
+      "google_user_info"=> user_info,
+      "last_login"=> DateTime.utc_now
     }
+
+    user_params = Map.merge(user_params, user_info)
 
     if !user do
       changeset = User.changeset(%User{}, user_params)
