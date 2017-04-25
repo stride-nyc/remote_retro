@@ -2,17 +2,29 @@ defmodule RemoteRetro.Emails do
   import Bamboo.Email, except: [from: 2]
   import Ecto.Query
   alias RemoteRetro.Repo
+  alias RemoteRetro.User
+
 
   def action_items_email(retro_id) do
     action_items = retro_action_items(retro_id)
 
-    new_email(
-      to: "vanderhoop@me.com",
-      from: "do-not-reply@remote_retro.dev",
-      subject: "Action items from Retro",
-      text_body: text_retro_action_items(action_items),
-      html_body: html_retro_action_items(action_items)
+    participant_emails = Repo.all(
+      from u in User,
+      distinct: u.email,
+      join: p in assoc(u, :participations),
+      where: p.retro_id == ^retro_id,
+      select: u.email
     )
+
+    Enum.map participant_emails, fn(email) ->
+      new_email(
+        to: email,
+        from: "do-not-reply@remote_retro.dev",
+        subject: "Action items from Retro",
+        text_body: text_retro_action_items(action_items),
+        html_body: html_retro_action_items(action_items)
+      )
+    end
   end
 
   defp text_retro_action_items(action_items) do
