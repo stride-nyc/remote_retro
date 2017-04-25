@@ -1,0 +1,17 @@
+styleguide: false
+engines:
+  credo:
+    enabled: true
+  fixme:
+    enabled: false
+  eslint:
+    enabled: true
+  csslint:
+    enabled: false
+  remark-lint:
+    enabled: false
+exclude_paths:
+- config
+- priv/repo
+- test
+
