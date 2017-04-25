@@ -30,7 +30,7 @@ describe("<RemoteRetro>", () => {
   context("when the current user is not a facilitator", () => {
     const presences = {
       userToken: {
-        user: {},
+        user: { is_facilitator: false },
       },
     }
 

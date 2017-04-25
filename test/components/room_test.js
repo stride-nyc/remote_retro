@@ -49,7 +49,12 @@ describe("Room component", () => {
       )
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]} retroChannel={mockRetroChannel} />
+        <CategoryColumn
+          category="action-item"
+          ideas={[]}
+          retroChannel={mockRetroChannel}
+          currentPresence={stubbedPresence}
+        />
       )).to.equal(false)
     })
 
@@ -60,7 +65,12 @@ describe("Room component", () => {
       roomComponent.setState({ stage: "action-items" })
 
       expect(roomComponent.containsMatchingElement(
-        <CategoryColumn category="action-item" ideas={[]} retroChannel={mockRetroChannel} />
+        <CategoryColumn
+          category="action-item"
+          ideas={[]}
+          retroChannel={mockRetroChannel}
+          currentPresence={stubbedPresence}
+        />
       )).to.equal(true)
     })
   })

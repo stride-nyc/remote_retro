@@ -11,25 +11,26 @@ function CategoryColumn(props) {
     "action-item": "🚀",
   }
 
-  const emoticonUnicode = categoryToEmoticonUnicodeMap[props.category]
-  const filteredIdeas = props.ideas.filter(idea => idea.category === props.category)
+  const { category, ideas, currentPresence, retroChannel } = props
+  const emoticonUnicode = categoryToEmoticonUnicodeMap[category]
+  const filteredIdeas = ideas.filter(idea => idea.category === category)
   const filteredIdeasList = filteredIdeas.map(idea => (
     <Idea
       idea={idea}
       key={idea.id}
-      currentPresence={props.currentPresence}
-      retroChannel={props.retroChannel}
+      currentPresence={currentPresence}
+      retroChannel={retroChannel}
     />
   ))
 
   return (
-    <section className={`${props.category} ${styles.index} column`}>
+    <section className={`${category} ${styles.index} column`}>
       <div className={` ${styles.columnHead} ui center aligned basic segment`}>
         <i className={styles.icon}>{emoticonUnicode}</i>
-        <p><strong>{props.category}</strong></p>
+        <p><strong>{category}</strong></p>
       </div>
       <div className={`ui fitted divider ${styles.divider}`} />
-      <ul className={`${props.category} ${styles.list} ideas`}>
+      <ul className={`${category} ${styles.list} ideas`}>
         {filteredIdeasList}
       </ul>
     </section>
@@ -38,7 +39,7 @@ function CategoryColumn(props) {
 
 CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
-  currentPresence: AppPropTypes.presence,
+  currentPresence: AppPropTypes.presence.isRequired,
   category: AppPropTypes.category.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
 }
