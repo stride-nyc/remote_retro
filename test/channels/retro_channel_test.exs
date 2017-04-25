@@ -8,8 +8,8 @@ defmodule RemoteRetro.RetroChannelTest do
 
   defp join_the_retro_channel(context) do
     retro = context[:retro]
-    { :ok, _, socket } =
-      socket("", %{ user_token: Phoenix.Token.sign(socket(), "user", @mock_user) })
+    {:ok, _, socket} =
+      socket("", %{user_token: Phoenix.Token.sign(socket(), "user", @mock_user)})
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
     Map.put(context, :socket, socket)
@@ -18,7 +18,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "joining a RetroChannel" do
     setup [:join_the_retro_channel]
 
-    test "assigns the retro_id to the socket", %{ socket: socket, retro: retro } do
+    test "assigns the retro_id to the socket", %{socket: socket, retro: retro} do
       assert socket.assigns.retro_id == retro.id
     end
 
@@ -27,7 +27,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     test "results in a push of existing ideas to the new user" do
-      assert_push "existing_ideas", %{"ideas" => [] }
+      assert_push "existing_ideas", %{"ideas" => []}
     end
 
     test "results in a Presence tracking of the new user", %{retro: retro} do
@@ -48,13 +48,13 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "joining a retro that already has a persisted idea" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
-    @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Travis" }
+    @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Travis"}
     test "results in the assignment of all of those ideas to the socket", %{socket: socket} do
       assert length(socket.assigns.ideas) == 1
 
       sole_existing_idea = List.first(socket.assigns.ideas)
 
-      assert %{ body: "WIP commits on master", category: "sad", author: "Travis", retro_id: _, id: _ } = sole_existing_idea
+      assert %{body: "WIP commits on master", category: "sad", author: "Travis", retro_id: _, id: _} = sole_existing_idea
     end
   end
 
@@ -76,7 +76,7 @@ defmodule RemoteRetro.RetroChannelTest do
 
   describe "pushing a `proceed_to_next_stage` event" do
     setup [:join_the_retro_channel]
-    test "broadcasts the same event to connected clients, along with stage", %{ socket: socket } do
+    test "broadcasts the same event to connected clients, along with stage", %{socket: socket} do
       push(socket, "proceed_to_next_stage", %{stage: 0})
 
       assert_broadcast("proceed_to_next_stage", %{"stage" => 0})
@@ -85,10 +85,10 @@ defmodule RemoteRetro.RetroChannelTest do
 
   describe "pushing a new idea to the socket" do
     setup [:join_the_retro_channel]
-    test "results in the broadcast of the new idea to all connected clients", %{ socket: socket } do
-      push(socket, "new_idea", %{ category: "happy", body: "we're pacing well", author: "Travis" })
+    test "results in the broadcast of the new idea to all connected clients", %{socket: socket} do
+      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", author: "Travis"})
 
-      assert_broadcast("new_idea_received", %{ category: "happy", body: "we're pacing well", id: _, author: "Travis" })
+      assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, author: "Travis"})
     end
   end
 
