@@ -23,6 +23,8 @@ class RemoteRetro extends Component {
   componentWillMount() {
     this.props.retroChannel.on("presence_state", presences => this.setState({ presences }))
     this.props.retroChannel.join()
+      .receive("ok", () => console.log("RetroChannel joined"))
+      .receive("error", error => console.error(error))
   }
 
   render() {
