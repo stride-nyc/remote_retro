@@ -5,6 +5,8 @@ defmodule RemoteRetro.Retro do
   @primary_key {:id, :binary_id, autogenerate: true}
 
   schema "retros" do
+    has_many :participations, RemoteRetro.Participation
+
     timestamps()
   end
 end
