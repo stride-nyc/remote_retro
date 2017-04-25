@@ -30,7 +30,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     test "results in a push of existing ideas to the new user" do
-      assert_push "existing_ideas", %{ ideas: [] }
+      assert_push "existing_ideas", %{"ideas" => [] }
     end
 
     test "results in a Presence tracking of the new user", %{retro: retro} do
@@ -73,7 +73,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "pushes the event back to the client, with email success boolean", %{socket: socket} do
       push(socket, "proceed_to_next_stage", %{stage: "action-item-distribution"})
 
-      assert_push("email_send_status", %{success: _})
+      assert_push("email_send_status", %{"success" => _})
     end
   end
 
@@ -82,7 +82,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "broadcasts the same event to connected clients, along with stage", %{ socket: socket } do
       push(socket, "proceed_to_next_stage", %{stage: 0})
 
-      assert_broadcast("proceed_to_next_stage", %{stage: 0})
+      assert_broadcast("proceed_to_next_stage", %{"stage" => 0})
     end
   end
 
@@ -100,7 +100,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "broadcasts the same event with the given payload", %{socket: socket} do
       push(socket, "enable_edit_state", %{id: 4})
 
-      assert_broadcast("enable_edit_state", %{id: 4})
+      assert_broadcast("enable_edit_state", %{"id" => 4})
     end
   end
 
@@ -109,7 +109,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "broadcasts the same event with the given payload", %{socket: socket} do
       push(socket, "disable_edit_state", %{id: 4})
 
-      assert_broadcast("disable_edit_state", %{id: 4})
+      assert_broadcast("disable_edit_state", %{"id" => 4})
     end
   end
 
@@ -118,7 +118,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "broadcasts the same event with the given payload", %{socket: socket} do
       push(socket, "idea_live_edit", %{id: 4, liveEditText: "updated"})
 
-      assert_broadcast("idea_live_edit", %{id: 4, liveEditText: "updated"})
+      assert_broadcast("idea_live_edit", %{"id" => 4, "liveEditText" => "updated"})
     end
   end
 

@@ -22,7 +22,7 @@ defmodule RemoteRetro.RetroChannel do
     Presence.track(socket, socket.assigns.user_token, user_stamped)
 
     push socket, "presence_state", Presence.list(socket)
-    push socket, "existing_ideas", %{ideas: socket.assigns.ideas}
+    push socket, "existing_ideas", %{"ideas" => socket.assigns.ideas}
     {:noreply, socket}
   end
 
@@ -30,14 +30,15 @@ defmodule RemoteRetro.RetroChannel do
     email_send_status = Emails.action_items_email(socket.assigns.retro_id)
                         |> Mailer.deliver_now
 
-    push socket, "email_send_status", %{success: !!email_send_status}
+    push socket, "email_send_status", %{"success" => !!email_send_status}
     {:noreply, socket}
   end
 
   def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
-    broadcast! socket, "proceed_to_next_stage", %{stage: stage}
+    broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
     {:noreply, socket}
   end
+
 
   def handle_in("new_idea", %{"body" => body, "category" => category, "author" => author}, socket) do
     changeset = Idea.changeset(%Idea{body: body, category: category, retro_id: socket.assigns.retro_id, author: author})
@@ -48,17 +49,17 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("enable_edit_state", %{"id" => id}, socket) do
-    broadcast! socket, "enable_edit_state", %{id: id}
+    broadcast! socket, "enable_edit_state", %{"id" => id}
     {:noreply, socket}
   end
 
   def handle_in("disable_edit_state", %{"id" => id}, socket) do
-    broadcast! socket, "disable_edit_state", %{id: id}
+    broadcast! socket, "disable_edit_state", %{"id" => id}
     {:noreply, socket}
   end
 
   def handle_in("idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}, socket) do
-    broadcast! socket, "idea_live_edit", %{id: id, liveEditText: live_edit_text}
+    broadcast! socket, "idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}
     {:noreply, socket}
   end
 
