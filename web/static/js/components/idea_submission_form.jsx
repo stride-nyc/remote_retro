@@ -3,11 +3,24 @@ import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/idea_submission_form.css"
 
+const PLACEHOLDER_PREFIX = 'Ex.'
+
+const PLACEHOLDER_TEXTS = {
+  happy: "we're actively trying to improve",
+  sad: "no one uses the linter",
+  confused: "new devs joining team?",
+  "action-item": "purchase whiteboards for the team",
+}
+
 class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
     this.defaultCategory = "happy"
-    this.state = { body: "", category: this.defaultCategory }
+    this.state = {
+      body: "",
+      category: this.defaultCategory,
+      placeholderText: `${PLACEHOLDER_PREFIX} ${PLACEHOLDER_TEXTS[this.defaultCategory]}`
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
@@ -16,7 +29,10 @@ class IdeaSubmissionForm extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.showActionItem !== this.props.showActionItem) {
       const category = nextProps.showActionItem ? "action-item" : this.defaultCategory
-      this.setState({ category })
+      this.setState({
+        category,
+        placeholderText:  `${PLACEHOLDER_PREFIX} ${PLACEHOLDER_TEXTS["action-item"]}`
+      })
     }
   }
 
@@ -37,7 +53,10 @@ class IdeaSubmissionForm extends Component {
   }
 
   handleCategoryChange(event) {
-    this.setState({ category: event.target.value })
+    this.setState({
+      category: event.target.value,
+      placeholderText: `${PLACEHOLDER_PREFIX} ${PLACEHOLDER_TEXTS[event.target.value]}`
+    })
   }
 
   render() {
@@ -73,7 +92,7 @@ class IdeaSubmissionForm extends Component {
                 ref={input => { this.ideaInput = input }}
                 value={this.state.body}
                 onChange={this.handleIdeaChange}
-                placeholder="we're actively trying to improve"
+                placeholder={this.state.placeholderText}
               />
               <button type="submit" disabled={disabled} className="ui teal button">Submit</button>
             </div>
