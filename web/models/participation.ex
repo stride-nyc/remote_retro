@@ -3,7 +3,7 @@ defmodule RemoteRetro.Participation do
 
   schema "participations" do
     belongs_to :user, RemoteRetro.User
-    belongs_to :retro, RemoteRetro.Retro
+    belongs_to :retro, RemoteRetro.Retro, type: Ecto.UUID
 
     timestamps()
   end
