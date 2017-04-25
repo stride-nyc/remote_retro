@@ -7,4 +7,12 @@ defmodule RemoteRetro.Participation do
 
     timestamps()
   end
+
+  @required_fields [:user_id, :retro_id]
+
+  def changeset(struct, params \\ %{}) do
+    struct
+    |> cast(params, @required_fields)
+    |> validate_required(@required_fields)
+  end
 end
