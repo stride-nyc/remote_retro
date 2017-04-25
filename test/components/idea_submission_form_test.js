@@ -16,7 +16,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("on submit", () => {
     it("pushes a `new_idea` event to the retro channel with the idea", () => {
-      let retroChannel = { on: () => {}, push: sinon.spy() }
+      const retroChannel = { on: () => {}, push: sinon.spy() }
 
       wrapper = mount(
         <IdeaSubmissionForm

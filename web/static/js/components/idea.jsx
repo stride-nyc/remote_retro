@@ -24,7 +24,8 @@ function Idea(props) {
       }
       <span className={styles.authorAttribution}>
         {idea.author}:
-      </span> {idea.liveEditText || idea.body} { isEdited && <span className={styles.editedIndicator}>(edited)</span> }
+      </span> {idea.liveEditText || idea.body}
+      {isEdited && <span className={styles.editedIndicator}>(edited)</span>}
     </div>
   )
 

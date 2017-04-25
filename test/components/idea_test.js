@@ -133,7 +133,7 @@ describe("Idea component", () => {
   context("when the idea's updated_at value is greater than its inserted_at value", () => {
     const editedIdea = {
       inserted_at: "2017-04-14T17:30:10",
-      updated_at : "2017-04-14T17:30:11",
+      updated_at: "2017-04-14T17:30:11",
     }
 
     const wrapper = shallow(

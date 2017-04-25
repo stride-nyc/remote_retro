@@ -30,8 +30,8 @@ class Room extends Component {
     })
 
     this.props.retroChannel.on("email_send_status", payload => {
-      const successMessage = `Consider it done. Participants will receive an email breakdown of the action items shortly.`
-      const errorMessage   =  `It seems there was an error. Please try to send the action items again in a few minutes. Thanks for your patience.`
+      const successMessage = "Consider it done. Participants will receive an email breakdown of the action items shortly."
+      const errorMessage = "It seems there was an error. Please try to send the action items again in a few minutes. Thanks for your patience."
       alert(payload.success ? successMessage : errorMessage)
     })
 
@@ -41,7 +41,8 @@ class Room extends Component {
     })
 
     this.props.retroChannel.on("disable_edit_state", disabledIdea => {
-      const newIdeas = updateIdeas(this.state.ideas, disabledIdea.id, { editing: false, liveEditText: null })
+      const { ideas } = this.state
+      const newIdeas = updateIdeas(ideas, disabledIdea.id, { editing: false, liveEditText: null })
       this.setState({ ideas: newIdeas })
     })
 
@@ -95,7 +96,9 @@ class Room extends Component {
             />
           </div>
           <div className="three wide right aligned column">
-            { isFacilitator && <StageProgressionButton retroChannel={retroChannel} stage={stage} /> }
+            {
+              isFacilitator && <StageProgressionButton retroChannel={retroChannel} stage={stage} />
+            }
           </div>
           <p className={styles.poweredBy}>
             Built by <a href="http://www.stridenyc.com/">Stride Consulting</a> and Open Source Badasses

@@ -7,6 +7,7 @@ module.exports = {
   "globals": {
     "describe": false,
     "it": false,
+    "expect": false,
     "beforeEach": false,
     "afterEach": false
   },
@@ -53,6 +54,8 @@ module.exports = {
       }
     ],
     "no-shadow": "off",
+    "no-console": "off",
+    "no-use-before-define": "off",
     "react/no-unescaped-entities": "off",
     "jsx-a11y/no-static-element-interactions": 0,
   }

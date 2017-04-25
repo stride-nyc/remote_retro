@@ -4,9 +4,9 @@ import RemoteRetro from "../../web/static/js/components/remote_retro"
 
 describe("<RemoteRetro>", () => {
   const mockRetroChannel = {
-    on: () => { return mockRetroChannel },
-    join: () => { return mockRetroChannel },
-    receive: () => { return mockRetroChannel },
+    on: () => (mockRetroChannel),
+    join: () => (mockRetroChannel),
+    receive: () => (mockRetroChannel),
   }
   context("when the current user is a facilitator", () => {
     const presences = {
