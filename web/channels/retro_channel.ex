@@ -4,7 +4,7 @@ defmodule RemoteRetro.RetroChannel do
   """
 
   use RemoteRetro.Web, :channel
-  alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer}
+  alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer, Retro}
 
   def join("retro:" <> retro_id, _, socket) do
     query = from idea in Idea, where: idea.retro_id == ^retro_id
@@ -35,6 +35,10 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
+    retro = Repo.get(Retro, socket.assigns.retro_id)
+    retro = Ecto.Changeset.change retro, stage: stage
+    retro = Repo.update! retro
+
     broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
     {:noreply, socket}
   end
