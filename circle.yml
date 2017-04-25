@@ -33,3 +33,4 @@ test:
     - mocha
     - mix test --exclude feature_test
     - mix test --only feature_test
+    - mix coveralls.circle --include feature_test
