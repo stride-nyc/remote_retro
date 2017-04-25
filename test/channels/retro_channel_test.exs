@@ -2,10 +2,7 @@ defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetro.ChannelCase, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.RetroChannel
-  alias RemoteRetro.Repo
-  alias RemoteRetro.Idea
-  alias RemoteRetro.Presence
+  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence}
 
   @mock_user Application.get_env(:remote_retro, :mock_user)
 
