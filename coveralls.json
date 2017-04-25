@@ -1,0 +1,7 @@
+{
+  "skip_files": [
+    "lib/tasks",
+    "test/support",
+    "web/views/error_helpers.ex"
+  ]
+}
