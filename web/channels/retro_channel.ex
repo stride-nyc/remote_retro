@@ -35,9 +35,9 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
-    retro = Repo.get(Retro, socket.assigns.retro_id)
-    retro = Ecto.Changeset.change retro, stage: stage
-    retro = Repo.update! retro
+    Repo.get(Retro, socket.assigns.retro_id)
+    |> Ecto.Changeset.change(stage: stage)
+    |> Repo.update!
 
     broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
     {:noreply, socket}
@@ -68,9 +68,10 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("idea_edited", %{"id" => id, "body" => body}, socket) do
-    idea = Repo.get(Idea, id)
-    idea = Ecto.Changeset.change(idea, body: body)
-    idea = Repo.update!(idea)
+    idea =
+      Repo.get(Idea, id)
+      |> Ecto.Changeset.change(body: body)
+      |> Repo.update!
 
     broadcast! socket, "idea_edited", idea
     {:noreply, socket}
