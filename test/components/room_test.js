@@ -12,13 +12,14 @@ describe("Room component", () => {
   const stubbedPresence = { user: { given_name: "Mugatu" } }
 
   context("when the current user is facilitator", () => {
+    const facilitatorPresence = { user: { is_facilitator: true } }
+
     context("and showActionItems is false", () => {
       it("renders the <StageProgressionButton>", () => {
         const roomComponent = shallow(
           <Room
-            currentPresence={stubbedPresence}
+            currentPresence={facilitatorPresence}
             retroChannel={mockRetroChannel}
-            isFacilitator
             users={[]}
           />
         )
@@ -29,10 +30,12 @@ describe("Room component", () => {
   })
 
   context("when the current user is not facilitator", () => {
+    const nonFacilitatorPresence = { user: { is_facilitator: false } }
+
     it("does not render <StageProgressionButton>", () => {
       const roomComponent = shallow(
         <Room
-          currentPresence={stubbedPresence}
+          currentPresence={nonFacilitatorPresence}
           retroChannel={mockRetroChannel}
           users={[]}
         />

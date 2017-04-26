@@ -65,7 +65,8 @@ class Room extends Component {
 
   render() {
     const { ideas, stage } = this.state
-    const { currentPresence, users, retroChannel, isFacilitator } = this.props
+    const { currentPresence, users, retroChannel } = this.props
+    const isFacilitator = currentPresence && currentPresence.user.is_facilitator
     const categories = ["happy", "sad", "confused"]
     const showActionItem = stage === "action-items"
     if (showActionItem) { categories.push("action-item") }
@@ -117,15 +118,10 @@ const updateIdeas = (ideas, idOfIdeaToUpdate, newAttributes) => {
   })
 }
 
-Room.defaultProps = {
-  isFacilitator: false,
-}
-
 Room.propTypes = {
   currentPresence: AppPropTypes.presence,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   users: AppPropTypes.users.isRequired,
-  isFacilitator: React.PropTypes.bool,
 }
 
 export default Room

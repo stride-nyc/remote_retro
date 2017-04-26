@@ -4,14 +4,6 @@ import { Presence } from "phoenix"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 
-const isFacilitator = currentPresence => {
-  if (currentPresence) {
-    return currentPresence.user.is_facilitator
-  }
-
-  return false
-}
-
 class RemoteRetro extends Component {
   constructor(props) {
     super(props)
@@ -37,7 +29,6 @@ class RemoteRetro extends Component {
       <Room
         currentPresence={currentPresence}
         users={users}
-        isFacilitator={isFacilitator(currentPresence)}
         retroChannel={retroChannel}
       />
     )
