@@ -4,10 +4,10 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_submission_form.css"
 
 const PLACEHOLDER_TEXTS = {
-  happy: "we're actively trying to improve",
-  sad: "no one uses the linter",
-  confused: "new devs joining team?",
-  "action-item": "purchase whiteboards for the team",
+  happy: "we have a linter!",
+  sad: "no one uses the linter...",
+  confused: "what is a linter?",
+  "action-item": "automate the linting process",
 }
 
 class IdeaSubmissionForm extends Component {
