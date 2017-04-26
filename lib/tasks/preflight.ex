@@ -29,7 +29,13 @@ defmodule Mix.Tasks.Preflight do
 
     { hex_version_output, _ } = System.cmd("mix", ["hex", "--version"])
     if !String.contains?(hex_version_output, required_version_num) do
-      IO.puts "Please install Hex #{required_version_num}"
+      IO.puts """
+
+        Greetings Developer,
+        Looks like your local Hex is outdated. Please update your local Hex via `mix local.hex` and try again.
+
+        Thanks!
+      """
       System.halt(:abort)
     end
   end
