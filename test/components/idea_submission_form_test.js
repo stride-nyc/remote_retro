@@ -32,9 +32,9 @@ describe("IdeaSubmissionForm component", () => {
         retroChannel.push.calledWith("new_idea", {
           category: "happy",
           body: "",
-          author: "Mugatu"
-       }
-     )).to.equal(true)
+          author: "Mugatu",
+        }
+      )).to.equal(true)
     })
   })
 

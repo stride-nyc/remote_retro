@@ -3,7 +3,7 @@ import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/idea_submission_form.css"
 
-const PLACEHOLDER_PREFIX = 'Ex.'
+const PLACEHOLDER_PREFIX = "Ex."
 
 const PLACEHOLDER_TEXTS = {
   happy: "we're actively trying to improve",
@@ -18,7 +18,7 @@ class IdeaSubmissionForm extends Component {
     this.defaultCategory = "happy"
     this.state = {
       body: "",
-      category: this.defaultCategory
+      category: this.defaultCategory,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
@@ -28,9 +28,7 @@ class IdeaSubmissionForm extends Component {
   componentWillReceiveProps(nextProps) {
     if (nextProps.showActionItem !== this.props.showActionItem) {
       const category = nextProps.showActionItem ? "action-item" : this.defaultCategory
-      this.setState({
-        category
-      })
+      this.setState({ category })
     }
   }
 
@@ -51,9 +49,7 @@ class IdeaSubmissionForm extends Component {
   }
 
   handleCategoryChange(event) {
-    this.setState({
-      category: event.target.value
-    })
+    this.setState({ category: event.target.value })
   }
 
   render() {
@@ -89,7 +85,7 @@ class IdeaSubmissionForm extends Component {
                 ref={input => { this.ideaInput = input }}
                 value={this.state.body}
                 onChange={this.handleIdeaChange}
-                placeholder={PLACEHOLDER_PREFIX + ' ' + PLACEHOLDER_TEXTS[this.state.category]}
+                placeholder={`${PLACEHOLDER_PREFIX} ${PLACEHOLDER_TEXTS[this.state.category]}`}
               />
               <button type="submit" disabled={disabled} className="ui teal button">Submit</button>
             </div>
