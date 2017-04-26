@@ -12,6 +12,8 @@ defmodule RemoteRetro.User do
     field :profile, :string
     field :last_login, Ecto.DateTime
 
+    has_many :participations, RemoteRetro.Participation
+
     timestamps()
   end
 
