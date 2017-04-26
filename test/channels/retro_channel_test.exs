@@ -6,8 +6,7 @@ defmodule RemoteRetro.RetroChannelTest do
 
   @mock_user Application.get_env(:remote_retro, :mock_user)
 
-  defp join_the_retro_channel(context) do
-    retro = context[:retro]
+  defp join_the_retro_channel(%{retro: retro} = context) do
     {:ok, _, socket} =
       socket("", %{user_token: Phoenix.Token.sign(socket(), "user", @mock_user)})
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
