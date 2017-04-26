@@ -3,8 +3,6 @@ import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/idea_submission_form.css"
 
-const PLACEHOLDER_PREFIX = "Ex."
-
 const PLACEHOLDER_TEXTS = {
   happy: "we're actively trying to improve",
   sad: "no one uses the linter",
@@ -85,7 +83,7 @@ class IdeaSubmissionForm extends Component {
                 ref={input => { this.ideaInput = input }}
                 value={this.state.body}
                 onChange={this.handleIdeaChange}
-                placeholder={`${PLACEHOLDER_PREFIX} ${PLACEHOLDER_TEXTS[this.state.category]}`}
+                placeholder={`Ex. ${PLACEHOLDER_TEXTS[this.state.category]}`}
               />
               <button type="submit" disabled={disabled} className="ui teal button">Submit</button>
             </div>
