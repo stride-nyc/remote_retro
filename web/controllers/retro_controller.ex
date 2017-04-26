@@ -12,14 +12,17 @@ defmodule RemoteRetro.RetroController do
         redirect conn, to: "/auth/google"
       user ->
         user_from_db = Repo.get_by(User, email: user["email"])
-        changeset = Participation.changeset(
-          %Participation{},
-          %{
-            user_id: user_from_db.id,
-            retro_id: params["id"]
-          }
-        )
-        Repo.insert!(changeset)
+        if user_from_db do
+          changeset = Participation.changeset(
+            %Participation{},
+            %{
+              user_id: user_from_db.id,
+              retro_id: params["id"]
+            }
+          )
+          Repo.insert!(changeset)
+        end
+
         render conn, "show.html", %{
           user_token: Token.sign(conn, "user", user),
           retro_uuid: params["id"]
