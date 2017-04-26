@@ -29,8 +29,12 @@ describe("IdeaSubmissionForm component", () => {
       wrapper.simulate("submit", fakeEvent)
 
       expect(
-        retroChannel.push.calledWith("new_idea", { category: "happy", body: "", author: "Mugatu" })
-      ).to.equal(true)
+        retroChannel.push.calledWith("new_idea", {
+          category: "happy",
+          body: "",
+          author: "Mugatu",
+        }
+      )).to.equal(true)
     })
   })
 

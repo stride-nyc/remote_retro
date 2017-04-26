@@ -3,11 +3,21 @@ import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/idea_submission_form.css"
 
+const PLACEHOLDER_TEXTS = {
+  happy: "we're actively trying to improve",
+  sad: "no one uses the linter",
+  confused: "new devs joining team?",
+  "action-item": "purchase whiteboards for the team",
+}
+
 class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
     this.defaultCategory = "happy"
-    this.state = { body: "", category: this.defaultCategory }
+    this.state = {
+      body: "",
+      category: this.defaultCategory,
+    }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
@@ -73,7 +83,7 @@ class IdeaSubmissionForm extends Component {
                 ref={input => { this.ideaInput = input }}
                 value={this.state.body}
                 onChange={this.handleIdeaChange}
-                placeholder="we're actively trying to improve"
+                placeholder={`Ex. ${PLACEHOLDER_TEXTS[this.state.category]}`}
               />
               <button type="submit" disabled={disabled} className="ui teal button">Submit</button>
             </div>
