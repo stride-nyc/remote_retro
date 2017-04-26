@@ -31,7 +31,6 @@ describe("IdeaSubmissionForm component", () => {
       expect(
         retroChannel.push.calledWith("new_idea", {
           category: "happy",
-          placeholderText: "Ex. we're actively trying to improve",
           body: "",
           author: "Mugatu"
        }

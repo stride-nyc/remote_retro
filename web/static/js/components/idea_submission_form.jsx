@@ -18,8 +18,7 @@ class IdeaSubmissionForm extends Component {
     this.defaultCategory = "happy"
     this.state = {
       body: "",
-      category: this.defaultCategory,
-      placeholderText: `${PLACEHOLDER_PREFIX} ${PLACEHOLDER_TEXTS[this.defaultCategory]}`
+      category: this.defaultCategory
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
@@ -30,8 +29,7 @@ class IdeaSubmissionForm extends Component {
     if (nextProps.showActionItem !== this.props.showActionItem) {
       const category = nextProps.showActionItem ? "action-item" : this.defaultCategory
       this.setState({
-        category,
-        placeholderText:  `${PLACEHOLDER_PREFIX} ${PLACEHOLDER_TEXTS["action-item"]}`
+        category
       })
     }
   }
@@ -54,8 +52,7 @@ class IdeaSubmissionForm extends Component {
 
   handleCategoryChange(event) {
     this.setState({
-      category: event.target.value,
-      placeholderText: `${PLACEHOLDER_PREFIX} ${PLACEHOLDER_TEXTS[event.target.value]}`
+      category: event.target.value
     })
   }
 
@@ -92,7 +89,7 @@ class IdeaSubmissionForm extends Component {
                 ref={input => { this.ideaInput = input }}
                 value={this.state.body}
                 onChange={this.handleIdeaChange}
-                placeholder={this.state.placeholderText}
+                placeholder={PLACEHOLDER_PREFIX + ' ' + PLACEHOLDER_TEXTS[this.state.category]}
               />
               <button type="submit" disabled={disabled} className="ui teal button">Submit</button>
             </div>
