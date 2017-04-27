@@ -24,32 +24,6 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
-    email_send_status = Emails.action_items_email(socket.assigns.retro_id)
-                        |> Mailer.deliver_now
-
-    push socket, "email_send_status", %{"success" => !!email_send_status}
-    {:noreply, socket}
-  end
-
-  def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
-    Repo.get(Retro, socket.assigns.retro_id)
-    |> Ecto.Changeset.change(stage: stage)
-    |> Repo.update!
-
-    broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
-    {:noreply, socket}
-  end
-
-
-  def handle_in("new_idea", %{"body" => body, "category" => category, "author" => author}, socket) do
-    changeset = Idea.changeset(%Idea{body: body, category: category, retro_id: socket.assigns.retro_id, author: author})
-    idea = Repo.insert!(changeset)
-
-    broadcast! socket, "new_idea_received", idea
-    {:noreply, socket}
-  end
-
   def handle_in("enable_edit_state", %{"id" => id}, socket) do
     broadcast! socket, "enable_edit_state", %{"id" => id}
     {:noreply, socket}
@@ -62,6 +36,14 @@ defmodule RemoteRetro.RetroChannel do
 
   def handle_in("idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}, socket) do
     broadcast! socket, "idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}
+    {:noreply, socket}
+  end
+
+  def handle_in("new_idea", %{"body" => body, "category" => category, "author" => author}, socket) do
+    changeset = Idea.changeset(%Idea{body: body, category: category, retro_id: socket.assigns.retro_id, author: author})
+    idea = Repo.insert!(changeset)
+
+    broadcast! socket, "new_idea_received", idea
     {:noreply, socket}
   end
 
@@ -79,6 +61,23 @@ defmodule RemoteRetro.RetroChannel do
     idea = RemoteRetro.Repo.delete!(%Idea{id: id})
 
     broadcast! socket, "idea_deleted", idea
+    {:noreply, socket}
+  end
+
+  def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
+    email_send_status = Emails.action_items_email(socket.assigns.retro_id)
+                        |> Mailer.deliver_now
+
+    push socket, "email_send_status", %{"success" => !!email_send_status}
+    {:noreply, socket}
+  end
+
+  def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
+    Repo.get(Retro, socket.assigns.retro_id)
+    |> Ecto.Changeset.change(stage: stage)
+    |> Repo.update!
+
+    broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
     {:noreply, socket}
   end
 
