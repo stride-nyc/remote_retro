@@ -16,15 +16,23 @@ describe("<RemoteRetro>", () => {
     })
 
     describe("on `retro_state`", () => {
+      const mockPayloadFromServer = {
+        ideas: [{ arbitrary: "content" }],
+        stage: "larping",
+      }
+
       it("sets the associated payload's `ideas` value on state", () => {
         expect(wrapper.state("ideas")).to.eql([])
-
-        const mockPayloadFromServer = { ideas: [{ arbitrary: "content" }] }
         retroChannel.trigger("retro_state", mockPayloadFromServer)
-
         expect(wrapper.state("ideas")).to.eql([
           { arbitrary: "content" },
         ])
+      })
+
+      it("sets the associated payload's `stage` value on state", () => {
+        expect(wrapper.state("stage")).to.equal("idea-generation")
+        retroChannel.trigger("retro_state", mockPayloadFromServer)
+        expect(wrapper.state("stage")).to.equal("larping")
       })
     })
 
