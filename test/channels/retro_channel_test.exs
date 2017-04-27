@@ -29,7 +29,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_push "retro_state", %Retro{ideas: _, stage: "idea-generation"}
     end
 
-    test "results in a Presence tracking of the new user", %{retro: retro} do
+    test "results in a Presence tracking of the new user, including timestamp", %{retro: retro} do
       result = Presence.list("retro:" <> retro.id)
 
       presence_object =
@@ -41,6 +41,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert presence_object["email"] == @mock_user["email"]
       assert presence_object["given_name"] == @mock_user["given_name"]
       assert presence_object["family_name"] == @mock_user["family_name"]
+      assert %{online_at: _} = presence_object
     end
   end
 

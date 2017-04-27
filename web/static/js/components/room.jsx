@@ -11,7 +11,7 @@ import styles from "./css_modules/room.css"
 
 function Room(props) {
   const { currentPresence, users, retroChannel, ideas, stage } = props
-  const isFacilitator = currentPresence && currentPresence.user.is_facilitator
+  const isFacilitator = currentPresence.user.is_facilitator
   const categories = ["happy", "sad", "confused"]
   const showActionItem = stage === "action-items"
   if (showActionItem) { categories.push("action-item") }
@@ -53,6 +53,12 @@ function Room(props) {
       <DoorChime users={users} />
     </section>
   )
+}
+
+Room.defaultProps = {
+  currentPresence: {
+    user: { is_facilitator: false },
+  },
 }
 
 Room.propTypes = {
