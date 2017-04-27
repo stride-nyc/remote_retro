@@ -48,12 +48,6 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing `proceed_to_next_stage` with a stage of 'action-item-distribution'" do
     setup [:join_the_retro_channel]
 
-    # test "triggers an email containing the retro action items", %{socket: socket} do
-    #   push(socket, "proceed_to_next_stage", %{stage: "action-item-distribution"})
-    #
-    #   assert_delivered_with(subject: "Action items from Retro")
-    # end
-
     test "broadcasts the same event to connected clients, along with stage", %{socket: socket} do
       push(socket, "proceed_to_next_stage", %{stage: "action-item-distribution"})
 

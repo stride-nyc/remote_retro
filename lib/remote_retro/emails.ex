@@ -16,15 +16,13 @@ defmodule RemoteRetro.Emails do
       select: u.email
     )
 
-    Enum.map participant_emails, fn(email) ->
-      new_email(
-        to: email,
-        from: "do-not-reply@remote_retro.dev",
-        subject: "Action items from Retro",
-        text_body: text_retro_action_items(action_items),
-        html_body: html_retro_action_items(action_items)
-      )
-    end
+    new_email(
+      to: participant_emails,
+      from: "do-not-reply@remote_retro.dev",
+      subject: "Action items from Retro",
+      text_body: text_retro_action_items(action_items),
+      html_body: html_retro_action_items(action_items)
+    )
   end
 
   defp text_retro_action_items(action_items) do
