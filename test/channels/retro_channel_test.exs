@@ -2,12 +2,11 @@ defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetro.ChannelCase, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence}
+  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence, Retro}
 
   @mock_user Application.get_env(:remote_retro, :mock_user)
 
-  defp join_the_retro_channel(context) do
-    retro = context[:retro]
+  defp join_the_retro_channel(%{retro: retro} = context) do
     {:ok, _, socket} =
       socket("", %{user_token: Phoenix.Token.sign(socket(), "user", @mock_user)})
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
@@ -26,8 +25,8 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_push "presence_state", %{}
     end
 
-    test "results in a push of existing ideas to the new user" do
-      assert_push "existing_ideas", %{"ideas" => []}
+    test "results in a push of the retro state, including the `ideas` association" do
+      assert_push "retro_state", %Retro{ideas: _, stage: "idea-generation"}
     end
 
     test "results in a Presence tracking of the new user", %{retro: retro} do
@@ -42,19 +41,6 @@ defmodule RemoteRetro.RetroChannelTest do
       assert presence_object["email"] == @mock_user["email"]
       assert presence_object["given_name"] == @mock_user["given_name"]
       assert presence_object["family_name"] == @mock_user["family_name"]
-    end
-  end
-
-  describe "joining a retro that already has a persisted idea" do
-    setup [:persist_idea_for_retro, :join_the_retro_channel]
-
-    @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Travis"}
-    test "results in the assignment of all of those ideas to the socket", %{socket: socket} do
-      assert length(socket.assigns.ideas) == 1
-
-      sole_existing_idea = List.first(socket.assigns.ideas)
-
-      assert %{body: "WIP commits on master", category: "sad", author: "Travis", retro_id: _, id: _} = sole_existing_idea
     end
   end
 
@@ -77,9 +63,17 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `proceed_to_next_stage` event" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event to connected clients, along with stage", %{socket: socket} do
-      push(socket, "proceed_to_next_stage", %{stage: 0})
+      push(socket, "proceed_to_next_stage", %{stage: "0"})
 
-      assert_broadcast("proceed_to_next_stage", %{"stage" => 0})
+      assert_broadcast("proceed_to_next_stage", %{"stage" => "0"})
+    end
+
+    test "updates the retro stage to the value from the pushed event", %{socket: socket, retro: retro} do
+      push(socket, "proceed_to_next_stage", %{stage: "0"})
+
+      assert_broadcast("proceed_to_next_stage", %{"stage" => "0"})
+      persisted_stage = Repo.get(Retro, retro.id).stage
+      assert persisted_stage == "0"
     end
   end
 

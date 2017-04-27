@@ -4,16 +4,13 @@ defmodule RemoteRetro.RetroChannel do
   """
 
   use RemoteRetro.Web, :channel
-  alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer}
+  alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer, Retro}
 
   def join("retro:" <> retro_id, _, socket) do
-    query = from idea in Idea, where: idea.retro_id == ^retro_id
-    existing_ideas = Repo.all(query)
-    socket_ideas = Phoenix.Socket.assign(socket, :ideas, existing_ideas)
-    socket_retro = Phoenix.Socket.assign(socket_ideas, :retro_id, retro_id)
+    socket = Phoenix.Socket.assign(socket, :retro_id, retro_id)
 
     send self(), :after_join
-    {:ok, socket_retro}
+    {:ok, socket}
   end
 
   def handle_info(:after_join, socket) do
@@ -21,8 +18,9 @@ defmodule RemoteRetro.RetroChannel do
     user_stamped = Map.put(user, :online_at, :os.system_time(:milli_seconds))
     Presence.track(socket, socket.assigns.user_token, user_stamped)
 
+    retro = Repo.get!(Retro, socket.assigns.retro_id) |> Repo.preload(:ideas)
     push socket, "presence_state", Presence.list(socket)
-    push socket, "existing_ideas", %{"ideas" => socket.assigns.ideas}
+    push socket, "retro_state", retro
     {:noreply, socket}
   end
 
@@ -35,6 +33,10 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
+    Repo.get(Retro, socket.assigns.retro_id)
+    |> Ecto.Changeset.change(stage: stage)
+    |> Repo.update!
+
     broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
     {:noreply, socket}
   end
@@ -64,9 +66,10 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("idea_edited", %{"id" => id, "body" => body}, socket) do
-    idea = Repo.get(Idea, id)
-    idea = Ecto.Changeset.change(idea, body: body)
-    idea = Repo.update!(idea)
+    idea =
+      Repo.get(Idea, id)
+      |> Ecto.Changeset.change(body: body)
+      |> Repo.update!
 
     broadcast! socket, "idea_edited", idea
     {:noreply, socket}

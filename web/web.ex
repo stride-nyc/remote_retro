@@ -72,6 +72,15 @@ defmodule RemoteRetro.Web do
     end
   end
 
+  defimpl Poison.Encoder, for: Ecto.Association.NotLoaded do
+    def encode(struct, options) do
+      case struct.__cardinality__ do
+        :many -> "[]"
+        _ -> "{}"
+      end
+    end
+  end
+
   @doc """
   When used, dispatch to the appropriate controller/view/etc.
   """

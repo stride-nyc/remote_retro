@@ -1,48 +1,191 @@
 import React from "react"
 import { shallow } from "enzyme"
+import { spy } from "sinon"
+
 import RemoteRetro from "../../web/static/js/components/remote_retro"
+import RetroChannel from "../../web/static/js/services/retro_channel"
 
 describe("<RemoteRetro>", () => {
-  const mockRetroChannel = {
-    on: () => (mockRetroChannel),
-    join: () => (mockRetroChannel),
-    receive: () => (mockRetroChannel),
-  }
-  context("when the current user is a facilitator", () => {
-    const presences = {
-      userToken: {
-        user: { is_facilitator: true },
-      },
-    }
+  describe("RetroChannel Events", () => {
+    let retroChannel
+    let wrapper
 
-    it("renders a room with isFacilitiator true", () => {
-      const wrapper = shallow(
-        <RemoteRetro userToken="userToken" retroChannel={mockRetroChannel} />)
-
-      wrapper.setState({ presences })
-
-      const room = wrapper.find("Room")
-
-      expect(room.prop("isFacilitator")).to.equal(true)
+    beforeEach(() => {
+      retroChannel = RetroChannel.configure({})
+      wrapper = shallow(<RemoteRetro userToken="userToken" retroChannel={retroChannel} />)
     })
-  })
 
-  context("when the current user is not a facilitator", () => {
-    const presences = {
-      userToken: {
-        user: { is_facilitator: false },
-      },
-    }
+    describe("on `retro_state`", () => {
+      const mockPayloadFromServer = {
+        ideas: [{ arbitrary: "content" }],
+        stage: "larping",
+      }
 
-    it("renders a room with isFacilitiator false", () => {
-      const wrapper = shallow(
-        <RemoteRetro userToken="userToken" retroChannel={mockRetroChannel} />)
+      it("sets the associated payload's `ideas` value on state", () => {
+        expect(wrapper.state("ideas")).to.eql([])
+        retroChannel.trigger("retro_state", mockPayloadFromServer)
+        expect(wrapper.state("ideas")).to.eql([
+          { arbitrary: "content" },
+        ])
+      })
 
-      wrapper.setState({ presences })
+      it("sets the associated payload's `stage` value on state", () => {
+        expect(wrapper.state("stage")).to.equal("idea-generation")
+        retroChannel.trigger("retro_state", mockPayloadFromServer)
+        expect(wrapper.state("stage")).to.equal("larping")
+      })
+    })
 
-      const room = wrapper.find("Room")
+    describe("on `new_idea_received`", () => {
+      it("pushes the value passed in the payload into the `ideas` array", () => {
+        wrapper.setState({ ideas: [{ body: "first idear" }] })
 
-      expect(room.prop("isFacilitator")).to.equal(false)
+        retroChannel.trigger("new_idea_received", { body: "zerp" })
+
+        expect(wrapper.state("ideas")).to.eql([
+          { body: "first idear" },
+          { body: "zerp" },
+        ])
+      })
+    })
+
+    describe("on `proceed_to_next_stage`", () => {
+      it("updates the state's `stage` attribute to the value from proceed_to_next_stage", () => {
+        expect(wrapper.state("stage")).to.equal("idea-generation")
+        retroChannel.trigger("proceed_to_next_stage", { stage: "dummy value" })
+
+        expect(wrapper.state("stage")).to.equal("dummy value")
+      })
+    })
+
+    describe("on `enable_edit_state`", () => {
+      it("updates the idea with matching id, setting `editing` to true", () => {
+        const ideas = [
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+        ]
+
+        wrapper.setState({ ideas })
+
+        retroChannel.trigger("enable_edit_state", { id: 2 })
+
+        expect(wrapper.state("ideas")[1]).to.eql({ id: 2, editing: true })
+      })
+    })
+
+    describe("on `disable_edit_state`", () => {
+      let ideas
+      let ideaWithMatchingId
+
+      beforeEach(() => {
+        ideas = [
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+        ]
+
+        wrapper.setState({ ideas })
+        retroChannel.trigger("disable_edit_state", { id: 3 })
+        ideaWithMatchingId = wrapper.state("ideas").find(idea => idea.id === 3)
+      })
+
+      it("updates the idea with matching id, setting `editing` to false", () => {
+        expect(ideaWithMatchingId.editing).to.equal(false)
+      })
+
+      it("updates the idea with matching id, setting `liveEditText` to null", () => {
+        expect(ideaWithMatchingId.liveEditText).to.equal(null)
+      })
+    })
+
+    describe("on `idea_live_edit`", () => {
+      let ideas
+      let ideaWithMatchingId
+
+      beforeEach(() => {
+        ideas = [
+          { id: 1 },
+          { id: 2 },
+          { id: 3 },
+        ]
+
+        wrapper.setState({ ideas })
+        retroChannel.trigger("idea_live_edit", { id: 2, liveEditText: "lalala" })
+        ideaWithMatchingId = wrapper.state("ideas").find(idea => idea.id === 2)
+      })
+
+      it("updates the idea with matching id, setting `liveEditText` to the payload value", () => {
+        expect(ideaWithMatchingId.liveEditText).to.equal("lalala")
+      })
+    })
+
+    describe("on `idea_deleted`", () => {
+      it("removes the idea passed in the payload from state.ideas", () => {
+        wrapper.setState({ ideas: [{ id: 6, body: "turtles" }] })
+        retroChannel.trigger("idea_deleted", { id: 6 })
+
+        expect(wrapper.state("ideas")).to.eql([])
+      })
+    })
+
+    describe("on `idea_edited`", () => {
+      let ideas
+      let editedIdea
+
+      beforeEach(() => {
+        ideas = [
+          { id: 1 },
+          { id: 2, body: "i like turtles", editing: true },
+          { id: 3 },
+        ]
+
+        wrapper.setState({ ideas })
+        retroChannel.trigger("idea_edited", { id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES" })
+        editedIdea = wrapper.state("ideas").find(idea => (idea.id === 2))
+      })
+
+      it("updates the idea with matching id on state", () => {
+        expect(editedIdea.body).to.eql("i like TEENAGE MUTANT NINJA TURTLES")
+      })
+
+      it("sets the idea's `editing` value to false", () => {
+        expect(editedIdea.editing).to.eql(false)
+      })
+
+      it("sets the idea's `liveEditText` value to null", () => {
+        expect(editedIdea.liveEditText).to.equal(null)
+      })
+    })
+
+    describe("on `email_send_status`", () => {
+      let alertSpy
+
+      beforeEach(() => {
+        alertSpy = spy(global, "alert")
+      })
+
+      afterEach(() => alertSpy.restore())
+
+      context("when the payload represents success", () => {
+        beforeEach(() => {
+          retroChannel.trigger("email_send_status", { success: true })
+        })
+
+        it("alerts the user to the success", () => {
+          expect(alertSpy.getCall(0).args[0]).to.match(/will receive/i)
+        })
+      })
+
+      context("when the payload represents a failure", () => {
+        beforeEach(() => {
+          retroChannel.trigger("email_send_status", { success: false })
+        })
+
+        it("alerts the user to the failure", () => {
+          expect(alertSpy.getCall(0).args[0]).to.not.match(/will receive/i)
+        })
+      })
     })
   })
 })
