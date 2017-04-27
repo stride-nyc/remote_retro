@@ -15,12 +15,12 @@ describe("<RemoteRetro>", () => {
       wrapper = shallow(<RemoteRetro userToken="userToken" retroChannel={retroChannel} />)
     })
 
-    describe("on `existing_ideas`", () => {
+    describe("on `retro_state`", () => {
       it("sets the associated payload's `ideas` value on state", () => {
         expect(wrapper.state("ideas")).to.eql([])
 
         const mockPayloadFromServer = { ideas: [{ arbitrary: "content" }] }
-        retroChannel.trigger("existing_ideas", mockPayloadFromServer)
+        retroChannel.trigger("retro_state", mockPayloadFromServer)
 
         expect(wrapper.state("ideas")).to.eql([
           { arbitrary: "content" },

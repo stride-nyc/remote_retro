@@ -30,7 +30,7 @@ class RemoteRetro extends Component {
 
     retroChannel.on("presence_state", presences => this.setState({ presences }))
 
-    retroChannel.on("existing_ideas", payload => {
+    retroChannel.on("retro_state", payload => {
       this.setState({ ideas: payload.ideas })
     })
 

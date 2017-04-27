@@ -25,8 +25,8 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_push "presence_state", %{}
     end
 
-    test "results in a push of existing ideas to the new user" do
-      assert_push "existing_ideas", %{"ideas" => []}
+    test "results in a push of the retro state, including the `ideas` association" do
+      assert_push "retro_state", %Retro{ideas: _, stage: "idea-generation"}
     end
 
     test "results in a Presence tracking of the new user", %{retro: retro} do

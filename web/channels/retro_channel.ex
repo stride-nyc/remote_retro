@@ -21,8 +21,9 @@ defmodule RemoteRetro.RetroChannel do
     user_stamped = Map.put(user, :online_at, :os.system_time(:milli_seconds))
     Presence.track(socket, socket.assigns.user_token, user_stamped)
 
+    retro = Repo.get!(Retro, socket.assigns.retro_id) |> Repo.preload(:ideas)
     push socket, "presence_state", Presence.list(socket)
-    push socket, "existing_ideas", %{"ideas" => socket.assigns.ideas}
+    push socket, "retro_state", retro
     {:noreply, socket}
   end
 

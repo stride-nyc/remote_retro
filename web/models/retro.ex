@@ -7,6 +7,7 @@ defmodule RemoteRetro.Retro do
 
   schema "retros" do
     has_many :participations, RemoteRetro.Participation
+    has_many :ideas, RemoteRetro.Idea
     field :stage, :string, read_after_writes: true
 
     timestamps()
