@@ -13,12 +13,12 @@ defmodule RemoteRetro.RetroChannel do
     {:ok, socket}
   end
 
-  def handle_info(:after_join, socket) do
-    {:ok, user} = Phoenix.Token.verify(socket, "user", socket.assigns.user_token)
-    user_stamped = Map.put(user, :online_at, :os.system_time(:milli_seconds))
-    Presence.track(socket, socket.assigns.user_token, user_stamped)
+  def handle_info(:after_join, %{assigns: assigns} = socket) do
+    {:ok, user} = Phoenix.Token.verify(socket, "user", assigns.user_token)
+    user = Map.put(user, :online_at, :os.system_time)
+    Presence.track(socket, assigns.user_token, user)
 
-    retro = Repo.get!(Retro, socket.assigns.retro_id) |> Repo.preload(:ideas)
+    retro = Repo.get!(Retro, assigns.retro_id) |> Repo.preload(:ideas)
     push socket, "presence_state", Presence.list(socket)
     push socket, "retro_state", retro
     {:noreply, socket}
