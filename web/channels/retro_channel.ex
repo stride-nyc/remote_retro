@@ -41,8 +41,10 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("new_idea", %{"body" => body, "category" => category, "author" => author}, socket) do
-    changeset = Idea.changeset(%Idea{body: body, category: category, retro_id: socket.assigns.retro_id, author: author})
-    idea = Repo.insert!(changeset)
+    idea =
+      %Idea{body: body, category: category, retro_id: socket.assigns.retro_id, author: author}
+      |> Idea.changeset
+      |> Repo.insert!
 
     broadcast! socket, "new_idea_received", idea
     {:noreply, socket}
@@ -66,8 +68,8 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
-    email_send_status = Emails.action_items_email(socket.assigns.retro_id)
-                        |> Mailer.deliver_now
+    %{retro_id: retro_id} = socket.assigns
+    email_send_status = Emails.action_items_email(retro_id) |> Mailer.deliver_now
 
     push socket, "email_send_status", %{"success" => !!email_send_status}
     {:noreply, socket}
