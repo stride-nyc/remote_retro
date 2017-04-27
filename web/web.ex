@@ -73,7 +73,7 @@ defmodule RemoteRetro.Web do
   end
 
   defimpl Poison.Encoder, for: Ecto.Association.NotLoaded do
-    def encode(struct, options) do
+    def encode(struct, _options) do
       case struct.__cardinality__ do
         :many -> "[]"
         _ -> "{}"
