@@ -7,13 +7,10 @@ defmodule RemoteRetro.RetroChannel do
   alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer, Retro}
 
   def join("retro:" <> retro_id, _, socket) do
-    query = from idea in Idea, where: idea.retro_id == ^retro_id
-    existing_ideas = Repo.all(query)
-    socket_ideas = Phoenix.Socket.assign(socket, :ideas, existing_ideas)
-    socket_retro = Phoenix.Socket.assign(socket_ideas, :retro_id, retro_id)
+    socket = Phoenix.Socket.assign(socket, :retro_id, retro_id)
 
     send self(), :after_join
-    {:ok, socket_retro}
+    {:ok, socket}
   end
 
   def handle_info(:after_join, socket) do

@@ -44,19 +44,6 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "joining a retro that already has a persisted idea" do
-    setup [:persist_idea_for_retro, :join_the_retro_channel]
-
-    @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Travis"}
-    test "results in the assignment of all of those ideas to the socket", %{socket: socket} do
-      assert length(socket.assigns.ideas) == 1
-
-      sole_existing_idea = List.first(socket.assigns.ideas)
-
-      assert %{body: "WIP commits on master", category: "sad", author: "Travis", retro_id: _, id: _} = sole_existing_idea
-    end
-  end
-
   describe "pushing `proceed_to_next_stage` with a stage of 'action-item-distribution'" do
     setup [:join_the_retro_channel]
 
