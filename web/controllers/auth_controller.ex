@@ -14,12 +14,12 @@ defmodule RemoteRetro.AuthController do
     user_params = %{
       "email" => user_info["email"],
       "google_user_info"=> user_info,
-      "last_login"=> DateTime.utc_now
+      "last_login"=> DateTime.utc_now,
     }
 
     user_params = Map.merge(user_params, user_info)
 
-    if !user do
+    user = if !user do
       changeset = User.changeset(%User{}, user_params)
       Repo.insert!(changeset)
     else
@@ -27,7 +27,10 @@ defmodule RemoteRetro.AuthController do
       Repo.update!(changeset)
     end
 
-    conn = put_session(conn, :current_user, user_info)
+    user = Map.delete(user, :__meta__)
+    user = Map.delete(user, :__struct__)
+
+    conn = put_session(conn, :current_user, user)
 
     redirect conn, to: get_session(conn, "requested_endpoint") || "/"
   end
