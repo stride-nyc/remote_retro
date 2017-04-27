@@ -18,7 +18,6 @@ defmodule RemoteRetro.RetroChannel do
     track_timestamped_presence(socket)
 
     retro = Repo.get!(Retro, assigns.retro_id) |> Repo.preload(:ideas)
-    push socket, "presence_state", Presence.list(socket)
     push socket, "retro_state", retro
     {:noreply, socket}
   end
