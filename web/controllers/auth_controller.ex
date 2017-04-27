@@ -16,7 +16,6 @@ defmodule RemoteRetro.AuthController do
       "google_user_info"=> user_info,
       "last_login"=> DateTime.utc_now,
     }
-
     user_params = Map.merge(user_params, user_info)
 
     user = if !user do
@@ -27,9 +26,7 @@ defmodule RemoteRetro.AuthController do
       Repo.update!(changeset)
     end
 
-    user = Map.delete(user, :__meta__)
-    user = Map.delete(user, :__struct__)
-
+    user = Map.drop(user, [:__meta__, :__struct__])
     conn = put_session(conn, :current_user, user)
 
     redirect conn, to: get_session(conn, "requested_endpoint") || "/"
