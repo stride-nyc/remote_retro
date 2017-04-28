@@ -11,7 +11,7 @@ defmodule RedirectUnauthenticated do
       nil ->
         conn = put_session conn, "requested_endpoint", conn.request_path
         redirect(conn, to: "/auth/google") |> halt
-      user ->
+      _user ->
         conn
     end
   end
