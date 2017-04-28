@@ -5,6 +5,10 @@ defmodule RemoteRetro.Router do
     forward "/sent_emails", Bamboo.EmailPreviewPlug
   end
 
+  pipeline :authentication_required do
+    plug RedirectUnauthenticated
+  end
+
   pipeline :browser do
     plug :accepts, ["html"]
     plug :fetch_session
@@ -22,7 +26,12 @@ defmodule RemoteRetro.Router do
 
     get "/", PageController, :index
 
-    resources "/retros", RetroController, only: [:create, :show]
+  end
+
+  scope "/retros", RemoteRetro do
+    pipe_through [:browser, :authentication_required]
+
+    resources "/", RetroController, only: [:create, :show]
   end
 
   scope "/auth", RemoteRetro do

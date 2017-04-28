@@ -2,8 +2,12 @@ defmodule RemoteRetro.RetroControllerTest do
   use RemoteRetro.ConnCase, async: true
   alias RemoteRetro.{User, Participation}
 
-  test "POST requests to /retros redirect to the new retro", %{conn: conn} do
-    conn = post conn, "/retros"
+  test "authenticated POST requests to /retros redirect to the new retro", %{conn: conn} do
+    conn =
+      conn
+      |> get("/auth/google/callback?code=schlarpdarp")
+      |> post("/retros")
+
     assert redirected_to(conn) =~ ~r/\/retros\/.+$/
   end
 
