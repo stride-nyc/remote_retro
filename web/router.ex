@@ -25,19 +25,13 @@ defmodule RemoteRetro.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
-
+    get "/auth/google", AuthController, :index
+    get "/auth/google/callback", AuthController, :callback
   end
 
   scope "/retros", RemoteRetro do
     pipe_through [:browser, :authentication_required]
 
     resources "/", RetroController, only: [:create, :show]
-  end
-
-  scope "/auth", RemoteRetro do
-    pipe_through :browser
-
-    get "/google", AuthController, :index
-    get "/google/callback", AuthController, :callback
   end
 end
