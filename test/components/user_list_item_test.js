@@ -30,6 +30,32 @@ describe("UserListItem", () => {
     })
   })
 
+  describe("passed a user who is currently typing", () => {
+    const user = {
+      given_name: "treezy",
+      online_at: 803,
+      is_typing: true,
+    }
+
+    it("renders the user with an ellipsis animation", () => {
+      const wrapper = shallow(<UserListItem user={user} />)
+      expect(wrapper.find("i.circle.icon")).to.have.length(3)
+    })
+  })
+
+  describe("passed a user who is *not* currently typing", () => {
+    const user = {
+      given_name: "treezy",
+      online_at: 803,
+      is_typing: false,
+    }
+
+    it("does not render the user with an ellipsis animation", () => {
+      const wrapper = shallow(<UserListItem user={user} />)
+      expect(wrapper.find("i.circle.icon")).to.have.length(0)
+    })
+  })
+
   describe("user pictures", () => {
     let user
     let wrapper
@@ -57,7 +83,7 @@ describe("UserListItem", () => {
       })
 
       it("renders a list item that displays an icon", () => {
-        expect(wrapper.find("i.icon")).to.have.length(1)
+        expect(wrapper.find("i.user.icon")).to.have.length(1)
       })
     })
   })

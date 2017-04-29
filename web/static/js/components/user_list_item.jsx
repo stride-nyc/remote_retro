@@ -9,7 +9,12 @@ function UserListItem(props) {
     <li className={`item ${styles.wrapper}`}>
       <div className="ui center aligned grid">
         {IconTag(props.user)}
-        <div className="ui row">{ userName }</div>
+        <div className="ui row">
+          <p className={styles.name}>{ userName }</p>
+          { props.user.is_typing &&
+            <p className={`${styles.ellipsisAnim} ui row`}><i className="circle icon"/><i className="circle icon"/><i className="circle icon"/></p>
+          }
+        </div>
       </div>
     </li>
   )
