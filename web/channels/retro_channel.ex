@@ -55,7 +55,7 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("delete_idea", id, socket) do
-    idea = RemoteRetro.Repo.delete!(%Idea{id: id})
+    idea = Repo.delete!(%Idea{id: id})
 
     broadcast! socket, "idea_deleted", idea
     {:noreply, socket}
