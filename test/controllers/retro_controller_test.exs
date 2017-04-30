@@ -2,45 +2,44 @@ defmodule RemoteRetro.RetroControllerTest do
   use RemoteRetro.ConnCase, async: true
   alias RemoteRetro.{User, Participation}
 
-  test "authenticated POST requests to /retros redirect to the new retro", %{conn: conn} do
-    conn =
-      conn
-      |> get("/auth/google/callback?code=schlarpdarp")
-      |> post("/retros")
+  describe "authenticated requests" do
+    setup :authenticate_connection
 
-    assert redirected_to(conn) =~ ~r/\/retros\/.+$/
-  end
+    test "POST requests to /retros redirect to the new retro", %{conn: conn} do
+      conn = post conn, "/retros"
 
-  test "authenticated user that joins a retro has a participation persisted", %{conn: conn} do
-    conn = get conn, "/auth/google/callback?code=schlarpdarp"
-    mock_google_info = Application.get_env(:remote_retro, :mock_user)
-    user = Repo.get_by(User, email: mock_google_info["email"])
+      assert redirected_to(conn) =~ ~r/\/retros\/.+$/
+    end
 
-    conn = post conn, "/retros"
-    location = get_resp_header(conn, "location")
-    get conn, "#{location}"
+    test "joining a retro results in a the persistence of a participation", %{conn: conn} do
+      mock_google_info = Application.get_env(:remote_retro, :mock_user)
+      user = Repo.get_by(User, email: mock_google_info["email"])
 
-    participation = Repo.get_by(Participation, user_id: user.id)
+      conn = post conn, "/retros"
+      location = get_resp_header(conn, "location")
+      get conn, "#{location}"
 
-    assert participation.user_id == user.id
-  end
+      participation = Repo.get_by(Participation, user_id: user.id)
 
-  test "only one participation is created for users, even if they log out and in again", %{conn: conn} do
-    conn = get conn, "/auth/google/callback?code=schlarpdarp"
-    mock_google_info = Application.get_env(:remote_retro, :mock_user)
-    user = Repo.get_by(User, email: mock_google_info["email"])
+      assert participation.user_id == user.id
+    end
 
-    conn = post conn, "/retros"
-    location = get_resp_header(conn, "location")
-    conn = get conn, "#{location}"
-    get conn, "#{location}"
+    test "rejoining a retro doesn't result in a participation being persisted", %{conn: conn} do
+      mock_google_info = Application.get_env(:remote_retro, :mock_user)
+      user = Repo.get_by(User, email: mock_google_info["email"])
 
-    retro_id = conn.params["id"]
+      conn = post conn, "/retros"
+      location = get_resp_header(conn, "location")
+      conn = get conn, "#{location}"
+      get conn, "#{location}"
 
-    query = from p in Participation, where: p.user_id == ^user.id and p.retro_id == ^retro_id
-    participations = Repo.all(query)
+      retro_id = conn.params["id"]
 
-    refute length(participations) > 1
+      query = from p in Participation, where: p.user_id == ^user.id and p.retro_id == ^retro_id
+      participations = Repo.all(query)
+
+      refute length(participations) > 1
+    end
   end
 
   describe "unauthenticated GET requests to /retros/some-uuid" do
