@@ -7,13 +7,14 @@ import StageProgressionButton from "../../web/static/js/components/stage_progres
 
 describe("StageProgressionButton", () => {
   const mockRetroChannel = { on: () => {}, push: () => {} }
+  const defaultProps = { retroChannel: mockRetroChannel, stage: "idea-generation" }
 
   context("when the stage is 'idea-generation'", () => {
     let stageProgressionButton
 
     beforeEach(() => {
       stageProgressionButton = mount(
-        <StageProgressionButton retroChannel={mockRetroChannel} stage="idea-generation" />
+        <StageProgressionButton {...defaultProps} />
       )
     })
 
@@ -28,12 +29,7 @@ describe("StageProgressionButton", () => {
     context("onClick", () => {
       it("invokes a javascript confirmation", () => {
         const confirmSpy = sinon.spy(global, "confirm")
-
-        const wrapper = mount(
-          <StageProgressionButton retroChannel={mockRetroChannel} stage="idea-generation" />
-        )
-
-        wrapper.simulate("click")
+        stageProgressionButton.simulate("click")
         expect(confirmSpy.called).to.equal(true)
 
         confirmSpy.restore()
@@ -49,7 +45,7 @@ describe("StageProgressionButton", () => {
           retroChannel = { on: () => {}, push: sinon.spy() }
 
           stageProgressionButton = mount(
-            <StageProgressionButton retroChannel={retroChannel} stage="idea-generation" />
+            <StageProgressionButton {...defaultProps} retroChannel={retroChannel} />
           )
         })
 
@@ -87,7 +83,7 @@ describe("StageProgressionButton", () => {
 
     beforeEach(() => {
       stageProgressionButton = mount(
-        <StageProgressionButton retroChannel={mockRetroChannel} stage="action-items" />
+        <StageProgressionButton {...defaultProps} stage="action-items" />
       )
     })
 
