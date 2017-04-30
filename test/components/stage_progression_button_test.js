@@ -48,33 +48,36 @@ describe("StageProgressionButton", () => {
   })
 
   context("onClick", () => {
-    it("invokes a javascript confirmation", () => {
-      const confirmSpy = sinon.spy(global, "confirm")
-      stageProgressionButton.simulate("click")
-      expect(confirmSpy.called).to.equal(true)
-
-      confirmSpy.restore()
-    })
-
-    describe("stage progression confirmation", () => {
-      let confirmStub
+    context("when the stage progression config requires confirmation", () => {
       let stageProgressionButton
       let retroChannel
+      let confirmStub
 
       beforeEach(() => {
-        confirmStub = sinon.stub(global, "confirm")
         retroChannel = { on: () => {}, push: sinon.spy() }
 
         stageProgressionButton = mount(
-          <StageProgressionButton {...defaultProps} retroChannel={retroChannel} />
+          <StageProgressionButton {...defaultProps} stage="stageUno" retroChannel={retroChannel} />
         )
       })
 
-      afterEach(() => {
+      it("invokes a javascript confirmation", () => {
+        confirmStub = sinon.stub(global, "confirm")
+        stageProgressionButton.simulate("click")
+        expect(confirmStub.called).to.equal(true)
+
         confirmStub.restore()
       })
 
       context("when the user confirms", () => {
+        beforeEach(() => {
+          confirmStub = sinon.stub(global, "confirm")
+        })
+
+        afterEach(() => {
+          confirmStub.restore()
+        })
+
         it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
           confirmStub.returns(true)
           stageProgressionButton.simulate("click")
@@ -96,44 +99,39 @@ describe("StageProgressionButton", () => {
         })
       })
     })
-  })
 
-  context("when the matching stage config lacks a `confirmationMessage`", () => {
-    beforeEach(() => {
-      stageProgressionButton = mount(
-        <StageProgressionButton {...defaultProps} stage="stageDos" />
-      )
-    })
-
-    context("onClick", () => {
-      let confirmSpy
-      let stageProgressionButton
-      let retroChannel
-
+    context("when the matching stage config lacks a `confirmationMessage`", () => {
       beforeEach(() => {
-        confirmSpy = sinon.spy(global, "confirm")
-        retroChannel = { on: () => {}, push: sinon.spy() }
-
         stageProgressionButton = mount(
-          <StageProgressionButton
-            stageProgressionConfigs={mockStageProgressionConfigs}
-            retroChannel={retroChannel}
-            stage="stageDos"
-          />
+          <StageProgressionButton {...defaultProps} stage="stageDos" />
         )
-
-        stageProgressionButton.simulate("click")
       })
 
-      it("does not invoke a javascript confirmation", () => {
-        expect(confirmSpy.called).to.equal(false)
-        confirmSpy.restore()
-      })
+      context("onClick", () => {
+        let confirmSpy
+        let stageProgressionButton
+        let retroChannel
 
-      it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
-        expect(
-          retroChannel.push.calledWith("proceed_to_next_stage", { stage: "stageTres" })
-        ).to.equal(true)
+        beforeEach(() => {
+          confirmSpy = sinon.spy(global, "confirm")
+          retroChannel = { on: () => {}, push: sinon.spy() }
+
+          const props = {...defaultProps, retroChannel, stage: "stageDos"}
+          stageProgressionButton = mount(<StageProgressionButton {...props} />)
+
+          stageProgressionButton.simulate("click")
+        })
+
+        it("does not invoke a javascript confirmation", () => {
+          expect(confirmSpy.called).to.equal(false)
+          confirmSpy.restore()
+        })
+
+        it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
+          expect(
+            retroChannel.push.calledWith("proceed_to_next_stage", { stage: "stageTres" })
+          ).to.equal(true)
+        })
       })
     })
   })
