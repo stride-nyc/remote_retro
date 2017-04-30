@@ -15,7 +15,7 @@ function Room(props) {
   const { currentPresence, users, retroChannel, ideas, stage } = props
   const isFacilitator = currentPresence.user.is_facilitator
   const categories = ["happy", "sad", "confused"]
-  const showActionItem = stage === "action-items"
+  const showActionItem = stage !== "idea-generation"
   if (showActionItem) { categories.push("action-item") }
 
   return (

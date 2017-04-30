@@ -9,6 +9,7 @@ config :remote_retro, RemoteRetro.Endpoint,
 config :remote_retro, :sql_sandbox, true
 
 config :wallaby, screenshot_on_failure: true
+config :bamboo, :refute_timeout, 10
 
 # Print only warnings and errors during test
 config :logger, level: :warn

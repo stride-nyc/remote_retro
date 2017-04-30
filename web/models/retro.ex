@@ -16,6 +16,6 @@ defmodule RemoteRetro.Retro do
   def changeset(struct, %{stage: _stage} = params \\ %{}) do
     struct
     |> cast(params, [:stage])
-    |> validate_inclusion(:stage, ["idea-generation", "action-items"])
+    |> validate_inclusion(:stage, ["idea-generation", "action-items", "action-item-distribution"])
   end
 end
