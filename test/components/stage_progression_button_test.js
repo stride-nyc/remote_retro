@@ -4,95 +4,105 @@ import sinon from "sinon"
 
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 
-
 describe("StageProgressionButton", () => {
   const mockRetroChannel = { on: () => {}, push: () => {} }
-  const defaultProps = { retroChannel: mockRetroChannel, stage: "idea-generation" }
+  const mockStageProgressionConfigs = {
+    stageUno: {
+      confirmationMessage: "Are you sure?",
+      nextStage: "stageDos",
+      buttonConfig: {
+        copy: "Proceed to stage dos",
+        iconClass: "arrow right",
+      },
+    },
+    stageDos: {
+      confirmationMessage: null,
+      nextStage: "stageTres",
+      buttonConfig: {
+        copy: "blurg!",
+        iconClass: "send",
+      },
+    },
+  }
 
-  context("when the stage is 'idea-generation'", () => {
-    let stageProgressionButton
+  const defaultProps = {
+    retroChannel: mockRetroChannel,
+    stage: "stageUno",
+    stageProgressionConfigs: mockStageProgressionConfigs,
+  }
 
-    beforeEach(() => {
-      stageProgressionButton = mount(
-        <StageProgressionButton {...defaultProps} />
-      )
+  let stageProgressionButton
+
+  beforeEach(() => {
+    stageProgressionButton = mount(
+      <StageProgressionButton {...defaultProps} />
+    )
+  })
+
+  it("displays the button text from the matching stage config", () => {
+    expect(stageProgressionButton.text()).to.match(/proceed to stage dos/i)
+  })
+
+  it("uses the icon class from the matching stage config", () => {
+    expect(stageProgressionButton.find("i").hasClass("arrow")).to.equal(true)
+  })
+
+  context("onClick", () => {
+    it("invokes a javascript confirmation", () => {
+      const confirmSpy = sinon.spy(global, "confirm")
+      stageProgressionButton.simulate("click")
+      expect(confirmSpy.called).to.equal(true)
+
+      confirmSpy.restore()
     })
 
-    it("displays Proceed to Action Items", () => {
-      expect(stageProgressionButton.text()).to.match(/proceed to action items/i)
-    })
+    describe("stage progression confirmation", () => {
+      let confirmStub
+      let stageProgressionButton
+      let retroChannel
 
-    it("uses a right-pointing arrow icon", () => {
-      expect(stageProgressionButton.find("i").hasClass("arrow")).to.equal(true)
-    })
+      beforeEach(() => {
+        confirmStub = sinon.stub(global, "confirm")
+        retroChannel = { on: () => {}, push: sinon.spy() }
 
-    context("onClick", () => {
-      it("invokes a javascript confirmation", () => {
-        const confirmSpy = sinon.spy(global, "confirm")
-        stageProgressionButton.simulate("click")
-        expect(confirmSpy.called).to.equal(true)
-
-        confirmSpy.restore()
+        stageProgressionButton = mount(
+          <StageProgressionButton {...defaultProps} retroChannel={retroChannel} />
+        )
       })
 
-      describe("stage progression confirmation", () => {
-        let confirmStub
-        let stageProgressionButton
-        let retroChannel
+      afterEach(() => {
+        confirmStub.restore()
+      })
 
-        beforeEach(() => {
-          confirmStub = sinon.stub(global, "confirm")
-          retroChannel = { on: () => {}, push: sinon.spy() }
+      context("when the user confirms", () => {
+        it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
+          confirmStub.returns(true)
+          stageProgressionButton.simulate("click")
 
-          stageProgressionButton = mount(
-            <StageProgressionButton {...defaultProps} retroChannel={retroChannel} />
-          )
+          expect(
+            retroChannel.push.calledWith("proceed_to_next_stage", { stage: "stageDos" })
+          ).to.equal(true)
         })
+      })
 
-        afterEach(() => {
-          confirmStub.restore()
-        })
+      context("when the user does not confirm", () => {
+        it("does not push an event to the retro channel", () => {
+          confirmStub.returns(false)
+          stageProgressionButton.simulate("click")
 
-        context("when the user confirms", () => {
-          it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
-            confirmStub.returns(true)
-            stageProgressionButton.simulate("click")
-
-            expect(
-              retroChannel.push.calledWith("proceed_to_next_stage", { stage: "action-items" })
-            ).to.equal(true)
-          })
-        })
-
-        context("when the user does not confirm", () => {
-          it("does not push an event to the retro channel", () => {
-            confirmStub.returns(false)
-            stageProgressionButton.simulate("click")
-
-            expect(
-              retroChannel.push.called
-            ).to.equal(false)
-          })
+          expect(
+            retroChannel.push.called
+          ).to.equal(false)
         })
       })
     })
   })
 
-  context("when the stage is 'action-items'", () => {
-    let stageProgressionButton
-
+  context("when the matching stage config lacks a `confirmationMessage`", () => {
     beforeEach(() => {
       stageProgressionButton = mount(
-        <StageProgressionButton {...defaultProps} stage="action-items" />
+        <StageProgressionButton {...defaultProps} stage="stageDos" />
       )
-    })
-
-    it("displays 'Send Action Items'", () => {
-      expect(stageProgressionButton.text()).to.match(/send action items/i)
-    })
-
-    it("uses a 'send' icon", () => {
-      expect(stageProgressionButton.find("i").hasClass("send")).to.equal(true)
     })
 
     context("onClick", () => {
@@ -105,7 +115,11 @@ describe("StageProgressionButton", () => {
         retroChannel = { on: () => {}, push: sinon.spy() }
 
         stageProgressionButton = mount(
-          <StageProgressionButton retroChannel={retroChannel} stage="action-items" />
+          <StageProgressionButton
+            stageProgressionConfigs={mockStageProgressionConfigs}
+            retroChannel={retroChannel}
+            stage="stageDos"
+          />
         )
 
         stageProgressionButton.simulate("click")
@@ -118,7 +132,7 @@ describe("StageProgressionButton", () => {
 
       it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
         expect(
-          retroChannel.push.calledWith("proceed_to_next_stage", { stage: "action-item-distribution" })
+          retroChannel.push.calledWith("proceed_to_next_stage", { stage: "stageTres" })
         ).to.equal(true)
       })
     })

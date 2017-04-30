@@ -4,6 +4,8 @@ import UserList from "./user_list"
 import CategoryColumn from "./category_column"
 import IdeaSubmissionForm from "./idea_submission_form"
 import StageProgressionButton from "./stage_progression_button"
+import stageProgressionConfigs from "../configs/stage_progression_configs"
+
 import DoorChime from "./door_chime"
 
 import * as AppPropTypes from "../prop_types"
@@ -43,7 +45,12 @@ function Room(props) {
         </div>
         <div className="three wide right aligned column">
           {
-            isFacilitator && <StageProgressionButton retroChannel={retroChannel} stage={stage} />
+            isFacilitator &&
+            <StageProgressionButton
+              stageProgressionConfigs={stageProgressionConfigs}
+              retroChannel={retroChannel}
+              stage={stage}
+            />
           }
         </div>
         <p className={styles.poweredBy}>
