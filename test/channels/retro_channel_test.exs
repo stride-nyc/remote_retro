@@ -54,10 +54,10 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_delivered_with(subject: "Action items from Retro")
     end
 
-    test "pushes the event back to the client, with email success boolean", %{socket: socket} do
+    test "broadcasts the same event to connected clients, along with stage", %{socket: socket} do
       push(socket, "proceed_to_next_stage", %{stage: "action-item-distribution"})
 
-      assert_push("email_send_status", %{"success" => _})
+      assert_broadcast("proceed_to_next_stage", %{"stage" => "action-item-distribution"})
     end
   end
 
@@ -75,6 +75,11 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_broadcast("proceed_to_next_stage", %{"stage" => "action-items"})
       persisted_stage = Repo.get(Retro, retro.id).stage
       assert persisted_stage == "action-items"
+    end
+
+    test "doesn't send an email containing the retro action items", %{socket: socket} do
+      push(socket, "proceed_to_next_stage", %{stage: "action-items"})
+      assert_no_emails_delivered()
     end
   end
 

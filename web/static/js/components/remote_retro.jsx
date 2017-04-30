@@ -40,6 +40,11 @@ class RemoteRetro extends Component {
 
     retroChannel.on("proceed_to_next_stage", payload => {
       this.setState({ stage: payload.stage })
+      if (payload.stage === "action-item-distribution") {
+        alert(
+          "The facilitator has distibuted this retro's action items. You will receive an email breakdown shortly."
+        )
+      }
     })
 
     retroChannel.on("enable_edit_state", nominatedIdea => {
@@ -67,12 +72,6 @@ class RemoteRetro extends Component {
     retroChannel.on("idea_deleted", deletedIdea => {
       const ideas = this.state.ideas.filter(idea => idea.id !== deletedIdea.id)
       this.setState({ ideas })
-    })
-
-    retroChannel.on("email_send_status", payload => {
-      const successMessage = "Consider it done. Participants will receive an email breakdown of the action items shortly."
-      const errorMessage = "It seems there was an error. Please try to send the action items again in a few minutes. Thanks for your patience."
-      alert(payload.success ? successMessage : errorMessage)
     })
   }
 

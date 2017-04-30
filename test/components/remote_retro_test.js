@@ -56,6 +56,21 @@ describe("<RemoteRetro>", () => {
 
         expect(wrapper.state("stage")).to.equal("dummy value")
       })
+
+      context("when the `stage` in the payload is 'action-item-distribution'", () => {
+        let alertSpy
+
+        beforeEach(() => {
+          alertSpy = spy(global, "alert")
+          retroChannel.trigger("proceed_to_next_stage", { stage: "action-item-distribution" })
+        })
+
+        afterEach(() => alertSpy.restore())
+
+        it("alerts the user that action items have been sent out", () => {
+          expect(alertSpy.getCall(0).args[0]).to.match(/you will receive an email breakdown/i)
+        })
+      })
     })
 
     describe("on `enable_edit_state`", () => {
@@ -155,36 +170,6 @@ describe("<RemoteRetro>", () => {
 
       it("sets the idea's `liveEditText` value to null", () => {
         expect(editedIdea.liveEditText).to.equal(null)
-      })
-    })
-
-    describe("on `email_send_status`", () => {
-      let alertSpy
-
-      beforeEach(() => {
-        alertSpy = spy(global, "alert")
-      })
-
-      afterEach(() => alertSpy.restore())
-
-      context("when the payload represents success", () => {
-        beforeEach(() => {
-          retroChannel.trigger("email_send_status", { success: true })
-        })
-
-        it("alerts the user to the success", () => {
-          expect(alertSpy.getCall(0).args[0]).to.match(/will receive/i)
-        })
-      })
-
-      context("when the payload represents a failure", () => {
-        beforeEach(() => {
-          retroChannel.trigger("email_send_status", { success: false })
-        })
-
-        it("alerts the user to the failure", () => {
-          expect(alertSpy.getCall(0).args[0]).to.not.match(/will receive/i)
-        })
       })
     })
   })
