@@ -116,7 +116,7 @@ describe("StageProgressionButton", () => {
           confirmSpy = sinon.spy(global, "confirm")
           retroChannel = { on: () => {}, push: sinon.spy() }
 
-          const props = {...defaultProps, retroChannel, stage: "stageDos"}
+          const props = { ...defaultProps, retroChannel, stage: "stageDos" }
           stageProgressionButton = mount(<StageProgressionButton {...props} />)
 
           stageProgressionButton.simulate("click")
