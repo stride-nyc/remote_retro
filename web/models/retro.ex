@@ -12,4 +12,10 @@ defmodule RemoteRetro.Retro do
 
     timestamps()
   end
+
+  def changeset(struct, %{stage: _stage} = params \\ %{}) do
+    struct
+    |> cast(params, [:stage])
+    |> validate_inclusion(:stage, ["idea-generation", "action-items"])
+  end
 end

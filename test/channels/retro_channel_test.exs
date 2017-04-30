@@ -64,17 +64,17 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `proceed_to_next_stage` event" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event to connected clients, along with stage", %{socket: socket} do
-      push(socket, "proceed_to_next_stage", %{stage: "0"})
+      push(socket, "proceed_to_next_stage", %{stage: "action-items"})
 
-      assert_broadcast("proceed_to_next_stage", %{"stage" => "0"})
+      assert_broadcast("proceed_to_next_stage", %{"stage" => "action-items"})
     end
 
     test "updates the retro stage to the value from the pushed event", %{socket: socket, retro: retro} do
-      push(socket, "proceed_to_next_stage", %{stage: "0"})
+      push(socket, "proceed_to_next_stage", %{stage: "action-items"})
 
-      assert_broadcast("proceed_to_next_stage", %{"stage" => "0"})
+      assert_broadcast("proceed_to_next_stage", %{"stage" => "action-items"})
       persisted_stage = Repo.get(Retro, retro.id).stage
-      assert persisted_stage == "0"
+      assert persisted_stage == "action-items"
     end
   end
 

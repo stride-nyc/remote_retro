@@ -71,7 +71,7 @@ defmodule RemoteRetro.RetroChannel do
 
   def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
     Repo.get(Retro, socket.assigns.retro_id)
-    |> Ecto.Changeset.change(stage: stage)
+    |> Retro.changeset(%{stage: stage})
     |> Repo.update!
 
     broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
