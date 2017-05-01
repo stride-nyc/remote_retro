@@ -76,6 +76,23 @@ Install Local NPM Packages via Yarn
 yarn
 ```
 
+#### Google OAuth
+
+Authentication within Remote Retro relies on Google OAuth and the Google+ API.  To set this up, navigate to the Google API console and create a new project: https://console.developers.google.com/apis
+
+Next, click on "Credentials" in the left sidebar nav and create an "OAuth client ID" for a web application.
+
+**Settings**
+- Authorized JavaScript origins: `http://localhost:4000`
+- Authorized redirect URIs: `http://localhost:4000/auth/google/callback`
+
+Next, enable the Google+ API for your project.
+
+Finally, export the variables in your shell with the credentials Google provides and source (or open a new terminal).
+- `REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID` -> Client Id
+- `REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET` -> Client secret
+- `REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI` -> http://localhost:4000/auth/google/callback
+
 #### And Voila!
 
 Start Phoenix endpoint with `mix`
