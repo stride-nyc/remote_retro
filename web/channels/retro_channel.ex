@@ -62,7 +62,7 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
-    %{retro_id: retro_id} = socket.assigns
+    retro_id = socket.assigns.retro_id
     persist_retro_update!(retro_id, "action-item-distribution")
     Emails.action_items_email(retro_id) |> Mailer.deliver_now
 
