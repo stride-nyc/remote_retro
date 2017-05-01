@@ -14,7 +14,8 @@ function CategoryColumn(props) {
   const { category, ideas, currentPresence, retroChannel } = props
   const emoticonUnicode = categoryToEmoticonUnicodeMap[category]
   const filteredIdeas = ideas.filter(idea => idea.category === category)
-  const filteredIdeasList = filteredIdeas.map(idea => (
+  const sortedIdeas = filteredIdeas.sort((a, b) => (a.inserted_at > b.inserted_at))
+  const ideasList = sortedIdeas.map(idea => (
     <Idea
       idea={idea}
       key={idea.id}
@@ -31,7 +32,7 @@ function CategoryColumn(props) {
       </div>
       <div className={`ui fitted divider ${styles.divider}`} />
       <ul className={`${category} ${styles.list} ideas`}>
-        {filteredIdeasList}
+        {ideasList}
       </ul>
     </section>
   )
