@@ -63,7 +63,7 @@ defmodule RemoteRetro.RetroChannel do
 
   def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
     retro_id = socket.assigns.retro_id
-    persist_retro_update!(retro_id, "action-item-distribution")
+    update_retro!(retro_id, "action-item-distribution")
     Emails.action_items_email(retro_id) |> Mailer.deliver_now
 
     broadcast! socket, "proceed_to_next_stage", %{"stage" => "action-item-distribution"}
@@ -71,7 +71,7 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
-    persist_retro_update!(socket.assigns.retro_id, stage)
+    update_retro!(socket.assigns.retro_id, stage)
 
     broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
     {:noreply, socket}
@@ -85,7 +85,7 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  defp persist_retro_update!(retro_id, stage) do
+  defp update_retro!(retro_id, stage) do
     Repo.get(Retro, retro_id)
     |> Retro.changeset(%{stage: stage})
     |> Repo.update!
