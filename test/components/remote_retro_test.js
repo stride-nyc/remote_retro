@@ -15,27 +15,6 @@ describe("<RemoteRetro>", () => {
       wrapper = shallow(<RemoteRetro userToken="userToken" retroChannel={retroChannel} />)
     })
 
-    describe("on `retro_state`", () => {
-      const mockPayloadFromServer = {
-        ideas: [{ arbitrary: "content" }],
-        stage: "larping",
-      }
-
-      it("sets the associated payload's `ideas` value on state", () => {
-        expect(wrapper.state("ideas")).to.eql([])
-        retroChannel.trigger("retro_state", mockPayloadFromServer)
-        expect(wrapper.state("ideas")).to.eql([
-          { arbitrary: "content" },
-        ])
-      })
-
-      it("sets the associated payload's `stage` value on state", () => {
-        expect(wrapper.state("stage")).to.equal("idea-generation")
-        retroChannel.trigger("retro_state", mockPayloadFromServer)
-        expect(wrapper.state("stage")).to.equal("larping")
-      })
-    })
-
     describe("on `new_idea_received`", () => {
       it("pushes the value passed in the payload into the `ideas` array", () => {
         wrapper.setState({ ideas: [{ body: "first idear" }] })

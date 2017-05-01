@@ -5,16 +5,14 @@ defmodule RemoteRetro.RetroChannel do
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
+    retro = Repo.get!(Retro, retro_id) |> Repo.preload(:ideas)
 
     send self(), :after_join
-    {:ok, socket}
+    {:ok, retro, socket}
   end
 
-  def handle_info(:after_join, %{assigns: assigns} = socket) do
+  def handle_info(:after_join, socket) do
     PresenceUtils.track_timestamped(socket)
-
-    retro = Repo.get!(Retro, assigns.retro_id) |> Repo.preload(:ideas)
-    push socket, "retro_state", retro
     {:noreply, socket}
   end
 
