@@ -19,7 +19,8 @@ defmodule Mix.Tasks.Preflight do
 
     num_missing = length(missing_envars)
     if num_missing > 0 do
-      IO.puts "Please define the following environment variables:\n" <> Enum.join(missing_envars, "\n")
+      IO.puts "The following environment variables need to be defined:\n\t#{Enum.join(missing_envars, "\n\t")}"
+      IO.puts "Please refer to the README.md file for detailed instructions on setting this up."
       System.halt(:abort)
     end
   end
