@@ -44,6 +44,7 @@ defmodule RemoteRetro.Mixfile do
      {:oauth2, "~> 0.9"},
      {:gettext, "~> 0.11"},
      {:wallaby, "~> 0.16.1"},
+     {:slender_channel, "~> 0.1.1"},
      {:cowboy, "~> 1.0"},
      {:bamboo, "~> 0.8"},
      {:credo, "~> 0.3", only: [:dev, :test]} ]
