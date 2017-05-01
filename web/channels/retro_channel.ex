@@ -79,8 +79,7 @@ defmodule RemoteRetro.RetroChannel do
 
   intercept ["presence_diff"]
   def handle_out("presence_diff", _msg, socket) do
-    presences = Presence.list(socket)
-    new_state = PresenceUtils.give_facilitator_role_to_longest_tenured(presences)
+    new_state = Presence.list(socket) |> PresenceUtils.give_facilitator_role_to_longest_tenured
 
     push socket, "presence_state", new_state
     {:noreply, socket}
