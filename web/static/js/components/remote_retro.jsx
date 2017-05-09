@@ -26,12 +26,13 @@ class RemoteRetro extends Component {
     const { retroChannel } = this.props
 
     retroChannel.join()
+      .receive("ok", () => console.log("joined"))
       .receive("error", error => console.error(error))
 
     retroChannel.on("presence_state", presences => this.setState({ presences }))
 
-    retroChannel.on("retro_state", retro => {
-      this.setState(retro)
+    retroChannel.on("retro_state", retroState => {
+      this.setState(retroState)
     })
 
     retroChannel.on("new_idea_received", newIdea => {

@@ -11,13 +11,7 @@ defmodule RemoteRetro.AuthController do
     user_info = Google.get_user_info!(code)
     user = Repo.get_by(User, email: user_info["email"])
 
-    user_params = %{
-      "email" => user_info["email"],
-      "google_user_info"=> user_info,
-      "last_login"=> DateTime.utc_now
-    }
-
-    user_params = Map.merge(user_params, user_info)
+    user_params = User.build_user_from_oauth(user_info)
 
     if !user do
       changeset = User.changeset(%User{}, user_params)
