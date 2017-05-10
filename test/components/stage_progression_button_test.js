@@ -1,5 +1,5 @@
 import React from "react"
-import { mount } from "enzyme"
+import { mount, ReactWrapper } from "enzyme"
 import sinon from "sinon"
 
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
@@ -51,7 +51,6 @@ describe("StageProgressionButton", () => {
     context("when the stage progression config requires confirmation", () => {
       let stageProgressionButton
       let retroChannel
-      let confirmStub
 
       beforeEach(() => {
         retroChannel = { on: () => {}, push: sinon.spy() }
@@ -61,70 +60,63 @@ describe("StageProgressionButton", () => {
         )
       })
 
-      it("invokes a javascript confirmation", () => {
-        confirmStub = sinon.stub(global, "confirm")
-        stageProgressionButton.simulate("click")
-        expect(confirmStub.called).to.equal(true)
+      context("when the stage progression button is clicked", () => {
+        let modalActions
 
-        confirmStub.restore()
-      })
-
-      context("when the user confirms", () => {
         beforeEach(() => {
-          confirmStub = sinon.stub(global, "confirm")
+          stageProgressionButton.find("button").simulate("click")
+          modalActions = new ReactWrapper(stageProgressionButton.instance().modalActionsRef, true)
         })
 
-        afterEach(() => {
-          confirmStub.restore()
+        it("opens the modal", () => {
+          expect(stageProgressionButton.find("Modal").props().isOpen).to.equal(true)
         })
 
-        it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
-          confirmStub.returns(true)
-          stageProgressionButton.simulate("click")
+        context("when clicking yes in the open modal", () => {
+          beforeEach(() => {
+            modalActions.find("#yes").simulate("click")
+          })
 
-          expect(
-            retroChannel.push.calledWith("proceed_to_next_stage", { stage: "stageDos" })
-          ).to.equal(true)
+          it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
+            expect(
+              retroChannel.push.calledWith("proceed_to_next_stage", { stage: "stageDos" })
+            ).to.equal(true)
+          })
+
+          it("closes the modal", () => {
+            expect(stageProgressionButton.find("Modal").props().isOpen).to.equal(false)
+          })
         })
-      })
 
-      context("when the user does not confirm", () => {
-        it("does not push an event to the retro channel", () => {
-          confirmStub.returns(false)
-          stageProgressionButton.simulate("click")
+        context("when clicking no in the open modal", () => {
+          beforeEach(() => {
+            modalActions.find("#no").simulate("click")
+          })
 
-          expect(
-            retroChannel.push.called
-          ).to.equal(false)
+          it("does not push an event to the retro channel", () => {
+            expect(
+              retroChannel.push.called
+            ).to.equal(false)
+          })
+
+          it("closes the modal", () => {
+            expect(stageProgressionButton.find("Modal").props().isOpen).to.equal(false)
+          })
         })
       })
     })
 
     context("when the matching stage config lacks a `confirmationMessage`", () => {
-      beforeEach(() => {
-        stageProgressionButton = mount(
-          <StageProgressionButton {...defaultProps} stage="stageDos" />
-        )
-      })
-
       context("onClick", () => {
-        let confirmSpy
         let stageProgressionButton
         let retroChannel
 
         beforeEach(() => {
-          confirmSpy = sinon.spy(global, "confirm")
           retroChannel = { on: () => {}, push: sinon.spy() }
 
           const props = { ...defaultProps, retroChannel, stage: "stageDos" }
           stageProgressionButton = mount(<StageProgressionButton {...props} />)
-
-          stageProgressionButton.simulate("click")
-        })
-
-        it("does not invoke a javascript confirmation", () => {
-          expect(confirmSpy.called).to.equal(false)
-          confirmSpy.restore()
+          stageProgressionButton.find("button").simulate("click")
         })
 
         it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
