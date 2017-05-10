@@ -1,7 +1,7 @@
 <div class="ui basic segment">
   <%= if @current_user do %>
     <div class="ui header">
-      Glad to have you, <%= "#{@current_user["given_name"]} #{@current_user["family_name"]}" %>!
+      Glad to have you, <%= "#{@current_user.given_name} #{@current_user.family_name}" %>!
     </div>
 
     <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>

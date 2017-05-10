@@ -16,6 +16,7 @@ defmodule RemoteRetro.PresenceUtils do
 
     Enum.into presences, %{}, fn({user_token, presence}) ->
       presence = put_in(presence, [:user, :is_facilitator], user_token == facilitator_token)
+
       {user_token, presence}
     end
   end

@@ -1,6 +1,18 @@
 defmodule RemoteRetro.User do
   use RemoteRetro.Web, :model
 
+  @required_fields [
+    :email,
+    :google_user_info,
+    :family_name,
+    :given_name,
+    :locale,
+    :name,
+    :picture,
+    :last_login
+  ]
+
+  @derive {Poison.Encoder, only: @required_fields}
   schema "users" do
     field :email, :string
     field :google_user_info, :map
@@ -16,17 +28,6 @@ defmodule RemoteRetro.User do
 
     timestamps()
   end
-
-  @required_fields [
-    :email,
-    :google_user_info,
-    :family_name,
-    :given_name,
-    :locale,
-    :name,
-    :picture,
-    :last_login
-  ]
 
   def changeset(struct, params \\ %{}) do
     struct
