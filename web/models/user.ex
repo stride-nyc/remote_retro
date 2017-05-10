@@ -12,7 +12,7 @@ defmodule RemoteRetro.User do
     :last_login
   ]
 
-  @derive {Poison.Encoder, only: @required_fields }
+  @derive {Poison.Encoder, only: @required_fields}
   schema "users" do
     field :email, :string
     field :google_user_info, :map
