@@ -29,6 +29,11 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
+  def handle_in("user_typing_idea", %{"userToken" => userToken}, socket) do
+    broadcast! socket, "user_typing_idea", %{"userToken" => userToken}
+    {:noreply, socket}
+  end
+
   def handle_in("idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}, socket) do
     broadcast! socket, "idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}
     {:noreply, socket}

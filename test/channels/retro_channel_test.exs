@@ -104,6 +104,15 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "pushing a `user_typing_idea` event to the socket" do
+    setup [:join_the_retro_channel]
+    test "broadcasts the same event with the given payload", %{socket: socket} do
+      push(socket, "user_typing_idea", %{userToken: "insaneToken"})
+
+      assert_broadcast("user_typing_idea", %{"userToken" => "insaneToken"})
+    end
+  end
+
   describe "pushing an `idea_live_edit` event to the socket" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event with the given payload", %{socket: socket} do
