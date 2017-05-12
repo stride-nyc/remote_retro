@@ -12,6 +12,15 @@ const updateIdeas = (ideas, idOfIdeaToUpdate, newAttributes) => {
   })
 }
 
+const updatePresences = (presences, userToken, newAttributes) => {
+  const user = presences[userToken].user
+  return update(presences, {
+    [userToken]: {
+      user: { $set: { ...user, ...newAttributes } }
+    },
+  })
+}
+
 class RemoteRetro extends Component {
   constructor(props) {
     super(props)
@@ -46,6 +55,11 @@ class RemoteRetro extends Component {
           "The facilitator has distibuted this retro's action items. You will receive an email breakdown shortly."
         )
       }
+    })
+
+    retroChannel.on("user_typing_idea", payload => {
+      const newPresences = updatePresences(this.state.presences, payload.userToken, { is_typing: true })
+      this.setState({ presences: newPresences })
     })
 
     retroChannel.on("enable_edit_state", nominatedIdea => {

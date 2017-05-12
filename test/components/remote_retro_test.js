@@ -114,6 +114,29 @@ describe("<RemoteRetro>", () => {
       })
     })
 
+    describe("on `user_typing_idea`", () => {
+      describe("when no presence is currently typing", () => {
+        beforeEach(() => {
+          const initialPresences = {
+            s0meUserToken: {
+              user: { is_typing: false }
+            },
+            anotherUserToken: {
+              user: { is_typing: false }
+            }
+          }
+          wrapper.setState({ presences: initialPresences })
+        })
+
+        it("sets the `is_typing` attribute of the presence with matching user token to `true`", () => {
+          retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
+          const presences = wrapper.state("presences")
+          const matchingPresence = presences["s0meUserToken"]
+          expect(matchingPresence.user.is_typing).to.equal(true)
+        })
+      })
+    })
+
     describe("on `idea_live_edit`", () => {
       let ideas
       let ideaWithMatchingId
