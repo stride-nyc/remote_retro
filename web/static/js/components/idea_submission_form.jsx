@@ -43,6 +43,8 @@ class IdeaSubmissionForm extends Component {
   }
 
   handleIdeaChange(event) {
+    const { retroChannel, currentPresence } = this.props
+    retroChannel.push("user_typing_idea", { userToken: currentPresence.user.token })
     this.setState({ body: event.target.value })
   }
 

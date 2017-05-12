@@ -7,7 +7,7 @@ import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_f
 describe("IdeaSubmissionForm component", () => {
   let wrapper
 
-  const stubbedPresence = { user: { given_name: "Mugatu" } }
+  const stubbedPresence = { user: { given_name: "Mugatu", token: "xyz" } }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const fakeEvent = {
     stopPropagation: () => undefined,
@@ -35,6 +35,27 @@ describe("IdeaSubmissionForm component", () => {
           author: "Mugatu",
         }
       )).to.equal(true)
+    })
+  })
+
+  describe("on change of an idea's body", () => {
+    it("pushes a `user_typing_idea` event to the retro channel, along with the user token", () => {
+      const retroChannel = { on: () => {}, push: sinon.spy() }
+
+      wrapper = mount(
+        <IdeaSubmissionForm
+          currentPresence={stubbedPresence}
+          retroChannel={retroChannel}
+          showActionItem
+        />
+      )
+
+      const ideaInput = wrapper.find("input[name='idea']")
+      ideaInput.simulate("change", { target: { value: "new value" } })
+
+      expect(
+        retroChannel.push.calledWith("user_typing_idea", { userToken: "xyz" })
+      ).to.equal(true)
     })
   })
 
