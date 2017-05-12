@@ -19,6 +19,11 @@ defmodule RemoteRetro.PresenceTest do
       assert is_map(result["9sah2y"].user)
     end
 
+    test "augments the user map with the token" do
+      result = Presence.fetch("retro:some_retro", @basic_presence_structure)
+      assert result["9sah2y"].user.token == "9sah2y"
+    end
+
     test "augments the user map with all attributes from the first metas map" do
       presence = %{
         "arbitrary_key" => %{

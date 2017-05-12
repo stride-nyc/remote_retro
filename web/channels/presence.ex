@@ -8,7 +8,8 @@ defmodule RemoteRetro.Presence do
 
   def fetch(_topic, entries) do
     Enum.into entries, %{}, fn({user_token, presence}) ->
-      presence = Map.put(presence, :user, List.first(presence.metas))
+      user_metadata = List.first(presence.metas)
+      presence = Map.put(presence, :user, Map.put(user_metadata, :token, user_token))
       {user_token, presence}
     end
   end
