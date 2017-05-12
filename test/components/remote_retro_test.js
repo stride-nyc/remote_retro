@@ -1,6 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
-import { spy } from "sinon"
+import { spy, useFakeTimers } from "sinon"
 
 import RemoteRetro from "../../web/static/js/components/remote_retro"
 import RetroChannel from "../../web/static/js/services/retro_channel"
@@ -116,6 +116,7 @@ describe("<RemoteRetro>", () => {
 
     describe("on `user_typing_idea`", () => {
       describe("when no presence is currently typing", () => {
+        let clock
         beforeEach(() => {
           const initialPresences = {
             s0meUserToken: {
@@ -126,12 +127,28 @@ describe("<RemoteRetro>", () => {
             }
           }
           wrapper.setState({ presences: initialPresences })
+          clock = useFakeTimers()
         })
 
-        it("sets the `is_typing` attribute of the presence with matching user token to `true`", () => {
+        afterEach(() => { clock.restore() })
+
+        it("temporarily flips the `is_typing` attribute of the presence with matching user token", () => {
           retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
-          const presences = wrapper.state("presences")
-          const matchingPresence = presences["s0meUserToken"]
+          let matchingPresence = wrapper.state("presences")["s0meUserToken"]
+          expect(matchingPresence.user.is_typing).to.equal(true)
+          clock.tick(750)
+          matchingPresence = wrapper.state("presences")["s0meUserToken"]
+          expect(matchingPresence.user.is_typing).to.equal(false)
+        })
+
+        it("delays setting `is_typing` back to false if the event is received again", () => {
+          retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
+          let matchingPresence = wrapper.state("presences")["s0meUserToken"]
+          expect(matchingPresence.user.is_typing).to.equal(true)
+          clock.tick(500)
+          retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
+          clock.tick(500)
+          matchingPresence = wrapper.state("presences")["s0meUserToken"]
           expect(matchingPresence.user.is_typing).to.equal(true)
         })
       })

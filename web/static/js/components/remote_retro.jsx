@@ -58,8 +58,18 @@ class RemoteRetro extends Component {
     })
 
     retroChannel.on("user_typing_idea", payload => {
-      const newPresences = updatePresences(this.state.presences, payload.userToken, { is_typing: true })
+      let newPresences = updatePresences(this.state.presences, payload.userToken, { is_typing: true, last_typed: Date.now() })
       this.setState({ presences: newPresences })
+
+      const interval = setInterval(() => {
+        const presence = this.state.presences[payload.userToken]
+        const noNewTypingEventsReceived = (Date.now() - presence.user.last_typed) > 650
+        if (noNewTypingEventsReceived) {
+          clearInterval(interval)
+          newPresences = updatePresences(this.state.presences, payload.userToken, { is_typing: false })
+          this.setState({ presences: newPresences })
+        }
+      }, 10)
     })
 
     retroChannel.on("enable_edit_state", nominatedIdea => {
