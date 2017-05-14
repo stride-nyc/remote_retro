@@ -134,21 +134,21 @@ describe("<RemoteRetro>", () => {
 
         it("temporarily flips the `is_typing` attribute of the presence with matching user token", () => {
           retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
-          let matchingPresence = wrapper.state("presences")["s0meUserToken"]
+          let matchingPresence = wrapper.state("presences").s0meUserToken
           expect(matchingPresence.user.is_typing).to.equal(true)
           clock.tick(750)
-          matchingPresence = wrapper.state("presences")["s0meUserToken"]
+          matchingPresence = wrapper.state("presences").s0meUserToken
           expect(matchingPresence.user.is_typing).to.equal(false)
         })
 
         it("delays setting `is_typing` back to false if the event is received again", () => {
           retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
-          let matchingPresence = wrapper.state("presences")["s0meUserToken"]
+          let matchingPresence = wrapper.state("presences").s0meUserToken
           expect(matchingPresence.user.is_typing).to.equal(true)
           clock.tick(500)
           retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
           clock.tick(500)
-          matchingPresence = wrapper.state("presences")["s0meUserToken"]
+          matchingPresence = wrapper.state("presences").s0meUserToken
           expect(matchingPresence.user.is_typing).to.equal(true)
         })
       })

@@ -14,7 +14,9 @@ function UserListItem(props) {
           <p className={`${styles.ellipsisAnim} ui row`}>
             { props.user.is_typing &&
               <span>
-                <i className="circle icon"/><i className="circle icon"/><i className="circle icon"/>
+                <i className="circle icon" />
+                <i className="circle icon" />
+                <i className="circle icon" />
               </span>
             }
           </p>
