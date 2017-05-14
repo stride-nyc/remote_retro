@@ -11,9 +11,13 @@ function UserListItem(props) {
         {IconTag(props.user)}
         <div className="ui row">
           <p className={styles.name}>{ userName }</p>
-          { props.user.is_typing &&
-            <p className={`${styles.ellipsisAnim} ui row`}><i className="circle icon"/><i className="circle icon"/><i className="circle icon"/></p>
-          }
+          <p className={`${styles.ellipsisAnim} ui row`}>
+            { props.user.is_typing &&
+              <span>
+                <i className="circle icon"/><i className="circle icon"/><i className="circle icon"/>
+              </span>
+            }
+          </p>
         </div>
       </div>
     </li>
