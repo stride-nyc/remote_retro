@@ -1,4 +1,5 @@
 defmodule SendActionItemToUsersViaEmailTest do
+  alias RemoteRetro.Emails
   use RemoteRetro.IntegrationCase, async: false
   use Bamboo.Test, shared: true
 
@@ -21,6 +22,6 @@ defmodule SendActionItemToUsersViaEmailTest do
     |> find(Query.button("Send Action Items"))
     |> Element.click
 
-    assert_delivered_with(subject: "Action items from Retro", html_body: idea_text)
+    Emails.action_items_email(retro.id) |> assert_delivered_email
   end
 end

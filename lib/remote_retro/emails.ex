@@ -18,7 +18,7 @@ defmodule RemoteRetro.Emails do
 
     new_email(
       to: participant_emails,
-      from: "do-not-reply@remote_retro.dev",
+      from: {"RemoteRetro", "do-not-reply@remoteretro.oss"},
       subject: "Action items from Retro",
       text_body: text_retro_action_items(action_items),
       html_body: html_retro_action_items(action_items)
@@ -31,8 +31,20 @@ defmodule RemoteRetro.Emails do
   end
 
   defp html_retro_action_items(action_items) do
-    action_items
-    |> Enum.join("<br/>")
+    """
+    <div>
+      <p>Hi,</p>
+      <p>Please find the action items from your retrospective below:</p>
+      #{html_action_item_list(action_items)}
+      <p>Thanks! You're awesome!</p>
+    </div>
+    """
+  end
+
+  defp html_action_item_list(action_items) do
+    item_tags = action_items
+    |> Enum.map(fn item -> "<li>#{item}</li>" end)
+    "<ul>#{item_tags}</ul>"
   end
 
   defp retro_action_items(retro_id) do
