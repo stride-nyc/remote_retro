@@ -41,11 +41,11 @@ psql -h localhost
   - [Install Elixir](http://elixir-lang.org/install.html)
   - Install the Phoenix application's dependencies via `mix deps.get`
   - Compile the project and custom mix tasks via `mix compile`
-  - Create and migrate your database with `mix ecto.create && mix ecto.migrate`
+  - Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
     -  __Note:__ if the prior two commands are throwing errors, ensure that Postgres is setup properly on your machine:
      1. Login to the default database `psql -h localhost`
-     2. Check that there is a postgres usename with `SELECT usename from pg_user;`
-     3. If there is not, run `CREATE USER postgres WITH SUPERUSER;`
+     2. Verify that username "postgres" exists with `SELECT usename from pg_user;`
+     3. If not found, then run `CREATE USER postgres WITH SUPERUSER;`
 
 #### Node Dependencies
 
@@ -80,18 +80,21 @@ yarn
 
 Authentication within Remote Retro relies on Google OAuth and the Google+ API.  To set this up, navigate to the Google API console and create a new project: https://console.developers.google.com/apis
 
-Next, click on "Credentials" in the left sidebar nav and create an "OAuth client ID" for a web application.
+Next, click on "Credentials" in the left sidebar nav. On the right hand side, click on the "Create Credentials" button and select "OAuth client ID".
 
 **Settings**
+- Application type: Web application
 - Authorized JavaScript origins: `http://localhost:4000`
 - Authorized redirect URIs: `http://localhost:4000/auth/google/callback`
 
-Next, enable the Google+ API for your project.
+Click on the Create button. Using the information Google provides, add the following lines to your profile and source (or open a new terminal).
+```
+export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID="<Client Id>"
+export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET="<Client secret>"
+export REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI="http://localhost:4000/auth/google/callback"
+```
 
-Finally, export the variables in your shell with the credentials Google provides and source (or open a new terminal).
-- `REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID` -> Client Id
-- `REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET` -> Client secret
-- `REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI` -> http://localhost:4000/auth/google/callback
+Finally, enable the Google+ API for your project.
 
 #### And Voila!
 
