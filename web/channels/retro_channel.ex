@@ -2,10 +2,9 @@ defmodule RemoteRetro.RetroChannel do
   use RemoteRetro.Web, :channel
 
   alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer, Retro}
-  alias Phoenix.Socket
 
   def join("retro:" <> retro_id, _, socket) do
-    socket = Socket.assign(socket, :retro_id, retro_id)
+    socket = assign(socket, :retro_id, retro_id)
 
     send self(), :after_join
     {:ok, socket}
