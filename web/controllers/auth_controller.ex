@@ -9,20 +9,20 @@ defmodule RemoteRetro.AuthController do
 
   def callback(conn, %{"code" => code}) do
     user_info = Google.get_user_info!(code)
-    user = Repo.get_by(User, email: user_info["email"])
-
     user_params = User.build_user_from_oauth(user_info)
 
-    user = if !user do
-      changeset = User.changeset(%User{}, user_params)
-      Repo.insert!(changeset)
-    else
-      changeset = User.changeset(user, user_params)
-      Repo.update!(changeset)
-    end
+    {:ok, user} =
+      case Repo.get_by(User, email: user_info["email"]) do
+        nil -> %User{}
+        user_from_db -> user_from_db
+      end
+      |> User.changeset(user_params)
+      |> Repo.insert_or_update
 
-    user = Map.delete(user, :__meta__)
-    user = Map.delete(user, :__struct__)
+    user =
+      user
+      |> Map.delete(:__meta__)
+      |> Map.delete(:__struct__)
 
     conn = put_session(conn, :current_user, user)
 
