@@ -37,13 +37,4 @@ defmodule RemoteRetro.User do
     |> validate_format(:email, ~r/@/)
   end
 
-  def build_user_from_oauth(user_info) do
-    user_params = %{
-      "email" => user_info["email"],
-      "google_user_info"=> user_info,
-      "last_login"=> DateTime.utc_now
-    }
-
-    Map.merge(user_params, user_info)
-  end
 end
