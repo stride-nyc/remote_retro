@@ -21,7 +21,7 @@ The MVP aims to provide a collaborative, real-time, facilitator-driven retrospec
 1. Action Item Generation
     - Identify and assign action items
 1. Action Item Distribution
-    - Distribute action items
+    - Distribute action items via email
     
 ## Project Management
 
