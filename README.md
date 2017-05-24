@@ -6,6 +6,23 @@
 
 This repository houses the web application code for Remote Retro, an open source professional development project written in Elixir/Phoenix and sponsored by [Stride Consulting](http://stridenyc.com).
 
+## Roadmap to MVP
+
+The MVP aims to provide a collaborative, real-time, facilitator-driven retrospective through the following stages:
+
+  1. The Prime Directive
+    - frame the retro as a safe, collaborative space
+  1. Idea Generation
+    - invite ideas (happy, sad, confused) from participants
+  1. Mute Mapping
+    - participants group ideas into categories without speaking
+  1. Labeling + Voting
+    - participants vote on categories for discussion and root-cause analysis
+  1. Action Item Generation
+    - Identify and assign action items
+  1. Action Item Distribution
+    - Distribute action items
+    
 ## Project Management
 
 To see the project's current feature pipeline, simply install the wonderful [ZenHub](http://zenhub.io) Chrome Extension.
