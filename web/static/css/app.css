@@ -1,11 +1,4 @@
-/*
-
-Hi! This file would normally be the entry-point for the CSS in your phoenix app.
-In our case, it isn't! We use Semantic UI for the majority of our styling, and
-leverage CSS modules where we need to do any custom styling. CSS modules are
-better than excellent, and, if you've never used them, will make your life better
-by leaps and bounds. Look em up! Use em!
-
-  - https://github.com/css-modules/css-modules
-
-*/
+body {
+  background-image: url(/images/good_hearted_boyman_takes_part_in_remote_retro.png);
+  background-size: cover;
+}
