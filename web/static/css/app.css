@@ -1,4 +1,4 @@
-body {
+:global .photo-backdrop {
   background-image: url(/images/good_hearted_boyman_takes_part_in_remote_retro.png);
   background-size: cover;
 }
