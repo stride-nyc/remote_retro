@@ -12,10 +12,7 @@
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
 
-  <body>
-    <p class="alert alert-info" role="alert"><%= get_flash(@conn, :info) %></p>
-    <p class="alert alert-danger" role="alert"><%= get_flash(@conn, :error) %></p>
-
+  <body class="<%= if @view_module.include_backdrop, do: "photo-backdrop" %>">
     <main role="main">
       <%= render @view_module, @view_template, assigns %>
     </main>

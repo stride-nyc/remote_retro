@@ -1,11 +1,33 @@
-/*
+:root {
+  --semantic-focused-input-border-color: #85B7D9;
 
-Hi! This file would normally be the entry-point for the CSS in your phoenix app.
-In our case, it isn't! We use Semantic UI for the majority of our styling, and
-leverage CSS modules where we need to do any custom styling. CSS modules are
-better than excellent, and, if you've never used them, will make your life better
-by leaps and bounds. Look em up! Use em!
+  --semantic-light-grey: #DCDDDE;
+  --semantic-teal: #00B5AD;
+  --magenta: #FD1884;
+}
 
-  - https://github.com/css-modules/css-modules
+:global .photo-backdrop {
+  background-image: url(/images/good_hearted_boyman_takes_part_in_remote_retro.png);
+  background-size: cover;
+  box-shadow: inset 0 0 0 100rem rgba(255, 255, 255, 0.25);
+}
 
-*/
+:global .welcome-wrapper {
+  --corner-offset: 5rem;
+  position: relative;
+  top: var(--corner-offset);
+  left: var(--corner-offset);
+}
+
+h1 {
+  font-size: 4rem;
+  font-weight: 200;
+  line-height: 4rem;
+  color: var(--semantic-teal);
+}
+
+sup {
+  top: -2rem;
+  font-size: 0.9rem;
+  color: var(--magenta);
+}
