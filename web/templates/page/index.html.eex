@@ -5,11 +5,11 @@
   </h1>
   <%= if @current_user do %>
     <div class="ui header">
-      Glad to have you, <%= "#{@current_user.given_name} #{@current_user.family_name}" %>!
+      Glad to have you, <%= @current_user.given_name %>!
     </div>
 
     <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
-      <%= submit "Create a Retrospective", class: "ui button teal" %>
+      <%= submit "Create a Retrospective for Your Team", class: "ui button blue" %>
     <% end %>
   <%= else %>
     <div class="ui header">
