@@ -1,6 +1,6 @@
 .index {
   padding: 0.2rem 0;
-  border-bottom: 1px solid rgba(34,36,38, 0.15);
+  border-bottom: 1px solid var(--semantic-light-grey);
 }
 
 .author-attribution {

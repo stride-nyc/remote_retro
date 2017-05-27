@@ -1,4 +1,7 @@
 :root {
+  --semantic-focused-input-border-color: #85B7D9;
+
+  --semantic-light-grey: #DCDDDE;
   --semantic-teal: #00B5AD;
   --magenta: #FD1884;
 }
