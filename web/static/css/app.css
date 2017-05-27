@@ -1,21 +1,27 @@
+:root {
+  --semantic-teal: #00B5AD;
+  --magenta: #FD1884;
+}
+
 :global .photo-backdrop {
   background-image: url(/images/good_hearted_boyman_takes_part_in_remote_retro.png);
   background-size: cover;
 }
 
 :global .welcome-wrapper {
+  --corner-offset: 5rem;
   position: relative;
-  top: 5rem;
-  left: 5rem;
+  top: var(--corner-offset);
+  left: var(--corner-offset);
 }
 
 h1 {
   font-size: 3rem;
-  color: #11837B;
+  color: var(--semantic-teal);
 }
 
 sup {
   top: -1.5rem;
   font-size: 0.8rem;
-  color: #FD1884;
+  color: var(--magenta);
 }
