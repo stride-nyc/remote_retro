@@ -1,4 +1,8 @@
-<div class="ui basic segment">
+<div class="ui basic segment welcome-wrapper">
+  <h1>
+    Remote<br>
+    Retro<sup>BETA</sup>
+  </h1>
   <%= if @current_user do %>
     <div class="ui header">
       Glad to have you, <%= "#{@current_user.given_name} #{@current_user.family_name}" %>!

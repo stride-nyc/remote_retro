@@ -2,3 +2,20 @@
   background-image: url(/images/good_hearted_boyman_takes_part_in_remote_retro.png);
   background-size: cover;
 }
+
+:global .welcome-wrapper {
+  position: relative;
+  top: 5rem;
+  left: 5rem;
+}
+
+h1 {
+  font-size: 3rem;
+  color: #11837B;
+}
+
+sup {
+  top: -1.5rem;
+  font-size: 0.8rem;
+  color: #FD1884;
+}
