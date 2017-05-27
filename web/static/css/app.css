@@ -20,12 +20,14 @@
 }
 
 h1 {
-  font-size: 3rem;
+  font-size: 4rem;
+  font-weight: 200;
+  line-height: 4rem;
   color: var(--semantic-teal);
 }
 
 sup {
-  top: -1.5rem;
-  font-size: 0.8rem;
+  top: -2rem;
+  font-size: 0.9rem;
   color: var(--magenta);
 }
