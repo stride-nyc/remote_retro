@@ -9,8 +9,7 @@ defmodule SendActionItemToUsersViaEmailTest do
     facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
     proceed_to_action_items_stage(facilitator_session)
 
-    facilitator_session
-    |> submit_idea(%{ category: "action-item", body: idea_text })
+    submit_idea(facilitator_session, %{ category: "action-item", body: idea_text })
 
     assert facilitator_session |> find(Query.css("ul.action-item li[title='#{idea_text}']", count: 1))
 
