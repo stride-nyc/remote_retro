@@ -7,11 +7,7 @@ defmodule SendActionItemToUsersViaEmailTest do
     retro_path = "/retros/" <> retro.id
     idea_text = "Do the test"
     facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
-    stub_js_confirms_for_phantomjs(facilitator_session)
-
-    facilitator_session
-    |> find(Query.button("Proceed to Action Items"))
-    |> Element.click
+    proceed_to_action_items_stage(facilitator_session)
 
     facilitator_session
     |> submit_idea(%{ category: "action-item", body: idea_text })

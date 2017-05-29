@@ -19,6 +19,11 @@ defmodule RemoteRetro.TestHelpers do
     execute_script(session, "window.confirm = function(){ return true; }")
   end
 
+  def proceed_to_action_items_stage(facilitator_session) do
+    facilitator_session |> find(Query.button("Proceed to Action Items")) |> Element.click
+    facilitator_session |> find(Query.button("Yes")) |> Element.click
+  end
+
   def authenticate(session) do
     visit(session, "/auth/google/callback?code=love")
   end
