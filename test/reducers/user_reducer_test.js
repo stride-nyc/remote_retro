@@ -3,7 +3,7 @@ import { expect } from "chai"
 import userReducer from "../../web/static/js/reducers/user"
 
 describe("user reducer", () => {
-  const user = { given_name: "Tiny Rick" }
+  const users = [{ given_name: "Tiny Rick" }, { given_name: "Morty" }]
 
   describe("when no new state is passed", () => {
     it("should return the initial state of an empty array", () => {
@@ -12,18 +12,18 @@ describe("user reducer", () => {
   })
 
   describe("when there are no users", () => {
-    const action = { type: "ADD_USER", user }
+    const action = { type: "ADD_USERS", users }
 
-    it("should handle ADD_USER", () => {
-      expect(userReducer([], action)).to.deep.equal([user])
+    it("should handle ADD_USERS", () => {
+      expect(userReducer([], action)).to.deep.equal(users)
     })
   })
 
   describe("when there are existing users", () => {
-    const action = { type: "ADD_USER", user }
+    const action = { type: "ADD_USERS", users }
 
-    it("should handle ADD_USER", () => {
-      expect(userReducer([{ given_name: "Morty" }], action)).to.deep.equal([{ given_name: "Morty" }, user])
+    it("should handle ADD_USERS", () => {
+      expect(userReducer([{ given_name: "Morty" }], action)).to.deep.equal(users)
     })
   })
 
