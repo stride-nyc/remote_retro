@@ -10,7 +10,7 @@ defmodule RemoteRetro.Retro do
     has_many :ideas, RemoteRetro.Idea
     field :stage, :string, read_after_writes: true
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   def changeset(struct, %{stage: _stage} = params \\ %{}) do
