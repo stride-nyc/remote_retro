@@ -6,6 +6,7 @@ import { Presence } from "phoenix"
 import * as userActionCreators from "../actions/user"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
+import ShareRetroLinkModal from "./share_retro_link_modal"
 
 const updateIdeas = (ideas, idOfIdeaToUpdate, newAttributes) => {
   return ideas.map(idea => {
@@ -91,18 +92,21 @@ export class RemoteRetro extends Component {
 
   render() {
     const { users, userToken, retroChannel } = this.props
-    const { ideas, stage } = this.state
+    const { ideas, stage, inserted_at } = this.state
 
     const currentUser = users.find(user => user.token === userToken)
 
     return (
-      <Room
-        currentUser={currentUser}
-        users={users}
-        ideas={ideas}
-        stage={stage}
-        retroChannel={retroChannel}
-      />
+      <div>
+        <Room
+          currentUser={currentUser}
+          users={users}
+          ideas={ideas}
+          stage={stage}
+          retroChannel={retroChannel}
+        />
+        <ShareRetroLinkModal insertedAt={inserted_at}/>
+      </div>
     )
   }
 }
