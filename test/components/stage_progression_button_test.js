@@ -6,29 +6,18 @@ import StageProgressionButton from "../../web/static/js/components/stage_progres
 
 describe("StageProgressionButton", () => {
   const mockRetroChannel = { on: () => {}, push: () => {} }
-  const mockStageProgressionConfigs = {
-    stageUno: {
-      confirmationMessage: "Are you sure?",
-      nextStage: "stageDos",
-      buttonConfig: {
-        copy: "Proceed to stage dos",
-        iconClass: "arrow right",
-      },
-    },
-    stageDos: {
-      confirmationMessage: null,
-      nextStage: "stageTres",
-      buttonConfig: {
-        copy: "blurg!",
-        iconClass: "send",
-      },
-    },
+  const mockButtonConfig = {
+    confirmationMessage: "Are you sure?",
+    nextStage: "stageDos",
+    button: {
+      copy: "Proceed to stage dos",
+      iconClass: "arrow right",
+    }
   }
 
   const defaultProps = {
     retroChannel: mockRetroChannel,
-    stage: "stageUno",
-    stageProgressionConfigs: mockStageProgressionConfigs,
+    config: mockButtonConfig,
   }
 
   let stageProgressionButton
@@ -39,11 +28,11 @@ describe("StageProgressionButton", () => {
     )
   })
 
-  it("displays the button text from the matching stage config", () => {
+  it("displays the button text from the given config", () => {
     expect(stageProgressionButton.text()).to.match(/proceed to stage dos/i)
   })
 
-  it("uses the icon class from the matching stage config", () => {
+  it("uses the icon class from the given config", () => {
     expect(stageProgressionButton.find("i").hasClass("arrow")).to.equal(true)
   })
 
@@ -56,7 +45,7 @@ describe("StageProgressionButton", () => {
         retroChannel = { on: () => {}, push: sinon.spy() }
 
         stageProgressionButton = mount(
-          <StageProgressionButton {...defaultProps} stage="stageUno" retroChannel={retroChannel} />
+          <StageProgressionButton {...defaultProps} retroChannel={retroChannel} />
         )
       })
 
@@ -107,6 +96,15 @@ describe("StageProgressionButton", () => {
     })
 
     context("when the matching stage config lacks a `confirmationMessage`", () => {
+      const mockButtonConfig = {
+        confirmationMessage: null,
+        nextStage: "stageTres",
+        button: {
+          copy: "blurg!",
+          iconClass: "send",
+        },
+      }
+
       context("onClick", () => {
         let stageProgressionButton
         let retroChannel
@@ -114,7 +112,7 @@ describe("StageProgressionButton", () => {
         beforeEach(() => {
           retroChannel = { on: () => {}, push: sinon.spy() }
 
-          const props = { ...defaultProps, retroChannel, stage: "stageDos" }
+          const props = { retroChannel, config: mockButtonConfig }
           stageProgressionButton = mount(<StageProgressionButton {...props} />)
           stageProgressionButton.find("button").simulate("click")
         })

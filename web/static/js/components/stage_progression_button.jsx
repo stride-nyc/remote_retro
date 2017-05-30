@@ -12,9 +12,8 @@ class StageProgressionButton extends Component {
   }
 
   handleStageProgressionButtonClick() {
-    const { stage, stageProgressionConfigs } = this.props
-    const stageConfig = stageProgressionConfigs[stage]
-    const noConfirmationNecessary = !stageConfig.confirmationMessage
+    const { config } = this.props
+    const noConfirmationNecessary = !config.confirmationMessage
     if (noConfirmationNecessary) {
       this.handleStageProgression()
     } else {
@@ -23,10 +22,9 @@ class StageProgressionButton extends Component {
   }
 
   handleStageProgression() {
-    const { stage, retroChannel, stageProgressionConfigs } = this.props
-    const stageConfig = stageProgressionConfigs[stage]
+    const { config, retroChannel } = this.props
 
-    retroChannel.push("proceed_to_next_stage", { stage: stageConfig.nextStage })
+    retroChannel.push("proceed_to_next_stage", { stage: config.nextStage })
     this.setState({ modalOpen: false })
   }
 
@@ -35,14 +33,14 @@ class StageProgressionButton extends Component {
   }
 
   render() {
-    const { stage, stageProgressionConfigs } = this.props
-    const { buttonConfig, confirmationMessage } = stageProgressionConfigs[stage]
+    const { button, confirmationMessage } = this.props.config
     const { modalOpen } = this.state
+
     return (
       <div>
         <Modal contentLabel="Modal" isOpen={modalOpen} className="ui small modal visible active">
           <div className="content">
-            <p>{ confirmationMessage }</p>
+            <p>{confirmationMessage}</p>
           </div>
           <div className="actions" ref={ref => { this.modalActionsRef = ref }}>
             <button
@@ -65,8 +63,8 @@ class StageProgressionButton extends Component {
           className="fluid ui right labeled teal icon button"
           onClick={this.handleStageProgressionButtonClick}
         >
-          { buttonConfig.copy }
-          <i className={`${buttonConfig.iconClass} icon`} />
+          { button.copy }
+          <i className={`${button.iconClass} icon`} />
         </button>
       </div>
     )
@@ -75,8 +73,7 @@ class StageProgressionButton extends Component {
 
 StageProgressionButton.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  stage: React.PropTypes.string.isRequired,
-  stageProgressionConfigs: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object.isRequired,
 }
 
 export default StageProgressionButton

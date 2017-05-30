@@ -47,9 +47,8 @@ function Room(props) {
           {
             isFacilitator &&
             <StageProgressionButton
-              stageProgressionConfigs={stageProgressionConfigs}
+              config={stageProgressionConfigs[stage]}
               retroChannel={retroChannel}
-              stage={stage}
             />
           }
         </div>

@@ -2,7 +2,7 @@ export default {
   "idea-generation": {
     confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
     nextStage: "action-items",
-    buttonConfig: {
+    button: {
       copy: "Proceed to Action Items",
       iconClass: "arrow right",
     },
@@ -10,7 +10,7 @@ export default {
   "action-items": {
     confirmationMessage: null,
     nextStage: "action-item-distribution",
-    buttonConfig: {
+    button: {
       copy: "Send Action Items",
       iconClass: "send",
     },
