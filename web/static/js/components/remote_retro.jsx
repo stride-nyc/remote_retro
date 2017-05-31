@@ -1,7 +1,10 @@
 import React, { Component, PropTypes } from "react"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
 import { Presence } from "phoenix"
 import update from "immutability-helper"
 
+import * as userActionCreators from "../actions/user"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 
@@ -12,33 +15,26 @@ const updateIdeas = (ideas, idOfIdeaToUpdate, newAttributes) => {
   })
 }
 
-const updatePresences = (presences, userToken, newAttributes) => {
-  const user = presences[userToken].user
-  return update(presences, {
-    [userToken]: {
-      user: { $set: { ...user, ...newAttributes } }
-    },
-  })
-}
-
-class RemoteRetro extends Component {
+export class RemoteRetro extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      presences: {},
       ideas: [],
       stage: "idea-generation",
     }
   }
 
   componentWillMount() {
-    const { retroChannel } = this.props
+    const { retroChannel, actions } = this.props
 
     retroChannel.join()
       .receive("ok", retroState => { this.setState(retroState) })
       .receive("error", error => console.error(error))
 
-    retroChannel.on("presence_state", presences => this.setState({ presences }))
+    retroChannel.on("presence_state", presences => {
+      const users = Presence.list(presences, (_username, presence) => (presence.user))
+      actions.addUsers(users)
+    })
 
     retroChannel.on("new_idea_received", newIdea => {
       this.setState({ ideas: [...this.state.ideas, newIdea] })
@@ -54,16 +50,15 @@ class RemoteRetro extends Component {
     })
 
     retroChannel.on("user_typing_idea", payload => {
-      let newPresences = updatePresences(this.state.presences, payload.userToken, { is_typing: true, last_typed: Date.now() })
-      this.setState({ presences: newPresences })
+      actions.updateUser(payload.userToken, { is_typing: true, last_typed: Date.now() })
 
       const interval = setInterval(() => {
-        const presence = this.state.presences[payload.userToken]
-        const noNewTypingEventsReceived = (Date.now() - presence.user.last_typed) > 650
+        const { users } = this.props
+        const user = users.find(user => user.token === payload.userToken)
+        const noNewTypingEventsReceived = (Date.now() - user.last_typed) > 650
         if (noNewTypingEventsReceived) {
           clearInterval(interval)
-          newPresences = updatePresences(this.state.presences, payload.userToken, { is_typing: false })
-          this.setState({ presences: newPresences })
+          actions.updateUser(user.token, { is_typing: false })
         }
       }, 10)
     })
@@ -97,15 +92,14 @@ class RemoteRetro extends Component {
   }
 
   render() {
-    const { userToken, retroChannel } = this.props
-    const { presences, ideas, stage } = this.state
+    const { users, userToken, retroChannel } = this.props
+    const { ideas, stage } = this.state
 
-    const users = Presence.list(presences, (_username, presence) => (presence.user))
-    const currentPresence = presences[userToken]
+    const currentUser = users.find(user => user.token === userToken)
 
     return (
       <Room
-        currentPresence={currentPresence}
+        currentUser={currentUser}
         users={users}
         ideas={ideas}
         stage={stage}
@@ -117,7 +111,23 @@ class RemoteRetro extends Component {
 
 RemoteRetro.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
+  users: AppPropTypes.users,
   userToken: PropTypes.string.isRequired,
 }
 
-export default RemoteRetro
+RemoteRetro.defaultProps = {
+  users: [],
+}
+
+const mapStateToProps = state => ({
+  users: state.user,
+})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(userActionCreators, dispatch),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(RemoteRetro)

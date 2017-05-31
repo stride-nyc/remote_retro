@@ -2,7 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 import { spy, useFakeTimers } from "sinon"
 
-import RemoteRetro from "../../web/static/js/components/remote_retro"
+import { RemoteRetro } from "../../web/static/js/components/remote_retro"
 import RetroChannel from "../../web/static/js/services/retro_channel"
 
 describe("<RemoteRetro>", () => {
@@ -12,7 +12,7 @@ describe("<RemoteRetro>", () => {
 
     beforeEach(() => {
       retroChannel = RetroChannel.configure({})
-      wrapper = shallow(<RemoteRetro userToken="userToken" retroChannel={retroChannel} />)
+      wrapper = shallow(<RemoteRetro users={[]} userToken="userToken" retroChannel={retroChannel} />)
     })
 
     describe("on `new_idea_received`", () => {
@@ -96,39 +96,63 @@ describe("<RemoteRetro>", () => {
     describe("on `user_typing_idea`", () => {
       describe("when no presence is currently typing", () => {
         let clock
+        let actions
+        let updateUserSpy
+
         beforeEach(() => {
-          const initialPresences = {
-            s0meUserToken: {
-              user: { is_typing: false }
-            },
-            anotherUserToken: {
-              user: { is_typing: false }
-            }
-          }
-          wrapper.setState({ presences: initialPresences })
-          clock = useFakeTimers()
+          retroChannel = RetroChannel.configure({})
+          clock = useFakeTimers(Date.now())
+
+          const initialUsers = [
+            { is_typing: true, token: "abc", last_typed: clock.now },
+            { is_typing: false, token: "s0meUserToken" },
+          ]
+
+          actions = { updateUser: spy() }
+          updateUserSpy = actions.updateUser
+
+          wrapper = shallow(
+            <RemoteRetro
+              users={initialUsers}
+              userToken="userToken"
+              retroChannel={retroChannel}
+              actions={actions}
+            />
+          )
+
         })
 
         afterEach(() => { clock.restore() })
 
-        it("temporarily flips the `is_typing` attribute of the presence with matching user token", () => {
+        it("dispatches action for updating the user with matching token to is_typing true with timestamp", () => {
           retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
-          let matchingPresence = wrapper.state("presences").s0meUserToken
-          expect(matchingPresence.user.is_typing).to.equal(true)
-          clock.tick(750)
-          matchingPresence = wrapper.state("presences").s0meUserToken
-          expect(matchingPresence.user.is_typing).to.equal(false)
+
+          expect(
+            updateUserSpy.calledWith("s0meUserToken", { is_typing: true, last_typed: clock.now })
+          ).to.equal(true)
         })
 
-        it("delays setting `is_typing` back to false if the event is received again", () => {
-          retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
-          let matchingPresence = wrapper.state("presences").s0meUserToken
-          expect(matchingPresence.user.is_typing).to.equal(true)
-          clock.tick(500)
-          retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
-          clock.tick(500)
-          matchingPresence = wrapper.state("presences").s0meUserToken
-          expect(matchingPresence.user.is_typing).to.equal(true)
+        describe("when the user with matching token has already typed", () => {
+          it("dispatches action for updating the user with matching token to is_typing false after a delay", () => {
+            retroChannel.trigger("user_typing_idea", { userToken: "abc" })
+            clock.tick(900)
+
+            expect(
+              updateUserSpy.calledWith("abc", { is_typing: false })
+            ).to.equal(true)
+          })
+
+          it("delays setting `is_typing` back to false if the event is received again", () => {
+            retroChannel.trigger("user_typing_idea", { userToken: "abc" })
+            clock.tick(400)
+            clock.restore() // necessary, as Date.now is used at 10ms interval in the implementation
+            clock = useFakeTimers(Date.now())
+            retroChannel.trigger("user_typing_idea", { userToken: "abc" })
+            clock.tick(500)
+            expect(
+              updateUserSpy.calledWith("abc", { is_typing: false })
+            ).to.equal(false)
+          })
         })
       })
     })

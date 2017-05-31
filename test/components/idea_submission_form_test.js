@@ -7,7 +7,7 @@ import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_f
 describe("IdeaSubmissionForm component", () => {
   let wrapper
 
-  const stubbedPresence = { user: { given_name: "Mugatu", token: "xyz" } }
+  const stubUser = { given_name: "Mugatu", token: "xyz" }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const fakeEvent = {
     stopPropagation: () => undefined,
@@ -20,7 +20,7 @@ describe("IdeaSubmissionForm component", () => {
 
       wrapper = mount(
         <IdeaSubmissionForm
-          currentPresence={stubbedPresence}
+          currentUser={stubUser}
           retroChannel={retroChannel}
           showActionItem
         />
@@ -44,7 +44,7 @@ describe("IdeaSubmissionForm component", () => {
 
       wrapper = mount(
         <IdeaSubmissionForm
-          currentPresence={stubbedPresence}
+          currentUser={stubUser}
           retroChannel={retroChannel}
           showActionItem
         />
@@ -63,7 +63,7 @@ describe("IdeaSubmissionForm component", () => {
     it("shifts focus to the idea input", () => {
       wrapper = mount(
         <IdeaSubmissionForm
-          currentPresence={stubbedPresence}
+          currentUser={stubUser}
           retroChannel={mockRetroChannel}
           showActionItem
         />
@@ -84,7 +84,7 @@ describe("IdeaSubmissionForm component", () => {
     it("is enabled once there is an idea of 3 characters or longer", () => {
       wrapper = mount(
         <IdeaSubmissionForm
-          currentPresence={stubbedPresence}
+          currentUser={stubUser}
           retroChannel={mockRetroChannel}
           showActionItem
         />
@@ -103,7 +103,7 @@ describe("IdeaSubmissionForm component", () => {
       beforeEach(() => {
         wrapper = mount(
           <IdeaSubmissionForm
-            currentPresence={stubbedPresence}
+            currentUser={stubUser}
             retroChannel={mockRetroChannel}
             showActionItem={false}
           />
@@ -133,7 +133,7 @@ describe("IdeaSubmissionForm component", () => {
     it("when true results in the category list only rendering an 'action-item' option", () => {
       wrapper = mount(
         <IdeaSubmissionForm
-          currentPresence={stubbedPresence}
+          currentUser={stubUser}
           retroChannel={mockRetroChannel}
           showActionItem
         />
@@ -148,7 +148,7 @@ describe("IdeaSubmissionForm component", () => {
     it("when false results in the category list rendering options for the basic retro categories", () => {
       wrapper = mount(
         <IdeaSubmissionForm
-          currentPresence={stubbedPresence}
+          currentUser={stubUser}
           retroChannel={mockRetroChannel}
           showActionItem={false}
         />

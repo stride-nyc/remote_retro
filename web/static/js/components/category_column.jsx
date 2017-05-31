@@ -11,7 +11,7 @@ function CategoryColumn(props) {
     "action-item": "🚀",
   }
 
-  const { category, ideas, currentPresence, retroChannel } = props
+  const { category, ideas, currentUser, retroChannel } = props
   const emoticonUnicode = categoryToEmoticonUnicodeMap[category]
   const filteredIdeas = ideas.filter(idea => idea.category === category)
   const sortedIdeas = filteredIdeas.sort((a, b) => (a.inserted_at > b.inserted_at))
@@ -19,7 +19,7 @@ function CategoryColumn(props) {
     <Idea
       idea={idea}
       key={idea.id}
-      currentPresence={currentPresence}
+      currentUser={currentUser}
       retroChannel={retroChannel}
     />
   ))
@@ -40,7 +40,7 @@ function CategoryColumn(props) {
 
 CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
-  currentPresence: AppPropTypes.presence.isRequired,
+  currentUser: AppPropTypes.user.isRequired,
   category: AppPropTypes.category.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
 }

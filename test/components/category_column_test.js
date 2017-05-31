@@ -5,7 +5,7 @@ import CategoryColumn from "../../web/static/js/components/category_column"
 import Idea from "../../web/static/js/components/idea"
 
 describe("CategoryColumn", () => {
-  const mockPresence = { user: { given_name: "daniel" } }
+  const mockUser = { given_name: "daniel" }
   const mockRetroChannel = { on: () => {}, push: () => {} }
 
   describe("when the ideas passed in are in no discernable order based on timestamp", () => {
@@ -31,7 +31,7 @@ describe("CategoryColumn", () => {
         <CategoryColumn
           ideas={ideas}
           category="confused"
-          currentPresence={mockPresence}
+          currentUser={mockUser}
           retroChannel={mockRetroChannel}
         />
       )
@@ -56,7 +56,7 @@ describe("CategoryColumn", () => {
         <CategoryColumn
           ideas={ideas}
           category="happy"
-          currentPresence={mockPresence}
+          currentUser={mockUser}
           retroChannel={mockRetroChannel}
         />
       )
@@ -77,7 +77,7 @@ describe("CategoryColumn", () => {
         <CategoryColumn
           ideas={ideas}
           category={differentCategory}
-          currentPresence={mockPresence}
+          currentUser={mockUser}
           retroChannel={mockRetroChannel}
         />
       )
