@@ -35,16 +35,16 @@ class IdeaSubmissionForm extends Component {
   }
 
   handleSubmit(event) {
-    const { currentPresence } = this.props
+    const { currentUser } = this.props
     event.preventDefault()
-    const newIdea = { ...this.state, author: currentPresence.user.given_name }
+    const newIdea = { ...this.state, author: currentUser.given_name }
     this.props.retroChannel.push("new_idea", newIdea)
     this.setState({ body: "" })
   }
 
   handleIdeaChange(event) {
-    const { retroChannel, currentPresence } = this.props
-    retroChannel.push("user_typing_idea", { userToken: currentPresence.user.token })
+    const { retroChannel, currentUser } = this.props
+    retroChannel.push("user_typing_idea", { userToken: currentUser.token })
     this.setState({ body: event.target.value })
   }
 
@@ -97,7 +97,7 @@ class IdeaSubmissionForm extends Component {
 }
 
 IdeaSubmissionForm.propTypes = {
-  currentPresence: AppPropTypes.presence.isRequired,
+  currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   showActionItem: React.PropTypes.bool.isRequired,
 }

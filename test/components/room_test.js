@@ -8,9 +8,9 @@ import StageProgressionButton from "../../web/static/js/components/stage_progres
 
 describe("Room component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
-  const stubbedPresence = { user: { given_name: "Mugatu" } }
+  const stubUser = { given_name: "Mugatu" }
   const defaultProps = {
-    currentPresence: stubbedPresence,
+    currentUser: stubUser,
     retroChannel: mockRetroChannel,
     users: [],
     ideas: [],
@@ -18,12 +18,12 @@ describe("Room component", () => {
   }
 
   context("when the current user is facilitator", () => {
-    const facilitatorPresence = { user: { is_facilitator: true } }
+    const facilitatorUser = { is_facilitator: true }
 
     context("and showActionItems is false", () => {
       it("renders the <StageProgressionButton>", () => {
         const roomComponent = shallow(
-          <Room {...defaultProps} currentPresence={facilitatorPresence} />
+          <Room {...defaultProps} currentUser={facilitatorUser} />
         )
 
         expect(roomComponent.find(StageProgressionButton)).to.have.length(1)
@@ -32,11 +32,11 @@ describe("Room component", () => {
   })
 
   context("when the current user is not facilitator", () => {
-    const nonFacilitatorPresence = { user: { is_facilitator: false } }
+    const nonFacilitatorUser = { is_facilitator: false }
 
     it("does not render <StageProgressionButton>", () => {
       const roomComponent = shallow(
-        <Room {...defaultProps} currentPresence={nonFacilitatorPresence} />
+        <Room {...defaultProps} currentUser={nonFacilitatorUser} />
       )
 
       expect(roomComponent.find(StageProgressionButton)).to.have.length(0)
@@ -52,7 +52,7 @@ describe("Room component", () => {
           category="action-item"
           ideas={[]}
           retroChannel={mockRetroChannel}
-          currentPresence={stubbedPresence}
+          currentUser={stubUser}
         />
       )).to.equal(false)
     })
@@ -65,7 +65,7 @@ describe("Room component", () => {
           category="action-item"
           ideas={[]}
           retroChannel={mockRetroChannel}
-          currentPresence={stubbedPresence}
+          currentUser={stubUser}
         />
       )).to.equal(true)
     })

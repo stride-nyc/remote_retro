@@ -7,6 +7,7 @@ const WebpackNotifierPlugin = require("webpack-notifier")
 
 module.exports = {
   entry: [
+    "./web/static/js/polyfills/array.find",
     "./web/static/js/polyfills/array.find_index",
     "./web/static/css/app.css",
     "./web/static/js/app.js"

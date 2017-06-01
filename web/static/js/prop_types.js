@@ -19,10 +19,6 @@ export const retroChannel = PropTypes.shape({
   push: PropTypes.func,
 })
 
-export const presence = PropTypes.shape({
-  user,
-})
-
 export const idea = PropTypes.shape({
   id: PropTypes.number,
   author: PropTypes.string,

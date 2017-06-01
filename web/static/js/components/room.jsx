@@ -12,8 +12,8 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/room.css"
 
 function Room(props) {
-  const { currentPresence, users, retroChannel, ideas, stage } = props
-  const isFacilitator = currentPresence.user.is_facilitator
+  const { currentUser, users, retroChannel, ideas, stage } = props
+  const isFacilitator = currentUser.is_facilitator
   const categories = ["happy", "sad", "confused"]
   const showActionItem = stage !== "idea-generation"
   if (showActionItem) { categories.push("action-item") }
@@ -27,7 +27,7 @@ function Room(props) {
               category={category}
               key={category}
               ideas={ideas}
-              currentPresence={currentPresence}
+              currentUser={currentUser}
               retroChannel={retroChannel}
             />
           ))
@@ -38,7 +38,7 @@ function Room(props) {
       <div className="ui stackable grid basic attached secondary center aligned segment">
         <div className="thirteen wide column">
           <IdeaSubmissionForm
-            currentPresence={currentPresence}
+            currentUser={currentUser}
             retroChannel={retroChannel}
             showActionItem={showActionItem}
           />
@@ -62,13 +62,11 @@ function Room(props) {
 }
 
 Room.defaultProps = {
-  currentPresence: {
-    user: { is_facilitator: false },
-  },
+  currentUser: { is_facilitator: false }
 }
 
 Room.propTypes = {
-  currentPresence: AppPropTypes.presence,
+  currentUser: AppPropTypes.user,
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: React.PropTypes.string.isRequired,

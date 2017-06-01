@@ -5,8 +5,8 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
 
 function Idea(props) {
-  const { idea, currentPresence, retroChannel } = props
-  const isFacilitator = currentPresence.user.is_facilitator
+  const { idea, currentUser, retroChannel } = props
+  const isFacilitator = currentUser.is_facilitator
   const isEdited = new Date(idea.updated_at) > new Date(idea.inserted_at)
   let classes = styles.index
   classes += idea.editing ? " ui raised segment" : ""
@@ -42,7 +42,7 @@ function Idea(props) {
 Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  currentPresence: AppPropTypes.presence.isRequired,
+  currentUser: AppPropTypes.user.isRequired,
 }
 
 export default Idea
