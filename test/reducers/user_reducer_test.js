@@ -1,4 +1,5 @@
 import { expect } from "chai"
+import deepFreeze from "deep-freeze"
 
 import userReducer from "../../web/static/js/reducers/user"
 
@@ -45,15 +46,11 @@ describe("user reducer", () => {
     const newAttributes = { age: 70 }
     const action = { type: "UPDATE_USER", userToken, newAttributes }
     const initialState = [{ token: "abc123", name: "Tiny Rick", age: 180 }, { token: "zzz444", name: "Morty", age: 15 }]
+    deepFreeze(initialState)
     const newState = userReducer(initialState, action)
 
     it("should update user with matching token with new attributes", () => {
       expect(newState).to.deep.equal([{ token: "abc123", name: "Tiny Rick", age: 70 }, { token: "zzz444", name: "Morty", age: 15 }])
     })
-
-    it("should not mutate the initial state", () => {
-      expect(newState).to.not.deep.equal(initialState)
-    });
-
   })
 })

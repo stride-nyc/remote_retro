@@ -30,6 +30,7 @@
     "chai": "^3.5.0",
     "copy-webpack-plugin": "^3.0.1",
     "css-loader": "0.27.3",
+    "deep-freeze": "^0.0.1",
     "enzyme": "^2.7.1",
     "eslint": "^3.16.0",
     "eslint-config-airbnb": "^14.1.0",
