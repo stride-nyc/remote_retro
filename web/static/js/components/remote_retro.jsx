@@ -2,16 +2,14 @@ import React, { Component, PropTypes } from "react"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { Presence } from "phoenix"
-import update from "immutability-helper"
 
 import * as userActionCreators from "../actions/user"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 
 const updateIdeas = (ideas, idOfIdeaToUpdate, newAttributes) => {
-  const index = ideas.findIndex(idea => idOfIdeaToUpdate === idea.id)
-  return update(ideas, {
-    [index]: { $set: { ...ideas[index], ...newAttributes } },
+  return ideas.map(idea => {
+    return (idea.id === idOfIdeaToUpdate) ? { ...idea, ...newAttributes } : idea
   })
 }
 
