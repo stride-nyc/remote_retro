@@ -11,7 +11,10 @@ class ShareRetroLinkModal extends Component {
   constructor(props) {
     super(props)
     this.closeModal = this.closeModal.bind(this)
-    this.state = { shouldOpen: timeElapsedLessThanFiveSec(props.insertedAt) }
+    this.state = {
+      closedByUser: false,
+      shouldOpen: timeElapsedLessThanFiveSec(props.insertedAt)
+    }
   }
 
   componentWillReceiveProps(nextProps) {
@@ -22,16 +25,17 @@ class ShareRetroLinkModal extends Component {
   }
 
   closeModal() {
-    this.setState({ shouldOpen: false })
+    this.setState({ closedByUser: true })
   }
 
   render() {
-    const { shouldOpen } = this.state
+    const { closedByUser, shouldOpen } = this.state
+    const hasntBeenClosed = !closedByUser
 
     return (
       <Modal
         contentLabel="Share Retro Link"
-        isOpen={shouldOpen}
+        isOpen={hasntBeenClosed && shouldOpen}
         className="ui small modal visible active"
         onRequestClose={this.closeModal}
       >
