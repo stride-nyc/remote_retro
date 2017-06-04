@@ -21,7 +21,9 @@ module.exports = {
     extensions: [".js", ".jsx"],
     alias: {
       "react": "react/dist/react.min.js",
+      "redux": "redux/dist/redux.min.js",
       "react-dom": "react-dom/dist/react-dom.min.js",
+      "react-redux": "react-redux/dist/react-redux.min.js",
     },
   },
   module: {
