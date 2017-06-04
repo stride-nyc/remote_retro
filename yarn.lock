@@ -1622,6 +1622,10 @@ entities@^1.1.1, entities@~1.1.1:
   version "1.1.1"
   resolved "https://registry.yarnpkg.com/entities/-/entities-1.1.1.tgz#6e5c2d0a5621b5dadaecef80b90edfb5cd7772f0"
 
+env-test@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/env-test/-/env-test-1.0.0.tgz#8f658c1414b7eeeb6f67ed199180376c96515ca6"
+
 enzyme@^2.9.1:
   version "2.9.1"
   resolved "https://registry.yarnpkg.com/enzyme/-/enzyme-2.9.1.tgz#07d5ce691241240fb817bf2c4b18d6e530240df6"
