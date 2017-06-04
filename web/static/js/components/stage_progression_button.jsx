@@ -35,16 +35,10 @@ class StageProgressionButton extends Component {
   render() {
     const { button, confirmationMessage } = this.props.config
     const { modalOpen } = this.state
-    const customModalStyles = { content : { top: '30%' } }
 
     return (
       <div>
-        <Modal
-          contentLabel="Modal"
-          isOpen={modalOpen}
-          className="ui small modal visible active"
-          style={customModalStyles}
-        >
+        <Modal contentLabel="Modal" isOpen={modalOpen} className="ui small modal visible active">
           <div className="content">
             <p>{confirmationMessage}</p>
           </div>
