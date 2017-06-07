@@ -2,7 +2,7 @@ import React from "react"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list_item.css"
 
-function UserListItem(props) {
+const UserListItem = props => {
   let userName = props.user.given_name
   if (props.user.is_facilitator) userName += " (Facilitator)"
   return (

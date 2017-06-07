@@ -11,7 +11,7 @@ import DoorChime from "./door_chime"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/room.css"
 
-function Room(props) {
+const Room = props => {
   const { currentUser, users, retroChannel, ideas, stage } = props
   const isFacilitator = currentUser.is_facilitator
   const categories = ["happy", "sad", "confused"]
@@ -62,7 +62,7 @@ function Room(props) {
 }
 
 Room.defaultProps = {
-  currentUser: { is_facilitator: false }
+  currentUser: { is_facilitator: false },
 }
 
 Room.propTypes = {
