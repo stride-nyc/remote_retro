@@ -17,6 +17,11 @@ const IdeaControls = props => {
         className={`${styles.actionIcon} edit icon`}
         onClick={() => { retroChannel.push("enable_edit_state", idea) }}
       />
+      <i
+        title="Announce Idea to Channel"
+        className={`${styles.actionIcon} announcement icon`}
+        onClick={() => { retroChannel.push("highlight_idea", idea.id) }}
+      />
     </span>
   )
 }

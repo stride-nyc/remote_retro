@@ -36,4 +36,19 @@ describe("<IdeaControls />", () => {
       ).to.equal(true)
     })
   })
+
+  describe("on click of the announcement icon", () => {
+    it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id", () => {
+      const retroChannel = { on: () => {}, push: sinon.spy() }
+
+      const wrapper = shallow(
+        <IdeaControls idea={idea} retroChannel={retroChannel} />
+      )
+
+      wrapper.find(".announcement.icon").simulate("click")
+      expect(
+        retroChannel.push.calledWith("highlight_idea", 666)
+      ).to.equal(true)
+    })
+  })
 })
