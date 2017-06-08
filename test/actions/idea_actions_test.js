@@ -5,5 +5,5 @@ describe("addIdea", () => {
     const idea = { body: "we have a linter!", category: "happy", author: "Kimberly Suazo" }
 
     expect(actionCreators.addIdea(idea)).to.deep.equal({ type: "ADD_IDEA", idea })
-  });
-});
+  })
+})
