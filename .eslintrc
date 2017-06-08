@@ -1,4 +1,4 @@
-module.exports = {
+{
   "env": {
     "browser": true,
     "es6": true,
@@ -41,7 +41,7 @@ module.exports = {
     ],
     "arrow-parens": [
       "error",
-      "as-needed",
+      "as-needed"
     ],
     "comma-dangle": [
       "error",
@@ -50,7 +50,7 @@ module.exports = {
         "objects": "always-multiline",
         "arrays": "always-multiline",
         "imports": "ignore",
-        "exports": "ignore",
+        "exports": "ignore"
       }
     ],
     "no-shadow": "off",
@@ -58,6 +58,6 @@ module.exports = {
     "no-use-before-define": "off",
     "react/no-unescaped-entities": "off",
     "react/forbid-prop-types": "off",
-    "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/no-static-element-interactions": 0
   }
 }
