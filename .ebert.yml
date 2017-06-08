@@ -1,4 +1,4 @@
-styleguide: false
+styleguide: stride-nyc/remote_retro
 engines:
   credo:
     enabled: true
