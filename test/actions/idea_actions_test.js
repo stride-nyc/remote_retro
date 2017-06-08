@@ -7,3 +7,11 @@ describe("addIdea", () => {
     expect(actionCreators.addIdea(idea)).to.deep.equal({ type: "ADD_IDEA", idea })
   })
 })
+
+describe("setIdeas", () => {
+  it("creates an action to set ideas on the store", () => {
+    const ideas = [{ body: "Brett Favre", category: "happy", author: "Kimberly Suazo" }]
+
+    expect(actionCreators.setIdeas(ideas)).to.deep.equal({ type: "SET_IDEAS", ideas })
+  })
+})
