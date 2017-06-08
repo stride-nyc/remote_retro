@@ -1,4 +1,3 @@
-import { expect } from "chai"
 import deepFreeze from "deep-freeze"
 
 import userReducer from "../../web/static/js/reducers/user"

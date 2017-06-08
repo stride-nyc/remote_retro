@@ -1,5 +1,3 @@
-import { expect } from "chai"
-
 import { Socket, Channel } from "phoenix"
 
 import RetroChannel from "../../web/static/js/services/retro_channel"

@@ -1,5 +1,3 @@
-import { expect } from "chai"
-
 import * as actionCreators from "../../web/static/js/actions/idea"
 
 describe("addIdea", () => {
