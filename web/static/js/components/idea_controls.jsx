@@ -2,7 +2,7 @@ import React from "react"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
 
-function IdeaControls(props) {
+const IdeaControls = props => {
   const { idea, retroChannel } = props
 
   return (

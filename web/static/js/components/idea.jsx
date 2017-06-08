@@ -4,7 +4,7 @@ import IdeaEditForm from "./idea_edit_form"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
 
-function Idea(props) {
+const Idea = props => {
   const { idea, currentUser, retroChannel } = props
   const isFacilitator = currentUser.is_facilitator
   const isEdited = new Date(idea.updated_at) > new Date(idea.inserted_at)

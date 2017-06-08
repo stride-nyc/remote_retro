@@ -2,7 +2,7 @@ import React from "react"
 import UserListItem from "./user_list_item"
 import * as AppPropTypes from "../prop_types"
 
-function UserList(props) {
+const UserList = props => {
   const usersSortedByArrival = props.users.sort((userOne, userTwo) =>
     userOne.online_at > userTwo.online_at
   )

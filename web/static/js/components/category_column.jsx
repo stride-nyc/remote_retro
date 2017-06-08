@@ -3,7 +3,7 @@ import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 
-function CategoryColumn(props) {
+const CategoryColumn = props => {
   const categoryToEmoticonUnicodeMap = {
     happy: "😊",
     sad: "😥",
