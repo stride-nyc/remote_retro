@@ -8,7 +8,7 @@ describe("CategoryColumn", () => {
   const mockUser = { given_name: "daniel" }
   const mockRetroChannel = { on: () => {}, push: () => {} }
 
-  describe("when the ideas passed in are in no discernable order based on timestamp", () => {
+  describe("when the ideas passed in are in no discernable order based on timestamp dkdkdkdkdkdkdkdkddkdk", () => {
     const ideas = [{
       id: 1,
       body: "still no word on tests",
