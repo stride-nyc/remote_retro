@@ -6,6 +6,7 @@ const CopyWebpackPlugin = require("copy-webpack-plugin")
 const WebpackNotifierPlugin = require("webpack-notifier")
 
 module.exports = {
+  cache: true,
   entry: [
     "./web/static/js/polyfills/array.find",
     "./web/static/js/polyfills/array.find_index",
