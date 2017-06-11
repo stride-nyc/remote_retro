@@ -1,6 +1,6 @@
 const user = (state = [], action) => {
   switch (action.type) {
-    case "ADD_USERS":
+    case "SET_USERS":
       return action.users
     case "UPDATE_USER":
       const { userToken, newAttributes } = action

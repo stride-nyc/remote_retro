@@ -11,12 +11,12 @@ describe("user reducer", () => {
     })
   })
 
-  describe("when action is ADD_USERS", () => {
+  describe("when action is SET_USERS", () => {
     const users = [{ given_name: "Tiny Rick" }, { given_name: "Morty" }]
 
 
     describe("when there is no existing state", () => {
-      const action = { type: "ADD_USERS", users }
+      const action = { type: "SET_USERS", users }
 
       it("should add users specified in action to state", () => {
         expect(userReducer([], action)).to.deep.equal(users)
@@ -24,7 +24,7 @@ describe("user reducer", () => {
     })
 
     describe("when there is existing state", () => {
-      const action = { type: "ADD_USERS", users }
+      const action = { type: "SET_USERS", users }
 
       it("should add new users specified in action to state", () => {
         expect(userReducer([{ given_name: "Morty" }], action)).to.deep.equal(users)

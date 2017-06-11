@@ -4,7 +4,7 @@ describe("addUsers", () => {
   const users = [{ given_name: "Tiny Rick" }]
 
   it("should create an action to add user to users list", () => {
-    expect(actionCreators.addUsers(users)).to.deep.equal({ type: "ADD_USERS", users })
+    expect(actionCreators.addUsers(users)).to.deep.equal({ type: "SET_USERS", users })
   })
 })
 
