@@ -60,10 +60,5 @@ module.exports = {
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
     new ExtractTextPlugin({ filename: "css/app.css" }),
     new CopyWebpackPlugin([{ from: "./web/static/assets" }]),
-    new webpack.DefinePlugin({
-      "process.env": {
-        NODE_ENV: JSON.stringify(process.env.NODE_ENV)
-      }
-    }),
   ]
 }
