@@ -23,6 +23,9 @@ erl_crash.dump
 !/priv/static/css/semantic-ui/semantic.min.css
 !/priv/static/css/semantic-ui/themes
 
+# ignore dll manifest and generated vendor bundle, as these are built on every dev build and deploy
+web/static/js/dll/*
+
 # The config/prod.secret.exs file by default contains sensitive
 # data and you should not commit it into version control.
 #
