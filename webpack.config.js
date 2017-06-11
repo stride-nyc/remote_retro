@@ -56,9 +56,9 @@ module.exports = {
       manifest: require("./web/static/js/dll/vendor-manifest.json")
     }),
     new webpack.SourceMapDevToolPlugin({
+      test: /app\.js/,
       filename: "js/app.js.map",
       columns: false,
-      exclude: /vendor/
     }),
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
     new ExtractTextPlugin({ filename: "css/app.css" }),
