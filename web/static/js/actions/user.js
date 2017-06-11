@@ -1,4 +1,4 @@
-export const addUsers = users => ({
+export const setUsers = users => ({
   type: "SET_USERS",
   users,
 })

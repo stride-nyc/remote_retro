@@ -32,7 +32,7 @@ export class RemoteRetro extends Component {
 
     retroChannel.on("presence_state", presences => {
       const users = Presence.list(presences, (_username, presence) => (presence.user))
-      actions.addUsers(users)
+      actions.setUsers(users)
     })
 
     retroChannel.on("new_idea_received", newIdea => {

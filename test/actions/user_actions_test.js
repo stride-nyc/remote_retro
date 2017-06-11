@@ -1,10 +1,10 @@
 import * as actionCreators from "../../web/static/js/actions/user"
 
-describe("addUsers", () => {
+describe("setUsers", () => {
   const users = [{ given_name: "Tiny Rick" }]
 
   it("should create an action to add user to users list", () => {
-    expect(actionCreators.addUsers(users)).to.deep.equal({ type: "SET_USERS", users })
+    expect(actionCreators.setUsers(users)).to.deep.equal({ type: "SET_USERS", users })
   })
 })
 
