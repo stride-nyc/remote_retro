@@ -20,6 +20,7 @@
     <%= if @view_module.include_js do %>
       <script>window.userToken = "<%= assigns[:user_token] %>"</script>
       <script>window.retroUUID = "<%= assigns[:retro_uuid] %>"</script>
+      <script src="<%= static_path(@conn, "/js/dll/dll.vendor.js") %>"></script>
       <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
     <% end %>
   </body>

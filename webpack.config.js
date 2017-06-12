@@ -1,5 +1,6 @@
 "use strict"
 
+const path = require("path")
 const webpack = require("webpack")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
@@ -14,18 +15,12 @@ module.exports = {
     "./web/static/js/app.js"
   ],
   output: {
-    path: "./priv/static",
+    path: __dirname + "/priv/static",
     filename: "js/app.js"
   },
   resolve: {
     modules: ["node_modules", __dirname + "/web/static/js"],
     extensions: [".js", ".jsx"],
-    alias: {
-      "react": "react/dist/react.min.js",
-      "redux": "redux/dist/redux.min.js",
-      "react-dom": "react-dom/dist/react-dom.min.js",
-      "react-redux": "react-redux/dist/react-redux.min.js",
-    },
   },
   module: {
     rules: [{
@@ -55,8 +50,16 @@ module.exports = {
       }),
     }]
   },
-  devtool: "cheap-module-eval-source-map",
   plugins: [
+    new webpack.DllReferencePlugin({
+      context: path.resolve(__dirname, "web/static/js"),
+      manifest: require("./web/static/js/dll/vendor-manifest.json")
+    }),
+    new webpack.SourceMapDevToolPlugin({
+      test: /app\.js/,
+      filename: "js/app.js.map",
+      columns: false,
+    }),
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
     new ExtractTextPlugin({ filename: "css/app.css" }),
     new CopyWebpackPlugin([{ from: "./web/static/assets" }]),
