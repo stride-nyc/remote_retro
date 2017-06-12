@@ -6,6 +6,7 @@ module.exports = {
   entry: {
     vendor: ["./web/static/js/vendor"],
   },
+  stats: "errors-only",
   output: {
     path: path.resolve(__dirname, "priv/static/js/dll"),
     filename: "dll.[name].js",
