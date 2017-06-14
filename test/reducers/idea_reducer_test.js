@@ -47,5 +47,18 @@ describe("idea reducer", () => {
         expect(ideaReducer(initialIdeas, action)).to.deep.equal([...ideas])
       })
     })
+
+    describe("when the action is UPDATE_IDEA", () => {
+      const initialIdeas = [{ id: 666, category: "happy", author: "Kimberly" }, { id: 22, category: "n/a", author: "Travis" }]
+      deepFreeze(initialIdeas)
+
+      it("returns an updated set of ideas, where the idea with matching id has updated attributes", () => {
+        const action = { type: "UPDATE_IDEA", ideaId: 666, newAttributes: { category: "sad" } }
+        expect(ideaReducer(initialIdeas, action)).to.deep.equal([
+          { id: 666, category: "sad", author: "Kimberly" },
+          { id: 22, category: "n/a", author: "Travis" },
+        ])
+      })
+    })
   })
 })
