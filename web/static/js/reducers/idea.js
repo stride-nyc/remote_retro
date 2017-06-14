@@ -6,11 +6,7 @@ const idea = (state = [], action) => {
       return [...state, action.idea]
     case "UPDATE_IDEA" :
       return state.map(idea => {
-        if (idea.id == action.ideaId) {
-          return Object.assign({}, idea, action.newAttributes)
-        } else {
-          return idea
-        }
+        return (idea.id === action.ideaId) ? Object.assign({}, idea, action.newAttributes) : idea
       })
     default:
       return state
