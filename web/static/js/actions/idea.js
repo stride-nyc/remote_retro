@@ -8,3 +8,9 @@ export const setIdeas = ideas => ({
   ideas,
 })
 
+export const updateIdea = (ideaId, newAttributes) => ({
+  type: "UPDATE_IDEA",
+  ideaId,
+  newAttributes,
+})
+

@@ -15,3 +15,16 @@ describe("setIdeas", () => {
     expect(actionCreators.setIdeas(ideas)).to.deep.equal({ type: "SET_IDEAS", ideas })
   })
 })
+
+describe("updateIdea", () => {
+  it("creates an action to update an idea with particular id with new attributes", () => {
+    const ideaId = 999
+    const newAttributes = { name: "Kimberly" }
+
+    expect(actionCreators.updateIdea(ideaId, newAttributes)).to.deep.equal({
+      type: "UPDATE_IDEA",
+      ideaId,
+      newAttributes,
+    })
+  })
+})
