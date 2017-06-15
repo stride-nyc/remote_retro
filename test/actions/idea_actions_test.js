@@ -28,3 +28,15 @@ describe("updateIdea", () => {
     })
   })
 })
+
+describe("deleteIdea", () => {
+  it("creates an action to delete an idea with particular id", () => {
+    const ideaId = 999
+
+    expect(actionCreators.deleteIdea(ideaId)).to.deep.equal({
+      type: "DELETE_IDEA",
+      ideaId,
+    })
+  })
+})
+
