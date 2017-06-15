@@ -14,7 +14,7 @@ const CategoryColumn = props => {
   const { category, ideas, currentUser, retroChannel } = props
   const emoticonUnicode = categoryToEmoticonUnicodeMap[category]
   const filteredIdeas = ideas.filter(idea => idea.category === category)
-  const sortedIdeas = filteredIdeas.sort((a, b) => (a.inserted_at > b.inserted_at))
+  const sortedIdeas = filteredIdeas.sort((a, b) => a.id - b.id)
   const ideasList = sortedIdeas.map(idea => (
     <Idea
       idea={idea}

@@ -8,25 +8,22 @@ describe("CategoryColumn", () => {
   const mockUser = { given_name: "daniel" }
   const mockRetroChannel = { on: () => {}, push: () => {} }
 
-  describe("when the ideas passed in are in no discernable order based on timestamp", () => {
+  describe("when the ideas passed in are in no discernable order", () => {
     const ideas = [{
-      id: 1,
-      body: "still no word on tests",
-      category: "confused",
-      inserted_at: "2017-05-01T02:52:00",
-    }, {
       id: 5,
+      body: "should be third",
+      category: "confused",
+    }, {
+      id: 2,
       body: "should be first",
       category: "confused",
-      inserted_at: "2017-05-01T02:51:00",
     }, {
-      id: 6,
-      body: "still no word on tests",
+      id: 4,
+      body: "should be second",
       category: "confused",
-      inserted_at: "2017-05-01T02:53:00",
     }]
 
-    it("it renders them sorted by timestamp ascending", () => {
+    it("it renders them sorted by id ascending", () => {
       const wrapper = mount(
         <CategoryColumn
           ideas={ideas}
@@ -36,7 +33,10 @@ describe("CategoryColumn", () => {
         />
       )
 
-      expect(wrapper.find("li").first().text()).to.match(/should be first/)
+      const listItems = wrapper.find("li")
+      expect(listItems.first().text()).to.match(/should be first/)
+      expect(listItems.at(1).text()).to.match(/should be second/)
+      expect(listItems.at(2).text()).to.match(/should be third/)
     })
   })
 
