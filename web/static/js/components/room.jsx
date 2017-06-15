@@ -37,8 +37,7 @@ const Room = props => {
 
       <UserList users={users} />
       <CSSTransitionGroup
-        component="div"
-        transitionName="popup"
+        transitionName={{appear: styles.appear, appearActive: styles.appearActive}}
         transitionAppear={true}
         transitionAppearTimeout={700}
         transitionEnter={false}

@@ -23,16 +23,6 @@
   top: 30%;
 }
 
-:global .popup-appear {
-  transform: translateY(100%);
-}
-
-:global .popup-appear.popup-appear-active {
-  transform: translateY(0%);
-  transition: transform 400ms ease;
-  transition-delay: 300ms;
-}
-
 h1 {
   font-size: 4rem;
   font-weight: 200;
