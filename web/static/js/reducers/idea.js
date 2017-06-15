@@ -9,9 +9,7 @@ const idea = (state = [], action) => {
         return (idea.id === action.ideaId) ? Object.assign({}, idea, action.newAttributes) : idea
       })
     case "DELETE_IDEA" :
-      return state.filter(idea => {
-        return idea.id !== action.ideaId
-      })
+      return state.filter(idea => idea.id !== action.ideaId)
     default:
       return state
   }
