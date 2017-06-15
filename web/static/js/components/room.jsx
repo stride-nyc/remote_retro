@@ -1,4 +1,5 @@
 import React from "react"
+import { CSSTransitionGroup } from "react-transition-group"
 
 import UserList from "./user_list"
 import CategoryColumn from "./category_column"
@@ -35,27 +36,36 @@ const Room = props => {
       </div>
 
       <UserList users={users} />
-      <div className="ui stackable grid basic attached secondary center aligned segment">
-        <div className="thirteen wide column">
-          <IdeaSubmissionForm
-            currentUser={currentUser}
-            retroChannel={retroChannel}
-            showActionItem={showActionItem}
-          />
-        </div>
-        <div className="three wide right aligned column">
-          {
-            isFacilitator &&
-            <StageProgressionButton
-              config={stageProgressionConfigs[stage]}
+      <CSSTransitionGroup
+        component="div"
+        transitionName="popup"
+        transitionAppear={true}
+        transitionAppearTimeout={500}
+        transitionEnter={false}
+        transitionLeave={false}
+      >
+        <div className="ui stackable grid basic attached secondary center aligned segment">
+          <div className="thirteen wide column">
+            <IdeaSubmissionForm
+              currentUser={currentUser}
               retroChannel={retroChannel}
+              showActionItem={showActionItem}
             />
-          }
+          </div>
+          <div className="three wide right aligned column">
+            {
+              isFacilitator &&
+              <StageProgressionButton
+                config={stageProgressionConfigs[stage]}
+                retroChannel={retroChannel}
+              />
+            }
+          </div>
+          <p className={styles.poweredBy}>
+            Built by <a href="http://www.stridenyc.com/">Stride Consulting</a> and Open Source Badasses
+          </p>
         </div>
-        <p className={styles.poweredBy}>
-          Built by <a href="http://www.stridenyc.com/">Stride Consulting</a> and Open Source Badasses
-        </p>
-      </div>
+      </CSSTransitionGroup>
       <DoorChime users={users} />
     </section>
   )
