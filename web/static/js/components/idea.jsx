@@ -7,7 +7,7 @@ import styles from "./css_modules/idea.css"
 const Idea = props => {
   const { idea, currentUser, retroChannel } = props
   const isFacilitator = currentUser.is_facilitator
-  const isEdited = new Date(idea.updated_at) > new Date(idea.inserted_at)
+  const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 1000
   let classes = styles.index
   classes += idea.editing ? " ui raised segment" : ""
 
