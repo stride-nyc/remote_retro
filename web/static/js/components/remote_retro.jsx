@@ -4,6 +4,7 @@ import { connect } from "react-redux"
 import { Presence } from "phoenix"
 
 import * as userActionCreators from "../actions/user"
+import * as ideaActionCreators from "../actions/idea"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import ShareRetroLinkModal from "./share_retro_link_modal"
@@ -32,7 +33,7 @@ export class RemoteRetro extends Component {
 
     retroChannel.on("presence_state", presences => {
       const users = Presence.list(presences, (_username, presence) => (presence.user))
-      actions.setUsers(users)
+      actions.users.setUsers(users)
     })
 
     retroChannel.on("new_idea_received", newIdea => {
@@ -49,7 +50,7 @@ export class RemoteRetro extends Component {
     })
 
     retroChannel.on("user_typing_idea", payload => {
-      actions.updateUser(payload.userToken, { is_typing: true, last_typed: Date.now() })
+      actions.users.updateUser(payload.userToken, { is_typing: true, last_typed: Date.now() })
 
       const interval = setInterval(() => {
         const { users } = this.props
@@ -57,7 +58,7 @@ export class RemoteRetro extends Component {
         const noNewTypingEventsReceived = (Date.now() - user.last_typed) > 650
         if (noNewTypingEventsReceived) {
           clearInterval(interval)
-          actions.updateUser(user.token, { is_typing: false })
+          actions.users.updateUser(user.token, { is_typing: false })
         }
       }, 10)
     })
@@ -126,7 +127,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(userActionCreators, dispatch),
+  actions: {
+    users: bindActionCreators(userActionCreators, dispatch),
+    ideas: bindActionCreators(ideaActionCreators, dispatch),
+  }
 })
 
 export default connect(
