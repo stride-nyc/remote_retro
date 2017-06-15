@@ -60,5 +60,17 @@ describe("idea reducer", () => {
         ])
       })
     })
+
+    describe("when the action is DELETE_IDEA", () => {
+      const initialIdeas = [{ id: 667, category: "happy", author: "Kimberly" }, { id: 22, category: "n/a", author: "Travis" }]
+      deepFreeze(initialIdeas)
+
+      it("returns an updated set of ideas, where the idea with matching id has been removed", () => {
+        const action = { type: "DELETE_IDEA", ideaId: 667 }
+        expect(ideaReducer(initialIdeas, action)).to.deep.equal([
+          { id: 22, category: "n/a", author: "Travis" },
+        ])
+      })
+    })
   })
 })
