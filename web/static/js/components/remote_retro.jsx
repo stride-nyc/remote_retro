@@ -28,7 +28,10 @@ export class RemoteRetro extends Component {
     const { retroChannel, actions } = this.props
 
     retroChannel.join()
-      .receive("ok", retroState => { this.setState(retroState) })
+      .receive("ok", retroState => {
+        this.setState(retroState)
+        actions.ideas.setIdeas(retroState.ideas)
+      })
       .receive("error", error => console.error(error))
 
     retroChannel.on("presence_state", presences => {
@@ -38,6 +41,7 @@ export class RemoteRetro extends Component {
 
     retroChannel.on("new_idea_received", newIdea => {
       this.setState({ ideas: [...this.state.ideas, newIdea] })
+      actions.ideas.addIdea(newIdea)
     })
 
     retroChannel.on("proceed_to_next_stage", payload => {
@@ -66,28 +70,33 @@ export class RemoteRetro extends Component {
     retroChannel.on("enable_edit_state", nominatedIdea => {
       const newIdeas = updateIdeas(this.state.ideas, nominatedIdea.id, { editing: true })
       this.setState({ ideas: newIdeas })
+      actions.ideas.updateIdea(nominatedIdea.id, { editing: true })
     })
 
     retroChannel.on("disable_edit_state", disabledIdea => {
       const { ideas } = this.state
       const newIdeas = updateIdeas(ideas, disabledIdea.id, { editing: false, liveEditText: null })
       this.setState({ ideas: newIdeas })
+      actions.ideas.updateIdea(disabledIdea.id, { editing: false, liveEditText: null })
     })
 
     retroChannel.on("idea_live_edit", editedIdea => {
       const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, editedIdea)
       this.setState({ ideas: newIdeas })
+      actions.ideas.updateIdea(editedIdea.id, editedIdea)
     })
 
     retroChannel.on("idea_edited", editedIdea => {
       const updatedIdea = { ...editedIdea, editing: false, liveEditText: null }
       const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, updatedIdea)
       this.setState({ ideas: newIdeas })
+      actions.ideas.updateIdea(editedIdea.id, updatedIdea)
     })
 
     retroChannel.on("idea_deleted", deletedIdea => {
       const ideas = this.state.ideas.filter(idea => idea.id !== deletedIdea.id)
       this.setState({ ideas })
+      actions.ideas.deleteIdea(deletedIdea.id)
     })
   }
 
