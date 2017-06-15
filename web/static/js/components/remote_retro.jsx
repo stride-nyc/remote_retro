@@ -124,6 +124,7 @@ RemoteRetro.defaultProps = {
 
 const mapStateToProps = state => ({
   users: state.user,
+  ideas: state.idea,
 })
 
 const mapDispatchToProps = dispatch => ({
