@@ -9,22 +9,32 @@ describe("<RemoteRetro>", () => {
   describe("RetroChannel Events", () => {
     let retroChannel
     let wrapper
+    let actions
+    let addIdeaSpy
+    let deleteIdeaSpy
+    let updateIdeaSpy
 
     beforeEach(() => {
+      addIdeaSpy = spy()
+      deleteIdeaSpy = spy()
+      updateIdeaSpy = spy()
+
+      actions = {
+        ideas: {
+          addIdea: addIdeaSpy,
+          deleteIdea: deleteIdeaSpy,
+          updateIdea: updateIdeaSpy,
+        },
+        users: {},
+      }
       retroChannel = RetroChannel.configure({})
-      wrapper = shallow(<RemoteRetro users={[]} userToken="userToken" retroChannel={retroChannel} />)
+      wrapper = shallow(<RemoteRetro users={[]} ideas={[]} actions={actions} userToken="userToken" retroChannel={retroChannel} />)
     })
 
     describe("on `new_idea_received`", () => {
-      it("pushes the value passed in the payload into the `ideas` array", () => {
-        wrapper.setState({ ideas: [{ body: "first idear" }] })
-
+      it("invokes the addIdea action", () => {
         retroChannel.trigger("new_idea_received", { body: "zerp" })
-
-        expect(wrapper.state("ideas")).to.eql([
-          { body: "first idear" },
-          { body: "zerp" },
-        ])
+        expect(addIdeaSpy.calledWith({ body: "zerp" })).to.equal(true)
       })
     })
 
@@ -53,43 +63,20 @@ describe("<RemoteRetro>", () => {
     })
 
     describe("on `enable_edit_state`", () => {
-      it("updates the idea with matching id, setting `editing` to true", () => {
-        const ideas = [
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-        ]
-
-        wrapper.setState({ ideas })
-
+      it("invokes the updateIdea action with idea id and `editing` => true", () => {
         retroChannel.trigger("enable_edit_state", { id: 2 })
 
-        expect(wrapper.state("ideas")[1]).to.eql({ id: 2, editing: true })
+        expect(updateIdeaSpy.calledWith(2, { editing: true })).to.equal(true)
       })
     })
 
     describe("on `disable_edit_state`", () => {
-      let ideas
-      let ideaWithMatchingId
-
       beforeEach(() => {
-        ideas = [
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-        ]
-
-        wrapper.setState({ ideas })
         retroChannel.trigger("disable_edit_state", { id: 3 })
-        ideaWithMatchingId = wrapper.state("ideas").find(idea => idea.id === 3)
       })
 
-      it("updates the idea with matching id, setting `editing` to false", () => {
-        expect(ideaWithMatchingId.editing).to.equal(false)
-      })
-
-      it("updates the idea with matching id, setting `liveEditText` to null", () => {
-        expect(ideaWithMatchingId.liveEditText).to.equal(null)
+      it("invokes the updateIdea action with idea id and `editing` => false, `liveEditText` => null", () => {
+        expect(updateIdeaSpy.calledWith(3, { editing: false, liveEditText: null })).to.equal(true)
       })
     })
 
@@ -108,8 +95,8 @@ describe("<RemoteRetro>", () => {
             { is_typing: false, token: "s0meUserToken" },
           ]
 
-          actions = { updateUser: spy() }
-          updateUserSpy = actions.updateUser
+          updateUserSpy = spy()
+          actions = { users: { updateUser: updateUserSpy } }
 
           wrapper = shallow(
             <RemoteRetro
@@ -117,6 +104,7 @@ describe("<RemoteRetro>", () => {
               userToken="userToken"
               retroChannel={retroChannel}
               actions={actions}
+              ideas={[]}
             />
           )
 
@@ -158,61 +146,32 @@ describe("<RemoteRetro>", () => {
     })
 
     describe("on `idea_live_edit`", () => {
-      let ideas
-      let ideaWithMatchingId
-
       beforeEach(() => {
-        ideas = [
-          { id: 1 },
-          { id: 2 },
-          { id: 3 },
-        ]
-
-        wrapper.setState({ ideas })
         retroChannel.trigger("idea_live_edit", { id: 2, liveEditText: "lalala" })
-        ideaWithMatchingId = wrapper.state("ideas").find(idea => idea.id === 2)
       })
 
-      it("updates the idea with matching id, setting `liveEditText` to the payload value", () => {
-        expect(ideaWithMatchingId.liveEditText).to.equal("lalala")
+      it("invokes the updateIdea action with idea id, passing the `liveEditText` value along", () => {
+        expect(updateIdeaSpy.calledWith(2, { id: 2, liveEditText: "lalala" })).to.equal(true)
       })
     })
 
     describe("on `idea_deleted`", () => {
-      it("removes the idea passed in the payload from state.ideas", () => {
-        wrapper.setState({ ideas: [{ id: 6, body: "turtles" }] })
-        retroChannel.trigger("idea_deleted", { id: 6 })
 
-        expect(wrapper.state("ideas")).to.eql([])
+      it("removes the idea passed in the payload from state.ideas", () => {
+        retroChannel.trigger("idea_deleted", { id: 6 })
+        expect(deleteIdeaSpy.calledWith(6)).to.equal(true)
       })
     })
 
     describe("on `idea_edited`", () => {
-      let ideas
-      let editedIdea
-
       beforeEach(() => {
-        ideas = [
-          { id: 1 },
-          { id: 2, body: "i like turtles", editing: true },
-          { id: 3 },
-        ]
-
-        wrapper.setState({ ideas })
         retroChannel.trigger("idea_edited", { id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES" })
-        editedIdea = wrapper.state("ideas").find(idea => (idea.id === 2))
       })
 
-      it("updates the idea with matching id on state", () => {
-        expect(editedIdea.body).to.eql("i like TEENAGE MUTANT NINJA TURTLES")
-      })
-
-      it("sets the idea's `editing` value to false", () => {
-        expect(editedIdea.editing).to.eql(false)
-      })
-
-      it("sets the idea's `liveEditText` value to null", () => {
-        expect(editedIdea.liveEditText).to.equal(null)
+      it("updates the idea with matching id on state, and nulls out `editing` and `liveEditText`", () => {
+        expect(updateIdeaSpy.calledWith(2, {
+          id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES", liveEditText: null, editing: false
+        })).to.eql(true)
       })
     })
   })

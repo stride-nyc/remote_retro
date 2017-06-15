@@ -9,17 +9,10 @@ import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 
-const updateIdeas = (ideas, idOfIdeaToUpdate, newAttributes) => {
-  return ideas.map(idea => {
-    return (idea.id === idOfIdeaToUpdate) ? { ...idea, ...newAttributes } : idea
-  })
-}
-
 export class RemoteRetro extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      ideas: [],
       stage: "idea-generation",
     }
   }
@@ -40,7 +33,6 @@ export class RemoteRetro extends Component {
     })
 
     retroChannel.on("new_idea_received", newIdea => {
-      this.setState({ ideas: [...this.state.ideas, newIdea] })
       actions.ideas.addIdea(newIdea)
     })
 
@@ -68,41 +60,30 @@ export class RemoteRetro extends Component {
     })
 
     retroChannel.on("enable_edit_state", nominatedIdea => {
-      const newIdeas = updateIdeas(this.state.ideas, nominatedIdea.id, { editing: true })
-      this.setState({ ideas: newIdeas })
       actions.ideas.updateIdea(nominatedIdea.id, { editing: true })
     })
 
     retroChannel.on("disable_edit_state", disabledIdea => {
-      const { ideas } = this.state
-      const newIdeas = updateIdeas(ideas, disabledIdea.id, { editing: false, liveEditText: null })
-      this.setState({ ideas: newIdeas })
       actions.ideas.updateIdea(disabledIdea.id, { editing: false, liveEditText: null })
     })
 
     retroChannel.on("idea_live_edit", editedIdea => {
-      const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, editedIdea)
-      this.setState({ ideas: newIdeas })
       actions.ideas.updateIdea(editedIdea.id, editedIdea)
     })
 
     retroChannel.on("idea_edited", editedIdea => {
       const updatedIdea = { ...editedIdea, editing: false, liveEditText: null }
-      const newIdeas = updateIdeas(this.state.ideas, editedIdea.id, updatedIdea)
-      this.setState({ ideas: newIdeas })
       actions.ideas.updateIdea(editedIdea.id, updatedIdea)
     })
 
     retroChannel.on("idea_deleted", deletedIdea => {
-      const ideas = this.state.ideas.filter(idea => idea.id !== deletedIdea.id)
-      this.setState({ ideas })
       actions.ideas.deleteIdea(deletedIdea.id)
     })
   }
 
   render() {
-    const { users, userToken, retroChannel } = this.props
-    const { ideas, stage, inserted_at } = this.state
+    const { users, ideas, userToken, retroChannel } = this.props
+    const { stage, inserted_at } = this.state
 
     const currentUser = users.find(user => user.token === userToken)
 
@@ -111,7 +92,7 @@ export class RemoteRetro extends Component {
         <Room
           currentUser={currentUser}
           users={users}
-          ideas={this.props.ideas}
+          ideas={ideas}
           stage={stage}
           retroChannel={retroChannel}
         />
