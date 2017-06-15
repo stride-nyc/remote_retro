@@ -40,7 +40,7 @@ const Room = props => {
         component="div"
         transitionName="popup"
         transitionAppear={true}
-        transitionAppearTimeout={500}
+        transitionAppearTimeout={700}
         transitionEnter={false}
         transitionLeave={false}
       >
