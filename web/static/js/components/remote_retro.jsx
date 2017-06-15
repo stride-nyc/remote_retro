@@ -111,7 +111,7 @@ export class RemoteRetro extends Component {
         <Room
           currentUser={currentUser}
           users={users}
-          ideas={ideas}
+          ideas={this.props.ideas}
           stage={stage}
           retroChannel={retroChannel}
         />
