@@ -15,9 +15,13 @@ const retroChannelConfiguration = { userToken, retroUUID: window.retroUUID }
 const retroChannel = RetroChannel.configure(retroChannelConfiguration)
 
 const reactRoot = document.querySelector(".react-root")
+const store = createStore(
+  rootReducer,
+  window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+)
 
 render(
-  <Provider store={createStore(rootReducer)}>
+  <Provider store={store}>
     <RemoteRetro retroChannel={retroChannel} userToken={userToken} />
   </Provider>,
   reactRoot
