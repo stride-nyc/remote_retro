@@ -12,32 +12,10 @@
   margin-bottom: 0.4rem;
 }
 
-.ellipsis-anim {
+.animated-ellipsis-wrapper {
   font-size: 0.45rem;
   position: absolute;
   top: 2.7rem;
   left: 0;
   width: 100%;
-}
-
-.ellipsis-anim i {
-  margin-right: 0;
-  opacity: 0;
-  animation: ellipsis-dot 1s infinite;
-}
-
-.ellipsis-anim i:nth-child(1) {
-  animation-delay: 0.0s;
-}
-.ellipsis-anim i:nth-child(2) {
-  animation-delay: 0.1s;
-}
-.ellipsis-anim i:nth-child(3) {
-  animation-delay: 0.2s;
-}
-
-@keyframes ellipsis-dot {
-    0% { opacity: 0; }
-   50% { opacity: 1; }
-  100% { opacity: 0; }
 }

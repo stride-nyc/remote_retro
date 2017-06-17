@@ -14,7 +14,7 @@ const UserListItem = ({ user }) => {
         <img className={styles.picture} src={imgSrc} alt={givenName} />
         <div className="ui row">
           <p className={styles.name}>{ givenName }</p>
-          <p className={`${styles.ellipsisAnim} ui row`}>
+          <p className={`${styles.animatedEllipsisWrapper} ui row`}>
             { user.is_typing && <AnimatedEllipsis /> }
           </p>
         </div>

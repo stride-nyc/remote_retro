@@ -1,7 +1,8 @@
 import React from "react"
+import styles from "./css_modules/animated_ellipsis.css"
 
 const AnimatedEllipsis = () => (
-  <span>
+  <span className={styles.index}>
     <i className="circle icon" />
     <i className="circle icon" />
     <i className="circle icon" />
