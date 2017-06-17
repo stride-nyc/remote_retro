@@ -4,11 +4,13 @@ import styles from "./css_modules/user_list_item.css"
 
 const UserListItem = props => {
   let userName = props.user.given_name
+  const imgSrc = props.user.picture.replace("sz=50", "sz=200")
+
   if (props.user.is_facilitator) userName += " (Facilitator)"
   return (
     <li className={`item ${styles.wrapper}`}>
       <div className="ui center aligned grid">
-        {IconTag(props.user)}
+        <img className={styles.picture} src={imgSrc} alt={props.user.given_name} />
         <div className="ui row">
           <p className={styles.name}>{ userName }</p>
           <p className={`${styles.ellipsisAnim} ui row`}>
@@ -24,19 +26,6 @@ const UserListItem = props => {
       </div>
     </li>
   )
-}
-
-const IconTag = user => {
-  let icon
-
-  if (user.picture) {
-    const src = user.picture.replace("sz=50", "sz=200")
-    icon = <img className={styles.picture} src={src} alt={user.given_name} />
-  } else {
-    icon = <i className="huge user icon" />
-  }
-
-  return icon
 }
 
 UserListItem.propTypes = {
