@@ -2,6 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 
 import UserListItem from "../../web/static/js/components/user_list_item"
+import AnimatedEllipsis from "../../web/static/js/components/animated_ellipsis"
 
 const defaultUserAttrs = {
   given_name: "dylan",
@@ -38,7 +39,7 @@ describe("UserListItem", () => {
 
     it("renders the user with an ellipsis animation", () => {
       const wrapper = shallow(<UserListItem user={user} />)
-      expect(wrapper.find("i.circle.icon")).to.have.length(3)
+      expect(wrapper.find(AnimatedEllipsis)).to.have.length(1)
     })
   })
 

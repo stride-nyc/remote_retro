@@ -1,6 +1,7 @@
 import React from "react"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list_item.css"
+import AnimatedEllipsis from "./animated_ellipsis"
 
 const UserListItem = ({ user }) => {
   let givenName = user.given_name
@@ -14,13 +15,7 @@ const UserListItem = ({ user }) => {
         <div className="ui row">
           <p className={styles.name}>{ givenName }</p>
           <p className={`${styles.ellipsisAnim} ui row`}>
-            { user.is_typing &&
-              <span>
-                <i className="circle icon" />
-                <i className="circle icon" />
-                <i className="circle icon" />
-              </span>
-            }
+            { user.is_typing && <AnimatedEllipsis /> }
           </p>
         </div>
       </div>
