@@ -23,17 +23,17 @@ export class RemoteRetro extends Component {
     retroChannel.join()
       .receive("ok", retroState => {
         this.setState(retroState)
-        actions.ideas.setIdeas(retroState.ideas)
+        actions.setIdeas(retroState.ideas)
       })
       .receive("error", error => console.error(error))
 
     retroChannel.on("presence_state", presences => {
       const users = Presence.list(presences, (_username, presence) => (presence.user))
-      actions.users.setUsers(users)
+      actions.setUsers(users)
     })
 
     retroChannel.on("new_idea_received", newIdea => {
-      actions.ideas.addIdea(newIdea)
+      actions.addIdea(newIdea)
     })
 
     retroChannel.on("proceed_to_next_stage", payload => {
@@ -46,7 +46,7 @@ export class RemoteRetro extends Component {
     })
 
     retroChannel.on("user_typing_idea", payload => {
-      actions.users.updateUser(payload.userToken, { is_typing: true, last_typed: Date.now() })
+      actions.updateUser(payload.userToken, { is_typing: true, last_typed: Date.now() })
 
       const interval = setInterval(() => {
         const { users } = this.props
@@ -54,30 +54,30 @@ export class RemoteRetro extends Component {
         const noNewTypingEventsReceived = (Date.now() - user.last_typed) > 650
         if (noNewTypingEventsReceived) {
           clearInterval(interval)
-          actions.users.updateUser(user.token, { is_typing: false })
+          actions.updateUser(user.token, { is_typing: false })
         }
       }, 10)
     })
 
     retroChannel.on("enable_edit_state", nominatedIdea => {
-      actions.ideas.updateIdea(nominatedIdea.id, { editing: true })
+      actions.updateIdea(nominatedIdea.id, { editing: true })
     })
 
     retroChannel.on("disable_edit_state", disabledIdea => {
-      actions.ideas.updateIdea(disabledIdea.id, { editing: false, liveEditText: null })
+      actions.updateIdea(disabledIdea.id, { editing: false, liveEditText: null })
     })
 
     retroChannel.on("idea_live_edit", editedIdea => {
-      actions.ideas.updateIdea(editedIdea.id, editedIdea)
+      actions.updateIdea(editedIdea.id, editedIdea)
     })
 
     retroChannel.on("idea_edited", editedIdea => {
       const updatedIdea = { ...editedIdea, editing: false, liveEditText: null }
-      actions.ideas.updateIdea(editedIdea.id, updatedIdea)
+      actions.updateIdea(editedIdea.id, updatedIdea)
     })
 
     retroChannel.on("idea_deleted", deletedIdea => {
-      actions.ideas.deleteIdea(deletedIdea.id)
+      actions.deleteIdea(deletedIdea.id)
     })
   }
 
@@ -118,10 +118,10 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: {
-    users: bindActionCreators(userActionCreators, dispatch),
-    ideas: bindActionCreators(ideaActionCreators, dispatch),
-  }
+  actions: bindActionCreators({
+    ...userActionCreators,
+    ...ideaActionCreators,
+  }, dispatch),
 })
 
 export default connect(

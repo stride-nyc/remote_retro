@@ -20,12 +20,9 @@ describe("<RemoteRetro>", () => {
       updateIdeaSpy = spy()
 
       actions = {
-        ideas: {
-          addIdea: addIdeaSpy,
-          deleteIdea: deleteIdeaSpy,
-          updateIdea: updateIdeaSpy,
-        },
-        users: {},
+        addIdea: addIdeaSpy,
+        deleteIdea: deleteIdeaSpy,
+        updateIdea: updateIdeaSpy,
       }
       retroChannel = RetroChannel.configure({})
       wrapper = shallow(<RemoteRetro users={[]} ideas={[]} actions={actions} userToken="userToken" retroChannel={retroChannel} />)
@@ -96,7 +93,7 @@ describe("<RemoteRetro>", () => {
           ]
 
           updateUserSpy = spy()
-          actions = { users: { updateUser: updateUserSpy } }
+          actions = { updateUser: updateUserSpy }
 
           wrapper = shallow(
             <RemoteRetro
