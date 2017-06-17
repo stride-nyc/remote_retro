@@ -13,19 +13,32 @@ describe("<RemoteRetro>", () => {
     let addIdeaSpy
     let deleteIdeaSpy
     let updateIdeaSpy
+    let updateStageSpy
 
     beforeEach(() => {
       addIdeaSpy = spy()
       deleteIdeaSpy = spy()
       updateIdeaSpy = spy()
+      updateStageSpy = spy()
 
       actions = {
         addIdea: addIdeaSpy,
         deleteIdea: deleteIdeaSpy,
         updateIdea: updateIdeaSpy,
+        updateStage: updateStageSpy,
       }
+
       retroChannel = RetroChannel.configure({})
-      wrapper = shallow(<RemoteRetro users={[]} ideas={[]} actions={actions} userToken="userToken" retroChannel={retroChannel} />)
+      wrapper = shallow(
+        <RemoteRetro
+          users={[]}
+          ideas={[]}
+          stage="idea-generation"
+          actions={actions}
+          userToken="userToken"
+          retroChannel={retroChannel}
+        />
+      )
     })
 
     describe("on `new_idea_received`", () => {
@@ -36,11 +49,9 @@ describe("<RemoteRetro>", () => {
     })
 
     describe("on `proceed_to_next_stage`", () => {
-      it("updates the state's `stage` attribute to the value from proceed_to_next_stage", () => {
-        expect(wrapper.state("stage")).to.equal("idea-generation")
+      it("invokes the updateStage action, passing the stage from the payload", () => {
         retroChannel.trigger("proceed_to_next_stage", { stage: "dummy value" })
-
-        expect(wrapper.state("stage")).to.equal("dummy value")
+        expect(updateStageSpy.calledWith("dummy value")).to.equal(true)
       })
 
       context("when the `stage` in the payload is 'action-item-distribution'", () => {
@@ -99,6 +110,7 @@ describe("<RemoteRetro>", () => {
             <RemoteRetro
               users={initialUsers}
               userToken="userToken"
+              stage="idea-generation"
               retroChannel={retroChannel}
               actions={actions}
               ideas={[]}
