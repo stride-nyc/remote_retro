@@ -29,7 +29,7 @@
 
 :global .popup-appear.popup-appear-active {
   transform: translateY(0%);
-  transition: transform 400ms ease-in;
+  transition: transform 400ms ease;
   transition-delay: 300ms;
 }
 
