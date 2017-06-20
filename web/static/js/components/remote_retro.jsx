@@ -22,7 +22,6 @@ export class RemoteRetro extends Component {
       .receive("ok", retroState => {
         actions.setInitialState(retroState)
         actions.updateStage(retroState.stage)
-        actions.setIdeas(retroState.ideas)
       })
       .receive("error", error => console.error(error))
 
