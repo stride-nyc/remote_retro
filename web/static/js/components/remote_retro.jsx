@@ -13,7 +13,6 @@ import ShareRetroLinkModal from "./share_retro_link_modal"
 export class RemoteRetro extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
   }
 
   componentWillMount() {
@@ -21,7 +20,7 @@ export class RemoteRetro extends Component {
 
     retroChannel.join()
       .receive("ok", retroState => {
-        this.setState(retroState)
+        actions.setInitialState(retroState)
         actions.updateStage(retroState.stage)
         actions.setIdeas(retroState.ideas)
       })
@@ -82,8 +81,7 @@ export class RemoteRetro extends Component {
   }
 
   render() {
-    const { users, ideas, userToken, retroChannel, stage } = this.props
-    const { inserted_at } = this.state
+    const { users, ideas, userToken, retroChannel, stage, insertedAt } = this.props
 
     const currentUser = users.find(user => user.token === userToken)
 
@@ -96,7 +94,7 @@ export class RemoteRetro extends Component {
           stage={stage}
           retroChannel={retroChannel}
         />
-        <ShareRetroLinkModal retroCreationTimestamp={inserted_at} />
+        <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
       </div>
     )
   }
@@ -119,6 +117,7 @@ const mapStateToProps = state => ({
   users: state.user,
   ideas: state.idea,
   stage: state.stage,
+  insertedAt: state.insertedAt,
 })
 
 const mapDispatchToProps = dispatch => ({
