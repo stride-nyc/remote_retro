@@ -27,4 +27,13 @@ describe("stage reducer", () => {
       })
     })
   })
+
+  describe("handled actions", () => {
+    describe("when invoked with a SET_INITIAL_STATE action", () => {
+      it("returns the value passed as the initial state's 'stage' attribute", () => {
+        const action = { type: "SET_INITIAL_STATE", initialState: { stage: "critical" } }
+        expect(stageReducer("Atari Bigby", action)).to.equal("critical")
+      })
+    })
+  })
 })

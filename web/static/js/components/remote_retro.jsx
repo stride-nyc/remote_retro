@@ -19,10 +19,7 @@ export class RemoteRetro extends Component {
     const { retroChannel, actions } = this.props
 
     retroChannel.join()
-      .receive("ok", retroState => {
-        actions.setInitialState(retroState)
-        actions.updateStage(retroState.stage)
-      })
+      .receive("ok", actions.setInitialState)
       .receive("error", error => console.error(error))
 
     retroChannel.on("presence_state", presences => {
