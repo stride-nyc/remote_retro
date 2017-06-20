@@ -48,6 +48,18 @@ describe("idea reducer", () => {
       })
     })
 
+    describe("when the action is SET_INITIAL_STATE", () => {
+      it("should replace the state with the ideas passed in the action's inialState object", () => {
+        const initialIdeas = [{ body: "i'm an old idea!", category: "happy", author: "Morty" }]
+        deepFreeze(initialIdeas)
+
+        const newIdeas = [{ body: "modern convenience", category: "confused", author: "Kimberly Suazo" }]
+        const action = { type: "SET_INITIAL_STATE", initialState: { ideas: newIdeas } }
+
+        expect(ideaReducer(initialIdeas, action)).to.deep.equal([...newIdeas])
+      })
+    })
+
     describe("when the action is UPDATE_IDEA", () => {
       const initialIdeas = [{ id: 666, category: "happy", author: "Kimberly" }, { id: 22, category: "n/a", author: "Travis" }]
       deepFreeze(initialIdeas)
