@@ -38,7 +38,11 @@ class StageProgressionButton extends Component {
 
     return (
       <div>
-        <Modal contentLabel="Modal" isOpen={modalOpen} className="ui small modal visible transition fade in active">
+        <Modal
+          contentLabel="Modal"
+          isOpen={modalOpen}
+          className="ui small modal visible transition fade in active"
+        >
           <div className="content">
             <p>{confirmationMessage}</p>
           </div>

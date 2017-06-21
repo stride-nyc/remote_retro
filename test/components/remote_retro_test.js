@@ -152,7 +152,7 @@ describe("<RemoteRetro>", () => {
     })
 
     describe("on `idea_deleted`", () => {
-      it("removes the idea passed in the payload from state.ideas", () => {
+      it("invokes deleteIdea action, passing in the idea's id", () => {
         retroChannel.trigger("idea_deleted", { id: 6 })
         expect(deleteIdeaSpy.calledWith(6)).to.equal(true)
       })
@@ -163,7 +163,7 @@ describe("<RemoteRetro>", () => {
         retroChannel.trigger("idea_edited", { id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES" })
       })
 
-      it("updates the idea with matching id on state, and nulls out `editing` and `liveEditText`", () => {
+      it("invokes updateIdea action, passing idea id & nulling the editing attributes", () => {
         expect(updateIdeaSpy.calledWith(2, {
           id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES", liveEditText: null, editing: false,
         })).to.eql(true)

@@ -1,5 +1,7 @@
+const postCssCssVariables = require("postcss-css-variables")
+
 module.exports = {
   plugins: [
-    require("postcss-css-variables"),
+    postCssCssVariables,
   ],
 }

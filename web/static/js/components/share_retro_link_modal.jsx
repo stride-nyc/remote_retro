@@ -13,7 +13,7 @@ class ShareRetroLinkModal extends Component {
     this.closeModal = this.closeModal.bind(this)
     this.state = {
       closedByUser: false,
-      shouldOpen: timeElapsedLessThanFiveSec(props.insertedAt)
+      shouldOpen: timeElapsedLessThanFiveSec(props.insertedAt),
     }
   }
 
