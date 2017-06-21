@@ -11,10 +11,6 @@ import Room from "./room"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 
 export class RemoteRetro extends Component {
-  constructor(props) {
-    super(props)
-  }
-
   componentWillMount() {
     const { retroChannel, actions } = this.props
 
