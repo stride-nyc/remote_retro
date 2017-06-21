@@ -63,6 +63,10 @@ class ShareRetroLinkModal extends Component {
   }
 }
 
+ShareRetroLinkModal.defaultProps = {
+  retroCreationTimestamp: null,
+}
+
 ShareRetroLinkModal.propTypes = {
   retroCreationTimestamp: React.PropTypes.string,
 }
