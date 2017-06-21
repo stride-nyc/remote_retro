@@ -10,6 +10,7 @@ const Idea = props => {
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 1000
   let classes = styles.index
   classes += idea.editing ? " ui raised segment" : ""
+  classes += idea.highlighted ? ` ${styles.highlighted}` : ""
 
   const readOnlyIdea = (
     <div>

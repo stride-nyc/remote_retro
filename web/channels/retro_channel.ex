@@ -36,6 +36,11 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
+  def handle_in("highlight_idea", id, socket) do
+    broadcast! socket, "idea_highlighted", %{"id" => id}
+    {:noreply, socket}
+  end
+
   def handle_in("new_idea", %{"body" => body, "category" => category, "author" => author}, socket) do
     idea =
       %Idea{body: body, category: category, retro_id: socket.assigns.retro_id, author: author}
