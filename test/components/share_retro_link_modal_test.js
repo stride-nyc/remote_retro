@@ -24,7 +24,7 @@ describe("ShareRetroLinkModal component", () => {
     })
 
     it("the modal opens", () => {
-      wrapper = mount(<ShareRetroLinkModal insertedAt={earlierDate.toUTCString()} />)
+      wrapper = mount(<ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />)
 
       const isOpen = wrapper.find("Modal").props().isOpen
 
@@ -35,7 +35,7 @@ describe("ShareRetroLinkModal component", () => {
       let portalToModalContent
 
       beforeEach(() => {
-        wrapper = mount(<ShareRetroLinkModal insertedAt={earlierDate.toUTCString()} />)
+        wrapper = mount(<ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />)
         portalToModalContent = wrapper.find(Modal).node.portal
       })
 
@@ -72,7 +72,7 @@ describe("ShareRetroLinkModal component", () => {
     })
 
     it("the modal does not open", () => {
-      wrapper = mount(<ShareRetroLinkModal insertedAt={earlierDate.toUTCString()} />)
+      wrapper = mount(<ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />)
 
       const isOpen = wrapper.find("Modal").props().isOpen
 

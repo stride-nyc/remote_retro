@@ -1,8 +1,8 @@
 import React, { Component } from "react"
 import Modal from "react-modal"
 
-const timeElapsedLessThanFiveSec = insertedAt => {
-  const millisecondsSinceRetroCreation = new Date(insertedAt)
+const timeElapsedLessThanFiveSec = retroCreationTimestamp => {
+  const millisecondsSinceRetroCreation = new Date(retroCreationTimestamp)
   const timeElapsedSinceRetroCreation = new Date().getTime() - millisecondsSinceRetroCreation
   return (timeElapsedSinceRetroCreation < 5000)
 }
@@ -13,13 +13,12 @@ class ShareRetroLinkModal extends Component {
     this.closeModal = this.closeModal.bind(this)
     this.state = {
       closedByUser: false,
-      shouldOpen: timeElapsedLessThanFiveSec(props.insertedAt),
+      shouldOpen: timeElapsedLessThanFiveSec(props.retroCreationTimestamp),
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { insertedAt } = nextProps
-    if (timeElapsedLessThanFiveSec(insertedAt)) {
+  componentWillReceiveProps({ retroCreationTimestamp }) {
+    if (timeElapsedLessThanFiveSec(retroCreationTimestamp)) {
       this.setState({ shouldOpen: true })
     }
   }
@@ -65,7 +64,7 @@ class ShareRetroLinkModal extends Component {
 }
 
 ShareRetroLinkModal.propTypes = {
-  insertedAt: React.PropTypes.string,
+  retroCreationTimestamp: React.PropTypes.string,
 }
 
 export default ShareRetroLinkModal

@@ -96,7 +96,7 @@ export class RemoteRetro extends Component {
           stage={stage}
           retroChannel={retroChannel}
         />
-        <ShareRetroLinkModal insertedAt={inserted_at}/>
+        <ShareRetroLinkModal retroCreationTimestamp={inserted_at}/>
       </div>
     )
   }
