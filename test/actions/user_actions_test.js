@@ -14,5 +14,5 @@ describe("updateUser", () => {
 
   it("should create an action to update a given user's attributes in users", () => {
     expect(actionCreators.updateUser(userToken, newAttributes)).to.deep.equal({ type: "UPDATE_USER", userToken, newAttributes })
-  });
+  })
 })

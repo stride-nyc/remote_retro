@@ -12,7 +12,7 @@ describe("StageProgressionButton", () => {
     button: {
       copy: "Proceed to stage dos",
       iconClass: "arrow right",
-    }
+    },
   }
 
   const defaultProps = {

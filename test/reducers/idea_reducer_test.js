@@ -10,7 +10,7 @@ describe("idea reducer", () => {
 
         expect(ideaReducer(undefined, {})).to.deep.equal([])
         expect(ideaReducer(undefined, unhandledAction)).to.deep.equal([])
-      });
+      })
     })
 
     describe("and there is initial state", () => {

@@ -18,5 +18,3 @@ export const deleteIdea = ideaId => ({
   type: "DELETE_IDEA",
   ideaId,
 })
-
-

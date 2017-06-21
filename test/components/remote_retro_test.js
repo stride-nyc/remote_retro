@@ -104,7 +104,6 @@ describe("<RemoteRetro>", () => {
               ideas={[]}
             />
           )
-
         })
 
         afterEach(() => { clock.restore() })
@@ -153,7 +152,6 @@ describe("<RemoteRetro>", () => {
     })
 
     describe("on `idea_deleted`", () => {
-
       it("removes the idea passed in the payload from state.ideas", () => {
         retroChannel.trigger("idea_deleted", { id: 6 })
         expect(deleteIdeaSpy.calledWith(6)).to.equal(true)
@@ -167,7 +165,7 @@ describe("<RemoteRetro>", () => {
 
       it("updates the idea with matching id on state, and nulls out `editing` and `liveEditText`", () => {
         expect(updateIdeaSpy.calledWith(2, {
-          id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES", liveEditText: null, editing: false
+          id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES", liveEditText: null, editing: false,
         })).to.eql(true)
       })
     })
