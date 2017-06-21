@@ -96,7 +96,7 @@ export class RemoteRetro extends Component {
           stage={stage}
           retroChannel={retroChannel}
         />
-        <ShareRetroLinkModal retroCreationTimestamp={inserted_at}/>
+        <ShareRetroLinkModal retroCreationTimestamp={inserted_at} />
       </div>
     )
   }
@@ -106,11 +106,13 @@ RemoteRetro.propTypes = {
   actions: PropTypes.object.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   users: AppPropTypes.users,
+  ideas: AppPropTypes.ideas,
   userToken: PropTypes.string.isRequired,
 }
 
 RemoteRetro.defaultProps = {
   users: [],
+  ideas: [],
 }
 
 const mapStateToProps = state => ({

@@ -54,6 +54,7 @@ module.exports = {
         "exports": "ignore",
       }
     ],
+    "no-underscore-dangle": "off",
     "no-shadow": "off",
     "no-console": "off",
     "no-use-before-define": "off",
