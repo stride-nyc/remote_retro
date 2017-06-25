@@ -5,10 +5,10 @@ import styles from "./css_modules/category_column.css"
 
 function CategoryColumn(props) {
   const categoryToEmoticonUnicodeMap = {
-    happy: "😊",
-    sad: "😥",
-    confused: "🤔",
-    "action-item": "🚀",
+    happy: '/images/happy.svg',
+    sad: '/images/sad.svg',
+    confused: '/images/confused.svg',
+    "action-item": '/images/rocket-ship.svg',
   }
 
   const { category, ideas, currentUser, retroChannel } = props
@@ -27,7 +27,7 @@ function CategoryColumn(props) {
   return (
     <section className={`${category} ${styles.index} column`}>
       <div className={` ${styles.columnHead} ui center aligned basic segment`}>
-        <i className={styles.icon}>{emoticonUnicode}</i>
+        <img src={emoticonUnicode} height="20" width="20" />
         <p><strong>{category}</strong></p>
       </div>
       <div className={`ui fitted divider ${styles.divider}`} />
