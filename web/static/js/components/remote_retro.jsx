@@ -5,26 +5,17 @@ import { Presence } from "phoenix"
 
 import * as userActionCreators from "../actions/user"
 import * as ideaActionCreators from "../actions/idea"
+import * as retroActionCreators from "../actions/retro"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 
 export class RemoteRetro extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      stage: "idea-generation",
-    }
-  }
-
   componentWillMount() {
     const { retroChannel, actions } = this.props
 
     retroChannel.join()
-      .receive("ok", retroState => {
-        this.setState(retroState)
-        actions.setIdeas(retroState.ideas)
-      })
+      .receive("ok", actions.setInitialState)
       .receive("error", error => console.error(error))
 
     retroChannel.on("presence_state", presences => {
@@ -37,7 +28,7 @@ export class RemoteRetro extends Component {
     })
 
     retroChannel.on("proceed_to_next_stage", payload => {
-      this.setState({ stage: payload.stage })
+      actions.updateStage(payload.stage)
       if (payload.stage === "action-item-distribution") {
         alert(
           "The facilitator has distibuted this retro's action items. You will receive an email breakdown shortly."
@@ -82,8 +73,7 @@ export class RemoteRetro extends Component {
   }
 
   render() {
-    const { users, ideas, userToken, retroChannel } = this.props
-    const { stage, inserted_at } = this.state
+    const { users, ideas, userToken, retroChannel, stage, insertedAt } = this.props
 
     const currentUser = users.find(user => user.token === userToken)
 
@@ -96,7 +86,7 @@ export class RemoteRetro extends Component {
           stage={stage}
           retroChannel={retroChannel}
         />
-        <ShareRetroLinkModal retroCreationTimestamp={inserted_at} />
+        <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
       </div>
     )
   }
@@ -118,12 +108,15 @@ RemoteRetro.defaultProps = {
 const mapStateToProps = state => ({
   users: state.user,
   ideas: state.idea,
+  stage: state.stage,
+  insertedAt: state.insertedAt,
 })
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators({
     ...userActionCreators,
     ...ideaActionCreators,
+    ...retroActionCreators,
   }, dispatch),
 })
 

@@ -3,11 +3,6 @@ export const addIdea = idea => ({
   idea,
 })
 
-export const setIdeas = ideas => ({
-  type: "SET_IDEAS",
-  ideas,
-})
-
 export const updateIdea = (ideaId, newAttributes) => ({
   type: "UPDATE_IDEA",
   ideaId,

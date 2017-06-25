@@ -8,14 +8,6 @@ describe("addIdea", () => {
   })
 })
 
-describe("setIdeas", () => {
-  it("creates an action to set ideas on the store", () => {
-    const ideas = [{ body: "Brett Favre", category: "happy", author: "Kimberly Suazo" }]
-
-    expect(actionCreators.setIdeas(ideas)).to.deep.equal({ type: "SET_IDEAS", ideas })
-  })
-})
-
 describe("updateIdea", () => {
   it("creates an action to update an idea with particular id with new attributes", () => {
     const ideaId = 999
