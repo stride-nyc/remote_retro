@@ -13,7 +13,7 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/room.css"
 
 const Room = props => {
-  const { currentUser, users, retroChannel, stage } = props
+  const { currentUser, users, stage } = props
   const isFacilitator = currentUser.is_facilitator
   const progressionConfig = stageProgressionConfigs[stage]
   const categories = ["happy", "sad", "confused"]
@@ -40,11 +40,7 @@ const Room = props => {
       >
         <div className="ui stackable grid basic attached secondary center aligned segment">
           <div className="thirteen wide column">
-            <IdeaSubmissionForm
-              currentUser={currentUser}
-              retroChannel={retroChannel}
-              showActionItem={showActionItem}
-            />
+            <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
           </div>
           <div className="three wide right aligned column">
             { isFacilitator && <StageProgressionButton {...props} config={progressionConfig} /> }
