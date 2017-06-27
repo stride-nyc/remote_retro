@@ -4,17 +4,10 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 
 const CategoryColumn = props => {
-  const categoryToEmoticonUnicodeMap = {
-    happy: '/images/happy.svg',
-    sad: '/images/sad.svg',
-    confused: '/images/confused.svg',
-    "action-item": '/images/rocket-ship.svg',
-  }
-
   const { category, ideas, currentUser, retroChannel } = props
-  const emoticonUnicode = categoryToEmoticonUnicodeMap[category]
   const filteredIdeas = ideas.filter(idea => idea.category === category)
   const sortedIdeas = filteredIdeas.sort((a, b) => a.id - b.id)
+  const iconHeight = 45
   const ideasList = sortedIdeas.map(idea => (
     <Idea
       idea={idea}
@@ -27,7 +20,7 @@ const CategoryColumn = props => {
   return (
     <section className={`${category} ${styles.index} column`}>
       <div className={` ${styles.columnHead} ui center aligned basic segment`}>
-        <img src={emoticonUnicode} height="20" width="20" />
+        <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} />
         <p><strong>{category}</strong></p>
       </div>
       <div className={`ui fitted divider ${styles.divider}`} />

@@ -6,11 +6,6 @@
   background-color: var(--semantic-light-grey);
 }
 
-.icon {
-  font-size: 4.5rem;
-  font-style: normal;
-}
-
 .list {
   list-style: none;
   padding-left: 0;
