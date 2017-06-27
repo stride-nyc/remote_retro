@@ -11,6 +11,7 @@ defmodule RemoteRetro.PresenceUtils do
     Presence.track(socket, assigns.user_token, user)
   end
 
+  def give_facilitator_role_to_longest_tenured(presences) when map_size(presences) == 0, do: %{}
   def give_facilitator_role_to_longest_tenured(presences) do
     {facilitator_token, _facilitator} = earliest_arrival(presences)
 
@@ -21,7 +22,6 @@ defmodule RemoteRetro.PresenceUtils do
     end
   end
 
-  defp earliest_arrival(presences) when map_size(presences) == 0, do: nil
   defp earliest_arrival(presences) do
     Enum.min_by(presences, fn {_user_token, presence} ->
       [first_meta|_] = presence.metas

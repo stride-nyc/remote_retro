@@ -16,5 +16,10 @@ defmodule RemoteRetro.PresenceUtilsTest do
       assert presences["tvh121"].user.is_facilitator == true
       assert presences["nme999"].user.is_facilitator == false
     end
+
+    test "when there's no presences, returns empty map" do
+      presences = PresenceUtils.give_facilitator_role_to_longest_tenured(%{})
+      assert presences == %{}
+    end
   end
 end
