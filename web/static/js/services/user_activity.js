@@ -1,7 +1,7 @@
 class UserActivity {
-  static checkIfDoneTyping(channel, userToken, done) {
+  static checkIfDoneTyping(store, userToken, done) {
     const interval = setInterval(() => {
-      const { users } = channel.props
+      const users = store.getState().user
       const user = users.find(user => user.token === userToken)
       const noNewTypingEventsReceived = (Date.now() - user.last_typed) > 650
       if (noNewTypingEventsReceived) {
