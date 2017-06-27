@@ -13,27 +13,21 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/room.css"
 
 const Room = props => {
-  const { currentUser, users, retroChannel, ideas, stage } = props
+  const { currentUser, users, retroChannel, stage } = props
   const isFacilitator = currentUser.is_facilitator
   const progressionConfig = stageProgressionConfigs[stage]
   const categories = ["happy", "sad", "confused"]
   const showActionItem = stage !== "idea-generation"
   if (showActionItem) { categories.push("action-item") }
 
+  const categoryColumns = categories.map(category => (
+    <CategoryColumn {...props} category={category} key={category} />
+  ))
+
   return (
     <section className={styles.wrapper}>
       <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-        {
-          categories.map(category => (
-            <CategoryColumn
-              category={category}
-              key={category}
-              ideas={ideas}
-              currentUser={currentUser}
-              retroChannel={retroChannel}
-            />
-          ))
-        }
+        { categoryColumns }
       </div>
 
       <UserList users={users} />

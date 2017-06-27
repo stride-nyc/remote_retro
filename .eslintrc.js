@@ -59,6 +59,7 @@ module.exports = {
     "no-console": "off",
     "no-use-before-define": "off",
     "react/no-unescaped-entities": "off",
+    "react/no-unused-prop-types": "off",
     "react/forbid-prop-types": "off",
     "jsx-a11y/no-static-element-interactions": 0,
   }
