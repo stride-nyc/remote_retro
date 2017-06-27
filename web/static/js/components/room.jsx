@@ -15,6 +15,7 @@ import styles from "./css_modules/room.css"
 const Room = props => {
   const { currentUser, users, retroChannel, ideas, stage } = props
   const isFacilitator = currentUser.is_facilitator
+  const progressionConfig = stageProgressionConfigs[stage]
   const categories = ["happy", "sad", "confused"]
   const showActionItem = stage !== "idea-generation"
   if (showActionItem) { categories.push("action-item") }
@@ -52,13 +53,7 @@ const Room = props => {
             />
           </div>
           <div className="three wide right aligned column">
-            {
-              isFacilitator &&
-              <StageProgressionButton
-                config={stageProgressionConfigs[stage]}
-                retroChannel={retroChannel}
-              />
-            }
+            { isFacilitator && <StageProgressionButton {...props} config={progressionConfig} /> }
           </div>
           <p className={styles.poweredBy}>
             Built by <a href="http://www.stridenyc.com/">Stride Consulting</a> and Open Source Badasses
