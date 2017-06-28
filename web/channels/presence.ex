@@ -2,7 +2,6 @@ defmodule RemoteRetro.Presence do
   @moduledoc """
   Handle users joining and leaving retros.
   """
-  alias RemoteRetro.PresenceUtils
   use Phoenix.Presence, otp_app: :remote_retro,
                         pubsub_server: RemoteRetro.PubSub
 
@@ -12,7 +11,5 @@ defmodule RemoteRetro.Presence do
       presence = Map.put(presence, :user, Map.put(user_metadata, :token, user_token))
       {user_token, presence}
     end
-
-    PresenceUtils.give_facilitator_role_to_longest_tenured(entries)
   end
 end

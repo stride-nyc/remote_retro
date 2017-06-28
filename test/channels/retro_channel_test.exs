@@ -25,6 +25,10 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_push "presence_state", %{}
     end
 
+    test "results in the push of a presence diff to the new user" do
+      assert_push "presence_diff", %{}
+    end
+
     test "results in a Presence tracking of the new user, including timestamp", %{retro: retro} do
       result = Presence.list("retro:" <> retro.id)
 
@@ -166,20 +170,6 @@ defmodule RemoteRetro.RetroChannelTest do
       push(socket, "highlight_idea", %{"id" => 1, "isHighlighted" => false})
 
       assert_broadcast("idea_highlighted", %{"id" => 1, "isHighlighted" => false})
-    end
-  end
-
-  describe "the emission of a `presence_diff` event" do
-    setup [:join_the_retro_channel]
-
-    test "does not make its way to the client", %{socket: socket} do
-      broadcast_from socket, "presence_diff", %{}
-      refute_push "presence_diff", %{}
-    end
-
-    test "results in the push of a `presence_state` event", %{socket: socket} do
-      broadcast_from socket, "presence_diff", %{}
-      assert_push "presence_state", %{}
     end
   end
 end

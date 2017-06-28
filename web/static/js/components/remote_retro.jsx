@@ -19,9 +19,11 @@ export class RemoteRetro extends Component {
       .receive("error", error => console.error(error))
 
     retroChannel.on("presence_state", presences => {
-      const users = Presence.list(presences, (_username, presence) => (presence.user))
+      const users = Presence.list(presences, (_userToken, presence) => (presence.user))
       actions.setUsers(users)
     })
+
+    retroChannel.on("presence_diff", actions.syncPresenceDiff)
 
     retroChannel.on("new_idea_received", newIdea => {
       actions.addIdea(newIdea)

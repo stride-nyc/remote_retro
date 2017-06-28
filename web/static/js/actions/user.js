@@ -8,3 +8,8 @@ export const updateUser = (userToken, newAttributes) => ({
   userToken,
   newAttributes,
 })
+
+export const syncPresenceDiff = presenceDiff => ({
+  type: "SYNC_PRESENCE_DIFF",
+  presenceDiff,
+})

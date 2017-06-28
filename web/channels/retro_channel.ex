@@ -13,6 +13,7 @@ defmodule RemoteRetro.RetroChannel do
 
   def handle_info(:after_join, socket) do
     PresenceUtils.track_timestamped(socket)
+    push socket, "presence_state", Presence.list(socket)
     {:noreply, socket}
   end
 
@@ -87,12 +88,6 @@ defmodule RemoteRetro.RetroChannel do
     update_retro!(socket.assigns.retro_id, stage)
 
     broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
-    {:noreply, socket}
-  end
-
-  intercept ["presence_diff"]
-  def handle_out("presence_diff", _msg, socket) do
-    push socket, "presence_state", Presence.list(socket)
     {:noreply, socket}
   end
 

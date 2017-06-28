@@ -16,3 +16,24 @@ describe("updateUser", () => {
     expect(actionCreators.updateUser(userToken, newAttributes)).to.deep.equal({ type: "UPDATE_USER", userToken, newAttributes })
   })
 })
+
+describe("syncPresenceDiff", () => {
+  const presenceDiff = {
+    joins: {
+      someUserToken: { user: { name: "Timmy", age: 29 } },
+    },
+    leaves: {
+      someOtherUserToken: { user: { name: "Travis", age: 30 } },
+    },
+  }
+
+  it("returns a `SYNC_PRESENCE_DIFF` action", () => {
+    expect(actionCreators.syncPresenceDiff(presenceDiff).type).to.equal("SYNC_PRESENCE_DIFF")
+  })
+
+  it("passes along the given presence diff", () => {
+    const action = actionCreators.syncPresenceDiff(presenceDiff)
+    expect(action.presenceDiff).to.deep.equal(presenceDiff)
+  })
+})
+
