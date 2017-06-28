@@ -11,6 +11,8 @@ class ShareRetroLinkModal extends Component {
   constructor(props) {
     super(props)
     this.closeModal = this.closeModal.bind(this)
+    this.setCurrentInput = this.setCurrentInput.bind(this)
+    this.handleCopyLink = this.handleCopyLink.bind(this)
     this.state = {
       closedByUser: false,
       shouldOpen: timeElapsedLessThanFiveSec(props.retroCreationTimestamp),
@@ -19,12 +21,23 @@ class ShareRetroLinkModal extends Component {
 
   componentWillReceiveProps({ retroCreationTimestamp }) {
     if (timeElapsedLessThanFiveSec(retroCreationTimestamp)) {
-      this.setState({ shouldOpen: true })
-    }
+       this.setState({ shouldOpen: true })
+     }
   }
 
   closeModal() {
     this.setState({ closedByUser: true })
+  }
+
+  handleCopyLink() {
+    const { copyLinkInput } = this.state
+
+    copyLinkInput.select()
+    document.execCommand('copy')
+  }
+
+  setCurrentInput(input) {
+    this.setState({copyLinkInput: input})
   }
 
   render() {
@@ -55,7 +68,19 @@ class ShareRetroLinkModal extends Component {
             Share the unique retro link below with teammates!
           </div>
           <div className="ui fluid input">
-            <input readOnly className="ui input" type="text" value={window.location} />
+            <input
+              ref={this.setCurrentInput}
+              readOnly
+              className="ui input"
+              type="text"
+              value={window.location}
+            />
+          </div>
+          <div className="ui basic center aligned segment">
+            <button className="ui labeled teal icon button" onClick={this.handleCopyLink}>
+              <i className="copy icon" />
+              Copy Link to Clipboard
+            </button>
           </div>
         </div>
       </Modal>
@@ -68,7 +93,7 @@ ShareRetroLinkModal.defaultProps = {
 }
 
 ShareRetroLinkModal.propTypes = {
-  retroCreationTimestamp: React.PropTypes.string,
+  retroCreationTimestamp: React.PropTypes.string
 }
 
 export default ShareRetroLinkModal
