@@ -68,6 +68,7 @@ class StageProgressionButton extends Component {
         <button
           className="fluid ui right labeled teal icon button"
           onClick={this.handleStageProgressionButtonClick}
+          disabled={this.props.buttonDisabled}
         >
           { button.copy }
           <i className={`${button.iconClass} icon`} />
@@ -80,6 +81,11 @@ class StageProgressionButton extends Component {
 StageProgressionButton.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   config: React.PropTypes.object,
+  buttonDisabled: React.PropTypes.bool,
+}
+
+StageProgressionButton.defaultProps = {
+  buttonDisabled: false,
 }
 
 export default StageProgressionButton

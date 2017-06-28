@@ -3572,7 +3572,7 @@ pbkdf2@^3.0.3:
   version "1.2.1"
 
 "phoenix_html@file:deps/phoenix_html":
-  version "2.9.3"
+  version "2.7.0"
 
 pify@^2.0.0:
   version "2.3.0"

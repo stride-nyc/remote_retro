@@ -18,6 +18,13 @@ const Room = props => {
   const progressionConfig = stageProgressionConfigs[stage]
   const showActionItem = stage !== "idea-generation"
 
+  function checkForActionItems() {
+    if (showActionItem) {
+      return !props.ideas.some(idea => idea.category === "action-item")
+    }
+    return false
+  }
+
   return (
     <section className={styles.wrapper}>
       <IdeaBoard {...props} />
@@ -34,7 +41,13 @@ const Room = props => {
             <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
           </div>
           <div className="three wide right aligned column">
-            { isFacilitator && <StageProgressionButton {...props} config={progressionConfig} /> }
+            { isFacilitator &&
+              <StageProgressionButton
+                {...props}
+                config={progressionConfig}
+                buttonDisabled={checkForActionItems()}
+              />
+            }
           </div>
           <p className={styles.poweredBy}>
             Built by <a href="http://www.stridenyc.com/">Stride Consulting</a> and Open Source Badasses
