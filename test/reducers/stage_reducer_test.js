@@ -4,8 +4,8 @@ describe("stage reducer", () => {
   describe("unhandled actions", () => {
     describe("when there is an empty action", () => {
       describe("when no initial state is passed", () => {
-        it("should return an empty string", () => {
-          expect(stageReducer(undefined, {})).to.equal("")
+        it("should return 'idea-generation'", () => {
+          expect(stageReducer(undefined, {})).to.equal("idea-generation")
         })
       })
 
