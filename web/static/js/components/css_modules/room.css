@@ -4,10 +4,6 @@
   flex-direction: column;
 }
 
-.category-columns-wrapper {
-  flex: 1;
-}
-
 .powered-by {
   font-size: 0.7rem;
 }

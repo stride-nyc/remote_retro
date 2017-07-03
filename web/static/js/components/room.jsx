@@ -2,7 +2,7 @@ import React from "react"
 import { CSSTransitionGroup } from "react-transition-group"
 
 import UserList from "./user_list"
-import CategoryColumn from "./category_column"
+import IdeaBoard from "./idea_board"
 import IdeaSubmissionForm from "./idea_submission_form"
 import StageProgressionButton from "./stage_progression_button"
 import stageProgressionConfigs from "../configs/stage_progression_configs"
@@ -16,20 +16,11 @@ const Room = props => {
   const { currentUser, users, stage } = props
   const isFacilitator = currentUser.is_facilitator
   const progressionConfig = stageProgressionConfigs[stage]
-  const categories = ["happy", "sad", "confused"]
   const showActionItem = stage !== "idea-generation"
-  if (showActionItem) { categories.push("action-item") }
-
-  const categoryColumns = categories.map(category => (
-    <CategoryColumn {...props} category={category} key={category} />
-  ))
 
   return (
     <section className={styles.wrapper}>
-      <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-        { categoryColumns }
-      </div>
-
+      <IdeaBoard {...props} />
       <UserList users={users} />
       <CSSTransitionGroup
         transitionName={{ appear: styles.appear, appearActive: styles.appearActive }}
