@@ -36,8 +36,8 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("highlight_idea", id, socket) do
-    broadcast! socket, "idea_highlighted", %{"id" => id}
+  def handle_in("highlight_idea", %{"id" => id, "isHighlighted" => is_highlighted}, socket) do
+    broadcast! socket, "idea_highlighted", %{"id" => id, "isHighlighted" => is_highlighted}
     {:noreply, socket}
   end
 

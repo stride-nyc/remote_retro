@@ -72,7 +72,7 @@ export class RemoteRetro extends Component {
     })
 
     retroChannel.on("idea_highlighted", highlightedIdea => {
-      actions.updateIdea(highlightedIdea.id, { highlighted: true })
+      actions.updateIdea(highlightedIdea.id, { isHighlighted: !highlightedIdea.isHighlighted })
     })
   }
 

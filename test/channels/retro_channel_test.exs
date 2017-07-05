@@ -152,6 +152,16 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "pushing a `highlight_idea` event to the socket" do
+    setup [:join_the_retro_channel]
+
+    test "broadcasts the id with the highlighted state", %{socket: socket} do
+      push(socket, "highlight_idea", %{"id" => 1, "isHighlighted" => false})
+
+      assert_broadcast("idea_highlighted", %{"id" => 1, "isHighlighted" => false})
+    end
+  end
+
   describe "the emission of a `presence_diff` event" do
     setup [:join_the_retro_channel]
 
