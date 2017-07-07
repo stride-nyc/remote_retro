@@ -33,6 +33,8 @@ class StageProgressionButton extends Component {
   }
 
   render() {
+    if (!this.props.config) return null
+
     const { button, confirmationMessage } = this.props.config
     const { modalOpen } = this.state
 
@@ -77,7 +79,7 @@ class StageProgressionButton extends Component {
 
 StageProgressionButton.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  config: React.PropTypes.object.isRequired,
+  config: React.PropTypes.object,
 }
 
 export default StageProgressionButton
