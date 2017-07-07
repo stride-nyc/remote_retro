@@ -11,3 +11,7 @@
   color: #A0A0A8;
   font-size: 0.85rem;
 }
+
+.highlighted {
+  background-color: #9CC5E8;
+}

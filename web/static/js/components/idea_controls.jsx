@@ -4,6 +4,7 @@ import styles from "./css_modules/idea_controls.css"
 
 const IdeaControls = props => {
   const { idea, retroChannel } = props
+  const { id, isHighlighted = false } = idea
 
   return (
     <span>
@@ -16,6 +17,11 @@ const IdeaControls = props => {
         title="Edit Idea"
         className={`${styles.actionIcon} edit icon`}
         onClick={() => { retroChannel.push("enable_edit_state", idea) }}
+      />
+      <i
+        title="Announce Idea to Channel"
+        className={`${styles.actionIcon} announcement icon`}
+        onClick={() => { retroChannel.push("highlight_idea", { id, isHighlighted }) }}
       />
     </span>
   )
