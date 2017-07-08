@@ -1,5 +1,5 @@
 li {
-  transition: background-color 300ms;
+  transition: background-color 300ms, border-bottom 300ms;
 }
 
 .index {
@@ -18,4 +18,5 @@ li {
 
 .highlighted {
   background-color: #CCE2FE;
+  border-bottom: 1px solid #CCE2FE;
 }
