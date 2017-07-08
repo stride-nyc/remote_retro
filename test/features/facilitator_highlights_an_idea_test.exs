@@ -20,7 +20,7 @@ defmodule FacilitatorHighlightsAnIdeaTest do
       facilitator_session |> find(Query.css("li[title='#{idea_body}'] .announcement.icon")) |> Element.click
       assert Element.attr(idea, "class") |> String.contains?("highlighted")
 
-      facilitator_session |> find(Query.css("li[title='#{idea_body}'] .announcement.icon")) |> Element.click
+      facilitator_session |> find(Query.css("li[title='#{idea_body}'] .ban.icon")) |> Element.click
       refute Element.attr(idea, "class") |> String.contains?("highlighted")
     end
   end

@@ -1,3 +1,7 @@
+li {
+  transition: background-color 300ms;
+}
+
 .index {
   padding: 0.2rem 0;
   border-bottom: 1px solid var(--semantic-light-grey);

@@ -51,4 +51,20 @@ describe("<IdeaControls />", () => {
       ).to.equal(true)
     })
   })
+
+  describe("on click of the ban icon", () => {
+    it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
+      const retroChannel = { on: () => {}, push: sinon.spy() }
+      const highlightedIdea = Object.assign({}, idea, { isHighlighted: true })
+
+      const wrapper = shallow(
+        <IdeaControls idea={highlightedIdea} retroChannel={retroChannel} />
+      )
+
+      wrapper.find(".ban.icon").simulate("click")
+      expect(
+        retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: true })
+      ).to.equal(true)
+    })
+  })
 })

@@ -1,10 +1,18 @@
 import React from "react"
+import classNames from "classnames"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
 
 const IdeaControls = props => {
   const { idea, retroChannel } = props
   const { id, isHighlighted = false } = idea
+  const highlightClasses = classNames({
+    [styles.actionIcon]: true,
+    icon: true,
+    announcement: !isHighlighted,
+    ban: isHighlighted,
+  })
+  const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
 
   return (
     <span>
@@ -19,8 +27,8 @@ const IdeaControls = props => {
         onClick={() => { retroChannel.push("enable_edit_state", idea) }}
       />
       <i
-        title="Announce Idea to Channel"
-        className={`${styles.actionIcon} announcement icon`}
+        title={highlightTitle}
+        className={highlightClasses}
         onClick={() => { retroChannel.push("highlight_idea", { id, isHighlighted }) }}
       />
     </span>
