@@ -16,7 +16,6 @@ const Idea = props => {
     [styles.highlighted]: idea.isHighlighted,
   })
 
-
   const readOnlyIdea = (
     <div>
       { idea.editing && !isFacilitator ?
