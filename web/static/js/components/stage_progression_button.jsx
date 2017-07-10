@@ -35,7 +35,7 @@ class StageProgressionButton extends Component {
   render() {
     if (!this.props.config) return null
 
-    const { button, confirmationMessage } = this.props.config
+    const { config: { button, confirmationMessage }, buttonDisabled } = this.props
     const { modalOpen } = this.state
 
     return (
@@ -68,7 +68,7 @@ class StageProgressionButton extends Component {
         <button
           className="fluid ui right labeled teal icon button"
           onClick={this.handleStageProgressionButtonClick}
-          disabled={this.props.buttonDisabled}
+          disabled={buttonDisabled}
         >
           { button.copy }
           <i className={`${button.iconClass} icon`} />

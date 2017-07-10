@@ -18,11 +18,8 @@ const Room = props => {
   const progressionConfig = stageProgressionConfigs[stage]
   const showActionItem = stage !== "idea-generation"
 
-  function checkForActionItems() {
-    if (showActionItem) {
-      return !props.ideas.some(idea => idea.category === "action-item")
-    }
-    return false
+  function wereActionItemsSubmitted() {
+    return showActionItem && !props.ideas.some(idea => idea.category === "action-item")
   }
 
   return (
@@ -45,7 +42,7 @@ const Room = props => {
               <StageProgressionButton
                 {...props}
                 config={progressionConfig}
-                buttonDisabled={checkForActionItems()}
+                buttonDisabled={wereActionItemsSubmitted()}
               />
             }
           </div>

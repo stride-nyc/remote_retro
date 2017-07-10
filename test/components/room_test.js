@@ -39,8 +39,7 @@ describe("Room component", () => {
           />
         )
         const stageProgressionButton = roomComponent.find(StageProgressionButton)
-        expect(stageProgressionButton).to.have.length(1)
-        expect(stageProgressionButton.prop("buttonDisabled")).to.be.true // eslint-disable-line
+        expect(stageProgressionButton.prop("buttonDisabled")).to.be.true // eslint-disable-line no-unused-expressions
       })
     })
 
@@ -55,8 +54,7 @@ describe("Room component", () => {
           />
         )
         const stageProgressionButton = roomComponent.find(StageProgressionButton)
-        expect(stageProgressionButton).to.have.length(1)
-        expect(stageProgressionButton.prop("buttonDisabled")).to.be.false // eslint-disable-line
+        expect(stageProgressionButton.prop("buttonDisabled")).to.be.false // eslint-disable-line no-unused-expressions
       })
     })
   })
