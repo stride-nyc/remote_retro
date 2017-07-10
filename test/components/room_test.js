@@ -28,6 +28,35 @@ describe("Room component", () => {
         expect(roomComponent.find(StageProgressionButton)).to.have.length(1)
       })
     })
+
+    context("and there are no action items during the action-items stage", () => {
+      it("renders a disabled <StageProgressionButton>", () => {
+        const roomComponent = shallow(
+          <Room
+            {...defaultProps}
+            currentUser={facilitatorUser}
+            stage="action-items"
+          />
+        )
+        const stageProgressionButton = roomComponent.find(StageProgressionButton)
+        expect(stageProgressionButton.prop("buttonDisabled")).to.be.true // eslint-disable-line no-unused-expressions
+      })
+    })
+
+    context("and there are action items during the action-items stage", () => {
+      it("renders an enabled <StageProgressionButton>", () => {
+        const roomComponent = shallow(
+          <Room
+            {...defaultProps}
+            currentUser={facilitatorUser}
+            stage="action-items"
+            ideas={[{ category: "action-item" }]}
+          />
+        )
+        const stageProgressionButton = roomComponent.find(StageProgressionButton)
+        expect(stageProgressionButton.prop("buttonDisabled")).to.be.false // eslint-disable-line no-unused-expressions
+      })
+    })
   })
 
   context("when the current user is not facilitator", () => {

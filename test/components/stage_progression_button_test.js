@@ -18,6 +18,7 @@ describe("StageProgressionButton", () => {
   const defaultProps = {
     retroChannel: mockRetroChannel,
     config: mockButtonConfig,
+    buttonDisabled: false,
   }
 
   let stageProgressionButton
