@@ -6,6 +6,17 @@
 
 This repository houses the web application code for Remote Retro, an open source professional development project written in Elixir/Phoenix and sponsored by [Stride Consulting](http://stridenyc.com).
 
+## Table of Contents
+1. [Roadmap to MVP](#roadmap-to-mvp)
+1. [Project Management](#project-management)
+1. [Dev Environment Setup](#dev-environment-setup)
+1. [Tests](#tests)
+1. [Code](#code)
+1. [Contributing](#contributing)
+1. [Code of Conduct](#code-of-conduct)
+1. [Acknowledgements](#acknowledgements)
+1. [License](#license)
+
 ## Roadmap to MVP
 
 The MVP aims to provide a collaborative, real-time, facilitator-driven retrospective through the following stages:
@@ -22,7 +33,7 @@ The MVP aims to provide a collaborative, real-time, facilitator-driven retrospec
     - participants generate and assign action items
 1. Action Item Distribution
     - facilitator distributes action items via email to all retro participants
-    
+
 ## Project Management
 
 To see the project's current feature pipeline, simply install the wonderful [ZenHub](http://zenhub.io) Chrome Extension.
@@ -147,6 +158,15 @@ To run the local eslint:
 mix lint
 ```
 
+## Contributing
+Coming soon!
+
+## Code of Conduct
+[The Contributor Covenant](CODE_OF_CONDUCT.md)
+
 ## Acknowledgements
 
 Many thanks to the project's contributors for devoting their time, energy, and passion, and additional thanks go out to the leadership of [Stride Consulting](http://stridenyc.com) for giving this project the opportunity it needed to bloom.
+
+## License
+[MIT](LICENSE)
