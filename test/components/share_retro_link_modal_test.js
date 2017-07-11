@@ -33,23 +33,23 @@ describe("ShareRetroLinkModal component", () => {
 
     describe("when the modal is open", () => {
       let portalToModalContent
-      
+
       beforeEach(() => {
+        document.execCommand = sinon.spy()
         wrapper = mount(<ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />)
         portalToModalContent = wrapper.find(Modal).node.portal
       })
 
-      describe("and the copy link button clicked", () => {
+      describe("and the copy link button is clicked", () => {
         beforeEach(() => {
           const content = portalToModalContent.refs.content
           const copyButton = content.querySelector(".copy.icon")
+
           copyButton.click()
         })
 
         it("copyLinkInput is in state", () => {
-          expect(
-            wrapper.state().hasOwnProperty('copyLinkInput')
-          ).to.equal(true)
+          expect(document.execCommand.called).to.equal(true)
         })
       })
 

@@ -11,7 +11,6 @@ class ShareRetroLinkModal extends Component {
   constructor(props) {
     super(props)
     this.closeModal = this.closeModal.bind(this)
-    this.setCurrentInput = this.setCurrentInput.bind(this)
     this.handleCopyLink = this.handleCopyLink.bind(this)
     this.state = {
       closedByUser: false,
@@ -30,14 +29,8 @@ class ShareRetroLinkModal extends Component {
   }
 
   handleCopyLink() {
-    const { copyLinkInput } = this.state
-
-    copyLinkInput.select()
+    this.input.select()
     document.execCommand('copy')
-  }
-
-  setCurrentInput(input) {
-    this.setState({copyLinkInput: input})
   }
 
   render() {
@@ -69,7 +62,7 @@ class ShareRetroLinkModal extends Component {
           </div>
           <div className="ui fluid input">
             <input
-              ref={this.setCurrentInput}
+              ref={input => this.input = input}
               readOnly
               className="ui input"
               type="text"
