@@ -20,8 +20,8 @@ class ShareRetroLinkModal extends Component {
 
   componentWillReceiveProps({ retroCreationTimestamp }) {
     if (timeElapsedLessThanFiveSec(retroCreationTimestamp)) {
-       this.setState({ shouldOpen: true })
-     }
+      this.setState({ shouldOpen: true })
+    }
   }
 
   closeModal() {
@@ -30,7 +30,7 @@ class ShareRetroLinkModal extends Component {
 
   handleCopyLink() {
     this.input.select()
-    document.execCommand('copy')
+    document.execCommand("copy")
   }
 
   render() {
@@ -86,7 +86,7 @@ ShareRetroLinkModal.defaultProps = {
 }
 
 ShareRetroLinkModal.propTypes = {
-  retroCreationTimestamp: React.PropTypes.string
+  retroCreationTimestamp: React.PropTypes.string,
 }
 
 export default ShareRetroLinkModal
