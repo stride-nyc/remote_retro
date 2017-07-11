@@ -74,11 +74,14 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing a new idea to the socket" do
-    setup [:join_the_retro_channel]
-    test "results in the broadcast of the new idea to all connected clients", %{socket: socket} do
-      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", author: "Travis"})
+    setup [:persist_user_for_retro, :join_the_retro_channel]
 
-      assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, author: "Travis"})
+    @tag user: @mock_user
+    test "results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
+      user_id = user.id
+      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", author: "Travis", userId: user_id})
+
+      assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, author: "Travis", user_id: ^user_id})
     end
   end
 
@@ -119,8 +122,9 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing an edit of an idea to the socket" do
-    setup [:persist_idea_for_retro, :join_the_retro_channel]
+    setup [:persist_user_for_retro, :persist_idea_for_retro, :join_the_retro_channel]
 
+    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript", author: "Maryanne"}
     test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
@@ -129,6 +133,8 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_broadcast("idea_edited", %{body: "hell's bells", id: ^idea_id})
     end
 
+
+    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "doggone keeper", author: "Maryanne"}
     test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
       idea_id = idea.id
@@ -141,8 +147,9 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing a delete event to the socket" do
-    setup [:join_the_retro_channel, :persist_idea_for_retro]
+    setup [:join_the_retro_channel, :persist_user_for_retro, :persist_idea_for_retro]
 
+    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Zander"}
     test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
       idea_id = idea.id

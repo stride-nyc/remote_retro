@@ -1,13 +1,25 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
-  alias RemoteRetro.Repo
+  alias RemoteRetro.{Repo, User}
 
   def persist_idea_for_retro(context) do
-    %{idea: idea, retro: retro} = context
-    idea = Map.put(idea, :retro_id, retro.id)
+    %{idea: idea, retro: retro, user: user} = context
+    idea =
+      Map.put(idea, :retro_id, retro.id)
+      |> Map.put(:user_id, user.id)
     idea = Repo.insert!(idea)
 
     Map.put(context, :idea, idea)
+  end
+
+  def persist_user_for_retro(context) do
+    %{user: user} = context
+    user_params = User.build_user_from_oauth(user)
+    user =
+      User.changeset(%User{}, user_params)
+      |> Repo.insert!
+
+    Map.put(context, :user, user)
   end
 
   def new_browser_session(metadata \\ %{}) do

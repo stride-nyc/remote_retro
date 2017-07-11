@@ -7,7 +7,7 @@ import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_f
 describe("IdeaSubmissionForm component", () => {
   let wrapper
 
-  const stubUser = { given_name: "Mugatu", token: "xyz" }
+  const stubUser = { given_name: "Mugatu", token: "xyz", id: 1 }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const fakeEvent = {
     stopPropagation: () => undefined,
@@ -33,6 +33,7 @@ describe("IdeaSubmissionForm component", () => {
           category: "happy",
           body: "",
           author: "Mugatu",
+          userId: 1,
         }
       )).to.equal(true)
     })
