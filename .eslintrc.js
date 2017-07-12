@@ -62,5 +62,6 @@ module.exports = {
     "react/no-unused-prop-types": "off",
     "react/forbid-prop-types": "off",
     "jsx-a11y/no-static-element-interactions": 0,
+    "import/no-named-as-default": "off",
   }
 }

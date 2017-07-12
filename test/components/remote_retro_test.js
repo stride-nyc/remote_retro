@@ -8,12 +8,13 @@ import RetroChannel from "../../web/static/js/services/retro_channel"
 describe("<RemoteRetro>", () => {
   describe("RetroChannel Events", () => {
     let retroChannel
-    let wrapper
+    let wrapper // eslint-disable-line no-unused-vars
     let actions
     let addIdeaSpy
     let deleteIdeaSpy
     let updateIdeaSpy
     let updateStageSpy
+    const now = Date.now().toString()
 
     beforeEach(() => {
       addIdeaSpy = spy()
@@ -37,6 +38,7 @@ describe("<RemoteRetro>", () => {
           actions={actions}
           userToken="userToken"
           retroChannel={retroChannel}
+          insertedAt={now}
         />
       )
     })
@@ -114,6 +116,7 @@ describe("<RemoteRetro>", () => {
               retroChannel={retroChannel}
               actions={actions}
               ideas={[]}
+              insertedAt={now}
             />
           )
         })

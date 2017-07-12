@@ -62,7 +62,7 @@ class ShareRetroLinkModal extends Component {
           </div>
           <div className="ui fluid input">
             <input
-              ref={input => this.input = input}
+              ref={input => { this.input = input }}
               readOnly
               className="ui input"
               type="text"

@@ -1,7 +1,8 @@
 {
   "rules": {
     "import/no-extraneous-dependencies": ["error", {"devDependencies": true, "optionalDependencies": false, "peerDependencies": false}],
-    "react/jsx-filename-extension": 0
+    "react/jsx-filename-extension": 0,
+    "no-unused-expressions": 0
   },
   "env": {
     "mocha": true

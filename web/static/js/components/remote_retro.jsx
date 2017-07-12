@@ -102,6 +102,8 @@ RemoteRetro.propTypes = {
   users: AppPropTypes.users,
   ideas: AppPropTypes.ideas,
   userToken: PropTypes.string.isRequired,
+  stage: PropTypes.string.isRequired,
+  insertedAt: PropTypes.string.isRequired,
 }
 
 RemoteRetro.defaultProps = {

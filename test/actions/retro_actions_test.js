@@ -21,5 +21,3 @@ describe("setInitialState", () => {
     })
   })
 })
-
-
