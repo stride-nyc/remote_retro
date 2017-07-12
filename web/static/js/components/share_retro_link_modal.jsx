@@ -17,6 +17,7 @@ class ShareRetroLinkModal extends Component {
     this.state = {
       closedByUser: false,
       shouldOpen: timeElapsedLessThanFiveSec(props.retroCreationTimestamp),
+      buttonClicked: false,
     }
   }
 
@@ -33,11 +34,14 @@ class ShareRetroLinkModal extends Component {
   handleCopyLink() {
     this.input.select()
     document.execCommand("copy")
+    this.setState({ buttonClicked: true })
   }
 
   render() {
     const { closedByUser, shouldOpen } = this.state
     const hasntBeenClosed = !closedByUser
+    let copyButtonText = this.state.buttonClicked ? "Copied!" : "Copy Link to Clipboard"
+    let copyButtonClass = this.state.buttonClicked ? "ui positive button" : ""
 
     return (
       <Modal
@@ -71,9 +75,9 @@ class ShareRetroLinkModal extends Component {
             />
           </div>
           <div className="ui basic center aligned segment">
-            <button className="ui labeled teal icon button" onClick={this.handleCopyLink}>
+            <button className={"ui labeled teal icon button " + copyButtonClass} onClick={this.handleCopyLink}>
               <i className="copy icon" />
-              Copy Link to Clipboard
+              {copyButtonText}
             </button>
           </div>
         </div>
