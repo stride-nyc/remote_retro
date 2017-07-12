@@ -147,7 +147,7 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing a delete event to the socket" do
-    setup [:join_the_retro_channel, :persist_user_for_retro, :persist_idea_for_retro]
+    setup [:persist_user_for_retro, :join_the_retro_channel, :persist_idea_for_retro]
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Zander"}

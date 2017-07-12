@@ -43,7 +43,13 @@ defmodule RemoteRetro.RetroChannel do
 
   def handle_in("new_idea", %{"body" => body, "category" => category, "author" => author, "userId" => user_id}, socket) do
     idea =
-      %Idea{body: body, category: category, retro_id: socket.assigns.retro_id, author: author, user_id: user_id}
+      %Idea{
+        body: body,
+        category: category,
+        retro_id: socket.assigns.retro_id,
+        author: author,
+        user_id: user_id
+      }
       |> Idea.changeset
       |> Repo.insert!
 
