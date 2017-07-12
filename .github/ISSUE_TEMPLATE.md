@@ -1,4 +1,4 @@
-As a (facilitator/non-facilitator/contributer/maintainer),
+As a (facilitator/non-facilitator/contributor/maintainer),
 I would like (feature/enhancement),
 So that (logical explanation of purpose).
 
