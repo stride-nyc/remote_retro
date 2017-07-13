@@ -9,11 +9,12 @@ defmodule RemoteRetro.Idea do
     field :author, :string
 
     belongs_to :retro, RemoteRetro.Retro, type: Ecto.UUID
+    belongs_to :user, RemoteRetro.User
 
     timestamps()
   end
 
-  @required_fields [:category, :body, :retro_id, :author]
+  @required_fields [:category, :body, :retro_id, :author, :user_id]
 
   def changeset(struct, params \\ %{}) do
     struct
