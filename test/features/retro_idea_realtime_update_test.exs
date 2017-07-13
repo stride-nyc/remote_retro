@@ -21,9 +21,9 @@ defmodule RetroIdeaRealtimeUpdateTest do
   end
 
   describe "when an idea already exists in a retro" do
-    setup [:persist_idea_for_retro]
+    setup [:persist_user_for_retro, :persist_idea_for_retro]
 
-    @tag user: @mock_user
+    @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
     @tag idea: %Idea{category: "sad", body: "no linter", author: "Participant"}
     test "the immediate update of ideas edited by the facilitator", %{session: facilitator_session, retro: retro} do
       participant_session = new_browser_session()
@@ -42,7 +42,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       assert String.contains?(ideas_list_text, "No one uses the linter.")
     end
 
-    @tag user: @mock_user
+    @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
     @tag idea: %Idea{category: "happy", body: "slack time!", author: "Participant"}
     test "the immediate removal of an idea deleted by the facilitator", %{session: facilitator_session, retro: retro} do
       participant_session = new_browser_session()

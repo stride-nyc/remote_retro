@@ -4,16 +4,9 @@ defmodule RemoteRetro.TestHelpers do
 
   def persist_idea_for_retro(context) do
     %{idea: idea, retro: retro, user: user} = context
-    user =
-      if Map.has_key?(user, :id) do
-        user
-      else
-        Repo.get_by(User, email: user["email"])
-      end
     idea =
-      Map.put(idea, :retro_id, retro.id)
-      |> Map.put(:user_id, user.id)
-    idea = Repo.insert!(idea)
+      Map.merge(idea, %{retro_id: retro.id, user_id: user.id})
+      |>Repo.insert!
 
     Map.put(context, :idea, idea)
   end

@@ -5,9 +5,9 @@ defmodule FacilitatorHighlightsAnIdeaTest do
   @mock_user Application.get_env(:remote_retro, :mock_user)
 
   describe "when the facilitator clicks on the announcement icon for an idea" do
-    setup [:persist_idea_for_retro]
+    setup [:persist_user_for_retro, :persist_idea_for_retro]
 
-    @tag user: @mock_user
+    @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
     @tag idea: %Idea{category: "happy", body: "Teams worked well together", author: "Participant"}
     test "the idea that the facilitator clicked on toggles highlighted class for everyone", %{session: facilitator_session, retro: retro} do
       idea_body = "Teams worked well together"
