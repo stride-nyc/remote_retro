@@ -24,7 +24,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     setup [:persist_user_for_retro, :persist_idea_for_retro]
 
     @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
-    @tag idea: %Idea{category: "sad", body: "no linter", author: "Participant"}
+    @tag idea: %Idea{category: "sad", body: "no linter"}
     test "the immediate update of ideas edited by the facilitator", %{session: facilitator_session, retro: retro} do
       participant_session = new_browser_session()
 
@@ -43,7 +43,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     end
 
     @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
-    @tag idea: %Idea{category: "happy", body: "slack time!", author: "Participant"}
+    @tag idea: %Idea{category: "happy", body: "slack time!"}
     test "the immediate removal of an idea deleted by the facilitator", %{session: facilitator_session, retro: retro} do
       participant_session = new_browser_session()
 

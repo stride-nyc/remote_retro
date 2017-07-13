@@ -5,7 +5,7 @@ defmodule RemoteRetro.RetroChannel do
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
-    retro = Repo.get!(Retro, retro_id) |> Repo.preload(:ideas)
+    retro = Repo.get!(Retro, retro_id) |> Repo.preload(ideas: :user)
 
     send self(), :after_join
     {:ok, retro, socket}
@@ -42,17 +42,17 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("new_idea", %{"body" => body, "category" => category, "author" => author, "userId" => user_id}, socket) do
+  def handle_in("new_idea", %{"body" => body, "category" => category, "userId" => user_id}, socket) do
     idea =
       %Idea{
         body: body,
         category: category,
         retro_id: socket.assigns.retro_id,
-        author: author,
         user_id: user_id
       }
       |> Idea.changeset
       |> Repo.insert!
+      |> Repo.preload(:user)
 
     broadcast! socket, "new_idea_received", idea
     {:noreply, socket}
@@ -63,6 +63,7 @@ defmodule RemoteRetro.RetroChannel do
       Repo.get(Idea, id)
       |> Idea.changeset(%{body: body})
       |> Repo.update!
+      |> Repo.preload(:user)
 
     broadcast! socket, "idea_edited", idea
     {:noreply, socket}
