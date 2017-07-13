@@ -86,6 +86,7 @@ StageProgressionButton.propTypes = {
 
 StageProgressionButton.defaultProps = {
   buttonDisabled: false,
+  config: null,
 }
 
 export default StageProgressionButton

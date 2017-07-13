@@ -13,7 +13,7 @@ const CategoryColumn = props => {
   return (
     <section className={`${category} ${styles.index} column`}>
       <div className={` ${styles.columnHead} ui center aligned basic segment`}>
-        <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} />
+        <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} alt={category} />
         <p><strong>{category}</strong></p>
       </div>
       <div className={`ui fitted divider ${styles.divider}`} />
