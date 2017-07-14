@@ -1,7 +1,7 @@
 import { combineReducers } from "redux"
 
 import user from "./user"
-import idea from "./idea"
+import idea, * as fromIdea from "./idea"
 import stage from "./stage"
 import insertedAt from "./inserted_at"
 
@@ -13,3 +13,7 @@ const rootReducer = combineReducers({
 })
 
 export default rootReducer
+
+export const getIdeasWithAuthors = state =>
+  fromIdea.getIdeasWithAuthors(state.idea, state.user)
+
