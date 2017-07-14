@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import Modal from "react-modal"
+import classNames from "classnames"
 
 import styles from "./css_modules/share_retro_link_modal.css"
 
@@ -14,6 +15,7 @@ class ShareRetroLinkModal extends Component {
     super(props)
     this.closeModal = this.closeModal.bind(this)
     this.handleCopyLink = this.handleCopyLink.bind(this)
+    this.resetClickedState = this.resetClickedState.bind(this)
     this.state = {
       closedByUser: false,
       shouldOpen: timeElapsedLessThanFiveSec(props.retroCreationTimestamp),
@@ -37,11 +39,33 @@ class ShareRetroLinkModal extends Component {
     this.setState({ buttonClicked: true })
   }
 
+  resetClickedState() {
+    this.setState({ buttonClicked: false })
+  }
+
   render() {
     const { closedByUser, shouldOpen } = this.state
     const hasntBeenClosed = !closedByUser
     let copyButtonText = this.state.buttonClicked ? "Copied!" : "Copy Link to Clipboard"
-    let copyButtonClass = this.state.buttonClicked ? "ui positive button" : ""
+    const copyButtonClasses = classNames(
+      'ui',
+      'labeled',
+      'teal',
+      'icon',
+      'button',
+      {
+        positive: this.state.buttonClicked,
+        [styles.buttonCopy]: true,
+      }
+    )
+
+    const copyButtonIconClasses = classNames(
+      'icon',
+      {
+        copy: !this.state.buttonClicked,
+        checkmark: this.state.buttonClicked,
+      }
+    )
 
     return (
       <Modal
@@ -75,8 +99,8 @@ class ShareRetroLinkModal extends Component {
             />
           </div>
           <div className="ui basic center aligned segment">
-            <button className={"ui labeled teal icon button " + copyButtonClass} onClick={this.handleCopyLink}>
-              <i className="copy icon" />
+            <button className={copyButtonClasses} onClick={this.handleCopyLink} onMouseLeave={this.resetClickedState}>
+              <i className={copyButtonIconClasses} />
               {copyButtonText}
             </button>
           </div>
