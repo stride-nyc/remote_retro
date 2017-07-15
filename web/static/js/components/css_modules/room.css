@@ -3,17 +3,3 @@
   min-height: 100vh;
   flex-direction: column;
 }
-
-.powered-by {
-  font-size: 0.7rem;
-}
-
-.appear {
-  transform: translateY(100%);
-}
-
-.appear.appear-active {
-  transition: transform 400ms ease;
-  transition-delay: 300ms;
-  transform: translateY(0);
-}

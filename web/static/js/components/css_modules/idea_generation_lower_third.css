@@ -1,0 +1,13 @@
+.appear {
+  transform: translateY(100%);
+}
+
+.appear.appear-active {
+  transition: transform 400ms ease;
+  transition-delay: 300ms;
+  transform: translateY(0);
+}
+
+.powered-by {
+  font-size: 0.7rem;
+}
