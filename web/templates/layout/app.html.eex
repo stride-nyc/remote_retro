@@ -6,8 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="">
-
-    <title>Hello RemoteRetro!</title>
+    <title>RemoteRetro</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/semantic-ui/semantic.min.css") %>">
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
   </head>
