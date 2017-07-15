@@ -39,3 +39,5 @@ web/static/js/dll/*
 
 /priv/static/robots.txt
 .DS_Store
+
+npm-debug.log*
