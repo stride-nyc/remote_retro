@@ -5,7 +5,7 @@ import sinon from "sinon"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("<IdeaEditForm />", () => {
-  const idea = { id: 999, category: "sad", body: "redundant tests", author: "Trizzle" }
+  const idea = { id: 999, category: "sad", body: "redundant tests", userId: 1 }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const defaultProps = { idea, retroChannel: mockRetroChannel }
 

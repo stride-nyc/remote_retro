@@ -21,7 +21,7 @@ export const retroChannel = PropTypes.shape({
 
 export const idea = PropTypes.shape({
   id: PropTypes.number,
-  author: PropTypes.object,
+  user: PropTypes.object,
   body: PropTypes.string,
   category,
 })

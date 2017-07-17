@@ -6,7 +6,6 @@ import { Presence } from "phoenix"
 import * as userActionCreators from "../actions/user"
 import * as ideaActionCreators from "../actions/idea"
 import * as retroActionCreators from "../actions/retro"
-import { getIdeasWithAuthors } from "../reducers"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import ShareRetroLinkModal from "./share_retro_link_modal"
@@ -117,7 +116,7 @@ RemoteRetro.defaultProps = {
 
 const mapStateToProps = state => ({
   users: state.user,
-  ideas: getIdeasWithAuthors(state),
+  ideas: state.idea,
   stage: state.stage,
   insertedAt: state.insertedAt,
 })

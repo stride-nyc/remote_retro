@@ -23,7 +23,7 @@ const Idea = props => {
       }
       { isFacilitator && <IdeaControls idea={idea} retroChannel={retroChannel} /> }
       <span className={styles.authorAttribution}>
-        {idea.author.given_name}:
+        {idea.user.given_name}:
       </span> {idea.liveEditText || idea.body}
       {isEdited && <span className={styles.editedIndicator}> (edited)</span>}
     </div>

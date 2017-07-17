@@ -6,7 +6,7 @@ import IdeaControls from "../../web/static/js/components/idea_controls"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("Idea component", () => {
-  const idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
+  const idea = { category: "sad", body: "redundant tests", user_id: 1 }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const mockUser = {}
 

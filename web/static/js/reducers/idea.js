@@ -16,15 +16,3 @@ const idea = (state = [], action) => {
 }
 
 export default idea
-
-export const getIdeasWithAuthors = (ideas, users) => {
-  return ideas.map(idea => {
-    if (idea.author) {
-      return idea
-    }
-    const ideaWithAuthor = idea
-    ideaWithAuthor.author = users.find(user => user.id === idea.user_id)
-    delete ideaWithAuthor.user_id
-    return ideaWithAuthor
-  })
-}
