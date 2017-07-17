@@ -18,13 +18,12 @@ const idea = (state = [], action) => {
 export default idea
 
 export const getIdeasWithAuthors = (ideas, users) => {
-  console.log('here are the ideas', ideas)
   return ideas.map(idea => {
+    if (idea.author) {
+      return idea
+    }
     const ideaWithAuthor = idea
-    console.log("what is the id", idea.user_id, users[0].id)
     ideaWithAuthor.author = users.find(user => user.id === idea.user_id)
-    console.log("author", ideaWithAuthor.author)
-    console.log("here da users", users)
     delete ideaWithAuthor.user_id
     return ideaWithAuthor
   })
