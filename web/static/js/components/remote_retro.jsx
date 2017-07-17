@@ -9,6 +9,7 @@ import * as retroActionCreators from "../actions/retro"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import ShareRetroLinkModal from "./share_retro_link_modal"
+import UserActivity from "../services/user_activity"
 
 export class RemoteRetro extends Component {
   componentWillMount() {
@@ -39,17 +40,11 @@ export class RemoteRetro extends Component {
     })
 
     retroChannel.on("user_typing_idea", payload => {
+      const user = this.props.users.find(user => user.token === payload.userToken)
       actions.updateUser(payload.userToken, { is_typing: true, last_typed: Date.now() })
-
-      const interval = setInterval(() => {
-        const { users } = this.props
-        const user = users.find(user => user.token === payload.userToken)
-        const noNewTypingEventsReceived = (Date.now() - user.last_typed) > 650
-        if (noNewTypingEventsReceived) {
-          clearInterval(interval)
-          actions.updateUser(user.token, { is_typing: false })
-        }
-      }, 10)
+      UserActivity.checkIfDoneTyping(user, () => {
+        actions.updateUser(user.token, { is_typing: false })
+      })
     })
 
     retroChannel.on("enable_edit_state", nominatedIdea => {
