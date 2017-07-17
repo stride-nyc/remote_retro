@@ -1,5 +1,4 @@
 defmodule Mix.Tasks.EndToEnd do
-  @moduledoc false
   use Mix.Task
 
   @shortdoc "Runs feature tests"

@@ -1,5 +1,4 @@
 defmodule RemoteRetro.Idea do
-  @moduledoc false
   use RemoteRetro.Web, :model
 
   @derive {Poison.Encoder, except: [:__meta__]}
