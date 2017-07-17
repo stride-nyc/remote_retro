@@ -1,5 +1,4 @@
 defmodule RemoteRetro.Emails do
-  @moduledoc false
   import Bamboo.Email, except: [from: 2]
   import Ecto.Query
   alias RemoteRetro.Repo

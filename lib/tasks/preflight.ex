@@ -1,5 +1,4 @@
 defmodule Mix.Tasks.Preflight do
-  @moduledoc false
   use Mix.Task
 
   @shortdoc "Checks for necessary ENVARS"

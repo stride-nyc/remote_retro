@@ -1,5 +1,4 @@
 defmodule Mix.Tasks.Lint do
-  @moduledoc false
   use Mix.Task
 
   @shortdoc "Runs local eslint"
