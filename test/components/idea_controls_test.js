@@ -5,7 +5,7 @@ import sinon from "sinon"
 import IdeaControls from "../../web/static/js/components/idea_controls"
 
 describe("<IdeaControls />", () => {
-  const idea = { id: 666, category: "sad", body: "redundant tests", author: "Trizzle" }
+  const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
 
   describe("on click of the removal icon", () => {
     it("pushes an `delete_idea` event to the retro channel, passing the given idea's id", () => {

@@ -83,9 +83,9 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag user: @mock_user
     test "results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
-      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", author: "Travis", userId: user_id})
+      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id})
 
-      assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, author: "Travis", user_id: ^user_id})
+      assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
     end
   end
 
@@ -129,7 +129,7 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:persist_user_for_retro, :persist_idea_for_retro, :join_the_retro_channel]
 
     @tag user: @mock_user
-    @tag idea: %Idea{category: "sad", body: "JavaScript", author: "Maryanne"}
+    @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "idea_edited", %{id: idea_id, body: "hell's bells"})
@@ -139,7 +139,7 @@ defmodule RemoteRetro.RetroChannelTest do
 
 
     @tag user: @mock_user
-    @tag idea: %Idea{category: "sad", body: "doggone keeper", author: "Maryanne"}
+    @tag idea: %Idea{category: "sad", body: "doggone keeper"}
     test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "idea_edited", %{id: idea_id, body: "hell's bells"})
@@ -154,7 +154,7 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:persist_user_for_retro, :join_the_retro_channel, :persist_idea_for_retro]
 
     @tag user: @mock_user
-    @tag idea: %Idea{category: "sad", body: "WIP commits on master", author: "Zander"}
+    @tag idea: %Idea{category: "sad", body: "WIP commits on master"}
     test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "delete_idea", idea_id)

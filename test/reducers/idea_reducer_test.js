@@ -15,7 +15,7 @@ describe("idea reducer", () => {
 
     describe("and there is initial state", () => {
       it("should return that initial state", () => {
-        const initialState = [{ body: "we have a linter!", category: "happy", author: "Kimberly Suazo" }]
+        const initialState = [{ body: "we have a linter!", category: "happy", user_id: 1 }]
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
         expect(ideaReducer(initialState, {})).to.deep.equal(initialState)
@@ -27,9 +27,9 @@ describe("idea reducer", () => {
   describe("the handled actions", () => {
     describe("when the action is ADD_IDEA", () => {
       it("should add an idea to list of ideas", () => {
-        const initialState = [{ body: "i'm an old idea!", category: "happy", author: "Morty" }]
+        const initialState = [{ body: "i'm an old idea!", category: "happy", user_id: 2 }]
         deepFreeze(initialState)
-        const idea = { body: "we have a linter!", category: "happy", author: "Kimberly Suazo" }
+        const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
         const action = { type: "ADD_IDEA", idea }
 
         expect(ideaReducer(initialState, action)).to.deep.equal([...initialState, idea])
@@ -38,10 +38,10 @@ describe("idea reducer", () => {
 
     describe("when the action is SET_INITIAL_STATE", () => {
       it("should replace the state with the ideas passed in the action's inialState object", () => {
-        const initialIdeas = [{ body: "i'm an old idea!", category: "happy", author: "Morty" }]
+        const initialIdeas = [{ body: "i'm an old idea!", category: "happy", user_id: 2 }]
         deepFreeze(initialIdeas)
 
-        const newIdeas = [{ body: "modern convenience", category: "confused", author: "Kimberly Suazo" }]
+        const newIdeas = [{ body: "modern convenience", category: "confused", user_id: 1 }]
         const action = { type: "SET_INITIAL_STATE", initialState: { ideas: newIdeas } }
 
         expect(ideaReducer(initialIdeas, action)).to.deep.equal([...newIdeas])
@@ -49,26 +49,26 @@ describe("idea reducer", () => {
     })
 
     describe("when the action is UPDATE_IDEA", () => {
-      const initialIdeas = [{ id: 666, category: "happy", author: "Kimberly" }, { id: 22, category: "n/a", author: "Travis" }]
+      const initialIdeas = [{ id: 666, category: "happy", user_id: 1 }, { id: 22, category: "n/a", user_id: 2 }]
       deepFreeze(initialIdeas)
 
       it("returns an updated set of ideas, where the idea with matching id has updated attributes", () => {
         const action = { type: "UPDATE_IDEA", ideaId: 666, newAttributes: { category: "sad" } }
         expect(ideaReducer(initialIdeas, action)).to.deep.equal([
-          { id: 666, category: "sad", author: "Kimberly" },
-          { id: 22, category: "n/a", author: "Travis" },
+          { id: 666, category: "sad", user_id: 1 },
+          { id: 22, category: "n/a", user_id: 2 },
         ])
       })
     })
 
     describe("when the action is DELETE_IDEA", () => {
-      const initialIdeas = [{ id: 667, category: "happy", author: "Kimberly" }, { id: 22, category: "n/a", author: "Travis" }]
+      const initialIdeas = [{ id: 667, category: "happy", user_id: 1 }, { id: 22, category: "n/a", user_id: 2 }]
       deepFreeze(initialIdeas)
 
       it("returns an updated set of ideas, where the idea with matching id has been removed", () => {
         const action = { type: "DELETE_IDEA", ideaId: 667 }
         expect(ideaReducer(initialIdeas, action)).to.deep.equal([
-          { id: 22, category: "n/a", author: "Travis" },
+          { id: 22, category: "n/a", user_id: 2 },
         ])
       })
     })

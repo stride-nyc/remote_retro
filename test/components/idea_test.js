@@ -6,7 +6,14 @@ import IdeaControls from "../../web/static/js/components/idea_controls"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("Idea component", () => {
-  const idea = { category: "sad", body: "redundant tests", author: "Trizzle" }
+  const idea = {
+    category: "sad",
+    body: "redundant tests",
+    user_id: 1,
+    user: {
+      given_name: "Phil",
+    },
+  }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const mockUser = {}
 
@@ -134,6 +141,9 @@ describe("Idea component", () => {
     const editedIdea = {
       inserted_at: "2017-04-14T17:30:10",
       updated_at: "2017-04-14T17:30:12",
+      user: {
+        given_name: "Liz",
+      },
     }
 
     const wrapper = shallow(

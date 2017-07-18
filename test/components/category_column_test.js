@@ -13,14 +13,17 @@ describe("CategoryColumn", () => {
       id: 5,
       body: "should be third",
       category: "confused",
+      user: mockUser,
     }, {
       id: 2,
       body: "should be first",
       category: "confused",
+      user: mockUser,
     }, {
       id: 4,
       body: "should be second",
       category: "confused",
+      user: mockUser,
     }]
 
     it("it renders them sorted by id ascending", () => {
@@ -46,10 +49,12 @@ describe("CategoryColumn", () => {
         id: 1,
         body: "tests!",
         category: "happy",
+        user: mockUser,
       }, {
         id: 2,
         body: "winter break!",
         category: "happy",
+        user: mockUser,
       }]
 
       const wrapper = shallow(
@@ -70,6 +75,7 @@ describe("CategoryColumn", () => {
         id: 1,
         body: "still no word on tests",
         category: "confused",
+        user: mockUser,
       }]
 
       const differentCategory = "happy"
