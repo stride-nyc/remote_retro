@@ -17,6 +17,7 @@ class IdeaSubmissionForm extends Component {
     this.state = {
       body: "",
       category: this.defaultCategory,
+      ideaEntryStarted: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
@@ -31,7 +32,11 @@ class IdeaSubmissionForm extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { actions: { toggleSubmitIdeaPromptPointer } } = this.props
     if (this.state.category !== prevState.category) { this.ideaInput.focus() }
+    if (this.state.ideaEntryStarted !== prevState.ideaEntryStarted) {
+      toggleSubmitIdeaPromptPointer(false)
+    }
   }
 
   handleSubmit(event) {
@@ -45,7 +50,7 @@ class IdeaSubmissionForm extends Component {
   handleIdeaChange(event) {
     const { retroChannel, currentUser } = this.props
     retroChannel.push("user_typing_idea", { userToken: currentUser.token })
-    this.setState({ body: event.target.value })
+    this.setState({ body: event.target.value, ideaEntryStarted: true })
   }
 
   handleCategoryChange(event) {
@@ -53,15 +58,26 @@ class IdeaSubmissionForm extends Component {
   }
 
   render() {
+    const { ui } = this.props
     const disabled = this.state.body.length < 3
     const defaultCategoryOptions = [
       <option key="happy" value="happy">happy</option>,
       <option key="sad" value="sad">sad</option>,
       <option key="confused" value="confused">confused</option>,
     ]
+    let pointingLabel = null
+
+    if (ui.submitIdeaPromptPointerVisible) {
+      pointingLabel = (
+        <div className="ui pointing below teal label">
+          Submit an idea!
+        </div>
+      )
+    }
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
+        {pointingLabel}
         <div className={`${styles.fields} fields`}>
           <div className={`${styles.flex} five wide inline field`}>
             <label htmlFor="category">Category:</label>
@@ -100,6 +116,9 @@ IdeaSubmissionForm.propTypes = {
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   showActionItem: React.PropTypes.bool.isRequired,
+  ideas: AppPropTypes.ideas.isRequired,
+  actions: React.PropTypes.object.isRequired,
+  ui: React.PropTypes.object.isRequired,
 }
 
 export default IdeaSubmissionForm
