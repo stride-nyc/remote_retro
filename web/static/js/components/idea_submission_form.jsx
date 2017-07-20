@@ -116,7 +116,6 @@ IdeaSubmissionForm.propTypes = {
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   showActionItem: React.PropTypes.bool.isRequired,
-  ideas: AppPropTypes.ideas.isRequired,
   actions: React.PropTypes.object.isRequired,
   ui: React.PropTypes.object.isRequired,
 }

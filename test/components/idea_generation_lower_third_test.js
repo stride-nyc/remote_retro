@@ -14,6 +14,10 @@ describe("IdeaGenerationLowerThird component", () => {
     users: [],
     ideas: [],
     stage: "idea-generation",
+    ui: {
+      submitIdeaPromptPointerVisible: true,
+    },
+    actions: {},
   }
 
   context("when the current user is facilitator", () => {
@@ -68,6 +72,29 @@ describe("IdeaGenerationLowerThird component", () => {
       )
 
       expect(lowerThird.find(StageProgressionButton)).to.have.length(0)
+    })
+  })
+
+  context("when the submit idea prompt pointer is visible", () => {
+    it("adds a class to the StageProgressionButton column to align the button", () => {
+      const lowerThird = shallow(
+        <IdeaGenerationLowerThird {...defaultProps} />
+      )
+      const stageProgressionButtonColumn = lowerThird.find(".three")
+      expect(stageProgressionButtonColumn.hasClass("alignButton")).to.be.true
+    })
+  })
+
+  context("when the submit idea prompt pointer is not visible", () => {
+    it("does not add a class to the StageProgressionButton column", () => {
+      const lowerThird = shallow(
+        <IdeaGenerationLowerThird
+          {...defaultProps}
+          ui={{ submitIdeaPromptPointerVisible: false }}
+        />
+      )
+      const stageProgressionButtonColumn = lowerThird.find(".three")
+      expect(stageProgressionButtonColumn.hasClass("alignButton")).to.be.false
     })
   })
 })

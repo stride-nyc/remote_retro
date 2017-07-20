@@ -39,6 +39,7 @@ describe("<RemoteRetro>", () => {
           userToken="userToken"
           retroChannel={retroChannel}
           insertedAt={now}
+          ui={{}}
         />
       )
     })
@@ -117,6 +118,7 @@ describe("<RemoteRetro>", () => {
               actions={actions}
               ideas={[]}
               insertedAt={now}
+              ui={{}}
             />
           )
         })

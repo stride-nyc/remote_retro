@@ -13,6 +13,8 @@ describe("IdeaSubmissionForm component", () => {
     stopPropagation: () => undefined,
     preventDefault: () => undefined,
   }
+  const uiState = { submitIdeaPromptPointerVisible: true }
+  const fakeActions = { toggleSubmitIdeaPromptPointer: () => {} }
 
   describe("on submit", () => {
     it("pushes a `new_idea` event to the retro channel with the idea", () => {
@@ -23,6 +25,8 @@ describe("IdeaSubmissionForm component", () => {
           currentUser={stubUser}
           retroChannel={retroChannel}
           showActionItem
+          ui={uiState}
+          actions={fakeActions}
         />
       )
 
@@ -33,6 +37,7 @@ describe("IdeaSubmissionForm component", () => {
           category: "happy",
           body: "",
           userId: 1,
+          ideaEntryStarted: false,
         }
       )).to.equal(true)
     })
@@ -47,6 +52,8 @@ describe("IdeaSubmissionForm component", () => {
           currentUser={stubUser}
           retroChannel={retroChannel}
           showActionItem
+          ui={uiState}
+          actions={fakeActions}
         />
       )
 
@@ -66,6 +73,8 @@ describe("IdeaSubmissionForm component", () => {
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
           showActionItem
+          ui={uiState}
+          actions={fakeActions}
         />
       )
 
@@ -87,6 +96,8 @@ describe("IdeaSubmissionForm component", () => {
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
           showActionItem
+          ui={uiState}
+          actions={fakeActions}
         />
       )
       const submitButton = wrapper.find("button[type='submit']")
@@ -106,6 +117,8 @@ describe("IdeaSubmissionForm component", () => {
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
             showActionItem={false}
+            ui={uiState}
+            actions={fakeActions}
           />
         )
 
@@ -136,6 +149,8 @@ describe("IdeaSubmissionForm component", () => {
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
           showActionItem
+          ui={uiState}
+          actions={fakeActions}
         />
       )
 
@@ -151,6 +166,8 @@ describe("IdeaSubmissionForm component", () => {
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
           showActionItem={false}
+          ui={uiState}
+          actions={fakeActions}
         />
       )
 
@@ -170,6 +187,44 @@ describe("IdeaSubmissionForm component", () => {
       expect(
         categorySelect.contains(<option value="action-item">action-item</option>)
       ).to.equal(false)
+    })
+  })
+
+  describe("ui.submitIdeaPromptPointerVisible prop", () => {
+    describe("when it is false", () => {
+      it("doesn't render a pointing label to prompt the user to enter an idea", () => {
+        const uiStateWithNoPointer = { submitIdeaPromptPointerVisible: false }
+        wrapper = mount(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={mockRetroChannel}
+            showActionItem
+            ui={uiStateWithNoPointer}
+            actions={fakeActions}
+          />
+        )
+        expect(
+          wrapper.find(".pointing").length
+        ).to.equal(0)
+      })
+    })
+
+    describe("when it is true", () => {
+      it("does render a pointing label to prompt the user to enter an idea", () => {
+        const uiStateWithPointer = { submitIdeaPromptPointerVisible: true }
+        wrapper = mount(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={mockRetroChannel}
+            showActionItem
+            ui={uiStateWithPointer}
+            actions={fakeActions}
+          />
+        )
+        expect(
+          wrapper.find(".pointing").length
+        ).to.equal(1)
+      })
     })
   })
 })
