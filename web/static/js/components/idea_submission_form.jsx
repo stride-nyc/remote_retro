@@ -32,11 +32,7 @@ class IdeaSubmissionForm extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    const { actions: { toggleSubmitIdeaPromptPointer } } = this.props
     if (this.state.category !== prevState.category) { this.ideaInput.focus() }
-    if (this.state.ideaEntryStarted !== prevState.ideaEntryStarted) {
-      toggleSubmitIdeaPromptPointer(false)
-    }
   }
 
   handleSubmit(event) {
@@ -58,7 +54,6 @@ class IdeaSubmissionForm extends Component {
   }
 
   render() {
-    const { ui } = this.props
     const disabled = this.state.body.length < 3
     const defaultCategoryOptions = [
       <option key="happy" value="happy">happy</option>,
@@ -67,9 +62,9 @@ class IdeaSubmissionForm extends Component {
     ]
     let pointingLabel = null
 
-    if (ui.submitIdeaPromptPointerVisible) {
+    if (!this.state.ideaEntryStarted) {
       pointingLabel = (
-        <div className="ui pointing below teal label">
+        <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
           Submit an idea!
         </div>
       )
@@ -116,8 +111,6 @@ IdeaSubmissionForm.propTypes = {
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   showActionItem: React.PropTypes.bool.isRequired,
-  actions: React.PropTypes.object.isRequired,
-  ui: React.PropTypes.object.isRequired,
 }
 
 export default IdeaSubmissionForm

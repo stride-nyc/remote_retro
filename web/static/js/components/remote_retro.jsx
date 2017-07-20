@@ -6,7 +6,6 @@ import { Presence } from "phoenix"
 import * as userActionCreators from "../actions/user"
 import * as ideaActionCreators from "../actions/idea"
 import * as retroActionCreators from "../actions/retro"
-import * as uiActionCreators from "../actions/ui"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import ShareRetroLinkModal from "./share_retro_link_modal"
@@ -75,7 +74,7 @@ export class RemoteRetro extends Component {
   }
 
   render() {
-    const { users, ideas, userToken, retroChannel, stage, insertedAt, ui, actions } = this.props
+    const { users, ideas, userToken, retroChannel, stage, insertedAt } = this.props
 
     const currentUser = users.find(user => user.token === userToken)
 
@@ -87,8 +86,6 @@ export class RemoteRetro extends Component {
           ideas={ideas}
           stage={stage}
           retroChannel={retroChannel}
-          ui={ui}
-          actions={actions}
         />
         <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
       </div>
@@ -104,7 +101,6 @@ RemoteRetro.propTypes = {
   userToken: PropTypes.string.isRequired,
   stage: PropTypes.string.isRequired,
   insertedAt: PropTypes.string,
-  ui: PropTypes.object.isRequired,
 }
 
 RemoteRetro.defaultProps = {
@@ -118,7 +114,6 @@ const mapStateToProps = state => ({
   ideas: state.idea,
   stage: state.stage,
   insertedAt: state.insertedAt,
-  ui: state.ui,
 })
 
 const mapDispatchToProps = dispatch => ({
@@ -126,7 +121,6 @@ const mapDispatchToProps = dispatch => ({
     ...userActionCreators,
     ...ideaActionCreators,
     ...retroActionCreators,
-    ...uiActionCreators,
   }, dispatch),
 })
 

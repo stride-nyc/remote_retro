@@ -1,5 +1,4 @@
 import React from "react"
-import classNames from "classnames"
 import { CSSTransitionGroup } from "react-transition-group"
 
 import IdeaSubmissionForm from "./idea_submission_form"
@@ -10,13 +9,10 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_generation_lower_third.css"
 
 const IdeaGenerationLowerThird = props => {
-  const { stage, currentUser, ideas, ui } = props
+  const { stage, currentUser, ideas } = props
   const isFacilitator = currentUser.is_facilitator
   const progressionConfig = stageProgressionConfigs[stage]
   const showActionItem = stage !== "idea-generation"
-  const buttonColumnClasses = classNames("three wide right aligned column", {
-    [styles.alignButton]: ui.submitIdeaPromptPointerVisible,
-  })
 
   function wereActionItemsSubmitted() {
     return showActionItem && !ideas.some(idea => idea.category === "action-item")
@@ -34,7 +30,7 @@ const IdeaGenerationLowerThird = props => {
         <div className="thirteen wide column">
           <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
         </div>
-        <div className={buttonColumnClasses}>
+        <div className="three wide right aligned column">
           { isFacilitator &&
             <StageProgressionButton
               {...props}
@@ -60,7 +56,6 @@ IdeaGenerationLowerThird.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: React.PropTypes.string.isRequired,
-  ui: React.PropTypes.object.isRequired,
 }
 
 export default IdeaGenerationLowerThird
