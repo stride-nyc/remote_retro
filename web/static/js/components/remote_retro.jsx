@@ -39,11 +39,10 @@ export class RemoteRetro extends Component {
       }
     })
 
-    retroChannel.on("user_typing_idea", payload => {
-      const user = this.props.users.find(user => user.token === payload.userToken)
-      actions.updateUser(payload.userToken, { is_typing: true, last_typed: Date.now() })
-      UserActivity.checkIfDoneTyping(user, () => {
-        actions.updateUser(user.token, { is_typing: false })
+    retroChannel.on("user_typing_idea", ({ userToken }) => {
+      actions.updateUser(userToken, { is_typing: true, last_typed: Date.now() })
+      UserActivity.checkIfDoneTyping(this, userToken, () => {
+        actions.updateUser(userToken, { is_typing: false })
       })
     })
 
