@@ -17,6 +17,7 @@
 }
 
 .pointing-label {
+  z-index: 0 !important;
   top: -3em !important;
   left: 33% !important;
 }
