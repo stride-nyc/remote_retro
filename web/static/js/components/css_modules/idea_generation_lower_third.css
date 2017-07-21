@@ -1,5 +1,5 @@
 .appear {
-  transform: translateY(100%);
+  transform: translateY(130%);
 }
 
 .appear.appear-active {
