@@ -1,4 +1,4 @@
-const stage = (state = "idea-generation", action) => {
+const stage = (state = "prime-directive", action) => {
   switch (action.type) {
     case "SET_INITIAL_STATE":
       return action.initialState.stage

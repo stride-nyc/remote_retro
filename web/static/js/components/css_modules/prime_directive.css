@@ -1,0 +1,8 @@
+.wrapper {
+  max-width: 500px;
+  margin: 0 auto;
+}
+
+.directive {
+  margin: 0 auto !important;
+}
