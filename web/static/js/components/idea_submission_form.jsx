@@ -17,6 +17,7 @@ class IdeaSubmissionForm extends Component {
     this.state = {
       body: "",
       category: this.defaultCategory,
+      ideaEntryStarted: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
@@ -45,7 +46,7 @@ class IdeaSubmissionForm extends Component {
   handleIdeaChange(event) {
     const { retroChannel, currentUser } = this.props
     retroChannel.push("user_typing_idea", { userToken: currentUser.token })
-    this.setState({ body: event.target.value })
+    this.setState({ body: event.target.value, ideaEntryStarted: true })
   }
 
   handleCategoryChange(event) {
@@ -59,9 +60,19 @@ class IdeaSubmissionForm extends Component {
       <option key="sad" value="sad">sad</option>,
       <option key="confused" value="confused">confused</option>,
     ]
+    let pointingLabel = null
+
+    if (!this.state.ideaEntryStarted) {
+      pointingLabel = (
+        <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
+          Submit an idea!
+        </div>
+      )
+    }
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
+        {pointingLabel}
         <div className={`${styles.fields} fields`}>
           <div className={`${styles.flex} five wide inline field`}>
             <label htmlFor="category">Category:</label>

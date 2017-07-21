@@ -33,6 +33,7 @@ describe("IdeaSubmissionForm component", () => {
           category: "happy",
           body: "",
           userId: 1,
+          ideaEntryStarted: false,
         }
       )).to.equal(true)
     })
@@ -170,6 +171,39 @@ describe("IdeaSubmissionForm component", () => {
       expect(
         categorySelect.contains(<option value="action-item">action-item</option>)
       ).to.equal(false)
+    })
+  })
+
+  describe("ideaEntryStarted state", () => {
+    describe("when it is true", () => {
+      it("doesn't render a pointing label to prompt the user to enter an idea", () => {
+        wrapper = mount(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={mockRetroChannel}
+            showActionItem
+          />
+        )
+        wrapper.setState({ ideaEntryStarted: true })
+        expect(
+          wrapper.find(".pointing").length
+        ).to.equal(0)
+      })
+    })
+
+    describe("when it is false", () => {
+      it("does render a pointing label to prompt the user to enter an idea", () => {
+        wrapper = mount(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={mockRetroChannel}
+            showActionItem
+          />
+        )
+        expect(
+          wrapper.find(".pointing").length
+        ).to.equal(1)
+      })
     })
   })
 })

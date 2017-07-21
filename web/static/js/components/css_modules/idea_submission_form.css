@@ -15,3 +15,8 @@
   display: flex;
   align-items: center;
 }
+
+.pointing-label {
+  top: -3em !important;
+  left: 33% !important;
+}
