@@ -1,5 +1,5 @@
-.column-head {
-  margin-bottom: 0 !important;
+:global(.basic.segment).column-head {
+  margin-bottom: 0;
 }
 
 .divider {

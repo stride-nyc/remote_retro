@@ -7,8 +7,8 @@
   border-color: var(--semantic-focused-input-border-color) !important;
 }
 
-.fields {
-  margin-bottom: 0 !important;
+:global(.ui.form) .fields {
+  margin-bottom: 0;
 }
 
 .flex {
@@ -16,8 +16,8 @@
   align-items: center;
 }
 
-.pointing-label {
-  z-index: 0 !important;
-  top: -3em !important;
-  left: 33% !important;
+:global(.ui.form) .pointing-label {
+  z-index: 0;
+  top: -3em;
+  left: 33%;
 }

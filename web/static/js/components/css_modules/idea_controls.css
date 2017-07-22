@@ -1,5 +1,5 @@
-.action-icon {
+.action-icon:global(.icon) {
   cursor: pointer;
-  font-size: 1.2rem !important;
+  font-size: 1.2rem;
   float: right;
 }
