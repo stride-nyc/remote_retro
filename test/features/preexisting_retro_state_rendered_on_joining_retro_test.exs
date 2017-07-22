@@ -9,9 +9,9 @@ defmodule PreExistingRetroStateRenderedOnJoiningRetroTest do
     retro_path = "/retros/" <> retro.id
     session = visit(session, retro_path)
 
-    ideas_list_text = session |> find(Query.css(".happy.ideas")) |> Element.text
+    rendered_idea_text = session |> find(Query.css(".happy.ideas li")) |> Element.text
 
-    assert String.contains?(ideas_list_text, "Travis: continuous delivery!")
+    assert rendered_idea_text =~ "Travis: continuous delivery!"
   end
 
   describe "when a retro has already progressed to the `action-items` stage" do
