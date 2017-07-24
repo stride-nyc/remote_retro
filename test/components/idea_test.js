@@ -32,21 +32,6 @@ describe("Idea component", () => {
     })
   })
 
-  context("when the user is not a facilitator", () => {
-    const nonFacilitatorUser = { is_facilitator: false }
-    const wrapper = shallow(
-      <Idea
-        idea={idea}
-        currentUser={nonFacilitatorUser}
-        retroChannel={mockRetroChannel}
-      />
-    )
-
-    it("does not render IdeaControls", () => {
-      expect(wrapper.find(IdeaControls).length).to.equal(0)
-    })
-  })
-
   context("when the idea is in its default state", () => {
     const ideaInDefaultState = { ...idea, editing: false }
 
