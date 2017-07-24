@@ -35,3 +35,14 @@ sup {
   font-size: 0.9rem;
   color: var(--magenta);
 }
+
+:global .ui.branded-header p {
+  font-weight: 200;
+  font-size: medium;
+  padding-left: 1rem;
+}
+
+:global .ui.branded-header sup {
+  top: -1rem;
+  font-size: 0.1rem;
+}
