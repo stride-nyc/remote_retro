@@ -13,6 +13,7 @@ module.exports = {
     "./web/static/js/polyfills/array.find_index",
     "./web/static/js/polyfills/array.includes",
     "./web/static/css/app.css",
+    "./web/static/css/tiny_modal.css",
     "./web/static/js/app.js"
   ],
   output: {
