@@ -18,10 +18,12 @@
           <p>Remote Retro<sup>BETA</sup></p>
         </div>
         <div class="ui right floated header right-branded-header">
-          <div>
-            <div class="middle aligned content logo-text">Built by</div>
-            <div class="ui tiny image"><img src='/images/Stride_Logo_horizontal.svg' /></div>
-          </div>
+          <a href="http://www.stridenyc.com/">
+            <div>
+              <div class="middle aligned content logo-text">Built by</div>
+              <div class="ui tiny image"><img src='/images/Stride_Logo_horizontal.svg' /></div>
+            </div>
+          </a>
         </div>
       </div>
     <% end %>
