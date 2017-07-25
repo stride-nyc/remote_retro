@@ -1,0 +1,36 @@
+/* Tiny Modal Width */
+
+@media only screen and (max-width: 767px) {
+  :global .ui.tiny.modal {
+    width: 95%;
+    margin: 0em 0em 0em -47.5%;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  :global .ui.tiny.modal {
+    width: 50%;
+    margin: 0em 0em 0em -25%;
+  }
+}
+
+@media only screen and (min-width: 992px) {
+  :global .ui.tiny.modal {
+    width: 200px;
+    margin: 0em 0em 0em -100px;
+  }
+}
+
+@media only screen and (min-width: 1200px) {
+  :global .ui.tiny.modal {
+    width: 300px;
+    margin: 0em 0em 0em -150px;
+  }
+}
+
+@media only screen and (min-width: 1920px) {
+  :global .ui.tiny.modal {
+    width: 400px;
+    margin: 0em 0em 0em -200px;
+  }
+}
