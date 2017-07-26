@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import Modal from "react-modal"
 
+import styles from "./css_modules/share_retro_link_modal.css"
+
 const timeElapsedLessThanFiveSec = retroCreationTimestamp => {
   const millisecondsSinceRetroCreation = new Date(retroCreationTimestamp)
   const timeElapsedSinceRetroCreation = new Date().getTime() - millisecondsSinceRetroCreation
@@ -55,10 +57,7 @@ class ShareRetroLinkModal extends Component {
           </div>
           <div className="ui center aligned header">
             <p>
-              <i className="big icons">
-                <i className="user icon" />
-                <i className="corner announcement icon" />
-              </i>
+              <i className={`big external share icon ${styles.shareIcon}`} />
             </p>
             Share the unique retro link below with teammates!
           </div>
