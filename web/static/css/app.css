@@ -12,11 +12,11 @@
   box-shadow: inset 0 0 0 100rem rgba(255, 255, 255, 0.25);
 }
 
-:global .welcome-wrapper {
+:global .welcome-wrapper.ui.segment {
   --corner-offset: 5rem;
   position: relative;
-  top: var(--corner-offset);
-  left: var(--corner-offset);
+  padding-top: var(--corner-offset);
+  padding-left: var(--corner-offset);
 }
 
 :global .ui.modal {
