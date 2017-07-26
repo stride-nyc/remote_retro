@@ -45,12 +45,14 @@ class ShareRetroLinkModal extends Component {
         onRequestClose={this.closeModal}
       >
         <div className="ui basic padded segment">
-          <button
-            className="ui basic compact right floated icon button"
-            onClick={this.closeModal}
-          >
-            <i className="close icon" />
-          </button>
+          <div>
+            <button
+              className="ui basic compact right floated icon button"
+              onClick={this.closeModal}
+            >
+              <i className="close icon" />
+            </button>
+          </div>
           <div className="ui center aligned header">
             <p>
               <i className="big icons">
