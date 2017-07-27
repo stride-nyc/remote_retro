@@ -14,7 +14,7 @@ import UserActivity from "../services/user_activity"
 
 export class RemoteRetro extends Component {
   componentWillMount() {
-    const { retroChannel, actions } = this.props
+    const { retroChannel, actions, userToken } = this.props
 
     retroChannel.join()
       .receive("ok", actions.setInitialState)
@@ -29,6 +29,12 @@ export class RemoteRetro extends Component {
 
     retroChannel.on("new_idea_received", newIdea => {
       actions.addIdea(newIdea)
+      const currentUser = this.props.users.find(user => user.token === userToken)
+      if (newIdea.user_id === currentUser.id) {
+        setTimeout(() => {
+          actions.updateIdea(newIdea.id, {})
+        }, 5000)
+      }
     })
 
     retroChannel.on("proceed_to_next_stage", payload => {

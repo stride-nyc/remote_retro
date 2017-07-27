@@ -14,6 +14,7 @@ describe("<RemoteRetro>", () => {
     let deleteIdeaSpy
     let updateIdeaSpy
     let updateStageSpy
+    let clock
     const now = Date.now().toString()
 
     beforeEach(() => {
@@ -21,6 +22,7 @@ describe("<RemoteRetro>", () => {
       deleteIdeaSpy = spy()
       updateIdeaSpy = spy()
       updateStageSpy = spy()
+      clock = useFakeTimers(Date.now())
 
       actions = {
         addIdea: addIdeaSpy,
@@ -29,10 +31,15 @@ describe("<RemoteRetro>", () => {
         updateStage: updateStageSpy,
       }
 
+      const mockUser = {
+        id: 1,
+        token: "userToken",
+      }
+
       retroChannel = RetroChannel.configure({})
       wrapper = shallow(
         <RemoteRetro
-          users={[]}
+          users={[mockUser]}
           ideas={[]}
           stage="idea-generation"
           actions={actions}
@@ -47,6 +54,13 @@ describe("<RemoteRetro>", () => {
       it("invokes the addIdea action", () => {
         retroChannel.trigger("new_idea_received", { body: "zerp" })
         expect(addIdeaSpy.calledWith({ body: "zerp" })).to.equal(true)
+      })
+      context("when the currentUser created the idea", () => {
+        it("calls updateIdea action after a timeout of 5000ms", () => {
+          retroChannel.trigger("new_idea_received", { id: 5, body: "derp", user_id: 1 })
+          clock.tick(5000)
+          expect(updateIdeaSpy.calledWith(5, {})).to.equal(true)
+        })
       })
     })
 
@@ -77,13 +91,11 @@ describe("<RemoteRetro>", () => {
 
     describe("on `user_typing_idea`", () => {
       describe("when no presence is currently typing", () => {
-        let clock
         let actions
         let updateUserSpy
 
         beforeEach(() => {
           retroChannel = RetroChannel.configure({})
-          clock = useFakeTimers(Date.now())
 
           const initialUsers = [
             { is_typing: true, token: "abc", last_typed: clock.now },
