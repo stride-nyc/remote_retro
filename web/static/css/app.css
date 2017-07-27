@@ -4,6 +4,8 @@
   --semantic-light-grey: #DCDDDE;
   --semantic-teal: #00B5AD;
   --magenta: #FD1884;
+  --lightest-grey: #F2F2F2;
+  --dark-grey: #8C8C8C;
 }
 
 :global .photo-backdrop {
@@ -37,7 +39,7 @@ sup {
 }
 
 :global .ui.branded-header-container {
-  background: #f2f2f2;
+  background: var(--lightest-grey);
   border: none;
   padding: 0.5rem 0.5rem;
 }
@@ -53,7 +55,7 @@ sup {
 }
 
 :global .ui.left-branded-header sup {
-  top: -1rem;
+  top: -0.4rem;
   font-size: 0.1rem;
 }
 
@@ -64,13 +66,14 @@ sup {
 
 :global .ui.right-branded-header p {
   font-size: 0.8rem;
-  color: #8c8c8c;
+  color: var(--semantic-light-grey);
   font-weight: 200;
 }
 
 :global .logo-text {
   font-size: 12px;
   font-weight: 500;
-  color: #8c8c8c;
+  color: var(--dark-grey);
   padding-right: 0.2rem;
+  padding-top: 0.2rem;
 }
