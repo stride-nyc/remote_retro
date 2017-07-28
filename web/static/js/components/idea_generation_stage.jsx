@@ -5,8 +5,10 @@ import IdeaBoard from "./idea_board"
 import IdeaGenerationLowerThird from "./idea_generation_lower_third"
 import DoorChime from "./door_chime"
 
+import styles from "./css_modules/idea_generation_stage.css"
+
 const IdeaGenerationStage = props => (
-  <div style={{ minHeight: "100vh" }}>
+  <div className={styles.wrapper}>
     <IdeaBoard {...props} />
     <UserList {...props} />
     <IdeaGenerationLowerThird {...props} />

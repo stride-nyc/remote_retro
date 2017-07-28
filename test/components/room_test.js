@@ -2,9 +2,8 @@ import React from "react"
 import { shallow } from "enzyme"
 
 import Room from "../../web/static/js/components/room"
-import PrimeDirective from "../../web/static/js/components/prime_directive"
-import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
-import IdeaBoard from "../../web/static/js/components/idea_board"
+import PrimeDirectiveStage from "../../web/static/js/components/prime_directive_stage"
+import IdeaGenerationStage from "../../web/static/js/components/idea_generation_stage"
 
 describe("Room", () => {
   let room
@@ -21,42 +20,10 @@ describe("Room", () => {
       />
     )
 
-    it("renders the PrimeDirective", () => {
-      const primeDirective = room.find(PrimeDirective)
+    it("renders the PrimeDirectiveStage", () => {
+      const primeDirectiveStage = room.find(PrimeDirectiveStage)
 
-      expect(primeDirective).to.have.length(1)
-    })
-
-    describe("and the user is the facilitator", () => {
-      room = shallow(
-        <Room
-          stage="prime-directive"
-          users={users}
-          currentUser={{ is_facilitator: true }}
-          retroChannel={{}}
-        />
-      )
-
-      it("renders the StageProgressionButton", () => {
-        const stageProgressionButton = room.find(StageProgressionButton)
-
-        expect(stageProgressionButton).to.have.length(1)
-      })
-    })
-
-    describe("and the user is not the facilitator", () => {
-      const roomWithoutFacilitator = shallow(
-        <Room
-          stage="prime-directive"
-          users={users}
-        />
-      )
-
-      it("doesn't render the StageProgressionButton", () => {
-        const stageProgressionButton = roomWithoutFacilitator.find(StageProgressionButton)
-
-        expect(stageProgressionButton).to.have.length(0)
-      })
+      expect(primeDirectiveStage).to.have.length(1)
     })
   })
 
@@ -70,10 +37,10 @@ describe("Room", () => {
       />
     )
 
-    it("renders the IdeaBoard", () => {
-      const ideaBoard = ideaRoom.find(IdeaBoard)
+    it("renders the IdeaGenerationStage", () => {
+      const ideaGenerationStage = ideaRoom.find(IdeaGenerationStage)
 
-      expect(ideaBoard).to.have.length(1)
+      expect(ideaGenerationStage).to.have.length(1)
     })
   })
 })

@@ -8,15 +8,21 @@ const PrimeDirectiveStage = props => {
   const { isFacilitator, progressionConfig } = props
   return (
     <div className="ui centered grid">
-      <PrimeDirective />
-      <UserList {...props} />
-      <div className="">
-        { isFacilitator &&
-          <StageProgressionButton
-            {...props}
-            config={progressionConfig}
-          />
-        }
+      <div className="thirteen wide mobile eight wide tablet four wide computer column">
+        <PrimeDirective />
+      </div>
+      <div className="row">
+        <UserList {...props} />
+      </div>
+      <div className="row">
+        <div className="thirteen wide mobile eight wide tablet four wide computer column">
+          { isFacilitator &&
+            <StageProgressionButton
+              {...props}
+              config={progressionConfig}
+            />
+          }
+        </div>
       </div>
     </div>
   )

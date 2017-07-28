@@ -4,7 +4,6 @@ import IdeaGenerationStage from "./idea_generation_stage"
 import stageProgressionConfigs from "../configs/stage_progression_configs"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/room.css"
 
 const Room = props => {
   let roomContents
@@ -26,11 +25,7 @@ const Room = props => {
     )
   }
 
-  return (
-    <section className={styles.wrapper}>
-      {roomContents}
-    </section>
-  )
+  return roomContents
 }
 
 Room.defaultProps = {
