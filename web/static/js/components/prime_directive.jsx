@@ -1,7 +1,9 @@
 import React from "react"
 
+import styles from "./css_modules/prime_directive.css"
+
 const PrimeDirective = () => (
-  <div className="ui basic compact segment">
+  <div className={styles.directive}>
     <h1 className="ui dividing header">The Prime Directive:</h1>
     <p>
       Regardless of what we discover,<br />
