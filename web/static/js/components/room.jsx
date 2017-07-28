@@ -1,20 +1,40 @@
-import React from "react"
+import React, { PropTypes } from "react"
+import PrimeDirectiveStage from "./prime_directive_stage"
+import IdeaGenerationStage from "./idea_generation_stage"
+import stageProgressionConfigs from "../configs/stage_progression_configs"
 
-import UserList from "./user_list"
-import IdeaBoard from "./idea_board"
-import IdeaGenerationLowerThird from "./idea_generation_lower_third"
+import * as AppPropTypes from "../prop_types"
 
-import DoorChime from "./door_chime"
+const Room = props => {
+  let roomContents
+  if (props.stage === "prime-directive") {
+    const isFacilitator = props.currentUser.is_facilitator
+    const progressionConfig = stageProgressionConfigs[props.stage]
+    roomContents = (
+      <PrimeDirectiveStage
+        {...props}
+        progressionConfig={progressionConfig}
+        isFacilitator={isFacilitator}
+      />
+    )
+  } else {
+    roomContents = (
+      <IdeaGenerationStage
+        {...props}
+      />
+    )
+  }
 
-import styles from "./css_modules/room.css"
+  return roomContents
+}
 
-const Room = props => (
-  <section className={styles.wrapper}>
-    <IdeaBoard {...props} />
-    <UserList {...props} />
-    <IdeaGenerationLowerThird {...props} />
-    <DoorChime {...props} />
-  </section>
-)
+Room.defaultProps = {
+  currentUser: { is_facilitator: false },
+}
+
+Room.propTypes = {
+  stage: PropTypes.string.isRequired,
+  currentUser: AppPropTypes.user,
+}
 
 export default Room

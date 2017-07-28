@@ -13,7 +13,7 @@ describe("updateStage", () => {
 
 describe("setInitialState", () => {
   it("creates an action to set the retro's initial state", () => {
-    const initialState = { stage: "idea-generation", inserted_at: "2017-04-14T17:30:10" }
+    const initialState = { stage: "prime-directive", inserted_at: "2017-04-14T17:30:10" }
 
     expect(actionCreators.setInitialState(initialState)).to.deep.equal({
       type: "SET_INITIAL_STATE",

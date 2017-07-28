@@ -3,3 +3,8 @@
   min-height: 100vh;
   flex-direction: column;
 }
+
+.stage-progression-button {
+  width: 360px;
+  margin: 0 auto;
+}

@@ -10,7 +10,7 @@ describe("insertedAt reducer", () => {
       })
 
       describe("when an initial state is passed", () => {
-        it("should return the initial state of 'idea-generation'", () => {
+        it("should return the initial state of 'prime-directive'", () => {
           expect(insertedAtReducer("2017-04-14T17:30:10", {})).to.equal("2017-04-14T17:30:10")
         })
       })
