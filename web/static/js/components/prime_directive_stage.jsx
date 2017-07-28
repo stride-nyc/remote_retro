@@ -16,12 +16,7 @@ const PrimeDirectiveStage = props => {
       </div>
       <div className="row">
         <div className="thirteen wide mobile eight wide tablet four wide computer column">
-          { isFacilitator &&
-            <StageProgressionButton
-              {...props}
-              config={progressionConfig}
-            />
-          }
+          { isFacilitator && <StageProgressionButton {...props} config={progressionConfig} /> }
         </div>
       </div>
     </div>
