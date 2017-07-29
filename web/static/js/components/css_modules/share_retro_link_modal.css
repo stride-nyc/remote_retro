@@ -2,4 +2,9 @@
   margin: 1rem -3rem 1rem 0;
 }
 
+.input:global(.ui.input) {
+  text-align: center;
+}
+
 .button-copy { width: 225px; }
+
