@@ -41,15 +41,23 @@ describe("ShareRetroLinkModal component", () => {
       })
 
       describe("and the copy link button is clicked", () => {
+        let readonlyUrlInput
+
         beforeEach(() => {
-          const content = portalToModalContent.refs.content
-          const copyButton = content.querySelector(".copy.icon")
+          const portalContent = portalToModalContent.refs.content
+          const copyButton = portalContent.querySelector(".copy.icon")
+          readonlyUrlInput = portalContent.querySelector("input[type='text']")
+          readonlyUrlInput.select = sinon.spy()
 
           copyButton.click()
         })
 
-        it("copyLinkInput is in state", () => {
-          expect(document.execCommand.called).to.equal(true)
+        it("selects the text in the input, copying it to the clipboard", () => {
+          expect(() => {
+            sinon.assert.callOrder(readonlyUrlInput.select, document.execCommand)
+          }).to.not.throw()
+
+          expect(document.execCommand.calledWithExactly("copy")).to.equal(true)
         })
       })
 

@@ -15,7 +15,6 @@ class ShareRetroLinkModal extends Component {
     super(props)
     this.closeModal = this.closeModal.bind(this)
     this.handleCopyLink = this.handleCopyLink.bind(this)
-    this.resetClickedState = this.resetClickedState.bind(this)
     this.state = {
       closedByUser: false,
       shouldOpen: timeElapsedLessThanFiveSec(props.retroCreationTimestamp),
@@ -37,10 +36,6 @@ class ShareRetroLinkModal extends Component {
     this.input.select()
     document.execCommand("copy")
     this.setState({ buttonClicked: true })
-  }
-
-  resetClickedState() {
-    this.setState({ buttonClicked: false })
   }
 
   render() {
@@ -99,7 +94,7 @@ class ShareRetroLinkModal extends Component {
             />
           </div>
           <div className="ui basic center aligned segment">
-            <button className={copyButtonClasses} onClick={this.handleCopyLink} onMouseLeave={this.resetClickedState}>
+            <button className={copyButtonClasses} onClick={this.handleCopyLink}>
               <i className={copyButtonIconClasses} />
               {copyButtonText}
             </button>
