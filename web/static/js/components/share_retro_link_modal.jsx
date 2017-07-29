@@ -42,11 +42,11 @@ class ShareRetroLinkModal extends Component {
     const { closedByUser, shouldOpen, buttonClicked } = this.state
     const hasntBeenClosed = !closedByUser
     const copyButtonClasses = classNames(
-      'ui',
-      'labeled',
-      'teal',
-      'icon',
-      'button',
+      "ui",
+      "labeled",
+      "teal",
+      "icon",
+      "button",
       {
         positive: buttonClicked,
         [styles.buttonCopy]: true,
