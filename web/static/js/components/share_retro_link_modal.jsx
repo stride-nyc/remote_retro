@@ -39,9 +39,9 @@ class ShareRetroLinkModal extends Component {
   }
 
   render() {
-    const { closedByUser, shouldOpen } = this.state
+    const { closedByUser, shouldOpen, buttonClicked } = this.state
     const hasntBeenClosed = !closedByUser
-    let copyButtonText = this.state.buttonClicked ? "Copied!" : "Copy Link to Clipboard"
+    let copyButtonText = buttonClicked ? "Copied!" : "Copy Link to Clipboard"
     const copyButtonClasses = classNames(
       'ui',
       'labeled',
@@ -49,7 +49,7 @@ class ShareRetroLinkModal extends Component {
       'icon',
       'button',
       {
-        positive: this.state.buttonClicked,
+        positive: buttonClicked,
         [styles.buttonCopy]: true,
       }
     )
@@ -57,8 +57,8 @@ class ShareRetroLinkModal extends Component {
     const copyButtonIconClasses = classNames(
       'icon',
       {
-        copy: !this.state.buttonClicked,
-        checkmark: this.state.buttonClicked,
+        copy: !buttonClicked,
+        checkmark: buttonClicked,
       }
     )
 
