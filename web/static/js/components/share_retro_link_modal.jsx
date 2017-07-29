@@ -41,7 +41,6 @@ class ShareRetroLinkModal extends Component {
   render() {
     const { closedByUser, shouldOpen, buttonClicked } = this.state
     const hasntBeenClosed = !closedByUser
-    let copyButtonText = buttonClicked ? "Copied!" : "Copy Link to Clipboard"
     const copyButtonClasses = classNames(
       'ui',
       'labeled',
@@ -96,7 +95,7 @@ class ShareRetroLinkModal extends Component {
           <div className="ui basic center aligned segment">
             <button className={copyButtonClasses} onClick={this.handleCopyLink}>
               <i className={copyButtonIconClasses} />
-              {copyButtonText}
+              { buttonClicked ? "Copied!" : "Copy Link to Clipboard" }
             </button>
           </div>
         </div>
