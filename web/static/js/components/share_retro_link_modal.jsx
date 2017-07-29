@@ -60,7 +60,7 @@ class ShareRetroLinkModal extends Component {
         className="ui small modal visible transition fade in active"
         onRequestClose={this.closeModal}
       >
-        <div className="ui basic padded segment">
+        <div className="ui basic padded center aligned segment">
           <div>
             <button
               className="ui basic compact right floated icon button"
@@ -75,7 +75,7 @@ class ShareRetroLinkModal extends Component {
             </p>
             Share the unique retro link below with teammates!
           </div>
-          <div className="ui fluid input">
+          <div className={`ui input ${styles.textInputWrapper}`}>
             <input
               ref={input => { this.input = input }}
               readOnly
