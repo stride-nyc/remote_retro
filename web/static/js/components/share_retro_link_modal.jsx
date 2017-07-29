@@ -53,14 +53,6 @@ class ShareRetroLinkModal extends Component {
       }
     )
 
-    const copyButtonIconClasses = classNames(
-      'icon',
-      {
-        copy: !buttonClicked,
-        checkmark: buttonClicked,
-      }
-    )
-
     return (
       <Modal
         contentLabel="Share Retro Link"
@@ -94,7 +86,7 @@ class ShareRetroLinkModal extends Component {
           </div>
           <div className="ui basic center aligned segment">
             <button className={copyButtonClasses} onClick={this.handleCopyLink}>
-              <i className={copyButtonIconClasses} />
+              <i className={`icon ${buttonClicked ? "checkmark" : "copy"}`} />
               { buttonClicked ? "Copied!" : "Copy Link to Clipboard" }
             </button>
           </div>
