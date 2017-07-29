@@ -79,6 +79,7 @@ class ShareRetroLinkModal extends Component {
             <input
               ref={input => { this.input = input }}
               readOnly
+              autoFocus
               className={`ui input ${styles.input}`}
               type="text"
               value={window.location}
