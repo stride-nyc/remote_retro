@@ -31,5 +31,8 @@ export default {
       headerText: "Retro Closed!",
       bodyText: "The facilitator has closed this retrospective. You will receive an email containing the retrospective's action items shortly.",
     },
+    confirmationMessage: null,
+    nextStage: null,
+    button: null,
   },
 }
