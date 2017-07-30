@@ -28,8 +28,8 @@ export default {
   },
   "action-item-distribution": {
     alert: {
-      headerText: "Retro Closed!",
-      bodyText: "The facilitator has closed this retrospective. You will receive an email containing the retrospective's action items shortly.",
+      headerText: "Action Items Distributed",
+      bodyText: "The facilitator has distributed this retro's action items. You will receive an email breakdown shortly!",
     },
     confirmationMessage: null,
     nextStage: null,
