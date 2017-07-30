@@ -46,7 +46,7 @@ Alert.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  alertConfig: state.alertConfig,
+  alert: state.alert,
 })
 
 const mapDispatchToProps = dispatch => ({

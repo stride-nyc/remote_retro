@@ -1,8 +1,8 @@
-const alertConfig = (state = null, action) => {
+const alert = (state = null, action) => {
   switch (action.type) {
     case "UPDATE_STAGE": {
       const { stage, stageConfigs } = action
-      return stageConfigs[stage].alertConfig
+      return stageConfigs[stage].alert
     }
     case "CLEAR_ALERT":
       return null
@@ -11,4 +11,4 @@ const alertConfig = (state = null, action) => {
   }
 }
 
-export default alertConfig
+export default alert

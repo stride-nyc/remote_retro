@@ -69,7 +69,7 @@ export class RemoteRetro extends Component {
   }
 
   render() {
-    const { users, ideas, userToken, retroChannel, stage, insertedAt, alertConfig } = this.props
+    const { users, ideas, userToken, retroChannel, stage, insertedAt, alert } = this.props
 
     const currentUser = users.find(user => user.token === userToken)
 
@@ -82,7 +82,7 @@ export class RemoteRetro extends Component {
           stage={stage}
           retroChannel={retroChannel}
         />
-        <Alert config={alertConfig} />
+        <Alert config={alert} />
         <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
       </div>
     )
@@ -97,14 +97,14 @@ RemoteRetro.propTypes = {
   userToken: PropTypes.string.isRequired,
   stage: PropTypes.string.isRequired,
   insertedAt: PropTypes.string,
-  alertConfig: PropTypes.object,
+  alert: PropTypes.object,
 }
 
 RemoteRetro.defaultProps = {
   users: [],
   ideas: [],
   insertedAt: null,
-  alertConfig: null,
+  alert: null,
 }
 
 const mapStateToProps = state => ({
@@ -112,7 +112,7 @@ const mapStateToProps = state => ({
   ideas: state.idea,
   stage: state.stage,
   insertedAt: state.insertedAt,
-  alertConfig: state.alertConfig,
+  alert: state.alert,
 })
 
 const mapDispatchToProps = dispatch => ({

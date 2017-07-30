@@ -1,6 +1,6 @@
 export default {
   "prime-directive": {
-    alertConfig: null,
+    alert: null,
     confirmationMessage: "Are you sure want to proceed to the Idea Generation stage? This will commence the retro in earnest.",
     nextStage: "idea-generation",
     button: {
@@ -9,7 +9,7 @@ export default {
     },
   },
   "idea-generation": {
-    alertConfig: null,
+    alert: null,
     confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
     nextStage: "action-items",
     button: {
@@ -18,7 +18,7 @@ export default {
     },
   },
   "action-items": {
-    alertConfig: null,
+    alert: null,
     confirmationMessage: null,
     nextStage: "action-item-distribution",
     button: {
@@ -27,7 +27,7 @@ export default {
     },
   },
   "action-item-distribution": {
-    alertConfig: {
+    alert: {
       headerText: "Retro Closed!",
       bodyText: "The facilitator has closed this retrospective. You will receive an email containing the retrospective's action items shortly.",
     },

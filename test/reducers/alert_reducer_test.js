@@ -1,14 +1,14 @@
 import deepFreeze from "deep-freeze"
 
-import alertConfig from "../../web/static/js/reducers/alert_config"
+import alert from "../../web/static/js/reducers/alert"
 
-describe("alertConfig reducer", () => {
+describe("alert reducer", () => {
   describe("when an action is nonexistent or unhandled", () => {
     describe("and there is no initial state", () => {
       it("should return null", () => {
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(alertConfig(undefined, unhandledAction)).to.equal(null)
+        expect(alert(undefined, unhandledAction)).to.equal(null)
       })
     })
 
@@ -17,7 +17,7 @@ describe("alertConfig reducer", () => {
         const initialState = { headerText: "derp", bodyText: "derp" }
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(alertConfig(initialState, unhandledAction)).to.deep.equal(initialState)
+        expect(alert(initialState, unhandledAction)).to.deep.equal(initialState)
       })
     })
   })
@@ -26,7 +26,7 @@ describe("alertConfig reducer", () => {
     const initialState = { headerText: "Warning!", bodyText: "You're being watched." }
     const stageConfigs = {
       daybreak: {
-        alertConfig: {
+        alert: {
           headerText: "Lovely Header Text",
           bodyText: "Lovely Body Text",
         },
@@ -37,15 +37,15 @@ describe("alertConfig reducer", () => {
     deepFreeze(initialState)
     deepFreeze(stageConfigs)
 
-    describe("when the given stage has an alertConfig in the given configuration map", () => {
+    describe("when the given stage has an alert in the given configuration map", () => {
       const action = {
         type: "UPDATE_STAGE",
         stage: "daybreak",
         stageConfigs,
       }
 
-      it("returns the alertConfig for the given stage", () => {
-        expect(alertConfig(initialState, action)).to.deep.equal({
+      it("returns the alert for the given stage", () => {
+        expect(alert(initialState, action)).to.deep.equal({
           headerText: "Lovely Header Text",
           bodyText: "Lovely Body Text",
         })
@@ -58,13 +58,13 @@ describe("alertConfig reducer", () => {
 
     describe("and the initial state is null", () => {
       it("returns null", () => {
-        expect(alertConfig(null, action)).to.equal(null)
+        expect(alert(null, action)).to.equal(null)
       })
     })
 
     describe("when there is a not-null initial state", () => {
       it("returns null", () => {
-        expect(alertConfig({}, action)).to.equal(null)
+        expect(alert({}, action)).to.equal(null)
       })
     })
   })

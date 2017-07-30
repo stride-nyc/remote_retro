@@ -4,14 +4,14 @@ import user from "./user"
 import idea from "./idea"
 import stage from "./stage"
 import insertedAt from "./inserted_at"
-import alertConfig from "./alert_config"
+import alert from "./alert"
 
 const rootReducer = combineReducers({
   user,
   idea,
   stage,
   insertedAt,
-  alertConfig,
+  alert,
 })
 
 export default rootReducer
