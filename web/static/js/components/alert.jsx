@@ -1,13 +1,17 @@
 import React, { Component } from "react"
 import Modal from "react-modal"
+import { bindActionCreators } from "redux"
+import { connect } from "react-redux"
 
 import * as AppPropTypes from "../prop_types"
+import * as alertActionCreators from "../actions/alert"
 
-class Alert extends Component {
+export class Alert extends Component {
   render() {
     if (!this.props.config) return null
 
-    const { headerText, bodyText } = this.props.config
+    const { actions, config } = this.props
+    const { headerText, bodyText } = config
 
     return (
       <Modal
@@ -23,13 +27,24 @@ class Alert extends Component {
             {bodyText}
           </div>
           <br/>
-          <button className="ui blue right floated button">Got it!</button>
+          <button className="ui blue right floated button" onClick={actions.clearAlert}>
+            Got it!
+          </button>
         </div>
       </Modal>
     )
   }
 }
 
-Alert.propTypes = {}
+const mapStateToProps = state => ({
+  alertConfig: state.alertConfig,
+})
 
-export default Alert
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(alertActionCreators, dispatch),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Alert)
