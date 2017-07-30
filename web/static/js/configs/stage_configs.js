@@ -1,7 +1,7 @@
 export default {
   "prime-directive": {
     alert: null,
-    confirmationMessage: "Are you sure want to proceed to the Idea Generation stage? This will commence the retro in earnest.",
+    confirmationMessage: "Are you sure want to proceed to the Idea Generation stage?",
     nextStage: "idea-generation",
     progressionButton: {
       copy: "Proceed to Idea Generation",
