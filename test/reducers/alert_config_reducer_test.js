@@ -52,4 +52,20 @@ describe("alertConfig reducer", () => {
       })
     })
   })
+
+  describe("when the action is CLEAR_ALERT", () => {
+    const action = { type: "CLEAR_ALERT" }
+
+    describe("and the initial state is null", () => {
+      it("returns null", () => {
+        expect(alertConfig(null, action)).to.equal(null)
+      })
+    })
+
+    describe("when there is a not-null initial state", () => {
+      it("returns null", () => {
+        expect(alertConfig({}, action)).to.equal(null)
+      })
+    })
+  })
 })

@@ -4,6 +4,8 @@ const alertConfig = (state = null, action) => {
       const { stage, stageProgressionConfigs } = action
       return stageProgressionConfigs[stage].alertConfig
     }
+    case "CLEAR_ALERT":
+      return null
     default:
       return state
   }
