@@ -73,7 +73,7 @@ export class RemoteRetro extends Component {
   }
 
   render() {
-    const { users, ideas, userToken, retroChannel, stage, insertedAt } = this.props
+    const { users, ideas, userToken, retroChannel, stage, insertedAt, alertConfig } = this.props
 
     const currentUser = users.find(user => user.token === userToken)
 
@@ -113,6 +113,7 @@ const mapStateToProps = state => ({
   ideas: state.idea,
   stage: state.stage,
   insertedAt: state.insertedAt,
+  alertConfig: state.alertConfig,
 })
 
 const mapDispatchToProps = dispatch => ({
