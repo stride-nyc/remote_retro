@@ -33,11 +33,6 @@ export class RemoteRetro extends Component {
 
     retroChannel.on("proceed_to_next_stage", payload => {
       actions.updateStage(payload.stage)
-      if (payload.stage === "action-item-distribution") {
-        alert(
-          "The facilitator has distibuted this retro's action items. You will receive an email breakdown shortly."
-        )
-      }
     })
 
     retroChannel.on("user_typing_idea", ({ userToken }) => {
