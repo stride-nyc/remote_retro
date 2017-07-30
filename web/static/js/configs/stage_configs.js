@@ -3,7 +3,7 @@ export default {
     alert: null,
     confirmationMessage: "Are you sure want to proceed to the Idea Generation stage? This will commence the retro in earnest.",
     nextStage: "idea-generation",
-    button: {
+    progressionButton: {
       copy: "Proceed to Idea Generation",
       iconClass: "arrow right",
     },
@@ -12,7 +12,7 @@ export default {
     alert: null,
     confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
     nextStage: "action-items",
-    button: {
+    progressionButton: {
       copy: "Proceed to Action Items",
       iconClass: "arrow right",
     },
@@ -21,7 +21,7 @@ export default {
     alert: null,
     confirmationMessage: null,
     nextStage: "action-item-distribution",
-    button: {
+    progressionButton: {
       copy: "Send Action Items",
       iconClass: "send",
     },
@@ -33,6 +33,6 @@ export default {
     },
     confirmationMessage: null,
     nextStage: null,
-    button: null,
+    progressionButton: null,
   },
 }

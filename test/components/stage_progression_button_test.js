@@ -9,7 +9,7 @@ describe("StageProgressionButton", () => {
   const mockButtonConfig = {
     confirmationMessage: "Are you sure?",
     nextStage: "stageDos",
-    button: {
+    progressionButton: {
       copy: "Proceed to stage dos",
       iconClass: "arrow right",
     },
@@ -101,7 +101,7 @@ describe("StageProgressionButton", () => {
         const mockButtonConfig = {
           confirmationMessage: null,
           nextStage: "stageTres",
-          button: {
+          progressionButton: {
             copy: "blurg!",
             iconClass: "send",
           },
@@ -129,10 +129,10 @@ describe("StageProgressionButton", () => {
     })
   })
 
-  describe("when it does not receive a button configuration object", () => {
+  describe("when it does not receive a progressionButton configuration object", () => {
     beforeEach(() => {
       stageProgressionButton = mount(
-        <StageProgressionButton {...defaultProps} config={{ button: null }} />
+        <StageProgressionButton {...defaultProps} config={{ progressionButton: null }} />
       )
     })
 
