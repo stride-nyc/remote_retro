@@ -16,21 +16,21 @@
 
 @media only screen and (min-width: 992px) {
   :global .ui.tiny.modal {
-    width: 200px;
-    margin: 0em 0em 0em -100px;
+    width: 450px;
+    margin: 0em 0em 0em -225px;
   }
 }
 
 @media only screen and (min-width: 1200px) {
   :global .ui.tiny.modal {
-    width: 300px;
-    margin: 0em 0em 0em -150px;
+    width: 550px;
+    margin: 0em 0em 0em -275px;
   }
 }
 
 @media only screen and (min-width: 1920px) {
   :global .ui.tiny.modal {
-    width: 400px;
-    margin: 0em 0em 0em -200px;
+    width: 650px;
+    margin: 0em 0em 0em -325px;
   }
 }

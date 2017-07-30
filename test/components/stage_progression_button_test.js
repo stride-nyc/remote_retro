@@ -129,9 +129,11 @@ describe("StageProgressionButton", () => {
     })
   })
 
-  describe("when it does not receive a config", () => {
+  describe("when it does not receive a button configuration object", () => {
     beforeEach(() => {
-      stageProgressionButton = mount(<StageProgressionButton {...defaultProps} config={null} />)
+      stageProgressionButton = mount(
+        <StageProgressionButton {...defaultProps} config={{ button: null }} />
+      )
     })
 
     it("does not render", () => {

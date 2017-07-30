@@ -8,6 +8,7 @@ import * as ideaActionCreators from "../actions/idea"
 import * as retroActionCreators from "../actions/retro"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
+import Alert from "./alert"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 import UserActivity from "../services/user_activity"
 
@@ -32,11 +33,6 @@ export class RemoteRetro extends Component {
 
     retroChannel.on("proceed_to_next_stage", payload => {
       actions.updateStage(payload.stage)
-      if (payload.stage === "action-item-distribution") {
-        alert(
-          "The facilitator has distibuted this retro's action items. You will receive an email breakdown shortly."
-        )
-      }
     })
 
     retroChannel.on("user_typing_idea", ({ userToken }) => {
@@ -73,7 +69,7 @@ export class RemoteRetro extends Component {
   }
 
   render() {
-    const { users, ideas, userToken, retroChannel, stage, insertedAt } = this.props
+    const { users, ideas, userToken, retroChannel, stage, insertedAt, alertConfig } = this.props
 
     const currentUser = users.find(user => user.token === userToken)
 
@@ -86,6 +82,7 @@ export class RemoteRetro extends Component {
           stage={stage}
           retroChannel={retroChannel}
         />
+        <Alert config={alertConfig} />
         <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
       </div>
     )
@@ -100,12 +97,14 @@ RemoteRetro.propTypes = {
   userToken: PropTypes.string.isRequired,
   stage: PropTypes.string.isRequired,
   insertedAt: PropTypes.string,
+  alertConfig: PropTypes.object,
 }
 
 RemoteRetro.defaultProps = {
   users: [],
   ideas: [],
   insertedAt: null,
+  alertConfig: null,
 }
 
 const mapStateToProps = state => ({
@@ -113,6 +112,7 @@ const mapStateToProps = state => ({
   ideas: state.idea,
   stage: state.stage,
   insertedAt: state.insertedAt,
+  alertConfig: state.alertConfig,
 })
 
 const mapDispatchToProps = dispatch => ({

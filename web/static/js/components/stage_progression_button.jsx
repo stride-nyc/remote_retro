@@ -33,7 +33,7 @@ class StageProgressionButton extends Component {
   }
 
   render() {
-    if (!this.props.config) return null
+    if (!this.props.config.button) return null
 
     const { config: { button, confirmationMessage }, buttonDisabled } = this.props
     const { modalOpen } = this.state

@@ -1,5 +1,7 @@
 import * as actionCreators from "../../web/static/js/actions/retro"
 
+import stageProgressionConfigs from "../../web/static/js/configs/stage_progression_configs"
+
 describe("updateStage", () => {
   it("creates an action to update the retro's stage", () => {
     const newStage = "newSlang"
@@ -7,6 +9,7 @@ describe("updateStage", () => {
     expect(actionCreators.updateStage(newStage)).to.deep.equal({
       type: "UPDATE_STAGE",
       stage: newStage,
+      stageProgressionConfigs,
     })
   })
 })

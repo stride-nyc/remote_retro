@@ -55,21 +55,6 @@ describe("<RemoteRetro>", () => {
         retroChannel.trigger("proceed_to_next_stage", { stage: "dummy value" })
         expect(updateStageSpy.calledWith("dummy value")).to.equal(true)
       })
-
-      context("when the `stage` in the payload is 'action-item-distribution'", () => {
-        let alertSpy
-
-        beforeEach(() => {
-          alertSpy = spy(global, "alert")
-          retroChannel.trigger("proceed_to_next_stage", { stage: "action-item-distribution" })
-        })
-
-        afterEach(() => alertSpy.restore())
-
-        it("alerts the user that action items have been sent out", () => {
-          expect(alertSpy.getCall(0).args[0]).to.match(/you will receive an email breakdown/i)
-        })
-      })
     })
 
     describe("on `enable_edit_state`", () => {
