@@ -29,7 +29,7 @@ describe("alertConfig reducer", () => {
         alertConfig: {
           headerText: "Lovely Header Text",
           bodyText: "Lovely Body Text",
-        }
+        },
       },
       stageLackingAlertConfig: {},
     }

@@ -3,7 +3,6 @@ import Modal from "react-modal"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 
-import * as AppPropTypes from "../prop_types"
 import * as alertActionCreators from "../actions/alert"
 
 export class Alert extends Component {
@@ -26,7 +25,7 @@ export class Alert extends Component {
           <div className="ui content">
             {bodyText}
           </div>
-          <br/>
+          <br />
           <button autoFocus className="ui blue right floated button" onClick={actions.clearAlert}>
             Got it!
           </button>
@@ -34,6 +33,16 @@ export class Alert extends Component {
       </Modal>
     )
   }
+}
+
+Alert.propTypes = {
+  actions: React.PropTypes.object,
+  config: React.PropTypes.object,
+}
+
+Alert.defaultProps = {
+  actions: {},
+  config: null,
 }
 
 const mapStateToProps = state => ({

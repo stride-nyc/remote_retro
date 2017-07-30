@@ -8,12 +8,11 @@ import { Alert } from "../../web/static/js/components/alert"
 describe("Alert component", () => {
   let wrapper
   let portalToModalContent
-  let headerNode
   let modalBody
 
-  let alertConfig = {
+  const alertConfig = {
     headerText: "Some ole header text",
-    bodyText: "Some completely different body text"
+    bodyText: "Some completely different body text",
   }
 
   let actions = {}

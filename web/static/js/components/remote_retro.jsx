@@ -97,12 +97,14 @@ RemoteRetro.propTypes = {
   userToken: PropTypes.string.isRequired,
   stage: PropTypes.string.isRequired,
   insertedAt: PropTypes.string,
+  alertConfig: PropTypes.object,
 }
 
 RemoteRetro.defaultProps = {
   users: [],
   ideas: [],
   insertedAt: null,
+  alertConfig: null,
 }
 
 const mapStateToProps = state => ({
