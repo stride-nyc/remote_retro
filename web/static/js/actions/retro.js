@@ -1,9 +1,9 @@
-import stageProgressionConfigs from "../configs/stage_progression_configs"
+import stageConfigs from "../configs/stage_configs"
 
 export const updateStage = newStage => ({
   type: "UPDATE_STAGE",
   stage: newStage,
-  stageProgressionConfigs,
+  stageConfigs,
 })
 
 export const setInitialState = initialState => ({

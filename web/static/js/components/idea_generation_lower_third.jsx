@@ -3,7 +3,7 @@ import { CSSTransitionGroup } from "react-transition-group"
 
 import IdeaSubmissionForm from "./idea_submission_form"
 import StageProgressionButton from "./stage_progression_button"
-import stageProgressionConfigs from "../configs/stage_progression_configs"
+import stageConfigs from "../configs/stage_configs"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_generation_lower_third.css"
@@ -11,7 +11,7 @@ import styles from "./css_modules/idea_generation_lower_third.css"
 const IdeaGenerationLowerThird = props => {
   const { stage, currentUser, ideas } = props
   const isFacilitator = currentUser.is_facilitator
-  const progressionConfig = stageProgressionConfigs[stage]
+  const stageConfig = stageConfigs[stage]
   const showActionItem = stage !== "idea-generation"
 
   function wereActionItemsSubmitted() {
@@ -34,7 +34,7 @@ const IdeaGenerationLowerThird = props => {
           { isFacilitator &&
             <StageProgressionButton
               {...props}
-              config={progressionConfig}
+              config={stageConfig}
               buttonDisabled={wereActionItemsSubmitted()}
             />
           }

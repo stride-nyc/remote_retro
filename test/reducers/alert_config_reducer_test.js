@@ -24,7 +24,7 @@ describe("alertConfig reducer", () => {
 
   describe("when the action is UPDATE_STAGE", () => {
     const initialState = { headerText: "Warning!", bodyText: "You're being watched." }
-    const stageProgressionConfigs = {
+    const stageConfigs = {
       daybreak: {
         alertConfig: {
           headerText: "Lovely Header Text",
@@ -35,13 +35,13 @@ describe("alertConfig reducer", () => {
     }
 
     deepFreeze(initialState)
-    deepFreeze(stageProgressionConfigs)
+    deepFreeze(stageConfigs)
 
     describe("when the given stage has an alertConfig in the given configuration map", () => {
       const action = {
         type: "UPDATE_STAGE",
         stage: "daybreak",
-        stageProgressionConfigs,
+        stageConfigs,
       }
 
       it("returns the alertConfig for the given stage", () => {
