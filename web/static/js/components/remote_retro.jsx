@@ -8,6 +8,7 @@ import * as ideaActionCreators from "../actions/idea"
 import * as retroActionCreators from "../actions/retro"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
+import Alert from "./alert"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 import UserActivity from "../services/user_activity"
 
@@ -86,6 +87,7 @@ export class RemoteRetro extends Component {
           stage={stage}
           retroChannel={retroChannel}
         />
+        <Alert config={alertConfig} />
         <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
       </div>
     )
