@@ -34,6 +34,11 @@ describe("Alert component", () => {
     ).to.match(/some completely different body text/i)
   })
 
+  it("renders the button autofocused", () => {
+    const button = modalBody.querySelector("button")
+    expect(button).to.deep.equal(document.activeElement)
+  })
+
   describe("clicking the button", () => {
     beforeEach(() => {
       actions = { clearAlert: sinon.spy() }

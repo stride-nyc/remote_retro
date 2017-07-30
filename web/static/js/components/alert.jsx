@@ -27,7 +27,7 @@ export class Alert extends Component {
             {bodyText}
           </div>
           <br/>
-          <button className="ui blue right floated button" onClick={actions.clearAlert}>
+          <button autoFocus className="ui blue right floated button" onClick={actions.clearAlert}>
             Got it!
           </button>
         </div>
