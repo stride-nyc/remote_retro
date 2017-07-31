@@ -16,17 +16,14 @@ const IdeaControls = props => {
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
 
   function renderIcons() {
-    const deleteIcon = (
-      <i
-        title="Delete Idea"
-        className={`${styles.actionIcon} remove circle icon`}
-        onClick={() => { retroChannel.push("delete_idea", idea.id) }}
-      />
-    )
     if (currentUser.is_facilitator) {
       return (
         <span>
-          {deleteIcon}
+          <i
+            title="Delete Idea"
+            className={`${styles.actionIcon} remove circle icon`}
+            onClick={() => { retroChannel.push("delete_idea", idea.id) }}
+          />
           <i
             title="Edit Idea"
             className={`${styles.actionIcon} edit icon`}
@@ -43,7 +40,13 @@ const IdeaControls = props => {
 
     const beyondLimit = moment().utc() > moment.utc(idea.inserted_at) + 5000
     if (currentUser.id === userId && !beyondLimit) {
-      return deleteIcon
+      return (
+        <i
+          title="Delete Idea"
+          className={`${styles.actionIcon} ${styles.disappearingIcon} remove circle icon`}
+          onClick={() => { retroChannel.push("delete_idea", idea.id) }}
+        />
+      )
     }
     return null
   }

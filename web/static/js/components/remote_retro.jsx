@@ -11,7 +11,6 @@ import Room from "./room"
 import Alert from "./alert"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 import UserActivity from "../services/user_activity"
-import RetroChannel from "../services/retro_channel"
 
 export class RemoteRetro extends Component {
   componentWillMount() {
@@ -30,9 +29,6 @@ export class RemoteRetro extends Component {
 
     retroChannel.on("new_idea_received", newIdea => {
       actions.addIdea(newIdea)
-      RetroChannel.triggerTimeoutForOwnIdea(this, newIdea, () => {
-        actions.updateIdea(newIdea.id, {})
-      }, 5000)
     })
 
     retroChannel.on("proceed_to_next_stage", payload => {
