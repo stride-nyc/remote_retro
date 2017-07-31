@@ -4,6 +4,8 @@
   --semantic-light-grey: #DCDDDE;
   --semantic-teal: #00B5AD;
   --magenta: #FD1884;
+  --lightest-grey: #F2F2F2;
+  --dark-grey: #8C8C8C;
 }
 
 :global .photo-backdrop {
@@ -34,4 +36,44 @@ sup {
   top: -2rem;
   font-size: 0.9rem;
   color: var(--magenta);
+}
+
+:global .ui.branded-header-container {
+  background: var(--lightest-grey);
+  border: none;
+  padding: 0.5rem 0.5rem;
+}
+
+:global .ui.left-branded-header {
+  margin-bottom: 0;
+}
+
+:global .ui.left-branded-header p {
+  font-weight: 200;
+  font-size: large;
+  padding-left: 1rem;
+}
+
+:global .ui.left-branded-header sup {
+  top: -0.4rem;
+  font-size: 0.1rem;
+}
+
+:global .ui.floated.header.right-branded-header {
+  padding-right: 1rem;
+  margin-right: 0;
+}
+
+:global .ui.right-branded-header p {
+  font-size: 0.8rem;
+  color: var(--semantic-light-grey);
+  font-weight: 200;
+}
+
+:global .logo-text {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--dark-grey);
+  padding-right: 0.2rem;
+  padding-top: 0.2rem;
 }
