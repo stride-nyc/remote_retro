@@ -5,7 +5,7 @@ defmodule RemoteRetro.Participation do
     belongs_to :user, RemoteRetro.User
     belongs_to :retro, RemoteRetro.Retro, type: Ecto.UUID
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @required_fields [:user_id, :retro_id]

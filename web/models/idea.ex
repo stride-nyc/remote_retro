@@ -9,7 +9,7 @@ defmodule RemoteRetro.Idea do
     belongs_to :retro, RemoteRetro.Retro, type: Ecto.UUID
     belongs_to :user, RemoteRetro.User
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   @required_fields [:category, :body, :retro_id, :user_id]

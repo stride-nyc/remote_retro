@@ -21,7 +21,11 @@ const Idea = props => {
       { idea.editing && !isFacilitator ?
         <p className="ui center aligned sub dividing header">Facilitator is Editing</p> : ""
       }
-      { isFacilitator && <IdeaControls idea={idea} retroChannel={retroChannel} /> }
+      <IdeaControls
+        idea={idea}
+        retroChannel={retroChannel}
+        currentUser={currentUser}
+      />
       <span className={styles.authorAttribution}>
         {idea.user.given_name}:
       </span> {idea.liveEditText || idea.body}
