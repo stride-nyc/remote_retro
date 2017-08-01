@@ -1,8 +1,13 @@
 import React from "react"
 import classNames from "classnames"
-import moment from "moment"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
+
+const timeElapsedLessThanFiveSec = ideaCreationTimestamp => {
+  const millisecondsSinceIdeaCreation = new Date(ideaCreationTimestamp)
+  const timeElapsedSinceIdeaCreation = new Date().getTime() - millisecondsSinceIdeaCreation
+  return (timeElapsedSinceIdeaCreation < 5000)
+}
 
 const IdeaControls = props => {
   const { idea, retroChannel, currentUser } = props
@@ -38,8 +43,7 @@ const IdeaControls = props => {
       )
     }
 
-    const beyondLimit = moment().utc() > moment.utc(idea.inserted_at) + 5000
-    if (currentUser.id === userId && !beyondLimit) {
+    if (currentUser.id === userId && timeElapsedLessThanFiveSec(idea.inserted_at)) {
       return (
         <i
           title="Delete Idea"

@@ -103,6 +103,9 @@ describe("<IdeaControls />", () => {
     })
 
     context("when the user is not the facilitator", () => {
+      let clock
+      let earlierDate
+
       context("and the idea is not theirs", () => {
         it("doesn't render", () => {
           const retroChannel = { on: () => {}, push: sinon.spy() }
@@ -121,19 +124,50 @@ describe("<IdeaControls />", () => {
       })
 
       context("and the idea is theirs", () => {
-        it("renders", () => {
-          const retroChannel = { on: () => {}, push: sinon.spy() }
-          const currentUser = { id: 1, is_facilitator: false }
+        beforeEach(() => {
+          clock = sinon.useFakeTimers(new Date(2017, 1, 1, 0, 0, 0).getTime())
+        })
 
-          const wrapper = shallow(
-            <IdeaControls
-              idea={idea}
-              retroChannel={retroChannel}
-              currentUser={currentUser}
-            />
-          )
+        afterEach(() => {
+          clock.restore()
+        })
 
-          expect(wrapper.find(".remove.icon")).to.have.length(1)
+        context("and the idea was inserted into the db less than 5 seconds ago", () => {
+          it("renders", () => {
+            earlierDate = new Date(clock.now - 4000)
+            const retroChannel = { on: () => {}, push: sinon.spy() }
+            const currentUser = { id: 1, is_facilitator: false }
+            const freshIdea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inserted_at: earlierDate.toUTCString() }
+
+            const wrapper = shallow(
+              <IdeaControls
+                idea={freshIdea}
+                retroChannel={retroChannel}
+                currentUser={currentUser}
+              />
+            )
+
+            expect(wrapper.find(".remove.icon")).to.have.length(1)
+          })
+        })
+
+        context("and the idea was inserted into the db more than 5 seconds ago", () => {
+          it("doesn't render", () => {
+            earlierDate = new Date(clock.now - 6000)
+            const retroChannel = { on: () => {}, push: sinon.spy() }
+            const currentUser = { id: 1, is_facilitator: false }
+            const staleIdea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inserted_at: earlierDate.toUTCString() }
+
+            const wrapper = shallow(
+              <IdeaControls
+                idea={staleIdea}
+                retroChannel={retroChannel}
+                currentUser={currentUser}
+              />
+            )
+
+            expect(wrapper.find(".remove.icon")).to.have.length(0)
+          })
         })
       })
     })

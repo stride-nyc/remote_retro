@@ -26,7 +26,7 @@ defmodule RemoteRetro.User do
 
     has_many :participations, RemoteRetro.Participation
 
-    timestamps()
+    timestamps(type: :utc_datetime)
   end
 
   def changeset(struct, params \\ %{}) do

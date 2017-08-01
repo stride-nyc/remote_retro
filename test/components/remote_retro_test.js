@@ -55,13 +55,6 @@ describe("<RemoteRetro>", () => {
         retroChannel.trigger("new_idea_received", { body: "zerp" })
         expect(addIdeaSpy.calledWith({ body: "zerp" })).to.equal(true)
       })
-      context("when the currentUser created the idea", () => {
-        it("calls updateIdea action after a timeout of 5000ms", () => {
-          retroChannel.trigger("new_idea_received", { id: 5, body: "derp", user_id: 1 })
-          clock.tick(5000)
-          expect(updateIdeaSpy.calledWith(5, {})).to.equal(true)
-        })
-      })
     })
 
     describe("on `proceed_to_next_stage`", () => {
