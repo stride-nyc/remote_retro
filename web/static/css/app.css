@@ -16,7 +16,6 @@
 
 :global .welcome-wrapper.ui.segment {
   --corner-offset: 5rem;
-  position: relative;
   padding-top: var(--corner-offset);
   padding-left: var(--corner-offset);
 }
