@@ -1,3 +1,5 @@
+import React from "react"
+
 export default {
   "prime-directive": {
     alert: null,
@@ -29,7 +31,12 @@ export default {
   "action-item-distribution": {
     alert: {
       headerText: "Action Items Distributed",
-      bodyText: "The facilitator has distributed this retro's action items. You will receive an email breakdown shortly!",
+      bodyText: <div>
+        <p>The facilitator has distributed this retro's action items.
+          You will receive an email breakdown shortly!</p>
+        <p>Thank you for using Remote Retro!
+          Please click <a href="https://www.surveymonkey.com/r/JKT9FXM" target="_blank" rel="noopener noreferrer">here</a> to give us feedback on your experience.</p>
+      </div>,
     },
     confirmationMessage: null,
     nextStage: null,
