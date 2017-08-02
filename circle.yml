@@ -34,3 +34,8 @@ test:
     - mix test --exclude feature_test
     - mix test --only feature_test
     - mix coveralls.circle --include feature_test
+deployment:
+  prod:
+    branch: master
+    heroku:
+      appname: remoteretro
