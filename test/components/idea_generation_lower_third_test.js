@@ -69,5 +69,19 @@ describe("IdeaGenerationLowerThird component", () => {
 
       expect(lowerThird.find(StageProgressionButton)).to.have.length(0)
     })
+
+    context("when the state is action-item-distribution", () => {
+      it("does not render the component", () => {
+        const lowerThird = shallow(
+          <IdeaGenerationLowerThird
+            {...defaultProps}
+            stage="action-item-distribution"
+            currentUser={nonFacilitatorUser}
+          />
+        )
+
+        expect(lowerThird.type()).to.eql(null)
+      })
+    })
   })
 })

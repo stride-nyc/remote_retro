@@ -9,6 +9,8 @@ import * as AppPropTypes from "../prop_types"
 
 const IdeaGenerationLowerThird = props => {
   const { stage, currentUser, ideas } = props
+  if (stage === "action-item-distribution") return null
+
   const isFacilitator = currentUser.is_facilitator
   const stageConfig = stageConfigs[stage]
   const showActionItem = stage !== "idea-generation"

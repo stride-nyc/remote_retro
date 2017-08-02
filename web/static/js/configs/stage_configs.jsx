@@ -21,7 +21,7 @@ export default {
   },
   "action-items": {
     alert: null,
-    confirmationMessage: null,
+    confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
     nextStage: "action-item-distribution",
     progressionButton: {
       copy: "Send Action Items",
