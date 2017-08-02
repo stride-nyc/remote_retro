@@ -24,11 +24,6 @@ defmodule RemoteRetro.RetroController do
 
   defp find_or_insert_participation_record(user, retro_id) do
     query = from p in Participation, where: p.user_id == ^user.id and p.retro_id == ^retro_id
-    changeset = Participation.changeset(%Participation{}, %{
-      user_id: user.id,
-      retro_id: retro_id
-    })
-
-    Repo.one(query) || Repo.insert!(changeset)
+    Repo.one(query) || Repo.insert!(%Participation{user_id: user.id, retro_id: retro_id })
   end
 end
