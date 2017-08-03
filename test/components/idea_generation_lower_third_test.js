@@ -69,19 +69,31 @@ describe("IdeaGenerationLowerThird component", () => {
 
       expect(lowerThird.find(StageProgressionButton)).to.have.length(0)
     })
+  })
 
-    context("when the state is action-item-distribution", () => {
-      it("does not render the component", () => {
-        const lowerThird = shallow(
-          <IdeaGenerationLowerThird
-            {...defaultProps}
-            stage="action-item-distribution"
-            currentUser={nonFacilitatorUser}
-          />
-        )
+  context("when the state is action-item-distribution", () => {
+    it("passes `displayContents: false` to the lower third wrapper", () => {
+      const lowerThird = shallow(
+        <IdeaGenerationLowerThird
+          {...defaultProps}
+          stage="action-item-distribution"
+        />
+      )
 
-        expect(lowerThird.type()).to.eql(null)
-      })
+      expect(lowerThird.props().displayContents).to.eql(false)
+    })
+  })
+
+  context("when the state isn't action-item-distribution", () => {
+    it("passes `displayContents: true` to the lower third wrapper", () => {
+      const lowerThird = shallow(
+        <IdeaGenerationLowerThird
+          {...defaultProps}
+          stage="idea-generation"
+        />
+      )
+
+      expect(lowerThird.props().displayContents).to.eql(true)
     })
   })
 })
