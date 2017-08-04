@@ -7,17 +7,12 @@ defmodule SendActionItemToUsersViaEmailTest do
     retro_path = "/retros/" <> retro.id
     idea_text = "Do the test"
     facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
-    proceed_to_action_items_stage(facilitator_session)
+    click_and_confirm(facilitator_session, "Proceed to Action Items")
 
     submit_idea(facilitator_session, %{category: "action-item", body: idea_text})
 
     assert facilitator_session |> find(Query.css("ul.action-item li[title='#{idea_text}']", count: 1))
-
-    facilitator_session
-    |> find(Query.css("i.close"))
-    |> Element.click
-
-    distribute_action_items(facilitator_session)
+    click_and_confirm(facilitator_session, "Send Action Items")
 
     Emails.action_items_email(retro.id) |> assert_delivered_email
   end

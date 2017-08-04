@@ -11,7 +11,7 @@ defmodule StageProgressionRealtimeUpdateTest do
 
     assert participant_session |> find(Query.css(".action-item.column", count: 0))
 
-    proceed_to_action_items_stage(facilitator_session)
+    click_and_confirm(facilitator_session, "Proceed to Action Items")
 
     assert participant_session |> find(Query.css(".action-item.column", count: 1))
   end

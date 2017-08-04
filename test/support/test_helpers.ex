@@ -30,13 +30,8 @@ defmodule RemoteRetro.TestHelpers do
     execute_script(session, "window.confirm = function(){ return true; }")
   end
 
-  def proceed_to_action_items_stage(facilitator_session) do
-    facilitator_session |> find(Query.button("Proceed to Action Items")) |> Element.click
-    facilitator_session |> find(Query.button("Yes")) |> Element.click
-  end
-
-  def distribute_action_items(facilitator_session) do
-    facilitator_session |> find(Query.button("Send Action Items")) |> Element.click
+  def click_and_confirm(facilitator_session, button_text) do
+    facilitator_session |> find(Query.button(button_text)) |> Element.click
     facilitator_session |> find(Query.button("Yes")) |> Element.click
   end
 
