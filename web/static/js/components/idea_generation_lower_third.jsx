@@ -1,7 +1,7 @@
 import React from "react"
-import { CSSTransitionGroup } from "react-transition-group"
 
 import IdeaSubmissionForm from "./idea_submission_form"
+import LowerThirdWrapper from "./lower_third_wrapper"
 import StageProgressionButton from "./stage_progression_button"
 import stageConfigs from "../configs/stage_configs"
 
@@ -19,31 +19,23 @@ const IdeaGenerationLowerThird = props => {
   }
 
   return (
-    <CSSTransitionGroup
-      transitionName={{ appear: styles.appear, appearActive: styles.appearActive }}
-      transitionAppear
-      transitionAppearTimeout={700}
-      transitionEnter={false}
-      transitionLeave={false}
-    >
-      <div className="ui stackable grid basic attached secondary center aligned segment">
-        <div className="thirteen wide column">
-          <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
-        </div>
-        <div className="three wide right aligned column">
-          { isFacilitator &&
-            <StageProgressionButton
-              {...props}
-              config={stageConfig}
-              buttonDisabled={wereActionItemsSubmitted()}
-            />
-          }
-        </div>
-        <p className={styles.poweredBy}>
-          Built by <a href="http://www.stridenyc.com/">Stride Consulting</a> and Open Source Badasses
-        </p>
+    <LowerThirdWrapper displayContents>
+      <div className="thirteen wide column">
+        <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
       </div>
-    </CSSTransitionGroup>
+      <div className="three wide right aligned column">
+        { isFacilitator &&
+          <StageProgressionButton
+            {...props}
+            config={stageConfig}
+            buttonDisabled={wereActionItemsSubmitted()}
+          />
+        }
+      </div>
+      <p className={styles.poweredBy}>
+        Built by <a href="http://www.stridenyc.com/">Stride Consulting</a> and Open Source Badasses
+      </p>
+    </LowerThirdWrapper>
   )
 }
 
