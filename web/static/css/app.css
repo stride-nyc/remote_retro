@@ -41,6 +41,7 @@ sup {
   background: var(--lightest-grey);
   border: none;
   padding: 0.5rem 0.5rem;
+  margin-bottom: 0;
 }
 
 :global .ui.left-branded-header {
