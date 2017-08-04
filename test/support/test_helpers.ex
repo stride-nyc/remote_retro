@@ -35,6 +35,11 @@ defmodule RemoteRetro.TestHelpers do
     facilitator_session |> find(Query.button("Yes")) |> Element.click
   end
 
+  def distribute_action_items(facilitator_session) do
+    facilitator_session |> find(Query.button("Send Action Items")) |> Element.click
+    facilitator_session |> find(Query.button("Yes")) |> Element.click
+  end
+
   def authenticate(session) do
     visit(session, "/auth/google/callback?code=love")
   end

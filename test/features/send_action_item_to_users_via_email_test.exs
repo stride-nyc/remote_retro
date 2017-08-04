@@ -9,13 +9,15 @@ defmodule SendActionItemToUsersViaEmailTest do
     facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
     proceed_to_action_items_stage(facilitator_session)
 
-    submit_idea(facilitator_session, %{ category: "action-item", body: idea_text })
+    submit_idea(facilitator_session, %{category: "action-item", body: idea_text})
 
     assert facilitator_session |> find(Query.css("ul.action-item li[title='#{idea_text}']", count: 1))
 
     facilitator_session
-    |> find(Query.button("Send Action Items"))
+    |> find(Query.css("i.close"))
     |> Element.click
+
+    distribute_action_items(facilitator_session)
 
     Emails.action_items_email(retro.id) |> assert_delivered_email
   end
