@@ -31,7 +31,6 @@ defmodule RetroIdeaRealtimeUpdateTest do
       retro_path = "/retros/" <> retro.id
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
       participant_session = authenticate(participant_session) |> visit(retro_path)
-      take_screenshot(facilitator_session)
 
       facilitator_session |> find(Query.css(".edit.icon")) |> Element.click
       fill_in(facilitator_session, Query.text_field("editable_idea"), with: "No one uses the linter.")
