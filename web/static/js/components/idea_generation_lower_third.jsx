@@ -6,7 +6,6 @@ import StageProgressionButton from "./stage_progression_button"
 import stageConfigs from "../configs/stage_configs"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/idea_generation_lower_third.css"
 
 const IdeaGenerationLowerThird = props => {
   const { stage, currentUser, ideas } = props
@@ -32,9 +31,6 @@ const IdeaGenerationLowerThird = props => {
           />
         }
       </div>
-      <p className={styles.poweredBy}>
-        Built by <a href="http://www.stridenyc.com/">Stride Consulting</a> and Open Source Badasses
-      </p>
     </LowerThirdWrapper>
   )
 }
