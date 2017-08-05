@@ -16,7 +16,7 @@ class IdeaSubmissionForm extends Component {
     this.defaultCategory = "happy"
     this.state = {
       body: "",
-      category: this.defaultCategory,
+      category: props.showActionItem ? "action-item" : this.defaultCategory,
       ideaEntryStarted: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)

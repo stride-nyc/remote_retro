@@ -15,27 +15,53 @@ describe("IdeaSubmissionForm component", () => {
   }
 
   describe("on submit", () => {
-    it("pushes a `new_idea` event to the retro channel with the idea", () => {
-      const retroChannel = { on: () => {}, push: sinon.spy() }
+    describe("when showActionItem is true", () => {
+      it("pushes a `new_idea` event to the retro channel with the action-item", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
 
-      wrapper = mount(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={retroChannel}
-          showActionItem
-        />
-      )
+        wrapper = mount(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={retroChannel}
+            showActionItem
+          />
+        )
+        wrapper.simulate("submit", fakeEvent)
 
-      wrapper.simulate("submit", fakeEvent)
+        expect(
+          retroChannel.push.calledWith("new_idea", {
+            category: "action-item",
+            body: "",
+            userId: 1,
+            ideaEntryStarted: false,
+          }
+        )).to.equal(true)
+      })
+    })
 
-      expect(
-        retroChannel.push.calledWith("new_idea", {
-          category: "happy",
-          body: "",
-          userId: 1,
-          ideaEntryStarted: false,
-        }
-      )).to.equal(true)
+    describe("when showActionItem is false", () => {
+      it("pushes a `new_idea` event to the retroChannel, passing a happy idea by default", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+
+        wrapper = mount(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={retroChannel}
+            showActionItem={false}
+          />
+        )
+
+        wrapper.simulate("submit", fakeEvent)
+
+        expect(
+          retroChannel.push.calledWith("new_idea", {
+            category: "happy",
+            body: "",
+            userId: 1,
+            ideaEntryStarted: false,
+          }
+        )).to.equal(true)
+      })
     })
   })
 
