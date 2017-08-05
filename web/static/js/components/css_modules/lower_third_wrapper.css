@@ -1,5 +1,5 @@
 :global(.translateY-appear) {
-  transform: translateY(130%);
+  transform: translateY(140%);
 }
 
 :global(.translateY-appear.translateY-appear-active) {
