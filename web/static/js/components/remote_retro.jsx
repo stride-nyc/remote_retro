@@ -43,13 +43,7 @@ RemoteRetro.defaultProps = {
   alert: null,
 }
 
-const mapStateToProps = state => ({
-  users: state.users,
-  ideas: state.ideas,
-  stage: state.stage,
-  insertedAt: state.insertedAt,
-  alert: state.alert,
-})
+const mapStateToProps = state => ({ ...state })
 
 export default connect(
   mapStateToProps
