@@ -1,11 +1,11 @@
 import deepFreeze from "deep-freeze"
-import userReducer from "../../web/static/js/reducers/user"
+import usersReducer from "../../web/static/js/reducers/users"
 
 describe("user reducer", () => {
   describe("when there is an empty action", () => {
     describe("when no new state is passed", () => {
       it("should return the initial state of an empty array", () => {
-        expect(userReducer(undefined, {})).to.deep.equal([])
+        expect(usersReducer(undefined, {})).to.deep.equal([])
       })
     })
   })
@@ -25,13 +25,13 @@ describe("user reducer", () => {
       const action = { type: "SET_USERS", users }
 
       it("adds users in the action to state, assigning facilitatorship to earliest arrival", () => {
-        const newState = userReducer([], action)
+        const newState = usersReducer([], action)
         const tokens = newState.map(user => user.token)
         expect(tokens).to.deep.equal(["abc", "123"])
       })
 
       it("assigns the facilitator role only to the user who's been online longest", () => {
-        expect(userReducer([], action)).to.deep.equal([{
+        expect(usersReducer([], action)).to.deep.equal([{
           token: "abc",
           online_at: 2,
           is_facilitator: false,
@@ -47,7 +47,7 @@ describe("user reducer", () => {
       const action = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
       it("returns the previous state", () => {
-        expect(userReducer([{ given_name: "Morty" }], action)).to.deep.equal([{ given_name: "Morty" }])
+        expect(usersReducer([{ given_name: "Morty" }], action)).to.deep.equal([{ given_name: "Morty" }])
       })
     })
   })
@@ -67,7 +67,7 @@ describe("user reducer", () => {
       const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
 
       it("adds all of the users to state", () => {
-        const names = userReducer([], action).map(user => user.name)
+        const names = usersReducer([], action).map(user => user.name)
         expect(names).to.eql(["Kevin", "Sarah"])
       })
     })
@@ -104,13 +104,13 @@ describe("user reducer", () => {
       const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
 
       it("removes all of the users who have left", () => {
-        const newState = userReducer(initialState, action)
+        const newState = usersReducer(initialState, action)
         const tokens = newState.map(user => user.token)
         expect(tokens).to.eql(["TOTALLY_COOL_TOKEN!"])
       })
 
       it("ensures the facilitatorship is transferred to the longest tenured", () => {
-        const newState = userReducer(initialState, action)
+        const newState = usersReducer(initialState, action)
         expect(newState[0].is_facilitator).to.equal(true)
       })
     })
@@ -122,7 +122,7 @@ describe("user reducer", () => {
     const action = { type: "UPDATE_USER", userToken, newAttributes }
     const initialState = [{ token: "abc123", name: "Tiny Rick", age: 180 }, { token: "zzz444", name: "Morty", age: 15 }]
     deepFreeze(initialState)
-    const newState = userReducer(initialState, action)
+    const newState = usersReducer(initialState, action)
 
     it("should update user with matching token with new attributes", () => {
       expect(newState).to.deep.equal([{ token: "abc123", name: "Tiny Rick", age: 70 }, { token: "zzz444", name: "Morty", age: 15 }])

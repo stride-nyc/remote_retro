@@ -17,7 +17,7 @@ const removeDepartures = (users, departures) => {
   return reject(users, user => departureTokens.includes(user.token))
 }
 
-const user = (state = [], action) => {
+const users = (state = [], action) => {
   switch (action.type) {
     case "SET_USERS":
       return assignFacilitatorToLongestTenured(action.users)
@@ -36,4 +36,4 @@ const user = (state = [], action) => {
   }
 }
 
-export default user
+export default users

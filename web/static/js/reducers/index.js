@@ -1,14 +1,14 @@
 import { combineReducers } from "redux"
 
-import user from "./user"
-import idea from "./idea"
+import users from "./users"
+import ideas from "./ideas"
 import stage from "./stage"
 import insertedAt from "./inserted_at"
 import alert from "./alert"
 
 const rootReducer = combineReducers({
-  user,
-  idea,
+  users,
+  ideas,
   stage,
   insertedAt,
   alert,

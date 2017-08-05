@@ -107,7 +107,7 @@ describe("RetroChannel", () => {
 
           beforeEach(() => {
             store = createStore(() => ({
-              user: [
+              users: [
                 { is_typing: true, token: "abc", last_typed: clock.now },
                 { is_typing: false, token: "s0meUserToken" },
               ],

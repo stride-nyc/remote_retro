@@ -1,6 +1,6 @@
 import deepFreeze from "deep-freeze"
 
-import ideaReducer from "../../web/static/js/reducers/idea"
+import ideasReducer from "../../web/static/js/reducers/ideas"
 
 describe("idea reducer", () => {
   describe("when an action is nonexistent or unhandled", () => {
@@ -8,8 +8,8 @@ describe("idea reducer", () => {
       it("should return an empty array", () => {
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(ideaReducer(undefined, {})).to.deep.equal([])
-        expect(ideaReducer(undefined, unhandledAction)).to.deep.equal([])
+        expect(ideasReducer(undefined, {})).to.deep.equal([])
+        expect(ideasReducer(undefined, unhandledAction)).to.deep.equal([])
       })
     })
 
@@ -18,8 +18,8 @@ describe("idea reducer", () => {
         const initialState = [{ body: "we have a linter!", category: "happy", user_id: 1 }]
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(ideaReducer(initialState, {})).to.deep.equal(initialState)
-        expect(ideaReducer(initialState, unhandledAction)).to.deep.equal(initialState)
+        expect(ideasReducer(initialState, {})).to.deep.equal(initialState)
+        expect(ideasReducer(initialState, unhandledAction)).to.deep.equal(initialState)
       })
     })
   })
@@ -32,7 +32,7 @@ describe("idea reducer", () => {
         const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
         const action = { type: "ADD_IDEA", idea }
 
-        expect(ideaReducer(initialState, action)).to.deep.equal([...initialState, idea])
+        expect(ideasReducer(initialState, action)).to.deep.equal([...initialState, idea])
       })
     })
 
@@ -44,7 +44,7 @@ describe("idea reducer", () => {
         const newIdeas = [{ body: "modern convenience", category: "confused", user_id: 1 }]
         const action = { type: "SET_INITIAL_STATE", initialState: { ideas: newIdeas } }
 
-        expect(ideaReducer(initialIdeas, action)).to.deep.equal([...newIdeas])
+        expect(ideasReducer(initialIdeas, action)).to.deep.equal([...newIdeas])
       })
     })
 
@@ -54,7 +54,7 @@ describe("idea reducer", () => {
 
       it("returns an updated set of ideas, where the idea with matching id has updated attributes", () => {
         const action = { type: "UPDATE_IDEA", ideaId: 666, newAttributes: { category: "sad" } }
-        expect(ideaReducer(initialIdeas, action)).to.deep.equal([
+        expect(ideasReducer(initialIdeas, action)).to.deep.equal([
           { id: 666, category: "sad", user_id: 1 },
           { id: 22, category: "n/a", user_id: 2 },
         ])
@@ -67,7 +67,7 @@ describe("idea reducer", () => {
 
       it("returns an updated set of ideas, where the idea with matching id has been removed", () => {
         const action = { type: "DELETE_IDEA", ideaId: 667 }
-        expect(ideaReducer(initialIdeas, action)).to.deep.equal([
+        expect(ideasReducer(initialIdeas, action)).to.deep.equal([
           { id: 22, category: "n/a", user_id: 2 },
         ])
       })

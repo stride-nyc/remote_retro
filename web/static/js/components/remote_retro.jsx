@@ -44,8 +44,8 @@ RemoteRetro.defaultProps = {
 }
 
 const mapStateToProps = state => ({
-  users: state.user,
-  ideas: state.idea,
+  users: state.users,
+  ideas: state.ideas,
   stage: state.stage,
   insertedAt: state.insertedAt,
   alert: state.alert,

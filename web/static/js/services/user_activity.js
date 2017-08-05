@@ -1,7 +1,7 @@
 class UserActivity {
   static checkIfDoneTyping(store, userToken, done) {
     const interval = setInterval(() => {
-      const users = store.getState().user
+      const users = store.getState().users
       const user = users.find(user => user.token === userToken)
       const noNewTypingEventsReceived = (Date.now() - user.last_typed) > 650
       if (noNewTypingEventsReceived) {
