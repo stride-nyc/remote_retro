@@ -8,7 +8,7 @@ const PrimeDirectiveStage = props => {
   const { isFacilitator, progressionConfig } = props
   return (
     <div className="ui centered grid">
-      <div className="thirteen wide mobile eight wide tablet four wide computer column">
+      <div className="thirteen wide mobile eight wide tablet five wide computer column">
         <PrimeDirective />
       </div>
       <div className="row">
