@@ -9,6 +9,7 @@ import * as AppPropTypes from "../prop_types"
 
 const IdeaGenerationLowerThird = props => {
   const { stage, currentUser, ideas } = props
+
   const isFacilitator = currentUser.is_facilitator
   const stageConfig = stageConfigs[stage]
   const showActionItem = stage !== "idea-generation"
@@ -18,7 +19,7 @@ const IdeaGenerationLowerThird = props => {
   }
 
   return (
-    <LowerThirdWrapper displayContents>
+    <LowerThirdWrapper displayContents={stage !== "action-item-distribution"}>
       <div className="thirteen wide column">
         <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
       </div>
