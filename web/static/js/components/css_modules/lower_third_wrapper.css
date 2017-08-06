@@ -1,3 +1,7 @@
+:global(.translateY-height) {
+  transition: height 0.7s ease;
+}
+
 :global(.translateY-appear) {
   transform: translateY(140%);
 }

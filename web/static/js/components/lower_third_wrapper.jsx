@@ -1,5 +1,5 @@
 import React, { PropTypes } from "react"
-import { CSSTransitionGroup } from "react-transition-group"
+import ReactCSSTransitionReplace from "react-css-transition-replace"
 
 import styles from "./css_modules/lower_third_wrapper.css" // eslint-disable-line no-unused-vars
 
@@ -11,16 +11,18 @@ const LowerThirdWrapper = ({ children, displayContents }) => {
   )
 
   return (
-    <CSSTransitionGroup
+    <ReactCSSTransitionReplace
       transitionName="translateY"
+      overflowHidden={false}
       transitionAppear
+      component="div"
       transitionLeave
       transitionAppearTimeout={700}
       transitionLeaveTimeout={700}
       transitionEnter={false}
     >
       {displayContents && contents}
-    </CSSTransitionGroup>
+    </ReactCSSTransitionReplace>
   )
 }
 
