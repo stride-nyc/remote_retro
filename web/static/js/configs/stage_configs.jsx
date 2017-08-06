@@ -3,7 +3,7 @@ import React from "react"
 export default {
   "prime-directive": {
     alert: null,
-    confirmationMessage: "Are you sure want to proceed to the Idea Generation stage?",
+    confirmationMessage: "Your entire party has arrived?",
     nextStage: "idea-generation",
     progressionButton: {
       copy: "Proceed to Idea Generation",
