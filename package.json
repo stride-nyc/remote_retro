@@ -13,7 +13,6 @@
     "classnames": "^2.2.5",
     "immutability-helper": "^2.1.2",
     "lodash": "^4.17.4",
-    "node-sass": "^3.8.0",
     "phoenix": "file:deps/phoenix",
     "phoenix_html": "file:deps/phoenix_html",
     "postcss-loader": "^2.0.5",
