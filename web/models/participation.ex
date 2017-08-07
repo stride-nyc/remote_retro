@@ -13,6 +13,7 @@ defmodule RemoteRetro.Participation do
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, @required_fields)
+    |> unique_constraint(:user_id_retro_id, name: :participations_user_id_retro_id_index)
     |> validate_required(@required_fields)
   end
 end
