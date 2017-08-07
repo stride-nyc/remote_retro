@@ -34,8 +34,7 @@ export default {
       bodyText: <div>
         <p>The facilitator has distributed this retro's action items.
           You will receive an email breakdown shortly!</p>
-        <p>Thank you for using Remote Retro!
-          Please click <a href="https://www.surveymonkey.com/r/JKT9FXM" target="_blank" rel="noopener noreferrer">here</a> to give us feedback on your experience.</p>
+        <p>Also, please please please(!) <a href="https://www.surveymonkey.com/r/JKT9FXM" target="_blank" rel="noopener noreferrer">click here</a> to give us feedback on your experience.</p>
       </div>,
     },
     confirmationMessage: null,
