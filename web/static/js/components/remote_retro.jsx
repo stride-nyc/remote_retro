@@ -5,6 +5,7 @@ import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import Alert from "./alert"
 import ShareRetroLinkModal from "./share_retro_link_modal"
+import DoorChime from "./door_chime"
 
 export const RemoteRetro = props => {
   const { users, ideas, userToken, retroChannel, stage, insertedAt, alert } = props
@@ -22,6 +23,7 @@ export const RemoteRetro = props => {
       />
       <Alert config={alert} />
       <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
+      <DoorChime {...props} />
     </div>
   )
 }
