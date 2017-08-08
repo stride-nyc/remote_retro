@@ -22,13 +22,13 @@ export default {
   "action-items": {
     alert: null,
     confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
-    nextStage: "closed",
+    nextStage: "action-item-distribution",
     progressionButton: {
       copy: "Send Action Items",
       iconClass: "send",
     },
   },
-  "closed": {
+  "action-item-distribution": {
     alert: {
       headerText: "Action Items Distributed",
       bodyText: <div>

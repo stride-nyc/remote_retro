@@ -5,11 +5,9 @@ import IdeaControls from "./idea_controls"
 import IdeaEditForm from "./idea_edit_form"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
-import stageConfigs from "../configs/stage_configs"
 
 const Idea = props => {
-  const { idea, currentUser, retroChannel, stage } = props
-  const stageConfig = stageConfigs[stage]
+  const { idea, currentUser, retroChannel } = props
   const isFacilitator = currentUser.is_facilitator
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 1000
   const classes = classNames({
@@ -23,11 +21,11 @@ const Idea = props => {
       { idea.editing && !isFacilitator ?
         <p className="ui center aligned sub dividing header">Facilitator is Editing</p> : ""
       }
-      { stage !== "closed" && <IdeaControls
+      <IdeaControls
         idea={idea}
         retroChannel={retroChannel}
-        currentUser={currentUser}/>
-      }
+        currentUser={currentUser}
+      />
       <span className={styles.authorAttribution}>
         {idea.user.given_name}:
       </span> {idea.liveEditText || idea.body}
