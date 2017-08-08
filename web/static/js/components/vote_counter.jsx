@@ -19,9 +19,9 @@ class VoteCounter extends React.Component {
     return (
       <span>
         <div className="ui labeled right floated button">
-          <div className="ui green button">
-            Votes
-          </div>
+          <button className="ui green button" onClick={this.handleClick}>
+            Vote
+          </button>
           <a className="ui basic green left pointing label">
             {voteNumber}
           </a>

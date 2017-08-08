@@ -2,6 +2,7 @@ import React, { PropTypes } from "react"
 import classNames from "classnames"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
+import VoteCounter from "./vote_counter"
 
 const timeElapsedLessThanFiveSec = ideaCreationTimestamp => {
   const millisecondsSinceIdeaCreation = new Date(ideaCreationTimestamp)
@@ -23,7 +24,7 @@ const IdeaControls = props => {
   function renderIcons() {
     if (stage !== "idea-generation" && category !== "action-item") {
       return (
-
+        <VoteCounter />
       )
     }
     if (currentUser.is_facilitator) {
