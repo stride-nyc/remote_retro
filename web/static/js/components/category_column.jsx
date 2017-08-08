@@ -4,7 +4,7 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 
 const CategoryColumn = props => {
-  const { category, ideas } = props
+  const { category, ideas, stage } = props
   const filteredIdeas = ideas.filter(idea => idea.category === category)
   const sortedIdeas = filteredIdeas.sort((a, b) => a.id - b.id)
   const iconHeight = 45
