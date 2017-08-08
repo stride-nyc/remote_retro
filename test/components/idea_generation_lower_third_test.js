@@ -71,12 +71,12 @@ describe("IdeaGenerationLowerThird component", () => {
     })
   })
 
-  context("when the state is action-item-distribution", () => {
+  context("when the state is closed", () => {
     it("passes `displayContents: false` to the lower third wrapper", () => {
       const lowerThird = shallow(
         <IdeaGenerationLowerThird
           {...defaultProps}
-          stage="action-item-distribution"
+          stage="closed"
         />
       )
 
@@ -84,7 +84,7 @@ describe("IdeaGenerationLowerThird component", () => {
     })
   })
 
-  context("when the state isn't action-item-distribution", () => {
+  context("when the state isn't closed", () => {
     it("passes `displayContents: true` to the lower third wrapper", () => {
       const lowerThird = shallow(
         <IdeaGenerationLowerThird

@@ -19,7 +19,7 @@ const IdeaGenerationLowerThird = props => {
   }
 
   return (
-    <LowerThirdWrapper displayContents={stage !== "action-item-distribution"}>
+    <LowerThirdWrapper displayContents={stage !== "closed"}>
       <div className="thirteen wide column">
         <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
       </div>

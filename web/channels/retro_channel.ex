@@ -76,12 +76,12 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
+  def handle_in("proceed_to_next_stage", %{"stage" => "closed"}, socket) do
     retro_id = socket.assigns.retro_id
-    update_retro!(retro_id, "action-item-distribution")
+    update_retro!(retro_id, "closed")
     Emails.action_items_email(retro_id) |> Mailer.deliver_now
 
-    broadcast! socket, "proceed_to_next_stage", %{"stage" => "action-item-distribution"}
+    broadcast! socket, "proceed_to_next_stage", %{"stage" => "closed"}
     {:noreply, socket}
   end
 
