@@ -23,7 +23,7 @@ const Idea = props => {
       { idea.editing && !isFacilitator ?
         <p className="ui center aligned sub dividing header">Facilitator is Editing</p> : ""
       }
-      { stage !== "action-item-distribution" && <IdeaControls
+      { stage !== "closed" && <IdeaControls
         idea={idea}
         retroChannel={retroChannel}
         currentUser={currentUser}/>
