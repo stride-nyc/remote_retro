@@ -21,7 +21,7 @@ export default {
   },
   voting: {
     alert: null,
-    confirmation: "Are you sure you would like to proceed to the action items stage?",
+    confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
     nextStage: "action-items",
     progressionButton: {
       copy: "Proceed to Action Items",

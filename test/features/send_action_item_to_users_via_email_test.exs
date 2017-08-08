@@ -7,6 +7,10 @@ defmodule SendActionItemToUsersViaEmailTest do
     retro_path = "/retros/" <> retro.id
     idea_text = "Do the test"
     facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
+    submit_idea(facilitator_session, %{category: "happy", body: "it works"})
+
+    click_and_confirm(facilitator_session, "Proceed to Voting")
+    # COME BACK AND FIX THIS
     click_and_confirm(facilitator_session, "Proceed to Action Items")
 
     submit_idea(facilitator_session, %{category: "action-item", body: idea_text})
