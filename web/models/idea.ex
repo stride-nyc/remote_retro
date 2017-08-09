@@ -5,6 +5,7 @@ defmodule RemoteRetro.Idea do
   schema "ideas" do
     field :category, :string
     field :body, :string
+    field :vote_count, :integer
 
     belongs_to :retro, RemoteRetro.Retro, type: Ecto.UUID
     belongs_to :user, RemoteRetro.User
