@@ -76,6 +76,18 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
+  def handle_in("submit_vote", %{"id" => id}, socket) do
+    initialVoteCount = Repo.get(Idea, id).vote_count
+    idea =
+      Repo.get(Idea, id)
+      |> Idea.changeset(%{vote_count: initialVoteCount + 1})
+      |> Repo.update!
+      |> Repo.preload(:user)
+
+    broadcast! socket, "vote_submitted", idea
+    {:noreply, socket}
+  end
+
   def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
     retro_id = socket.assigns.retro_id
     update_retro!(retro_id, "action-item-distribution")

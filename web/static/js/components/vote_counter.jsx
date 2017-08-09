@@ -1,20 +1,19 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import * as AppPropTypes from "../prop_types"
 
 class VoteCounter extends React.Component {
   constructor(props) {
     super(props)
-    this.state = {
-      voteNumber: 0,
-    }
     this.handleClick = this.handleClick.bind(this)
   }
 
   handleClick() {
-    this.setState({ voteNumber: this.state.voteNumber += 1 })
+    const { idea, retroChannel } = this.props
+    retroChannel.push("submit_vote", { id: idea.id})
   }
 
   render() {
-    const { voteNumber } = this.state
+    const { vote_count: voteCount } = this.props.idea
 
     return (
       <span>
@@ -23,7 +22,7 @@ class VoteCounter extends React.Component {
             Vote
           </button>
           <a className="ui basic green left pointing label">
-            {voteNumber}
+            {voteCount}
           </a>
         </div>
       </span>
@@ -31,6 +30,9 @@ class VoteCounter extends React.Component {
   }
 }
 
-
+VoteCounter.propTypes = {
+  retroChannel: AppPropTypes.retroChannel.isRequired,
+  idea: AppPropTypes.idea,
+}
 
 export default VoteCounter
