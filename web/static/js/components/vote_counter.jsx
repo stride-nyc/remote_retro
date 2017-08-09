@@ -9,7 +9,7 @@ class VoteCounter extends React.Component {
 
   handleClick() {
     const { idea, retroChannel } = this.props
-    retroChannel.push("submit_vote", { id: idea.id})
+    retroChannel.push("submit_vote", { id: idea.id })
   }
 
   render() {
@@ -32,7 +32,7 @@ class VoteCounter extends React.Component {
 
 VoteCounter.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  idea: AppPropTypes.idea,
+  idea: AppPropTypes.idea.isRequired,
 }
 
 export default VoteCounter

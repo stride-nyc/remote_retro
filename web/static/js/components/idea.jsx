@@ -48,6 +48,7 @@ Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.user.isRequired,
+  stage: React.PropTypes.string.isRequired,
 }
 
 export default Idea
