@@ -3,10 +3,13 @@ import { shallow } from "enzyme"
 import sinon from "sinon"
 
 import IdeaControls from "../../web/static/js/components/idea_controls"
+import VoteCounter from "../../web/static/js/components/vote_counter"
 
 describe("<IdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
   const mockUser = { id: 2, is_facilitator: true }
+  const ideaGenerationStage = "idea-generation"
+  const votingStage = "voting"
 
   describe("on click of the removal icon", () => {
     it("pushes an `delete_idea` event to the retro channel, passing the given idea's id", () => {
@@ -17,6 +20,7 @@ describe("<IdeaControls />", () => {
           idea={idea}
           retroChannel={retroChannel}
           currentUser={mockUser}
+          stage={ideaGenerationStage}
         />
       )
 
@@ -36,6 +40,7 @@ describe("<IdeaControls />", () => {
           idea={idea}
           retroChannel={retroChannel}
           currentUser={mockUser}
+          stage={ideaGenerationStage}
         />
       )
 
@@ -55,6 +60,7 @@ describe("<IdeaControls />", () => {
           idea={idea}
           retroChannel={retroChannel}
           currentUser={mockUser}
+          stage={ideaGenerationStage}
         />
       )
 
@@ -75,6 +81,7 @@ describe("<IdeaControls />", () => {
           idea={highlightedIdea}
           retroChannel={retroChannel}
           currentUser={mockUser}
+          stage={ideaGenerationStage}
         />
       )
 
@@ -95,6 +102,7 @@ describe("<IdeaControls />", () => {
             idea={idea}
             retroChannel={retroChannel}
             currentUser={mockUser}
+            stage={ideaGenerationStage}
           />
         )
 
@@ -116,6 +124,7 @@ describe("<IdeaControls />", () => {
               idea={idea}
               retroChannel={retroChannel}
               currentUser={currentUser}
+              stage={ideaGenerationStage}
             />
           )
 
@@ -144,6 +153,7 @@ describe("<IdeaControls />", () => {
                 idea={freshIdea}
                 retroChannel={retroChannel}
                 currentUser={currentUser}
+                stage={ideaGenerationStage}
               />
             )
 
@@ -163,11 +173,34 @@ describe("<IdeaControls />", () => {
                 idea={staleIdea}
                 retroChannel={retroChannel}
                 currentUser={currentUser}
+                stage={ideaGenerationStage}
               />
             )
 
             expect(wrapper.find(".remove.icon")).to.have.length(0)
           })
+        })
+      })
+    })
+  })
+
+  describe("the vote button", () => {
+    context("when the stage is not idea-generation", () => {
+      context("and the category is not action-item", () => {
+        it("renders", () => {
+          const retroChannel = { on: () => {}, push: sinon.spy() }
+          const currentUser = { id: 1, is_facilitator: false }
+
+          const wrapper = shallow(
+            <IdeaControls
+              idea={idea}
+              retroChannel={retroChannel}
+              currentUser={currentUser}
+              stage={votingStage}
+            />
+          )
+
+          expect(wrapper.find(VoteCounter)).to.have.length(1)
         })
       })
     })
