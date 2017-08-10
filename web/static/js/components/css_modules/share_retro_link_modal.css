@@ -8,6 +8,9 @@
 }
 
 .input:global(.ui.input) {
+  &::selection {
+    background-color: var(--highlight-blue);
+  }
   text-align: center;
 }
 

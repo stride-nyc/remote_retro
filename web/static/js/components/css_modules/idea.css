@@ -17,6 +17,6 @@ li {
 }
 
 .highlighted {
-  background-color: #CCE2FE;
-  border-bottom: 1px solid #CCE2FE;
+  background-color: var(--highlight-blue);
+  border-bottom: 1px solid var(--highlight-blue);
 }
