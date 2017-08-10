@@ -228,7 +228,6 @@ describe("<IdeaControls />", () => {
       it("doesn't render", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
         const currentUser = { id: 1, is_facilitator: false }
-        const actionItemIdea = { id: 667, category: "action-item", body: "write tests", user_id: 1 }
 
         const wrapper = shallow(
           <IdeaControls

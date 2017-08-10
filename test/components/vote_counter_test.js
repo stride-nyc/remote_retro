@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow, mount } from "enzyme"
+import { shallow } from "enzyme"
 import { spy } from "sinon"
 
 import VoteCounter from "../../web/static/js/components/vote_counter"
@@ -30,10 +30,10 @@ describe("VoteCounter", () => {
 
   it("renders a pointing label that contains the vote count of the idea", () => {
     const voteCounter = shallow(
-       <VoteCounter
-         retroChannel={{}}
-         idea={idea}
-       />
+      <VoteCounter
+        retroChannel={{}}
+        idea={idea}
+      />
     )
     const label = voteCounter.find("a")
 
@@ -49,10 +49,10 @@ describe("VoteCounter", () => {
         push: pushSpy,
       }
       const voteCounter = shallow(
-       <VoteCounter
-         retroChannel={retroChannelMock}
-         idea={idea}
-       />
+        <VoteCounter
+          retroChannel={retroChannelMock}
+          idea={idea}
+        />
       )
       voteCounter.instance().handleClick()
 
