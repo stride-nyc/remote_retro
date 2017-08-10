@@ -203,6 +203,44 @@ describe("<IdeaControls />", () => {
           expect(wrapper.find(VoteCounter)).to.have.length(1)
         })
       })
+
+      context("and the category is action-item", () => {
+        it("doesn't render", () => {
+          const retroChannel = { on: () => {}, push: sinon.spy() }
+          const currentUser = { id: 1, is_facilitator: false }
+          const actionItemIdea = { id: 667, category: "action-item", body: "write tests", user_id: 1 }
+
+          const wrapper = shallow(
+            <IdeaControls
+              idea={actionItemIdea}
+              retroChannel={retroChannel}
+              currentUser={currentUser}
+              stage={votingStage}
+            />
+          )
+
+          expect(wrapper.find(VoteCounter)).to.have.length(0)
+        })
+      })
+    })
+
+    context("when the stage is idea-generation", () => {
+      it("doesn't render", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+        const currentUser = { id: 1, is_facilitator: false }
+        const actionItemIdea = { id: 667, category: "action-item", body: "write tests", user_id: 1 }
+
+        const wrapper = shallow(
+          <IdeaControls
+            idea={idea}
+            retroChannel={retroChannel}
+            currentUser={currentUser}
+            stage={ideaGenerationStage}
+          />
+         )
+
+        expect(wrapper.find(VoteCounter)).to.have.length(0)
+      })
     })
   })
 })
