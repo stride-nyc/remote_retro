@@ -178,6 +178,18 @@ describe("RetroChannel", () => {
             })).to.eql(true)
           })
         })
+
+        describe("on `vote_submitted`", () => {
+          beforeEach(() => {
+            retroChannel.trigger("vote_submitted", { id: 2, vote_count: 3 })
+          })
+
+          it("invokes updateIdea action, passing idea id & vote count", () => {
+            expect(updateIdeaSpy.calledWith(2, {
+              vote_count: 3,
+            })).to.eql(true)
+          })
+        })
       })
     })
   })

@@ -15,20 +15,7 @@ describe("VoteCounter", () => {
     vote_count: 0,
   }
 
-  it("renders a button that says Vote", () => {
-    const voteCounter = shallow(
-      <VoteCounter
-        retroChannel={{}}
-        idea={idea}
-      />
-    )
-    const button = voteCounter.find("button")
-
-    expect(button).to.have.length(1)
-    expect(button.text()).to.equal("Vote")
-  })
-
-  it("renders a pointing label that contains the vote count of the idea", () => {
+  it("renders an anchor tag that contains the vote count of the idea", () => {
     const voteCounter = shallow(
       <VoteCounter
         retroChannel={{}}
@@ -38,7 +25,6 @@ describe("VoteCounter", () => {
     const label = voteCounter.find("a")
 
     expect(label).to.have.length(1)
-    expect(label.hasClass("pointing label")).to.be.true
     expect(label.text()).to.equal(idea.vote_count.toString())
   })
 

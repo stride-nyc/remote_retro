@@ -12,7 +12,7 @@ const IdeaGenerationLowerThird = props => {
 
   const isFacilitator = currentUser.is_facilitator
   const stageConfig = stageConfigs[stage]
-  const showActionItem = !["idea-generation", "voting"].includes(stage)
+  const showActionItem = ["action-items", "action-item-distribution"].includes(stage)
 
   function progressionDisabled() {
     const noIdeasCreated = stage === "idea-generation" && !ideas.length
