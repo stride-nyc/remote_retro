@@ -14,10 +14,8 @@ const IdeaGenerationLowerThird = props => {
   const stageConfig = stageConfigs[stage]
   const showActionItem = ["action-items", "action-item-distribution"].includes(stage)
 
-  function progressionDisabled() {
-    const noIdeasCreated = stage === "idea-generation" && !ideas.length
-    const noActionItemsCreated = stage === "action-items" && !ideas.some(idea => idea.category === "action-item")
-    return noIdeasCreated || noActionItemsCreated
+  function wereActionItemsSubmitted() {
+    return showActionItem && !ideas.some(idea => idea.category === "action-item")
   }
 
   return (
@@ -30,7 +28,7 @@ const IdeaGenerationLowerThird = props => {
           <StageProgressionButton
             {...props}
             config={stageConfig}
-            buttonDisabled={progressionDisabled()}
+            buttonDisabled={wereActionItemsSubmitted()}
           />
         }
       </div>
