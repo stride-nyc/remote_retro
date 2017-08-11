@@ -12,10 +12,12 @@ const IdeaGenerationLowerThird = props => {
 
   const isFacilitator = currentUser.is_facilitator
   const stageConfig = stageConfigs[stage]
-  const showActionItem = stage !== "idea-generation"
+  const showActionItem = ["action-items", "action-item-distribution"].includes(stage)
 
-  function wereActionItemsSubmitted() {
-    return showActionItem && !ideas.some(idea => idea.category === "action-item")
+  function progressionDisabled() {
+    const noIdeasCreated = stage === "idea-generation" && !ideas.length
+    const noActionItemsCreated = stage === "action-items" && !ideas.some(idea => idea.category === "action-item")
+    return noIdeasCreated || noActionItemsCreated
   }
 
   return (
@@ -28,7 +30,7 @@ const IdeaGenerationLowerThird = props => {
           <StageProgressionButton
             {...props}
             config={stageConfig}
-            buttonDisabled={wereActionItemsSubmitted()}
+            buttonDisabled={progressionDisabled()}
           />
         }
       </div>
