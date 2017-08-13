@@ -11,7 +11,7 @@ defmodule PreExistingRetroStateRenderedOnJoiningRetroTest do
 
     rendered_idea_text = session |> find(Query.css(".happy.ideas li")) |> Element.text
 
-    assert rendered_idea_text =~ "Travis: continuous delivery!"
+    assert rendered_idea_text =~ "continuous delivery!"
   end
 
   describe "when a retro has already progressed to the `action-items` stage" do
