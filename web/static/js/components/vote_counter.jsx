@@ -1,5 +1,6 @@
 import React from "react"
 import * as AppPropTypes from "../prop_types"
+import styles from "./css_modules/vote_counter.css"
 
 class VoteCounter extends React.Component {
   constructor(props) {
@@ -18,10 +19,10 @@ class VoteCounter extends React.Component {
     return (
       <span>
         <div className="ui labeled right floated button">
-          <button className="ui green button" onClick={this.handleClick}>
+          <button className={`ui green button ${styles.voteButton}`} onClick={this.handleClick}>
             Vote
           </button>
-          <a className="ui basic green left pointing label">
+          <a className={`ui basic green label ${styles.voteCount}`}>
             {voteCount}
           </a>
         </div>

@@ -1,0 +1,17 @@
+
+:global(span .ui.labeled.button){
+  --fontSize: 0.85rem;
+
+  .vote-button, .vote-count {
+    font-size: var(--fontSize);
+  }
+
+  .vote-button {
+    padding: 0.5rem 0.9rem;
+  }
+
+  .vote-count {
+    padding: 0.5rem;
+  }
+}
+
