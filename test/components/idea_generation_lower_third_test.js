@@ -29,6 +29,35 @@ describe("IdeaGenerationLowerThird component", () => {
       })
     })
 
+    context("and there are no ideas during the idea-generation stage", () => {
+      it("renders a disabled <StageProgressionButton>", () => {
+        const lowerThird = shallow(
+          <IdeaGenerationLowerThird
+            {...defaultProps}
+            currentUser={facilitatorUser}
+            stage="idea-generation"
+          />
+        )
+        const stageProgressionButton = lowerThird.find(StageProgressionButton)
+        expect(stageProgressionButton.prop("buttonDisabled")).to.be.true
+      })
+    })
+
+    context("and there are ideas during the idea-generation stage", () => {
+      it("renders an enabled <StageProgressionButton>", () => {
+        const lowerThird = shallow(
+          <IdeaGenerationLowerThird
+            {...defaultProps}
+            currentUser={facilitatorUser}
+            stage="idea-generation"
+            ideas={[{ category: "happy" }]}
+          />
+        )
+        const stageProgressionButton = lowerThird.find(StageProgressionButton)
+        expect(stageProgressionButton.prop("buttonDisabled")).to.be.false
+      })
+    })
+
     context("and there are no action items during the action-items stage", () => {
       it("renders a disabled <StageProgressionButton>", () => {
         const lowerThird = shallow(
