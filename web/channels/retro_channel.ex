@@ -76,6 +76,14 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
+  def handle_in("submit_vote", %{"id" => id}, socket) do
+    query = from i in Idea, where: i.id == ^id
+    {_row_count, [updated_idea]} = Repo.update_all(query, [inc: [vote_count: 1]], returning: true)
+
+    broadcast! socket, "vote_submitted", updated_idea
+    {:noreply, socket}
+  end
+
   def handle_in("proceed_to_next_stage", %{"stage" => "action-item-distribution"}, socket) do
     retro_id = socket.assigns.retro_id
     update_retro!(retro_id, "action-item-distribution")

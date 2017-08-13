@@ -7,6 +7,7 @@ import Idea from "../../web/static/js/components/idea"
 describe("CategoryColumn", () => {
   const mockUser = { given_name: "daniel" }
   const mockRetroChannel = { on: () => {}, push: () => {} }
+  const ideaGenerationStage = "idea-generation"
 
   describe("when the ideas passed in are in no discernable order", () => {
     const ideas = [{
@@ -33,6 +34,7 @@ describe("CategoryColumn", () => {
           category="confused"
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
+          stage={ideaGenerationStage}
         />
       )
 
@@ -63,6 +65,7 @@ describe("CategoryColumn", () => {
           category="happy"
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
+          stage={ideaGenerationStage}
         />
       )
       expect(wrapper.find(Idea)).to.have.length(2)
@@ -85,6 +88,7 @@ describe("CategoryColumn", () => {
           category={differentCategory}
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
+          stage={ideaGenerationStage}
         />
       )
 

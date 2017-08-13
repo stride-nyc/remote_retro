@@ -12,6 +12,15 @@ export default {
   },
   "idea-generation": {
     alert: null,
+    confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
+    nextStage: "voting",
+    progressionButton: {
+      copy: "Proceed to Voting",
+      iconClass: "arrow right",
+    },
+  },
+  voting: {
+    alert: null,
     confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
     nextStage: "action-items",
     progressionButton: {

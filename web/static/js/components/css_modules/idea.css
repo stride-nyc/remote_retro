@@ -20,3 +20,7 @@ li {
   background-color: var(--highlight-blue);
   border-bottom: 1px solid var(--highlight-blue);
 }
+
+.idea-wrapper {
+  overflow: auto;
+}

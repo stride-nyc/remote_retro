@@ -26,9 +26,19 @@ describe("IdeaBoard component", () => {
     })
   })
 
-  describe("when the stage is not 'idea-generation'", () => {
+  describe("when the stage is 'action-items'", () => {
     before(() => {
       ideaBoard = shallow(<IdeaBoard {...defaultProps} stage="action-items" />)
+    })
+
+    it("renders a fourth column for displaying the action-items", () => {
+      expect(categoriesRendered(ideaBoard)).to.eql(["happy", "sad", "confused", "action-item"])
+    })
+  })
+
+  describe("when the stage is 'action-item-distribution'", () => {
+    before(() => {
+      ideaBoard = shallow(<IdeaBoard {...defaultProps} stage="action-item-distribution" />)
     })
 
     it("renders a fourth column for displaying the action-items", () => {

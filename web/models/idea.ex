@@ -5,6 +5,7 @@ defmodule RemoteRetro.Idea do
   schema "ideas" do
     field :category, :string
     field :body, :string
+    field :vote_count, :integer, default: 0
 
     belongs_to :retro, RemoteRetro.Retro, type: Ecto.UUID
     belongs_to :user, RemoteRetro.User
@@ -12,7 +13,7 @@ defmodule RemoteRetro.Idea do
     timestamps(type: :utc_datetime)
   end
 
-  @required_fields [:category, :body, :retro_id, :user_id]
+  @required_fields [:category, :body, :retro_id, :user_id, :vote_count]
 
   def changeset(struct, params \\ %{}) do
     struct

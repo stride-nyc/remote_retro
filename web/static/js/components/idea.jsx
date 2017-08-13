@@ -7,7 +7,7 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
 
 const Idea = props => {
-  const { idea, currentUser, retroChannel } = props
+  const { idea, currentUser, retroChannel, stage } = props
   const isFacilitator = currentUser.is_facilitator
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 1000
   const classes = classNames({
@@ -17,19 +17,20 @@ const Idea = props => {
   })
 
   const readOnlyIdea = (
-    <div>
+    <div className={styles.ideaWrapper}>
       { idea.editing && !isFacilitator ?
         <p className="ui center aligned sub dividing header">Facilitator is Editing</p> : ""
       }
-      <IdeaControls
-        idea={idea}
-        retroChannel={retroChannel}
-        currentUser={currentUser}
-      />
       <span className={styles.authorAttribution}>
         {idea.user.given_name}:
       </span> {idea.liveEditText || idea.body}
       {isEdited && <span className={styles.editedIndicator}> (edited)</span>}
+      <IdeaControls
+        idea={idea}
+        retroChannel={retroChannel}
+        currentUser={currentUser}
+        stage={stage}
+      />
     </div>
   )
 
@@ -47,6 +48,7 @@ Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.user.isRequired,
+  stage: React.PropTypes.string.isRequired,
 }
 
 export default Idea

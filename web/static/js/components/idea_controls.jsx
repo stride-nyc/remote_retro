@@ -1,7 +1,8 @@
-import React from "react"
+import React, { PropTypes } from "react"
 import classNames from "classnames"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
+import VoteCounter from "./vote_counter"
 
 const timeElapsedLessThanFiveSec = ideaCreationTimestamp => {
   const millisecondsSinceIdeaCreation = new Date(ideaCreationTimestamp)
@@ -10,8 +11,8 @@ const timeElapsedLessThanFiveSec = ideaCreationTimestamp => {
 }
 
 const IdeaControls = props => {
-  const { idea, retroChannel, currentUser } = props
-  const { id, user_id: userId, isHighlighted = false } = idea
+  const { idea, retroChannel, currentUser, stage } = props
+  const { id, user_id: userId, isHighlighted = false, category } = idea
   const highlightClasses = classNames({
     [styles.actionIcon]: true,
     icon: true,
@@ -21,6 +22,11 @@ const IdeaControls = props => {
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
 
   function renderIcons() {
+    if (stage !== "idea-generation" && category !== "action-item") {
+      return (
+        <VoteCounter retroChannel={retroChannel} idea={idea} />
+      )
+    }
     if (currentUser.is_facilitator) {
       return (
         <span>
@@ -62,6 +68,7 @@ IdeaControls.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.user.isRequired,
+  stage: PropTypes.string.isRequired,
 }
 
 export default IdeaControls

@@ -8,7 +8,7 @@ import styles from "./css_modules/idea_board.css"
 const IdeaBoard = props => {
   const { stage } = props
   const categories = ["happy", "sad", "confused"]
-  const showActionItem = stage !== "idea-generation"
+  const showActionItem = ["action-items", "action-item-distribution"].includes(stage)
   if (showActionItem) { categories.push("action-item") }
 
   const categoryColumns = categories.map(category => (
