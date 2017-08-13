@@ -1,5 +1,4 @@
-
-:global(span .ui.labeled.button){
+:global(.ui.labeled.button){
   --fontSize: 0.85rem;
 
   .vote-button, .vote-count {
@@ -15,4 +14,3 @@
     cursor: default;
   }
 }
-

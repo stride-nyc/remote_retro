@@ -17,16 +17,14 @@ class VoteCounter extends React.Component {
     const { vote_count: voteCount } = this.props.idea
 
     return (
-      <span>
-        <div className="ui labeled right floated button">
-          <button className={`ui green button ${styles.voteButton}`} onClick={this.handleClick}>
-            Vote
-          </button>
-          <a className={`ui basic green label ${styles.voteCount}`}>
-            {voteCount}
-          </a>
-        </div>
-      </span>
+      <div className="ui labeled right floated button">
+        <button className={`ui green button ${styles.voteButton}`} onClick={this.handleClick}>
+          Vote
+        </button>
+        <a className={`ui basic green label ${styles.voteCount}`}>
+          {voteCount}
+        </a>
+      </div>
     )
   }
 }
