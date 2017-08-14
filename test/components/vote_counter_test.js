@@ -28,6 +28,58 @@ describe("VoteCounter", () => {
     expect(label.text()).to.equal(idea.vote_count.toString())
   })
 
+  context("when buttonDisabled is false", () => {
+    let voteCounter
+    let button
+    let label
+    beforeEach(() => {
+      voteCounter = shallow(
+        <VoteCounter
+          retroChannel={{}}
+          idea={idea}
+          buttonDisabled={false}
+        />
+      )
+      button = voteCounter.find("button")
+      label = voteCounter.find("a")
+    })
+
+    it("renders a green button and label", () => {
+      expect(button.hasClass("green")).to.be.true
+      expect(label.hasClass("green")).to.be.true
+    })
+
+    it("renders an enabled button", () => {
+      expect(button.prop("disabled")).to.be.false
+    })
+  })
+
+  context("when buttonDisabled is true", () => {
+    let voteCounter
+    let button
+    let label
+    beforeEach(() => {
+      voteCounter = shallow(
+        <VoteCounter
+          retroChannel={{}}
+          idea={idea}
+          buttonDisabled
+        />
+      )
+      button = voteCounter.find("button")
+      label = voteCounter.find("a")
+    })
+
+    it("renders a grey button and label", () => {
+      expect(button.hasClass("grey")).to.be.true
+      expect(label.hasClass("grey")).to.be.true
+    })
+
+    it("renders an disabled button", () => {
+      expect(button.prop("disabled")).to.be.true
+    })
+  })
+
   describe("handleClick", () => {
     it("calls retroChannel.push with 'submit_vote' and the idea's id", () => {
       const pushSpy = spy()
