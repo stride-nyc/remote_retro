@@ -28,6 +28,23 @@ describe("VoteCounter", () => {
     expect(label.text()).to.equal(idea.vote_count.toString())
   })
 
+  context("when buttonDisabled is true", () => {
+    let voteCounter
+    beforeEach(() => {
+      voteCounter = shallow(
+        <VoteCounter
+          retroChannel={{}}
+          idea={idea}
+          buttonDisabled
+        />
+      )
+    })
+
+    it("renders a disabled VoteCounter", () => {
+      expect(voteCounter.hasClass("disabled")).to.be.true
+    })
+  })
+
   describe("handleClick", () => {
     it("calls retroChannel.push with 'submit_vote' and the idea's id", () => {
       const pushSpy = spy()

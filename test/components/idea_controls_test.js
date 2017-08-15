@@ -10,6 +10,7 @@ describe("<IdeaControls />", () => {
   const mockUser = { id: 2, is_facilitator: true }
   const ideaGenerationStage = "idea-generation"
   const votingStage = "voting"
+  const actionItemsStage = "action-items"
 
   describe("on click of the removal icon", () => {
     it("pushes an `delete_idea` event to the retro channel, passing the given idea's id", () => {
@@ -239,6 +240,24 @@ describe("<IdeaControls />", () => {
          )
 
         expect(wrapper.find(VoteCounter)).to.have.length(0)
+      })
+    })
+
+    context("after entering action-items stage", () => {
+      it("renders a disabled VoteCounter for display purposes", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+        const currentUser = { id: 1, is_facilitator: false }
+
+        const wrapper = shallow(
+          <IdeaControls
+            idea={idea}
+            retroChannel={retroChannel}
+            currentUser={currentUser}
+            stage={actionItemsStage}
+          />
+         )
+
+        expect(wrapper.find(VoteCounter).prop("buttonDisabled")).to.be.true
       })
     })
   })
