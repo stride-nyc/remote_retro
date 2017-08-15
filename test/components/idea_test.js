@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow } from "enzyme"
+import { shallow, mount } from "enzyme"
 
 import Idea from "../../web/static/js/components/idea"
 import IdeaControls from "../../web/static/js/components/idea_controls"
@@ -20,7 +20,7 @@ describe("Idea component", () => {
 
   context("when the user is a facilitator", () => {
     const facilitatorUser = { is_facilitator: true }
-    const wrapper = shallow(
+    const wrapper = mount(
       <Idea
         idea={idea}
         currentUser={facilitatorUser}
@@ -31,6 +31,10 @@ describe("Idea component", () => {
 
     it("renders <IdeaControls />", () => {
       expect(wrapper.find(IdeaControls).length).to.equal(1)
+    })
+
+    it("renders IdeaControls as its first child for proper floating/text-wrapping", () => {
+      expect(wrapper.childAt(0).html()).to.match(/edit idea/i)
     })
   })
 
