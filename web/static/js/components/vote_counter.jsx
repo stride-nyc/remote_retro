@@ -16,30 +16,21 @@ class VoteCounter extends React.Component {
 
   render() {
     const { buttonDisabled } = this.props
-    const buttonClasses = classNames(`ui button ${styles.voteButton}`, {
-      green: !buttonDisabled,
-      grey: buttonDisabled,
-      [`${styles.disabledButton}`]: buttonDisabled,
-    })
-    const labelClasses = classNames(`ui basic left pointing label ${styles.voteCount}`, {
-      green: !buttonDisabled,
-      grey: buttonDisabled,
-    })
-    const buttonWrapperClasses = classNames("ui labeled right floated button", {
-      [`${styles.disabledButton}`]: buttonDisabled,
-    })
     const { vote_count: voteCount } = this.props.idea
+    const counterClasses = classNames("ui labeled right floated button", {
+      disabled: buttonDisabled,
+    })
 
     return (
-      <div className={buttonWrapperClasses}>
+      <div className={counterClasses}>
         <button
-          className={buttonClasses}
+          className={`ui green button ${styles.voteButton}`}
           onClick={this.handleClick}
           disabled={buttonDisabled}
         >
           Vote
         </button>
-        <a className={labelClasses}>
+        <a className={`ui basic green label ${styles.voteCount}`}>
           {voteCount}
         </a>
       </div>

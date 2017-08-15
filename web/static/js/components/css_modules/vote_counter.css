@@ -13,8 +13,4 @@
     padding: 0.5rem;
     cursor: default;
   }
-
-  .disabled-button {
-    cursor: default !important;
-  }
 }
