@@ -28,6 +28,7 @@ const IdeaControls = props => {
           retroChannel={retroChannel}
           idea={idea}
           buttonDisabled={stage !== "voting"}
+          currentUser={currentUser}
         />
       )
     }
