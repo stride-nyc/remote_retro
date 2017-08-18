@@ -1,7 +1,8 @@
 defmodule RemoteRetro.RetroChannel do
   use RemoteRetro.Web, :channel
 
-  alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer, Retro}
+  alias Ecto.Multi
+  alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer, Retro, Participation}
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
@@ -76,11 +77,30 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("submit_vote", %{"id" => id}, socket) do
-    query = from i in Idea, where: i.id == ^id
-    {_row_count, [updated_idea]} = Repo.update_all(query, [inc: [vote_count: 1]], returning: true)
+  def handle_in("submit_vote", %{"ideaId" => idea_id, "userId" => user_id}, socket) do
+    retro_id = socket.assigns.retro_id
+    idea_query = from i in Idea, where: i.id == ^idea_id
+    participation_query = from p in Participation, where: p.user_id == ^user_id and p.retro_id == ^retro_id
 
-    broadcast! socket, "vote_submitted", updated_idea
+    result =
+      Multi.new
+      |> Multi.update_all(:idea, idea_query, [inc: [vote_count: 1]], returning: true)
+      |> Multi.update_all(:participation, participation_query, [inc: [vote_count: 1]], returning: true)
+      |> Repo.transaction
+
+    result_to_send =
+      case result do
+        {:ok, %{idea: {_idea_row_count, [updated_idea]}, participation: {_particip_row_count, [_updated_participation]}}} ->
+          updated_idea
+        {:ok, %{idea: {0, []}, participation: {0, []}}} ->
+          %{error: "no participation or idea found"}
+        {:ok, %{idea: {1, [_updated_idea]}, participation: {0, []}}} ->
+          %{error: "no participation found"}
+        {:ok, %{idea: {0, []}, participation: {1, [_updated_participation]}}} ->
+          %{error: "no idea found"}
+      end
+
+    broadcast! socket, "vote_submitted", result_to_send
     {:noreply, socket}
   end
 
