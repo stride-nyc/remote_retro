@@ -18,6 +18,7 @@
     "postcss-loader": "^2.0.5",
     "postcss-nested": "^2.1.0",
     "react": "^15.4.1",
+    "react-addons-css-transition-group": "^15.6.0",
     "react-css-transition-replace": "^2.2.1",
     "react-dom": "^15.4.1",
     "react-flip-move": "^2.9.14",
