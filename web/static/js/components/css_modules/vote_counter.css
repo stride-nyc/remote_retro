@@ -1,4 +1,10 @@
 :global(.increment-enter) {
+  display: none;
+
+  &:first-of-type {
+    display: block;
+  }
+
   transform: translate3d(0, 2.5rem, 0);
 }
 
