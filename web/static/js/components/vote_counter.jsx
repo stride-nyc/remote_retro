@@ -35,8 +35,8 @@ class VoteCounter extends React.Component {
           <ReactCSSTransitionGroup
             component="div"
             transitionName="increment"
-            transitionEnterTimeout={300}
-            transitionLeaveTimeout={300}
+            transitionEnterTimeout={250}
+            transitionLeaveTimeout={250}
           >
             <div key={voteCount}>{voteCount}</div>
           </ReactCSSTransitionGroup>

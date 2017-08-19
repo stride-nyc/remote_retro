@@ -1,10 +1,10 @@
 :global(.increment-enter) {
-  transform: translate3d(0, 100%, 0);
+  transform: translate3d(0, 2.5rem, 0);
 }
 
 :global(.increment-enter.increment-enter-active) {
   transform: translate3d(0, 0, 0);
-  transition: transform 400ms ease;
+  transition: transform 250ms ease;
 }
 
 :global(.increment-leave) {
@@ -13,7 +13,7 @@
 }
 
 :global(.increment-leave.increment-leave-active) {
-  transition: transform 400ms ease;
+  transition: transform 250ms ease;
   transform: translate3d(0, -2.5rem, 0);
 }
 
