@@ -9,7 +9,7 @@
 
 :global(.increment-leave) {
   position: absolute;
-  transform: translate3d(0, 0, 0);
+  transform: translate3d(0, -0.8rem, 0);
 }
 
 :global(.increment-leave.increment-leave-active) {
