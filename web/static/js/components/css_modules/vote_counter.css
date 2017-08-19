@@ -31,5 +31,7 @@
   .vote-count {
     padding: 0.5rem;
     cursor: default;
+    position: relative;
+    overflow: hidden;
   }
 }
