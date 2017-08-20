@@ -6,23 +6,23 @@
     padding-left: var(--inner-column-padding);
     padding-right: var(--inner-column-padding);
   }
-}
 
-:global(.basic.segment).column-head {
-  margin-bottom: 0;
-  padding-right: 0;
-  padding-left: 0;
-}
+  .column-head {
+    margin-bottom: 0;
+    padding-right: 0;
+    padding-left: 0;
+  }
 
-.divider {
-  background-color: var(--semantic-light-grey);
-}
+  .divider {
+    background-color: var(--semantic-light-grey);
+  }
 
-.list {
-  list-style: none;
-  padding-left: 0;
-  margin-top: 0;
-  margin-bottom: 0;
-  overflow-y: auto;
-  height: 50vh;
+  .list {
+    list-style: none;
+    padding-left: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+    overflow-y: auto;
+    height: 50vh;
+  }
 }
