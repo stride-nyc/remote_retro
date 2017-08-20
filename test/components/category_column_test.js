@@ -8,8 +8,9 @@ describe("CategoryColumn", () => {
   const mockUser = { given_name: "daniel" }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const ideaGenerationStage = "idea-generation"
+  const actionItemStage = "action-items"
 
-  describe("when the ideas passed in are in no discernable order", () => {
+  context("when the ideas passed in are in no discernable order", () => {
     const ideas = [{
       id: 5,
       body: "should be third",
@@ -45,7 +46,46 @@ describe("CategoryColumn", () => {
     })
   })
 
-  describe("when every idea passed in the ideas prop matches the column's category", () => {
+  context("when the stage is action-items or action-item-distribution", () => {
+    const ideas = [{
+      id: 5,
+      body: "should be third",
+      category: "confused",
+      user: mockUser,
+      vote_count: 1,
+    }, {
+      id: 2,
+      body: "should be first",
+      category: "confused",
+      user: mockUser,
+      vote_count: 16,
+    }, {
+      id: 4,
+      body: "should be second",
+      category: "confused",
+      user: mockUser,
+      vote_count: 12,
+    }]
+
+    it("it renders them sorted by vote_count descending", () => {
+      const wrapper = mount(
+        <CategoryColumn
+          ideas={ideas}
+          category="confused"
+          currentUser={mockUser}
+          retroChannel={mockRetroChannel}
+          stage={actionItemStage}
+        />
+      )
+
+      const listItems = wrapper.find("li")
+      expect(listItems.first().text()).to.match(/should be first/)
+      expect(listItems.at(1).text()).to.match(/should be second/)
+      expect(listItems.at(2).text()).to.match(/should be third/)
+    })
+  })
+
+  context("when every idea passed in the ideas prop matches the column's category", () => {
     it("renders a list item for each idea passed the ideas prop", () => {
       const ideas = [{
         id: 1,
@@ -72,7 +112,7 @@ describe("CategoryColumn", () => {
     })
   })
 
-  describe("when an idea passed in the ideas prop fails to match the column's category", () => {
+  context("when an idea passed in the ideas prop fails to match the column's category", () => {
     it("is not rendered", () => {
       const ideas = [{
         id: 1,
