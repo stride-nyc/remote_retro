@@ -17,7 +17,7 @@ const CategoryColumn = props => {
   }
 
   const ideasList = (
-    <FlipMove duration={750} easing="ease-out" enterAnimation="fade" leaveAnimation="fade">
+    <FlipMove duration={750} easing="ease" enterAnimation="none" leaveAnimation="none">
       {sortedIdeas.map(idea => <div key={idea.id}><Idea {...props} idea={idea} /></div>)}
     </FlipMove>
   )
