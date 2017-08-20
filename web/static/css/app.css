@@ -7,6 +7,8 @@
   --magenta: #FD1884;
   --lightest-grey: #F2F2F2;
   --dark-grey: #8C8C8C;
+
+  --inner-column-padding: 0.75rem;
 }
 
 :global .photo-backdrop {
