@@ -1,4 +1,5 @@
 import React, { PropTypes } from "react"
+import FlipMove from "react-flip-move"
 import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
@@ -15,7 +16,11 @@ const CategoryColumn = props => {
     sortedIdeas = filteredIdeas.sort((a, b) => a.id - b.id)
   }
 
-  const ideasList = sortedIdeas.map(idea => <Idea {...props} idea={idea} key={idea.id} />)
+  const ideasList = (
+    <FlipMove duration={750} easing="ease-out" enterAnimation="fade" leaveAnimation="fade">
+      {sortedIdeas.map(idea => <div key={idea.id}><Idea {...props} idea={idea} /></div>)}
+    </FlipMove>
+  )
 
   return (
     <section className={`${category} ${styles.index} column`}>

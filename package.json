@@ -20,6 +20,7 @@
     "react": "^15.4.1",
     "react-css-transition-replace": "^2.2.1",
     "react-dom": "^15.4.1",
+    "react-flip-move": "^2.9.14",
     "react-modal": "^1.7.7",
     "react-redux": "^5.0.4",
     "redux": "^3.6.0",
