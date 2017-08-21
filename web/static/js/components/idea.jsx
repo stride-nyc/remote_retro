@@ -16,31 +16,59 @@ const Idea = props => {
     [styles.highlighted]: idea.isHighlighted,
   })
 
+  const ideaControls = (
+    <IdeaControls
+      idea={idea}
+      retroChannel={retroChannel}
+      currentUser={currentUser}
+      stage={stage}
+    />
+  )
+
+  const editingMessage = (
+    <p className="ui center aligned sub dividing header">Facilitator is Editing</p>
+  )
+
+  const ideaEditForm = (
+    <IdeaEditForm idea={idea} retroChannel={retroChannel} />
+  )
+
+  const renderIdeaControls = () => {
+    if (stage !== "closed") {
+      return ideaControls
+    }
+    return null
+  }
+
+  const renderMessage = () => {
+    if (idea.editing && !isFacilitator) {
+      return editingMessage
+    }
+    return null
+  }
+
+  const renderText = () => (
+    idea.liveEditText || idea.body
+  )
+
+  const renderEditedIndicator = () => (
+    isEdited && <span className={styles.editedIndicator}> (edited)</span>
+  )
+
   const readOnlyIdea = (
     <div className={styles.ideaWrapper}>
-      { stage !== "closed" ?
-        <IdeaControls
-          idea={idea}
-          retroChannel={retroChannel}
-          currentUser={currentUser}
-          stage={stage}
-        />
-        : null
-      }
-      { idea.editing && !isFacilitator ?
-        <p className="ui center aligned sub dividing header">Facilitator is Editing</p> : ""
-      }
-      {idea.liveEditText || idea.body}
-      {isEdited && <span className={styles.editedIndicator}> (edited)</span>}
+      { renderIdeaControls() }
+      { renderMessage() }
+      { renderText() }
+      { renderEditedIndicator() }
     </div>
   )
 
+  const shouldAppearEditable = idea.editing && isFacilitator
+
   return (
     <li className={classes} title={idea.body} key={idea.id}>
-      { idea.editing && isFacilitator ?
-        <IdeaEditForm idea={idea} retroChannel={retroChannel} />
-        : readOnlyIdea
-      }
+      { shouldAppearEditable ? ideaEditForm : readOnlyIdea }
     </li>
   )
 }
