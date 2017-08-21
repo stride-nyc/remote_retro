@@ -10,6 +10,7 @@ describe("CategoryColumn", () => {
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const ideaGenerationStage = "idea-generation"
   const actionItemStage = "action-items"
+  const actionItemDistributionStage = "action-item-distribution"
 
   context("when the ideas passed in are in no discernable order", () => {
     const ideas = [{
@@ -69,7 +70,7 @@ describe("CategoryColumn", () => {
     }]
 
     it("it renders them sorted by vote_count descending", () => {
-      const wrapper = mount(
+      const actionItemsStageWrapper = mount(
         <CategoryColumn
           ideas={ideas}
           category="confused"
@@ -79,10 +80,25 @@ describe("CategoryColumn", () => {
         />
       )
 
-      const listItems = wrapper.find("li")
-      expect(listItems.first().text()).to.match(/should be first/)
-      expect(listItems.at(1).text()).to.match(/should be second/)
-      expect(listItems.at(2).text()).to.match(/should be third/)
+      const actionItemDistributionStageWrapper = mount(
+        <CategoryColumn
+          ideas={ideas}
+          category="confused"
+          currentUser={mockUser}
+          retroChannel={mockRetroChannel}
+          stage={actionItemDistributionStage}
+        />
+      )
+
+      const listItemsDuringActionItemsStage = actionItemsStageWrapper.find("li")
+      expect(listItemsDuringActionItemsStage.first().text()).to.match(/should be first/)
+      expect(listItemsDuringActionItemsStage.at(1).text()).to.match(/should be second/)
+      expect(listItemsDuringActionItemsStage.at(2).text()).to.match(/should be third/)
+
+      const listItemsDuringActionItemDistribution = actionItemDistributionStageWrapper.find("li")
+      expect(listItemsDuringActionItemDistribution.first().text()).to.match(/should be first/)
+      expect(listItemsDuringActionItemDistribution.at(1).text()).to.match(/should be second/)
+      expect(listItemsDuringActionItemDistribution.at(2).text()).to.match(/should be third/)
     })
   })
 
