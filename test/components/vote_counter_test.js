@@ -38,6 +38,7 @@ describe("VoteCounter", () => {
           retroChannel={{}}
           idea={idea}
           buttonDisabled
+          currentUser={mockUser}
         />
       )
     })

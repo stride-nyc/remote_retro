@@ -178,30 +178,6 @@ defmodule RemoteRetro.RetroChannelTest do
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "if it fails to find the participation it sends an error message", %{socket: socket, idea: idea} do
-      push(socket, "submit_vote", %{ideaId: idea.id, userId: 9999})
-
-      assert_broadcast("vote_submitted", %{error: "no participation found"})
-    end
-
-    @tag user: @mock_user
-    @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "if it fails to find the idea it sends an error message", %{socket: socket, user: user} do
-      push(socket, "submit_vote", %{ideaId: 8888, userId: user.id})
-
-      assert_broadcast("vote_submitted", %{error: "no idea found"})
-    end
-
-    @tag user: @mock_user
-    @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "if it fails to find the participation and idea it sends an error message", %{socket: socket} do
-      push(socket, "submit_vote", %{ideaId: 8888, userId: 9999})
-
-      assert_broadcast("vote_submitted", %{error: "no participation or idea found"})
-    end
-
-    @tag user: @mock_user
-    @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the voted on idea to all connected clients", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
