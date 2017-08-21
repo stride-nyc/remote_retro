@@ -14,12 +14,14 @@ describe("VoteCounter", () => {
     },
     vote_count: 0,
   }
+  const mockUser = { id: 55 }
 
   it("renders an anchor tag that contains the vote count of the idea", () => {
     const voteCounter = shallow(
       <VoteCounter
         retroChannel={{}}
         idea={idea}
+        currentUser={mockUser}
       />
     )
     const label = voteCounter.find("a")
@@ -36,6 +38,7 @@ describe("VoteCounter", () => {
           retroChannel={{}}
           idea={idea}
           buttonDisabled
+          currentUser={mockUser}
         />
       )
     })
@@ -46,7 +49,7 @@ describe("VoteCounter", () => {
   })
 
   describe("handleClick", () => {
-    it("calls retroChannel.push with 'submit_vote' and the idea's id", () => {
+    it("calls retroChannel.push with 'submit_vote', the idea's id, and the user id", () => {
       const pushSpy = spy()
       const retroChannelMock = {
         push: pushSpy,
@@ -55,11 +58,12 @@ describe("VoteCounter", () => {
         <VoteCounter
           retroChannel={retroChannelMock}
           idea={idea}
+          currentUser={mockUser}
         />
       )
       voteCounter.instance().handleClick()
 
-      expect(pushSpy.calledWith("submit_vote", { id: idea.id })).to.be.true
+      expect(pushSpy.calledWith("submit_vote", { ideaId: idea.id, userId: mockUser.id })).to.be.true
     })
   })
 })
