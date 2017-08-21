@@ -18,12 +18,15 @@ const Idea = props => {
 
   const readOnlyIdea = (
     <div className={styles.ideaWrapper}>
-      <IdeaControls
-        idea={idea}
-        retroChannel={retroChannel}
-        currentUser={currentUser}
-        stage={stage}
-      />
+      { stage !== "closed" ?
+        <IdeaControls
+          idea={idea}
+          retroChannel={retroChannel}
+          currentUser={currentUser}
+          stage={stage}
+        />
+        : null
+      }
       { idea.editing && !isFacilitator ?
         <p className="ui center aligned sub dividing header">Facilitator is Editing</p> : ""
       }
