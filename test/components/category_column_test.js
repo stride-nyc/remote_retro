@@ -1,5 +1,6 @@
 import React from "react"
 import { shallow, mount } from "enzyme"
+import sinon from "sinon"
 
 import CategoryColumn from "../../web/static/js/components/category_column"
 import Idea from "../../web/static/js/components/idea"
@@ -46,7 +47,7 @@ describe("CategoryColumn", () => {
     })
   })
 
-  context("when the stage is action-items or action-item-distribution", () => {
+  context("when the stage is action-items or action-item-distribution from the outset", () => {
     const ideas = [{
       id: 5,
       body: "should be third",
@@ -82,6 +83,52 @@ describe("CategoryColumn", () => {
       expect(listItems.first().text()).to.match(/should be first/)
       expect(listItems.at(1).text()).to.match(/should be second/)
       expect(listItems.at(2).text()).to.match(/should be third/)
+    })
+  })
+
+  context("when the stage is transitioned from voting to action-items", () => {
+    let clock
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers()
+    })
+
+    afterEach(() => {
+      clock.restore()
+    })
+
+    const ideas = [{
+      id: 5,
+      body: "should be first after brief delay",
+      category: "confused",
+      user: mockUser,
+      vote_count: 16,
+    }, {
+      id: 2,
+      body: "should be first at outset",
+      category: "confused",
+      user: mockUser,
+      vote_count: 1,
+    }]
+
+    it("alters the sort order to most votes DESC after a delay", () => {
+      const wrapper = mount(
+        <CategoryColumn
+          ideas={ideas}
+          category="confused"
+          currentUser={mockUser}
+          retroChannel={mockRetroChannel}
+          stage={votingStage}
+        />
+      )
+
+      wrapper.setProps({ stage: actionItemStage })
+      let listItems = wrapper.find("li")
+      expect(listItems.first().text()).to.match(/should be first at outset/)
+
+      clock.tick(1500)
+      listItems = wrapper.find("li")
+      expect(listItems.first().text()).to.match(/should be first after brief delay/)
     })
   })
 
