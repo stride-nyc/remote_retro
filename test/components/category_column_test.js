@@ -11,8 +11,9 @@ describe("CategoryColumn", () => {
   const ideaGenerationStage = "idea-generation"
   const actionItemStage = "action-items"
   const actionItemDistributionStage = "action-item-distribution"
+  const votingStage = "voting"
 
-  context("when the ideas passed in are in no discernable order", () => {
+  context("when the stage is either idea-generation or voting stage", () => {
     const ideas = [{
       id: 5,
       body: "should be third",
@@ -31,7 +32,7 @@ describe("CategoryColumn", () => {
     }]
 
     it("it renders them sorted by id ascending", () => {
-      const wrapper = mount(
+      const ideaGenerationStageWrapper = mount(
         <CategoryColumn
           ideas={ideas}
           category="confused"
@@ -41,10 +42,25 @@ describe("CategoryColumn", () => {
         />
       )
 
-      const listItems = wrapper.find("li")
-      expect(listItems.first().text()).to.match(/should be first/)
-      expect(listItems.at(1).text()).to.match(/should be second/)
-      expect(listItems.at(2).text()).to.match(/should be third/)
+      const ideaGenerationListItems = ideaGenerationStageWrapper.find("li")
+      expect(ideaGenerationListItems.first().text()).to.match(/should be first/)
+      expect(ideaGenerationListItems.at(1).text()).to.match(/should be second/)
+      expect(ideaGenerationListItems.at(2).text()).to.match(/should be third/)
+
+      const votingStageWrapper = mount(
+        <CategoryColumn
+          ideas={ideas}
+          category="confused"
+          currentUser={mockUser}
+          retroChannel={mockRetroChannel}
+          stage={votingStage}
+        />
+      )
+
+      const votingStageListItems = votingStageWrapper.find("li")
+      expect(votingStageListItems.first().text()).to.match(/should be first/)
+      expect(votingStageListItems.at(1).text()).to.match(/should be second/)
+      expect(votingStageListItems.at(2).text()).to.match(/should be third/)
     })
   })
 
