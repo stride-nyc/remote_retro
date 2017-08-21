@@ -45,13 +45,13 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing `proceed_to_next_stage` with a stage of 'action-item-distribution'" do
+  describe "pushing `proceed_to_next_stage` with a stage of 'closed'" do
     setup [:join_the_retro_channel]
 
     test "broadcasts the same event to connected clients, along with stage", %{socket: socket} do
-      push(socket, "proceed_to_next_stage", %{stage: "action-item-distribution"})
+      push(socket, "proceed_to_next_stage", %{stage: "closed"})
 
-      assert_broadcast("proceed_to_next_stage", %{"stage" => "action-item-distribution"})
+      assert_broadcast("proceed_to_next_stage", %{"stage" => "closed"})
     end
   end
 
