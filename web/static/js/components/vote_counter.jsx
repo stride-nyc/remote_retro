@@ -26,7 +26,6 @@ class VoteCounter extends React.Component {
         <button
           className={`ui green button ${styles.voteButton}`}
           onClick={this.handleClick}
-          disabled={buttonDisabled}
         >
           Vote
         </button>
