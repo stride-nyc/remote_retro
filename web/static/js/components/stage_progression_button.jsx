@@ -57,6 +57,7 @@ class StageProgressionButton extends Component {
               No
             </button>
             <button
+              autoFocus
               className="ui positive button"
               id="yes"
               onClick={this.handleStageProgression}
