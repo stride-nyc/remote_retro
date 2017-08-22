@@ -10,7 +10,7 @@ describe("CategoryColumn", () => {
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const ideaGenerationStage = "idea-generation"
   const actionItemStage = "action-items"
-  const actionItemDistributionStage = "action-item-distribution"
+  const actionItemDistributionStage = "closed"
   const votingStage = "voting"
 
   context("when the stage is either idea-generation or voting stage", () => {
@@ -64,7 +64,7 @@ describe("CategoryColumn", () => {
     })
   })
 
-  context("when the stage is action-items or action-item-distribution from the outset", () => {
+  context("when the stage is action-items or closed from the outset", () => {
     const ideas = [{
       id: 5,
       body: "should be third",

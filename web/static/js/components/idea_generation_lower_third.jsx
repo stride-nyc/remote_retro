@@ -12,7 +12,7 @@ const IdeaGenerationLowerThird = props => {
 
   const isFacilitator = currentUser.is_facilitator
   const stageConfig = stageConfigs[stage]
-  const showActionItem = ["action-items", "action-item-distribution"].includes(stage)
+  const showActionItem = ["action-items", "closed"].includes(stage)
 
   function progressionDisabled() {
     const noIdeasCreated = stage === "idea-generation" && !ideas.length
@@ -21,7 +21,7 @@ const IdeaGenerationLowerThird = props => {
   }
 
   return (
-    <LowerThirdWrapper displayContents={stage !== "action-item-distribution"}>
+    <LowerThirdWrapper displayContents={stage !== "closed"}>
       <div className="thirteen wide column">
         <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
       </div>

@@ -8,7 +8,7 @@ class CategoryColumn extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      animateSort: props.stage === "action-items" || props.stage === "action-item-distribution",
+      animateSort: props.stage === "action-items" || props.stage === "closed",
     }
   }
 

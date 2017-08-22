@@ -36,9 +36,9 @@ describe("IdeaBoard component", () => {
     })
   })
 
-  describe("when the stage is 'action-item-distribution'", () => {
+  describe("when the stage is 'closed'", () => {
     before(() => {
-      ideaBoard = shallow(<IdeaBoard {...defaultProps} stage="action-item-distribution" />)
+      ideaBoard = shallow(<IdeaBoard {...defaultProps} stage="closed" />)
     })
 
     it("renders a fourth column for displaying the action-items", () => {

@@ -17,6 +17,7 @@ describe("Idea component", () => {
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const mockUser = {}
   const ideaGenerationStage = "idea-generation"
+  const closedStage = "closed"
 
   context("when the user is a facilitator", () => {
     const facilitatorUser = { is_facilitator: true }
@@ -35,6 +36,21 @@ describe("Idea component", () => {
 
     it("renders IdeaControls as its first child for proper floating/text-wrapping", () => {
       expect(wrapper.childAt(0).html()).to.match(/edit idea/i)
+    })
+
+    context("when the stage is closed", () => {
+      const wrapper = mount(
+        <Idea
+          idea={idea}
+          currentUser={facilitatorUser}
+          retroChannel={mockRetroChannel}
+          stage={closedStage}
+        />
+      )
+
+      it("doesn't render <IdeaControls />", () => {
+        expect(wrapper.find(IdeaControls).length).to.equal(0)
+      })
     })
   })
 
