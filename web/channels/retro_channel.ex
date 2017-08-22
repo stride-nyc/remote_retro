@@ -6,7 +6,7 @@ defmodule RemoteRetro.RetroChannel do
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
-    retro = Repo.get!(Retro, retro_id) |> Repo.preload(ideas: :user)
+    retro = Repo.get!(Retro, retro_id) |> Repo.preload(ideas: :user) |> Repo.preload(:participations)
 
     send self(), :after_join
     {:ok, retro, socket}
@@ -87,8 +87,7 @@ defmodule RemoteRetro.RetroChannel do
       |> Multi.update_all(:idea, idea_query, [inc: [vote_count: 1]], returning: true)
       |> Multi.update_all(:participation, participation_query, [inc: [vote_count: 1]], returning: true)
       |> Repo.transaction
-
-    broadcast! socket, "vote_submitted", updated_idea
+    broadcast! socket, "vote_submitted", %{"idea" => updated_idea}
     {:noreply, socket}
   end
 

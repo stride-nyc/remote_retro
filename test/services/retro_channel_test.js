@@ -181,7 +181,7 @@ describe("RetroChannel", () => {
 
         describe("on `vote_submitted`", () => {
           beforeEach(() => {
-            retroChannel.trigger("vote_submitted", { id: 2, vote_count: 3 })
+            retroChannel.trigger("vote_submitted", { idea: { id: 2, vote_count: 3 }})
           })
 
           it("invokes updateIdea action, passing idea id & vote count", () => {
