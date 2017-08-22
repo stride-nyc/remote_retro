@@ -4,7 +4,7 @@ import chimeSound from "./chime_sound"
 
 class DoorChime extends Component {
   componentDidMount() {
-    this.audio.volume = 0.15;
+    this.audio.volume = 0.15
 
     const timeout = setTimeout(() => {
       this.audio.muted = false
