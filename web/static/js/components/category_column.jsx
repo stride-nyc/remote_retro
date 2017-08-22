@@ -34,7 +34,13 @@ class CategoryColumn extends Component {
     }
 
     const ideasList = (
-      <FlipMove duration={750} easing="ease" enterAnimation="none" leaveAnimation="none">
+      <FlipMove
+        duration={750}
+        staggerDelayBy={100}
+        easing="ease"
+        enterAnimation="none"
+        leaveAnimation="none"
+      >
         {sortedIdeas.map(idea => <div key={idea.id}><Idea {...this.props} idea={idea} /></div>)}
       </FlipMove>
     )
