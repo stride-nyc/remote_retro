@@ -1,6 +1,6 @@
-As a (facilitator/non-facilitator/contributor/maintainer),
-I would like (feature/enhancement),
-So that (logical explanation of purpose).
+As a _role_,
+I want _something_
+So that _this value is delivered to me_.
 
 __By Way Of Explanation:__ (optional)
 
