@@ -1,6 +1,8 @@
 const userVoteCounter = (state, action) => {
-  if (action.participations && action.participations.length > 0) {
-    return action.participations.reduce(
+  const isSetInitialState = action.type === "SET_INITIAL_STATE"
+  const hasParticipations = action.initialState && action.initialState.participations && action.initialState.participations.length > 0
+  if (isSetInitialState && hasParticipations) {
+    return action.initialState.participations.reduce(
       (counter, participation) => {
         const counterCopy = { ...counter }
         counterCopy[participation.user_id] = participation.vote_count
