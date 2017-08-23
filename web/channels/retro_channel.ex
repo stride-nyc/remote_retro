@@ -82,12 +82,12 @@ defmodule RemoteRetro.RetroChannel do
     idea_query = from i in Idea, where: i.id == ^idea_id
     participation_query = from p in Participation, where: p.user_id == ^user_id and p.retro_id == ^retro_id
 
-    {:ok, %{idea: {1, [updated_idea]}, participation: {1, [_updated_participation]}}} =
+    {:ok, %{idea: {1, [updated_idea]}, participation: {1, [updated_participation]}}} =
       Multi.new
       |> Multi.update_all(:idea, idea_query, [inc: [vote_count: 1]], returning: true)
       |> Multi.update_all(:participation, participation_query, [inc: [vote_count: 1]], returning: true)
       |> Repo.transaction
-    broadcast! socket, "vote_submitted", %{"idea" => updated_idea}
+    broadcast! socket, "vote_submitted", %{"idea" => updated_idea, "participation" => updated_participation}
     {:noreply, socket}
   end
 

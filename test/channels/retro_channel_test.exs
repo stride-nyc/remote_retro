@@ -178,11 +178,24 @@ defmodule RemoteRetro.RetroChannelTest do
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "results in the broadcast of the voted on idea to all connected clients", %{socket: socket, idea: idea, user: user} do
+    test "results in the broadcast of the voted on idea and updated participation to all connected clients", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
+      user_id = user.id
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
 
-      assert_broadcast("vote_submitted", %{body: "JavaScript", id: ^idea_id, vote_count: 1})
+      assert_broadcast("vote_submitted", %{
+        "idea" =>
+        %{
+          body: "JavaScript",
+          id: ^idea_id,
+          vote_count: 1
+        },
+        "participation" =>
+        %{
+          user_id: ^user_id,
+          vote_count: 1
+        }
+      })
     end
 
     @tag user: @mock_user
