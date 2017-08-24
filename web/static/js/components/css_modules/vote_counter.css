@@ -1,4 +1,29 @@
-:global(.ui.labeled.button) {
+:global(.increment-enter) {
+  display: none;
+
+  &:first-of-type {
+    display: block;
+  }
+
+  transform: translate3d(0, 2.5rem, 0);
+}
+
+:global(.increment-enter.increment-enter-active) {
+  transform: translate3d(0, 0, 0);
+  transition: transform 250ms ease;
+}
+
+:global(.increment-leave) {
+  position: absolute;
+  transform: translate3d(0, -0.8rem, 0);
+}
+
+:global(.increment-leave.increment-leave-active) {
+  transition: transform 250ms ease;
+  transform: translate3d(0, -2.5rem, 0);
+}
+
+:global(.ui.labeled.button){
   --fontSize: 0.85rem;
 
   .vote-button, .vote-count {
@@ -12,5 +37,7 @@
   .vote-count {
     padding: 0.5rem;
     cursor: default;
+    position: relative;
+    overflow: hidden;
   }
 }
