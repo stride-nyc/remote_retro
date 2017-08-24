@@ -69,4 +69,35 @@ describe("userVoteCounter reducer", () => {
       })
     })
   })
+
+  describe("when there is an 'UPDATE_VOTE_COUNTER' action", () => {
+    context("when there is no state", () => {
+      it("should return an object with one key that is the user_id and one value that is the vote_count", () => {
+        const action = {
+          type: "UPDATE_VOTE_COUNTER",
+          data: {
+            userId: 1,
+            voteCount: 3,
+          },
+        }
+
+        expect(userVoteCounter(undefined, action)).to.deep.equal({ 1: 3 })
+      })
+    })
+
+    context("when there is a state", () => {
+      it("should return an object with the previous state, and the new values", () => {
+        const state = { 2: 5 }
+        const action = {
+          type: "UPDATE_VOTE_COUNTER",
+          data: {
+            userId: 1,
+            voteCount: 3,
+          },
+        }
+
+        expect(userVoteCounter(state, action)).to.deep.equal({ 2: 5, 1: 3 })
+      })
+    })
+  })
 })

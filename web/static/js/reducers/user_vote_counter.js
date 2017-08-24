@@ -1,17 +1,22 @@
-const userVoteCounter = (state, action) => {
-  const isSetInitialState = action.type === "SET_INITIAL_STATE"
-  const hasParticipations = action.initialState && action.initialState.participations && action.initialState.participations.length > 0
-  if (isSetInitialState && hasParticipations) {
-    return action.initialState.participations.reduce(
-      (counter, participation) => {
-        const counterCopy = { ...counter }
-        counterCopy[participation.user_id] = participation.vote_count
-        return counterCopy
-      },
-      {}
-    )
+const userVoteCounter = (state = {}, action) => {
+  switch (action.type) {
+    case "SET_INITIAL_STATE":
+      return action.initialState.participations.reduce(
+        (counter, participation) => {
+          const counterCopy = { ...counter }
+          counterCopy[participation.user_id] = participation.vote_count
+          return counterCopy
+        },
+        {}
+      )
+    case "UPDATE_VOTE_COUNTER":
+      return {
+        ...state,
+        [action.data.userId]: action.data.voteCount,
+      }
+    default:
+      return state
   }
-  return {}
 }
 
 export default userVoteCounter
