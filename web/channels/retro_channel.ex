@@ -79,13 +79,21 @@ defmodule RemoteRetro.RetroChannel do
 
   def handle_in("submit_vote", %{"ideaId" => idea_id, "userId" => user_id}, socket) do
     retro_id = socket.assigns.retro_id
-    idea_query = from i in Idea, where: i.id == ^idea_id
-    participation_query = from p in Participation, where: p.user_id == ^user_id and p.retro_id == ^retro_id
+    idea_vote_count = Repo.get(Idea, idea_id).vote_count
+    particip_vote_count = Repo.get_by(Participation, user_id: user_id, retro_id: retro_id).vote_count
 
-    {:ok, %{idea: {1, [updated_idea]}, participation: {1, [updated_participation]}}} =
+    idea_changeset =
+      Repo.get(Idea, idea_id)
+      |> Idea.changeset(%{vote_count: idea_vote_count + 1})
+
+    particip_changeset =
+      Repo.get_by(Participation, user_id: user_id, retro_id: retro_id)
+      |> Participation.changeset(%{vote_count: particip_vote_count + 1})
+
+    {:ok, %{idea: updated_idea, participation: updated_participation}} =
       Multi.new
-      |> Multi.update_all(:idea, idea_query, [inc: [vote_count: 1]], returning: true)
-      |> Multi.update_all(:participation, participation_query, [inc: [vote_count: 1]], returning: true)
+      |> Multi.update(:idea, idea_changeset)
+      |> Multi.update(:participation, particip_changeset)
       |> Repo.transaction
     broadcast! socket, "vote_submitted", %{"idea" => updated_idea, "participation" => updated_participation}
     {:noreply, socket}

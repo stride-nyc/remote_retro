@@ -16,6 +16,7 @@ defmodule RemoteRetro.Participation do
     struct
     |> cast(params, @allowed_fields)
     |> unique_constraint(:user_id_retro_id, name: :participations_user_id_retro_id_index)
+    |> validate_inclusion(:vote_count, 0..5)
     |> validate_required([:user_id, :retro_id])
   end
 end

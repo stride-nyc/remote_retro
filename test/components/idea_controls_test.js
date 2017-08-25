@@ -22,6 +22,7 @@ describe("<IdeaControls />", () => {
           retroChannel={retroChannel}
           currentUser={mockUser}
           stage={ideaGenerationStage}
+          userVoteCounter={{}}
         />
       )
 
@@ -42,6 +43,7 @@ describe("<IdeaControls />", () => {
           retroChannel={retroChannel}
           currentUser={mockUser}
           stage={ideaGenerationStage}
+          userVoteCounter={{}}
         />
       )
 
@@ -62,6 +64,7 @@ describe("<IdeaControls />", () => {
           retroChannel={retroChannel}
           currentUser={mockUser}
           stage={ideaGenerationStage}
+          userVoteCounter={{}}
         />
       )
 
@@ -83,6 +86,7 @@ describe("<IdeaControls />", () => {
           retroChannel={retroChannel}
           currentUser={mockUser}
           stage={ideaGenerationStage}
+          userVoteCounter={{}}
         />
       )
 
@@ -104,6 +108,7 @@ describe("<IdeaControls />", () => {
             retroChannel={retroChannel}
             currentUser={mockUser}
             stage={ideaGenerationStage}
+            userVoteCounter={{}}
           />
         )
 
@@ -126,6 +131,7 @@ describe("<IdeaControls />", () => {
               retroChannel={retroChannel}
               currentUser={currentUser}
               stage={ideaGenerationStage}
+              userVoteCounter={{}}
             />
           )
 
@@ -155,6 +161,7 @@ describe("<IdeaControls />", () => {
                 retroChannel={retroChannel}
                 currentUser={currentUser}
                 stage={ideaGenerationStage}
+                userVoteCounter={{}}
               />
             )
 
@@ -175,6 +182,7 @@ describe("<IdeaControls />", () => {
                 retroChannel={retroChannel}
                 currentUser={currentUser}
                 stage={ideaGenerationStage}
+                userVoteCounter={{}}
               />
             )
 
@@ -198,6 +206,7 @@ describe("<IdeaControls />", () => {
               retroChannel={retroChannel}
               currentUser={currentUser}
               stage={votingStage}
+              userVoteCounter={{}}
             />
           )
 
@@ -217,6 +226,7 @@ describe("<IdeaControls />", () => {
               retroChannel={retroChannel}
               currentUser={currentUser}
               stage={votingStage}
+              userVoteCounter={{}}
             />
           )
 
@@ -236,6 +246,7 @@ describe("<IdeaControls />", () => {
             retroChannel={retroChannel}
             currentUser={currentUser}
             stage={ideaGenerationStage}
+            userVoteCounter={{}}
           />
          )
 
@@ -254,6 +265,26 @@ describe("<IdeaControls />", () => {
             retroChannel={retroChannel}
             currentUser={currentUser}
             stage={actionItemsStage}
+            userVoteCounter={{}}
+          />
+         )
+
+        expect(wrapper.find(VoteCounter).prop("buttonDisabled")).to.be.true
+      })
+    })
+
+    context("when the currentUser has voted 5 times", () => {
+      it("renders a disabled VoteCounter for the currentUser", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+        const currentUser = { id: 1, is_facilitator: false }
+
+        const wrapper = shallow(
+          <IdeaControls
+            idea={idea}
+            retroChannel={retroChannel}
+            currentUser={currentUser}
+            stage={actionItemsStage}
+            userVoteCounter={{ 1: 5 }}
           />
          )
 
