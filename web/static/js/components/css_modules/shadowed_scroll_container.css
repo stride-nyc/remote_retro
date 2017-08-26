@@ -1,0 +1,62 @@
+:global(.overlay) {
+  --shadowCoverColor: white;
+  --shadowHeight: 0.2rem;
+
+  position: relative;
+  width: auto;
+
+  :global(.content) {
+    max-height: 50vh;
+    background-color: var(--shadowCoverColor);
+    overflow: scroll;
+  }
+
+  :global(.shadowContainer) {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
+  }
+
+  :global(.radialShadowTop),
+  :global(.radialShadowBottom),
+  :global(.shadowCoverTop),
+  :global(.shadowCoverBottom) {
+    height: var(--shadowHeight);
+    width: inherit;
+
+    background-repeat: no-repeat;
+    background-size: 100% var(--shadowHeight);
+  }
+
+  :global(.radialShadowTop), :global(.radialShadowBottom) {
+    position: absolute;
+    z-index: 1;
+  }
+
+  :global(.radialShadowTop) {
+    background: radial-gradient(farthest-side at 50% 0%, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0)) 100% 0;
+  }
+
+  :global(.radialShadowBottom) {
+    bottom: 0;
+    background: radial-gradient(farthest-side at 50% 100%, rgba(0, 0, 0, .3), rgba(0, 0, 0, 0)) 0 100%;
+  }
+
+  :global(.shadowCoverTop), :global(.shadowCoverBottom) {
+    position: relative;
+    z-index: 2;
+  }
+
+  :global(.shadowCoverTop) {
+    background: linear-gradient(var(--shadowCoverColor) 30%, var(--shadowCoverColor)) 100% 0;
+    + ul, + ol, + div, + section {
+      position: relative;
+      top: calc(-0.5 * var(--shadowHeight));
+    }
+  }
+
+  :global(.shadowCoverBottom) {
+    background: linear-gradient(var(--shadowCoverColor), var(--shadowCoverColor) 70%) 0 100%;
+  }
+}

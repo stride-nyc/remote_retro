@@ -1,5 +1,6 @@
 import React, { Component, PropTypes } from "react"
 import FlipMove from "react-flip-move"
+import ShadowedScrollContainer from "./shadowed_scroll_container"
 import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
@@ -52,7 +53,11 @@ class CategoryColumn extends Component {
           <p><strong>{category}</strong></p>
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
-        <ul className={`${category} ${styles.list} ideas`}>{ideasList}</ul>
+        <ShadowedScrollContainer>
+          <ul className={`${category} ${styles.list} ideas`}>
+            {ideasList}
+          </ul>
+        </ShadowedScrollContainer>
       </section>
     )
   }
