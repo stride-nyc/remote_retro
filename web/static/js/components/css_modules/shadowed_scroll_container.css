@@ -6,7 +6,6 @@
   width: auto;
 
   :global(.content) {
-    max-height: 50vh;
     background-color: var(--shadowCoverColor);
     overflow: scroll;
   }
