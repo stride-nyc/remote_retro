@@ -34,7 +34,7 @@ const IdeaControls = props => {
     }
     if (currentUser.is_facilitator) {
       return (
-        <span>
+        <div className={styles.wrapper}>
           <i
             title="Delete Idea"
             className={`${styles.actionIcon} remove circle icon`}
@@ -50,7 +50,7 @@ const IdeaControls = props => {
             className={highlightClasses}
             onClick={() => { retroChannel.push("highlight_idea", { id, isHighlighted }) }}
           />
-        </span>
+        </div>
       )
     }
 
