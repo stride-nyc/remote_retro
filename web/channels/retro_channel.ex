@@ -90,7 +90,7 @@ defmodule RemoteRetro.RetroChannel do
       Repo.get_by(Participation, user_id: user_id, retro_id: retro_id)
       |> Participation.changeset(%{vote_count: particip_vote_count + 1})
 
-   %{valid?: is_participation_valid } = participation_changeset
+   %{valid?: is_participation_valid} = participation_changeset
 
     if is_participation_valid do
       {:ok, %{idea: updated_idea, participation: updated_participation}} =
