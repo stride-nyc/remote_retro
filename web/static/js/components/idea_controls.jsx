@@ -28,7 +28,7 @@ const IdeaControls = props => {
         <VoteCounter
           retroChannel={retroChannel}
           idea={idea}
-          buttonDisabled={stage !== "voting"}
+          buttonDisabled={stage !== "voting" || !canVote}
           currentUser={currentUser}
         />
       )

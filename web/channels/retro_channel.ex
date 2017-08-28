@@ -86,16 +86,21 @@ defmodule RemoteRetro.RetroChannel do
       Repo.get(Idea, idea_id)
       |> Idea.changeset(%{vote_count: idea_vote_count + 1})
 
-    particip_changeset =
+    participation_changeset =
       Repo.get_by(Participation, user_id: user_id, retro_id: retro_id)
       |> Participation.changeset(%{vote_count: particip_vote_count + 1})
 
-    {:ok, %{idea: updated_idea, participation: updated_participation}} =
-      Multi.new
-      |> Multi.update(:idea, idea_changeset)
-      |> Multi.update(:participation, particip_changeset)
-      |> Repo.transaction
-    broadcast! socket, "vote_submitted", %{"idea" => updated_idea, "participation" => updated_participation}
+   %{valid?: is_participation_valid } = participation_changeset
+
+    if is_participation_valid do
+      {:ok, %{idea: updated_idea, participation: updated_participation}} =
+        Multi.new
+        |> Multi.update(:idea, idea_changeset)
+        |> Multi.update(:participation, participation_changeset)
+        |> Repo.transaction
+        broadcast! socket, "vote_submitted", %{"idea" => updated_idea, "participation" => updated_participation}
+    end
+
     {:noreply, socket}
   end
 

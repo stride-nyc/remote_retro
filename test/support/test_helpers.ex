@@ -30,6 +30,15 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :participation, participation)
   end
 
+  def persist_maxed_out_participation_for_retro(context) do
+    %{user: user, retro: retro} = context
+    participation =
+      Participation.changeset(%Participation{}, %{user_id: user.id, retro_id: retro.id, vote_count: 5})
+      |> Repo.insert!
+
+    Map.put(context, :participation, participation)
+  end
+
   def new_browser_session(metadata \\ %{}) do
     {:ok, session} = Wallaby.start_session(metadata: metadata)
     resize_window(session, 1000, 1000)
