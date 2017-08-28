@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import Modal from "react-modal"
 import classNames from "classnames"
 
@@ -102,7 +103,7 @@ ShareRetroLinkModal.defaultProps = {
 }
 
 ShareRetroLinkModal.propTypes = {
-  retroCreationTimestamp: React.PropTypes.string,
+  retroCreationTimestamp: PropTypes.string,
 }
 
 export default ShareRetroLinkModal

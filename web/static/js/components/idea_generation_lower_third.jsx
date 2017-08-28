@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 
 import IdeaSubmissionForm from "./idea_submission_form"
 import LowerThirdWrapper from "./lower_third_wrapper"
@@ -46,7 +47,7 @@ IdeaGenerationLowerThird.propTypes = {
   currentUser: AppPropTypes.user,
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  stage: React.PropTypes.string.isRequired,
+  stage: PropTypes.string.isRequired,
 }
 
 export default IdeaGenerationLowerThird

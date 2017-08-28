@@ -17,6 +17,7 @@
     "phoenix_html": "file:deps/phoenix_html",
     "postcss-loader": "^2.0.5",
     "postcss-nested": "^2.1.0",
+    "prop-types": "^15.5.10",
     "react": "^15.4.1",
     "react-addons-css-transition-group": "^15.6.0",
     "react-css-transition-replace": "^2.2.1",
@@ -37,7 +38,7 @@
     "copy-webpack-plugin": "^3.0.1",
     "css-loader": "0.27.3",
     "deep-freeze": "^0.0.1",
-    "enzyme": "^2.7.1",
+    "enzyme": "^2.9.1",
     "eslint": "^3.16.0",
     "eslint-config-airbnb": "^14.1.0",
     "eslint-plugin-import": "^2.2.0",
@@ -48,7 +49,7 @@
     "jsdom-global": "^2.1.1",
     "mocha": "^3.2.0",
     "mock-css-modules": "^1.0.0",
-    "react-addons-test-utils": "^15.4.2",
+    "react-test-renderer": "^15.6.1",
     "style-loader": "^0.13.1",
     "webpack-notifier": "^1.5.0"
   }

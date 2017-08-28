@@ -46,6 +46,7 @@ describe("Idea component", () => {
           currentUser={facilitatorUser}
           retroChannel={mockRetroChannel}
           stage={closedStage}
+          userVoteCounter={{}}
         />
       )
 

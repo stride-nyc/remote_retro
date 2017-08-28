@@ -1,7 +1,7 @@
 //
 // Reusable, domain-specific prop types
 //
-import { PropTypes } from "react"
+import PropTypes from "prop-types"
 
 // could be an enum if this is a fixed set of strings?
 export const category = PropTypes.string

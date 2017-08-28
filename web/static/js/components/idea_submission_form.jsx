@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/idea_submission_form.css"
@@ -110,7 +111,7 @@ class IdeaSubmissionForm extends Component {
 IdeaSubmissionForm.propTypes = {
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  showActionItem: React.PropTypes.bool.isRequired,
+  showActionItem: PropTypes.bool.isRequired,
 }
 
 export default IdeaSubmissionForm

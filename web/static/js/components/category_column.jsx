@@ -1,4 +1,5 @@
-import React, { Component, PropTypes } from "react"
+import React, { Component } from "react"
+import PropTypes from "prop-types"
 import FlipMove from "react-flip-move"
 import ShadowedScrollContainer from "./shadowed_scroll_container"
 import Idea from "./idea"

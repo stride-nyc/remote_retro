@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import Modal from "react-modal"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
@@ -36,8 +37,8 @@ export class Alert extends Component {
 }
 
 Alert.propTypes = {
-  actions: React.PropTypes.object,
-  config: React.PropTypes.object,
+  actions: PropTypes.object,
+  config: PropTypes.object,
 }
 
 Alert.defaultProps = {
