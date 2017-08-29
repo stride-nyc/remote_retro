@@ -22,18 +22,9 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def persist_participation_for_retro(context) do
-    %{user: user, retro: retro} = context
+    %{user: user, retro: retro, vote_count: vote_count} = context
     participation =
-      Participation.changeset(%Participation{}, %{user_id: user.id, retro_id: retro.id})
-      |> Repo.insert!
-
-    Map.put(context, :participation, participation)
-  end
-
-  def persist_maxed_out_participation_for_retro(context) do
-    %{user: user, retro: retro} = context
-    participation =
-      Participation.changeset(%Participation{}, %{user_id: user.id, retro_id: retro.id, vote_count: 5})
+      Participation.changeset(%Participation{}, %{user_id: user.id, retro_id: retro.id, vote_count: vote_count})
       |> Repo.insert!
 
     Map.put(context, :participation, participation)

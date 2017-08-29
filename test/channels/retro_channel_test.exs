@@ -178,6 +178,7 @@ defmodule RemoteRetro.RetroChannelTest do
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    @tag vote_count: 0
     test "results in the broadcast of the voted on idea and updated participation to all connected clients", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       user_id = user.id
@@ -200,6 +201,7 @@ defmodule RemoteRetro.RetroChannelTest do
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
+    @tag vote_count: 0
     test "results in the idea being updated in the database", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
@@ -211,6 +213,7 @@ defmodule RemoteRetro.RetroChannelTest do
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
+    @tag vote_count: 0
     test "results in the participation being updated in the database", %{socket: socket, idea: idea, user: user, participation: participation} do
       idea_id = idea.id
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
@@ -222,10 +225,11 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing a `submit_vote` event to the socket when the participation has 5 votes" do
-    setup [:persist_user_for_retro, :persist_idea_for_retro, :persist_maxed_out_participation_for_retro, :join_the_retro_channel]
+    setup [:persist_user_for_retro, :persist_idea_for_retro, :persist_participation_for_retro, :join_the_retro_channel]
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    @tag vote_count: 5
     test "results in the broadcast of the voted on idea and updated participation to all connected clients", %{socket: socket, idea: idea, user: user, participation: participation} do
       push(socket, "submit_vote", %{ideaId: idea.id, userId: user.id})
 

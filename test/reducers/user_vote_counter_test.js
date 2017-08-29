@@ -9,20 +9,6 @@ describe("userVoteCounter reducer", () => {
     })
   })
 
-  describe("when there is a 'ENGAGE_LUNAR_LANDING' action", () => {
-    context("when there is one participation", () => {
-      it("should return an empty object", () => {
-        const action = {
-          type: "ENGAGE_LUNAR_LANDING",
-          initialState: {
-            participations: [{ user_id: 1, vote_count: 3 }],
-          },
-        }
-        expect(userVoteCounter(undefined, action)).to.deep.equal({})
-      })
-    })
-  })
-
   describe("when there is an unrecognized action type", () => {
     context("when there is one participation", () => {
       it("should return an empty object", () => {
