@@ -21,7 +21,7 @@ const IdeaControls = props => {
     ban: isHighlighted,
   })
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
-  const canVote = userVoteCounter[currentUser.id] < 5
+  const cannotVote = userVoteCounter[currentUser.id] >= 5
 
   function renderIcons() {
     if (stage !== "idea-generation" && category !== "action-item") {
@@ -29,7 +29,7 @@ const IdeaControls = props => {
         <VoteCounter
           retroChannel={retroChannel}
           idea={idea}
-          buttonDisabled={stage !== "voting" || !canVote}
+          buttonDisabled={stage !== "voting" || cannotVote}
           currentUser={currentUser}
         />
       )
