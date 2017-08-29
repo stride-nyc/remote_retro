@@ -1,4 +1,4 @@
-:global(.overlay) {
+.overlay {
   --shadowCoverColor: white;
   --shadowHeight: 0.2rem;
 

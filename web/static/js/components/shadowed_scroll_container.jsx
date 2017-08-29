@@ -1,8 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
+import styles from "./css_modules/shadowed_scroll_container.css"
 
 const ShadowedScrollContainer = props => (
-  <div className="overlay">
+  <div className={styles.overlay}>
     <div className="shadowContainer">
       <div className="radialShadowTop" />
       <div className="radialShadowBottom" />
