@@ -131,14 +131,14 @@ describe("user reducer", () => {
 
   describe("When action is UPDATE_USER", () => {
     const userId = 5
-    const newAttributes = { voteCount: 4 }
+    const newAttributes = { vote_count: 4 }
     const action = { type: "UPDATE_USER", userId, newAttributes }
-    const initialState = [{ id: 5, name: "Bob", voteCount: 3 }, { id: 7, name: "Lacy", voteCount: 2 }]
+    const initialState = [{ id: 5, name: "Bob", vote_count: 3 }, { id: 7, name: "Lacy", vote_count: 2 }]
     deepFreeze(initialState)
     const newState = usersReducer(initialState, action)
 
     it("should update user with matching id with new attributes", () => {
-      expect(newState).to.deep.equal([{ id: 5, name: "Bob", voteCount: 4 }, { id: 7, name: "Lacy", voteCount: 2 }])
+      expect(newState).to.deep.equal([{ id: 5, name: "Bob", vote_count: 4 }, { id: 7, name: "Lacy", vote_count: 2 }])
     })
   })
 })

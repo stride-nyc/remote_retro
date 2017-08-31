@@ -47,7 +47,7 @@ describe("RetroChannel", () => {
         let updateIdeaSpy
         let updatePresenceSpy
         let updateStageSpy
-        let updateVoteCounterSpy
+        let updateUserSpy
         let clock
 
         beforeEach(() => {
@@ -56,7 +56,7 @@ describe("RetroChannel", () => {
           updateIdeaSpy = spy()
           updatePresenceSpy = spy()
           updateStageSpy = spy()
-          updateVoteCounterSpy = spy()
+          updateUserSpy = spy()
           clock = useFakeTimers(Date.now())
 
           actions = {
@@ -65,7 +65,7 @@ describe("RetroChannel", () => {
             updateIdea: updateIdeaSpy,
             updatePresence: updatePresenceSpy,
             updateStage: updateStageSpy,
-            updateVoteCounter: updateVoteCounterSpy,
+            updateUser: updateUserSpy,
           }
 
           retroChannel = RetroChannel.configure({ actions })
@@ -198,8 +198,10 @@ describe("RetroChannel", () => {
             })).to.eql(true)
           })
 
-          it("invokes updateVoteCounter action, passing user id & vote count", () => {
-            expect(updateVoteCounterSpy.calledWith(1, 3)).to.eql(true)
+          it("invokes updateUser action, passing user id & vote count", () => {
+            expect(updateUserSpy.calledWith(1, {
+              vote_count: 3,
+            })).to.eql(true)
           })
         })
       })

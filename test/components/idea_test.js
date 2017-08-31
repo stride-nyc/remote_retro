@@ -27,7 +27,6 @@ describe("Idea component", () => {
         currentUser={facilitatorUser}
         retroChannel={mockRetroChannel}
         stage={ideaGenerationStage}
-        userVoteCounter={{}}
       />
     )
 
@@ -46,7 +45,6 @@ describe("Idea component", () => {
           currentUser={facilitatorUser}
           retroChannel={mockRetroChannel}
           stage={closedStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -65,7 +63,6 @@ describe("Idea component", () => {
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
         stage={ideaGenerationStage}
-        userVoteCounter={{}}
       />
     )
 
@@ -87,7 +84,6 @@ describe("Idea component", () => {
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
         stage={ideaGenerationStage}
-        userVoteCounter={{}}
       />
     )
 
@@ -105,7 +101,6 @@ describe("Idea component", () => {
           currentUser={facilitatorUser}
           retroChannel={mockRetroChannel}
           stage={ideaGenerationStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -126,7 +121,6 @@ describe("Idea component", () => {
           currentUser={nonFacilitatorUser}
           retroChannel={mockRetroChannel}
           stage={ideaGenerationStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -145,7 +139,6 @@ describe("Idea component", () => {
             currentUser={nonFacilitatorUser}
             retroChannel={mockRetroChannel}
             stage={ideaGenerationStage}
-            userVoteCounter={{}}
           />
         )
         it("displays the `liveEditText` value rather than the body value", () => {
@@ -171,7 +164,6 @@ describe("Idea component", () => {
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
         stage={ideaGenerationStage}
-        userVoteCounter={{}}
       />
     )
 

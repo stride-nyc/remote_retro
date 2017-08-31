@@ -9,7 +9,7 @@ import ShareRetroLinkModal from "./share_retro_link_modal"
 import DoorChime from "./door_chime"
 
 export const RemoteRetro = props => {
-  const { users, ideas, userToken, retroChannel, stage, insertedAt, alert, userVoteCounter } = props
+  const { users, ideas, userToken, retroChannel, stage, insertedAt, alert } = props
 
   const currentUser = users.find(user => user.token === userToken)
 
@@ -21,7 +21,6 @@ export const RemoteRetro = props => {
         ideas={ideas}
         stage={stage}
         retroChannel={retroChannel}
-        userVoteCounter={userVoteCounter}
       />
       <Alert config={alert} />
       <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
@@ -38,7 +37,6 @@ RemoteRetro.propTypes = {
   stage: PropTypes.string.isRequired,
   insertedAt: PropTypes.string,
   alert: PropTypes.object,
-  userVoteCounter: PropTypes.object,
 }
 
 RemoteRetro.defaultProps = {
@@ -46,7 +44,6 @@ RemoteRetro.defaultProps = {
   ideas: [],
   insertedAt: null,
   alert: null,
-  userVoteCounter: {},
 }
 
 const mapStateToProps = state => ({ ...state })

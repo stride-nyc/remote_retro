@@ -39,7 +39,6 @@ describe("CategoryColumn", () => {
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={ideaGenerationStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -55,7 +54,6 @@ describe("CategoryColumn", () => {
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={votingStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -95,7 +93,6 @@ describe("CategoryColumn", () => {
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={actionItemStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -106,7 +103,6 @@ describe("CategoryColumn", () => {
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={actionItemDistributionStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -155,7 +151,6 @@ describe("CategoryColumn", () => {
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={votingStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -190,7 +185,6 @@ describe("CategoryColumn", () => {
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={ideaGenerationStage}
-          userVoteCounter={{}}
         />
       )
       expect(wrapper.find(Idea)).to.have.length(2)
@@ -214,7 +208,6 @@ describe("CategoryColumn", () => {
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={ideaGenerationStage}
-          userVoteCounter={{}}
         />
       )
 

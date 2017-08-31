@@ -12,7 +12,7 @@ const timeElapsedLessThanFiveSec = ideaCreationTimestamp => {
 }
 
 const IdeaControls = props => {
-  const { idea, retroChannel, currentUser, stage, userVoteCounter } = props
+  const { idea, retroChannel, currentUser, stage } = props
   const { id, user_id: userId, isHighlighted = false, category } = idea
   const highlightClasses = classNames({
     [styles.actionIcon]: true,
@@ -21,7 +21,7 @@ const IdeaControls = props => {
     ban: isHighlighted,
   })
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
-  const cannotVote = userVoteCounter[currentUser.id] >= 5
+  const cannotVote = currentUser.vote_count >= 5
 
   function renderIcons() {
     if (stage !== "idea-generation" && category !== "action-item") {

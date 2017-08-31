@@ -22,7 +22,6 @@ describe("<IdeaControls />", () => {
           retroChannel={retroChannel}
           currentUser={mockUser}
           stage={ideaGenerationStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -43,7 +42,6 @@ describe("<IdeaControls />", () => {
           retroChannel={retroChannel}
           currentUser={mockUser}
           stage={ideaGenerationStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -64,7 +62,6 @@ describe("<IdeaControls />", () => {
           retroChannel={retroChannel}
           currentUser={mockUser}
           stage={ideaGenerationStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -86,7 +83,6 @@ describe("<IdeaControls />", () => {
           retroChannel={retroChannel}
           currentUser={mockUser}
           stage={ideaGenerationStage}
-          userVoteCounter={{}}
         />
       )
 
@@ -108,7 +104,6 @@ describe("<IdeaControls />", () => {
             retroChannel={retroChannel}
             currentUser={mockUser}
             stage={ideaGenerationStage}
-            userVoteCounter={{}}
           />
         )
 
@@ -131,7 +126,6 @@ describe("<IdeaControls />", () => {
               retroChannel={retroChannel}
               currentUser={currentUser}
               stage={ideaGenerationStage}
-              userVoteCounter={{}}
             />
           )
 
@@ -161,7 +155,6 @@ describe("<IdeaControls />", () => {
                 retroChannel={retroChannel}
                 currentUser={currentUser}
                 stage={ideaGenerationStage}
-                userVoteCounter={{}}
               />
             )
 
@@ -182,7 +175,6 @@ describe("<IdeaControls />", () => {
                 retroChannel={retroChannel}
                 currentUser={currentUser}
                 stage={ideaGenerationStage}
-                userVoteCounter={{}}
               />
             )
 
@@ -206,7 +198,6 @@ describe("<IdeaControls />", () => {
               retroChannel={retroChannel}
               currentUser={currentUser}
               stage={votingStage}
-              userVoteCounter={{}}
             />
           )
 
@@ -226,7 +217,6 @@ describe("<IdeaControls />", () => {
               retroChannel={retroChannel}
               currentUser={currentUser}
               stage={votingStage}
-              userVoteCounter={{}}
             />
           )
 
@@ -246,7 +236,6 @@ describe("<IdeaControls />", () => {
             retroChannel={retroChannel}
             currentUser={currentUser}
             stage={ideaGenerationStage}
-            userVoteCounter={{}}
           />
          )
 
@@ -265,7 +254,6 @@ describe("<IdeaControls />", () => {
             retroChannel={retroChannel}
             currentUser={currentUser}
             stage={actionItemsStage}
-            userVoteCounter={{}}
           />
          )
 
@@ -276,7 +264,7 @@ describe("<IdeaControls />", () => {
     context("when the currentUser has voted 5 times", () => {
       it("renders a disabled VoteCounter for the currentUser", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
-        const currentUser = { id: 1, is_facilitator: false }
+        const currentUser = { id: 1, is_facilitator: false, vote_count: 5 }
 
         const wrapper = shallow(
           <IdeaControls
@@ -284,11 +272,28 @@ describe("<IdeaControls />", () => {
             retroChannel={retroChannel}
             currentUser={currentUser}
             stage={actionItemsStage}
-            userVoteCounter={{ 1: 5 }}
           />
          )
 
         expect(wrapper.find(VoteCounter).prop("buttonDisabled")).to.be.true
+      })
+    })
+
+    context("when the currentUser has voted under 5 times", () => {
+      it("renders an enabled VoteCounter for the currentUser", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+        const currentUser = { id: 1, is_facilitator: false, vote_count: 4 }
+
+        const wrapper = shallow(
+          <IdeaControls
+            idea={idea}
+            retroChannel={retroChannel}
+            currentUser={currentUser}
+            stage={votingStage}
+          />
+        )
+
+        expect(wrapper.find(VoteCounter).prop("buttonDisabled")).to.be.false
       })
     })
   })

@@ -8,7 +8,7 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
 
 const Idea = props => {
-  const { idea, currentUser, retroChannel, stage, userVoteCounter } = props
+  const { idea, currentUser, retroChannel, stage } = props
   const isFacilitator = currentUser.is_facilitator
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 1000
   const classes = classNames({
@@ -23,7 +23,6 @@ const Idea = props => {
       retroChannel={retroChannel}
       currentUser={currentUser}
       stage={stage}
-      userVoteCounter={userVoteCounter}
     />
   )
 
@@ -80,7 +79,6 @@ Idea.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.user.isRequired,
   stage: PropTypes.string.isRequired,
-  userVoteCounter: PropTypes.object.isRequired,
 }
 
 export default Idea
