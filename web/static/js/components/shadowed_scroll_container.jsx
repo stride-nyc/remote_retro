@@ -1,22 +1,24 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import styles from "./css_modules/shadowed_scroll_container.css"
 
-const ShadowedScrollContainer = (props) => (
-  <div className="overlay">
+const ShadowedScrollContainer = props => (
+  <div className={styles.overlay}>
     <div className="shadowContainer">
-      <div className="radialShadowTop"></div>
-      <div className="radialShadowBottom"></div>
+      <div className="radialShadowTop" />
+      <div className="radialShadowBottom" />
     </div>
     <div className="content" style={{ maxHeight: props.contentMaxHeight }}>
-      <div className="shadowCoverTop"></div>
-        {props.children}
-      <div className="shadowCoverBottom"></div>
+      <div className="shadowCoverTop" />
+      {props.children}
+      <div className="shadowCoverBottom" />
     </div>
   </div>
 )
 
 ShadowedScrollContainer.propTypes = {
   contentMaxHeight: PropTypes.string.isRequired,
+  children: PropTypes.any.isRequired,
 }
 
 export default ShadowedScrollContainer

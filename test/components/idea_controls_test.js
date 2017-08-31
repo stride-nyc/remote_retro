@@ -260,5 +260,41 @@ describe("<IdeaControls />", () => {
         expect(wrapper.find(VoteCounter).prop("buttonDisabled")).to.be.true
       })
     })
+
+    context("when the currentUser has voted 5 times", () => {
+      it("renders a disabled VoteCounter for the currentUser", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+        const currentUser = { id: 1, is_facilitator: false, vote_count: 5 }
+
+        const wrapper = shallow(
+          <IdeaControls
+            idea={idea}
+            retroChannel={retroChannel}
+            currentUser={currentUser}
+            stage={actionItemsStage}
+          />
+         )
+
+        expect(wrapper.find(VoteCounter).prop("buttonDisabled")).to.be.true
+      })
+    })
+
+    context("when the currentUser has voted under 5 times", () => {
+      it("renders an enabled VoteCounter for the currentUser", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+        const currentUser = { id: 1, is_facilitator: false, vote_count: 4 }
+
+        const wrapper = shallow(
+          <IdeaControls
+            idea={idea}
+            retroChannel={retroChannel}
+            currentUser={currentUser}
+            stage={votingStage}
+          />
+        )
+
+        expect(wrapper.find(VoteCounter).prop("buttonDisabled")).to.be.false
+      })
+    })
   })
 })

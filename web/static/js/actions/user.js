@@ -3,9 +3,15 @@ export const setUsers = users => ({
   users,
 })
 
-export const updateUser = (userToken, newAttributes) => ({
-  type: "UPDATE_USER",
+export const updatePresence = (userToken, newAttributes) => ({
+  type: "UPDATE_PRESENCE",
   userToken,
+  newAttributes,
+})
+
+export const updateUser = (userId, newAttributes) => ({
+  type: "UPDATE_USER",
+  userId,
   newAttributes,
 })
 

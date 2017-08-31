@@ -116,16 +116,29 @@ describe("user reducer", () => {
     })
   })
 
-  describe("When action is UPDATE_USER", () => {
+  describe("When action is UPDATE_PRESENCE", () => {
     const userToken = "abc123"
     const newAttributes = { age: 70 }
-    const action = { type: "UPDATE_USER", userToken, newAttributes }
+    const action = { type: "UPDATE_PRESENCE", userToken, newAttributes }
     const initialState = [{ token: "abc123", name: "Tiny Rick", age: 180 }, { token: "zzz444", name: "Morty", age: 15 }]
     deepFreeze(initialState)
     const newState = usersReducer(initialState, action)
 
     it("should update user with matching token with new attributes", () => {
       expect(newState).to.deep.equal([{ token: "abc123", name: "Tiny Rick", age: 70 }, { token: "zzz444", name: "Morty", age: 15 }])
+    })
+  })
+
+  describe("When action is UPDATE_USER", () => {
+    const userId = 5
+    const newAttributes = { vote_count: 4 }
+    const action = { type: "UPDATE_USER", userId, newAttributes }
+    const initialState = [{ id: 5, name: "Bob", vote_count: 3 }, { id: 7, name: "Lacy", vote_count: 2 }]
+    deepFreeze(initialState)
+    const newState = usersReducer(initialState, action)
+
+    it("should update user with matching id with new attributes", () => {
+      expect(newState).to.deep.equal([{ id: 5, name: "Bob", vote_count: 4 }, { id: 7, name: "Lacy", vote_count: 2 }])
     })
   })
 })

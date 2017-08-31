@@ -27,9 +27,13 @@ const users = (state = [], action) => {
       const withDeparturesRemoved = removeDepartures(withArrivalsAdded, leaves)
       return assignFacilitatorToLongestTenured(withDeparturesRemoved)
     }
-    case "UPDATE_USER": {
+    case "UPDATE_PRESENCE": {
       const { userToken, newAttributes } = action
       return state.map(user => (user.token === userToken ? { ...user, ...newAttributes } : user))
+    }
+    case "UPDATE_USER": {
+      const { userId, newAttributes } = action
+      return state.map(user => (user.id === userId ? { ...user, ...newAttributes } : user))
     }
     default:
       return state

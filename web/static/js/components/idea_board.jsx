@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 
 import CategoryColumn from "./category_column"
 
@@ -30,7 +31,7 @@ IdeaBoard.propTypes = {
   currentUser: AppPropTypes.user,
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  stage: React.PropTypes.string.isRequired,
+  stage: PropTypes.string.isRequired,
   users: AppPropTypes.users.isRequired,
 }
 

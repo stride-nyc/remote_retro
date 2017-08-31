@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import Modal from "react-modal"
 import * as AppPropTypes from "../prop_types"
 
@@ -81,8 +82,8 @@ class StageProgressionButton extends Component {
 
 StageProgressionButton.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  config: React.PropTypes.object,
-  buttonDisabled: React.PropTypes.bool,
+  config: PropTypes.object,
+  buttonDisabled: PropTypes.bool,
 }
 
 StageProgressionButton.defaultProps = {

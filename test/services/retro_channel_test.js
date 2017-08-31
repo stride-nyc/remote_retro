@@ -45,24 +45,27 @@ describe("RetroChannel", () => {
         let addIdeaSpy
         let deleteIdeaSpy
         let updateIdeaSpy
-        let updateUserSpy
+        let updatePresenceSpy
         let updateStageSpy
+        let updateUserSpy
         let clock
 
         beforeEach(() => {
           addIdeaSpy = spy()
           deleteIdeaSpy = spy()
           updateIdeaSpy = spy()
-          updateUserSpy = spy()
+          updatePresenceSpy = spy()
           updateStageSpy = spy()
+          updateUserSpy = spy()
           clock = useFakeTimers(Date.now())
 
           actions = {
             addIdea: addIdeaSpy,
             deleteIdea: deleteIdeaSpy,
             updateIdea: updateIdeaSpy,
-            updateUser: updateUserSpy,
+            updatePresence: updatePresenceSpy,
             updateStage: updateStageSpy,
+            updateUser: updateUserSpy,
           }
 
           retroChannel = RetroChannel.configure({ actions })
@@ -122,7 +125,7 @@ describe("RetroChannel", () => {
             retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
 
             expect(
-              updateUserSpy.calledWith("s0meUserToken", { is_typing: true, last_typed: clock.now })
+              updatePresenceSpy.calledWith("s0meUserToken", { is_typing: true, last_typed: clock.now })
             ).to.equal(true)
           })
 
@@ -132,7 +135,7 @@ describe("RetroChannel", () => {
               clock.tick(900)
 
               expect(
-                updateUserSpy.calledWith("abc", { is_typing: false })
+                updatePresenceSpy.calledWith("abc", { is_typing: false })
               ).to.equal(true)
             })
 
@@ -144,7 +147,7 @@ describe("RetroChannel", () => {
               retroChannel.trigger("user_typing_idea", { userToken: "abc" })
               clock.tick(500)
               expect(
-                updateUserSpy.calledWith("abc", { is_typing: false })
+                updatePresenceSpy.calledWith("abc", { is_typing: false })
               ).to.equal(false)
             })
           })
@@ -181,11 +184,22 @@ describe("RetroChannel", () => {
 
         describe("on `vote_submitted`", () => {
           beforeEach(() => {
-            retroChannel.trigger("vote_submitted", { id: 2, vote_count: 3 })
+            retroChannel.trigger("vote_submitted",
+              {
+                idea: { id: 2, vote_count: 3 },
+                participation: { user_id: 1, vote_count: 3 },
+              }
+            )
           })
 
           it("invokes updateIdea action, passing idea id & vote count", () => {
             expect(updateIdeaSpy.calledWith(2, {
+              vote_count: 3,
+            })).to.eql(true)
+          })
+
+          it("invokes updateUser action, passing user id & vote count", () => {
+            expect(updateUserSpy.calledWith(1, {
               vote_count: 3,
             })).to.eql(true)
           })

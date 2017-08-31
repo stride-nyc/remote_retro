@@ -1,4 +1,5 @@
-import React, { PropTypes } from "react"
+import React from "react"
+import PropTypes from "prop-types"
 import classNames from "classnames"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
@@ -20,6 +21,7 @@ const IdeaControls = props => {
     ban: isHighlighted,
   })
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
+  const cannotVote = currentUser.vote_count >= 5
 
   function renderIcons() {
     if (stage !== "idea-generation" && category !== "action-item") {
@@ -27,7 +29,7 @@ const IdeaControls = props => {
         <VoteCounter
           retroChannel={retroChannel}
           idea={idea}
-          buttonDisabled={stage !== "voting"}
+          buttonDisabled={stage !== "voting" || cannotVote}
           currentUser={currentUser}
         />
       )

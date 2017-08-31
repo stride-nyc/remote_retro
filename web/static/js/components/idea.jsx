@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import classNames from "classnames"
 
 import IdeaControls from "./idea_controls"
@@ -77,7 +78,7 @@ Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.user.isRequired,
-  stage: React.PropTypes.string.isRequired,
+  stage: PropTypes.string.isRequired,
 }
 
 export default Idea

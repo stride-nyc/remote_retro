@@ -47,8 +47,9 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
     actions.deleteIdea(deletedIdea.id)
   })
 
-  retroChannel.on("vote_submitted", votedOnIdea => {
-    actions.updateIdea(votedOnIdea.id, { vote_count: votedOnIdea.vote_count })
+  retroChannel.on("vote_submitted", data => {
+    actions.updateIdea(data.idea.id, { vote_count: data.idea.vote_count })
+    actions.updateUser(data.participation.user_id, { vote_count: data.participation.vote_count })
   })
 
   retroChannel.on("idea_highlighted", highlightedIdea => {
@@ -56,9 +57,9 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
   })
 
   retroChannel.on("user_typing_idea", ({ userToken }) => {
-    actions.updateUser(userToken, { is_typing: true, last_typed: Date.now() })
+    actions.updatePresence(userToken, { is_typing: true, last_typed: Date.now() })
     UserActivity.checkIfDoneTyping(store, userToken, () => {
-      actions.updateUser(userToken, { is_typing: false })
+      actions.updatePresence(userToken, { is_typing: false })
     })
   })
 
