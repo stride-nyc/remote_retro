@@ -45,7 +45,7 @@ describe("RetroChannel", () => {
         let addIdeaSpy
         let deleteIdeaSpy
         let updateIdeaSpy
-        let updateUserSpy
+        let updatePresenceSpy
         let updateStageSpy
         let updateVoteCounterSpy
         let clock
@@ -54,7 +54,7 @@ describe("RetroChannel", () => {
           addIdeaSpy = spy()
           deleteIdeaSpy = spy()
           updateIdeaSpy = spy()
-          updateUserSpy = spy()
+          updatePresenceSpy = spy()
           updateStageSpy = spy()
           updateVoteCounterSpy = spy()
           clock = useFakeTimers(Date.now())
@@ -63,7 +63,7 @@ describe("RetroChannel", () => {
             addIdea: addIdeaSpy,
             deleteIdea: deleteIdeaSpy,
             updateIdea: updateIdeaSpy,
-            updateUser: updateUserSpy,
+            updatePresence: updatePresenceSpy,
             updateStage: updateStageSpy,
             updateVoteCounter: updateVoteCounterSpy,
           }
@@ -125,7 +125,7 @@ describe("RetroChannel", () => {
             retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
 
             expect(
-              updateUserSpy.calledWith("s0meUserToken", { is_typing: true, last_typed: clock.now })
+              updatePresenceSpy.calledWith("s0meUserToken", { is_typing: true, last_typed: clock.now })
             ).to.equal(true)
           })
 
@@ -135,7 +135,7 @@ describe("RetroChannel", () => {
               clock.tick(900)
 
               expect(
-                updateUserSpy.calledWith("abc", { is_typing: false })
+                updatePresenceSpy.calledWith("abc", { is_typing: false })
               ).to.equal(true)
             })
 
@@ -147,7 +147,7 @@ describe("RetroChannel", () => {
               retroChannel.trigger("user_typing_idea", { userToken: "abc" })
               clock.tick(500)
               expect(
-                updateUserSpy.calledWith("abc", { is_typing: false })
+                updatePresenceSpy.calledWith("abc", { is_typing: false })
               ).to.equal(false)
             })
           })

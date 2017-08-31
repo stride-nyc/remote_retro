@@ -57,9 +57,9 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
   })
 
   retroChannel.on("user_typing_idea", ({ userToken }) => {
-    actions.updateUser(userToken, { is_typing: true, last_typed: Date.now() })
+    actions.updatePresence(userToken, { is_typing: true, last_typed: Date.now() })
     UserActivity.checkIfDoneTyping(store, userToken, () => {
-      actions.updateUser(userToken, { is_typing: false })
+      actions.updatePresence(userToken, { is_typing: false })
     })
   })
 

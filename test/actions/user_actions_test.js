@@ -8,12 +8,12 @@ describe("setUsers", () => {
   })
 })
 
-describe("updateUser", () => {
+describe("updatePresence", () => {
   const userToken = "abcde12345"
   const newAttributes = { age: 170 }
 
   it("should create an action to update a given user's attributes in users", () => {
-    expect(actionCreators.updateUser(userToken, newAttributes)).to.deep.equal({ type: "UPDATE_USER", userToken, newAttributes })
+    expect(actionCreators.updatePresence(userToken, newAttributes)).to.deep.equal({ type: "UPDATE_PRESENCE", userToken, newAttributes })
   })
 })
 

@@ -116,10 +116,10 @@ describe("user reducer", () => {
     })
   })
 
-  describe("When action is UPDATE_USER", () => {
+  describe("When action is UPDATE_PRESENCE", () => {
     const userToken = "abc123"
     const newAttributes = { age: 70 }
-    const action = { type: "UPDATE_USER", userToken, newAttributes }
+    const action = { type: "UPDATE_PRESENCE", userToken, newAttributes }
     const initialState = [{ token: "abc123", name: "Tiny Rick", age: 180 }, { token: "zzz444", name: "Morty", age: 15 }]
     deepFreeze(initialState)
     const newState = usersReducer(initialState, action)
