@@ -17,6 +17,15 @@ describe("updatePresence", () => {
   })
 })
 
+describe("updateUser", () => {
+  const userId = 7
+  const newAttributes = { voteCount: 2 }
+
+  it("should create an action to update a given user's attributes in users", () => {
+    expect(actionCreators.updateUser(userId, newAttributes)).to.deep.equal({ type: "UPDATE_USER", userId, newAttributes })
+  })
+})
+
 describe("syncPresenceDiff", () => {
   const presenceDiff = {
     joins: {

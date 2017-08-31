@@ -31,6 +31,10 @@ const users = (state = [], action) => {
       const { userToken, newAttributes } = action
       return state.map(user => (user.token === userToken ? { ...user, ...newAttributes } : user))
     }
+    case "UPDATE_USER": {
+      const { userId, newAttributes } = action
+      return state.map(user => (user.id === userId ? { ...user, ...newAttributes } : user))
+    }
     default:
       return state
   }
