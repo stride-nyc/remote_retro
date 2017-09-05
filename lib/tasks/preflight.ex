@@ -25,7 +25,7 @@ defmodule Mix.Tasks.Preflight do
   end
 
   defp check_hex_version do
-    required_version_num = ~r/0\.16\.\d+/
+    required_version_num = ~r/0\.17\.\d+/
 
     {hex_version_output, _} = System.cmd("mix", ["hex", "--version"])
     if !Regex.match?(required_version_num, hex_version_output) do
