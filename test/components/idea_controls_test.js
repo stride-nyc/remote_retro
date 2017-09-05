@@ -4,6 +4,7 @@ import sinon from "sinon"
 
 import IdeaControls from "../../web/static/js/components/idea_controls"
 import VoteCounter from "../../web/static/js/components/vote_counter"
+import voteMax from "../../web/static/js/configs/retro_configs"
 
 describe("<IdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
@@ -264,7 +265,7 @@ describe("<IdeaControls />", () => {
     context("when the currentUser has voted 5 times", () => {
       it("renders a disabled VoteCounter for the currentUser", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
-        const currentUser = { id: 1, is_facilitator: false, vote_count: 5 }
+        const currentUser = { id: 1, is_facilitator: false, vote_count: voteMax }
 
         const wrapper = shallow(
           <IdeaControls

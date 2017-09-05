@@ -6,6 +6,8 @@ import IdeaGenerationLowerThird from "../../web/static/js/components/idea_genera
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"
 
+import voteMax from "../../web/static/js/configs/retro_configs"
+
 describe("IdeaGenerationLowerThird component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
   const stubUser = { given_name: "Mugatu" }
@@ -156,7 +158,7 @@ describe("IdeaGenerationLowerThird component", () => {
     it("renders the Votes Left for the currentUser", () => {
       const userWithFiveVotes = {
         is_facilitator: false,
-        vote_count: 5,
+        vote_count: voteMax,
       }
       const lowerThird = shallow(
         <IdeaGenerationLowerThird
@@ -174,7 +176,7 @@ describe("IdeaGenerationLowerThird component", () => {
     it("renders singular Vote if the user has one vote left", () => {
       const userWithFourVotes = {
         is_facilitator: false,
-        vote_count: 4,
+        vote_count: voteMax - 1,
       }
       const lowerThird = shallow(
         <IdeaGenerationLowerThird
