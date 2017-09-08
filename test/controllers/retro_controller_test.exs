@@ -16,9 +16,7 @@ defmodule RemoteRetro.RetroControllerTest do
       mock_google_info = Application.get_env(:remote_retro, :mock_user)
       user = Repo.get_by(User, email: mock_google_info["email"])
 
-      conn = post conn, "/retros"
-      location = get_resp_header(conn, "location")
-      get conn, "#{location}"
+      create_retro_and_follow_redirect(conn)
 
       participation = Repo.get_by(Participation, user_id: user.id)
 
@@ -29,10 +27,7 @@ defmodule RemoteRetro.RetroControllerTest do
       mock_google_info = Application.get_env(:remote_retro, :mock_user)
       user = Repo.get_by(User, email: mock_google_info["email"])
 
-      conn = post conn, "/retros"
-      location = get_resp_header(conn, "location")
-      conn = get conn, "#{location}"
-      get conn, "#{location}"
+      conn = create_retro_and_follow_redirect(conn)
 
       retro_id = conn.params["id"]
 
@@ -43,9 +38,7 @@ defmodule RemoteRetro.RetroControllerTest do
     end
 
     test "ensure that the tokenized user added to assigns is given a vote count", %{conn: conn} do
-      conn = post conn, "/retros"
-      location = get_resp_header(conn, "location")
-      conn = get conn, "#{location}"
+      conn = create_retro_and_follow_redirect(conn)
       %{user_token: user_token} = conn.assigns
 
       {:ok, tokenized_user} = Token.verify(conn, "user", user_token)
@@ -65,5 +58,11 @@ defmodule RemoteRetro.RetroControllerTest do
 
       assert session["requested_endpoint"] == "/retros/d83838383ndnd9d9d"
     end
+  end
+
+  defp create_retro_and_follow_redirect(conn) do
+    conn = post conn, "/retros"
+    location = get_resp_header(conn, "location")
+    get conn, "#{location}"
   end
 end
