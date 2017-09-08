@@ -3,15 +3,12 @@
     content: "" !important;
   }
 
-  :global(.ui.row) {
-    --verticalPadding: 0.75rem;
-    padding-top: var(--verticalPadding);
-    padding-bottom: var(--verticalPadding);
-  }
-
   .picture {
+    --sidePadding: 0.5rem;
     display: inline-block;
-    height: 5.35rem;
+    height: calc(var(--sidePadding) * 8);
+    padding-left: var(--sidePadding) !important;
+    padding-right: var(--sidePadding) !important;
     border-radius: 50%;
   }
 
