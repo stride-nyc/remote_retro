@@ -1,12 +1,12 @@
 .overlay {
-  --shadowCoverColor: white;
-  --shadowHeight: 0.2rem;
+  --shadow-cover-color: white;
+  --shadow-height: 0.2rem;
 
   position: relative;
   width: auto;
 
   :global(.content) {
-    background-color: var(--shadowCoverColor);
+    background-color: var(--shadow-cover-color);
     overflow: scroll;
   }
 
@@ -21,11 +21,11 @@
   :global(.radialShadowBottom),
   :global(.shadowCoverTop),
   :global(.shadowCoverBottom) {
-    height: var(--shadowHeight);
+    height: var(--shadow-height);
     width: inherit;
 
     background-repeat: no-repeat;
-    background-size: 100% var(--shadowHeight);
+    background-size: 100% var(--shadow-height);
   }
 
   :global(.radialShadowTop), :global(.radialShadowBottom) {
@@ -48,14 +48,14 @@
   }
 
   :global(.shadowCoverTop) {
-    background: linear-gradient(var(--shadowCoverColor) 30%, var(--shadowCoverColor)) 100% 0;
+    background: linear-gradient(var(--shadow-cover-color) 30%, var(--shadow-cover-color)) 100% 0;
     + ul, + ol, + div, + section {
       position: relative;
-      top: calc(-0.5 * var(--shadowHeight));
+      top: calc(-0.5 * var(--shadow-height));
     }
   }
 
   :global(.shadowCoverBottom) {
-    background: linear-gradient(var(--shadowCoverColor), var(--shadowCoverColor) 70%) 0 100%;
+    background: linear-gradient(var(--shadow-cover-color), var(--shadow-cover-color) 70%) 0 100%;
   }
 }
