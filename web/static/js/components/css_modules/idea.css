@@ -13,6 +13,7 @@ li {
 }
 
 .highlighted {
+  --highlight-blue: #CCE2FE;
   background-color: var(--highlight-blue);
   border-bottom: 1px solid var(--highlight-blue);
   z-index: 2;
