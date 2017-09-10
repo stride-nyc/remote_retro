@@ -1,11 +1,4 @@
-:root {
-  --semantic-light-grey: #DCDDDE;
-  --semantic-teal: #00B5AD;
-
-  --magenta: #FD1884;
-  --lightest-grey: #F2F2F2;
-  --dark-grey: #8C8C8C;
-}
+@import './colors.css';
 
 :global .photo-backdrop {
   background-image: url(/images/good_hearted_boyman_takes_part_in_remote_retro.jpg);

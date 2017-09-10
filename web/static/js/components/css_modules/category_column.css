@@ -1,3 +1,5 @@
+@import '../../../css/colors.css';
+
 :global(section.column).index {
   --inner-column-padding: 0.75rem;
   &:first-of-type { padding-right: var(--inner-column-padding) !important; }
