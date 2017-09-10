@@ -10,41 +10,35 @@
 }
 
 .disappearing-icon {
-  -moz-animation: disappearing 0s ease-in 5s forwards;
-  -webkit-animation: disappearing 0s ease-in 5s forwards;
-  -o-animation: disappearing 0s ease-in 5s forwards;
   animation: disappearing 0s ease-in 5s forwards;
-  -moz-animation-fill-mode: forwards;
-  -webkit-animation-fill-mode: forwards;
-  -o-animation-fill-mode: forwards;
   animation-fill-mode: forwards;
 }
 
 @keyframes disappearing {
-    to {
-        width:0;
-        height:0;
-        overflow:hidden;
-    }
+  to {
+    width:0;
+    height:0;
+    overflow:hidden;
+  }
 }
 @-webkit-keyframes disappearing {
-    to {
-        width:0;
-        height:0;
-        visibility:hidden;
-    }
+  to {
+    width:0;
+    height:0;
+    visibility:hidden;
+  }
 }
 @-o-keyframes disappearing {
-    to {
-        width:0;
-        height:0;
-        visibility:hidden;
-    }
+  to {
+    width:0;
+    height:0;
+    visibility:hidden;
+  }
 }
 @-moz-keyframes disappearing {
-    to {
-        width:0;
-        height:0;
-        visibility:hidden;
-    }
+  to {
+    width:0;
+    height:0;
+    visibility:hidden;
+  }
 }
