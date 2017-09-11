@@ -64,5 +64,16 @@ sup {
       padding-right: 0.2rem;
       padding-top: 0.15rem;
     }
+
+    :global(.ui.tiny.image) {
+      /* necessary for IE 10 & 11, as height: auto applies no restriction to height of svgs,
+       * and height: 100% only applies if the element's container has an explicit height
+       */
+      height: 1.5rem;
+
+      img {
+        height: 100%;
+      }
+    }
   }
 }
