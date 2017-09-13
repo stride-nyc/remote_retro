@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow } from "enzyme"
+import { shallow, mount } from "enzyme"
 import { spy } from "sinon"
 
 import IdeaGenerationLowerThird from "../../web/static/js/components/idea_generation_lower_third"
@@ -143,16 +143,14 @@ describe("IdeaGenerationLowerThird component", () => {
     })
 
     it("renders 5 Votes Left for a user that hasn't voted yet", () => {
-      const lowerThird = shallow(
+      const lowerThird = mount(
         <IdeaGenerationLowerThird
           {...defaultProps}
           stage={votingStage}
         />
       )
 
-      const votesLeft = lowerThird.find(".thirteen")
-
-      expect(votesLeft.text()).to.equal("5 Votes Left")
+      expect(lowerThird.text()).to.match(/5.*Votes Left/)
     })
 
     it("renders the Votes Left for the currentUser", () => {
@@ -160,7 +158,7 @@ describe("IdeaGenerationLowerThird component", () => {
         is_facilitator: false,
         vote_count: voteMax,
       }
-      const lowerThird = shallow(
+      const lowerThird = mount(
         <IdeaGenerationLowerThird
           {...defaultProps}
           stage={votingStage}
@@ -168,9 +166,7 @@ describe("IdeaGenerationLowerThird component", () => {
         />
       )
 
-      const votesLeft = lowerThird.find(".thirteen")
-
-      expect(votesLeft.text()).to.equal("0 Votes Left")
+      expect(lowerThird.text()).to.match(/0.*Votes Left/)
     })
 
     it("renders singular Vote if the user has one vote left", () => {
@@ -178,7 +174,7 @@ describe("IdeaGenerationLowerThird component", () => {
         is_facilitator: false,
         vote_count: voteMax - 1,
       }
-      const lowerThird = shallow(
+      const lowerThird = mount(
         <IdeaGenerationLowerThird
           {...defaultProps}
           stage={votingStage}
@@ -186,9 +182,7 @@ describe("IdeaGenerationLowerThird component", () => {
         />
       )
 
-      const votesLeft = lowerThird.find(".thirteen")
-
-      expect(votesLeft.text()).to.equal("1 Vote Left")
+      expect(lowerThird.text()).to.match(/1.*Vote Left/)
     })
   })
 })

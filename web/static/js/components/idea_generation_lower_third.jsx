@@ -28,21 +28,25 @@ const IdeaGenerationLowerThird = props => {
       const votesLeft = userVoteCount ? voteMax - userVoteCount : voteMax
       const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"
       return (
-        <div>
-          {votesLeft} <br />
-          {votesText}
+        <div className="sixteen wide column">
+          <h2 className="ui header">
+            {votesLeft}
+            <div className="sub header">{votesText}</div>
+          </h2>
         </div>
       )
     }
 
-    return <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
+    return (
+      <div className="thirteen wide column">
+        <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
+      </div>
+    )
   }
 
   return (
     <LowerThirdWrapper displayContents={stage !== "closed"}>
-      <div className="thirteen wide column">
-        {renderFormOrVoteCounter()}
-      </div>
+      {renderFormOrVoteCounter()}
       <div className="three wide right aligned column">
         { isFacilitator &&
           <StageProgressionButton
