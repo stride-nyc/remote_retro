@@ -4,10 +4,14 @@ import { spy } from "sinon"
 
 import IdeaGenerationLowerThird from "../../web/static/js/components/idea_generation_lower_third"
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
+import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"
+
+import { voteMax } from "../../web/static/js/configs/retro_configs"
 
 describe("IdeaGenerationLowerThird component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
   const stubUser = { given_name: "Mugatu" }
+  const votingStage = "voting"
   const defaultProps = {
     currentUser: stubUser,
     retroChannel: mockRetroChannel,
@@ -123,6 +127,68 @@ describe("IdeaGenerationLowerThird component", () => {
       )
 
       expect(lowerThird.props().displayContents).to.eql(true)
+    })
+  })
+
+  context("when the stage is voting", () => {
+    it("does not render IdeaSubmissionForm", () => {
+      const lowerThird = shallow(
+        <IdeaGenerationLowerThird
+          {...defaultProps}
+          stage={votingStage}
+        />
+      )
+
+      expect(lowerThird.find(IdeaSubmissionForm)).to.have.length(0)
+    })
+
+    it("renders 5 Votes Left for a user that hasn't voted yet", () => {
+      const lowerThird = shallow(
+        <IdeaGenerationLowerThird
+          {...defaultProps}
+          stage={votingStage}
+        />
+      )
+
+      const votesLeft = lowerThird.find(".thirteen")
+
+      expect(votesLeft.text()).to.equal("5 Votes Left")
+    })
+
+    it("renders the Votes Left for the currentUser", () => {
+      const userWithFiveVotes = {
+        is_facilitator: false,
+        vote_count: voteMax,
+      }
+      const lowerThird = shallow(
+        <IdeaGenerationLowerThird
+          {...defaultProps}
+          stage={votingStage}
+          currentUser={userWithFiveVotes}
+        />
+      )
+
+      const votesLeft = lowerThird.find(".thirteen")
+
+      expect(votesLeft.text()).to.equal("0 Votes Left")
+    })
+
+    it("renders singular Vote if the user has one vote left", () => {
+      const userWithFourVotes = {
+        is_facilitator: false,
+        vote_count: voteMax - 1,
+      }
+      const lowerThird = shallow(
+        <IdeaGenerationLowerThird
+          {...defaultProps}
+          stage={votingStage}
+          currentUser={userWithFourVotes}
+        />
+      )
+
+      const votesLeft = lowerThird.find(".thirteen")
+
+      expect(votesLeft.text()).to.equal("1 Vote Left")
     })
   })
 })

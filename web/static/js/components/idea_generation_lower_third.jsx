@@ -5,6 +5,7 @@ import IdeaSubmissionForm from "./idea_submission_form"
 import LowerThirdWrapper from "./lower_third_wrapper"
 import StageProgressionButton from "./stage_progression_button"
 import stageConfigs from "../configs/stage_configs"
+import { voteMax } from "../configs/retro_configs"
 
 import * as AppPropTypes from "../prop_types"
 
@@ -21,10 +22,26 @@ const IdeaGenerationLowerThird = props => {
     return noIdeasCreated || noActionItemsCreated
   }
 
+  function renderFormOrVoteCounter() {
+    if (stage === "voting") {
+      const userVoteCount = currentUser.vote_count
+      const votesLeft = userVoteCount ? voteMax - userVoteCount : voteMax
+      const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"
+      return (
+        <div>
+          {votesLeft} <br />
+          {votesText}
+        </div>
+      )
+    }
+
+    return <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
+  }
+
   return (
     <LowerThirdWrapper displayContents={stage !== "closed"}>
       <div className="thirteen wide column">
-        <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
+        {renderFormOrVoteCounter()}
       </div>
       <div className="three wide right aligned column">
         { isFacilitator &&
