@@ -1,4 +1,7 @@
 :global(.basic.segment).index {
+  :global(.horizontal.list) {
+    margin-left: 0;
+  }
   margin-top: 0;
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
