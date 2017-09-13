@@ -1,3 +1,4 @@
 web/static/js/polyfills/* linguist-vendored
 web/static/js/vendor.js linguist-vendored
+test/components/* linguist-documentation
 *.eex linguist-language=Elixir
