@@ -4,10 +4,10 @@ import Modal from "react-modal"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 
-Modal.defaultStyles.content['zIndex'] = 2
-Modal.defaultStyles.overlay['zIndex'] = 2
-
 import * as alertActionCreators from "../actions/alert"
+
+Modal.defaultStyles.content.zIndex = 2
+Modal.defaultStyles.overlay.zIndex = 2
 
 export class Alert extends Component {
   render() {

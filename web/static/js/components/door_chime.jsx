@@ -22,7 +22,7 @@ class DoorChime extends Component {
       <audio
         muted
         src={chimeSound}
-        ref={audio => (this.audio = audio)}
+        ref={audio => { this.audio = audio }}
       />
     )
   }
