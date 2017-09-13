@@ -5,7 +5,7 @@ import IdeaSubmissionForm from "./idea_submission_form"
 import LowerThirdWrapper from "./lower_third_wrapper"
 import StageProgressionButton from "./stage_progression_button"
 import stageConfigs from "../configs/stage_configs"
-import voteMax from "../configs/retro_configs"
+import { voteMax } from "../configs/retro_configs"
 
 import * as AppPropTypes from "../prop_types"
 

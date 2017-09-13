@@ -4,7 +4,7 @@ import classNames from "classnames"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
 import VoteCounter from "./vote_counter"
-import voteMax from "../configs/retro_configs"
+import { voteMax } from "../configs/retro_configs"
 
 const timeElapsedLessThanFiveSec = ideaCreationTimestamp => {
   const millisecondsSinceIdeaCreation = new Date(ideaCreationTimestamp)

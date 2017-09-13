@@ -6,7 +6,7 @@ import IdeaGenerationLowerThird from "../../web/static/js/components/idea_genera
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"
 
-import voteMax from "../../web/static/js/configs/retro_configs"
+import { voteMax } from "../../web/static/js/configs/retro_configs"
 
 describe("IdeaGenerationLowerThird component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }

@@ -4,7 +4,7 @@ import sinon from "sinon"
 
 import IdeaControls from "../../web/static/js/components/idea_controls"
 import VoteCounter from "../../web/static/js/components/vote_counter"
-import voteMax from "../../web/static/js/configs/retro_configs"
+import { voteMax } from "../../web/static/js/configs/retro_configs"
 
 describe("<IdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
