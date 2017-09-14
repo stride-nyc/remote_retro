@@ -6,6 +6,8 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const WebpackNotifierPlugin = require("webpack-notifier")
 
+process.noDeprecation = true
+
 module.exports = {
   cache: true,
   entry: [
