@@ -9,7 +9,7 @@ import { voteMax } from "../configs/retro_configs"
 
 import * as AppPropTypes from "../prop_types"
 
-const IdeaGenerationLowerThird = props => {
+const LowerThird = props => {
   const { stage, currentUser, ideas } = props
 
   const isFacilitator = currentUser.is_facilitator
@@ -60,15 +60,15 @@ const IdeaGenerationLowerThird = props => {
   )
 }
 
-IdeaGenerationLowerThird.defaultProps = {
+LowerThird.defaultProps = {
   currentUser: { is_facilitator: false },
 }
 
-IdeaGenerationLowerThird.propTypes = {
+LowerThird.propTypes = {
   currentUser: AppPropTypes.user,
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: PropTypes.string.isRequired,
 }
 
-export default IdeaGenerationLowerThird
+export default LowerThird

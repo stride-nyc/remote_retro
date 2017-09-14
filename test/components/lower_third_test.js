@@ -2,13 +2,13 @@ import React from "react"
 import { shallow, mount } from "enzyme"
 import { spy } from "sinon"
 
-import IdeaGenerationLowerThird from "../../web/static/js/components/idea_generation_lower_third"
+import LowerThird from "../../web/static/js/components/lower_third"
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"
 
 import { voteMax } from "../../web/static/js/configs/retro_configs"
 
-describe("IdeaGenerationLowerThird component", () => {
+describe("LowerThird component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
   const stubUser = { given_name: "Mugatu" }
   const votingStage = "voting"
@@ -26,7 +26,7 @@ describe("IdeaGenerationLowerThird component", () => {
     context("and showActionItems is false", () => {
       it("renders the <StageProgressionButton>", () => {
         const lowerThird = shallow(
-          <IdeaGenerationLowerThird {...defaultProps} currentUser={facilitatorUser} />
+          <LowerThird {...defaultProps} currentUser={facilitatorUser} />
         )
 
         expect(lowerThird.find(StageProgressionButton)).to.have.length(1)
@@ -36,7 +36,7 @@ describe("IdeaGenerationLowerThird component", () => {
     context("and there are no ideas during the idea-generation stage", () => {
       it("renders a disabled <StageProgressionButton>", () => {
         const lowerThird = shallow(
-          <IdeaGenerationLowerThird
+          <LowerThird
             {...defaultProps}
             currentUser={facilitatorUser}
             stage="idea-generation"
@@ -50,7 +50,7 @@ describe("IdeaGenerationLowerThird component", () => {
     context("and there are ideas during the idea-generation stage", () => {
       it("renders an enabled <StageProgressionButton>", () => {
         const lowerThird = shallow(
-          <IdeaGenerationLowerThird
+          <LowerThird
             {...defaultProps}
             currentUser={facilitatorUser}
             stage="idea-generation"
@@ -65,7 +65,7 @@ describe("IdeaGenerationLowerThird component", () => {
     context("and there are no action items during the action-items stage", () => {
       it("renders a disabled <StageProgressionButton>", () => {
         const lowerThird = shallow(
-          <IdeaGenerationLowerThird
+          <LowerThird
             {...defaultProps}
             currentUser={facilitatorUser}
             stage="action-items"
@@ -79,7 +79,7 @@ describe("IdeaGenerationLowerThird component", () => {
     context("and there are action items during the action-items stage", () => {
       it("renders an enabled <StageProgressionButton>", () => {
         const lowerThird = shallow(
-          <IdeaGenerationLowerThird
+          <LowerThird
             {...defaultProps}
             currentUser={facilitatorUser}
             stage="action-items"
@@ -97,7 +97,7 @@ describe("IdeaGenerationLowerThird component", () => {
 
     it("does not render <StageProgressionButton>", () => {
       const lowerThird = shallow(
-        <IdeaGenerationLowerThird {...defaultProps} currentUser={nonFacilitatorUser} />
+        <LowerThird {...defaultProps} currentUser={nonFacilitatorUser} />
       )
 
       expect(lowerThird.find(StageProgressionButton)).to.have.length(0)
@@ -107,7 +107,7 @@ describe("IdeaGenerationLowerThird component", () => {
   context("when the state is closed", () => {
     it("passes `displayContents: false` to the lower third wrapper", () => {
       const lowerThird = shallow(
-        <IdeaGenerationLowerThird
+        <LowerThird
           {...defaultProps}
           stage="closed"
         />
@@ -120,7 +120,7 @@ describe("IdeaGenerationLowerThird component", () => {
   context("when the state isn't closed", () => {
     it("passes `displayContents: true` to the lower third wrapper", () => {
       const lowerThird = shallow(
-        <IdeaGenerationLowerThird
+        <LowerThird
           {...defaultProps}
           stage="idea-generation"
         />
@@ -133,7 +133,7 @@ describe("IdeaGenerationLowerThird component", () => {
   context("when the stage is voting", () => {
     it("does not render IdeaSubmissionForm", () => {
       const lowerThird = shallow(
-        <IdeaGenerationLowerThird
+        <LowerThird
           {...defaultProps}
           stage={votingStage}
         />
@@ -144,7 +144,7 @@ describe("IdeaGenerationLowerThird component", () => {
 
     it("renders 5 Votes Left for a user that hasn't voted yet", () => {
       const lowerThird = mount(
-        <IdeaGenerationLowerThird
+        <LowerThird
           {...defaultProps}
           stage={votingStage}
         />
@@ -159,7 +159,7 @@ describe("IdeaGenerationLowerThird component", () => {
         vote_count: voteMax,
       }
       const lowerThird = mount(
-        <IdeaGenerationLowerThird
+        <LowerThird
           {...defaultProps}
           stage={votingStage}
           currentUser={userWithFiveVotes}
@@ -175,7 +175,7 @@ describe("IdeaGenerationLowerThird component", () => {
         vote_count: voteMax - 1,
       }
       const lowerThird = mount(
-        <IdeaGenerationLowerThird
+        <LowerThird
           {...defaultProps}
           stage={votingStage}
           currentUser={userWithFourVotes}
