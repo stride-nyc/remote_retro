@@ -1,4 +1,6 @@
 .wrapper {
+  /* Override hyper-specific Semantic UI styles */
+  padding-bottom: 0 !important;
   &::before {
     content: "" !important;
   }
