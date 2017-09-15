@@ -1,6 +1,7 @@
 import React from "react"
 
 import { voteMax } from "../configs/retro_configs"
+import styles from "./css_modules/votes_left.css"
 
 import * as AppPropTypes from "../prop_types"
 
@@ -11,7 +12,7 @@ const VotesLeft = props => {
   const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"
 
   return (
-    <div className="sixteen wide column">
+    <div className={`${styles.index} ui row`}>
       <h2 className="ui header">
         {votesLeft}
         <div className="sub header">{votesText}</div>
