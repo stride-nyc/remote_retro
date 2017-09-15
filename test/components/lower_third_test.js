@@ -1,12 +1,11 @@
 import React from "react"
-import { shallow, mount } from "enzyme"
+import { shallow } from "enzyme"
 import { spy } from "sinon"
 
 import LowerThird from "../../web/static/js/components/lower_third"
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"
-
-import { voteMax } from "../../web/static/js/configs/retro_configs"
+import VotesLeft from "../../web/static/js/components/votes_left"
 
 describe("LowerThird component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
@@ -131,7 +130,7 @@ describe("LowerThird component", () => {
   })
 
   context("when the stage is voting", () => {
-    it("does not render IdeaSubmissionForm", () => {
+    it("renders <VotesLeft /> in place of <IdeaSubmissionForm />", () => {
       const lowerThird = shallow(
         <LowerThird
           {...defaultProps}
@@ -139,50 +138,8 @@ describe("LowerThird component", () => {
         />
       )
 
+      expect(lowerThird.find(VotesLeft)).to.have.length(1)
       expect(lowerThird.find(IdeaSubmissionForm)).to.have.length(0)
-    })
-
-    it("renders 5 Votes Left for a user that hasn't voted yet", () => {
-      const lowerThird = mount(
-        <LowerThird
-          {...defaultProps}
-          stage={votingStage}
-        />
-      )
-
-      expect(lowerThird.text()).to.match(/5.*Votes Left/)
-    })
-
-    it("renders the Votes Left for the currentUser", () => {
-      const userWithFiveVotes = {
-        is_facilitator: false,
-        vote_count: voteMax,
-      }
-      const lowerThird = mount(
-        <LowerThird
-          {...defaultProps}
-          stage={votingStage}
-          currentUser={userWithFiveVotes}
-        />
-      )
-
-      expect(lowerThird.text()).to.match(/0.*Votes Left/)
-    })
-
-    it("renders singular Vote if the user has one vote left", () => {
-      const userWithFourVotes = {
-        is_facilitator: false,
-        vote_count: voteMax - 1,
-      }
-      const lowerThird = mount(
-        <LowerThird
-          {...defaultProps}
-          stage={votingStage}
-          currentUser={userWithFourVotes}
-        />
-      )
-
-      expect(lowerThird.text()).to.match(/1.*Vote Left/)
     })
   })
 })

@@ -2,10 +2,10 @@ import React from "react"
 import PropTypes from "prop-types"
 
 import IdeaSubmissionForm from "./idea_submission_form"
+import VotesLeft from "./votes_left"
 import LowerThirdWrapper from "./lower_third_wrapper"
 import StageProgressionButton from "./stage_progression_button"
 import stageConfigs from "../configs/stage_configs"
-import { voteMax } from "../configs/retro_configs"
 
 import * as AppPropTypes from "../prop_types"
 
@@ -24,17 +24,7 @@ const LowerThird = props => {
 
   function renderFormOrVoteCounter() {
     if (stage === "voting") {
-      const userVoteCount = currentUser.vote_count
-      const votesLeft = userVoteCount ? voteMax - userVoteCount : voteMax
-      const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"
-      return (
-        <div className="sixteen wide column">
-          <h2 className="ui header">
-            {votesLeft}
-            <div className="sub header">{votesText}</div>
-          </h2>
-        </div>
-      )
+      return (<VotesLeft currentUser={props.currentUser} />)
     }
 
     return (
