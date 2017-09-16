@@ -1,4 +1,5 @@
 .index i {
+  font-size: 0.45rem;
   margin-right: 0;
   opacity: 0;
   animation: ellipsis-dot 1s infinite;

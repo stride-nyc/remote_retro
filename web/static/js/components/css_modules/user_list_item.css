@@ -5,23 +5,13 @@
 
   .picture {
     --sidePadding: 0.5rem;
-    display: inline-block;
     height: calc(var(--sidePadding) * 8);
     padding-left: var(--sidePadding) !important;
     padding-right: var(--sidePadding) !important;
     border-radius: 50%;
   }
 
-  .name {
-    margin-bottom: 0.5rem;
-  }
-
-  .animated-ellipsis-wrapper {
-    --fontSize: 0.4rem;
-    font-size: var(--fontSize);
-    position: absolute;
-    top: 1.75rem;
-    left: 0;
-    width: 100%;
+  p {
+    margin: 0;
   }
 }

@@ -10,15 +10,9 @@ const UserListItem = ({ user }) => {
   if (user.is_facilitator) givenName += " (Facilitator)"
   return (
     <li className={`item ${styles.wrapper}`}>
-      <div className="ui center aligned grid">
-        <img className={styles.picture} src={imgSrc} alt={givenName} />
-        <div className="ui row">
-          <p className={styles.name}>{ givenName }</p>
-          <p className={`${styles.animatedEllipsisWrapper} ui row`}>
-            { user.is_typing && <AnimatedEllipsis /> }
-          </p>
-        </div>
-      </div>
+      <img className={styles.picture} src={imgSrc} alt={givenName} />
+      <p>{givenName}</p>
+      <AnimatedEllipsis display={user.is_typing} />
     </li>
   )
 }

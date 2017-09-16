@@ -21,7 +21,7 @@ describe("UserListItem", () => {
 
     it("renders a list item that does not label the user a facilitator", () => {
       const wrapper = shallow(<UserListItem user={nonFacilitator} />)
-      expect(wrapper.text()).to.match(/dylan$/i)
+      expect(wrapper.text()).not.to.match(/facilitator/i)
     })
   })
 
