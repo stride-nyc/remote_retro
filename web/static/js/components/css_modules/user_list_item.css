@@ -1,9 +1,7 @@
 .wrapper {
-  /* Override hyper-specific Semantic UI styles */
+  /* Override hyper-specific Semantic UI styles*/
   padding-bottom: 0 !important;
-  &::before {
-    content: "" !important;
-  }
+  &::before { content: "" !important; }
 
   .picture {
     --sidePadding: 0.5rem;
@@ -26,4 +24,3 @@
     width: 100%;
   }
 }
-
