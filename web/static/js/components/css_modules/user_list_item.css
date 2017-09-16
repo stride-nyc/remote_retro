@@ -3,6 +3,12 @@
     content: "" !important;
   }
 
+  :global(.ui.row) {
+    --verticalPadding: 0.75rem;
+    padding-top: var(--verticalPadding);
+    padding-bottom: var(--verticalPadding);
+  }
+
   .picture {
     display: inline-block;
     height: 5.35rem;
@@ -10,13 +16,13 @@
   }
 
   .name {
-    margin-bottom: 0.4rem;
+    margin-bottom: 0.5rem;
   }
 
   .animated-ellipsis-wrapper {
-    font-size: 0.45rem;
+    font-size: 0.43rem;
     position: absolute;
-    top: 2.7rem;
+    top: 1.75rem;
     left: 0;
     width: 100%;
   }
