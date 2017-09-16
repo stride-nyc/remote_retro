@@ -6,4 +6,9 @@
   margin-bottom: 0;
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
+
+  /* user list scrolls horizontally */
+  width: 100%;
+  white-space: nowrap;
+  overflow-x: scroll;
 }
