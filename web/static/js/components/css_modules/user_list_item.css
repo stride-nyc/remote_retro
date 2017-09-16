@@ -1,21 +1,24 @@
-.wrapper::before {
-  content: "" !important;
+.wrapper {
+  &::before {
+    content: "" !important;
+  }
+
+  .picture {
+    display: inline-block;
+    height: 5.35rem;
+    border-radius: 50%;
+  }
+
+  .name {
+    margin-bottom: 0.4rem;
+  }
+
+  .animated-ellipsis-wrapper {
+    font-size: 0.45rem;
+    position: absolute;
+    top: 2.7rem;
+    left: 0;
+    width: 100%;
+  }
 }
 
-.picture {
-  display: inline-block;
-  height: 75px;
-  border-radius: 50%;
-}
-
-.name {
-  margin-bottom: 0.4rem;
-}
-
-.animated-ellipsis-wrapper {
-  font-size: 0.45rem;
-  position: absolute;
-  top: 2.7rem;
-  left: 0;
-  width: 100%;
-}
