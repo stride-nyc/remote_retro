@@ -17,7 +17,8 @@
   }
 
   .animated-ellipsis-wrapper {
-    font-size: 0.43rem;
+    --fontSize: 0.4rem;
+    font-size: var(--fontSize);
     position: absolute;
     top: 1.75rem;
     left: 0;
