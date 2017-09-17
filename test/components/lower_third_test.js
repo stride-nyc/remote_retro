@@ -22,16 +22,6 @@ describe("LowerThird component", () => {
   context("when the current user is facilitator", () => {
     const facilitatorUser = { is_facilitator: true }
 
-    context("and showActionItems is false", () => {
-      it("renders the <StageProgressionButton>", () => {
-        const lowerThird = shallow(
-          <LowerThird {...defaultProps} currentUser={facilitatorUser} />
-        )
-
-        expect(lowerThird.find(StageProgressionButton)).to.have.length(1)
-      })
-    })
-
     context("and there are no ideas during the idea-generation stage", () => {
       it("renders a disabled <StageProgressionButton>", () => {
         const lowerThird = shallow(
@@ -88,18 +78,6 @@ describe("LowerThird component", () => {
         const stageProgressionButton = lowerThird.find(StageProgressionButton)
         expect(stageProgressionButton.prop("buttonDisabled")).to.be.false
       })
-    })
-  })
-
-  context("when the current user is not facilitator", () => {
-    const nonFacilitatorUser = { is_facilitator: false }
-
-    it("does not render <StageProgressionButton>", () => {
-      const lowerThird = shallow(
-        <LowerThird {...defaultProps} currentUser={nonFacilitatorUser} />
-      )
-
-      expect(lowerThird.find(StageProgressionButton)).to.have.length(0)
     })
   })
 

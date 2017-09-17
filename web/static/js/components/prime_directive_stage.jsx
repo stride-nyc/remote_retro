@@ -6,7 +6,7 @@ import StageProgressionButton from "./stage_progression_button"
 import PrimeDirective from "./prime_directive"
 
 const PrimeDirectiveStage = props => {
-  const { isFacilitator, progressionConfig } = props
+  const { progressionConfig } = props
   return (
     <div className="ui centered grid">
       <div className="thirteen wide mobile eight wide tablet five wide computer column">
@@ -17,7 +17,7 @@ const PrimeDirectiveStage = props => {
       </div>
       <div className="row">
         <div className="thirteen wide mobile eight wide tablet four wide computer column">
-          { isFacilitator && <StageProgressionButton {...props} config={progressionConfig} /> }
+          <StageProgressionButton {...props} config={progressionConfig} />
         </div>
       </div>
     </div>
@@ -25,7 +25,6 @@ const PrimeDirectiveStage = props => {
 }
 
 PrimeDirectiveStage.propTypes = {
-  isFacilitator: PropTypes.bool.isRequired,
   progressionConfig: PropTypes.object.isRequired,
 }
 

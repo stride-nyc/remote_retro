@@ -19,6 +19,7 @@ describe("StageProgressionButton", () => {
     retroChannel: mockRetroChannel,
     config: mockButtonConfig,
     buttonDisabled: false,
+    currentUser: { is_facilitator: true },
   }
 
   let stageProgressionButton
@@ -114,7 +115,7 @@ describe("StageProgressionButton", () => {
           beforeEach(() => {
             retroChannel = { on: () => {}, push: sinon.spy() }
 
-            const props = { retroChannel, config: mockButtonConfig }
+            const props = { ...defaultProps, retroChannel, config: mockButtonConfig }
             stageProgressionButton = mount(<StageProgressionButton {...props} />)
             stageProgressionButton.find("button").simulate("click")
           })
@@ -127,6 +128,19 @@ describe("StageProgressionButton", () => {
         })
       })
     })
+
+    context("when the user is not a facilitator", () => {
+      beforeEach(() => {
+        const props = { ...defaultProps, currentUser: { is_facilitator: false } }
+        stageProgressionButton = mount(
+          <StageProgressionButton {...props} />
+        )
+      })
+
+      it("does not render", () => {
+        expect(stageProgressionButton.find("div")).to.have.length(0)
+      })
+    })
   })
 
   describe("when it does not receive a progressionButton configuration object", () => {
@@ -137,7 +151,7 @@ describe("StageProgressionButton", () => {
     })
 
     it("does not render", () => {
-      expect(stageProgressionButton.find('div')).to.have.length(0)
+      expect(stageProgressionButton.find("div")).to.have.length(0)
     })
   })
 })

@@ -8,9 +8,8 @@ import stageConfigs from "../configs/stage_configs"
 import * as AppPropTypes from "../prop_types"
 
 const IdeaGenerationLowerThirdContent = props => {
-  const { stage, currentUser, ideas } = props
+  const { stage, ideas } = props
 
-  const isFacilitator = currentUser.is_facilitator
   const stageConfig = stageConfigs[stage]
   const showActionItem = ["action-items", "closed"].includes(stage)
 
@@ -26,24 +25,17 @@ const IdeaGenerationLowerThirdContent = props => {
         <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
       </div>
       <div className="three wide right aligned column">
-        { isFacilitator &&
-          <StageProgressionButton
-            {...props}
-            config={stageConfig}
-            buttonDisabled={progressionDisabled()}
-          />
-        }
+        <StageProgressionButton
+          {...props}
+          config={stageConfig}
+          buttonDisabled={progressionDisabled()}
+        />
       </div>
     </div>
   )
 }
 
-IdeaGenerationLowerThirdContent.defaultProps = {
-  currentUser: { is_facilitator: false },
-}
-
 IdeaGenerationLowerThirdContent.propTypes = {
-  currentUser: AppPropTypes.user,
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: PropTypes.string.isRequired,

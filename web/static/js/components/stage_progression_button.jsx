@@ -34,7 +34,8 @@ class StageProgressionButton extends Component {
   }
 
   render() {
-    if (!this.props.config.progressionButton) return null
+    const { config, currentUser } = this.props
+    if (!config.progressionButton || !currentUser.is_facilitator) return null
 
     const { config: { progressionButton, confirmationMessage }, buttonDisabled } = this.props
     const { modalOpen } = this.state
@@ -82,6 +83,7 @@ class StageProgressionButton extends Component {
 
 StageProgressionButton.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
+  currentUser: AppPropTypes.user.isRequired,
   config: PropTypes.object,
   buttonDisabled: PropTypes.bool,
 }
