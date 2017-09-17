@@ -31,11 +31,11 @@
   }
 
   .vote-button {
-    padding: 0.5rem 0.9rem;
+    padding: 0.475rem 0.9rem;
   }
 
   .vote-count {
-    padding: 0.5rem;
+    padding: 0.475rem;
     cursor: default;
     position: relative;
     overflow: hidden;
