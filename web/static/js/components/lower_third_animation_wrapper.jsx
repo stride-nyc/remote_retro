@@ -6,7 +6,7 @@ import styles from "./css_modules/lower_third_wrapper.css" // eslint-disable-lin
 
 const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
   const contents = (
-    <div key={stage} className="ui stackable grid basic attached secondary center aligned segment">
+    <div key={stage}>
       {children}
     </div>
   )
@@ -28,6 +28,7 @@ const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
 }
 
 LowerThirdAnimationWrapper.propTypes = {
+  stage: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   displayContents: PropTypes.bool.isRequired,
 }

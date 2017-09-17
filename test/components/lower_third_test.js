@@ -4,8 +4,8 @@ import { spy } from "sinon"
 
 import LowerThird from "../../web/static/js/components/lower_third"
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
-import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"
-import VotesLeft from "../../web/static/js/components/votes_left"
+import IdeaGenerationLowerThirdContent from "../../web/static/js/components/idea_generation_lower_third_content" // eslint-disable-line line-length
+import VotingLowerThirdContent from "../../web/static/js/components/voting_lower_third_content"
 
 describe("LowerThird component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
@@ -138,8 +138,8 @@ describe("LowerThird component", () => {
         />
       )
 
-      expect(lowerThird.find(VotesLeft)).to.have.length(1)
-      expect(lowerThird.find(IdeaSubmissionForm)).to.have.length(0)
+      expect(lowerThird.find(VotingLowerThirdContent)).to.have.length(1)
+      expect(lowerThird.find(IdeaGenerationLowerThirdContent)).to.have.length(0)
     })
   })
 })

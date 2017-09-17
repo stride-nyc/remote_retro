@@ -1,51 +1,29 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import IdeaSubmissionForm from "./idea_submission_form"
-import VotesLeft from "./votes_left"
+import IdeaGenerationLowerThirdContent from "./idea_generation_lower_third_content"
+import VotingLowerThirdContent from "./voting_lower_third_content"
 import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
-import StageProgressionButton from "./stage_progression_button"
 import stageConfigs from "../configs/stage_configs"
 
 import * as AppPropTypes from "../prop_types"
 
 const LowerThird = props => {
-  const { stage, currentUser, ideas } = props
+  const { stage } = props
 
-  const isFacilitator = currentUser.is_facilitator
   const stageConfig = stageConfigs[stage]
-  const showActionItem = ["action-items", "closed"].includes(stage)
 
-  function progressionDisabled() {
-    const noIdeasCreated = stage === "idea-generation" && !ideas.length
-    const noActionItemsCreated = stage === "action-items" && !ideas.some(idea => idea.category === "action-item")
-    return noIdeasCreated || noActionItemsCreated
-  }
-
-  function renderFormOrVoteCounter() {
+  function stageSpecificContent() {
     if (stage === "voting") {
-      return (<VotesLeft currentUser={props.currentUser} />)
+      return <VotingLowerThirdContent {...props} config={stageConfig} />
     }
 
-    return (
-      <div className="thirteen wide column">
-        <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
-      </div>
-    )
+    return <IdeaGenerationLowerThirdContent {...props} config={stageConfig} />
   }
 
   return (
     <LowerThirdAnimationWrapper displayContents={stage !== "closed"} stage={stage}>
-      {renderFormOrVoteCounter()}
-      <div className="three wide right aligned column">
-        { isFacilitator &&
-          <StageProgressionButton
-            {...props}
-            config={stageConfig}
-            buttonDisabled={progressionDisabled()}
-          />
-        }
-      </div>
+      {stageSpecificContent()}
     </LowerThirdAnimationWrapper>
   )
 }
