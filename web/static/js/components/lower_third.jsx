@@ -35,7 +35,7 @@ const LowerThird = props => {
   }
 
   return (
-    <LowerThirdAnimationWrapper displayContents={stage !== "closed"}>
+    <LowerThirdAnimationWrapper displayContents={stage !== "closed"} stage={stage}>
       {renderFormOrVoteCounter()}
       <div className="three wide right aligned column">
         { isFacilitator &&

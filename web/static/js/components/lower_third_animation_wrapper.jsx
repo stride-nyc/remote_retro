@@ -4,9 +4,9 @@ import ReactCSSTransitionReplace from "react-css-transition-replace"
 
 import styles from "./css_modules/lower_third_wrapper.css" // eslint-disable-line no-unused-vars
 
-const LowerThirdAnimationWrapper = ({ children, displayContents }) => {
+const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
   const contents = (
-    <div key="herp" className="ui stackable grid basic attached secondary center aligned segment">
+    <div key={stage} className="ui stackable grid basic attached secondary center aligned segment">
       {children}
     </div>
   )
