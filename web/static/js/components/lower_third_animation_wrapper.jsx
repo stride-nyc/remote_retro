@@ -4,7 +4,7 @@ import ReactCSSTransitionReplace from "react-css-transition-replace"
 
 import styles from "./css_modules/lower_third_wrapper.css" // eslint-disable-line no-unused-vars
 
-const LowerThirdWrapper = ({ children, displayContents }) => {
+const LowerThirdAnimationWrapper = ({ children, displayContents }) => {
   const contents = (
     <div key="herp" className="ui stackable grid basic attached secondary center aligned segment">
       {children}
@@ -27,9 +27,9 @@ const LowerThirdWrapper = ({ children, displayContents }) => {
   )
 }
 
-LowerThirdWrapper.propTypes = {
+LowerThirdAnimationWrapper.propTypes = {
   children: PropTypes.node.isRequired,
   displayContents: PropTypes.bool.isRequired,
 }
 
-export default LowerThirdWrapper
+export default LowerThirdAnimationWrapper

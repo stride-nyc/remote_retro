@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 
 import IdeaSubmissionForm from "./idea_submission_form"
 import VotesLeft from "./votes_left"
-import LowerThirdWrapper from "./lower_third_wrapper"
+import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
 import StageProgressionButton from "./stage_progression_button"
 import stageConfigs from "../configs/stage_configs"
 
@@ -35,7 +35,7 @@ const LowerThird = props => {
   }
 
   return (
-    <LowerThirdWrapper displayContents={stage !== "closed"}>
+    <LowerThirdAnimationWrapper displayContents={stage !== "closed"}>
       {renderFormOrVoteCounter()}
       <div className="three wide right aligned column">
         { isFacilitator &&
@@ -46,7 +46,7 @@ const LowerThird = props => {
           />
         }
       </div>
-    </LowerThirdWrapper>
+    </LowerThirdAnimationWrapper>
   )
 }
 

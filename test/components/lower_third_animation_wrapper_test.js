@@ -1,17 +1,17 @@
 import React from "react"
 import { mount } from "enzyme"
 
-import LowerThirdWrapper from "../../web/static/js/components/lower_third_wrapper"
+import LowerThirdAnimationWrapper from "../../web/static/js/components/lower_third_animation_wrapper"
 
-describe("LowerThirdWrapper component", () => {
+describe("LowerThirdAnimationWrapper component", () => {
   let lowerThird
 
   context("when displayContent is true", () => {
     beforeEach(() => {
       lowerThird = mount(
-        <LowerThirdWrapper displayContents>
+        <LowerThirdAnimationWrapper displayContents>
           <p>Hello</p>
-        </LowerThirdWrapper>
+        </LowerThirdAnimationWrapper>
       )
     })
 
@@ -23,9 +23,9 @@ describe("LowerThirdWrapper component", () => {
   context("when displayContent is false", () => {
     beforeEach(() => {
       lowerThird = mount(
-        <LowerThirdWrapper displayContents={false}>
+        <LowerThirdAnimationWrapper displayContents={false}>
           <p>Hello</p>
-        </LowerThirdWrapper>
+        </LowerThirdAnimationWrapper>
       )
     })
 
