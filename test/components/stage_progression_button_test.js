@@ -137,7 +137,7 @@ describe("StageProgressionButton", () => {
     })
 
     it("does not render", () => {
-      expect(stageProgressionButton.get(0)).to.be.falsy
+      expect(stageProgressionButton.find('div')).to.have.length(0)
     })
   })
 })
