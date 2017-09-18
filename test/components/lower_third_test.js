@@ -81,7 +81,7 @@ describe("LowerThird component", () => {
     })
   })
 
-  context("when the state is closed", () => {
+  context("when the stage is `closed`", () => {
     it("passes `displayContents: false` to the lower third wrapper", () => {
       const lowerThird = shallow(
         <LowerThird
@@ -94,7 +94,7 @@ describe("LowerThird component", () => {
     })
   })
 
-  context("when the state isn't closed", () => {
+  context("when the stage isn't `closed`", () => {
     it("passes `displayContents: true` to the lower third wrapper", () => {
       const lowerThird = shallow(
         <LowerThird
