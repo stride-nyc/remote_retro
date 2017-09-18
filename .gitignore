@@ -41,3 +41,4 @@ web/static/js/dll/*
 .DS_Store
 
 npm-debug.log*
+.eslintcache
