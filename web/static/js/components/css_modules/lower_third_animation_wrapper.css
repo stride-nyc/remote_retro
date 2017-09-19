@@ -13,7 +13,7 @@
 }
 
 :global(.translateY-enter) {
-  transform: translate3d(0, 140%, 0);
+  transform: translate3d(0, 300%, 0);
 }
 
 :global(.translateY-enter.translateY-enter-active) {
@@ -29,5 +29,5 @@
 :global(.translateY-leave.translateY-leave-active) {
   transition: transform 400ms ease;
   transition-delay: 50ms;
-  transform: translate3d(0, 130%, 0);
+  transform: translate3d(0, 200%, 0);
 }
