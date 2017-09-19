@@ -19,7 +19,7 @@ class CategoryColumn extends Component {
       const timeout = setTimeout(() => {
         this.setState({ animateSort: true })
         clearTimeout(timeout)
-      }, 1000)
+      }, 2000)
     }
   }
 
