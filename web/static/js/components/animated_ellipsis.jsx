@@ -2,8 +2,8 @@ import React from "react"
 import PropTypes from "prop-types"
 import styles from "./css_modules/animated_ellipsis.css"
 
-const AnimatedEllipsis = ({ display }) => (
-  <div className={styles.index} style={{ opacity: display ? 1 : 0 }} >
+const AnimatedEllipsis = ({ animated }) => (
+  <div className={`${styles.index} ${animated ? styles.animated : ""}`}>
     <i className="circle icon" />
     <i className="circle icon" />
     <i className="circle icon" />
@@ -11,11 +11,11 @@ const AnimatedEllipsis = ({ display }) => (
 )
 
 AnimatedEllipsis.propTypes = {
-  display: PropTypes.bool,
+  animated: PropTypes.bool,
 }
 
 AnimatedEllipsis.defaultProps = {
-  display: false,
+  animated: false,
 }
 
 export default AnimatedEllipsis

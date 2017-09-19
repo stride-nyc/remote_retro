@@ -12,7 +12,7 @@ const UserListItem = ({ user }) => {
     <li className={`item ${styles.wrapper}`}>
       <img className={styles.picture} src={imgSrc} alt={givenName} />
       <p>{givenName}</p>
-      <AnimatedEllipsis display={user.is_typing} />
+      <AnimatedEllipsis animated={user.is_typing} />
     </li>
   )
 }

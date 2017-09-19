@@ -1,16 +1,21 @@
-.index i {
-  font-size: 0.45rem;
-  margin-right: 0;
-  opacity: 0;
-  animation: ellipsis-dot 1s infinite;
-  &:nth-child(1) {
-    animation-delay: 0.0s;
+.index {
+  i {
+    font-size: 0.45rem;
+    margin-right: 0;
+    opacity: 0;
   }
-  &:nth-child(2) {
-    animation-delay: 0.1s;
-  }
-  &:nth-child(3) {
-    animation-delay: 0.2s;
+
+  &.animated i {
+    animation: ellipsis-dot 1s infinite;
+    &:nth-child(1) {
+      animation-delay: 0.0s;
+    }
+    &:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    &:nth-child(3) {
+      animation-delay: 0.2s;
+    }
   }
 }
 
