@@ -21,7 +21,7 @@ const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
       transitionEnter
       transitionEnterTimeout={700}
       transitionAppearTimeout={700}
-      transitionLeaveTimeout={700}
+      transitionLeaveTimeout={450}
     >
       {displayContents && contents}
     </ReactCSSTransitionReplace>
