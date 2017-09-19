@@ -218,17 +218,36 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     describe("when it is false", () => {
-      it("does render a pointing label to prompt the user to enter an idea", () => {
-        wrapper = mount(
-          <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={mockRetroChannel}
-            showActionItem
-          />
-        )
-        expect(
-          wrapper.find(".pointing").length
-        ).to.equal(1)
+      context("when the stage is 'idea-generation'", () => {
+        it("does render a pointing label to prompt the user to enter an idea", () => {
+          wrapper = mount(
+            <IdeaSubmissionForm
+              currentUser={stubUser}
+              retroChannel={mockRetroChannel}
+              stage="idea-generation"
+              showActionItem
+            />
+          )
+          expect(
+            wrapper.find(".pointing").length
+          ).to.equal(1)
+        })
+      })
+
+      context("when the stage is something other than 'idea-generation'", () => {
+        it("does not render a pointing label", () => {
+          wrapper = mount(
+            <IdeaSubmissionForm
+              currentUser={stubUser}
+              retroChannel={mockRetroChannel}
+              stage="voting"
+              showActionItem
+            />
+          )
+          expect(
+            wrapper.find(".pointing").length
+          ).to.equal(0)
+        })
       })
     })
   })

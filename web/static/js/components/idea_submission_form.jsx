@@ -63,7 +63,7 @@ class IdeaSubmissionForm extends Component {
     ]
     let pointingLabel = null
 
-    if (!this.state.ideaEntryStarted) {
+    if (!this.state.ideaEntryStarted && this.props.stage === "idea-generation") {
       pointingLabel = (
         <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
           Submit an idea!
@@ -112,6 +112,11 @@ IdeaSubmissionForm.propTypes = {
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   showActionItem: PropTypes.bool.isRequired,
+  stage: PropTypes.string,
+}
+
+IdeaSubmissionForm.defaultProps = {
+  stage: "idea-generation",
 }
 
 export default IdeaSubmissionForm
