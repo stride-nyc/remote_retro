@@ -3,7 +3,6 @@ import { shallow } from "enzyme"
 import { spy } from "sinon"
 
 import LowerThird from "../../web/static/js/components/lower_third"
-import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 import IdeaGenerationLowerThirdContent from "../../web/static/js/components/idea_generation_lower_third_content" // eslint-disable-line line-length
 import VotingLowerThirdContent from "../../web/static/js/components/voting_lower_third_content"
 
@@ -18,68 +17,6 @@ describe("LowerThird component", () => {
     ideas: [],
     stage: "idea-generation",
   }
-
-  context("when the current user is facilitator", () => {
-    const facilitatorUser = { is_facilitator: true }
-
-    context("and there are no ideas during the idea-generation stage", () => {
-      it("renders a disabled <StageProgressionButton>", () => {
-        const lowerThird = shallow(
-          <LowerThird
-            {...defaultProps}
-            currentUser={facilitatorUser}
-            stage="idea-generation"
-          />
-        )
-        const stageProgressionButton = lowerThird.find(StageProgressionButton)
-        expect(stageProgressionButton.prop("buttonDisabled")).to.be.true
-      })
-    })
-
-    context("and there are ideas during the idea-generation stage", () => {
-      it("renders an enabled <StageProgressionButton>", () => {
-        const lowerThird = shallow(
-          <LowerThird
-            {...defaultProps}
-            currentUser={facilitatorUser}
-            stage="idea-generation"
-            ideas={[{ category: "happy" }]}
-          />
-        )
-        const stageProgressionButton = lowerThird.find(StageProgressionButton)
-        expect(stageProgressionButton.prop("buttonDisabled")).to.be.false
-      })
-    })
-
-    context("and there are no action items during the action-items stage", () => {
-      it("renders a disabled <StageProgressionButton>", () => {
-        const lowerThird = shallow(
-          <LowerThird
-            {...defaultProps}
-            currentUser={facilitatorUser}
-            stage="action-items"
-          />
-        )
-        const stageProgressionButton = lowerThird.find(StageProgressionButton)
-        expect(stageProgressionButton.prop("buttonDisabled")).to.be.true
-      })
-    })
-
-    context("and there are action items during the action-items stage", () => {
-      it("renders an enabled <StageProgressionButton>", () => {
-        const lowerThird = shallow(
-          <LowerThird
-            {...defaultProps}
-            currentUser={facilitatorUser}
-            stage="action-items"
-            ideas={[{ category: "action-item" }]}
-          />
-        )
-        const stageProgressionButton = lowerThird.find(StageProgressionButton)
-        expect(stageProgressionButton.prop("buttonDisabled")).to.be.false
-      })
-    })
-  })
 
   context("when the stage is `closed`", () => {
     it("passes `displayContents: false` to the lower third wrapper", () => {
