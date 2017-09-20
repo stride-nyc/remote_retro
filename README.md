@@ -159,7 +159,7 @@ mix lint
 ```
 
 ## Contributing
-Coming soon!
+[Contributing Guidelines](CONTRIBUTING.md)
 
 ## Code of Conduct
 [The Contributor Covenant](CODE_OF_CONDUCT.md)
