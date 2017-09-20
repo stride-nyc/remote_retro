@@ -24,7 +24,7 @@ Unsure where to begin contributing to Remote Retro? You can start by looking thr
 Once you're ready to start coding:
 
 1. Create your own fork of the code
-2. Do the changes in your fork
+2. Make the necessary changes in your fork
 3. If you like the change and think the project could use it:
     * Be sure you have followed the code style for the project.
     * Make a pull request, and be sure to fill out the information in the template.
@@ -48,4 +48,4 @@ Before suggesting a feature, please read through the [Roadmap to MVP](https://gi
 After you submit your pull request, it will be reviewed within 10 business days and we will give you feedback on any needed changes. After feedback has been given we expect responses within two weeks. After two weeks we may close the pull request if it isn't showing any activity.
 
 # Code Style
-ESLint is used for checking JavaScript code style. It is also useful for avoiding some errors. Please use indentation of 2 spaces, and no semicolons. Please use ES2015.
+ESLint is used for checking JavaScript code style. It is also useful for avoiding some errors. Please use indentation of 2 spaces, and no semicolons. Please use ES2015 (ES6).
