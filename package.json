@@ -4,7 +4,9 @@
   "scripts": {
     "deploy": "webpack -p --config='webpack.dll.js' --hide-modules && webpack -p",
     "watch": "webpack --config='webpack.dll.js' --hide-modules && webpack --watch-stdin --hide-modules",
-    "postinstall": "cp -rf node_modules/semantic-ui-css/ priv/static/css/semantic-ui/"
+    "postinstall": "cp -rf node_modules/semantic-ui-css/ priv/static/css/semantic-ui/",
+    "test": "mocha --watch",
+    "test:ci": "mocha"
   },
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.22.0",
