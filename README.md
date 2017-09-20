@@ -3,6 +3,7 @@
 [![Ebert](https://ebertapp.io/github/stride-nyc/remote_retro.svg)](https://ebertapp.io/github/stride-nyc/remote_retro)
 
 # RemoteRetro
+Just a test
 
 This repository houses the web application code for Remote Retro, an open source professional development project written in Elixir/Phoenix and sponsored by [Stride Consulting](http://stridenyc.com).
 
