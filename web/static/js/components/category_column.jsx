@@ -54,11 +54,13 @@ class CategoryColumn extends Component {
           <p><strong>{category}</strong></p>
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
-        <ShadowedScrollContainer contentMaxHeight="50vh">
-          <ul className={`${category} ${styles.list} ideas`}>
-            {ideasList}
-          </ul>
-        </ShadowedScrollContainer>
+          { !!sortedIdeas.length &&
+            <ShadowedScrollContainer contentMaxHeight="50vh">
+              <ul className={`${category} ${styles.list} ideas`}>
+                {ideasList}
+              </ul>
+            </ShadowedScrollContainer>
+          }
       </section>
     )
   }
