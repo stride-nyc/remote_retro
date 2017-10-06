@@ -59,7 +59,6 @@ class ShareRetroLinkModal extends Component {
         contentLabel="Share Retro Link"
         isOpen={hasntBeenClosed && shouldOpen}
         className="ui small modal visible active"
-        onRequestClose={this.closeModal}
       >
         <div className="ui basic padded center aligned segment">
           <div>

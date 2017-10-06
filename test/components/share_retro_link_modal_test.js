@@ -61,18 +61,6 @@ describe("ShareRetroLinkModal component", () => {
         })
       })
 
-      describe("and the overlay outside the modal is clicked", () => {
-        beforeEach(() => {
-          const overlay = portalToModalContent.refs.overlay
-          overlay.click()
-        })
-
-        it("closes the modal", () => {
-          const isOpen = wrapper.find("Modal").props().isOpen
-          expect(isOpen).to.equal(false)
-        })
-      })
-
       describe("and the close icon is clicked", () => {
         beforeEach(() => {
           const content = portalToModalContent.refs.content
