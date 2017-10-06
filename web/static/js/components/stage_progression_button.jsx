@@ -69,7 +69,7 @@ class StageProgressionButton extends Component {
           </div>
         </Modal>
         <button
-          className="fluid ui right labeled teal icon button"
+          className="fluid ui right labeled blue icon button"
           onClick={this.handleStageProgressionButtonClick}
           disabled={buttonDisabled}
         >
