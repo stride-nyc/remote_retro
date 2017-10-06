@@ -8,7 +8,7 @@ import styles from "./css_modules/share_retro_link_modal.css"
 const timeElapsedLessThanFiveSec = retroCreationTimestamp => {
   const millisecondsSinceRetroCreation = new Date(retroCreationTimestamp)
   const timeElapsedSinceRetroCreation = new Date().getTime() - millisecondsSinceRetroCreation
-  return (timeElapsedSinceRetroCreation < 5000)
+  return (timeElapsedSinceRetroCreation < 7500)
 }
 
 class ShareRetroLinkModal extends Component {

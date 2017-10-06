@@ -20,7 +20,7 @@ describe("ShareRetroLinkModal component", () => {
 
   describe("when the given retro was inserted into the db less than 5 seconds ago", () => {
     beforeEach(() => {
-      earlierDate = new Date(clock.now - 4000)
+      earlierDate = new Date(clock.now - 5500)
     })
 
     it("the modal opens", () => {
@@ -88,9 +88,9 @@ describe("ShareRetroLinkModal component", () => {
     })
   })
 
-  describe("when the given retro was inserted into the db more than 5 seconds ago", () => {
+  describe("when the given retro was inserted into the db more than 7.5 seconds ago", () => {
     beforeEach(() => {
-      earlierDate = new Date(clock.now - 6000)
+      earlierDate = new Date(clock.now - 7600)
     })
 
     it("the modal does not open", () => {
