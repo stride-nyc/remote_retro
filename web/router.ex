@@ -11,6 +11,7 @@ defmodule RemoteRetro.Router do
 
   pipeline :browser do
     plug :accepts, ["html"]
+    plug RedirectHerokuappTrafficToCustomDomain
     plug :fetch_session
     plug :fetch_flash
     plug :protect_from_forgery
