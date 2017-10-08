@@ -9,7 +9,7 @@ describe("LowerThirdAnimationWrapper component", () => {
   context("when displayContent is true", () => {
     beforeEach(() => {
       lowerThird = mount(
-        <LowerThirdAnimationWrapper displayContents stage="herp">
+        <LowerThirdAnimationWrapper displayContents stage="idea-generation">
           <p>Hello</p>
         </LowerThirdAnimationWrapper>
       )
@@ -23,7 +23,7 @@ describe("LowerThirdAnimationWrapper component", () => {
   context("when displayContent is false", () => {
     beforeEach(() => {
       lowerThird = mount(
-        <LowerThirdAnimationWrapper displayContents={false} stage="herp">
+        <LowerThirdAnimationWrapper displayContents={false} stage="idea-generation">
           <p>Hello</p>
         </LowerThirdAnimationWrapper>
       )

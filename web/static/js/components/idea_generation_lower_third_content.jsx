@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 
 import IdeaSubmissionForm from "./idea_submission_form"
 import StageProgressionButton from "./stage_progression_button"
@@ -38,7 +37,7 @@ const IdeaGenerationLowerThirdContent = props => {
 IdeaGenerationLowerThirdContent.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  stage: PropTypes.string.isRequired,
+  stage: AppPropTypes.stage.isRequired,
 }
 
 export default IdeaGenerationLowerThirdContent

@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 import PrimeDirectiveStage from "./prime_directive_stage"
 import IdeaGenerationStage from "./idea_generation_stage"
 import stageConfigs from "../configs/stage_configs"
@@ -30,7 +29,7 @@ Room.defaultProps = {
 }
 
 Room.propTypes = {
-  stage: PropTypes.string.isRequired,
+  stage: AppPropTypes.stage.isRequired,
   currentUser: AppPropTypes.user,
 }
 

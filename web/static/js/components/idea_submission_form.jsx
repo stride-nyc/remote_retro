@@ -112,7 +112,7 @@ IdeaSubmissionForm.propTypes = {
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   showActionItem: PropTypes.bool.isRequired,
-  stage: PropTypes.string,
+  stage: AppPropTypes.stage,
 }
 
 IdeaSubmissionForm.defaultProps = {

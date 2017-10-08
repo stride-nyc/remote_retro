@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 
 import IdeaGenerationLowerThirdContent from "./idea_generation_lower_third_content"
 import VotingLowerThirdContent from "./voting_lower_third_content"
@@ -36,7 +35,7 @@ LowerThird.propTypes = {
   currentUser: AppPropTypes.user,
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  stage: PropTypes.string.isRequired,
+  stage: AppPropTypes.stage.isRequired,
 }
 
 export default LowerThird

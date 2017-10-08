@@ -26,5 +26,13 @@ export const idea = PropTypes.shape({
   category,
 })
 
+export const stage = PropTypes.oneOf([
+  "prime-directive",
+  "idea-generation",
+  "voting",
+  "action-items",
+  "closed",
+])
+
 export const ideas = PropTypes.arrayOf(idea)
 

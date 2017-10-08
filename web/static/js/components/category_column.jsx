@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import PropTypes from "prop-types"
 import FlipMove from "react-flip-move"
 import ShadowedScrollContainer from "./shadowed_scroll_container"
 import Idea from "./idea"
@@ -69,7 +68,7 @@ class CategoryColumn extends Component {
 CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   category: AppPropTypes.category.isRequired,
-  stage: PropTypes.string.isRequired,
+  stage: AppPropTypes.stage.isRequired,
 }
 
 export default CategoryColumn
