@@ -11,7 +11,7 @@ const UserListItem = ({ user }) => {
   return (
     <li className={`item ${styles.wrapper}`}>
       <img className={styles.picture} src={imgSrc} alt={givenName} />
-      <p>{givenName}</p>
+      <p data-hj-masked>{givenName}</p>
       <AnimatedEllipsis animated={user.is_typing} />
     </li>
   )

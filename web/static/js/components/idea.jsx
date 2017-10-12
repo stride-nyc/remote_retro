@@ -59,7 +59,7 @@ const Idea = props => {
     <div className={styles.ideaWrapper}>
       { renderIdeaControls() }
       { renderMessage() }
-      { renderText() }
+      <span data-hj-masked>{ renderText() }</span>
       { renderEditedIndicator() }
     </div>
   )
