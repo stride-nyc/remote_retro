@@ -25,7 +25,7 @@ export class RemoteRetro extends Component {
     const currentUser = users.find(user => user.token === userToken)
 
     return (
-      <div>
+      <div className={stage}>
         <Room
           currentUser={currentUser}
           users={users}
