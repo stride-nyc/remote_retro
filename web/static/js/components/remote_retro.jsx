@@ -9,8 +9,14 @@ import ShareRetroLinkModal from "./share_retro_link_modal"
 import DoorChime from "./door_chime"
 
 export class RemoteRetro extends Component {
+  // Trigger analytics events on page load and stage changes
   componentDidMount() {
     hj("trigger", this.props.stage)
+  }
+
+  componentDidUpdate(prevProps) {
+    const { stage } = this.props
+    if (prevProps.stage !== stage) { hj("trigger", stage) }
   }
 
   render() {
