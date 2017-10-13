@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
 
@@ -8,25 +8,31 @@ import Alert from "./alert"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 import DoorChime from "./door_chime"
 
-export const RemoteRetro = props => {
-  const { users, ideas, userToken, retroChannel, stage, insertedAt, alert } = props
+export class RemoteRetro extends Component {
+  componentDidMount() {
+    hj("trigger", this.props.stage)
+  }
 
-  const currentUser = users.find(user => user.token === userToken)
+  render() {
+    const { users, ideas, userToken, retroChannel, stage, insertedAt, alert } = this.props
 
-  return (
-    <div>
-      <Room
-        currentUser={currentUser}
-        users={users}
-        ideas={ideas}
-        stage={stage}
-        retroChannel={retroChannel}
-      />
-      <Alert config={alert} />
-      <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
-      <DoorChime {...props} />
-    </div>
-  )
+    const currentUser = users.find(user => user.token === userToken)
+
+    return (
+      <div>
+        <Room
+          currentUser={currentUser}
+          users={users}
+          ideas={ideas}
+          stage={stage}
+          retroChannel={retroChannel}
+        />
+        <Alert config={alert} />
+        <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
+        <DoorChime {...this.props} />
+      </div>
+    )
+  }
 }
 
 RemoteRetro.propTypes = {
