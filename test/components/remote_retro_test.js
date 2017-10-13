@@ -29,7 +29,8 @@ describe("RemoteRetro component", () => {
         </Provider>
       )
 
-      expect(hotjarSpy.called).to.eql(true)
+      expect(hotjarSpy.calledWith("trigger", "closed")).to.eql(true)
+      hotjarSpy.restore()
     })
   })
 })
