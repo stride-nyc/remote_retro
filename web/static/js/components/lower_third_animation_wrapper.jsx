@@ -1,8 +1,8 @@
 import React from "react"
 import PropTypes from "prop-types"
-import * as AppPropTypes from "../prop_types"
 import ReactCSSTransitionReplace from "react-css-transition-replace"
 
+import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/lower_third_animation_wrapper.css" // eslint-disable-line no-unused-vars
 
 const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
