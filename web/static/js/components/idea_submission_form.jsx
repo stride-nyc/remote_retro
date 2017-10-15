@@ -55,7 +55,7 @@ class IdeaSubmissionForm extends Component {
   }
 
   render() {
-    const disabled = this.state.body.length < 3
+    const disabled = !this.state.body.length
     const defaultCategoryOptions = [
       <option key="happy" value="happy">happy</option>,
       <option key="sad" value="sad">sad</option>,

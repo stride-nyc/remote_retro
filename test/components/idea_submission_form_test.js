@@ -108,7 +108,7 @@ describe("IdeaSubmissionForm component", () => {
   })
 
   describe("at the outset the form submit is disabled", () => {
-    it("is enabled once there is an idea of 3 characters or longer", () => {
+    it("is enabled once the input receives a value", () => {
       wrapper = mount(
         <IdeaSubmissionForm
           currentUser={stubUser}
