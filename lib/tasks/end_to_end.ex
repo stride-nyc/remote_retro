@@ -3,7 +3,7 @@ defmodule Mix.Tasks.EndToEnd do
 
   @shortdoc "Runs feature tests"
   def run(_) do
-    compile_js()
+    compile_js_if_necessary()
     System.cmd(
       "mix",
       ["test", "test/features/", "--only", "feature_test", "--color"],
@@ -11,7 +11,9 @@ defmodule Mix.Tasks.EndToEnd do
     )
   end
 
-  defp compile_js do
-    System.cmd("npm", ["run", "deploy", "--", "--hide-modules"], [into: IO.stream(:stdio, :line)])
+  defp compile_js_if_necessary do
+    if !File.exists?("priv/static/js/dll.vendor.js") do
+      System.cmd("npm", ["run", "deploy", "--", "--hide-modules"], [into: IO.stream(:stdio, :line)])
+    end
   end
 end
