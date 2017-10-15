@@ -1,7 +1,7 @@
 test/**/*_test.js
 --color
 --require mock-css-modules
---compilers jsx:babel-register
+--require babel-register
 --require babel-register
 --require jsdom-global/register
 --require test/support/js/test_helper.js
