@@ -8,8 +8,8 @@ const assignFacilitatorToLongestTenured = users => {
 }
 
 const addArrivals = (existingUsers, arrivals) => {
-  let newUsers = values(arrivals).map(join => join.user)
-  newUsers = newUsers.filter(user => !existingUsers.find(u => user.token === u.token))
+  const usersInArrivals = values(arrivals).map(join => join.user)
+  const newUsers = usersInArrivals.filter(user => !existingUsers.find(u => user.token === u.token))
 
   return [...existingUsers, ...newUsers]
 }

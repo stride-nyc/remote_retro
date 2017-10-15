@@ -86,12 +86,12 @@ __Note:__ additional nvm installation notes found at [the nvm repo](https://gith
 
 Install the latest node via nvm:
 ```
-nvm install 7.5
+nvm install 8.7
 ```
 
 Ensure the latest node is your default node version in new shells:
 ```
-nvm alias default 7.5
+nvm alias default 8.7
 ```
 
 Install Global NPM Packages
