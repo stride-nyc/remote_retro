@@ -53,22 +53,43 @@ describe("user reducer", () => {
   })
 
   describe("when action is SYNC_PRESENCE_DIFF", () => {
-    describe("and the presence diff represents several folks joining", () => {
-      const presenceDiff = {
-        joins: {
-          someJoinerTokenOne: { user: { name: "Kevin", online_at: 10 } },
-          someJoinerTokenTwo: { user: { name: "Sarah", online_at: 20 } },
-        },
-        leaves: {},
-      }
+    describe("and the presence diff represents users joining", () => {
+      context("when the user is not already tracked in the users list", () => {
+        const presenceDiff = {
+          joins: {
+            ABC: { user: { name: "Kevin", online_at: 10, token: "ABC" } },
+            XYZ: { user: { name: "Sarah", online_at: 20, token: "XYZ" } },
+          },
+          leaves: {},
+        }
 
-      deepFreeze(presenceDiff)
+        deepFreeze(presenceDiff)
 
-      const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
+        const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
 
-      it("adds all of the users to state", () => {
-        const names = usersReducer([], action).map(user => user.name)
-        expect(names).to.eql(["Kevin", "Sarah"])
+        it("adds all of the users to state", () => {
+          const names = usersReducer([], action).map(user => user.name)
+          expect(names).to.eql(["Kevin", "Sarah"])
+        })
+      })
+
+      context("and the user is already tracked in the users list", () => {
+        const presenceDiff = {
+          joins: {
+            ABC: { user: { name: "Kevin", online_at: 10, token: "ABC" } },
+          },
+          leaves: {},
+        }
+
+        deepFreeze(presenceDiff)
+
+        const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
+
+        it("does not add a duplicate to the users list", () => {
+          const usersListAlreadyContainingUser = [{ token: "ABC", name: "Kevin", online_at: 10 }]
+          const names = usersReducer(usersListAlreadyContainingUser, action).map(user => user.name)
+          expect(names).to.eql(["Kevin"])
+        })
       })
     })
 
