@@ -29,7 +29,7 @@ module.exports = {
   module: {
     rules: [{
       test: /\.jsx?$/,
-      exclude: /(node_modules|bower_components)/,
+      exclude: /(node_modules|bower_components|polyfills)/,
       use: [{
         loader: "babel-loader",
         query: {
