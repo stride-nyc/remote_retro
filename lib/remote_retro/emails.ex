@@ -17,7 +17,7 @@ defmodule RemoteRetro.Emails do
 
     new_email(
       to: participant_emails,
-      from: {"RemoteRetro", "do-not-reply@remoteretro.oss"},
+      from: {"RemoteRetro", "do-not-reply@remoteretro.org"},
       subject: "Action items from Retro",
       text_body: text_retro_action_items(action_items),
       html_body: html_retro_action_items(action_items)
