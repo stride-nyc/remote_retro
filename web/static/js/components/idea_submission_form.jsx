@@ -93,6 +93,7 @@ class IdeaSubmissionForm extends Component {
               <input
                 type="text"
                 name="idea"
+                autoComplete="off"
                 autoFocus
                 ref={input => { this.ideaInput = input }}
                 value={this.state.body}
