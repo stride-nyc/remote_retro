@@ -51,11 +51,7 @@
         window.retroUUID = "<%= @retro_uuid %>";
       </script>
       <script src="<%= static_path(@conn, "/js/dll/dll.vendor.js") %>"></script>
-      <%= if Mix.env == :dev do %>
-        <script src="http://localhost:5001/js/app.js"></script>
-      <% else %>
-        <script src="<%= static_path(@conn, "/js/app.js") %>"></script>
-      <% end %>
+      <script src="<%= app_js(@conn) %>"></script>
     <% end %>
   </body>
 </html>
