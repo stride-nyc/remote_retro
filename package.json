@@ -3,6 +3,7 @@
   "license": "MIT",
   "scripts": {
     "deploy": "webpack -p --config='webpack.dll.js' --hide-modules && webpack -p",
+    "compile-dev": "webpack --config='webpack.dll.js' --hide-modules && webpack",
     "watch": "webpack --config='webpack.dll.js' --hide-modules && NODE_ENV=dev node webpack.devserver.js",
     "postinstall": "cp -rf node_modules/semantic-ui-css/ priv/static/css/semantic-ui/",
     "test": "mocha --watch",
