@@ -1,5 +1,5 @@
 defmodule RemoteRetro.LayoutViewTest do
-  use RemoteRetro.ConnCase, async: true
+  use RemoteRetro.ConnCase, async: false
   alias RemoteRetro.LayoutView
 
   test "app_js is served by the webpack dev server (at port 5001) in dev" do
