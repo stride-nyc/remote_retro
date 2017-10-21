@@ -27,7 +27,7 @@ retroChannel.join()
 
       render(
         <AppContainer>
-          <Provider store={store} key={Date.now()}>
+          <Provider store={store}>
             <RemoteRetro retroChannel={retroChannel} userToken={userToken} />
           </Provider>
         </AppContainer>,
