@@ -1,4 +1,5 @@
 import React from "react"
+import StageChangeInfoVoting from "../components/stage_change_info_voting"
 
 export default {
   "prime-directive": {
@@ -20,7 +21,10 @@ export default {
     },
   },
   voting: {
-    alert: null,
+    alert: {
+      headerText: "Stage Change: Voting!",
+      bodyText: <StageChangeInfoVoting />,
+    },
     confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
     nextStage: "action-items",
     progressionButton: {
