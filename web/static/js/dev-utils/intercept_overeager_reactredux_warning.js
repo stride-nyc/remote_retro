@@ -7,8 +7,8 @@ export default () => {
   */
   const oldError = console.error
 
-  console.error = (text) => {
-    if (/<Provider> does not support/.test(text)) { return }
-    oldError(text)
+  console.error = (...args) => {
+    if (/<Provider> does not support/.test(args[0])) { return }
+    oldError(...args)
   }
 }
