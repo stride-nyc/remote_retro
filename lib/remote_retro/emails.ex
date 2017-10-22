@@ -32,10 +32,20 @@ defmodule RemoteRetro.Emails do
   defp html_retro_action_items(action_items) do
     """
     <div>
-      <p>Hi,</p>
+      <p>Greetings!</p>
       <p>Please find the action items from your retrospective below:</p>
       #{html_action_item_list(action_items)}
-      <p>Thanks! You're awesome!</p>
+      <p>Thanks!</p>
+      <hr>
+      <p><small>RemoteRetro is open source software. If you enjoy using it, please take a moment to star the repo!</small></p>
+      <iframe
+        src="http://ghbtns.com/github-btn.html?user=stride-nyc&repo=remote_retro&type=watch&count=true"
+        allowtransparency="true"
+        scrolling="0"
+        width="100"
+        height="20"
+        frameborder="0"
+      /></iframe>
     </div>
     """
   end
