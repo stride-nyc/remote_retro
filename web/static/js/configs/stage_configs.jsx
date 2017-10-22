@@ -1,6 +1,7 @@
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import StageChangeInfoIdeaGeneration from "../components/stage_change_info_idea_generation"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
+import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
 
 export default {
   "prime-directive": {
@@ -37,7 +38,10 @@ export default {
     },
   },
   "action-items": {
-    alert: null,
+    alert: {
+      headerText: "Stage Change: Action-Item Generation!",
+      BodyComponent: StageChangeInfoActionItems,
+    },
     confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
     nextStage: "closed",
     progressionButton: {
