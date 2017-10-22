@@ -1,5 +1,6 @@
 import React from "react"
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
+import StageChangeInfoIdeaGeneration from "../components/stage_change_info_idea_generation"
 
 export default {
   "prime-directive": {
@@ -12,7 +13,10 @@ export default {
     },
   },
   "idea-generation": {
-    alert: null,
+    alert: {
+      headerText: "Stage Change: Idea Generation!",
+      bodyText: <StageChangeInfoIdeaGeneration />,
+    },
     confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
     nextStage: "voting",
     progressionButton: {
