@@ -1,6 +1,6 @@
-import React from "react"
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import StageChangeInfoIdeaGeneration from "../components/stage_change_info_idea_generation"
+import StageChangeInfoClosed from "../components/stage_change_info_closed"
 
 export default {
   "prime-directive": {
@@ -15,7 +15,7 @@ export default {
   "idea-generation": {
     alert: {
       headerText: "Stage Change: Idea Generation!",
-      bodyText: <StageChangeInfoIdeaGeneration />,
+      BodyComponent: StageChangeInfoIdeaGeneration,
     },
     confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
     nextStage: "voting",
@@ -27,7 +27,7 @@ export default {
   voting: {
     alert: {
       headerText: "Stage Change: Voting!",
-      bodyText: <StageChangeInfoVoting />,
+      BodyComponent: StageChangeInfoVoting,
     },
     confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
     nextStage: "action-items",
@@ -48,10 +48,7 @@ export default {
   closed: {
     alert: {
       headerText: "Action Items Distributed",
-      bodyText: <div>
-        <p>The facilitator has distributed this retro's action items.
-          You will receive an email breakdown shortly!</p>
-      </div>,
+      BodyComponent: StageChangeInfoClosed,
     },
     confirmationMessage: null,
     nextStage: null,

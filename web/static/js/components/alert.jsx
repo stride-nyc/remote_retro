@@ -14,7 +14,7 @@ export class Alert extends Component {
     if (!this.props.config) return null
 
     const { actions, config } = this.props
-    const { headerText, bodyText } = config
+    const { headerText, BodyComponent } = config
 
     return (
       <Modal
@@ -27,7 +27,7 @@ export class Alert extends Component {
             {headerText}
           </p>
           <div className="ui content">
-            {bodyText}
+            <BodyComponent />
           </div>
           <br />
           <button autoFocus className="ui blue right floated button" onClick={actions.clearAlert}>

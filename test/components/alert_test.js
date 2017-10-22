@@ -12,7 +12,7 @@ describe("Alert component", () => {
 
   const alertConfig = {
     headerText: "Some ole header text",
-    bodyText: "Some completely different body text",
+    BodyComponent: () => <p>"Some completely different body text"</p>,
   }
 
   let actions = {}
