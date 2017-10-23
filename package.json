@@ -35,7 +35,7 @@
     "redux": "^3.6.0",
     "semantic-ui-css": "2.2.10",
     "sinon": "^1.17.7",
-    "webpack": "^3.7.1"
+    "webpack": "^3.8.1"
   },
   "devDependencies": {
     "babel-core": "^6.17.0",
