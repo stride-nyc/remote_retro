@@ -1,8 +1,7 @@
 defmodule RemoteRetro.RetroChannel do
   use RemoteRetro.Web, :channel
 
-  alias Ecto.Multi
-  alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer, Retro, Participation}
+  alias RemoteRetro.{Presence, PresenceUtils, Idea, Emails, Mailer, Retro, Vote}
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
@@ -78,23 +77,15 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("submit_vote", %{"ideaId" => idea_id, "userId" => user_id}, socket) do
-    retro_id = socket.assigns.retro_id
-    idea_query = from i in Idea, where: i.id == ^idea_id
-    participation = Repo.get_by(Participation, user_id: user_id, retro_id: retro_id)
+    vote =
+      %Vote{
+        idea_id: idea_id,
+        user_id: user_id
+      }
+      |> Vote.changeset
+      |> Repo.insert!
 
-    participation_changeset =
-      participation
-      |> Participation.changeset(%{vote_count: participation.vote_count + 1})
-
-    if participation_changeset.valid? do
-      {:ok, %{idea: {1, [updated_idea]}, participation: updated_participation}} =
-        Multi.new
-        |> Multi.update_all(:idea, idea_query, [inc: [vote_count: 1]], returning: true)
-        |> Multi.update(:participation, participation_changeset)
-        |> Repo.transaction
-        broadcast! socket, "vote_submitted", %{"idea" => updated_idea, "participation" => updated_participation}
-    end
-
+    broadcast! socket, "vote_submitted", %{"idea_id" => idea_id, "user_id" => user_id}
     {:noreply, socket}
   end
 

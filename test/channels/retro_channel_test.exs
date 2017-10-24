@@ -2,7 +2,7 @@ defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetro.ChannelCase, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence, Retro, Participation}
+  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence, Retro, Vote}
 
   @mock_user Application.get_env(:remote_retro, :mock_user)
 
@@ -179,63 +179,22 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     @tag vote_count: 0
-    test "results in the broadcast of the voted on idea and updated participation to all connected clients", %{socket: socket, idea: idea, user: user} do
+    test "results in the broadcast of the vote to connected clients", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       user_id = user.id
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
 
-      assert_broadcast("vote_submitted", %{
-        "idea" =>
-        %{
-          body: "JavaScript",
-          id: ^idea_id,
-          vote_count: 1
-        },
-        "participation" =>
-        %{
-          user_id: ^user_id,
-          vote_count: 1
-        }
-      })
+      assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
     end
-
-    @tag user: @mock_user
-    @tag idea: %Idea{category: "sad", body: "doggone keeper"}
-    @tag vote_count: 0
-    test "results in the idea being updated in the database", %{socket: socket, idea: idea, user: user} do
-      idea_id = idea.id
-      push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
-
-      :timer.sleep(50)
-      idea = Repo.get!(Idea, idea_id)
-      assert idea.vote_count == 1
-    end
-
-    @tag user: @mock_user
-    @tag idea: %Idea{category: "sad", body: "doggone keeper"}
-    @tag vote_count: 0
-    test "results in the participation being updated in the database", %{socket: socket, idea: idea, user: user, participation: participation} do
-      idea_id = idea.id
-      push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
-
-      :timer.sleep(50)
-      participation = Repo.get!(Participation, participation.id)
-      assert participation.vote_count == 1
-    end
-  end
-
-  describe "pushing a `submit_vote` event to the socket when the participation has 5 votes" do
-    setup [:persist_user_for_retro, :persist_idea_for_retro, :persist_participation_for_retro, :join_the_retro_channel]
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    @tag vote_count: 5
-    test "results in the broadcast of the voted on idea and updated participation to all connected clients", %{socket: socket, idea: idea, user: user, participation: participation} do
-      push(socket, "submit_vote", %{ideaId: idea.id, userId: user.id})
-
+    @tag vote_count: 0
+    test "results in the persistence of the vote", %{socket: socket, idea: idea, user: user} do
+      idea_id = idea.id
+      push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
       :timer.sleep(50)
-      participation = Repo.get!(Participation, participation.id)
-      assert participation.vote_count == 5
+      assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
     end
   end
 end
