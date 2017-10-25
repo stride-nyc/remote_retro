@@ -181,7 +181,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "results in the broadcast of the vote to connected clients", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       user_id = user.id
-      push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
+      push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
 
       assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
     end
