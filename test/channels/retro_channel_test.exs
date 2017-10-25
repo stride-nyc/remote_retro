@@ -190,6 +190,7 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the persistence of the vote", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
+      assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id) end)
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
       :timer.sleep(50)
       assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
