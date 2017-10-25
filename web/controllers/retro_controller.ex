@@ -9,8 +9,7 @@ defmodule RemoteRetro.RetroController do
         conn = put_session conn, "requested_endpoint", conn.request_path
         redirect conn, to: "/auth/google"
       user ->
-        participation = find_or_insert_participation_record(user, params["id"])
-        user = Map.put(user, :vote_count, participation.vote_count)
+        find_or_insert_participation_record(user, params["id"])
         render conn, "show.html", %{
           user_token: Token.sign(conn, "user", user),
           retro_uuid: params["id"]

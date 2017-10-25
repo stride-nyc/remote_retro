@@ -1,7 +1,6 @@
 defmodule RemoteRetro.RetroControllerTest do
   use RemoteRetro.ConnCase, async: true
   alias RemoteRetro.{User, Participation}
-  alias Phoenix.Token
 
   describe "authenticated requests" do
     setup :authenticate_connection
@@ -35,14 +34,6 @@ defmodule RemoteRetro.RetroControllerTest do
       participations = Repo.all(query)
 
       refute length(participations) > 1
-    end
-
-    test "ensure that the tokenized user added to assigns is given a vote count", %{conn: conn} do
-      conn = create_retro_and_follow_redirect(conn)
-      %{user_token: user_token} = conn.assigns
-
-      {:ok, tokenized_user} = Token.verify(conn, "user", user_token)
-      assert Map.has_key?(tokenized_user, :vote_count)
     end
   end
 

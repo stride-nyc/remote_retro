@@ -174,11 +174,10 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing a `submit_vote` event to the socket" do
-    setup [:persist_user_for_retro, :persist_idea_for_retro, :persist_participation_for_retro, :join_the_retro_channel]
+    setup [:persist_user_for_retro, :persist_idea_for_retro, :join_the_retro_channel]
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    @tag vote_count: 0
     test "results in the broadcast of the vote to connected clients", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       user_id = user.id
@@ -189,7 +188,6 @@ defmodule RemoteRetro.RetroChannelTest do
 
     @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    @tag vote_count: 0
     test "results in the persistence of the vote", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
