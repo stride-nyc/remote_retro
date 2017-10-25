@@ -1,6 +1,6 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
-  alias RemoteRetro.{Repo, User, Participation}
+  alias RemoteRetro.{Repo, User, Vote}
 
   def persist_idea_for_retro(context) do
     %{idea: idea, retro: retro, user: user} = context
@@ -9,6 +9,13 @@ defmodule RemoteRetro.TestHelpers do
       |>Repo.insert!
 
     Map.put(context, :idea, idea)
+  end
+
+  def use_all_votes(%{user: user, idea: idea} = context) do
+    now = DateTime.utc_now
+    vote = [user_id: user.id, idea_id: idea.id, inserted_at: now, updated_at: now]
+    Repo.insert_all(Vote, [vote, vote, vote, vote, vote])
+    context
   end
 
   def persist_user_for_retro(context) do

@@ -77,7 +77,16 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("submit_vote", %{"ideaId" => idea_id, "userId" => user_id}, socket) do
-    vote =
+    retro_id = socket.assigns.retro_id
+    query = from votes in Vote,
+              join: ideas in Idea,
+              where: votes.idea_id == ideas.id
+              and ideas.retro_id == ^retro_id
+              and votes.user_id == ^user_id
+
+    user_vote_count = Repo.aggregate(query, :count, :id)
+
+    if user_vote_count < 5 do
       %Vote{
         idea_id: idea_id,
         user_id: user_id
@@ -85,7 +94,9 @@ defmodule RemoteRetro.RetroChannel do
       |> Vote.changeset
       |> Repo.insert!
 
-    broadcast! socket, "vote_submitted", %{"idea_id" => idea_id, "user_id" => user_id}
+      broadcast! socket, "vote_submitted", %{"idea_id" => idea_id, "user_id" => user_id}
+    end
+
     {:noreply, socket}
   end
 

@@ -197,6 +197,36 @@ defmodule RemoteRetro.RetroChannelTest do
       assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
     end
   end
+
+  describe "when a user has already used their votes" do
+    setup [:persist_user_for_retro, :persist_idea_for_retro, :use_all_votes, :join_the_retro_channel]
+
+    @tag user: @mock_user
+    @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    test "pushing 'vote_submitted' does not broadcast a vote", %{socket: socket, idea: idea, user: user} do
+      idea_id = idea.id
+      user_id = user.id
+      push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
+
+      refute_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
+    end
+
+    @tag user: @mock_user
+    @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    test "pushing 'vote_submitted' does not persist the vote", %{socket: socket, idea: idea, user: user} do
+      idea_id = idea.id
+      vote_count_query = from(v in "votes", where: [idea_id: ^idea_id, user_id: ^user.id])
+
+      vote_count = Repo.aggregate(vote_count_query, :count, :id)
+      assert vote_count == 5
+
+      push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
+      :timer.sleep(50)
+
+      vote_count = Repo.aggregate(vote_count_query, :count, :id)
+      assert vote_count == 5
+    end
+  end
 end
 
 
