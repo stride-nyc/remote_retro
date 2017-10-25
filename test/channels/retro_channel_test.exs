@@ -80,7 +80,6 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a new idea to the socket" do
     setup [:persist_user_for_retro, :join_the_retro_channel]
 
-    @tag user: @mock_user
     test "results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
       push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id})
@@ -128,7 +127,6 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing an edit of an idea to the socket" do
     setup [:persist_user_for_retro, :persist_idea_for_retro, :join_the_retro_channel]
 
-    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
@@ -138,7 +136,6 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
 
-    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
     test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
       idea_id = idea.id
@@ -153,7 +150,6 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a delete event to the socket" do
     setup [:persist_user_for_retro, :join_the_retro_channel, :persist_idea_for_retro]
 
-    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "WIP commits on master"}
     test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
@@ -176,7 +172,6 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `submit_vote` event to the socket" do
     setup [:persist_user_for_retro, :persist_idea_for_retro, :join_the_retro_channel]
 
-    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the vote to connected clients", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
@@ -186,7 +181,6 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
     end
 
-    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the persistence of the vote", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
@@ -200,7 +194,6 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "when a user has already used their votes" do
     setup [:persist_user_for_retro, :persist_idea_for_retro, :use_all_votes, :join_the_retro_channel]
 
-    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "pushing 'vote_submitted' does not broadcast a vote", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
@@ -210,7 +203,6 @@ defmodule RemoteRetro.RetroChannelTest do
       refute_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
     end
 
-    @tag user: @mock_user
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "pushing 'vote_submitted' does not persist the vote", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
