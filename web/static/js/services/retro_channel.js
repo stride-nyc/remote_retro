@@ -47,10 +47,7 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
     actions.deleteIdea(deletedIdea.id)
   })
 
-  retroChannel.on("vote_submitted", data => {
-    actions.updateIdea(data.idea.id, { vote_count: data.idea.vote_count })
-    actions.updateUser(data.participation.user_id, { vote_count: data.participation.vote_count })
-  })
+  retroChannel.on("vote_submitted", actions.addVote)
 
   retroChannel.on("idea_highlighted", highlightedIdea => {
     actions.updateIdea(highlightedIdea.id, { isHighlighted: !highlightedIdea.isHighlighted })

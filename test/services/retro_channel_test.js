@@ -47,7 +47,7 @@ describe("RetroChannel", () => {
         let updateIdeaSpy
         let updatePresenceSpy
         let updateStageSpy
-        let updateUserSpy
+        let addVoteSpy
         let clock
 
         beforeEach(() => {
@@ -56,7 +56,7 @@ describe("RetroChannel", () => {
           updateIdeaSpy = spy()
           updatePresenceSpy = spy()
           updateStageSpy = spy()
-          updateUserSpy = spy()
+          addVoteSpy = spy()
           clock = useFakeTimers(Date.now())
 
           actions = {
@@ -65,7 +65,7 @@ describe("RetroChannel", () => {
             updateIdea: updateIdeaSpy,
             updatePresence: updatePresenceSpy,
             updateStage: updateStageSpy,
-            updateUser: updateUserSpy,
+            addVote: addVoteSpy,
           }
 
           retroChannel = RetroChannel.configure({ actions })
@@ -186,21 +186,16 @@ describe("RetroChannel", () => {
           beforeEach(() => {
             retroChannel.trigger("vote_submitted",
               {
-                idea: { id: 2, vote_count: 3 },
-                participation: { user_id: 1, vote_count: 3 },
+                idea_id: 50,
+                user_id: 99,
               }
             )
           })
 
-          it("invokes updateIdea action, passing idea id & vote count", () => {
-            expect(updateIdeaSpy.calledWith(2, {
-              vote_count: 3,
-            })).to.eql(true)
-          })
-
-          it("invokes updateUser action, passing user id & vote count", () => {
-            expect(updateUserSpy.calledWith(1, {
-              vote_count: 3,
+          it("invokes the addVote action, passing the vote", () => {
+            expect(addVoteSpy.calledWith({
+              idea_id: 50,
+              user_id: 99,
             })).to.eql(true)
           })
         })
