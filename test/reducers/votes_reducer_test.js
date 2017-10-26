@@ -19,4 +19,27 @@ describe("user reducer", () => {
       expect(result).to.eql([{ idea_id: 12, user_id: 33 }])
     })
   })
+
+  describe("when the action is SET_INITIAL_STATE", () => {
+    it("returns the initial state's votes", () => {
+      const initialStateAction = {
+        type: "SET_INITIAL_STATE",
+        initialState: {
+          votes: [
+            { idea_id: 12, user_id: 33 },
+            { idea_id: 31, user_id: 24 },
+          ],
+        },
+      }
+
+      const initialState = []
+      deepFreeze(initialState)
+      const result = votesReducer(["some_other_state"], initialStateAction)
+
+      expect(result).to.eql([
+        { idea_id: 12, user_id: 33 },
+        { idea_id: 31, user_id: 24 },
+      ])
+    })
+  })
 })

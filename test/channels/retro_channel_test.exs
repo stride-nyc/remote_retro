@@ -7,15 +7,20 @@ defmodule RemoteRetro.RetroChannelTest do
   @mock_user Application.get_env(:remote_retro, :mock_user)
 
   defp join_the_retro_channel(%{retro: retro} = context) do
-    {:ok, _, socket} =
+    {:ok, join_response, socket} =
       socket("", %{user_token: Phoenix.Token.sign(socket(), "user", @mock_user)})
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
-    Map.put(context, :socket, socket)
+    Map.merge(context, %{socket: socket, join_response: join_response})
   end
 
   describe "joining a RetroChannel" do
     setup [:join_the_retro_channel]
+
+    test "the response on joining contains votes and ideas", %{join_response: join_response} do
+      assert join_response.votes == []
+      assert join_response.ideas == []
+    end
 
     test "assigns the retro_id to the socket", %{socket: socket, retro: retro} do
       assert socket.assigns.retro_id == retro.id
