@@ -34,5 +34,7 @@ export const stage = PropTypes.oneOf([
   "closed",
 ])
 
+export const votes = PropTypes.arrayOf(PropTypes.object)
+
 export const ideas = PropTypes.arrayOf(idea)
 
