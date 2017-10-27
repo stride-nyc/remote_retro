@@ -2,7 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 import sinon from "sinon"
 
-import IdeaControls from "../../web/static/js/components/idea_controls"
+import { IdeaControls } from "../../web/static/js/components/idea_controls"
 import VoteCounter from "../../web/static/js/components/vote_counter"
 import { voteMax } from "../../web/static/js/configs/retro_configs"
 
@@ -265,14 +265,17 @@ describe("<IdeaControls />", () => {
     context("when the currentUser has voted 5 times", () => {
       it("renders a disabled VoteCounter for the currentUser", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
-        const currentUser = { id: 1, is_facilitator: false, vote_count: voteMax }
+        const currentUser = { id: 1, is_facilitator: false }
+        const voteForUser = { user_id: 1 }
+        const votes = [voteForUser, voteForUser, voteForUser, voteForUser, voteForUser]
 
         const wrapper = shallow(
           <IdeaControls
             idea={idea}
+            votes={votes}
             retroChannel={retroChannel}
             currentUser={currentUser}
-            stage={actionItemsStage}
+            stage={votingStage}
           />
          )
 

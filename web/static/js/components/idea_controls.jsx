@@ -1,5 +1,7 @@
 import React from "react"
+import { connect } from "react-redux"
 import classNames from "classnames"
+
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
 import VoteCounter from "./vote_counter"
@@ -11,8 +13,8 @@ const timeElapsedLessThanFiveSec = ideaCreationTimestamp => {
   return (timeElapsedSinceIdeaCreation < 5000)
 }
 
-const IdeaControls = props => {
-  const { idea, retroChannel, currentUser, stage } = props
+export const IdeaControls = props => {
+  const { idea, retroChannel, currentUser, stage, votes } = props
   const { id, user_id: userId, isHighlighted = false, category } = idea
   const highlightClasses = classNames({
     [styles.actionIcon]: true,
@@ -21,7 +23,9 @@ const IdeaControls = props => {
     ban: isHighlighted,
   })
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
-  const cannotVote = currentUser.vote_count >= voteMax
+  const voteCount = votes.filter(vote => vote.user_id === currentUser.id).length
+
+  const cannotVote = voteCount >= voteMax
 
   function renderIcons() {
     if (stage !== "idea-generation" && category !== "action-item") {
@@ -76,6 +80,15 @@ IdeaControls.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.user.isRequired,
   stage: AppPropTypes.stage.isRequired,
+  votes: AppPropTypes.votes,
 }
 
-export default IdeaControls
+IdeaControls.defaultProps = {
+  votes: [],
+}
+
+const mapStateToProps = ({ votes }) => ({ votes })
+
+export default connect(
+  mapStateToProps
+)(IdeaControls)
