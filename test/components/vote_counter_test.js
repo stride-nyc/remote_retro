@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow, mount } from "enzyme"
+import { shallow } from "enzyme"
 import { spy } from "sinon"
 
 import VoteCounter from "../../web/static/js/components/vote_counter"
@@ -17,7 +17,7 @@ describe("VoteCounter", () => {
   const mockUser = { id: 55 }
 
   it("renders an anchor tag that contains the vote count of the idea", () => {
-    const voteCounter = mount(
+    const voteCounter = mountWithConnectedSubcomponents(
       <VoteCounter
         retroChannel={{}}
         idea={idea}

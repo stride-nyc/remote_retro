@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow, mount } from "enzyme"
+import { shallow } from "enzyme"
 
 import Idea from "../../web/static/js/components/idea"
 import IdeaControls from "../../web/static/js/components/idea_controls"
@@ -21,7 +21,7 @@ describe("Idea component", () => {
 
   context("when the user is a facilitator", () => {
     const facilitatorUser = { is_facilitator: true }
-    const wrapper = mount(
+    const wrapper = mountWithConnectedSubcomponents(
       <Idea
         idea={idea}
         currentUser={facilitatorUser}
@@ -39,7 +39,7 @@ describe("Idea component", () => {
     })
 
     context("when the stage is closed", () => {
-      const wrapper = mount(
+      const wrapper = mountWithConnectedSubcomponents(
         <Idea
           idea={idea}
           currentUser={facilitatorUser}

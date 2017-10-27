@@ -11,6 +11,7 @@ module.exports = {
     "beforeEach": false,
     "afterEach": false,
     "hj": false,
+    "mountWithConnectedSubcomponents": false,
   },
   "extends": "airbnb",
   "parserOptions": {

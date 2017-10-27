@@ -1,6 +1,5 @@
 import React from "react"
 import Modal from "react-modal"
-import { mount } from "enzyme"
 import sinon from "sinon"
 
 import { Alert } from "../../web/static/js/components/alert"
@@ -18,7 +17,7 @@ describe("Alert component", () => {
   let actions = {}
 
   beforeEach(() => {
-    wrapper = mount(<Alert config={alertConfig} actions={actions} />)
+    wrapper = mountWithConnectedSubcomponents(<Alert config={alertConfig} actions={actions} />)
     portalToModalContent = wrapper.find(Modal).node.portal
     modalBody = portalToModalContent.refs.content
   })
@@ -42,7 +41,7 @@ describe("Alert component", () => {
     beforeEach(() => {
       actions = { clearAlert: sinon.spy() }
 
-      wrapper = mount(<Alert config={alertConfig} actions={actions} />)
+      wrapper = mountWithConnectedSubcomponents(<Alert config={alertConfig} actions={actions} />)
       portalToModalContent = wrapper.find(Modal).node.portal
       modalBody = portalToModalContent.refs.content
       modalBody.querySelector("button").click()

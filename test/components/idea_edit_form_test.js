@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow, mount } from "enzyme"
+import { shallow } from "enzyme"
 import sinon from "sinon"
 
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
@@ -25,7 +25,9 @@ describe("<IdeaEditForm />", () => {
 
     beforeEach(() => {
       retroChannel = { on: () => {}, push: sinon.spy() }
-      wrapper = mount(<IdeaEditForm {...defaultProps} retroChannel={retroChannel} />)
+      wrapper = mountWithConnectedSubcomponents(
+        <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
+      )
       textarea = wrapper.find("textarea")
       textarea.simulate("change", { target: { value: "some value" } })
     })
@@ -45,7 +47,9 @@ describe("<IdeaEditForm />", () => {
     it("pushes an `idea_edited` event to the given retroChannel", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
 
-      const wrapper = mount(<IdeaEditForm {...defaultProps} retroChannel={retroChannel} />)
+      const wrapper = mountWithConnectedSubcomponents(
+        <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
+      )
       const saveButton = wrapper.findWhere(element => (element.text() === "Save"))
 
       saveButton.simulate("submit")
@@ -60,7 +64,9 @@ describe("<IdeaEditForm />", () => {
     it("pushes a `disable_edit_state` event to the given retroChannel", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
 
-      const wrapper = mount(<IdeaEditForm {...defaultProps} retroChannel={retroChannel} />)
+      const wrapper = mountWithConnectedSubcomponents(
+        <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
+      )
       const cancelButton = wrapper.findWhere(element => (element.text() === "Cancel"))
 
       cancelButton.simulate("click")

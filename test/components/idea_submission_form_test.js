@@ -1,5 +1,4 @@
 import React from "react"
-import { mount } from "enzyme"
 import sinon from "sinon"
 
 import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"
@@ -19,7 +18,7 @@ describe("IdeaSubmissionForm component", () => {
       it("pushes a `new_idea` event to the retro channel with the action-item", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
 
-        wrapper = mount(
+        wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={retroChannel}
@@ -43,7 +42,7 @@ describe("IdeaSubmissionForm component", () => {
       it("pushes a `new_idea` event to the retroChannel, passing a happy idea by default", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
 
-        wrapper = mount(
+        wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={retroChannel}
@@ -69,7 +68,7 @@ describe("IdeaSubmissionForm component", () => {
     it("pushes a `user_typing_idea` event to the retro channel, along with the user token", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
 
-      wrapper = mount(
+      wrapper = mountWithConnectedSubcomponents(
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={retroChannel}
@@ -88,7 +87,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("when the state's `category` value changes", () => {
     it("shifts focus to the idea input", () => {
-      wrapper = mount(
+      wrapper = mountWithConnectedSubcomponents(
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
@@ -109,7 +108,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("at the outset the form submit is disabled", () => {
     it("is enabled once the input receives a value", () => {
-      wrapper = mount(
+      wrapper = mountWithConnectedSubcomponents(
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
@@ -128,7 +127,7 @@ describe("IdeaSubmissionForm component", () => {
   describe(".componentWillReceiveProps", () => {
     describe("when the `category` state attribute is stubbed with nonsense", () => {
       beforeEach(() => {
-        wrapper = mount(
+        wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
@@ -158,7 +157,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("the showActionItem prop", () => {
     it("when true results in the category list only rendering an 'action-item' option", () => {
-      wrapper = mount(
+      wrapper = mountWithConnectedSubcomponents(
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
@@ -173,7 +172,7 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     it("when false results in the category list rendering options for the basic retro categories", () => {
-      wrapper = mount(
+      wrapper = mountWithConnectedSubcomponents(
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
@@ -203,7 +202,7 @@ describe("IdeaSubmissionForm component", () => {
   describe("ideaEntryStarted state", () => {
     describe("when it is true", () => {
       it("doesn't render a pointing label to prompt the user to enter an idea", () => {
-        wrapper = mount(
+        wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
@@ -220,7 +219,7 @@ describe("IdeaSubmissionForm component", () => {
     describe("when it is false", () => {
       context("when the stage is 'idea-generation'", () => {
         it("does render a pointing label to prompt the user to enter an idea", () => {
-          wrapper = mount(
+          wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
@@ -236,7 +235,7 @@ describe("IdeaSubmissionForm component", () => {
 
       context("when the stage is something other than 'idea-generation'", () => {
         it("does not render a pointing label", () => {
-          wrapper = mount(
+          wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
               currentUser={stubUser}
               retroChannel={mockRetroChannel}

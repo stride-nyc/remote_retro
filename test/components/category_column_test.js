@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow, mount } from "enzyme"
+import { shallow } from "enzyme"
 import sinon from "sinon"
 
 import CategoryColumn from "../../web/static/js/components/category_column"
@@ -32,7 +32,7 @@ describe("CategoryColumn", () => {
     }]
 
     it("it renders them sorted by id ascending", () => {
-      const ideaGenerationStageWrapper = mount(
+      const ideaGenerationStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
           ideas={ideas}
           category="confused"
@@ -47,7 +47,7 @@ describe("CategoryColumn", () => {
       expect(ideaGenerationListItems.at(1).text()).to.match(/should be second/)
       expect(ideaGenerationListItems.at(2).text()).to.match(/should be third/)
 
-      const votingStageWrapper = mount(
+      const votingStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
           ideas={ideas}
           category="confused"
@@ -86,7 +86,7 @@ describe("CategoryColumn", () => {
     }]
 
     it("it renders them sorted by vote_count descending", () => {
-      const actionItemsStageWrapper = mount(
+      const actionItemsStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
           ideas={ideas}
           category="confused"
@@ -96,7 +96,7 @@ describe("CategoryColumn", () => {
         />
       )
 
-      const actionItemDistributionStageWrapper = mount(
+      const actionItemDistributionStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
           ideas={ideas}
           category="confused"
@@ -144,7 +144,7 @@ describe("CategoryColumn", () => {
     }]
 
     it("alters the sort order to most votes DESC after a delay", () => {
-      const wrapper = mount(
+      const wrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
           ideas={ideas}
           category="confused"

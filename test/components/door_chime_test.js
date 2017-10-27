@@ -1,5 +1,4 @@
 import React from "react"
-import { mount } from "enzyme"
 import sinon from "sinon"
 
 import DoorChime from "../../web/static/js/components/door_chime"
@@ -12,7 +11,7 @@ describe("DoorChime component", () => {
 
     beforeEach(() => {
       clock = sinon.useFakeTimers()
-      audioElement = mount(<DoorChime users={[]} />).getDOMNode()
+      audioElement = mountWithConnectedSubcomponents(<DoorChime users={[]} />).getDOMNode()
     })
 
     it("is muted on component mount", () => {
@@ -30,7 +29,7 @@ describe("DoorChime component", () => {
     let doorChimeWrapper
 
     beforeEach(() => {
-      doorChimeWrapper = mount(<DoorChime users={[]} />)
+      doorChimeWrapper = mountWithConnectedSubcomponents(<DoorChime users={[]} />)
       audioElement = doorChimeWrapper.getDOMNode()
       audioElement.play = sinon.spy()
     })

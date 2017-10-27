@@ -1,6 +1,5 @@
 import React from "react"
 import Modal from "react-modal"
-import { mount } from "enzyme"
 import sinon from "sinon"
 
 import ShareRetroLinkModal from "../../web/static/js/components/share_retro_link_modal"
@@ -24,7 +23,9 @@ describe("ShareRetroLinkModal component", () => {
     })
 
     it("the modal opens", () => {
-      wrapper = mount(<ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />)
+      wrapper = mountWithConnectedSubcomponents(
+        <ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />
+      )
 
       const isOpen = wrapper.find("Modal").props().isOpen
 
@@ -36,7 +37,9 @@ describe("ShareRetroLinkModal component", () => {
 
       beforeEach(() => {
         document.execCommand = sinon.spy()
-        wrapper = mount(<ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />)
+        wrapper = mountWithConnectedSubcomponents(
+          <ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />
+        )
         portalToModalContent = wrapper.find(Modal).node.portal
       })
 
@@ -82,7 +85,9 @@ describe("ShareRetroLinkModal component", () => {
     })
 
     it("the modal does not open", () => {
-      wrapper = mount(<ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />)
+      wrapper = mountWithConnectedSubcomponents(
+        <ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />
+      )
 
       const isOpen = wrapper.find("Modal").props().isOpen
 

@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow, mount } from "enzyme"
+import { shallow } from "enzyme"
 
 import UserList from "../../web/static/js/components/user_list"
 import UserListItem from "../../web/static/js/components/user_list_item"
@@ -21,7 +21,7 @@ describe("passed an array of users", () => {
   })
 
   it("sorts the users by their arrival in the room, ascending", () => {
-    const wrapper = mount(<UserList users={users} />)
+    const wrapper = mountWithConnectedSubcomponents(<UserList users={users} />)
     expect(wrapper.text()).to.match(/zandertreezy/i)
   })
 })

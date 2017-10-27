@@ -1,5 +1,5 @@
 import React from "react"
-import { mount, ReactWrapper } from "enzyme"
+import { ReactWrapper } from "enzyme"
 import sinon from "sinon"
 
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
@@ -26,7 +26,7 @@ describe("StageProgressionButton", () => {
 
   describe("when passed a config", () => {
     beforeEach(() => {
-      stageProgressionButton = mount(
+      stageProgressionButton = mountWithConnectedSubcomponents(
         <StageProgressionButton {...defaultProps} />
       )
     })
@@ -47,7 +47,7 @@ describe("StageProgressionButton", () => {
         beforeEach(() => {
           retroChannel = { on: () => {}, push: sinon.spy() }
 
-          stageProgressionButton = mount(
+          stageProgressionButton = mountWithConnectedSubcomponents(
             <StageProgressionButton {...defaultProps} retroChannel={retroChannel} />
           )
         })
@@ -116,7 +116,9 @@ describe("StageProgressionButton", () => {
             retroChannel = { on: () => {}, push: sinon.spy() }
 
             const props = { ...defaultProps, retroChannel, config: mockButtonConfig }
-            stageProgressionButton = mount(<StageProgressionButton {...props} />)
+            stageProgressionButton = mountWithConnectedSubcomponents(
+              <StageProgressionButton {...props} />
+            )
             stageProgressionButton.find("button").simulate("click")
           })
 
@@ -132,7 +134,7 @@ describe("StageProgressionButton", () => {
     context("when the user is not a facilitator", () => {
       beforeEach(() => {
         const props = { ...defaultProps, currentUser: { is_facilitator: false } }
-        stageProgressionButton = mount(
+        stageProgressionButton = mountWithConnectedSubcomponents(
           <StageProgressionButton {...props} />
         )
       })
@@ -145,7 +147,7 @@ describe("StageProgressionButton", () => {
 
   describe("when it does not receive a progressionButton configuration object", () => {
     beforeEach(() => {
-      stageProgressionButton = mount(
+      stageProgressionButton = mountWithConnectedSubcomponents(
         <StageProgressionButton {...defaultProps} config={{ progressionButton: null }} />
       )
     })
