@@ -30,7 +30,7 @@ export class CategoryColumn extends Component {
     const iconHeight = 45
 
     let sortedIdeas
-    if (this.state.animateSort) {
+    if (this.state.animateSort && category !== "action-item") {
       const voteCountsByIdea = countBy(votes, "idea_id")
       sortedIdeas = filteredIdeas.sort((a, b) => {
         const voteCountForIdeaA = voteCountsByIdea[a.id] || 0

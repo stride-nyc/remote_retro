@@ -70,57 +70,94 @@ describe("CategoryColumn", () => {
   })
 
   context("when the stage is action-items or closed from the outset", () => {
-    const ideas = [{
-      id: 5,
-      body: "should be third based on votes",
-      category: "confused",
-      user: mockUser,
-    }, {
-      id: 2,
-      body: "should be first based on votes",
-      category: "confused",
-      user: mockUser,
-    }, {
-      id: 1,
-      body: "should be second based on votes",
-      category: "confused",
-      user: mockUser,
-    }]
+    context("when the category is anything *other* than action-items", () => {
+      const ideas = [{
+        id: 5,
+        body: "should be third based on votes",
+        category: "confused",
+        user: mockUser,
+      }, {
+        id: 2,
+        body: "should be first based on votes",
+        category: "confused",
+        user: mockUser,
+      }, {
+        id: 1,
+        body: "should be second based on votes",
+        category: "confused",
+        user: mockUser,
+      }]
 
-    const votes = [
-      { idea_id: 2 },
-      { idea_id: 2 },
-      { idea_id: 1 },
-    ]
+      const votes = [
+        { idea_id: 2 },
+        { idea_id: 2 },
+        { idea_id: 1 },
+      ]
 
-    it("it renders them sorted by vote count descending", () => {
-      const actionItemsStageWrapper = mountWithConnectedSubcomponents(
-        <CategoryColumn
-          {...defaultProps}
-          ideas={ideas}
-          votes={votes}
-          stage={actionItemStage}
-        />
-      )
+      it("renders them sorted by vote count descending", () => {
+        const actionItemsStageWrapper = mountWithConnectedSubcomponents(
+          <CategoryColumn
+            {...defaultProps}
+            ideas={ideas}
+            votes={votes}
+            stage={actionItemStage}
+          />
+        )
 
-      const actionItemDistributionStageWrapper = mountWithConnectedSubcomponents(
-        <CategoryColumn
-          {...defaultProps}
-          ideas={ideas}
-          votes={votes}
-          stage={actionItemDistributionStage}
-        />
-      )
+        const actionItemDistributionStageWrapper = mountWithConnectedSubcomponents(
+          <CategoryColumn
+            {...defaultProps}
+            ideas={ideas}
+            votes={votes}
+            stage={actionItemDistributionStage}
+          />
+        )
 
-      const listItemsDuringActionItemsStage = actionItemsStageWrapper.find("li")
-      expect(listItemsDuringActionItemsStage.first().text()).to.match(/should be first/)
-      expect(listItemsDuringActionItemsStage.at(1).text()).to.match(/should be second/)
-      expect(listItemsDuringActionItemsStage.at(2).text()).to.match(/should be third/)
+        const listItemsDuringActionItemsStage = actionItemsStageWrapper.find("li")
+        expect(listItemsDuringActionItemsStage.first().text()).to.match(/should be first/)
+        expect(listItemsDuringActionItemsStage.at(1).text()).to.match(/should be second/)
+        expect(listItemsDuringActionItemsStage.at(2).text()).to.match(/should be third/)
 
-      const listItemsDuringActionItemDistribution = actionItemDistributionStageWrapper.find("li")
-      expect(listItemsDuringActionItemDistribution.first().text()).to.match(/should be first/)
-      expect(listItemsDuringActionItemDistribution.at(1).text()).to.match(/should be second/)
-      expect(listItemsDuringActionItemDistribution.at(2).text()).to.match(/should be third/)
+        const listItemsDuringActionItemDistribution = actionItemDistributionStageWrapper.find("li")
+        expect(listItemsDuringActionItemDistribution.first().text()).to.match(/should be first/)
+        expect(listItemsDuringActionItemDistribution.at(1).text()).to.match(/should be second/)
+        expect(listItemsDuringActionItemDistribution.at(2).text()).to.match(/should be third/)
+      })
+    })
+
+    context("when the category is 'action-items'", () => {
+      const ideas = [{
+        id: 5,
+        body: "should be third based on id",
+        category: "action-item",
+        user: mockUser,
+      }, {
+        id: 2,
+        body: "should be second based on id",
+        category: "action-item",
+        user: mockUser,
+      }, {
+        id: 1,
+        body: "should be first based on id",
+        category: "action-item",
+        user: mockUser,
+      }]
+
+      it("renders them sorted by id ascending", () => {
+        const actionItemsStageWrapper = mountWithConnectedSubcomponents(
+          <CategoryColumn
+            {...defaultProps}
+            ideas={ideas}
+            category="action-item"
+            stage={actionItemStage}
+          />
+        )
+
+        const listItemsDuringActionItemsStage = actionItemsStageWrapper.find("li")
+        expect(listItemsDuringActionItemsStage.first().text()).to.match(/should be first/)
+        expect(listItemsDuringActionItemsStage.at(1).text()).to.match(/should be second/)
+        expect(listItemsDuringActionItemsStage.at(2).text()).to.match(/should be third/)
+      })
     })
   })
 
