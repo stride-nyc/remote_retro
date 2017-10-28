@@ -1,24 +1,38 @@
 import React from "react"
+import { connect } from "react-redux"
+import { voteMax } from "../configs/retro_configs"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list_item.css"
 import AnimatedEllipsis from "./animated_ellipsis"
 
-const UserListItem = ({ user }) => {
+export const UserListItem = ({ user, votes, stage }) => {
   let givenName = user.given_name
   const imgSrc = user.picture.replace("sz=50", "sz=200")
+  const votesByUser = votes.filter(vote => vote.user_id === user.id).length
+  const allVotesIn = votesByUser >= voteMax
 
   if (user.is_facilitator) givenName += " (Facilitator)"
+
   return (
     <li className={`item ${styles.wrapper}`}>
       <img className={styles.picture} src={imgSrc} alt={givenName} />
       <p data-hj-masked>{givenName}</p>
-      <AnimatedEllipsis animated={user.is_typing} />
+      { stage !== "voting" && <AnimatedEllipsis animated={user.is_typing} /> }
+      { stage === "voting" &&
+        <span className={`${styles.allVotesIn} ${allVotesIn ? "opaque" : ""}`}>All Votes In</span>
+      }
     </li>
   )
 }
 
 UserListItem.propTypes = {
   user: AppPropTypes.user.isRequired,
+  votes: AppPropTypes.votes.isRequired,
+  stage: AppPropTypes.stage.isRequired,
 }
 
-export default UserListItem
+const mapStateToProps = ({ votes, stage }) => ({ votes, stage })
+
+export default connect(
+  mapStateToProps
+)(UserListItem)

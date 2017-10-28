@@ -1,3 +1,5 @@
+@import '../../../css/colors.css';
+
 .wrapper {
   /* Override hyper-specific Semantic UI styles*/
   padding-bottom: 0 !important;
@@ -13,5 +15,16 @@
 
   p {
     margin: 0;
+  }
+
+  .all-votes-in {
+    font-size: 0.7rem;
+    opacity: 0;
+    transition: opacity 0.3s ease-in;
+    color: var(--semantic-green);
+
+    &:global(.opaque) {
+      opacity: 1;
+    }
   }
 }
