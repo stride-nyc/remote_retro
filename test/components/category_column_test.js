@@ -12,6 +12,14 @@ describe("CategoryColumn", () => {
   const actionItemStage = "action-items"
   const actionItemDistributionStage = "closed"
   const votingStage = "voting"
+  const defaultProps = {
+    currentUser: mockUser,
+    retroChannel: mockRetroChannel,
+    votes: [],
+    ideas: [],
+    stage: ideaGenerationStage,
+    category: "confused",
+  }
 
   context("when the stage is either idea-generation or voting stage", () => {
     const ideas = [{
@@ -31,13 +39,12 @@ describe("CategoryColumn", () => {
       user: mockUser,
     }]
 
-    it("it renders ideas sorted by id ascending", () => {
+    it("renders ideas sorted by id ascending", () => {
       const ideaGenerationStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
+          {...defaultProps}
           ideas={ideas}
           category="confused"
-          currentUser={mockUser}
-          retroChannel={mockRetroChannel}
           stage={ideaGenerationStage}
         />
       )
@@ -49,10 +56,8 @@ describe("CategoryColumn", () => {
 
       const votingStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
+          {...defaultProps}
           ideas={ideas}
-          category="confused"
-          currentUser={mockUser}
-          retroChannel={mockRetroChannel}
           stage={votingStage}
         />
       )
@@ -88,25 +93,21 @@ describe("CategoryColumn", () => {
       { idea_id: 1 },
     ]
 
-    it("it renders them sorted by descending", () => {
+    it("it renders them sorted by vote count descending", () => {
       const actionItemsStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
+          {...defaultProps}
           ideas={ideas}
-          category="confused"
           votes={votes}
-          currentUser={mockUser}
-          retroChannel={mockRetroChannel}
           stage={actionItemStage}
         />
       )
 
       const actionItemDistributionStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
+          {...defaultProps}
           ideas={ideas}
-          category="confused"
           votes={votes}
-          currentUser={mockUser}
-          retroChannel={mockRetroChannel}
           stage={actionItemDistributionStage}
         />
       )
@@ -148,13 +149,14 @@ describe("CategoryColumn", () => {
       vote_count: 1,
     }]
 
+    const votes = [{ idea_id: 5 }]
+
     it("alters the sort order to most votes DESC after a delay", () => {
       const wrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
+          {...defaultProps}
+          votes={votes}
           ideas={ideas}
-          category="confused"
-          currentUser={mockUser}
-          retroChannel={mockRetroChannel}
           stage={votingStage}
         />
       )
@@ -185,11 +187,9 @@ describe("CategoryColumn", () => {
 
       const wrapper = shallow(
         <CategoryColumn
+          {...defaultProps}
           ideas={ideas}
           category="happy"
-          currentUser={mockUser}
-          retroChannel={mockRetroChannel}
-          stage={ideaGenerationStage}
         />
       )
       expect(wrapper.find(Idea)).to.have.length(2)
@@ -208,11 +208,9 @@ describe("CategoryColumn", () => {
       const differentCategory = "happy"
       const wrapper = shallow(
         <CategoryColumn
+          {...defaultProps}
           ideas={ideas}
           category={differentCategory}
-          currentUser={mockUser}
-          retroChannel={mockRetroChannel}
-          stage={ideaGenerationStage}
         />
       )
 
