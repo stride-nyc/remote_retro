@@ -1,40 +1,45 @@
 import React from "react"
 import { shallow } from "enzyme"
 
-import VotesLeft from "../../web/static/js/components/votes_left"
-import { voteMax } from "../../web/static/js/configs/retro_configs"
+import { VotesLeft } from "../../web/static/js/components/votes_left"
 
 describe("VotesLeft component", () => {
-  const stubUser = { given_name: "Mugatu", vote_count: 0 }
+  const user = { id: 5 }
+  const voteForUser = { user_id: 5 }
+  const voteForOtherUser = { user_id: 7 }
 
   it("renders 5 Votes Left for a user that hasn't voted yet", () => {
     const lowerThird = shallow(
-      <VotesLeft currentUser={stubUser} />
+      <VotesLeft currentUser={user} votes={[]} />
     )
 
     expect(lowerThird.text()).to.match(/5.*Votes Left/)
   })
 
-  it("renders the Votes Left for the currentUser", () => {
-    const userWithFiveVotes = {
-      is_facilitator: false,
-      vote_count: voteMax,
-    }
+  it("renders the Votes Left (5 minus their votes) for the currentUser", () => {
+    const votes = [
+      voteForUser,
+      voteForUser,
+      voteForOtherUser,
+    ]
 
     const lowerThird = shallow(
-      <VotesLeft currentUser={userWithFiveVotes} />
+      <VotesLeft currentUser={user} votes={votes} />
     )
 
-    expect(lowerThird.text()).to.match(/0.*Votes Left/)
+    expect(lowerThird.text()).to.match(/3.*Votes Left/)
   })
 
   it("renders singular Vote if the user has one vote left", () => {
-    const userWithFourVotes = {
-      is_facilitator: false,
-      vote_count: voteMax - 1,
-    }
+    const votes = [
+      voteForUser,
+      voteForUser,
+      voteForUser,
+      voteForUser,
+    ]
+
     const lowerThird = shallow(
-      <VotesLeft currentUser={userWithFourVotes} />
+      <VotesLeft currentUser={user} votes={votes} />
     )
 
     expect(lowerThird.text()).to.match(/1.*Vote Left/)

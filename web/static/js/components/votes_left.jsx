@@ -1,13 +1,14 @@
 import React from "react"
+import { connect } from "react-redux"
 
 import { voteMax } from "../configs/retro_configs"
 import styles from "./css_modules/votes_left.css"
 
 import * as AppPropTypes from "../prop_types"
 
-const VotesLeft = props => {
-  const { currentUser } = props
-  const userVoteCount = currentUser.vote_count
+export const VotesLeft = props => {
+  const { currentUser, votes } = props
+  const userVoteCount = votes.filter(vote => vote.user_id === currentUser.id).length
   const votesLeft = userVoteCount ? voteMax - userVoteCount : voteMax
   const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"
 
@@ -23,6 +24,11 @@ const VotesLeft = props => {
 
 VotesLeft.propTypes = {
   currentUser: AppPropTypes.user.isRequired,
+  votes: AppPropTypes.votes.isRequired,
 }
 
-export default VotesLeft
+const mapStateToProps = ({ votes }) => ({ votes })
+
+export default connect(
+  mapStateToProps
+)(VotesLeft)
