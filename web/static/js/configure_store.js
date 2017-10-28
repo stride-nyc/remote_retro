@@ -4,10 +4,12 @@ import { createStore } from "redux"
 import rootReducer from "./reducers"
 import interceptOverEagerReactReduxWarning from "./dev-utils/intercept_overeager_reactredux_warning"
 
+const isProd = location.host === "remoteretro.org"
+
 export default () => {
   const store = createStore(
     rootReducer,
-    window.__REDUX_DEVTOOLS_EXTENSION__ && module.hot && window.__REDUX_DEVTOOLS_EXTENSION__()
+    !isProd && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
   )
 
   // ensures that updates to reducers are hot reloaded
