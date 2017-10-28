@@ -6,28 +6,44 @@ import VoteCounter from "../../web/static/js/components/vote_counter"
 
 describe("VoteCounter", () => {
   const idea = {
+    id: 23,
     category: "sad",
     body: "redundant tests",
     user_id: 1,
     user: {
       given_name: "Phil",
     },
-    vote_count: 0,
   }
+
   const mockUser = { id: 55 }
 
-  it("renders an anchor tag that contains the vote count of the idea", () => {
+  const defaultProps = {
+    idea,
+    votes: [],
+    currentUser: mockUser,
+    retroChannel: {},
+    buttonDisabled: false,
+  }
+
+  it("renders an anchor tag that contains the vote count of the given idea", () => {
+    const voteForIdea = { idea_id: 23 }
+    const voteForOtherIdea = { idea_id: 45 }
+    const votes = [
+      voteForIdea,
+      voteForIdea,
+      voteForIdea,
+      voteForOtherIdea,
+    ]
+
     const voteCounter = mountWithConnectedSubcomponents(
       <VoteCounter
-        retroChannel={{}}
-        idea={idea}
-        currentUser={mockUser}
+        {...defaultProps}
+        votes={votes}
       />
     )
     const label = voteCounter.find("a")
 
-    expect(label).to.have.length(1)
-    expect(label.text()).to.equal(idea.vote_count.toString())
+    expect(label.text()).to.equal("3")
   })
 
   context("when buttonDisabled is true", () => {
@@ -35,10 +51,8 @@ describe("VoteCounter", () => {
     beforeEach(() => {
       voteCounter = shallow(
         <VoteCounter
-          retroChannel={{}}
-          idea={idea}
+          {...defaultProps}
           buttonDisabled
-          currentUser={mockUser}
         />
       )
     })
@@ -56,6 +70,7 @@ describe("VoteCounter", () => {
       }
       const voteCounter = shallow(
         <VoteCounter
+          {...defaultProps}
           retroChannel={retroChannelMock}
           idea={idea}
           currentUser={mockUser}

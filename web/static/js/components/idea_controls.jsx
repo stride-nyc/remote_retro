@@ -33,6 +33,7 @@ export const IdeaControls = props => {
         <VoteCounter
           retroChannel={retroChannel}
           idea={idea}
+          votes={votes}
           buttonDisabled={stage !== "voting" || cannotVote}
           currentUser={currentUser}
         />

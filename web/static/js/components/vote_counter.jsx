@@ -18,11 +18,12 @@ class VoteCounter extends React.Component {
   }
 
   render() {
-    const { buttonDisabled } = this.props
-    const { vote_count: voteCount } = this.props.idea
+    const { buttonDisabled, votes, idea } = this.props
     const counterClasses = classNames("ui labeled right floated button", {
       disabled: buttonDisabled,
     })
+
+    const voteCountForIdea = votes.filter(vote => vote.idea_id === idea.id).length
 
     return (
       <div className={counterClasses}>
@@ -39,7 +40,7 @@ class VoteCounter extends React.Component {
             transitionEnterTimeout={250}
             transitionLeaveTimeout={250}
           >
-            <div key={voteCount}>{voteCount}</div>
+            <div key={voteCountForIdea}>{voteCountForIdea}</div>
           </ReactCSSTransitionGroup>
         </a>
       </div>
@@ -54,6 +55,7 @@ VoteCounter.defaultProps = {
 VoteCounter.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   idea: AppPropTypes.idea.isRequired,
+  votes: AppPropTypes.votes.isRequired,
   buttonDisabled: PropTypes.bool,
   currentUser: AppPropTypes.user.isRequired,
 }
