@@ -285,7 +285,7 @@ describe("<IdeaControls />", () => {
     context("when the currentUser has voted under 5 times", () => {
       it("renders an enabled VoteCounter for the currentUser", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
-        const currentUser = { id: 1, is_facilitator: false, vote_count: 4 }
+        const currentUser = { id: 1, is_facilitator: false }
 
         const wrapper = shallow(
           <IdeaControls
