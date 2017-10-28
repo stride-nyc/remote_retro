@@ -2,7 +2,7 @@ import React from "react"
 import { shallow } from "enzyme"
 import sinon from "sinon"
 
-import CategoryColumn from "../../web/static/js/components/category_column"
+import { CategoryColumn } from "../../web/static/js/components/category_column"
 import Idea from "../../web/static/js/components/idea"
 
 describe("CategoryColumn", () => {
@@ -31,7 +31,7 @@ describe("CategoryColumn", () => {
       user: mockUser,
     }]
 
-    it("it renders them sorted by id ascending", () => {
+    it("it renders ideas sorted by id ascending", () => {
       const ideaGenerationStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
           ideas={ideas}
@@ -67,29 +67,33 @@ describe("CategoryColumn", () => {
   context("when the stage is action-items or closed from the outset", () => {
     const ideas = [{
       id: 5,
-      body: "should be third",
+      body: "should be third based on votes",
       category: "confused",
       user: mockUser,
-      vote_count: 1,
     }, {
       id: 2,
-      body: "should be first",
+      body: "should be first based on votes",
       category: "confused",
       user: mockUser,
-      vote_count: 16,
     }, {
-      id: 4,
-      body: "should be second",
+      id: 1,
+      body: "should be second based on votes",
       category: "confused",
       user: mockUser,
-      vote_count: 12,
     }]
 
-    it("it renders them sorted by vote_count descending", () => {
+    const votes = [
+      { idea_id: 2 },
+      { idea_id: 2 },
+      { idea_id: 1 },
+    ]
+
+    it("it renders them sorted by descending", () => {
       const actionItemsStageWrapper = mountWithConnectedSubcomponents(
         <CategoryColumn
           ideas={ideas}
           category="confused"
+          votes={votes}
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={actionItemStage}
@@ -100,6 +104,7 @@ describe("CategoryColumn", () => {
         <CategoryColumn
           ideas={ideas}
           category="confused"
+          votes={votes}
           currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={actionItemDistributionStage}

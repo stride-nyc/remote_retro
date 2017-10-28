@@ -1,11 +1,13 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
+import countBy from "lodash/countBy"
 import FlipMove from "react-flip-move"
 import ShadowedScrollContainer from "./shadowed_scroll_container"
 import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 
-class CategoryColumn extends Component {
+export class CategoryColumn extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -23,13 +25,18 @@ class CategoryColumn extends Component {
   }
 
   render() {
-    const { category, ideas } = this.props
+    const { category, ideas, votes } = this.props
     const filteredIdeas = ideas.filter(idea => idea.category === category)
     const iconHeight = 45
 
     let sortedIdeas
     if (this.state.animateSort) {
-      sortedIdeas = filteredIdeas.sort((a, b) => b.vote_count - a.vote_count)
+      const voteCountsByIdea = countBy(votes, "idea_id")
+      sortedIdeas = filteredIdeas.sort((a, b) => {
+        const voteCountForIdeaA = voteCountsByIdea[a.id] || 0
+        const voteCountForIdeaB = voteCountsByIdea[b.id] || 0
+        return voteCountForIdeaB - voteCountForIdeaA
+      })
     } else {
       sortedIdeas = filteredIdeas.sort((a, b) => a.id - b.id)
     }
@@ -68,7 +75,12 @@ class CategoryColumn extends Component {
 CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   category: AppPropTypes.category.isRequired,
+  votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }
 
-export default CategoryColumn
+const mapStateToProps = ({ votes }) => ({ votes })
+
+export default connect(
+  mapStateToProps
+)(CategoryColumn)
