@@ -3,6 +3,8 @@
 //
 import PropTypes from "prop-types"
 
+export const alert = PropTypes.object
+
 // could be an enum if this is a fixed set of strings?
 export const category = PropTypes.string
 

@@ -1,7 +1,7 @@
 import React from "react"
 import sinon from "sinon"
 
-import IdeaSubmissionForm from "../../web/static/js/components/idea_submission_form"
+import { IdeaSubmissionForm } from "../../web/static/js/components/idea_submission_form"
 
 describe("IdeaSubmissionForm component", () => {
   let wrapper
@@ -151,6 +151,27 @@ describe("IdeaSubmissionForm component", () => {
           wrapper.setProps({ showActionItem: false })
           expect(wrapper.state("category")).to.equal("stub")
         })
+      })
+    })
+
+    describe("when the form has an alert object and the alert is then removed", () => {
+      beforeEach(() => {
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={mockRetroChannel}
+            showActionItem={false}
+            alert={{ herp: "derp" }}
+          />
+        )
+      })
+
+      it("passes the state's `category` to 'action-item'", () => {
+        const ideaInput = wrapper.find("input[name='idea']")
+        expect(document.activeElement).to.equal(ideaInput.node)
+        document.activeElement.blur()
+        wrapper.setProps({ alert: null })
+        expect(document.activeElement).to.equal(ideaInput.node)
       })
     })
   })

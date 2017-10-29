@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 
@@ -11,7 +12,7 @@ const PLACEHOLDER_TEXTS = {
   "action-item": "automate the linting process",
 }
 
-class IdeaSubmissionForm extends Component {
+export class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
     this.defaultCategory = "happy"
@@ -30,6 +31,8 @@ class IdeaSubmissionForm extends Component {
       const category = nextProps.showActionItem ? "action-item" : this.defaultCategory
       this.setState({ category })
     }
+
+    if (this.props.alert && !nextProps.alert) { this.ideaInput.focus() }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -110,6 +113,7 @@ class IdeaSubmissionForm extends Component {
 }
 
 IdeaSubmissionForm.propTypes = {
+  alert: AppPropTypes.alert,
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   showActionItem: PropTypes.bool.isRequired,
@@ -117,7 +121,12 @@ IdeaSubmissionForm.propTypes = {
 }
 
 IdeaSubmissionForm.defaultProps = {
+  alert: null,
   stage: "idea-generation",
 }
 
-export default IdeaSubmissionForm
+const mapStateToProps = ({ alert }) => ({ alert })
+
+export default connect(
+  mapStateToProps
+)(IdeaSubmissionForm)
