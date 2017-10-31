@@ -123,6 +123,46 @@ describe("CategoryColumn", () => {
         expect(listItemsDuringActionItemDistribution.at(1).text()).to.match(/should be second/)
         expect(listItemsDuringActionItemDistribution.at(2).text()).to.match(/should be third/)
       })
+
+      context("when ideas have an identical vote count", () => {
+        const ideas = [{
+          id: 5,
+          body: "should be second based on voting tie and a lower id",
+          category: "confused",
+          user: mockUser,
+        }, {
+          id: 2,
+          body: "should be first based on voting tie and a higher id",
+          category: "confused",
+          user: mockUser,
+        }, {
+          id: 1,
+          body: "should be third based on lack of votes",
+          category: "confused",
+          user: mockUser,
+        }]
+
+        const votes = [
+          { idea_id: 2 },
+          { idea_id: 5 },
+        ]
+
+        it("does a secondary sort on id ascending", () => {
+          const wrapper = mountWithConnectedSubcomponents(
+            <CategoryColumn
+              {...defaultProps}
+              ideas={ideas}
+              votes={votes}
+              stage={actionItemStage}
+            />
+          )
+
+          const listItems = wrapper.find("li")
+          expect(listItems.first().text()).to.match(/should be first/)
+          expect(listItems.at(1).text()).to.match(/should be second/)
+          expect(listItems.at(2).text()).to.match(/should be third/)
+        })
+      })
     })
 
     context("when the category is 'action-items'", () => {

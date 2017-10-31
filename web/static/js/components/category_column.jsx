@@ -35,6 +35,7 @@ export class CategoryColumn extends Component {
       sortedIdeas = filteredIdeas.sort((a, b) => {
         const voteCountForIdeaA = voteCountsByIdea[a.id] || 0
         const voteCountForIdeaB = voteCountsByIdea[b.id] || 0
+        if (voteCountForIdeaB === voteCountForIdeaA) { return a.id - b.id }
         return voteCountForIdeaB - voteCountForIdeaA
       })
     } else {
