@@ -183,7 +183,7 @@ defmodule RemoteRetro.RetroChannelTest do
       idea_id = idea.id
       user_id = user.id
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
-
+      :timer.sleep(25)
       assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
     end
 
@@ -192,7 +192,7 @@ defmodule RemoteRetro.RetroChannelTest do
       idea_id = idea.id
       assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id) end)
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
-      :timer.sleep(50)
+      :timer.sleep(25)
       assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
     end
   end
