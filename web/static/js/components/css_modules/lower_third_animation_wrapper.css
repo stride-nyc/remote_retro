@@ -1,3 +1,13 @@
+@import '../../../css/colors.css';
+
+.index {
+  /* ensure sticky footer appears flush with bottom of screen on bigscreens by adding shadow */
+  :global(.attached.secondary.segment) {
+    border-bottom: none;
+    box-shadow: 0 3rem 3rem 0 var(--semantic-secondary);
+  }
+}
+
 :global(.translateY-height) {
   transition: height 0.7s ease;
 }

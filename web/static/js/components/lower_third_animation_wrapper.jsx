@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import ReactCSSTransitionReplace from "react-css-transition-replace"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/lower_third_animation_wrapper.css" // eslint-disable-line no-unused-vars
+import styles from "./css_modules/lower_third_animation_wrapper.css"
 
 const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
   const contents = (
@@ -18,6 +18,7 @@ const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
       overflowHidden={false}
       transitionAppear
       component="div"
+      className={styles.index}
       transitionLeave
       transitionEnter
       transitionEnterTimeout={700}
