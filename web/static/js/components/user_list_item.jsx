@@ -19,7 +19,7 @@ export const UserListItem = ({ user, votes, stage }) => {
       <p data-hj-masked>{givenName}</p>
       { stage !== "voting" && <AnimatedEllipsis animated={user.is_typing} /> }
       { stage === "voting" &&
-        <span className={`${styles.allVotesIn} ${allVotesIn ? "opaque" : ""}`}>All Votes In</span>
+        <span className={`${styles.allVotesIn} ${allVotesIn ? "opaque" : ""}`}>ALL VOTES IN</span>
       }
     </li>
   )
