@@ -5,7 +5,13 @@ defmodule RemoteRetro.RetroChannel do
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
-    retro = Repo.get!(Retro, retro_id) |> Repo.preload([:ideas, :votes])
+
+    query = from retro in Retro,
+            where: retro.id == ^retro_id,
+            left_join: ideas in assoc(retro, :ideas), on: ideas.retro_id == retro.id,
+            preload: [ideas: ideas]
+
+    retro = Repo.one(query)
 
     send self(), :after_join
     {:ok, retro, socket}
