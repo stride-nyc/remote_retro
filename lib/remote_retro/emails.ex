@@ -37,15 +37,7 @@ defmodule RemoteRetro.Emails do
       #{html_action_item_list(action_items)}
       <p>Thanks!</p>
       <hr>
-      <p><small>RemoteRetro is open source software. If you enjoy using it, please take a moment to star the repo!</small></p>
-      <iframe
-        src="http://ghbtns.com/github-btn.html?user=stride-nyc&repo=remote_retro&type=watch&count=true"
-        allowtransparency="true"
-        scrolling="0"
-        width="100"
-        height="20"
-        frameborder="0"
-      /></iframe>
+      <p><small>RemoteRetro is open source software. If you enjoy using it, please take a moment to star the repo at <a href="https://github.com/stride-nyc/remote_retro">https://github.com/stride-nyc/remote_retro</a></small></p>
     </div>
     """
   end
