@@ -20,7 +20,7 @@ defmodule RemoteRetro.Emails do
       from: {"RemoteRetro", "do-not-reply@remoteretro.org"},
       subject: "Action items from Retro",
       text_body: text_retro_action_items(action_items),
-      html_body: html_retro_action_items(action_items)
+      html_body: html_retro_action_items(action_items, retro_id)
     )
   end
 
@@ -29,13 +29,16 @@ defmodule RemoteRetro.Emails do
     |> Enum.join("\n")
   end
 
-  defp html_retro_action_items(action_items) do
+  defp html_retro_action_items(action_items, retro_id) do
+    retro_link = "https://remoteretro.org/retros/#{retro_id}"
+
     """
     <div>
       <p>Greetings!</p>
       <p>Please find the action items from your retrospective below:</p>
       #{html_action_item_list(action_items)}
-      <p>Thanks!</p>
+
+      <p><strong>Note: </strong>If you'd like to review the retro in its entirety, you can always revisit the retro board at its <a href="#{retro_link}">unique link</a>.</p>
       <hr>
       <p><small>RemoteRetro is open source software. If you enjoy using it, please take a moment to star the repo at <a href="https://github.com/stride-nyc/remote_retro">https://github.com/stride-nyc/remote_retro</a></small></p>
     </div>
