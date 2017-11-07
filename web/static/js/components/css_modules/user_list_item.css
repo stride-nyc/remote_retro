@@ -24,6 +24,8 @@
 
     opacity: 0;
     transition: opacity 0.3s ease-in;
+    transition-delay: 700ms; /* allows vote increment animation to finish, allowing eye to shift */
+
     &:global(.opaque) {
       opacity: 1;
     }
