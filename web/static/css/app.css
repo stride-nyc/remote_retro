@@ -54,7 +54,7 @@ sup {
   }
 
   .right-branded-header {
-    padding-right: 1rem;
+    padding-right: 0.5rem;
     margin-right: 0;
 
     .logo-text {
