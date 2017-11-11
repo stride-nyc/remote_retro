@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import throttle from "lodash/throttle"
 import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 
@@ -11,6 +12,10 @@ const PLACEHOLDER_TEXTS = {
   confused: "what is a linter?",
   "action-item": "automate the linting process",
 }
+
+const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) => {
+  retroChannel.push("user_typing_idea", { userToken: currentUserToken })
+}, 600)
 
 export class IdeaSubmissionForm extends Component {
   constructor(props) {
@@ -49,7 +54,7 @@ export class IdeaSubmissionForm extends Component {
 
   handleIdeaChange(event) {
     const { retroChannel, currentUser } = this.props
-    retroChannel.push("user_typing_idea", { userToken: currentUser.token })
+    pushUserTypingEventThrottled(retroChannel, currentUser.token)
     this.setState({ body: event.target.value, ideaEntryStarted: true })
   }
 
