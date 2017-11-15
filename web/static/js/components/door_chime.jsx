@@ -1,8 +1,15 @@
 import React, { Component } from "react"
 import * as AppPropTypes from "../prop_types"
-import chimeSound from "./chime_sound"
+import enterSound from "./enter_sound"
+import exitSound from "./exit_sound"
 
 class DoorChime extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      sound: enterSound,
+    }
+  }
   componentDidMount() {
     this.audio.volume = 0.15
 
@@ -13,15 +20,22 @@ class DoorChime extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const userCountChanged = (this.props.users.length !== nextProps.users.length)
-    if (userCountChanged && this.audio.readyState) { this.audio.play() }
+    const userCountIncreased = this.props.users.length < nextProps.users.length
+    const userCountDecreased = this.props.users.length > nextProps.users.length
+    const playAudio = () => this.audio.play() 
+
+    if (userCountIncreased && this.audio.readyState) {
+      this.setState({ sound: enterSound }, playAudio)
+    } else if (userCountDecreased && this.audio.readyState) {
+      this.setState({ sound: exitSound }, playAudio)
+    }
   }
 
   render() {
     return (
       <audio
         muted
-        src={chimeSound}
+        src={this.state.sound}
         ref={audio => { this.audio = audio }}
       />
     )

@@ -2,6 +2,8 @@ import React from "react"
 import sinon from "sinon"
 
 import DoorChime from "../../web/static/js/components/door_chime"
+import enterSound from "../../web/static/js/components/enter_sound"
+import exitSound from "../../web/static/js/components/exit_sound"
 
 describe("DoorChime component", () => {
   let audioElement
@@ -43,6 +45,25 @@ describe("DoorChime component", () => {
         expect(audioElement.play.called).to.equal(false)
         doorChimeWrapper.setProps({ users: [{ name: "Hilly" }] })
         expect(audioElement.play.called).to.equal(true)
+      })
+
+      it("plays enter chime when the user list length increases", () => {
+        Object.defineProperty(audioElement, "readyState", {
+          get() { return 5 },
+        })
+
+        doorChimeWrapper.setProps({ users: [{ name: "Hilly" }] })
+        expect(audioElement.src).to.equal(enterSound)
+      })
+
+      it("plays exit chime when the user list length decreases", () => {
+        doorChimeWrapper.setProps({ users: [{ name: "Hilly" }, { name: "Billy" }] })
+        Object.defineProperty(audioElement, "readyState", {
+          get() { return 5 },
+        })
+
+        doorChimeWrapper.setProps({ users: [{ name: "Hilly" }] })
+        expect(audioElement.src).to.equal(exitSound)
       })
     })
 
