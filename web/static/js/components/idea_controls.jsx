@@ -36,6 +36,7 @@ export const IdeaControls = props => {
           votes={votes}
           buttonDisabled={stage !== "voting" || cannotVote}
           currentUser={currentUser}
+          stage={stage}
         />
       )
     }

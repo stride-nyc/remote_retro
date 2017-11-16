@@ -23,27 +23,65 @@ describe("VoteCounter", () => {
     currentUser: mockUser,
     retroChannel: {},
     buttonDisabled: false,
+    stage: "voting",
   }
 
-  it("renders an anchor tag that contains the vote count of the given idea", () => {
-    const voteForIdea = { idea_id: 23 }
-    const voteForOtherIdea = { idea_id: 45 }
-    const votes = [
-      voteForIdea,
-      voteForIdea,
-      voteForIdea,
-      voteForOtherIdea,
-    ]
+  context("during the voting stage", () => {
+    it("renders an anchor tag that contains the vote count of the given idea for the current user", () => {
+      const voteForIdea = { idea_id: 23, user_id: 55 }
+      const voteForIdeaForOtherUser = { idea_id: 23, user_id: 77 }
+      const voteForOtherIdea = { idea_id: 45, user_id: 1 }
+      const votes = [
+        voteForIdea,
+        voteForIdea,
+        voteForIdea,
+        voteForIdeaForOtherUser,
+        voteForOtherIdea,
+      ]
 
-    const voteCounter = mountWithConnectedSubcomponents(
-      <VoteCounter
-        {...defaultProps}
-        votes={votes}
-      />
-    )
-    const label = voteCounter.find("a")
+      const voteCounter = mountWithConnectedSubcomponents(
+        <VoteCounter
+          {...defaultProps}
+          votes={votes}
+        />
+      )
+      const label = voteCounter.find("a")
 
-    expect(label.text()).to.equal("3")
+      expect(label.text()).to.equal("3")
+    })
+  })
+
+  context("during the action-items stage", () => {
+    it("renders an anchor tag that contains the vote count of the given idea for all users", () => {
+      const defaultProps = {
+        idea,
+        votes: [],
+        currentUser: mockUser,
+        retroChannel: {},
+        buttonDisabled: false,
+        stage: "action-items",
+      }
+      const voteForIdea = { idea_id: 23, user_id: 55 }
+      const voteForIdeaForOtherUser = { idea_id: 23, user_id: 77 }
+      const voteForOtherIdea = { idea_id: 45, user_id: 1 }
+      const votes = [
+        voteForIdea,
+        voteForIdea,
+        voteForIdea,
+        voteForIdeaForOtherUser,
+        voteForOtherIdea,
+      ]
+
+      const voteCounter = mountWithConnectedSubcomponents(
+        <VoteCounter
+          {...defaultProps}
+          votes={votes}
+        />
+      )
+      const label = voteCounter.find("a")
+
+      expect(label.text()).to.equal("4")
+    })
   })
 
   context("when buttonDisabled is true", () => {
