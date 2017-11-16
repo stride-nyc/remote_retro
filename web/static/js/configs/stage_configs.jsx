@@ -2,54 +2,57 @@ import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import StageChangeInfoIdeaGeneration from "../components/stage_change_info_idea_generation"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
+import STAGES from "./stages"
+
+const { PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
 export default {
-  "prime-directive": {
+  [PRIME_DIRECTIVE]: {
     alert: null,
     confirmationMessage: "Has your entire party arrived?",
-    nextStage: "idea-generation",
+    nextStage: IDEA_GENERATION,
     progressionButton: {
       copy: "Proceed to Idea Generation",
       iconClass: "arrow right",
     },
   },
-  "idea-generation": {
+  [IDEA_GENERATION]: {
     alert: {
       headerText: "Stage Change: Idea Generation!",
       BodyComponent: StageChangeInfoIdeaGeneration,
     },
     confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
-    nextStage: "voting",
+    nextStage: VOTING,
     progressionButton: {
       copy: "Proceed to Voting",
       iconClass: "arrow right",
     },
   },
-  voting: {
+  [VOTING]: {
     alert: {
       headerText: "Stage Change: Voting!",
       BodyComponent: StageChangeInfoVoting,
     },
     confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
-    nextStage: "action-items",
+    nextStage: ACTION_ITEMS,
     progressionButton: {
       copy: "Proceed to Action Items",
       iconClass: "arrow right",
     },
   },
-  "action-items": {
+  [ACTION_ITEMS]: {
     alert: {
       headerText: "Stage Change: Action-Item Generation!",
       BodyComponent: StageChangeInfoActionItems,
     },
     confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
-    nextStage: "closed",
+    nextStage: CLOSED,
     progressionButton: {
       copy: "Send Action Items",
       iconClass: "send",
     },
   },
-  closed: {
+  [CLOSED]: {
     alert: {
       headerText: "Action Items Distributed",
       BodyComponent: StageChangeInfoClosed,
