@@ -2,12 +2,15 @@ import React from "react"
 import PrimeDirectiveStage from "./prime_directive_stage"
 import IdeaGenerationStage from "./idea_generation_stage"
 import stageConfigs from "../configs/stage_configs"
+import STAGES from "../configs/stages"
 
 import * as AppPropTypes from "../prop_types"
 
+const { PRIME_DIRECTIVE } = STAGES
+
 const Room = props => {
   let roomContents
-  if (props.stage === "prime-directive") {
+  if (props.stage === PRIME_DIRECTIVE) {
     const isFacilitator = props.currentUser.is_facilitator
     const stageConfig = stageConfigs[props.stage]
     roomContents = (

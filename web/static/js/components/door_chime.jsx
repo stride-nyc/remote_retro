@@ -22,7 +22,7 @@ class DoorChime extends Component {
   componentWillReceiveProps(nextProps) {
     const userCountIncreased = this.props.users.length < nextProps.users.length
     const userCountDecreased = this.props.users.length > nextProps.users.length
-    const playAudio = () => this.audio.play() 
+    const playAudio = () => this.audio.play()
 
     if (userCountIncreased && this.audio.readyState) {
       this.setState({ sound: enterSound }, playAudio)

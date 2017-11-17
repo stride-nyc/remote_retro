@@ -3,6 +3,10 @@
 //
 import PropTypes from "prop-types"
 
+import STAGES from "../js/configs/stages"
+
+const { PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
+
 export const alert = PropTypes.object
 
 // could be an enum if this is a fixed set of strings?
@@ -29,11 +33,11 @@ export const idea = PropTypes.shape({
 })
 
 export const stage = PropTypes.oneOf([
-  "prime-directive",
-  "idea-generation",
-  "voting",
-  "action-items",
-  "closed",
+  PRIME_DIRECTIVE,
+  IDEA_GENERATION,
+  VOTING,
+  ACTION_ITEMS,
+  CLOSED,
 ])
 
 export const votes = PropTypes.arrayOf(PropTypes.object)
