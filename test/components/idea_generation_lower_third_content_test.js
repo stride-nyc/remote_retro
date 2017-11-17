@@ -3,6 +3,9 @@ import { shallow } from "enzyme"
 
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 import IdeaGenerationLowerThirdContent from "../../web/static/js/components/idea_generation_lower_third_content" // eslint-disable-line line-length
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 describe("<IdeaGenerationLowerThirdContent />", () => {
   const defaultProps = {
@@ -12,7 +15,7 @@ describe("<IdeaGenerationLowerThirdContent />", () => {
 
   context("when it's the `idea-generation` stage", () => {
     context("and there are no ideas", () => {
-      const noIdeasProps = { ...defaultProps, stage: "idea-generation", ideas: [] }
+      const noIdeasProps = { ...defaultProps, stage: IDEA_GENERATION, ideas: [] }
 
       it("renders a disabled <StageProgressionButton>", () => {
         const lowerThird = shallow(
@@ -26,7 +29,7 @@ describe("<IdeaGenerationLowerThirdContent />", () => {
     context("and there are ideas", () => {
       const propsWithIdeas = {
         ...defaultProps,
-        stage: "idea-generation",
+        stage: IDEA_GENERATION,
         ideas: [{ category: "happy" }],
       }
 
@@ -47,7 +50,7 @@ describe("<IdeaGenerationLowerThirdContent />", () => {
         const lowerThird = shallow(
           <IdeaGenerationLowerThirdContent
             {...defaultProps}
-            stage="action-items"
+            stage={ACTION_ITEMS}
             ideas={[]}
           />
         )
@@ -61,7 +64,7 @@ describe("<IdeaGenerationLowerThirdContent />", () => {
         const lowerThird = shallow(
           <IdeaGenerationLowerThirdContent
             {...defaultProps}
-            stage="action-items"
+            stage={ACTION_ITEMS}
             ideas={[{ category: "action-item" }]}
           />
         )

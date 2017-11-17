@@ -4,20 +4,19 @@ import sinon from "sinon"
 
 import { CategoryColumn } from "../../web/static/js/components/category_column"
 import Idea from "../../web/static/js/components/idea"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
 describe("CategoryColumn", () => {
   const mockUser = { given_name: "daniel" }
   const mockRetroChannel = { on: () => {}, push: () => {} }
-  const ideaGenerationStage = "idea-generation"
-  const actionItemStage = "action-items"
-  const actionItemDistributionStage = "closed"
-  const votingStage = "voting"
   const defaultProps = {
     currentUser: mockUser,
     retroChannel: mockRetroChannel,
     votes: [],
     ideas: [],
-    stage: ideaGenerationStage,
+    stage: IDEA_GENERATION,
     category: "confused",
   }
 
@@ -45,7 +44,7 @@ describe("CategoryColumn", () => {
           {...defaultProps}
           ideas={ideas}
           category="confused"
-          stage={ideaGenerationStage}
+          stage={IDEA_GENERATION}
         />
       )
 
@@ -58,7 +57,7 @@ describe("CategoryColumn", () => {
         <CategoryColumn
           {...defaultProps}
           ideas={ideas}
-          stage={votingStage}
+          stage={VOTING}
         />
       )
 
@@ -100,7 +99,7 @@ describe("CategoryColumn", () => {
             {...defaultProps}
             ideas={ideas}
             votes={votes}
-            stage={actionItemStage}
+            stage={ACTION_ITEMS}
           />
         )
 
@@ -109,7 +108,7 @@ describe("CategoryColumn", () => {
             {...defaultProps}
             ideas={ideas}
             votes={votes}
-            stage={actionItemDistributionStage}
+            stage={CLOSED}
           />
         )
 
@@ -153,7 +152,7 @@ describe("CategoryColumn", () => {
               {...defaultProps}
               ideas={ideas}
               votes={votes}
-              stage={actionItemStage}
+              stage={ACTION_ITEMS}
             />
           )
 
@@ -189,7 +188,7 @@ describe("CategoryColumn", () => {
             {...defaultProps}
             ideas={ideas}
             category="action-item"
-            stage={actionItemStage}
+            stage={ACTION_ITEMS}
           />
         )
 
@@ -234,11 +233,11 @@ describe("CategoryColumn", () => {
           {...defaultProps}
           votes={votes}
           ideas={ideas}
-          stage={votingStage}
+          stage={VOTING}
         />
       )
 
-      wrapper.setProps({ stage: actionItemStage })
+      wrapper.setProps({ stage: ACTION_ITEMS })
       let listItems = wrapper.find("li")
       expect(listItems.first().text()).to.match(/should be first at outset/)
 

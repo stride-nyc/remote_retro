@@ -6,6 +6,9 @@ import * as AppPropTypes from "../prop_types"
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 
 import styles from "./css_modules/idea_submission_form.css"
+import STAGES from "../configs/stages"
+
+const { IDEA_GENERATION } = STAGES
 
 const PLACEHOLDER_TEXTS = {
   happy: "we have a linter!",
@@ -72,7 +75,7 @@ export class IdeaSubmissionForm extends Component {
     ]
     let pointingLabel = null
 
-    if (!this.state.ideaEntryStarted && this.props.stage === "idea-generation") {
+    if (!this.state.ideaEntryStarted && this.props.stage === IDEA_GENERATION) {
       pointingLabel = (
         <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
           Submit an idea!
@@ -128,7 +131,7 @@ IdeaSubmissionForm.propTypes = {
 
 IdeaSubmissionForm.defaultProps = {
   alert: null,
-  stage: "idea-generation",
+  stage: IDEA_GENERATION,
 }
 
 const mapStateToProps = ({ alert }) => ({ alert })

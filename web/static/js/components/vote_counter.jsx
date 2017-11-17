@@ -5,6 +5,9 @@ import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/vote_counter.css"
+import STAGES from "../configs/stages"
+
+const { VOTING } = STAGES
 
 class VoteCounter extends React.Component {
   constructor(props) {
@@ -24,7 +27,7 @@ class VoteCounter extends React.Component {
     })
 
     let voteCountForIdea
-    if (stage === "voting") {
+    if (stage === VOTING) {
       voteCountForIdea = votes.filter(vote =>
         vote.idea_id === idea.id && vote.user_id === this.props.currentUser.id
       ).length

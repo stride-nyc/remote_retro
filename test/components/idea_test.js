@@ -4,6 +4,9 @@ import { shallow } from "enzyme"
 import Idea from "../../web/static/js/components/idea"
 import IdeaControls from "../../web/static/js/components/idea_controls"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION, CLOSED } = STAGES
 
 describe("Idea component", () => {
   const idea = {
@@ -16,8 +19,6 @@ describe("Idea component", () => {
   }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const mockUser = {}
-  const ideaGenerationStage = "idea-generation"
-  const closedStage = "closed"
 
   context("when the user is a facilitator", () => {
     const facilitatorUser = { is_facilitator: true }
@@ -26,7 +27,7 @@ describe("Idea component", () => {
         idea={idea}
         currentUser={facilitatorUser}
         retroChannel={mockRetroChannel}
-        stage={ideaGenerationStage}
+        stage={IDEA_GENERATION}
       />
     )
 
@@ -44,7 +45,7 @@ describe("Idea component", () => {
           idea={idea}
           currentUser={facilitatorUser}
           retroChannel={mockRetroChannel}
-          stage={closedStage}
+          stage={CLOSED}
         />
       )
 
@@ -62,7 +63,7 @@ describe("Idea component", () => {
         idea={ideaInDefaultState}
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
-        stage={ideaGenerationStage}
+        stage={IDEA_GENERATION}
       />
     )
 
@@ -83,7 +84,7 @@ describe("Idea component", () => {
         idea={ideaInEditState}
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
-        stage={ideaGenerationStage}
+        stage={IDEA_GENERATION}
       />
     )
 
@@ -100,7 +101,7 @@ describe("Idea component", () => {
           idea={ideaInEditState}
           currentUser={facilitatorUser}
           retroChannel={mockRetroChannel}
-          stage={ideaGenerationStage}
+          stage={IDEA_GENERATION}
         />
       )
 
@@ -120,7 +121,7 @@ describe("Idea component", () => {
           idea={ideaInEditState}
           currentUser={nonFacilitatorUser}
           retroChannel={mockRetroChannel}
-          stage={ideaGenerationStage}
+          stage={IDEA_GENERATION}
         />
       )
 
@@ -138,7 +139,7 @@ describe("Idea component", () => {
             idea={{ ...ideaInEditState, liveEditText: "editing bigtime" }}
             currentUser={nonFacilitatorUser}
             retroChannel={mockRetroChannel}
-            stage={ideaGenerationStage}
+            stage={IDEA_GENERATION}
           />
         )
         it("displays the `liveEditText` value rather than the body value", () => {
@@ -163,7 +164,7 @@ describe("Idea component", () => {
         idea={editedIdea}
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
-        stage={ideaGenerationStage}
+        stage={IDEA_GENERATION}
       />
     )
 

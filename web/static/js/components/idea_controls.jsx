@@ -6,6 +6,9 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
 import VoteCounter from "./vote_counter"
 import { voteMax } from "../configs/retro_configs"
+import STAGES from "../configs/stages"
+
+const { IDEA_GENERATION, VOTING } = STAGES
 
 const timeElapsedLessThanFiveSec = ideaCreationTimestamp => {
   const millisecondsSinceIdeaCreation = new Date(ideaCreationTimestamp)
@@ -28,13 +31,13 @@ export const IdeaControls = props => {
   const cannotVote = voteCount >= voteMax
 
   function renderIcons() {
-    if (stage !== "idea-generation" && category !== "action-item") {
+    if (stage !== IDEA_GENERATION && category !== "action-item") {
       return (
         <VoteCounter
           retroChannel={retroChannel}
           idea={idea}
           votes={votes}
-          buttonDisabled={stage !== "voting" || cannotVote}
+          buttonDisabled={stage !== VOTING || cannotVote}
           currentUser={currentUser}
           stage={stage}
         />

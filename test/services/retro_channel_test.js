@@ -3,6 +3,9 @@ import { spy, useFakeTimers } from "sinon"
 import { createStore } from "redux"
 
 import RetroChannel from "../../web/static/js/services/retro_channel"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { CLOSED } = STAGES
 
 describe("RetroChannel", () => {
   describe(".configure", () => {
@@ -21,7 +24,7 @@ describe("RetroChannel", () => {
 
     describe("the returned Phoenix channel", () => {
       it("is closed", () => {
-        expect(result.state).to.equal("closed")
+        expect(result.state).to.equal(CLOSED)
       })
 
       it("has a topic attribute identifying the retro with the supplied UUID", () => {

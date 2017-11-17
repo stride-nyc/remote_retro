@@ -5,16 +5,19 @@ import StageProgressionButton from "./stage_progression_button"
 import stageConfigs from "../configs/stage_configs"
 
 import * as AppPropTypes from "../prop_types"
+import STAGES from "../configs/stages"
+
+const { IDEA_GENERATION, ACTION_ITEMS, CLOSED } = STAGES
 
 const IdeaGenerationLowerThirdContent = props => {
   const { stage, ideas } = props
 
   const stageConfig = stageConfigs[stage]
-  const showActionItem = ["action-items", "closed"].includes(stage)
+  const showActionItem = [ACTION_ITEMS, CLOSED].includes(stage)
 
   function progressionDisabled() {
-    const noIdeasCreated = stage === "idea-generation" && !ideas.length
-    const noActionItemsCreated = stage === "action-items" && !ideas.some(idea => idea.category === "action-item")
+    const noIdeasCreated = stage === IDEA_GENERATION && !ideas.length
+    const noActionItemsCreated = stage === ACTION_ITEMS && !ideas.some(idea => idea.category === "action-item")
     return noIdeasCreated || noActionItemsCreated
   }
 

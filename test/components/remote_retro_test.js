@@ -2,6 +2,9 @@ import React from "react"
 import { spy } from "sinon"
 
 import { RemoteRetro } from "../../web/static/js/components/remote_retro"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION, CLOSED } = STAGES
 
 describe("RemoteRetro component", () => {
   const mockRetroChannel = {}
@@ -11,7 +14,7 @@ describe("RemoteRetro component", () => {
     retroChannel: mockRetroChannel,
     users: [],
     ideas: [],
-    stage: "idea-generation",
+    stage: IDEA_GENERATION,
     userToken: "",
   }
 
@@ -20,10 +23,10 @@ describe("RemoteRetro component", () => {
       const hotjarSpy = spy(global, "hj")
 
       mountWithConnectedSubcomponents(
-        <RemoteRetro {...defaultProps} stage="closed" />
+        <RemoteRetro {...defaultProps} stage={CLOSED} />
       )
 
-      expect(hotjarSpy.calledWith("trigger", "closed")).to.eql(true)
+      expect(hotjarSpy.calledWith("trigger", CLOSED)).to.eql(true)
       hotjarSpy.restore()
     })
   })

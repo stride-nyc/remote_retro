@@ -4,6 +4,9 @@ import { voteMax } from "../configs/retro_configs"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list_item.css"
 import AnimatedEllipsis from "./animated_ellipsis"
+import STAGES from "../configs/stages"
+
+const { VOTING } = STAGES
 
 export const UserListItem = ({ user, votes, stage }) => {
   let givenName = user.given_name
@@ -17,8 +20,8 @@ export const UserListItem = ({ user, votes, stage }) => {
     <li className={`item ${styles.wrapper}`}>
       <img className={styles.picture} src={imgSrc} alt={givenName} />
       <p data-hj-masked>{givenName}</p>
-      { stage !== "voting" && <AnimatedEllipsis animated={user.is_typing} /> }
-      { stage === "voting" &&
+      { stage !== VOTING && <AnimatedEllipsis animated={user.is_typing} /> }
+      { stage === VOTING &&
         <span className={`${styles.allVotesIn} ${allVotesIn ? "opaque" : ""}`}>ALL VOTES IN</span>
       }
     </li>

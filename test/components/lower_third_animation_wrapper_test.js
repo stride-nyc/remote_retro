@@ -1,6 +1,9 @@
 import React from "react"
 
 import LowerThirdAnimationWrapper from "../../web/static/js/components/lower_third_animation_wrapper"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION } = STAGES
 
 describe("LowerThirdAnimationWrapper component", () => {
   let lowerThird
@@ -8,7 +11,7 @@ describe("LowerThirdAnimationWrapper component", () => {
   context("when displayContent is true", () => {
     beforeEach(() => {
       lowerThird = mountWithConnectedSubcomponents(
-        <LowerThirdAnimationWrapper displayContents stage="idea-generation">
+        <LowerThirdAnimationWrapper displayContents stage={IDEA_GENERATION}>
           <p>Hello</p>
         </LowerThirdAnimationWrapper>
       )
@@ -22,7 +25,7 @@ describe("LowerThirdAnimationWrapper component", () => {
   context("when displayContent is false", () => {
     beforeEach(() => {
       lowerThird = mountWithConnectedSubcomponents(
-        <LowerThirdAnimationWrapper displayContents={false} stage="idea-generation">
+        <LowerThirdAnimationWrapper displayContents={false} stage={IDEA_GENERATION}>
           <p>Hello</p>
         </LowerThirdAnimationWrapper>
       )
