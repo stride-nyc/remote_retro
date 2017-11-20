@@ -4,13 +4,13 @@ import sinon from "sinon"
 
 import { IdeaControls } from "../../web/static/js/components/idea_controls"
 import VoteCounter from "../../web/static/js/components/vote_counter"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION, VOTING, ACTION_ITEMS } = STAGES
 
 describe("<IdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
   const mockUser = { id: 2, is_facilitator: true }
-  const ideaGenerationStage = "idea-generation"
-  const votingStage = "voting"
-  const actionItemsStage = "action-items"
 
   describe("on click of the removal icon", () => {
     it("pushes an `delete_idea` event to the retro channel, passing the given idea's id", () => {
@@ -21,7 +21,7 @@ describe("<IdeaControls />", () => {
           idea={idea}
           retroChannel={retroChannel}
           currentUser={mockUser}
-          stage={ideaGenerationStage}
+          stage={IDEA_GENERATION}
         />
       )
 
@@ -41,7 +41,7 @@ describe("<IdeaControls />", () => {
           idea={idea}
           retroChannel={retroChannel}
           currentUser={mockUser}
-          stage={ideaGenerationStage}
+          stage={IDEA_GENERATION}
         />
       )
 
@@ -61,7 +61,7 @@ describe("<IdeaControls />", () => {
           idea={idea}
           retroChannel={retroChannel}
           currentUser={mockUser}
-          stage={ideaGenerationStage}
+          stage={IDEA_GENERATION}
         />
       )
 
@@ -82,7 +82,7 @@ describe("<IdeaControls />", () => {
           idea={highlightedIdea}
           retroChannel={retroChannel}
           currentUser={mockUser}
-          stage={ideaGenerationStage}
+          stage={IDEA_GENERATION}
         />
       )
 
@@ -103,7 +103,7 @@ describe("<IdeaControls />", () => {
             idea={idea}
             retroChannel={retroChannel}
             currentUser={mockUser}
-            stage={ideaGenerationStage}
+            stage={IDEA_GENERATION}
           />
         )
 
@@ -125,7 +125,7 @@ describe("<IdeaControls />", () => {
               idea={idea}
               retroChannel={retroChannel}
               currentUser={currentUser}
-              stage={ideaGenerationStage}
+              stage={IDEA_GENERATION}
             />
           )
 
@@ -154,7 +154,7 @@ describe("<IdeaControls />", () => {
                 idea={freshIdea}
                 retroChannel={retroChannel}
                 currentUser={currentUser}
-                stage={ideaGenerationStage}
+                stage={IDEA_GENERATION}
               />
             )
 
@@ -174,7 +174,7 @@ describe("<IdeaControls />", () => {
                 idea={staleIdea}
                 retroChannel={retroChannel}
                 currentUser={currentUser}
-                stage={ideaGenerationStage}
+                stage={IDEA_GENERATION}
               />
             )
 
@@ -197,7 +197,7 @@ describe("<IdeaControls />", () => {
               idea={idea}
               retroChannel={retroChannel}
               currentUser={currentUser}
-              stage={votingStage}
+              stage={VOTING}
             />
           )
 
@@ -216,7 +216,7 @@ describe("<IdeaControls />", () => {
               idea={actionItemIdea}
               retroChannel={retroChannel}
               currentUser={currentUser}
-              stage={votingStage}
+              stage={VOTING}
             />
           )
 
@@ -235,7 +235,7 @@ describe("<IdeaControls />", () => {
             idea={idea}
             retroChannel={retroChannel}
             currentUser={currentUser}
-            stage={ideaGenerationStage}
+            stage={IDEA_GENERATION}
           />
          )
 
@@ -253,7 +253,7 @@ describe("<IdeaControls />", () => {
             idea={idea}
             retroChannel={retroChannel}
             currentUser={currentUser}
-            stage={actionItemsStage}
+            stage={ACTION_ITEMS}
           />
          )
 
@@ -274,7 +274,7 @@ describe("<IdeaControls />", () => {
             votes={votes}
             retroChannel={retroChannel}
             currentUser={currentUser}
-            stage={votingStage}
+            stage={VOTING}
           />
          )
 
@@ -292,7 +292,7 @@ describe("<IdeaControls />", () => {
             idea={idea}
             retroChannel={retroChannel}
             currentUser={currentUser}
-            stage={votingStage}
+            stage={VOTING}
           />
         )
 

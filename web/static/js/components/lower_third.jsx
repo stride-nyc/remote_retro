@@ -6,6 +6,9 @@ import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
 import stageConfigs from "../configs/stage_configs"
 
 import * as AppPropTypes from "../prop_types"
+import STAGES from "../configs/stages"
+
+const { VOTING, CLOSED } = STAGES
 
 const LowerThird = props => {
   const { stage } = props
@@ -13,7 +16,7 @@ const LowerThird = props => {
   const stageConfig = stageConfigs[stage]
 
   function stageSpecificContent() {
-    if (stage === "voting") {
+    if (stage === VOTING) {
       return <VotingLowerThirdContent {...props} config={stageConfig} />
     }
 
@@ -21,7 +24,7 @@ const LowerThird = props => {
   }
 
   return (
-    <LowerThirdAnimationWrapper displayContents={stage !== "closed"} stage={stage}>
+    <LowerThirdAnimationWrapper displayContents={stage !== CLOSED} stage={stage}>
       {stageSpecificContent()}
     </LowerThirdAnimationWrapper>
   )

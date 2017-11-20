@@ -5,6 +5,9 @@ import IdeaControls from "./idea_controls"
 import IdeaEditForm from "./idea_edit_form"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
+import STAGES from "../configs/stages"
+
+const { CLOSED } = STAGES
 
 const Idea = props => {
   const { idea, currentUser, retroChannel, stage } = props
@@ -34,7 +37,7 @@ const Idea = props => {
   )
 
   const renderIdeaControls = () => {
-    if (stage !== "closed") {
+    if (stage !== CLOSED) {
       return ideaControls
     }
     return null

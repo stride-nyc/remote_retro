@@ -4,11 +4,14 @@ import CategoryColumn from "./category_column"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_board.css"
+import STAGES from "../configs/stages"
+
+const { ACTION_ITEMS, CLOSED } = STAGES
 
 const IdeaBoard = props => {
   const { stage } = props
   const categories = ["happy", "sad", "confused"]
-  const showActionItem = ["action-items", "closed"].includes(stage)
+  const showActionItem = [ACTION_ITEMS, CLOSED].includes(stage)
   if (showActionItem) { categories.push("action-item") }
 
   const categoryColumns = categories.map(category => (

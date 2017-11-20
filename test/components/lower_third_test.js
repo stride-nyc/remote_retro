@@ -5,17 +5,19 @@ import { spy } from "sinon"
 import LowerThird from "../../web/static/js/components/lower_third"
 import IdeaGenerationLowerThirdContent from "../../web/static/js/components/idea_generation_lower_third_content" // eslint-disable-line line-length
 import VotingLowerThirdContent from "../../web/static/js/components/voting_lower_third_content"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION, VOTING, CLOSED } = STAGES
 
 describe("LowerThird component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
   const stubUser = { given_name: "Mugatu" }
-  const votingStage = "voting"
   const defaultProps = {
     currentUser: stubUser,
     retroChannel: mockRetroChannel,
     users: [],
     ideas: [],
-    stage: "idea-generation",
+    stage: IDEA_GENERATION,
   }
 
   context("when the stage is `closed`", () => {
@@ -23,7 +25,7 @@ describe("LowerThird component", () => {
       const lowerThird = shallow(
         <LowerThird
           {...defaultProps}
-          stage="closed"
+          stage={CLOSED}
         />
       )
 
@@ -36,7 +38,7 @@ describe("LowerThird component", () => {
       const lowerThird = shallow(
         <LowerThird
           {...defaultProps}
-          stage="idea-generation"
+          stage={IDEA_GENERATION}
         />
       )
 
@@ -49,7 +51,7 @@ describe("LowerThird component", () => {
       const lowerThird = shallow(
         <LowerThird
           {...defaultProps}
-          stage={votingStage}
+          stage={VOTING}
         />
       )
 

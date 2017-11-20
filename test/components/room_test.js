@@ -4,6 +4,9 @@ import { shallow } from "enzyme"
 import Room from "../../web/static/js/components/room"
 import PrimeDirectiveStage from "../../web/static/js/components/prime_directive_stage"
 import IdeaGenerationStage from "../../web/static/js/components/idea_generation_stage"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { PRIME_DIRECTIVE, IDEA_GENERATION } = STAGES
 
 describe("Room", () => {
   let room
@@ -15,7 +18,7 @@ describe("Room", () => {
   describe("when the stage is prime-directive", () => {
     room = shallow(
       <Room
-        stage="prime-directive"
+        stage={PRIME_DIRECTIVE}
         users={users}
       />
     )
@@ -30,7 +33,7 @@ describe("Room", () => {
   describe("when the stage is not prime-directive", () => {
     const ideaRoom = shallow(
       <Room
-        stage="idea-generation"
+        stage={IDEA_GENERATION}
         users={users}
         ideas={[]}
         retroChannel={{}}

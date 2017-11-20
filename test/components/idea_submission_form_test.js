@@ -2,6 +2,9 @@ import React from "react"
 import sinon from "sinon"
 
 import { IdeaSubmissionForm } from "../../web/static/js/components/idea_submission_form"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION, VOTING } = STAGES
 
 describe("IdeaSubmissionForm component", () => {
   let wrapper
@@ -244,7 +247,7 @@ describe("IdeaSubmissionForm component", () => {
             <IdeaSubmissionForm
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
-              stage="idea-generation"
+              stage={IDEA_GENERATION}
               showActionItem
             />
           )
@@ -260,7 +263,7 @@ describe("IdeaSubmissionForm component", () => {
             <IdeaSubmissionForm
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
-              stage="voting"
+              stage={VOTING}
               showActionItem
             />
           )

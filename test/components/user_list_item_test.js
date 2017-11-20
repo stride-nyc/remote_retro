@@ -2,6 +2,9 @@ import React from "react"
 import { shallow, mount } from "enzyme"
 
 import { UserListItem } from "../../web/static/js/components/user_list_item"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION, VOTING } = STAGES
 
 const defaultUserAttrs = {
   given_name: "dylan",
@@ -13,7 +16,7 @@ const defaultUserAttrs = {
 
 const defaultProps = {
   votes: [],
-  stage: "idea-generation",
+  stage: IDEA_GENERATION,
   user: defaultUserAttrs,
 }
 
@@ -52,7 +55,7 @@ describe("UserListItem", () => {
           <UserListItem
             {...defaultProps}
             user={user}
-            stage="idea-generation"
+            stage={IDEA_GENERATION}
           />
         )
 
@@ -67,7 +70,7 @@ describe("UserListItem", () => {
         const wrapper = shallow(
           <UserListItem
             {...defaultProps}
-            stage="idea-generation"
+            stage={IDEA_GENERATION}
             user={user}
           />
         )
@@ -85,12 +88,12 @@ describe("UserListItem", () => {
 
   context("when the stage is voting", () => {
     it("does not render the animated ellipsis wrapper", () => {
-      const wrapper = shallow(<UserListItem {...defaultProps} stage="voting" />)
+      const wrapper = shallow(<UserListItem {...defaultProps} stage={VOTING} />)
       expect(wrapper.text()).to.not.match(/animatedellipsis/i)
     })
 
     it("renders a voting status span", () => {
-      const wrapper = shallow(<UserListItem {...defaultProps} stage="voting" />)
+      const wrapper = shallow(<UserListItem {...defaultProps} stage={VOTING} />)
       expect(wrapper.html()).to.contain("allVotesIn")
     })
 
@@ -103,7 +106,7 @@ describe("UserListItem", () => {
         const wrapper = shallow(
           <UserListItem
             user={userWithFiveVotes}
-            stage="voting"
+            stage={VOTING}
             votes={votes}
           />
         )
@@ -121,7 +124,7 @@ describe("UserListItem", () => {
         const wrapper = shallow(
           <UserListItem
             user={userWithFourVotes}
-            stage="voting"
+            stage={VOTING}
             votes={votes}
           />
         )

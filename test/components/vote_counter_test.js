@@ -3,6 +3,9 @@ import { shallow } from "enzyme"
 import { spy } from "sinon"
 
 import VoteCounter from "../../web/static/js/components/vote_counter"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { ACTION_ITEMS, VOTING } = STAGES
 
 describe("VoteCounter", () => {
   const idea = {
@@ -23,7 +26,7 @@ describe("VoteCounter", () => {
     currentUser: mockUser,
     retroChannel: {},
     buttonDisabled: false,
-    stage: "voting",
+    stage: VOTING,
   }
 
   context("during the voting stage", () => {
@@ -59,7 +62,7 @@ describe("VoteCounter", () => {
         currentUser: mockUser,
         retroChannel: {},
         buttonDisabled: false,
-        stage: "action-items",
+        stage: ACTION_ITEMS,
       }
       const voteForIdea = { idea_id: 23, user_id: 55 }
       const voteForIdeaForOtherUser = { idea_id: 23, user_id: 77 }

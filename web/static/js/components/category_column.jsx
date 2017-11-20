@@ -6,17 +6,20 @@ import ShadowedScrollContainer from "./shadowed_scroll_container"
 import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
+import STAGES from "../configs/stages"
+
+const { VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
 export class CategoryColumn extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      animateSort: props.stage === "action-items" || props.stage === "closed",
+      animateSort: props.stage === ACTION_ITEMS || props.stage === CLOSED,
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.stage === "voting" && nextProps.stage === "action-items") {
+    if (this.props.stage === VOTING && nextProps.stage === ACTION_ITEMS) {
       const timeout = setTimeout(() => {
         this.setState({ animateSort: true })
         clearTimeout(timeout)
