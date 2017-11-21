@@ -1,5 +1,6 @@
 test/**/*_test.js
 --color
+--compilers jsx:babel-register
 --require mock-css-modules
 --require babel-register
 --require=env-test
