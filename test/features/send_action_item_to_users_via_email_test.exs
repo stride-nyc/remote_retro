@@ -3,20 +3,23 @@ defmodule SendActionItemToUsersViaEmailTest do
   use RemoteRetro.IntegrationCase, async: false
   use Bamboo.Test, shared: true
 
-  test "Distributing action items via email", %{session: facilitator_session, retro: retro} do
-    retro_path = "/retros/" <> retro.id
-    idea_text = "Do the test"
-    facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
-    submit_idea(facilitator_session, %{category: "happy", body: "it works"})
+  @mock_user Application.get_env(:remote_retro, :mock_user)
 
-    click_and_confirm(facilitator_session, "Proceed to Voting")
-    click_and_confirm(facilitator_session, "Proceed to Action Items")
+  describe "when an action-item already exists in a retro" do
+    setup [:persist_user_for_retro, :persist_idea_for_retro]
 
-    submit_idea(facilitator_session, %{category: "action-item", body: idea_text})
+    @tag [
+      idea: %RemoteRetro.Idea{category: "action-item", body: "Get better"},
+      retro_stage: "action-items",
+      user: Map.put(@mock_user, "email", "action-man@protagonist.com"),
+    ]
+    test "Distributing action items via email", %{session: facilitator_session, retro: retro} do
+      retro_path = "/retros/" <> retro.id
+      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 
-    assert facilitator_session |> find(Query.css("ul.action-item li[title='#{idea_text}']", count: 1))
-    click_and_confirm(facilitator_session, "Send Action Items")
+      click_and_confirm(facilitator_session, "Send Action Items")
 
-    Emails.action_items_email(retro.id) |> assert_delivered_email
+      Emails.action_items_email(retro.id) |> assert_delivered_email
+    end
   end
 end
