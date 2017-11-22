@@ -10,12 +10,6 @@ import STAGES from "../configs/stages"
 
 const { IDEA_GENERATION, VOTING } = STAGES
 
-const timeElapsedLessThanFiveSec = ideaCreationTimestamp => {
-  const millisecondsSinceIdeaCreation = new Date(ideaCreationTimestamp)
-  const timeElapsedSinceIdeaCreation = new Date().getTime() - millisecondsSinceIdeaCreation
-  return (timeElapsedSinceIdeaCreation < 5000)
-}
-
 export const IdeaControls = props => {
   const { idea, retroChannel, currentUser, stage, votes } = props
   const { id, user_id: userId, isHighlighted = false, category } = idea
@@ -65,11 +59,11 @@ export const IdeaControls = props => {
       )
     }
 
-    if (currentUser.id === userId && timeElapsedLessThanFiveSec(idea.inserted_at)) {
+    if (currentUser.id === userId) {
       return (
         <i
           title="Delete Idea"
-          className={`${styles.actionIcon} ${styles.disappearingIcon} remove circle icon`}
+          className={`${styles.actionIcon} remove circle icon`}
           onClick={() => { retroChannel.push("delete_idea", idea.id) }}
         />
       )
