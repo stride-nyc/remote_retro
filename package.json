@@ -6,8 +6,8 @@
     "compile-dev": "webpack --config='webpack.dll.js' --hide-modules && webpack",
     "watch": "webpack --config='webpack.dll.js' --hide-modules && NODE_ENV=dev node webpack.devserver.js",
     "postinstall": "cp -rf node_modules/semantic-ui-css/ priv/static/css/semantic-ui/",
-    "test": "mocha --watch",
-    "test:ci": "mocha"
+    "test": "mocha",
+    "test:watch": "mocha --watch --watch-extensions jsx"
   },
   "dependencies": {
     "babel-plugin-transform-object-rest-spread": "^6.22.0",

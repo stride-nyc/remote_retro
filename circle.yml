@@ -25,12 +25,11 @@ dependencies:
     - yes | mix deps.get
     - yes | mix local.rebar
     - yarn
-    - npm install -g mocha
     - npm install -g phantomjs
     - npm run deploy
 test:
   override:
-    - mocha
+    - npm run test
     - mix test --exclude feature_test
     - mix test --only feature_test
     - mix coveralls.circle --include feature_test

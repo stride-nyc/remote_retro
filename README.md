@@ -96,7 +96,7 @@ nvm alias default 8.7
 
 Install Global NPM Packages
 ```
-npm install -g yarn phantomjs mocha
+npm install -g yarn phantomjs
 ```
 
 Install Local NPM Packages via Yarn
@@ -144,10 +144,10 @@ To execute the end-to-end tests:
 mix e2e
 ```
 
-To continually execute the client-side unit tests, run:
+To continually execute the client-side unit tests on file change, run:
 
 ```
-mocha --watch
+npm run test:watch
 ```
 
 ## Code
