@@ -161,26 +161,6 @@ describe("<IdeaControls />", () => {
             expect(wrapper.find(".remove.icon")).to.have.length(1)
           })
         })
-
-        context("and the idea was inserted into the db more than 5 seconds ago", () => {
-          it("doesn't render", () => {
-            earlierDate = new Date(clock.now - 6000)
-            const retroChannel = { on: () => {}, push: sinon.spy() }
-            const currentUser = { id: 1, is_facilitator: false }
-            const staleIdea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inserted_at: earlierDate.toUTCString() }
-
-            const wrapper = shallow(
-              <IdeaControls
-                idea={staleIdea}
-                retroChannel={retroChannel}
-                currentUser={currentUser}
-                stage={IDEA_GENERATION}
-              />
-            )
-
-            expect(wrapper.find(".remove.icon")).to.have.length(0)
-          })
-        })
       })
     })
   })
