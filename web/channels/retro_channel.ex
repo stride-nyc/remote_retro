@@ -84,7 +84,7 @@ defmodule RemoteRetro.RetroChannel do
 
     user_vote_count = Repo.aggregate(query, :count, :id)
 
-    if user_vote_count < 5 do
+    if user_vote_count < 3 do
       broadcast! socket, "vote_submitted", %{"idea_id" => idea_id, "user_id" => user_id}
 
       %Vote{

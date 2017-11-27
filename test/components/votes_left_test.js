@@ -8,17 +8,16 @@ describe("VotesLeft component", () => {
   const voteForUser = { user_id: 5 }
   const voteForOtherUser = { user_id: 7 }
 
-  it("renders 5 Votes Left for a user that hasn't voted yet", () => {
+  it("renders 3 Votes Left for a user that hasn't voted yet", () => {
     const lowerThird = shallow(
       <VotesLeft currentUser={user} votes={[]} />
     )
 
-    expect(lowerThird.text()).to.match(/5.*Votes Left/)
+    expect(lowerThird.text()).to.match(/3.*Votes Left/)
   })
 
-  it("renders the Votes Left (5 minus their votes) for the currentUser", () => {
+  it("renders the Votes Left (3 minus their votes) for the currentUser", () => {
     const votes = [
-      voteForUser,
       voteForUser,
       voteForOtherUser,
     ]
@@ -27,13 +26,11 @@ describe("VotesLeft component", () => {
       <VotesLeft currentUser={user} votes={votes} />
     )
 
-    expect(lowerThird.text()).to.match(/3.*Votes Left/)
+    expect(lowerThird.text()).to.match(/2.*Votes Left/)
   })
 
   it("renders singular Vote if the user has one vote left", () => {
     const votes = [
-      voteForUser,
-      voteForUser,
       voteForUser,
       voteForUser,
     ]

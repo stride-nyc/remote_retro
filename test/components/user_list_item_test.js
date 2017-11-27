@@ -97,10 +97,10 @@ describe("UserListItem", () => {
       expect(wrapper.html()).to.contain("allVotesIn")
     })
 
-    context("and the given user has more than 4 votes", () => {
+    context("and the given user has more than 2 votes", () => {
       const userWithFiveVotes = { ...defaultUserAttrs, id: 999 }
       const voteForUser = { user_id: 999 }
-      const votes = [voteForUser, voteForUser, voteForUser, voteForUser, voteForUser]
+      const votes = [voteForUser, voteForUser, voteForUser]
 
       it("renders an opaque span indicating that the user is done voting", () => {
         const wrapper = shallow(
@@ -115,10 +115,10 @@ describe("UserListItem", () => {
       })
     })
 
-    context("and the given user has less than 5 votes", () => {
+    context("and the given user has less than 3 votes", () => {
       const userWithFourVotes = { ...defaultUserAttrs, id: 999 }
       const voteForUser = { user_id: 999 }
-      const votes = [voteForUser, voteForUser, voteForUser, voteForUser]
+      const votes = [voteForUser, voteForUser]
 
       it("does not apply opaqueness to text indicating that the user is done voting", () => {
         const wrapper = shallow(

@@ -1,4 +1,4 @@
-export const voteMax = 5
+export const voteMax = 3
 
 export default {
   voteMax,
