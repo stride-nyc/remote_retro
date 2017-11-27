@@ -5,7 +5,6 @@ import { connect } from "react-redux"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import Alert from "./alert"
-import ShareRetroLinkModal from "./share_retro_link_modal"
 import DoorChime from "./door_chime"
 
 export class RemoteRetro extends Component {
@@ -20,7 +19,7 @@ export class RemoteRetro extends Component {
   }
 
   render() {
-    const { users, ideas, userToken, retroChannel, stage, insertedAt, alert } = this.props
+    const { users, ideas, userToken, retroChannel, stage, alert } = this.props
 
     const currentUser = users.find(user => user.token === userToken)
 
@@ -34,7 +33,6 @@ export class RemoteRetro extends Component {
           retroChannel={retroChannel}
         />
         <Alert config={alert} />
-        <ShareRetroLinkModal retroCreationTimestamp={insertedAt} />
         <DoorChime users={users} />
       </div>
     )
@@ -47,14 +45,12 @@ RemoteRetro.propTypes = {
   ideas: AppPropTypes.ideas,
   userToken: PropTypes.string.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  insertedAt: PropTypes.string,
   alert: PropTypes.object,
 }
 
 RemoteRetro.defaultProps = {
   users: [],
   ideas: [],
-  insertedAt: null,
   alert: null,
 }
 

@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
 import PropTypes from "prop-types"
 import Modal from "react-modal"
 import classNames from "classnames"
@@ -11,7 +12,7 @@ const timeElapsedLessThanFiveSec = retroCreationTimestamp => {
   return (timeElapsedSinceRetroCreation < 7500)
 }
 
-class ShareRetroLinkModal extends Component {
+export class ShareRetroLinkModal extends Component {
   constructor(props) {
     super(props)
     this.closeModal = this.closeModal.bind(this)
@@ -105,4 +106,10 @@ ShareRetroLinkModal.propTypes = {
   retroCreationTimestamp: PropTypes.string,
 }
 
-export default ShareRetroLinkModal
+const mapStateToProps = ({ insertedAt }) => ({
+  retroCreationTimestamp: insertedAt,
+})
+
+export default connect(
+  mapStateToProps
+)(ShareRetroLinkModal)

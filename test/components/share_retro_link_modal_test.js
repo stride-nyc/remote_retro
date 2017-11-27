@@ -2,7 +2,7 @@ import React from "react"
 import Modal from "react-modal"
 import sinon from "sinon"
 
-import ShareRetroLinkModal from "../../web/static/js/components/share_retro_link_modal"
+import { ShareRetroLinkModal } from "../../web/static/js/components/share_retro_link_modal"
 
 describe("ShareRetroLinkModal component", () => {
   let wrapper
