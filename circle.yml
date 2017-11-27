@@ -24,8 +24,16 @@ dependencies:
     - elixir_version=$(awk '/elixir/ { print $2 }' .tool-versions) && asdf install elixir ${elixir_version}
     - yes | mix deps.get
     - yes | mix local.rebar
+    # fetch latest version of chrome
+    - set -ex
+    - google-chrome --version
+    - wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+    - sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+    - sudo apt-get update
+    - sudo apt-get --only-upgrade install google-chrome-stable
+    - google-chrome --version
     - yarn
-    - npm install -g phantomjs
+    - npm install -g phantomjs chromedriver
     - npm run deploy
 test:
   override:

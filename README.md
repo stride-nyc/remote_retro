@@ -96,7 +96,7 @@ nvm alias default 8.7
 
 Install Global NPM Packages
 ```
-npm install -g yarn phantomjs
+npm install -g yarn phantomjs chromedriver
 ```
 
 Install Local NPM Packages via Yarn
