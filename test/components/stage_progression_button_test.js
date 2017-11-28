@@ -1,5 +1,4 @@
 import React from "react"
-import { ReactWrapper } from "enzyme"
 import sinon from "sinon"
 
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
@@ -53,11 +52,8 @@ describe("StageProgressionButton", () => {
         })
 
         context("when the stage progression button is clicked", () => {
-          let modalActions
-
           beforeEach(() => {
-            stageProgressionButton.find("button").simulate("click")
-            modalActions = new ReactWrapper(stageProgressionButton.instance().modalActionsRef, true)
+            stageProgressionButton.find("button.fluid.right.button").simulate("click")
           })
 
           it("opens the modal", () => {
@@ -66,7 +62,7 @@ describe("StageProgressionButton", () => {
 
           context("when clicking yes in the open modal", () => {
             beforeEach(() => {
-              modalActions.find("#yes").simulate("click")
+              stageProgressionButton.find("#yes").simulate("click")
             })
 
             it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
@@ -82,7 +78,7 @@ describe("StageProgressionButton", () => {
 
           context("when clicking no in the open modal", () => {
             beforeEach(() => {
-              modalActions.find("#no").simulate("click")
+              stageProgressionButton.find("#no").simulate("click")
             })
 
             it("does not push an event to the retro channel", () => {
