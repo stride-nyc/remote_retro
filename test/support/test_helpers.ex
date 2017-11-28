@@ -32,6 +32,7 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def new_browser_session(metadata \\ %{}) do
+    :timer.sleep(50)
     {:ok, session} = Wallaby.start_session(metadata: metadata)
     resize_window(session, 1000, 1000)
   end
