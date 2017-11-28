@@ -242,6 +242,7 @@ describe("CategoryColumn", () => {
       expect(listItems.first().text()).to.match(/should be first at outset/)
 
       clock.tick(2250)
+      wrapper.update()
       listItems = wrapper.find("li")
       expect(listItems.first().text()).to.match(/should be first after brief delay/)
     })
