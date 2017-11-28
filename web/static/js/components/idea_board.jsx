@@ -9,12 +9,12 @@ import STAGES from "../configs/stages"
 const { ACTION_ITEMS, CLOSED } = STAGES
 
 const IdeaBoard = props => {
-  const { stage } = props
-  const categories = ["happy", "sad", "confused"]
+  const { stage, categories } = props
   const showActionItem = [ACTION_ITEMS, CLOSED].includes(stage)
-  if (showActionItem) { categories.push("action-item") }
+  const renderableColumnCategories = [...categories]
+  if (showActionItem) { renderableColumnCategories.push("action-item") }
 
-  const categoryColumns = categories.map(category => (
+  const categoryColumns = renderableColumnCategories.map(category => (
     <CategoryColumn {...props} category={category} key={category} />
   ))
 
@@ -35,6 +35,7 @@ IdeaBoard.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
   users: AppPropTypes.users.isRequired,
+  categories: AppPropTypes.categories.isRequired,
 }
 
 export default IdeaBoard

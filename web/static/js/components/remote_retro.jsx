@@ -6,6 +6,7 @@ import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import Alert from "./alert"
 import DoorChime from "./door_chime"
+import { CATEGORIES } from "../configs/retro_configs"
 
 export class RemoteRetro extends Component {
   // Trigger analytics events on page load and stage changes
@@ -20,7 +21,7 @@ export class RemoteRetro extends Component {
 
   render() {
     const { users, ideas, userToken, retroChannel, stage, alert } = this.props
-
+    const categories = CATEGORIES
     const currentUser = users.find(user => user.token === userToken)
 
     return (
@@ -31,6 +32,7 @@ export class RemoteRetro extends Component {
           ideas={ideas}
           stage={stage}
           retroChannel={retroChannel}
+          categories={categories}
         />
         <Alert config={alert} />
         <DoorChime users={users} />
