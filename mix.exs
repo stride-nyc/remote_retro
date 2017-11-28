@@ -36,7 +36,7 @@ defmodule RemoteRetro.Mixfile do
     [{:phoenix, "~> 1.2.1"},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.2.2"},
-     {:excoveralls, "~> 0.6", only: :test},
+     {:excoveralls, "~> 0.7.5", only: :test},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
