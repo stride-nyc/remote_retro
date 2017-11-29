@@ -4,6 +4,7 @@ import { shallow } from "enzyme"
 import IdeaBoard from "../../web/static/js/components/idea_board"
 import CategoryColumn from "../../web/static/js/components/category_column"
 import STAGES from "../../web/static/js/configs/stages"
+import { CATEGORIES } from "../../web/static/js/configs/retro_configs"
 
 const { IDEA_GENERATION, ACTION_ITEMS, CLOSED } = STAGES
 
@@ -17,6 +18,7 @@ describe("IdeaBoard component", () => {
     users: [],
     ideas: [],
     stage: IDEA_GENERATION,
+    categories: CATEGORIES,
   }
 
   describe("when the stage is 'idea-generation'", () => {
