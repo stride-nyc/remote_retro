@@ -12,6 +12,10 @@ Enzyme.configure({ adapter: new Adapter() })
 global.hj = noop
 global.expect = expect
 
+global.requestAnimationFrame = callback => {
+  setTimeout(callback, 0)
+}
+
 global.mountWithConnectedSubcomponents = (component, options) => {
   const store = {
     subscribe: () => {},

@@ -3,6 +3,6 @@ test/**/*_test.js
 --require mock-css-modules
 --require babel-register
 --require=env-test
---require jsdom-global/register
 --require test/support/js/test_helper.js
+--require jsdom-global/register
 --reporter dot
