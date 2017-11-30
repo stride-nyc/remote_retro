@@ -30,12 +30,12 @@ class IdeaEditForm extends Component {
   }
 
   render() {
-    const { categories, stage } = this.props
+    const { categories, category, stage } = this.props
     return (
       <form onSubmit={this.onSubmit} className="ui form">
         <p className="ui center aligned sub header">Editing</p>
         {stage !== "action-items" && <select className="ui dropdown">
-          <option value="">Category</option>
+          <option value="">{category}</option>
           {categories.map(category => (
             <option key={category} value={category}>{category}</option>
           ))}
