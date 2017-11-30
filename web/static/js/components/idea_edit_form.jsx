@@ -33,6 +33,12 @@ class IdeaEditForm extends Component {
     return (
       <form onSubmit={this.onSubmit} className="ui form">
         <p className="ui center aligned sub header">Editing</p>
+        <select className="ui dropdown">
+          <option value="">Category</option>
+          <option value="happy">Happy</option>
+          <option value="sad">Sad</option>
+          <option value="confused">confused</option>
+        </select>
         <div className="field">
           <textarea
             name="editable_idea"
