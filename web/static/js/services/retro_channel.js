@@ -26,12 +26,12 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
     actions.updateStage(payload.stage)
   })
 
-  retroChannel.on("enable_edit_state", nominatedIdea => {
-    actions.updateIdea(nominatedIdea.id, { editing: true })
+  retroChannel.on("enable_edit_state", ({ id, editorToken }) => {
+    actions.updateIdea(id, { editing: true, editorToken })
   })
 
   retroChannel.on("disable_edit_state", disabledIdea => {
-    actions.updateIdea(disabledIdea.id, { editing: false, liveEditText: null })
+    actions.updateIdea(disabledIdea.id, { editing: false, liveEditText: null, editorToken: null })
   })
 
   retroChannel.on("idea_live_edit", editedIdea => {

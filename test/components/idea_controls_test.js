@@ -48,7 +48,7 @@ describe("<IdeaControls />", () => {
   })
 
   describe("on click of the edit icon", () => {
-    it("pushes an `enable_edit_state` event to the retro channel, passing the given idea", () => {
+    it("pushes an enable_edit_state event to the channel, passing the idea and editorToken", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
 
       const wrapper = shallow(
@@ -62,7 +62,7 @@ describe("<IdeaControls />", () => {
 
       wrapper.find(".edit.icon").simulate("click")
       expect(
-        retroChannel.push.calledWith("enable_edit_state", idea)
+        retroChannel.push.calledWith("enable_edit_state", { idea, editorToken: mockUser.token })
       ).to.equal(true)
     })
   })

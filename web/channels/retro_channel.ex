@@ -17,8 +17,11 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("enable_edit_state", %{"id" => id}, socket) do
-    broadcast! socket, "enable_edit_state", %{"id" => id}
+  def handle_in("enable_edit_state", %{"idea" => idea, "editorToken" => editorToken}, socket) do
+    broadcast! socket, "enable_edit_state", %{
+      "id" => idea["id"],
+      "editorToken" => editorToken
+    }
     {:noreply, socket}
   end
 

@@ -48,7 +48,7 @@ export const IdeaControls = props => {
           <i
             title="Edit Idea"
             className={`${styles.actionIcon} edit icon`}
-            onClick={() => { retroChannel.push("enable_edit_state", idea) }}
+            onClick={() => { retroChannel.push("enable_edit_state", { idea, editorToken: currentUser.token }) }}
           />
           <i
             title={highlightTitle}
