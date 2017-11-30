@@ -30,16 +30,16 @@ class IdeaEditForm extends Component {
   }
 
   render() {
-    const categories = this.props.categories
+    const { categories, stage } = this.props
     return (
       <form onSubmit={this.onSubmit} className="ui form">
         <p className="ui center aligned sub header">Editing</p>
-        <select className="ui dropdown">
+        {stage !== "action-items" && <select className="ui dropdown">
           <option value="">Category</option>
           {categories.map(category => (
             <option key={category} value={category}>{category}</option>
           ))}
-        </select>
+        </select>}
         <div className="field">
           <textarea
             name="editable_idea"

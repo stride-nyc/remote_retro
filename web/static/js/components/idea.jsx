@@ -33,7 +33,12 @@ const Idea = props => {
   )
 
   const ideaEditForm = (
-    <IdeaEditForm idea={idea} retroChannel={retroChannel} categories={categories} />
+    <IdeaEditForm
+      idea={idea}
+      retroChannel={retroChannel}
+      categories={categories}
+      stage={stage}
+    />
   )
 
   const renderIdeaControls = () => {
