@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import ReactTransitionGroup from "react-transition-group/CSSTransitionGroup"
+import ReactCSSTransitionGroup from "react-addons-css-transition-group"
 import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
@@ -44,14 +44,14 @@ class VoteCounter extends React.Component {
           Vote
         </button>
         <a className={`ui basic green label ${styles.voteCount}`}>
-          <ReactTransitionGroup
+          <ReactCSSTransitionGroup
             component="div"
             transitionName="increment"
             transitionEnterTimeout={250}
             transitionLeaveTimeout={250}
           >
             <div key={voteCountForIdea}>{voteCountForIdea}</div>
-          </ReactTransitionGroup>
+          </ReactCSSTransitionGroup>
         </a>
       </div>
     )

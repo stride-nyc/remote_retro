@@ -1,6 +1,6 @@
 require("classnames")
 require("react")
-require("react-transition-group/CSSTransitionGroup")
+require("react-addons-css-transition-group")
 require("react-dom")
 require("react-hot-loader")
 require("react-redux")
