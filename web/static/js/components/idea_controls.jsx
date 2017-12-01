@@ -13,9 +13,7 @@ const { IDEA_GENERATION, VOTING } = STAGES
 export const IdeaControls = props => {
   const { idea, retroChannel, currentUser, stage, votes } = props
   const { id, user_id: userId, isHighlighted = false, category } = idea
-  const highlightClasses = classNames({
-    [styles.actionIcon]: true,
-    icon: true,
+  const highlightClasses = classNames(`icon ${styles.actionIcon}`, {
     announcement: !isHighlighted,
     ban: isHighlighted,
   })
