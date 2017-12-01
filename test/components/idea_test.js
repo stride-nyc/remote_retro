@@ -38,21 +38,6 @@ describe("Idea component", () => {
     it("renders IdeaControls as its first child for proper floating/text-wrapping", () => {
       expect(wrapper.childAt(0).html()).to.match(/edit idea/i)
     })
-
-    context("when the stage is closed", () => {
-      const wrapper = mountWithConnectedSubcomponents(
-        <Idea
-          idea={idea}
-          currentUser={facilitatorUser}
-          retroChannel={mockRetroChannel}
-          stage={CLOSED}
-        />
-      )
-
-      it("doesn't render <IdeaControls />", () => {
-        expect(wrapper.find(IdeaControls).length).to.equal(0)
-      })
-    })
   })
 
   context("when the idea is in its default state", () => {

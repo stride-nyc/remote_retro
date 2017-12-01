@@ -6,11 +6,26 @@ import { IdeaControls } from "../../web/static/js/components/idea_controls"
 import VoteCounter from "../../web/static/js/components/vote_counter"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, VOTING, ACTION_ITEMS } = STAGES
+const { IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
 describe("<IdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
   const mockUser = { id: 2, is_facilitator: true }
+
+  context("when the stage is closed", () => {
+    const wrapper = shallow(
+      <IdeaControls
+        idea={idea}
+        retroChannel={{}}
+        currentUser={mockUser}
+        stage={CLOSED}
+      />
+    )
+
+    it("doesn't render", () => {
+      expect(wrapper.html()).to.equal(null)
+    })
+  })
 
   describe("on click of the removal icon", () => {
     it("pushes an `delete_idea` event to the retro channel, passing the given idea's id", () => {

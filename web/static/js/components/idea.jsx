@@ -19,15 +19,6 @@ const Idea = props => {
     [styles.highlighted]: idea.isHighlighted,
   })
 
-  const ideaControls = (
-    <IdeaControls
-      idea={idea}
-      retroChannel={retroChannel}
-      currentUser={currentUser}
-      stage={stage}
-    />
-  )
-
   const editingMessage = (
     <p className="ui center aligned sub dividing header">Facilitator is Editing</p>
   )
@@ -35,13 +26,6 @@ const Idea = props => {
   const ideaEditForm = (
     <IdeaEditForm idea={idea} retroChannel={retroChannel} />
   )
-
-  const renderIdeaControls = () => {
-    if (stage !== CLOSED) {
-      return ideaControls
-    }
-    return null
-  }
 
   const renderMessage = () => {
     if (idea.editing && !isFacilitator) {
@@ -60,7 +44,12 @@ const Idea = props => {
 
   const readOnlyIdea = (
     <div className={styles.ideaWrapper}>
-      { renderIdeaControls() }
+      <IdeaControls
+        idea={idea}
+        retroChannel={retroChannel}
+        currentUser={currentUser}
+        stage={stage}
+      />
       { renderMessage() }
       <span data-hj-masked>{ renderText() }</span>
       { renderEditedIndicator() }
