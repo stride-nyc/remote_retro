@@ -37,7 +37,8 @@ export const IdeaControls = props => {
         />
       )
     }
-    if (currentUser.is_facilitator) {
+
+    if (currentUser.is_facilitator || currentUser.id === userId) {
       return (
         <div className={styles.wrapper}>
           <i
@@ -50,24 +51,18 @@ export const IdeaControls = props => {
             className={`${styles.actionIcon} edit icon`}
             onClick={() => { retroChannel.push("enable_edit_state", { idea, editorToken: currentUser.token }) }}
           />
-          <i
-            title={highlightTitle}
-            className={highlightClasses}
-            onClick={() => { retroChannel.push("highlight_idea", { id, isHighlighted }) }}
-          />
+          {
+            currentUser.is_facilitator &&
+            <i
+              title={highlightTitle}
+              className={highlightClasses}
+              onClick={() => { retroChannel.push("highlight_idea", { id, isHighlighted }) }}
+            />
+          }
         </div>
       )
     }
 
-    if (currentUser.id === userId) {
-      return (
-        <i
-          title="Delete Idea"
-          className={`${styles.actionIcon} remove circle icon`}
-          onClick={() => { retroChannel.push("delete_idea", idea.id) }}
-        />
-      )
-    }
     return null
   }
 

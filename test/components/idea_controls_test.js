@@ -127,11 +127,8 @@ describe("<IdeaControls />", () => {
     })
 
     context("when the user is not the facilitator", () => {
-      let clock
-      let earlierDate
-
       context("and the idea is not theirs", () => {
-        it("doesn't render", () => {
+        it("doesn't render any icons", () => {
           const retroChannel = { on: () => {}, push: sinon.spy() }
           const currentUser = { id: 2, is_facilitator: false }
 
@@ -144,37 +141,32 @@ describe("<IdeaControls />", () => {
             />
           )
 
-          expect(wrapper.find(".remove.icon")).to.have.length(0)
+          expect(wrapper.find(".icon")).to.have.length(0)
         })
       })
 
       context("and the idea is theirs", () => {
-        beforeEach(() => {
-          clock = sinon.useFakeTimers(new Date(2017, 1, 1, 0, 0, 0).getTime())
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+        const currentUser = { id: 1, is_facilitator: false }
+        const freshIdea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
+
+        const wrapper = shallow(
+          <IdeaControls
+            idea={freshIdea}
+            retroChannel={retroChannel}
+            currentUser={currentUser}
+            stage={IDEA_GENERATION}
+          />
+        )
+
+        it("renders icons for editing and deleting", () => {
+          expect(wrapper.find(".remove.icon")).to.have.length(1)
+          expect(wrapper.find(".edit.icon")).to.have.length(1)
         })
 
-        afterEach(() => {
-          clock.restore()
-        })
-
-        context("and the idea was inserted into the db less than 5 seconds ago", () => {
-          it("renders", () => {
-            earlierDate = new Date(clock.now - 4000)
-            const retroChannel = { on: () => {}, push: sinon.spy() }
-            const currentUser = { id: 1, is_facilitator: false }
-            const freshIdea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inserted_at: earlierDate.toUTCString() }
-
-            const wrapper = shallow(
-              <IdeaControls
-                idea={freshIdea}
-                retroChannel={retroChannel}
-                currentUser={currentUser}
-                stage={IDEA_GENERATION}
-              />
-            )
-
-            expect(wrapper.find(".remove.icon")).to.have.length(1)
-          })
+        it("does *not* render an icon for highlighting", () => {
+          expect(wrapper.find(".announcement.icon")).to.have.length(0)
+          expect(wrapper.find(".ban.icon")).to.have.length(0)
         })
       })
     })
