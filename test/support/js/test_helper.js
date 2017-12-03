@@ -1,10 +1,13 @@
 import { expect } from "chai"
-import { mount } from "enzyme"
+import Enzyme from "enzyme"
+import Adapter from "enzyme-adapter-react-16"
 import PropTypes from "prop-types"
 import noop from "lodash/noop"
 import STAGES from "../../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION } = STAGES
+
+Enzyme.configure({ adapter: new Adapter() })
 
 global.hj = noop
 global.expect = expect
@@ -25,5 +28,5 @@ global.mountWithConnectedSubcomponents = (component, options) => {
     childContextTypes: { store: PropTypes.object.isRequired },
   }
 
-  return mount(component, { ...defaultOptions, ...options })
+  return Enzyme.mount(component, { ...defaultOptions, ...options })
 }

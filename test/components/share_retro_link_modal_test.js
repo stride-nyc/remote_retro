@@ -40,14 +40,14 @@ describe("ShareRetroLinkModal component", () => {
         wrapper = mountWithConnectedSubcomponents(
           <ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />
         )
-        portalToModalContent = wrapper.find(Modal).node.portal
+        portalToModalContent = wrapper.find(Modal).instance().portal
       })
 
       describe("and the copy link button is clicked", () => {
         let readonlyUrlInput
 
         beforeEach(() => {
-          const portalContent = portalToModalContent.refs.content
+          const portalContent = portalToModalContent.content
           const copyButton = portalContent.querySelector(".copy.icon")
           readonlyUrlInput = portalContent.querySelector("input[type='text']")
           readonlyUrlInput.select = sinon.spy()
@@ -66,12 +66,13 @@ describe("ShareRetroLinkModal component", () => {
 
       describe("and the close icon is clicked", () => {
         beforeEach(() => {
-          const content = portalToModalContent.refs.content
+          const content = portalToModalContent.content
           const closeIcon = content.querySelector(".close.icon")
           closeIcon.click()
         })
 
         it("closes the modal", () => {
+          wrapper.update()
           const isOpen = wrapper.find("Modal").props().isOpen
           expect(isOpen).to.equal(false)
         })

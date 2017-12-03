@@ -7,7 +7,7 @@ const UserList = props => {
   const usersSortedByArrival = props.users.sort((a, b) => a.online_at - b.online_at)
 
   const listItems = usersSortedByArrival.map(user =>
-    <UserListItem key={user.online_at} user={user} />
+    <UserListItem key={user.token} user={user} />
   )
 
   return (

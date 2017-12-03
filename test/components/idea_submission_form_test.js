@@ -100,12 +100,12 @@ describe("IdeaSubmissionForm component", () => {
 
       const ideaInput = wrapper.find("input[name='idea']")
 
-      expect(document.activeElement).to.equal(ideaInput.node)
+      expect(document.activeElement).to.equal(ideaInput.instance())
       document.activeElement.blur()
-      expect(document.activeElement).not.to.equal(wrapper.find("input[name='idea']").node)
+      expect(document.activeElement).not.to.equal(wrapper.find("input[name='idea']").instance())
 
       wrapper.setState({ category: "derp" })
-      expect(document.activeElement).to.equal(ideaInput.node)
+      expect(document.activeElement).to.equal(ideaInput.instance())
     })
   })
 
@@ -118,11 +118,13 @@ describe("IdeaSubmissionForm component", () => {
           showActionItem
         />
       )
-      const submitButton = wrapper.find("button[type='submit']")
+      let submitButton = wrapper.find("button[type='submit']")
       const ideaInput = wrapper.find("input[name='idea']")
 
       expect(submitButton.prop("disabled")).to.equal(true)
       ideaInput.simulate("change", { target: { value: "farts" } })
+
+      submitButton = wrapper.find("button[type='submit']")
       expect(submitButton.prop("disabled")).to.equal(false)
     })
   })
@@ -171,10 +173,10 @@ describe("IdeaSubmissionForm component", () => {
 
       it("passes the state's `category` to 'action-item'", () => {
         const ideaInput = wrapper.find("input[name='idea']")
-        expect(document.activeElement).to.equal(ideaInput.node)
+        expect(document.activeElement).to.equal(ideaInput.instance())
         document.activeElement.blur()
         wrapper.setProps({ alert: null })
-        expect(document.activeElement).to.equal(ideaInput.node)
+        expect(document.activeElement).to.equal(ideaInput.instance())
       })
     })
   })

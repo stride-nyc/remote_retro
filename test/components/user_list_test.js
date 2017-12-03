@@ -9,10 +9,12 @@ describe("passed an array of users", () => {
     given_name: "treezy",
     online_at: 803,
     picture: "http://herpderp.com",
+    token: "requiredAsUniqueKey",
   }, {
     given_name: "zander",
     online_at: 801,
     picture: "http://herpderp.com",
+    token: "requiredAsADifferentUniqueKey",
   }]
 
   it("is renders a list item for each user", () => {

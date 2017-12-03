@@ -18,8 +18,8 @@ describe("Alert component", () => {
 
   beforeEach(() => {
     wrapper = mountWithConnectedSubcomponents(<Alert config={alertConfig} actions={actions} />)
-    portalToModalContent = wrapper.find(Modal).node.portal
-    modalBody = portalToModalContent.refs.content
+    portalToModalContent = wrapper.find(Modal).instance().portal
+    modalBody = portalToModalContent.content
   })
 
   it("renders the headerText in a header text component", () => {
@@ -42,8 +42,8 @@ describe("Alert component", () => {
       actions = { clearAlert: sinon.spy() }
 
       wrapper = mountWithConnectedSubcomponents(<Alert config={alertConfig} actions={actions} />)
-      portalToModalContent = wrapper.find(Modal).node.portal
-      modalBody = portalToModalContent.refs.content
+      portalToModalContent = wrapper.find(Modal).instance().portal
+      modalBody = portalToModalContent.content
       modalBody.querySelector("button").click()
     })
 

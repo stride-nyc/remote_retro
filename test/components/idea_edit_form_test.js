@@ -34,6 +34,7 @@ describe("<IdeaEditForm />", () => {
     })
 
     it("the value prop of the textarea updates in turn", () => {
+      textarea = wrapper.find("textarea")
       expect(textarea.props().value).to.equal("some value")
     })
 
@@ -74,7 +75,7 @@ describe("<IdeaEditForm />", () => {
       const wrapper = mountWithConnectedSubcomponents(
         <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
       )
-      const saveButton = wrapper.findWhere(element => (element.text() === "Save"))
+      const saveButton = wrapper.find("button[type='submit']")
 
       saveButton.simulate("submit")
 
@@ -91,7 +92,7 @@ describe("<IdeaEditForm />", () => {
       const wrapper = mountWithConnectedSubcomponents(
         <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
       )
-      const cancelButton = wrapper.findWhere(element => (element.text() === "Cancel"))
+      const cancelButton = wrapper.find("button.cancel.button")
 
       cancelButton.simulate("click")
 

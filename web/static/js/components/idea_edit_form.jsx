@@ -46,7 +46,7 @@ class IdeaEditForm extends Component {
           />
         </div>
         <div className="ui buttons">
-          <button onClick={this.onCancel} className="ui button">Cancel</button>
+          <button onClick={this.onCancel} className="ui cancel button">Cancel</button>
           <div className="or" />
           <button type="submit" className="ui positive button">Save</button>
         </div>
