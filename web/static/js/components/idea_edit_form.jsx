@@ -11,8 +11,11 @@ class IdeaEditForm extends Component {
   }
 
   onChange(event) {
-    const { retroChannel, idea } = this.props
-    retroChannel.push("idea_live_edit", { id: idea.id, liveEditText: event.target.value })
+    const { retroChannel, idea, currentUser } = this.props
+    if (currentUser.is_facilitator) {
+      retroChannel.push("idea_live_edit", { id: idea.id, liveEditText: event.target.value })
+    }
+
     this.setState({ ideaBody: event.target.value })
   }
 
@@ -55,6 +58,7 @@ class IdeaEditForm extends Component {
 IdeaEditForm.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
+  currentUser: AppPropTypes.user.isRequired,
 }
 
 export default IdeaEditForm

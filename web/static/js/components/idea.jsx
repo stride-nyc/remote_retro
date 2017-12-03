@@ -17,7 +17,7 @@ const Idea = props => {
 
   let content
   if (userIsEditing) {
-    content = <IdeaEditForm idea={idea} retroChannel={retroChannel} />
+    content = <IdeaEditForm idea={idea} retroChannel={retroChannel} currentUser={currentUser} />
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
   } else {

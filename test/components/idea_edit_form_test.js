@@ -6,8 +6,9 @@ import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("<IdeaEditForm />", () => {
   const idea = { id: 999, category: "sad", body: "redundant tests", userId: 1 }
+  const currentUser = { is_facilitator: true }
   const mockRetroChannel = { on: () => {}, push: () => {} }
-  const defaultProps = { idea, retroChannel: mockRetroChannel }
+  const defaultProps = { idea, currentUser, retroChannel: mockRetroChannel }
 
   describe("on initial render", () => {
     it("is pre-populated with the given idea's body text", () => {
@@ -36,10 +37,33 @@ describe("<IdeaEditForm />", () => {
       expect(textarea.props().value).to.equal("some value")
     })
 
-    it("pushes a `idea_live_edit` event to the retroChannel, passing current input value", () => {
-      expect(
-        retroChannel.push.calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
-      ).to.equal(true)
+    context("when the currentUser is the facilitator", () => {
+      it("pushes a `idea_live_edit` event to the retroChannel, passing current input value", () => {
+        expect(
+          retroChannel.push.calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
+        ).to.equal(true)
+      })
+    })
+
+    context("when the currentUser is *not* the facilitator", () => {
+      beforeEach(() => {
+        retroChannel = { on: () => {}, push: sinon.spy() }
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaEditForm
+            {...defaultProps}
+            retroChannel={retroChannel}
+            currentUser={{ is_facilitator: false }}
+          />
+        )
+        textarea = wrapper.find("textarea")
+        textarea.simulate("change", { target: { value: "some value" } })
+      })
+
+      it("does not push an `idea_live_edit` event to the retroChannel", () => {
+        expect(
+          retroChannel.push.called
+        ).to.equal(false)
+      })
     })
   })
 
