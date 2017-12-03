@@ -15,7 +15,7 @@ describe("<IdeaReadOnlyContent />", () => {
   }
 
   it("renders IdeaControls as its first child for proper floating/text-wrapping", () => {
-    const wrapper = mountWithConnectedSubcomponents(
+    const wrapper = shallow(
       <IdeaReadOnlyContent {...defaultProps} />
     )
 
