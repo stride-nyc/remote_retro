@@ -7,7 +7,12 @@ export default () => (
       <ul className="ui list">
         <li>Discuss the highest-voted items on the board.
           <ul>
-            <li><small><strong>Protip:</strong> let discussions breathe, conducting root cause analyses where appropriate.</small></li>
+            <li>
+              <small>
+                <strong>Protip:</strong>
+                let discussions breathe, conducting root cause analyses where appropriate.
+              </small>
+            </li>
           </ul>
         </li>
         <li>Generate action-items aimed at obliterating the team's bottlenecks.</li>
