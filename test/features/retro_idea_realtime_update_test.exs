@@ -25,7 +25,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
     @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
     @tag idea: %Idea{category: "sad", body: "no linter"}
-    test "the immediate update of ideas edited by the facilitator", %{session: facilitator_session, retro: retro} do
+    test "the immediate update of ideas as they are changed/saved", %{session: facilitator_session, retro: retro} do
       participant_session = new_browser_session()
 
       retro_path = "/retros/" <> retro.id
@@ -34,11 +34,17 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
       facilitator_session |> find(Query.css(".edit.icon")) |> Element.click
       fill_in(facilitator_session, Query.text_field("editable_idea"), with: "No one uses the linter.")
+
+      # assert other client sees immediate, unpersisted updates
+      ideas_list_text = participant_session |> find(Query.css(".sad.ideas")) |> Element.text
+      assert ideas_list_text =~ ~r/No one uses the linter\.$/
+
       facilitator_session |> find(Query.button("Save")) |> Element.click
 
+      # assert other client sees persistence indicator
       ideas_list_text = participant_session |> find(Query.css(".sad.ideas")) |> Element.text
 
-      assert String.contains?(ideas_list_text, "No one uses the linter.")
+      assert ideas_list_text == "No one uses the linter. (edited)"
     end
 
     @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
