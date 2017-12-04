@@ -26,7 +26,12 @@ class IdeaEditForm extends Component {
     event.preventDefault()
     const { idea, retroChannel } = this.props
     const { ideaBody } = this.state
-    retroChannel.push("idea_edited", { id: idea.id, body: ideaBody })
+    const ideaCategory = "sad"
+    retroChannel.push("idea_edited", {
+      id: idea.id,
+      body: ideaBody,
+      category: ideaCategory,
+    })
   }
 
   render() {
