@@ -87,6 +87,8 @@ Idea.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.user.isRequired,
   stage: AppPropTypes.stage.isRequired,
+  category: AppPropTypes.category.isRequired,
+  categories: AppPropTypes.categories.isRequired,
 }
 
 export default Idea

@@ -4,7 +4,10 @@ import * as AppPropTypes from "../prop_types"
 class IdeaEditForm extends Component {
   constructor(props) {
     super(props)
-    this.state = { ideaBody: props.idea.body }
+    this.state = {
+      ideaBody: props.idea.body,
+      ideaCategory: props.category,
+    }
     this.onChange = this.onChange.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
     this.onCancel = this.onCancel.bind(this)
@@ -12,8 +15,12 @@ class IdeaEditForm extends Component {
 
   onChange(event) {
     const { retroChannel, idea } = this.props
-    retroChannel.push("idea_live_edit", { id: idea.id, liveEditText: event.target.value })
-    this.setState({ ideaBody: event.target.value })
+    if (event.target.name === "editable_idea") {
+      retroChannel.push("idea_live_edit", { id: idea.id, liveEditText: event.target.value })
+      this.setState({ ideaBody: event.target.value })
+    } else if (event.target.name === "editable_category") {
+      this.setState({ ideaCategory: event.target.value })
+    }
   }
 
   onCancel(event) {
@@ -25,8 +32,7 @@ class IdeaEditForm extends Component {
   onSubmit(event) {
     event.preventDefault()
     const { idea, retroChannel } = this.props
-    const { ideaBody } = this.state
-    const ideaCategory = "sad"
+    const { ideaBody, ideaCategory } = this.state
     retroChannel.push("idea_edited", {
       id: idea.id,
       body: ideaBody,
@@ -35,12 +41,16 @@ class IdeaEditForm extends Component {
   }
 
   render() {
-    const { categories, category, stage } = this.props
+    const { categories, stage } = this.props
     return (
       <form onSubmit={this.onSubmit} className="ui form">
         <p className="ui center aligned sub header">Editing</p>
-        {stage !== "action-items" && <select className="ui dropdown">
-          <option value="">{category}</option>
+        {stage !== "action-items" && <select
+          name="editable_category"
+          className="ui dropdown"
+          onChange={this.onChange}
+          value={this.state.ideaCategory}
+        >
           {categories.map(category => (
             <option key={category} value={category}>{category}</option>
           ))}
@@ -67,6 +77,9 @@ class IdeaEditForm extends Component {
 IdeaEditForm.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
+  category: AppPropTypes.category.isRequired,
+  categories: AppPropTypes.categories.isRequired,
+  stage: AppPropTypes.stage.isRequired,
 }
 
 export default IdeaEditForm

@@ -5,6 +5,7 @@ import Idea from "../../web/static/js/components/idea"
 import IdeaControls from "../../web/static/js/components/idea_controls"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 import STAGES from "../../web/static/js/configs/stages"
+import { CATEGORIES } from "../../web/static/js/configs/retro_configs"
 
 const { IDEA_GENERATION, CLOSED } = STAGES
 
@@ -28,6 +29,8 @@ describe("Idea component", () => {
         currentUser={facilitatorUser}
         retroChannel={mockRetroChannel}
         stage={IDEA_GENERATION}
+        category={idea.category}
+        categories={CATEGORIES}
       />
     )
 
@@ -46,6 +49,8 @@ describe("Idea component", () => {
           currentUser={facilitatorUser}
           retroChannel={mockRetroChannel}
           stage={CLOSED}
+          category={idea.category}
+          categories={CATEGORIES}
         />
       )
 
@@ -64,6 +69,8 @@ describe("Idea component", () => {
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
         stage={IDEA_GENERATION}
+        category={idea.category}
+        categories={CATEGORIES}
       />
     )
 
@@ -85,6 +92,8 @@ describe("Idea component", () => {
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
         stage={IDEA_GENERATION}
+        category={idea.category}
+        categories={CATEGORIES}
       />
     )
 
@@ -102,6 +111,8 @@ describe("Idea component", () => {
           currentUser={facilitatorUser}
           retroChannel={mockRetroChannel}
           stage={IDEA_GENERATION}
+          category={idea.category}
+          categories={CATEGORIES}
         />
       )
 
@@ -122,6 +133,8 @@ describe("Idea component", () => {
           currentUser={nonFacilitatorUser}
           retroChannel={mockRetroChannel}
           stage={IDEA_GENERATION}
+          category={idea.category}
+          categories={CATEGORIES}
         />
       )
 
@@ -140,6 +153,8 @@ describe("Idea component", () => {
             currentUser={nonFacilitatorUser}
             retroChannel={mockRetroChannel}
             stage={IDEA_GENERATION}
+            category={idea.category}
+            categories={CATEGORIES}
           />
         )
         it("displays the `liveEditText` value rather than the body value", () => {
@@ -165,6 +180,8 @@ describe("Idea component", () => {
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
         stage={IDEA_GENERATION}
+        category={idea.category}
+        categories={CATEGORIES}
       />
     )
 

@@ -3,11 +3,20 @@ import { shallow } from "enzyme"
 import sinon from "sinon"
 
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
+import { CATEGORIES } from "../../web/static/js/configs/retro_configs"
 
 describe("<IdeaEditForm />", () => {
   const idea = { id: 999, category: "sad", body: "redundant tests", userId: 1 }
   const mockRetroChannel = { on: () => {}, push: () => {} }
-  const defaultProps = { idea, retroChannel: mockRetroChannel }
+  const stage = "idea-generation"
+  const categories = CATEGORIES
+  const defaultProps = {
+    idea,
+    retroChannel: mockRetroChannel,
+    categories,
+    stage,
+    category: idea.category,
+  }
 
   describe("on initial render", () => {
     it("is pre-populated with the given idea's body text", () => {
@@ -29,7 +38,7 @@ describe("<IdeaEditForm />", () => {
         <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
       )
       textarea = wrapper.find("textarea")
-      textarea.simulate("change", { target: { value: "some value" } })
+      textarea.simulate("change", { target: { name: "editable_idea", value: "some value" } })
     })
 
     it("the value prop of the textarea updates in turn", () => {
@@ -40,6 +49,25 @@ describe("<IdeaEditForm />", () => {
       expect(
         retroChannel.push.calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
       ).to.equal(true)
+    })
+  })
+
+  describe("on change of the category", () => {
+    let retroChannel
+    let categoryDropdown
+    let wrapper
+
+    beforeEach(() => {
+      retroChannel = { on: () => {}, push: sinon.spy() }
+      wrapper = mountWithConnectedSubcomponents(
+        <IdeaEditForm {...defaultProps} retroChannel={retroChannel} category="sad" />
+      )
+      categoryDropdown = wrapper.find("select")
+      categoryDropdown.simulate("change", { target: { name: "editable_category", value: "confused" } })
+    })
+
+    it("the value prop of the category updates in turn", () => {
+      expect(wrapper.find("select").props().value).to.equal("confused")
     })
   })
 
@@ -55,7 +83,11 @@ describe("<IdeaEditForm />", () => {
       saveButton.simulate("submit")
 
       expect(
-        retroChannel.push.calledWith("idea_edited", { id: idea.id, body: idea.body })
+        retroChannel.push.calledWith("idea_edited", {
+          id: idea.id,
+          body: idea.body,
+          category: idea.category,
+        })
       ).to.equal(true)
     })
   })
