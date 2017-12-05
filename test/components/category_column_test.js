@@ -5,6 +5,7 @@ import sinon from "sinon"
 import { CategoryColumn } from "../../web/static/js/components/category_column"
 import Idea from "../../web/static/js/components/idea"
 import STAGES from "../../web/static/js/configs/stages"
+import { CATEGORIES } from "../../web/static/js/configs/retro_configs"
 
 const { IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
@@ -45,6 +46,7 @@ describe("CategoryColumn", () => {
           ideas={ideas}
           category="confused"
           stage={IDEA_GENERATION}
+          categories={CATEGORIES}
         />
       )
 
@@ -58,6 +60,7 @@ describe("CategoryColumn", () => {
           {...defaultProps}
           ideas={ideas}
           stage={VOTING}
+          categories={CATEGORIES}
         />
       )
 
@@ -100,6 +103,7 @@ describe("CategoryColumn", () => {
             ideas={ideas}
             votes={votes}
             stage={ACTION_ITEMS}
+            categories={CATEGORIES}
           />
         )
 
@@ -109,6 +113,7 @@ describe("CategoryColumn", () => {
             ideas={ideas}
             votes={votes}
             stage={CLOSED}
+            categories={CATEGORIES}
           />
         )
 
@@ -153,6 +158,7 @@ describe("CategoryColumn", () => {
               ideas={ideas}
               votes={votes}
               stage={ACTION_ITEMS}
+              categories={CATEGORIES}
             />
           )
 
@@ -189,6 +195,7 @@ describe("CategoryColumn", () => {
             ideas={ideas}
             category="action-item"
             stage={ACTION_ITEMS}
+            categories={CATEGORIES}
           />
         )
 
@@ -234,6 +241,7 @@ describe("CategoryColumn", () => {
           votes={votes}
           ideas={ideas}
           stage={VOTING}
+          categories={CATEGORIES}
         />
       )
 
@@ -267,6 +275,7 @@ describe("CategoryColumn", () => {
           {...defaultProps}
           ideas={ideas}
           category="happy"
+          categories={CATEGORIES}
         />
       )
       expect(wrapper.find(Idea)).to.have.length(2)
@@ -288,6 +297,7 @@ describe("CategoryColumn", () => {
           {...defaultProps}
           ideas={ideas}
           category={differentCategory}
+          categories={CATEGORIES}
         />
       )
 
