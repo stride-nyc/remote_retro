@@ -34,6 +34,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
       facilitator_session |> find(Query.css(".edit.icon")) |> Element.click
       fill_in(facilitator_session, Query.text_field("editable_idea"), with: "No one uses the linter.")
+      facilitator_session |> find(Query.css(".idea-edit-form")) |> click(Query.option("confused"))
 
       # assert other client sees immediate, unpersisted updates
       ideas_list_text = participant_session |> find(Query.css(".sad.ideas")) |> Element.text
@@ -42,7 +43,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       facilitator_session |> find(Query.button("Save")) |> Element.click
 
       # assert other client sees persistence indicator
-      ideas_list_text = participant_session |> find(Query.css(".sad.ideas")) |> Element.text
+      ideas_list_text = participant_session |> find(Query.css(".confused.ideas")) |> Element.text
 
       assert ideas_list_text == "No one uses the linter. (edited)"
     end

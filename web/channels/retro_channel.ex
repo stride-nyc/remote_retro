@@ -60,10 +60,10 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("idea_edited", %{"id" => id, "body" => body}, socket) do
+  def handle_in("idea_edited", %{"id" => id, "body" => body, "category" => category}, socket) do
     idea =
       Repo.get(Idea, id)
-      |> Idea.changeset(%{body: body})
+      |> Idea.changeset(%{body: body, category: category})
       |> Repo.update!
 
     broadcast! socket, "idea_edited", idea
