@@ -5,10 +5,16 @@ import sinon from "sinon"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 
 describe("<IdeaEditForm />", () => {
-  const idea = { id: 999, category: "sad", body: "redundant tests", userId: 1 }
+  const idea = { id: 999, body: "redundant tests", userId: 1 }
+  const stage = "idea-generation"
   const currentUser = { is_facilitator: true }
   const mockRetroChannel = { on: () => {}, push: () => {} }
-  const defaultProps = { idea, currentUser, retroChannel: mockRetroChannel }
+  const defaultProps = {
+    idea,
+    currentUser,
+    retroChannel: mockRetroChannel,
+    stage,
+  }
 
   describe("on initial render", () => {
     it("is pre-populated with the given idea's body text", () => {
@@ -30,7 +36,7 @@ describe("<IdeaEditForm />", () => {
         <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
       )
       textarea = wrapper.find("textarea")
-      textarea.simulate("change", { target: { value: "some value" } })
+      textarea.simulate("change", { target: { name: "editable_idea", value: "some value" } })
     })
 
     it("the value prop of the textarea updates in turn", () => {
@@ -68,6 +74,40 @@ describe("<IdeaEditForm />", () => {
     })
   })
 
+  describe("on change of the category", () => {
+    let retroChannel
+    let categoryDropdown
+    let wrapper
+
+    context("when the stage is 'action-items'", () => {
+      beforeEach(() => {
+        retroChannel = { on: () => { }, push: sinon.spy() }
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaEditForm {...defaultProps} stage={"action-items"} retroChannel={retroChannel} />
+        )
+      })
+
+      it("the category dropdown is not visible", () => {
+        expect(wrapper.find("select").exists()).to.equal(false)
+      })
+    })
+
+    context("when the stage is not 'action-items'", () => {
+      beforeEach(() => {
+        retroChannel = { on: () => { }, push: sinon.spy() }
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaEditForm {...defaultProps} stage={"voting"} retroChannel={retroChannel} />
+        )
+        categoryDropdown = wrapper.find("select")
+        categoryDropdown.simulate("change", { target: { name: "editable_category", value: "confused" } })
+      })
+
+      it("the value prop of the category updates in turn", () => {
+        expect(wrapper.find("select").props().value).to.equal("confused")
+      })
+    })
+  })
+
   describe("on submitting the form", () => {
     it("pushes an `idea_edited` event to the given retroChannel", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
@@ -80,7 +120,11 @@ describe("<IdeaEditForm />", () => {
       saveButton.simulate("submit")
 
       expect(
-        retroChannel.push.calledWith("idea_edited", { id: idea.id, body: idea.body })
+        retroChannel.push.calledWith("idea_edited", {
+          id: idea.id,
+          body: idea.body,
+          category: idea.category,
+        })
       ).to.equal(true)
     })
   })
