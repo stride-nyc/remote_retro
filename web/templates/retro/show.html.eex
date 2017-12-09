@@ -13,4 +13,8 @@
     </a>
   </div>
 </div>
-<div class="react-root"></div>
+<div class="react-root">
+  <div class="ui active large centered text loader">
+    Connecting...
+  </div>
+</div>
