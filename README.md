@@ -4,6 +4,8 @@
 
 # RemoteRetro
 
+![remote_retro_idea_submission_board](https://lh4.googleusercontent.com/t61o5Bm47q8NebglF5WzMm5pylwobk1hxwZAudFFQAd-A4Koh8ge57PikGB1dZZ8gDL8q7IgF-SCeqVqf0bs3aFzyj2v1ch8CY3CTfL477JBAZkDkje_RQs155P1y_D2sEYY1rGE)
+
 This repository houses the web application code for Remote Retro, an open source professional development project written in Elixir/Phoenix/React and sponsored by [Stride Consulting](http://stridenyc.com).
 
 ## Table of Contents
