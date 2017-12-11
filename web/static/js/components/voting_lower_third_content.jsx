@@ -7,8 +7,10 @@ import * as AppPropTypes from "../prop_types"
 
 const VotingLowerThirdContent = props => (
   <div className="ui stackable grid basic attached secondary center aligned segment">
-    <VotesLeft currentUser={props.currentUser} />
-    <div className="five wide computer eight wide tablet column">
+    <div className="two wide column">
+      <VotesLeft currentUser={props.currentUser} />
+    </div>
+    <div className="four wide column">
       <StageProgressionButton {...props} />
     </div>
   </div>
