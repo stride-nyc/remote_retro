@@ -44,13 +44,13 @@ export const IdeaControls = props => {
       return (
         <div className={styles.wrapper}>
           <i
-            title="Delete Idea"
+            title={idea.editing ? "Author currently editing" : "Delete Idea"}
             className={`${styles.actionIcon} remove circle icon`}
             onClick={() => { idea.editing ? noOp() : retroChannel.push("delete_idea", idea.id) }}
             style={iconStyle}
           />
           <i
-            title="Edit Idea"
+            title={idea.editing ? "Author currently editing" : "Edit Idea"}
             className={`${styles.actionIcon} edit icon`}
             onClick={() => { idea.editing ? noOp() : retroChannel.push("enable_edit_state", { idea, editorToken: currentUser.token }) }}
             style={iconStyle}

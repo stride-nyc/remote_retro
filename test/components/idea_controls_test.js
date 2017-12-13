@@ -42,7 +42,10 @@ describe("<IdeaControls />", () => {
           />
         )
 
-        wrapper.find(".remove.icon").simulate("click")
+        const removalIcon = wrapper.find(".remove.icon")
+        expect(removalIcon.prop("title")).to.equal("Delete Idea")
+
+        removalIcon.simulate("click")
         expect(
           retroChannel.push.calledWith("delete_idea", 666)
         ).to.equal(true)
@@ -50,7 +53,7 @@ describe("<IdeaControls />", () => {
     })
 
     context("when the idea is currently being edited by its author", () => {
-      it("does nothing", () => {
+      it("performs no action while displaying 'Author currently editing' on hover", () => {
         idea.editing = true
         const retroChannel = { on: () => { }, push: sinon.spy() }
 
@@ -63,7 +66,10 @@ describe("<IdeaControls />", () => {
           />
         )
 
-        wrapper.find(".remove.icon").simulate("click")
+        const removalIcon = wrapper.find(".remove.icon")
+        expect(removalIcon.prop("title")).to.equal("Author currently editing")
+
+        removalIcon.simulate("click")
         expect(
           retroChannel.push.calledWith("delete_idea", 666)
         ).to.equal(false)
@@ -86,7 +92,10 @@ describe("<IdeaControls />", () => {
           />
         )
 
-        wrapper.find(".edit.icon").simulate("click")
+        const editIcon = wrapper.find(".edit.icon")
+        expect(editIcon.prop("title")).to.equal("Edit Idea")
+
+        editIcon.simulate("click")
         expect(
           retroChannel.push.calledWith("enable_edit_state", { idea, editorToken: mockUser.token })
         ).to.equal(true)
@@ -94,7 +103,7 @@ describe("<IdeaControls />", () => {
     })
 
     context("when the idea is currently being edited by its author", () => {
-      it("does nothing", () => {
+      it("performs no action while displaying 'Author currently editing' on hover", () => {
         idea.editing = true
         const retroChannel = { on: () => { }, push: sinon.spy() }
 
@@ -107,7 +116,10 @@ describe("<IdeaControls />", () => {
           />
         )
 
-        wrapper.find(".edit.icon").simulate("click")
+        const editIcon = wrapper.find(".edit.icon")
+        expect(editIcon.prop("title")).to.equal("Author currently editing")
+
+        editIcon.simulate("click")
         expect(
           retroChannel.push.calledWith("enable_edit_state", { idea, editorToken: mockUser.token })
         ).to.equal(false)
