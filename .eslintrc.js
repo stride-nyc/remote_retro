@@ -65,5 +65,6 @@ module.exports = {
     "react/forbid-prop-types": "off",
     "jsx-a11y/no-static-element-interactions": 0,
     "import/no-named-as-default": "off",
+    "no-unused-expressions": ["error", {"allowTernary": true}],
   }
 }
