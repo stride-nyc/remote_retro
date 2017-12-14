@@ -40,17 +40,18 @@ export const IdeaControls = props => {
 
     if (currentUser.is_facilitator || currentUser.id === userId) {
       const iconStyle = { color: idea.editing ? "lightgray" : "black" }
+      const authorEditing = "Author currently editing"
       const noOp = () => {}
       return (
         <div className={styles.wrapper}>
           <i
-            title={idea.editing ? "Author currently editing" : "Delete Idea"}
+            title={idea.editing ? authorEditing : "Delete Idea"}
             className={`${styles.actionIcon} remove circle icon`}
             onClick={() => { idea.editing ? noOp() : retroChannel.push("delete_idea", idea.id) }}
             style={iconStyle}
           />
           <i
-            title={idea.editing ? "Author currently editing" : "Edit Idea"}
+            title={idea.editing ? authorEditing : "Edit Idea"}
             className={`${styles.actionIcon} edit icon`}
             onClick={() => { idea.editing ? noOp() : retroChannel.push("enable_edit_state", { idea, editorToken: currentUser.token }) }}
             style={iconStyle}
