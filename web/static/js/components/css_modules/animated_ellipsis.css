@@ -1,6 +1,7 @@
 .index {
   i {
-    font-size: 0.45rem;
+    font-size: 6px;
+    width: 7px;
     margin-right: 0;
     opacity: 0;
   }
