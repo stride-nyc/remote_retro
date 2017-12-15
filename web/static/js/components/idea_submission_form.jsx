@@ -90,6 +90,7 @@ export class IdeaSubmissionForm extends Component {
           <div className={`${styles.flex} five wide inline field`}>
             <label htmlFor="category">Category:</label>
             <select
+              id="category"
               name="category"
               value={this.state.category}
               className={`ui dropdown ${styles.select}`}
@@ -102,7 +103,9 @@ export class IdeaSubmissionForm extends Component {
           </div>
           <div className="eleven wide field">
             <div className="ui fluid action input">
+              <label htmlFor="idea-input-label">Idea input</label>
               <input
+                id="idea-input-label"
                 type="text"
                 name="idea"
                 autoComplete="off"
