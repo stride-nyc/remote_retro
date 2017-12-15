@@ -103,7 +103,7 @@ export class IdeaSubmissionForm extends Component {
           </div>
           <div className="eleven wide field">
             <div className="ui fluid action input">
-              <label htmlFor="idea-input-label">Idea input</label>
+              <label htmlFor="idea-input-label" className="visually-hidden">Idea input</label>
               <input
                 id="idea-input-label"
                 type="text"
