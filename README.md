@@ -124,7 +124,7 @@ export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET="<Client secret>"
 export REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI="http://localhost:4000/auth/google/callback"
 ```
 
-Finally, enable the Google+ API for your project.
+Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis.com/overview) the Google+ API for your project.
 
 #### And Voila!
 
