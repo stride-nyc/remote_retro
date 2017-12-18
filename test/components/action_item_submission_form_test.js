@@ -2,7 +2,7 @@ import React from "react"
 import sinon from "sinon"
 
 import { ActionItemSubmissionForm } from
-  "../../web/static/js/components/action_item_submission_form" 
+  "../../web/static/js/components/action_item_submission_form"
 
 describe("ActionItemSubmissionForm component", () => {
   let wrapper
@@ -16,9 +16,9 @@ describe("ActionItemSubmissionForm component", () => {
 
 
   const users = [
-    { id: 1, name: 'Tina Fey'},
-    { id: 2, name: 'Al Franken'},
-    { id: 3, name: 'Bill Smith'}
+    { id: 1, name: "Tina Fey" },
+    { id: 2, name: "Betty White" },
+    { id: 3, name: "Bill Smith" },
   ]
 
   describe("on submit", () => {

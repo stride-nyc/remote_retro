@@ -23,12 +23,11 @@ const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) =
 
 export class IdeaSubmissionForm extends Component {
   constructor(props) {
-    console.log('get a wife')
     super(props)
     this.defaultCategory = "happy"
     this.state = {
       body: "",
-      category: this.defaultCategory,
+      category: props.showActionItem ? "action-item" : this.defaultCategory,
       ideaEntryStarted: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -124,6 +123,7 @@ IdeaSubmissionForm.propTypes = {
   alert: AppPropTypes.alert,
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
+  showActionItem: PropTypes.bool.isRequired,
   stage: AppPropTypes.stage,
 }
 

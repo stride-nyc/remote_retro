@@ -45,23 +45,24 @@ describe("IdeaSubmissionForm component", () => {
       it("pushes a `new_idea` event to the retroChannel, passing a happy idea by default", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
 
-      wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={retroChannel}
-        />
-      )
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={retroChannel}
+          />
+        )
 
-      wrapper.simulate("submit", fakeEvent)
+        wrapper.simulate("submit", fakeEvent)
 
-      expect(
-        retroChannel.push.calledWith("new_idea", {
-          category: "happy",
-          body: "",
-          userId: 1,
-          ideaEntryStarted: false,
-        }
-      )).to.equal(true)
+        expect(
+          retroChannel.push.calledWith("new_idea", {
+            category: "happy",
+            body: "",
+            userId: 1,
+            ideaEntryStarted: false,
+          }
+        )).to.equal(true)
+      })
     })
   })
 
