@@ -13,3 +13,8 @@ export const deleteIdea = ideaId => ({
   type: "DELETE_IDEA",
   ideaId,
 })
+
+export const addActionItem = (actionItem) => ({
+  type: "ADD_ACTION_ITEM",
+  actionItem,
+})

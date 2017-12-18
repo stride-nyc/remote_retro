@@ -1,6 +1,7 @@
 import React from "react"
 import PrimeDirectiveStage from "./prime_directive_stage"
 import IdeaGenerationStage from "./idea_generation_stage"
+import ActionItemGenerationStage from "./action_item_generation_stage"
 import stageConfigs from "../configs/stage_configs"
 import STAGES from "../configs/stages"
 
@@ -20,6 +21,8 @@ const Room = props => {
         isFacilitator={isFacilitator}
       />
     )
+  } else if (props.stage === "action-items") {
+    roomContents = <ActionItemGenerationStage {...props} />
   } else {
     roomContents = <IdeaGenerationStage {...props} />
   }

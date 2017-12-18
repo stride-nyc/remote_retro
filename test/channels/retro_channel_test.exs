@@ -94,6 +94,17 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "pushing a new action item to the socket" do
+    setup [:persist_user_for_retro, :join_the_retro_channel]
+
+    test "results in the broadcast of the new action item to all connected clients", %{socket: socket, user: user} do
+      user_id = user.id
+      push(socket, "new_action_item", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
+
+      assert_broadcast("new_action_item_received", %{category: "action-item", body: "Do something about the pacing", id: _, user_id: ^user_id, assignee_id: ^user_id})
+    end
+  end
+
   describe "pushing an `enable_edit_state` event to the socket" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event with the given payload and editorToken", %{socket: socket} do

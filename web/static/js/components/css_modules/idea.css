@@ -15,3 +15,7 @@ li {
   z-index: 2;
   position: relative;
 }
+
+.assignee {
+  padding-left: 10px;
+}

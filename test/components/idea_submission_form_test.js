@@ -45,40 +45,35 @@ describe("IdeaSubmissionForm component", () => {
       it("pushes a `new_idea` event to the retroChannel, passing a happy idea by default", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
 
-        wrapper = mountWithConnectedSubcomponents(
-          <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={retroChannel}
-            showActionItem={false}
-          />
-        )
+      wrapper = mountWithConnectedSubcomponents(
+        <IdeaSubmissionForm
+          currentUser={stubUser}
+          retroChannel={retroChannel}
+        />
+      )
 
-        wrapper.simulate("submit", fakeEvent)
+      wrapper.simulate("submit", fakeEvent)
 
-        expect(
-          retroChannel.push.calledWith("new_idea", {
-            category: "happy",
-            body: "",
-            userId: 1,
-            ideaEntryStarted: false,
-          }
-        )).to.equal(true)
-      })
+      expect(
+        retroChannel.push.calledWith("new_idea", {
+          category: "happy",
+          body: "",
+          userId: 1,
+          ideaEntryStarted: false,
+        }
+      )).to.equal(true)
     })
   })
 
   describe("on change of an idea's body", () => {
     it("pushes a `user_typing_idea` event to the retro channel, along with the user token", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
-
       wrapper = mountWithConnectedSubcomponents(
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={retroChannel}
-          showActionItem
         />
       )
-
       const ideaInput = wrapper.find("input[name='idea']")
       ideaInput.simulate("change", { target: { value: "new value" } })
 
@@ -94,7 +89,6 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
-          showActionItem
         />
       )
 
@@ -115,7 +109,6 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
-          showActionItem
         />
       )
       let submitButton = wrapper.find("button[type='submit']")
@@ -136,26 +129,10 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
-            showActionItem={false}
           />
         )
 
         wrapper.setState({ category: "stub" })
-      })
-
-
-      describe("passing a new `showActionItem` prop value", () => {
-        it("changes the state's `category` to 'action-item'", () => {
-          wrapper.setProps({ showActionItem: true })
-          expect(wrapper.state("category")).to.equal("action-item")
-        })
-      })
-
-      describe("passing a `showActionItem` prop value identical to the previous value", () => {
-        it("does not change the state's `category` value", () => {
-          wrapper.setProps({ showActionItem: false })
-          expect(wrapper.state("category")).to.equal("stub")
-        })
       })
     })
 
@@ -165,7 +142,6 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
-            showActionItem={false}
             alert={{ herp: "derp" }}
           />
         )
@@ -181,50 +157,6 @@ describe("IdeaSubmissionForm component", () => {
     })
   })
 
-  describe("the showActionItem prop", () => {
-    it("when true results in the category list only rendering an 'action-item' option", () => {
-      wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={mockRetroChannel}
-          showActionItem
-        />
-      )
-
-      const categorySelect = wrapper.find("select")
-      expect(
-        categorySelect.contains(<option value="action-item">action-item</option>)
-      ).to.equal(true)
-    })
-
-    it("when false results in the category list rendering options for the basic retro categories", () => {
-      wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={mockRetroChannel}
-          showActionItem={false}
-        />
-      )
-
-      const categorySelect = wrapper.find("select")
-
-      const presumedMatches = [
-        <option key="happy" value="happy">happy</option>,
-        <option key="sad" value="sad">sad</option>,
-        <option key="confused" value="confused">confused</option>,
-      ]
-
-      expect(
-        categorySelect.contains(presumedMatches)
-      ).to.equal(true)
-
-
-      expect(
-        categorySelect.contains(<option value="action-item">action-item</option>)
-      ).to.equal(false)
-    })
-  })
-
   describe("ideaEntryStarted state", () => {
     describe("when it is true", () => {
       it("doesn't render a pointing label to prompt the user to enter an idea", () => {
@@ -232,7 +164,6 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
-            showActionItem
           />
         )
         wrapper.setState({ ideaEntryStarted: true })
@@ -250,7 +181,6 @@ describe("IdeaSubmissionForm component", () => {
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
               stage={IDEA_GENERATION}
-              showActionItem
             />
           )
           expect(
@@ -266,7 +196,6 @@ describe("IdeaSubmissionForm component", () => {
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
               stage={VOTING}
-              showActionItem
             />
           )
           expect(

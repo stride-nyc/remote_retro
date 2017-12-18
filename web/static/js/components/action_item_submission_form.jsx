@@ -1,39 +1,25 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import throttle from "lodash/throttle"
-import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 
 import styles from "./css_modules/idea_submission_form.css"
-import STAGES from "../configs/stages"
-
-const { IDEA_GENERATION } = STAGES
-
-const PLACEHOLDER_TEXTS = {
-  happy: "we have a linter!",
-  sad: "no one uses the linter...",
-  confused: "what is a linter?",
-  "action-item": "automate the linting process",
-}
 
 const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) => {
-  retroChannel.push("user_typing_idea", { userToken: currentUserToken })
-}, 0)//USER_TYPING_ANIMATION_DURATION - 100)
+  retroChannel.push("user_typing_action_item", { userToken: currentUserToken })
+}, USER_TYPING_ANIMATION_DURATION - 100, { leading: true })
 
-export class IdeaSubmissionForm extends Component {
+export class ActionItemSubmissionForm extends Component {
   constructor(props) {
-    console.log('get a wife')
     super(props)
-    this.defaultCategory = "happy"
     this.state = {
       body: "",
-      category: this.defaultCategory,
-      ideaEntryStarted: false,
+      actionItemEntryStarted: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleIdeaChange = this.handleIdeaChange.bind(this)
-    this.handleCategoryChange = this.handleCategoryChange.bind(this)
+    this.handleActionItemChange = this.handleActionItemChange.bind(this)
+    this.handleAssigneeChange = this.handleAssigneeChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
@@ -41,75 +27,71 @@ export class IdeaSubmissionForm extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.category !== prevState.category) { this.ideaInput.focus() }
+    if (this.state.assigneeId !== prevState.assigneeId) { this.ideaInput.focus() }
   }
 
   handleSubmit(event) {
     const { currentUser } = this.props
     event.preventDefault()
-    const newIdea = { ...this.state, userId: currentUser.id }
-    this.props.retroChannel.push("new_idea", newIdea)
+    const newActionItem = { ...this.state, userId: currentUser.id }
+    this.props.retroChannel.push("new_action_item", newActionItem)
     this.setState({ body: "" })
   }
 
-  handleIdeaChange(event) {
+  handleActionItemChange(event) {
     const { retroChannel, currentUser } = this.props
     pushUserTypingEventThrottled(retroChannel, currentUser.token)
-    this.setState({ body: event.target.value, ideaEntryStarted: true })
+    this.setState({ body: event.target.value, actionItemEntryStarted: true })
   }
 
-  handleCategoryChange(event) {
-    this.setState({ category: event.target.value })
+  handleAssigneeChange(event) {
+    this.setState({ assigneeId: Number.parseInt(event.target.value, 10) })
   }
 
   render() {
-    const disabled = !this.state.body.length
-    const defaultCategoryOptions = [
-      <option key="happy" value="happy">happy</option>,
-      <option key="sad" value="sad">sad</option>,
-      <option key="confused" value="confused">confused</option>,
-    ]
+    const disabled = !(this.state.body.length && this.state.assigneeId)
     let pointingLabel = null
 
-    if (!this.state.ideaEntryStarted && this.props.stage === IDEA_GENERATION) {
+    if (!this.state.actionItemEntryStarted && this.props.stage === "action-items") {
       pointingLabel = (
         <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
-          Submit an idea!
+          Create Action Items!
         </div>
       )
     }
+
+    const assigneeOptions = this.props.users.map(({ id, name }) => 
+      <option key={id} value={id}>{name}</option>
+    ) 
+
+    const defaultOption = (<option key={0} value={null}> -- </option>)
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
         {pointingLabel}
         <div className={`${styles.fields} fields`}>
           <div className={`${styles.flex} five wide inline field`}>
-            <label htmlFor="category">Category:</label>
+            <label htmlFor="assignee">Assignee:</label>
             <select
-              id="category"
-              name="category"
-              value={this.state.category}
+              name="assignee"
+              value={this.state.assigneeId}
               className={`ui dropdown ${styles.select}`}
-              onChange={this.handleCategoryChange}
+              onChange={this.handleAssigneeChange}
             >
-              { this.props.showActionItem ? <option value="action-item">action-item</option> :
-                defaultCategoryOptions
-              }
+              { [ defaultOption, ...assigneeOptions ] }
             </select>
           </div>
           <div className="eleven wide field">
             <div className="ui fluid action input">
-              <label htmlFor="idea-body-input" className="visually-hidden">Idea input</label>
               <input
-                id="idea-body-input"
                 type="text"
                 name="idea"
                 autoComplete="off"
                 autoFocus
                 ref={input => { this.ideaInput = input }}
                 value={this.state.body}
-                onChange={this.handleIdeaChange}
-                placeholder={`Ex. ${PLACEHOLDER_TEXTS[this.state.category]}`}
+                onChange={this.handleActionItemChange}
+                placeholder="automate the linting process"
               />
               <button type="submit" disabled={disabled} className="ui teal button">Submit</button>
             </div>
@@ -120,20 +102,21 @@ export class IdeaSubmissionForm extends Component {
   }
 }
 
-IdeaSubmissionForm.propTypes = {
+ActionItemSubmissionForm.propTypes = {
   alert: AppPropTypes.alert,
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
+  users: AppPropTypes.users.isRequired,
   stage: AppPropTypes.stage,
 }
 
-IdeaSubmissionForm.defaultProps = {
+ActionItemSubmissionForm.defaultProps = {
   alert: null,
-  stage: IDEA_GENERATION,
+  stage: "action-items",
 }
 
 const mapStateToProps = ({ alert }) => ({ alert })
 
 export default connect(
   mapStateToProps
-)(IdeaSubmissionForm)
+)(ActionItemSubmissionForm)

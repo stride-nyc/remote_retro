@@ -35,6 +35,11 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
+  def handle_in("user_typing_action_item", %{"userToken" => userToken}, socket) do
+    broadcast! socket, "user_typing_action_item", %{"userToken" => userToken}
+    {:noreply, socket}
+  end
+
   def handle_in("idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}, socket) do
     broadcast! socket, "idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}
     {:noreply, socket}
@@ -57,6 +62,22 @@ defmodule RemoteRetro.RetroChannel do
       |> Repo.insert!
 
     broadcast! socket, "new_idea_received", idea
+    {:noreply, socket}
+  end
+
+  def handle_in("new_action_item", %{"body" => body, "assigneeId" => assignee_id, "userId" => user_id}, socket) do
+    actionItem =
+      %Idea{
+        body: body,
+        category: "action-item",
+        retro_id: socket.assigns.retro_id,
+        user_id: user_id,
+        assignee_id: assignee_id
+      }
+      |> Idea.changeset
+      |> Repo.insert!
+
+    broadcast! socket, "new_action_item_received", actionItem 
     {:noreply, socket}
   end
 

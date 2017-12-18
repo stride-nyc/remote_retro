@@ -21,6 +21,7 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
 
   retroChannel.on("presence_diff", actions.syncPresenceDiff)
   retroChannel.on("new_idea_received", actions.addIdea)
+  retroChannel.on("new_action_item_received", actions.addActionItem)
 
   retroChannel.on("proceed_to_next_stage", payload => {
     actions.updateStage(payload.stage)
@@ -54,6 +55,13 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
   })
 
   retroChannel.on("user_typing_idea", ({ userToken }) => {
+    actions.updatePresence(userToken, { is_typing: true, last_typed: Date.now() })
+    UserActivity.checkIfDoneTyping(store, userToken, () => {
+      actions.updatePresence(userToken, { is_typing: false })
+    })
+  })
+
+  retroChannel.on("user_typing_action_item", ({ userToken }) => {
     actions.updatePresence(userToken, { is_typing: true, last_typed: Date.now() })
     UserActivity.checkIfDoneTyping(store, userToken, () => {
       actions.updatePresence(userToken, { is_typing: false })
