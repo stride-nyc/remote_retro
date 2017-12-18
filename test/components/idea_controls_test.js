@@ -30,7 +30,7 @@ describe("<IdeaControls />", () => {
   describe("on click of the removal icon", () => {
     context("when the idea is not currently being edited by its author", () => {
       it("pushes an `delete_idea` event to the retro channel, passing the given idea's id", () => {
-        idea.editing = false
+        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
         const retroChannel = { on: () => { }, push: sinon.spy() }
 
         const wrapper = shallow(
@@ -54,7 +54,7 @@ describe("<IdeaControls />", () => {
 
     context("when the idea is currently being edited by its author", () => {
       it("performs no action while displaying 'Author currently editing' on hover", () => {
-        idea.editing = true
+        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: true }
         const retroChannel = { on: () => { }, push: sinon.spy() }
 
         const wrapper = shallow(
@@ -80,7 +80,7 @@ describe("<IdeaControls />", () => {
   describe("on click of the edit icon", () => {
     context("when the idea is not currently being edited by its author", () => {
       it("pushes an enable_edit_state event to the channel, passing the idea and editorToken", () => {
-        idea.editing = false
+        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
         const retroChannel = { on: () => { }, push: sinon.spy() }
 
         const wrapper = shallow(
@@ -104,7 +104,7 @@ describe("<IdeaControls />", () => {
 
     context("when the idea is currently being edited by its author", () => {
       it("performs no action while displaying 'Author currently editing' on hover", () => {
-        idea.editing = true
+        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: true }
         const retroChannel = { on: () => { }, push: sinon.spy() }
 
         const wrapper = shallow(
@@ -128,22 +128,46 @@ describe("<IdeaControls />", () => {
   })
 
   describe("on click of the announcement icon", () => {
-    it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
-      const retroChannel = { on: () => {}, push: sinon.spy() }
+    context("when the idea is not currently being edited by its author", () => {
+      it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
+        const retroChannel = { on: () => { }, push: sinon.spy() }
+        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
 
-      const wrapper = shallow(
-        <IdeaControls
-          idea={idea}
-          retroChannel={retroChannel}
-          currentUser={mockUser}
-          stage={IDEA_GENERATION}
-        />
-      )
+        const wrapper = shallow(
+          <IdeaControls
+            idea={idea}
+            retroChannel={retroChannel}
+            currentUser={mockUser}
+            stage={IDEA_GENERATION}
+          />
+        )
 
-      wrapper.find(".announcement.icon").simulate("click")
-      expect(
-        retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: false })
-      ).to.equal(true)
+        wrapper.find(".announcement.icon").simulate("click")
+        expect(
+          retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: false })
+        ).to.equal(true)
+      })
+    })
+
+    context("when the idea is currently being edited by its author", () => {
+      it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
+        const retroChannel = { on: () => { }, push: sinon.spy() }
+        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: true }
+
+        const wrapper = shallow(
+          <IdeaControls
+            idea={idea}
+            retroChannel={retroChannel}
+            currentUser={mockUser}
+            stage={IDEA_GENERATION}
+          />
+        )
+
+        wrapper.find(".announcement.icon").simulate("click")
+        expect(
+          retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: false })
+        ).to.equal(false)
+      })
     })
   })
 
