@@ -48,26 +48,26 @@ describe("ActionItemSubmissionForm component", () => {
     })
   })
 
-  // describe("on change of an action_item's body", () => {
-  //   it("pushes a `user_typing_action_item` event to the retro channel, along with the user token", () => {
-  //     const retroChannel = { on: () => {}, push: sinon.spy() }
+  describe("on change of an action_item's body", () => {
+    it("pushes a `user_typing_action_item` event to the retro channel, along with the user token", () => {
+      const retroChannel = { on: () => {}, push: sinon.spy() }
 
-  //     wrapper = mountWithConnectedSubcomponents(
-  //       <ActionItemSubmissionForm
-  //         currentUser={stubUser}
-  //         retroChannel={retroChannel}
-  //         users={users}
-  //       />
-  //     )
+      wrapper = mountWithConnectedSubcomponents(
+        <ActionItemSubmissionForm
+          currentUser={stubUser}
+          retroChannel={retroChannel}
+          users={users}
+        />
+      )
 
-  //     const actionItemInput = wrapper.find("input[name='idea']")
-  //     actionItemInput.simulate("change", { target: { value: "new action item" } })
+      const actionItemInput = wrapper.find("input[name='idea']")
+      actionItemInput.simulate("change", { target: { value: "new action item" } })
 
-  //     expect(
-  //       retroChannel.push.calledWith("user_typing_action_item", { userToken: "xyz" })
-  //     ).to.equal(true)
-  //   })
-  // })
+      expect(
+        retroChannel.push.calledWith("user_typing_action_item", { userToken: "xyz" })
+      ).to.equal(true)
+    })
+  })
 
   describe("when the state's `assignee` value changes", () => {
     it("shifts focus to the action_item input", () => {
