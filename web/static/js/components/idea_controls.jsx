@@ -56,7 +56,7 @@ export const IdeaControls = props => {
           {
             currentUser.is_facilitator &&
             <i
-              title={highlightTitle}
+              title={idea.editing ? authorEditing : highlightTitle}
               className={`${highlightClasses} ${idea.editing ? "disabled" : ""}`}
               onClick={() => { idea.editing ? noOp() : retroChannel.push("highlight_idea", { id, isHighlighted }) }}
             />
