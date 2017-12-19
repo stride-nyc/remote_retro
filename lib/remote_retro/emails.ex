@@ -47,14 +47,12 @@ defmodule RemoteRetro.Emails do
 
   defp html_action_item_list(action_items) do
     item_tags = action_items
-    |> Enum.map(fn item -> "<li>#{item}</li>" end)
+    |> Enum.map(fn item -> "<li>#{item.body} (#{item.assignee.given_name})</li>" end)
     "<ul>#{item_tags}</ul>"
   end
 
   defp retro_action_items(retro_id) do
     q = from i in RemoteRetro.Idea, where: [category: "action-item", retro_id: ^retro_id]
-    q
-    |> Repo.all
-    |> Enum.map(&(&1.body))
+    q |> Repo.all
   end
 end
