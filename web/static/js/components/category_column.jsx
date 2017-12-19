@@ -52,8 +52,9 @@ export class CategoryColumn extends Component {
         easing="ease"
         enterAnimation="none"
         leaveAnimation="none"
+        typeName={null}
       >
-        {sortedIdeas.map(idea => <div key={idea.id}><Idea {...this.props} idea={idea} /></div>)}
+        {sortedIdeas.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
       </FlipMove>
     )
 
