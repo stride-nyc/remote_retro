@@ -49,7 +49,8 @@ export class ActionItemSubmissionForm extends Component {
   }
 
   render() {
-    const disabled = !(this.state.body.length && this.state.assigneeId)
+    const { body, assigneeId } = this.state
+    const disabled = !(body.length && assigneeId)
     let pointingLabel = null
 
     if (!this.state.actionItemEntryStarted && this.props.stage === "action-items") {
@@ -60,9 +61,9 @@ export class ActionItemSubmissionForm extends Component {
       )
     }
 
-    const assigneeOptions = this.props.users.map(({ id, name }) => 
+    const assigneeOptions = this.props.users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>
-    ) 
+    )
 
     const defaultOption = (<option key={0} value={null}> -- </option>)
 

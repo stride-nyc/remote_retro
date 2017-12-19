@@ -81,13 +81,13 @@ describe("ActionItemSubmissionForm component", () => {
 
       const actionItemInput = wrapper.find("input[name='idea']")
 
-      expect(document.activeElement).to.equal(actionItemInput.node)
+      expect(document.activeElement).to.equal(actionItemInput.instance())
       document.activeElement.blur()
-      expect(document.activeElement).not.to.equal(wrapper.find("input[name='idea']").node)
+      expect(document.activeElement).not.to.equal(wrapper.find("input[name='idea']").instance())
 
       wrapper.setState({ assigneeId: 3 })
 
-      expect(document.activeElement).to.equal(actionItemInput.node)
+      expect(document.activeElement).to.equal(actionItemInput.instance())
     })
   })
 
@@ -100,12 +100,13 @@ describe("ActionItemSubmissionForm component", () => {
           users={users}
         />
       )
-      const submitButton = wrapper.find("button[type='submit']")
+      let submitButton = wrapper.find("button[type='submit']")
       const ideaInput = wrapper.find("input[name='idea']")
 
       expect(submitButton.prop("disabled")).to.equal(true)
       wrapper.setState({ assigneeId: 3 })
       ideaInput.simulate("change", { target: { value: "farts" } })
+      submitButton = wrapper.find("button[type='submit']")
       expect(submitButton.prop("disabled")).to.equal(false)
     })
   })
@@ -138,10 +139,10 @@ describe("ActionItemSubmissionForm component", () => {
 
       it("passes the state's focus back to action item input", () => {
         const ideaInput = wrapper.find("input[name='idea']")
-        expect(document.activeElement).to.equal(ideaInput.node)
+        expect(document.activeElement).to.equal(ideaInput.instance())
         document.activeElement.blur()
         wrapper.setProps({ alert: null })
-        expect(document.activeElement).to.equal(ideaInput.node)
+        expect(document.activeElement).to.equal(ideaInput.instance())
       })
     })
   })
