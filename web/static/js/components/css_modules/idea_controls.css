@@ -7,4 +7,8 @@
   cursor: pointer;
   font-size: 1.2rem;
   float: right;
+
+  &:global(.disabled) {
+    cursor: auto;
+  }
 }
