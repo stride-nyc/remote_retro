@@ -61,6 +61,7 @@ describe("<IdeaReadOnlyContent />", () => {
   context("when idea is an action_item and has been assigned to a user", () => {
     const assignee = {
       given_name: "Betty",
+      family_name: "White",
     }
     const idea = {
       body: "Do the thing",
@@ -75,7 +76,7 @@ describe("<IdeaReadOnlyContent />", () => {
     )
 
     it("contains the user's given_name next to the idea", () => {
-      expect(wrapper.text()).to.match(/Do the thing \(Betty\)/)
+      expect(wrapper.text()).to.match(/Do the thing \(Betty White\)/)
     })
   })
 })

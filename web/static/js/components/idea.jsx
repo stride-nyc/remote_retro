@@ -28,7 +28,7 @@ export const Idea = props => {
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
   } else {
-    content = <IdeaReadOnlyContent {...this.props} />
+    content = <IdeaReadOnlyContent {...props} />
   }
 
   return (

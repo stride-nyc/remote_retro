@@ -27,7 +27,7 @@ export class IdeaSubmissionForm extends Component {
     this.defaultCategory = "happy"
     this.state = {
       body: "",
-      category: props.showActionItem ? "action-item" : this.defaultCategory,
+      category: this.defaultCategory,
       ideaEntryStarted: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
@@ -91,9 +91,7 @@ export class IdeaSubmissionForm extends Component {
               className={`ui dropdown ${styles.select}`}
               onChange={this.handleCategoryChange}
             >
-              { this.props.showActionItem ? <option value="action-item">action-item</option> :
-                defaultCategoryOptions
-              }
+              {defaultCategoryOptions}
             </select>
           </div>
           <div className="eleven wide field">
@@ -123,7 +121,6 @@ IdeaSubmissionForm.propTypes = {
   alert: AppPropTypes.alert,
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  showActionItem: PropTypes.bool.isRequired,
   stage: AppPropTypes.stage,
 }
 
