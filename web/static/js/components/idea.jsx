@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import classNames from "classnames"
 import { connect } from "react-redux"
 
@@ -46,8 +46,12 @@ Idea.propTypes = {
   assignee: AppPropTypes.user,
 }
 
-const mapStateToProps = (state, { idea }) => {
-  return { assignee: getUser(state, idea.assignee_id) }
+Idea.defaultProps = {
+  assignee: {},
 }
+
+const mapStateToProps = (state, { idea }) => ({
+  assignee: getUser(state, idea.assignee_id),
+})
 
 export default connect(mapStateToProps)(Idea)

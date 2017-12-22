@@ -7,7 +7,7 @@ import stageConfigs from "../configs/stage_configs"
 import * as AppPropTypes from "../prop_types"
 import STAGES from "../configs/stages"
 
-const { IDEA_GENERATION, ACTION_ITEMS, CLOSED } = STAGES
+const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 const IdeaGenerationLowerThirdContent = props => {
   const { stage, ideas } = props

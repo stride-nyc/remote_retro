@@ -79,7 +79,7 @@ export class ActionItemSubmissionForm extends Component {
               className={`ui dropdown ${styles.select}`}
               onChange={this.handleAssigneeChange}
             >
-              { [ defaultOption, ...assigneeOptions ] }
+              { [defaultOption, ...assigneeOptions] }
             </select>
           </div>
           <div className="eleven wide field">

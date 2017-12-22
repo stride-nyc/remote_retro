@@ -1,7 +1,7 @@
 import React from "react"
 
 import IdeaGenerationLowerThirdContent from "./idea_generation_lower_third_content"
-import ActionItemGenerationLowerThirdContent 
+import ActionItemGenerationLowerThirdContent
   from "./action_item_generation_lower_third_content"
 import VotingLowerThirdContent from "./voting_lower_third_content"
 import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
@@ -22,9 +22,9 @@ const LowerThird = props => {
       return <VotingLowerThirdContent {...props} config={stageConfig} />
     } else if (stage === "idea-generation") {
       return <IdeaGenerationLowerThirdContent {...props} config={stageConfig} />
-    } else {
-      return <ActionItemGenerationLowerThirdContent {...props} config={stageConfig} />
     }
+
+    return <ActionItemGenerationLowerThirdContent {...props} config={stageConfig} />
   }
 
   return (

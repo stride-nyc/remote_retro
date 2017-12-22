@@ -2,7 +2,6 @@ import React from "react"
 import { shallow } from "enzyme"
 
 import { Idea } from "../../web/static/js/components/idea"
-import IdeaControls from "../../web/static/js/components/idea_controls"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 import IdeaLiveEditContent from "../../web/static/js/components/idea_live_edit_content"
 import IdeaReadOnlyContent from "../../web/static/js/components/idea_read_only_content"

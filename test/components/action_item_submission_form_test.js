@@ -33,7 +33,7 @@ describe("ActionItemSubmissionForm component", () => {
         />
       )
 
-      wrapper.setState({ assigneeId: 3, body: 'Some issue', actionItemEntryStarted: true })
+      wrapper.setState({ assigneeId: 3, body: "Some issue", actionItemEntryStarted: true })
 
       wrapper.simulate("submit", fakeEvent)
 
@@ -115,7 +115,7 @@ describe("ActionItemSubmissionForm component", () => {
     describe("when the `category` state attribute is stubbed with nonsense", () => {
       beforeEach(() => {
         wrapper = mountWithConnectedSubcomponents(
-          <IdeaSubmissionForm
+          <ActionItemSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
           />

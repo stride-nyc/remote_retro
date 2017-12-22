@@ -14,7 +14,7 @@ export const deleteIdea = ideaId => ({
   ideaId,
 })
 
-export const addActionItem = (actionItem) => ({
+export const addActionItem = actionItem => ({
   type: "ADD_ACTION_ITEM",
   actionItem,
 })

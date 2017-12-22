@@ -7,15 +7,8 @@ import stageConfigs from "../configs/stage_configs"
 import * as AppPropTypes from "../prop_types"
 
 const ActionItemGenerationLowerThirdContent = props => {
-  const { stage, ideas } = props
-
+  const { stage } = props
   const stageConfig = stageConfigs[stage]
-
-  function progressionDisabled() {
-    const noIdeasCreated = stage === "idea-generation" && !ideas.length
-    const noActionItemsCreated = stage === "action-items" && !ideas.some(idea => idea.category === "action-item")
-    return noIdeasCreated || noActionItemsCreated
-  }
 
   return (
     <div className="ui stackable grid basic attached secondary center aligned segment">
@@ -33,7 +26,6 @@ const ActionItemGenerationLowerThirdContent = props => {
 }
 
 ActionItemGenerationLowerThirdContent.propTypes = {
-  ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }
