@@ -8,6 +8,7 @@ defmodule RemoteRetro.Retro do
     has_many :participations, RemoteRetro.Participation
     has_many :ideas, RemoteRetro.Idea
     has_many :votes, through: [:ideas, :votes]
+    has_many :users, through: [:participations, :user]
     field :stage, :string, read_after_writes: true
 
     timestamps(type: :utc_datetime)

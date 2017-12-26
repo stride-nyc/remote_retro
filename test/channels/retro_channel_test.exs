@@ -21,6 +21,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert join_response.votes
       assert join_response.ideas
       assert join_response.stage
+      assert join_response.users
     end
 
     test "assigns the retro_id to the socket", %{socket: socket, retro: retro} do
