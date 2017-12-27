@@ -52,9 +52,12 @@ defmodule RemoteRetro.Emails do
   end
 
   defp retro_action_items(retro_id) do
-    q = from i in RemoteRetro.Idea, where: [category: "action-item", retro_id: ^retro_id]
-    q
-    |> Repo.all
-    |> Enum.map(&(&1.body))
+    action_items = Repo.all from i in RemoteRetro.Idea,
+      join: a in assoc(i, :assignee),
+      where: [category: "action-item", retro_id: ^retro_id],
+      preload: [assignee: a]
+
+    action_items
+    |> Enum.map(&("#{&1.body} (#{&1.assignee.name})"))
   end
 end
