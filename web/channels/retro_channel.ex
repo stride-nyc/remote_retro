@@ -66,7 +66,7 @@ defmodule RemoteRetro.RetroChannel do
   end
 
   def handle_in("new_action_item", %{"body" => body, "assigneeId" => assignee_id, "userId" => user_id}, socket) do
-    actionItem =
+    action_item =
       %Idea{
         body: body,
         category: "action-item",
@@ -77,7 +77,7 @@ defmodule RemoteRetro.RetroChannel do
       |> Idea.changeset
       |> Repo.insert!
 
-    broadcast! socket, "new_action_item_received", actionItem 
+    broadcast! socket, "new_action_item_received", action_item
     {:noreply, socket}
   end
 
