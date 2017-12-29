@@ -2,7 +2,7 @@ defmodule RemoteRetro.Router do
   use RemoteRetro.Web, :router
   use Honeybadger.Plug
 
-  if Mix.env == :dev do
+  if Application.get_env(:remote_retro, :env) == :dev do
     forward "/sent_emails", Bamboo.EmailPreviewPlug
   end
 
