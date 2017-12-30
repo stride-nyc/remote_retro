@@ -9,12 +9,12 @@ defmodule RemoteRetro.Participation do
     timestamps(type: :utc_datetime)
   end
 
-  @allowed_fields [:user_id, :retro_id]
+  @required_fields [:user_id, :retro_id]
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, @allowed_fields)
+    |> cast(params, @required_fields)
     |> unique_constraint(:user_id_retro_id, name: :participations_user_id_retro_id_index)
-    |> validate_required([:user_id, :retro_id])
+    |> validate_required(@required_fields)
   end
 end
