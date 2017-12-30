@@ -1,7 +1,7 @@
 defmodule RemoteRetro.Participation do
   use RemoteRetro.Web, :model
 
-  @derive {Poison.Encoder, except: [:__meta__]}
+  @derive {Poison.Encoder, except: [:__meta__, :user, :retro]}
   schema "participations" do
     belongs_to :user, RemoteRetro.User
     belongs_to :retro, RemoteRetro.Retro, type: Ecto.UUID

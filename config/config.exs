@@ -12,7 +12,7 @@ config :remote_retro,
 # Configures the endpoint
 config :remote_retro, RemoteRetro.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "O3MLJ1Bu2p3iEKTRu9DsKQj7ahKyfBfvTxQfW5HehdWt/NtN3ffL1LsAStFlg8Y06",
+  secret_key_base: "yVmBeMmTU5NtKBIRTb8RZm0jXAv5AqPEP+yNiQITK53A/1rUobEPc8qvofLl1Z3r",
   render_errors: [view: RemoteRetro.ErrorView, accepts: ~w(html json)],
   pubsub: [name: RemoteRetro.PubSub,
            adapter: Phoenix.PubSub.PG2]

@@ -19,11 +19,6 @@ defmodule RemoteRetro.AuthController do
       |> User.changeset(user_params)
       |> Repo.insert_or_update
 
-    user =
-      user
-      |> Map.delete(:__meta__)
-      |> Map.delete(:__struct__)
-
     conn = put_session(conn, :current_user, user)
 
     redirect conn, to: get_session(conn, "requested_endpoint") || "/"

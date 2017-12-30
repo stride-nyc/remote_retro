@@ -39,7 +39,7 @@ defmodule RemoteRetro.AuthControllerTest do
       conn = get conn, "/auth/google/callback?code=schlarpdarp"
 
       session = retrieve_session(conn)
-      assert get_in(session, ["current_user", :email]) == "mistertestuser@gmail.com"
+      assert session["current_user"].email == "mistertestuser@gmail.com"
     end
 
     test "user on the session exists in the db", %{conn: conn} do
@@ -47,22 +47,21 @@ defmodule RemoteRetro.AuthControllerTest do
       conn = get conn, "/auth/google/callback?code=schlarpdarp"
 
       session = retrieve_session(conn)
-      session_email = get_in(session, ["current_user", :email])
 
       user = Repo.get_by(User, email: mock_google_info["email"])
-      assert user.email == session_email
+      assert user.email == session["current_user"].email
     end
 
     test "when a user logs in more than once, ensure last_login is updated and doesn't match inserted_at", %{conn: conn} do
       conn = get conn, "/auth/google/callback?code=schlarpdarp"
       session = retrieve_session(conn)
-      session_email = get_in(session, ["current_user", :email])
+      session_email = session["current_user"].email
       user_first_login = Repo.get_by(User, email: session_email)
 
       conn = conn |> clear_session |> get("/auth/google/callback?code=schlarpdarp")
 
       session = retrieve_session(conn)
-      session_email = get_in(session, ["current_user", :email])
+      session_email = session["current_user"].email
       user_second_login = Repo.get_by(User, email: session_email)
 
       refute user_first_login.last_login == user_second_login.last_login

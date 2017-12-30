@@ -1,7 +1,7 @@
 defmodule RemoteRetro.Idea do
   use RemoteRetro.Web, :model
 
-  @derive {Poison.Encoder, except: [:__meta__]}
+  @derive {Poison.Encoder, except: [:__meta__, :retro, :user, :votes]}
   schema "ideas" do
     field :category, :string
     field :body, :string

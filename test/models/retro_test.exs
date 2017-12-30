@@ -14,9 +14,9 @@ defmodule RemoteRetro.RetroTest do
 
   describe "JSON encoding of the model struct" do
     test "is enabled" do
-      idea = %Retro{id: 5, stage: "idea-generation"}
+      retro = %Retro{id: 5, stage: "idea-generation", ideas: [], votes: []}
 
-      encoded = Poison.encode!(idea)
+      encoded = Poison.encode!(retro)
 
       assert encoded =~ ~r/"id":5/i
       assert encoded =~ ~r/"stage":"idea-generation"/i
