@@ -14,7 +14,7 @@ use Mix.Config
 config :remote_retro, RemoteRetro.Endpoint,
   server: true,
   http: [port: {:system, "PORT"}],
-  url: [scheme: "https", host: "${HOST}", port: 443],
+  url: [scheme: "https", host: "bar.gigalixirapp.com", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/manifest.json",
   secret_key_base: "${SECRET_KEY_BASE}"
