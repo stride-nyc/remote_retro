@@ -7,7 +7,8 @@ use Mix.Config
 
 # General application configuration
 config :remote_retro,
-  ecto_repos: [RemoteRetro.Repo]
+  ecto_repos: [RemoteRetro.Repo],
+  env: Mix.env
 
 # Configures the endpoint
 config :remote_retro, RemoteRetro.Endpoint,

@@ -22,7 +22,7 @@ defmodule RemoteRetro.Mixfile do
   def application do
     [mod: {RemoteRetro, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :oauth2, :bamboo]]
+                    :phoenix_ecto, :postgrex, :oauth2, :bamboo, :slender_channel, :wallaby]]
   end
 
   # Specifies which paths to compile per environment.
