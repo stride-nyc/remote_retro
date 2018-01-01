@@ -22,7 +22,7 @@ defmodule RemoteRetro.Mixfile do
   def application do
     [mod: {RemoteRetro, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :oauth2, :bamboo]]
+                    :phoenix_ecto, :postgrex, :oauth2, :bamboo, :slender_channel]]
   end
 
   # Specifies which paths to compile per environment.
@@ -36,6 +36,7 @@ defmodule RemoteRetro.Mixfile do
     [{:phoenix, "~> 1.2.1"},
      {:phoenix_pubsub, "~> 1.0"},
      {:phoenix_ecto, "~> 3.2.2"},
+     {:distillery, "~> 1.0.0"},
      {:excoveralls, "~> 0.7.5", only: :test},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.6"},

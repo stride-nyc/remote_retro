@@ -4,8 +4,10 @@ defmodule RemoteRetro.LayoutViewTest do
 
   test "app_js is served by the webpack dev server (at port 5001) in dev" do
     Mix.env(:dev)
+    Application.set_env(:remote_retro, :env, :dev)
     conn = get build_conn(), "/"
     assert LayoutView.app_js(conn) =~ "localhost:5001"
+    Application.set_env(:remote_retro, :env, :test)
     Mix.env(:test)
   end
 

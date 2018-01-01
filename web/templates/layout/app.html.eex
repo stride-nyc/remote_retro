@@ -29,7 +29,7 @@
     <meta name="author" content="">
     <title>RemoteRetro</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/semantic-ui/semantic.min.css") %>">
-    <%= if Mix.env == :dev do %>
+    <%= if Application.get_env(:remote_retro, :env) == :dev do %>
       <link id="css" rel="stylesheet" href="http://localhost:5001/css/app.css" />
     <% else %>
       <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
