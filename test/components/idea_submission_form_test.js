@@ -71,7 +71,7 @@ describe("IdeaSubmissionForm component", () => {
             userId: 1,
             assigneeId: 3,
             ideaEntryStarted: true,
-            category: "action-item"
+            category: "action-item",
           }
         )).to.equal(true)
       })

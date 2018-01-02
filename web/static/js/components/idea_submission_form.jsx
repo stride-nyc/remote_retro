@@ -23,7 +23,7 @@ const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) =
 export class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
-    this.defaultCategory = this.props.stage == ACTION_ITEMS ? "action-item" : "happy"
+    this.defaultCategory = this.props.stage === ACTION_ITEMS ? "action-item" : "happy"
     this.state = {
       body: "",
       category: this.defaultCategory,
@@ -66,7 +66,7 @@ export class IdeaSubmissionForm extends Component {
 
   render() {
     const { users, stage } = this.props
-    const { assigneeId, body, ideaEntryStarted} = this.state
+    const { assigneeId, body, ideaEntryStarted, category } = this.state
     let disabled = !body.length
     if (stage === ACTION_ITEMS) {
       disabled = !(body.length && assigneeId)
@@ -81,7 +81,7 @@ export class IdeaSubmissionForm extends Component {
       <option key="sad" value="sad">sad</option>,
       <option key="confused" value="confused">confused</option>,
     ]
-    const label = (text) =>
+    const label = text =>
       <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
         {text}
       </div>
@@ -103,7 +103,7 @@ export class IdeaSubmissionForm extends Component {
               <select
                 id="category"
                 name="category"
-                value={this.state.category}
+                value={category}
                 className={`ui dropdown ${styles.select}`}
                 onChange={this.handleCategoryChange}
               >
@@ -113,16 +113,16 @@ export class IdeaSubmissionForm extends Component {
             }
             {stage === ACTION_ITEMS && <div>
               <label htmlFor="assignee">Assignee:</label>
-             <select
-               name="assignee"
-               value={this.state.assigneeId}
-               className={`ui dropdown ${styles.select}`}
-               onChange={this.handleAssigneeChange}
-             >
-               { [defaultOption, ...assigneeOptions] }
-             </select>
-             </div>
-           }
+              <select
+                name="assignee"
+                value={assigneeId}
+                className={`ui dropdown ${styles.select}`}
+                onChange={this.handleAssigneeChange}
+              >
+                { [defaultOption, ...assigneeOptions] }
+              </select>
+            </div>
+            }
           </div>
           <div className="eleven wide field">
             <div className="ui fluid action input">
