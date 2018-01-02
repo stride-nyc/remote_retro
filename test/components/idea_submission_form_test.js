@@ -4,7 +4,7 @@ import sinon from "sinon"
 import { IdeaSubmissionForm } from "../../web/static/js/components/idea_submission_form"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, VOTING } = STAGES
+const { IDEA_GENERATION, VOTING, ACTION_ITEMS } = STAGES
 
 describe("IdeaSubmissionForm component", () => {
   let wrapper
@@ -15,28 +15,66 @@ describe("IdeaSubmissionForm component", () => {
     stopPropagation: () => undefined,
     preventDefault: () => undefined,
   }
+  const users = [
+    { id: 1, name: "Tina Fey" },
+    { id: 2, name: "Betty White" },
+    { id: 3, name: "Bill Smith" },
+  ]
 
   describe("on submit", () => {
-    it("pushes a `new_idea` event to the retroChannel, passing a happy idea by default", () => {
-      const retroChannel = { on: () => { }, push: sinon.spy() }
+    describe("when in the IDEA_GENERATION stage", () => {
+      it("pushes a `new_idea` event to the retroChannel, passing a happy idea by default", () => {
+        const retroChannel = { on: () => { }, push: sinon.spy() }
 
-      wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={retroChannel}
-        />
-      )
+          stage={IDEA_GENERATION}
+          users={users}
+          />
+        )
 
-      wrapper.simulate("submit", fakeEvent)
+        wrapper.simulate("submit", fakeEvent)
 
-      expect(
-        retroChannel.push.calledWith("new_idea", {
-          category: "happy",
-          body: "",
-          userId: 1,
-          ideaEntryStarted: false,
-        }
-      )).to.equal(true)
+        expect(
+          retroChannel.push.calledWith("new_idea", {
+            category: "happy",
+            body: "",
+            userId: 1,
+            ideaEntryStarted: false,
+          }
+        )).to.equal(true)
+      })
+    })
+
+    describe("when in the ACTION_ITEMS stage", () => {
+      it("pushes a `new_idea` event to the retroChannel with the action-item", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={retroChannel}
+            users={users}
+            stage={ACTION_ITEMS}
+          />
+        )
+
+        wrapper.setState({ assigneeId: 3, body: "Some issue", ideaEntryStarted: true })
+
+        wrapper.simulate("submit", fakeEvent)
+
+        expect(
+          retroChannel.push.calledWith("new_idea", {
+            body: "Some issue",
+            userId: 1,
+            assigneeId: 3,
+            ideaEntryStarted: true,
+            category: "action-item"
+          }
+        )).to.equal(true)
+      })
     })
   })
 
@@ -47,6 +85,7 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={retroChannel}
+          users={users}
         />
       )
       const ideaInput = wrapper.find("input[name='idea']")
@@ -64,6 +103,7 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
+          users={users}
         />
       )
 
@@ -84,6 +124,7 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
+          users={users}
         />
       )
       let submitButton = wrapper.find("button[type='submit']")
@@ -104,6 +145,7 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
+            users={users}
           />
         )
 
@@ -118,6 +160,7 @@ describe("IdeaSubmissionForm component", () => {
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
             alert={{ herp: "derp" }}
+            users={users}
           />
         )
       })
@@ -139,6 +182,7 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
+            users={users}
           />
         )
         wrapper.setState({ ideaEntryStarted: true })
@@ -156,6 +200,7 @@ describe("IdeaSubmissionForm component", () => {
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
               stage={IDEA_GENERATION}
+              users={users}
             />
           )
           expect(
@@ -171,6 +216,7 @@ describe("IdeaSubmissionForm component", () => {
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
               stage={VOTING}
+              users={users}
             />
           )
           expect(

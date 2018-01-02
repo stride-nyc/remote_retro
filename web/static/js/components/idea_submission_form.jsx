@@ -2,11 +2,12 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import throttle from "lodash/throttle"
 import * as AppPropTypes from "../prop_types"
+import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 
 import styles from "./css_modules/idea_submission_form.css"
 import STAGES from "../configs/stages"
 
-const { IDEA_GENERATION } = STAGES
+const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 const PLACEHOLDER_TEXTS = {
   happy: "we have a linter!",
@@ -17,12 +18,12 @@ const PLACEHOLDER_TEXTS = {
 
 const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) => {
   retroChannel.push("user_typing_idea", { userToken: currentUserToken })
-}, 0)// USER_TYPING_ANIMATION_DURATION - 100)
+}, USER_TYPING_ANIMATION_DURATION - 100, { leading: true })
 
 export class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
-    this.defaultCategory = "happy"
+    this.defaultCategory = this.props.stage == ACTION_ITEMS ? "action-item" : "happy"
     this.state = {
       body: "",
       category: this.defaultCategory,
@@ -38,6 +39,7 @@ export class IdeaSubmissionForm extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    // assigneeId
     if (this.state.category !== prevState.category) { this.ideaInput.focus() }
   }
 
@@ -59,8 +61,20 @@ export class IdeaSubmissionForm extends Component {
     this.setState({ category: event.target.value })
   }
 
+  handleAssigneeChange(event) {
+    this.setState({ assigneeId: Number.parseInt(event.target.value, 10) })
+  }
+
   render() {
     const disabled = !this.state.body.length
+    const { users, stage } = this.props
+    const { assigneeId, body, ideaEntryStarted} = this.state
+    // const disabled = !(body.length && assigneeId)
+    const assigneeOptions = users.map(({ id, name }) =>
+      <option key={id} value={id}>{name}</option>
+    )
+    const defaultOption = (<option key={0} value={null}> -- </option>)
+
     const defaultCategoryOptions = [
       <option key="happy" value="happy">happy</option>,
       <option key="sad" value="sad">sad</option>,
@@ -68,10 +82,16 @@ export class IdeaSubmissionForm extends Component {
     ]
     let pointingLabel = null
 
-    if (!this.state.ideaEntryStarted && this.props.stage === IDEA_GENERATION) {
+    if (!ideaEntryStarted && stage === IDEA_GENERATION) {
       pointingLabel = (
         <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
           Submit an idea!
+        </div>
+      )
+    } else if (!ideaEntryStarted && stage === ACTION_ITEMS) {
+      pointingLabel = (
+        <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
+          Create Action Items!
         </div>
       )
     }
@@ -81,16 +101,31 @@ export class IdeaSubmissionForm extends Component {
         {pointingLabel}
         <div className={`${styles.fields} fields`}>
           <div className={`${styles.flex} five wide inline field`}>
-            <label htmlFor="category">Category:</label>
-            <select
-              id="category"
-              name="category"
-              value={this.state.category}
-              className={`ui dropdown ${styles.select}`}
-              onChange={this.handleCategoryChange}
-            >
-              {defaultCategoryOptions}
-            </select>
+            {stage === IDEA_GENERATION && <div>
+              <label htmlFor="category">Category:</label>
+              <select
+                id="category"
+                name="category"
+                value={this.state.category}
+                className={`ui dropdown ${styles.select}`}
+                onChange={this.handleCategoryChange}
+              >
+                {defaultCategoryOptions}
+              </select>
+              </div>
+            }
+            {stage === ACTION_ITEMS && <div>
+              <label htmlFor="assignee">Assignee:</label>
+             <select
+               name="assignee"
+               value={this.state.assigneeId}
+               className={`ui dropdown ${styles.select}`}
+               onChange={this.handleAssigneeChange}
+             >
+               { [defaultOption, ...assigneeOptions] }
+             </select>
+             </div>
+           }
           </div>
           <div className="eleven wide field">
             <div className="ui fluid action input">
@@ -119,6 +154,7 @@ IdeaSubmissionForm.propTypes = {
   alert: AppPropTypes.alert,
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
+  users: AppPropTypes.users.isRequired,
   stage: AppPropTypes.stage,
 }
 

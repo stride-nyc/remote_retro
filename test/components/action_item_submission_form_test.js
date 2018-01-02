@@ -1,8 +1,8 @@
 import React from "react"
 import sinon from "sinon"
 
-import { ActionItemSubmissionForm } from
-  "../../web/static/js/components/action_item_submission_form"
+// import { ActionItemSubmissionForm } from
+  // "../../web/static/js/components/action_item_submission_form"
 
 describe("ActionItemSubmissionForm component", () => {
   let wrapper
@@ -21,32 +21,6 @@ describe("ActionItemSubmissionForm component", () => {
     { id: 3, name: "Bill Smith" },
   ]
 
-  describe("on submit", () => {
-    it("pushes a `new_action_item` event to the retro channel with the action-item", () => {
-      const retroChannel = { on: () => {}, push: sinon.spy() }
-
-      wrapper = mountWithConnectedSubcomponents(
-        <ActionItemSubmissionForm
-          currentUser={stubUser}
-          retroChannel={retroChannel}
-          users={users}
-        />
-      )
-
-      wrapper.setState({ assigneeId: 3, body: "Some issue", actionItemEntryStarted: true })
-
-      wrapper.simulate("submit", fakeEvent)
-
-      expect(
-        retroChannel.push.calledWith("new_action_item", {
-          body: "Some issue",
-          userId: 1,
-          assigneeId: 3,
-          actionItemEntryStarted: true,
-        }
-      )).to.equal(true)
-    })
-  })
 
   describe("on change of an action_item's body", () => {
     it("pushes a `user_typing_action_item` event to the retro channel, along with the user token", () => {
