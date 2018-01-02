@@ -5,7 +5,7 @@ defmodule RemoteRetro.RetroChannel do
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
-    retro = retrieve_retro_with_associations(retro_id)
+    retro = Repo.get!(Retro, retro_id) |> Repo.preload([:ideas, :votes])
 
     send self(), :after_join
     {:ok, retro, socket}
@@ -121,16 +121,5 @@ defmodule RemoteRetro.RetroChannel do
     Repo.get(Retro, retro_id)
     |> Retro.changeset(%{stage: stage})
     |> Repo.update!
-  end
-
-  defp retrieve_retro_with_associations(retro_id) do
-    query =
-      from retro in Retro,
-      where: retro.id == ^retro_id,
-      left_join: ideas in assoc(retro, :ideas), on: ideas.retro_id == retro.id,
-      left_join: votes in assoc(retro, :votes), on: votes.idea_id == ideas.id,
-      preload: [ideas: ideas, votes: votes]
-
-    Repo.one!(query)
   end
 end
