@@ -81,20 +81,16 @@ export class IdeaSubmissionForm extends Component {
       <option key="sad" value="sad">sad</option>,
       <option key="confused" value="confused">confused</option>,
     ]
+    const label = (text) =>
+      <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
+        {text}
+      </div>
     let pointingLabel = null
 
     if (!ideaEntryStarted && stage === IDEA_GENERATION) {
-      pointingLabel = (
-        <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
-          Submit an idea!
-        </div>
-      )
+      pointingLabel = label("Submit an idea!")
     } else if (!ideaEntryStarted && stage === ACTION_ITEMS) {
-      pointingLabel = (
-        <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
-          Create Action Items!
-        </div>
-      )
+      pointingLabel = label("Create Action Items!")
     }
 
     return (

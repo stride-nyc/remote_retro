@@ -191,7 +191,7 @@ describe("IdeaSubmissionForm component", () => {
         )
       })
 
-      it("passes the state's `category` to 'action-item'", () => {
+      it("passes the state's focus back to action item input", () => {
         const ideaInput = wrapper.find("input[name='idea']")
         expect(document.activeElement).to.equal(ideaInput.instance())
         document.activeElement.blur()
@@ -235,7 +235,23 @@ describe("IdeaSubmissionForm component", () => {
         })
       })
 
-      context("when the stage is something other than 'idea-generation'", () => {
+      context("when the stage is 'action-items'", () => {
+        it("does render a pointing label to prompt the user to enter an action item", () => {
+          wrapper = mountWithConnectedSubcomponents(
+            <IdeaSubmissionForm
+              currentUser={stubUser}
+              retroChannel={mockRetroChannel}
+              users={users}
+              stage={ACTION_ITEMS}
+            />
+          )
+          expect(
+            wrapper.find(".pointing").length
+          ).to.equal(1)
+        })
+      })
+
+      context("when the stage is something other than 'idea-generation' or 'action-items'", () => {
         it("does not render a pointing label", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
