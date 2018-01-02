@@ -39,7 +39,6 @@ export class IdeaSubmissionForm extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
-    // assigneeId
     if (this.state.category !== prevState.category) { this.ideaInput.focus() }
   }
 
@@ -66,10 +65,12 @@ export class IdeaSubmissionForm extends Component {
   }
 
   render() {
-    const disabled = !this.state.body.length
     const { users, stage } = this.props
     const { assigneeId, body, ideaEntryStarted} = this.state
-    // const disabled = !(body.length && assigneeId)
+    let disabled = !body.length
+    if (stage === ACTION_ITEMS) {
+      disabled = !(body.length && assigneeId)
+    }
     const assigneeOptions = users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>
     )
