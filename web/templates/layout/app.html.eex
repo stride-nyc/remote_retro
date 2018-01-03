@@ -36,7 +36,7 @@
     <% end %>
   </head>
 
-  <body class="<%= if @view_module.include_backdrop, do: "photo-backdrop" %>">
+  <body class="<%= if assigns[:include_backdrop], do: "photo-backdrop" %>">
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K8F6B6H"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -46,7 +46,7 @@
       <%= render @view_module, @view_template, assigns %>
     </main>
 
-    <%= if @view_module.include_js do %>
+    <%= if assigns[:include_js] do %>
       <script>
         window.userToken = "<%= @user_token %>";
         window.retroUUID = "<%= @retro_uuid %>";

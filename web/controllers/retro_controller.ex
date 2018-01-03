@@ -12,7 +12,8 @@ defmodule RemoteRetro.RetroController do
         find_or_insert_participation_record(user, params["id"])
         render conn, "show.html", %{
           user_token: Token.sign(conn, "user", user),
-          retro_uuid: params["id"]
+          retro_uuid: params["id"],
+          include_js: true,
         }
     end
   end

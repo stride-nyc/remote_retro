@@ -5,7 +5,7 @@ defmodule RemoteRetro.PageController do
     current_user = get_session(conn, :current_user)
 
     conn = assign(conn, :current_user, current_user)
-    render conn, "index.html"
+    render conn, "index.html", %{include_backdrop: true}
   end
 
   def faq(conn, _params) do

@@ -12,7 +12,7 @@
     <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
       <%= submit "Create a Retrospective for Your Team", class: "ui button blue" %>
     <% end %>
-  <%= else %>
+  <% else %>
     <div class="ui header">
       Get Better With Your Team
       <p class="sub header">Remote Retro lets you get together, even when you're far apart.</p>
