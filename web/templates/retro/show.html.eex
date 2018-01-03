@@ -1,18 +1,3 @@
-<div class="ui clearing segment branded-header-container">
-  <a href="/">
-    <div class="ui teal left floated header left-branded-header">
-      <p>RemoteRetro<sup>BETA</sup></p>
-    </div>
-  </a>
-  <div class="ui right floated header right-branded-header">
-    <a href="http://www.stridenyc.com/">
-      <div>
-        <div class="middle aligned content logo-text">Built by</div>
-        <div class="ui tiny image"><img src='/images/stride_logo_horizontal.svg' alt='Stride' /></div>
-      </div>
-    </a>
-  </div>
-</div>
 <div class="react-root">
   <div class="ui active large centered text loader">
     Connecting...
