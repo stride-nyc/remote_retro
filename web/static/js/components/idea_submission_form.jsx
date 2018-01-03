@@ -18,7 +18,7 @@ const PLACEHOLDER_TEXTS = {
 
 const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) => {
   retroChannel.push("user_typing_idea", { userToken: currentUserToken })
-}, USER_TYPING_ANIMATION_DURATION - 100, { leading: true })
+}, USER_TYPING_ANIMATION_DURATION - 100)
 
 export class IdeaSubmissionForm extends Component {
   constructor(props) {
