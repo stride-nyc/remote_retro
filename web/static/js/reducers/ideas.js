@@ -10,8 +10,6 @@ const ideas = (state = [], action) => {
       ))
     case "DELETE_IDEA":
       return state.filter(idea => idea.id !== action.ideaId)
-    case "ADD_ACTION_ITEM":
-      return [...state, action.actionItem]
     default:
       return state
   }
