@@ -1,8 +1,6 @@
 import React from "react"
 
 import IdeaGenerationLowerThirdContent from "./idea_generation_lower_third_content"
-// import ActionItemGenerationLowerThirdContent
-//   from "./action_item_generation_lower_third_content"
 import VotingLowerThirdContent from "./voting_lower_third_content"
 import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
 import stageConfigs from "../configs/stage_configs"
@@ -20,11 +18,8 @@ const LowerThird = props => {
   function stageSpecificContent() {
     if (stage === VOTING) {
       return <VotingLowerThirdContent {...props} config={stageConfig} />
-    } else if (stage === "idea-generation") {
-      return <IdeaGenerationLowerThirdContent {...props} config={stageConfig} />
     }
-
-    return <ActionItemGenerationLowerThirdContent {...props} config={stageConfig} />
+    return <IdeaGenerationLowerThirdContent {...props} config={stageConfig} />
   }
 
   return (
