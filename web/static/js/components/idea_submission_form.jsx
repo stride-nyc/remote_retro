@@ -7,6 +7,7 @@ import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 
 import styles from "./css_modules/idea_submission_form.css"
 import STAGES from "../configs/stages"
+import SelectDropdown from "./select_dropdown"
 
 const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
@@ -76,48 +77,37 @@ export class IdeaSubmissionForm extends Component {
     const assigneeOptions = users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>
     )
-    const defaultOption = (<option key={0} value={null}> -- </option>)
-
+    const defaultOption = (<option key={0} value={0}> -- </option>)
     const defaultCategoryOptions = [
       <option key="happy" value="happy">happy</option>,
       <option key="sad" value="sad">sad</option>,
       <option key="confused" value="confused">confused</option>,
     ]
-    const label = text =>
-      <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
-        {text}
-      </div>
-    let pointingLabel = null
-    let fieldArgs = []
+    let dropdownProps = {}
 
-    if (!ideaEntryStarted && stage === IDEA_GENERATION) {
-      pointingLabel = label("Submit an idea!")
-      fieldArgs = ["category", category, this.handleCategoryChange, defaultCategoryOptions]
-    } else if (!ideaEntryStarted && stage === ACTION_ITEMS) {
-      pointingLabel = label("Create Action Items!")
-      fieldArgs = ["assignee", assigneeId, this.handleAssigneeChange, [defaultOption, ...assigneeOptions]]
+    if (stage === IDEA_GENERATION) {
+      dropdownProps = {
+        labelName: "category",
+        value: category,
+        onChange: this.handleCategoryChange,
+        selectOptions: defaultCategoryOptions,
+        pointerText: !ideaEntryStarted ? "Submit an idea!" : "",
+      }
+    } else if (stage === ACTION_ITEMS) {
+      dropdownProps = {
+        labelName: "assignee",
+        value: assigneeId,
+        onChange: this.handleAssigneeChange,
+        selectOptions: [defaultOption, ...assigneeOptions],
+        pointerText: !ideaEntryStarted ? "Create Action Items!" : "",
+      }
     }
-
-    const field = (labelName, value, changeHandler, options) =>
-      <div className={`${styles.flex} five wide inline field`}>
-        <label htmlFor={labelName}>{`${capitalize(labelName)}:`}</label>
-        <select
-          id={labelName}
-          name={labelName}
-          value={value}
-          className={`ui dropdown ${styles.select}`}
-          onChange={changeHandler}
-        >
-          {options}
-        </select>
-      </div>
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
-        {pointingLabel}
         <div className={`${styles.fields} fields`}>
-          {stage === IDEA_GENERATION && field(...fieldArgs)}
-          {stage === ACTION_ITEMS && field(...fieldArgs)}
+          {stage === IDEA_GENERATION && <SelectDropdown {...dropdownProps} />}
+          {stage === ACTION_ITEMS && <SelectDropdown {...dropdownProps} />}
           <div className="eleven wide field">
             <div className="ui fluid action input">
               <label htmlFor="idea-body-input" className="visually-hidden">Idea input</label>
