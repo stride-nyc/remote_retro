@@ -86,22 +86,18 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a new idea to the socket" do
     setup [:persist_user_for_retro, :join_the_retro_channel]
 
-    test "results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
+    test "when in idea_generation stage results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
       push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id})
 
       assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
     end
-  end
 
-  describe "pushing a new action item to the socket" do
-    setup [:persist_user_for_retro, :join_the_retro_channel]
-
-    test "results in the broadcast of the new action item to all connected clients", %{socket: socket, user: user} do
+    test "when in action_items stage results in the broadcast of the new action item to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
-      push(socket, "new_action_item", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
+      push(socket, "new_idea", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
 
-      assert_broadcast("new_action_item_received", %{category: "action-item", body: "Do something about the pacing", id: _, user_id: ^user_id, assignee_id: ^user_id})
+      assert_broadcast("new_idea_received", %{category: "action-item", body: "Do something about the pacing", id: _, user_id: ^user_id, assignee_id: ^user_id})
     end
   end
 
@@ -129,15 +125,6 @@ defmodule RemoteRetro.RetroChannelTest do
       push(socket, "user_typing_idea", %{userToken: "insaneToken"})
 
       assert_broadcast("user_typing_idea", %{"userToken" => "insaneToken"})
-    end
-  end
-
-  describe "pushing a `user_typing_action_item` event to the socket" do
-    setup [:join_the_retro_channel]
-    test "broadcasts the same event with the given payload", %{socket: socket} do
-      push(socket, "user_typing_action_item", %{userToken: "insaneToken"})
-
-      assert_broadcast("user_typing_action_item", %{"userToken" => "insaneToken"})
     end
   end
 
