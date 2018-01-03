@@ -1,3 +1,27 @@
 <div class="ui segment">
   <h1 class="ui dividing header">Frequently Asked Questions</h1>
+
+  <h2 class="ui medium header">Looks cool, but... what's a retro?</h2>
+  <p>'Retro' is short for retrospective. A retrospective is one of the core Agile ceremonies. Retrospectives are used by teams to reflect on the events of their past iteration, with the aim of identifying where they can improve and generating action items that will help them make those improvements.</p>
+
+  <h2 class="ui medium header">Who can use RemoteRetro?</h2>
+  <p>Anyone with a Google account of any kind can enter a retrospective!</p>
+
+  <h2 class="ui medium header">My team is entirely colocated. Should we use RemoteRetro?</h2>
+  <p>You certainly <i>could</i>, but we don't recommend it, as there's no substitute for face-to-face communication. Use a whiteboard!</p>
+
+
+  <h2 class="ui medium header">Why is RemoteRetro open source?</h2>
+  <p>The entire software development community stands on the shoulders of giants, and Stride is no exception. We talked it over and were unanimous in our desire to give back to the open source community.</p>
+
+  <h2 class="ui medium header">Where can I learn about planned features and updates?</h2>
+  <p>Our backlog resides in <a href="https://github.com/stride-nyc/remote_retro/issues">GitHub issues</a>, which can be viewed in priority order via the wonderful <a href="http://zenhub.io/">ZenHub Chrome extension</span></a>.</p>
+
+  <h2 class="ui medium header">How many people should participate in a retro?</h2>
+
+  <p>Ideally, a retrospective will contain no more than 10 people. Exceed 10, and participants will check out because they feel they can go unnoticed. If you can, keep the numbers low!</p>
+
+
+  <h2 class="ui medium header">How can I submit feedback on my experience?</h2>
+  <p>Users are presented with a survey at the close of their first retro. Additionally, bugs and feature requests can be filed via GitHub issues at https://github.com/stride-nyc/remote_retro/issues/new or via email at remote_retro@stridenyc.com</p>
 </div>
