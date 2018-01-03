@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import throttle from "lodash/throttle"
+import { capitalize } from "lodash"
 import * as AppPropTypes from "../prop_types"
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 
@@ -87,44 +88,36 @@ export class IdeaSubmissionForm extends Component {
         {text}
       </div>
     let pointingLabel = null
+    let fieldArgs = []
 
     if (!ideaEntryStarted && stage === IDEA_GENERATION) {
       pointingLabel = label("Submit an idea!")
+      fieldArgs = ["category", category, this.handleCategoryChange, defaultCategoryOptions]
     } else if (!ideaEntryStarted && stage === ACTION_ITEMS) {
       pointingLabel = label("Create Action Items!")
+      fieldArgs = ["assignee", assigneeId, this.handleAssigneeChange, [defaultOption, ...assigneeOptions]]
     }
+
+    const field = (labelName, value, changeHandler, options) =>
+      <div className={`${styles.flex} five wide inline field`}>
+        <label htmlFor={labelName}>{`${capitalize(labelName)}:`}</label>
+        <select
+          id={labelName}
+          name={labelName}
+          value={value}
+          className={`ui dropdown ${styles.select}`}
+          onChange={changeHandler}
+        >
+          {options}
+        </select>
+      </div>
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
         {pointingLabel}
         <div className={`${styles.fields} fields`}>
-          <div className={`${styles.flex} five wide inline field`}>
-            {stage === IDEA_GENERATION && <div>
-              <label htmlFor="category">Category:</label>
-              <select
-                id="category"
-                name="category"
-                value={category}
-                className={`ui dropdown ${styles.select}`}
-                onChange={this.handleCategoryChange}
-              >
-                {defaultCategoryOptions}
-              </select>
-              </div>
-            }
-            {stage === ACTION_ITEMS && <div>
-              <label htmlFor="assignee">Assignee:</label>
-              <select
-                name="assignee"
-                value={assigneeId}
-                className={`ui dropdown ${styles.select}`}
-                onChange={this.handleAssigneeChange}
-              >
-                { [defaultOption, ...assigneeOptions] }
-              </select>
-            </div>
-            }
-          </div>
+          {stage === IDEA_GENERATION && field(...fieldArgs)}
+          {stage === ACTION_ITEMS && field(...fieldArgs)}
           <div className="eleven wide field">
             <div className="ui fluid action input">
               <label htmlFor="idea-body-input" className="visually-hidden">Idea input</label>
