@@ -32,6 +32,7 @@ export class IdeaSubmissionForm extends Component {
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
+    this.handleAssigneeChange = this.handleAssigneeChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
