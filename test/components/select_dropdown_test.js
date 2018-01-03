@@ -13,20 +13,16 @@ describe("SelectDropdown component", () => {
   let wrapper
 
   context("when pointerText is provided as a prop", () => {
-    const props = { ...defaultProps, pointerText: "Type yo thang!" }
-    wrapper = shallow(<SelectDropdown {...props} />)
-
     it("renders the pointing label", () => {
-      console.log(props)
-      console.log(wrapper.debug())
-      expect(wrapper.find(".pointing")).to.have.length(1)
+      const props = { ...defaultProps, pointerText: "Type yo thang!" }
+      wrapper = shallow(<SelectDropdown {...props} />)
+      expect(wrapper.find(".pointingLabel")).to.have.length(1)
     })
   })
 
   context("when pointerText is not provided as a prop", () => {
-    wrapper = shallow(<SelectDropdown {...defaultProps} />)
-
     it("does not render the pointing label", () => {
+      wrapper = shallow(<SelectDropdown {...defaultProps} />)
       expect(wrapper.find(".pointing")).to.have.length(0)
     })
   })

@@ -220,7 +220,7 @@ describe("IdeaSubmissionForm component", () => {
 
     describe("when it is false", () => {
       context("when the stage is 'idea-generation'", () => {
-        it.only("does render a pointing label to prompt the user to enter an idea", () => {
+        it("does render a pointing label to prompt the user to enter an idea", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
               currentUser={stubUser}
