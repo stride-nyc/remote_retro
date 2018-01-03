@@ -19,4 +19,9 @@ defmodule RemoteRetro.PageControllerTest do
       assert conn.resp_body =~ ~r/sign in with google/i
     end
   end
+
+  test "GET /faq", %{conn: conn} do
+    conn = get conn, "/faq"
+    assert html_response(conn, 200) =~ "Frequently Asked Questions"
+  end
 end

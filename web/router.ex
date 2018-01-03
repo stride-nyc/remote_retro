@@ -26,6 +26,7 @@ defmodule RemoteRetro.Router do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
+    get "/faq", PageController, :faq
     get "/auth/google", AuthController, :index
     get "/auth/google/callback", AuthController, :callback
   end

@@ -7,4 +7,8 @@ defmodule RemoteRetro.PageController do
     conn = assign(conn, :current_user, current_user)
     render conn, "index.html"
   end
+
+  def faq(conn, _params) do
+    render conn, "faq.html"
+  end
 end
