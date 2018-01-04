@@ -84,7 +84,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       |> click(Query.button("Submit"))
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert String.contains?(action_items_list_text, "let's do the thing! (Travis Vander Hoop)")
+      assert String.contains?(action_items_list_text, "let's do the thing! (Test User)")
     end
   end
 end

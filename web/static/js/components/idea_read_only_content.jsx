@@ -19,9 +19,8 @@ const IdeaReadOnlyContent = props => {
         stage={stage}
       />
       <span data-hj-masked>{ idea.body }</span>
-      { hasAssignee && <span className={styles.assignee}> ({assignee.given_name}</span> }
-      { hasAssignee && <span className={styles.assignee}> {assignee.family_name})</span> }
-      { isEdited && <span className={styles.editedIndicator}> (edited)</span> }
+      {hasAssignee && <span className={styles.assignee}> ({assignee.name})</span>}
+      {isEdited && <span className={styles.editedIndicator}> (edited)</span>}
     </div>
   )
 }
