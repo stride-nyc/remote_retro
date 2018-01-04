@@ -82,28 +82,40 @@ export class IdeaSubmissionForm extends Component {
       <option key="sad" value="sad">sad</option>,
       <option key="confused" value="confused">confused</option>,
     ]
+
+    let pointingLabel = null
+    let pointerText = ""
     let dropdownProps = {}
 
     if (stage === IDEA_GENERATION) {
+      pointerText = !ideaEntryStarted ? "Submit an idea!" : ""
       dropdownProps = {
         labelName: "category",
         value: category,
         onChange: this.handleCategoryChange,
         selectOptions: defaultCategoryOptions,
-        pointerText: !ideaEntryStarted ? "Submit an idea!" : "",
       }
     } else if (stage === ACTION_ITEMS) {
+      pointerText = !ideaEntryStarted ? "Create Action Items!" : ""
       dropdownProps = {
         labelName: "assignee",
         value: assigneeId,
         onChange: this.handleAssigneeChange,
         selectOptions: [defaultOption, ...assigneeOptions],
-        pointerText: !ideaEntryStarted ? "Create Action Items!" : "",
       }
+    }
+
+    if (pointerText) {
+      pointingLabel = (
+        <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
+          {pointerText}
+        </div>
+      )
     }
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
+        {pointingLabel}
         <div className={`${styles.fields} fields`}>
           {stage === IDEA_GENERATION && <SelectDropdown {...dropdownProps} />}
           {stage === ACTION_ITEMS && <SelectDropdown {...dropdownProps} />}

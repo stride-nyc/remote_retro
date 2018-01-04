@@ -12,14 +12,6 @@ describe("SelectDropdown component", () => {
   }
   let wrapper
 
-  context("when pointerText is provided as a prop", () => {
-    it("renders the pointing label", () => {
-      const props = { ...defaultProps, pointerText: "Type yo thang!" }
-      wrapper = shallow(<SelectDropdown {...props} />)
-      expect(wrapper.find(".pointingLabel")).to.have.length(1)
-    })
-  })
-
   context("when pointerText is not provided as a prop", () => {
     it("does not render the pointing label", () => {
       wrapper = shallow(<SelectDropdown {...defaultProps} />)
