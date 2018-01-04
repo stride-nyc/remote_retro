@@ -4,6 +4,7 @@
     Remote<br>
     Retro<sup>BETA</sup>
   </h1>
+
   <%= if @current_user do %>
     <div class="ui header">
       Glad to have you, <%= @current_user.given_name %>!
@@ -23,4 +24,10 @@
       Sign in with Google to Get Started
     </a>
   <% end %>
+
+  <div class="ui compact hidden divider"></div>
+  <a href="/faq" class="ui right labeled teal icon button">
+    Frequently Asked Questions
+    <i class="arrow right icon"></i>
+  </a>
 </div>
