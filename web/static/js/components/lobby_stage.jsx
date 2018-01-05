@@ -7,16 +7,18 @@ import ShareRetroLinkModal from "./share_retro_link_modal"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/centered_text.css"
 
+export const instructionText = (userIsFacilitator, facilitatorName) => {
+  if (userIsFacilitator) {
+    return "it will be your responsibility to start the retro, which you can do by clicking the button below."
+  }
+  return `your facilitator, ${facilitatorName}, will begin the retro. Until then, hold tight!`
+}
+
 const LobbyStage = props => {
   const { progressionConfig, currentUser, isFacilitator, users } = props
   const facilitator = users.find(user => user.is_facilitator)
   const facilitatorName = facilitator ? facilitator.given_name : ""
-  let instructions = null
-  if (isFacilitator) {
-    instructions = "it will be your responsibility to start the retro, which you can do by clicking the button below."
-  } else {
-    instructions = `your facilitator, ${facilitatorName}, will begin the retro. Until then, hold tight!`
-  }
+  const instructions = instructionText(isFacilitator, facilitatorName)
 
   return (
     <div className="ui centered grid">
