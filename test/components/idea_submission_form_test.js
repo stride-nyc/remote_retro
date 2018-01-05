@@ -4,7 +4,7 @@ import sinon from "sinon"
 import { IdeaSubmissionForm } from "../../web/static/js/components/idea_submission_form"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, VOTING } = STAGES
+const { IDEA_GENERATION, VOTING, ACTION_ITEMS } = STAGES
 
 describe("IdeaSubmissionForm component", () => {
   let wrapper
@@ -15,41 +15,23 @@ describe("IdeaSubmissionForm component", () => {
     stopPropagation: () => undefined,
     preventDefault: () => undefined,
   }
+  const users = [
+    { id: 1, name: "Tina Fey" },
+    { id: 2, name: "Betty White" },
+    { id: 3, name: "Bill Smith" },
+  ]
 
   describe("on submit", () => {
-    describe("when showActionItem is true", () => {
-      it("pushes a `new_idea` event to the retro channel with the action-item", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
-
-        wrapper = mountWithConnectedSubcomponents(
-          <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={retroChannel}
-            showActionItem
-          />
-        )
-        wrapper.simulate("submit", fakeEvent)
-
-        expect(
-          retroChannel.push.calledWith("new_idea", {
-            category: "action-item",
-            body: "",
-            userId: 1,
-            ideaEntryStarted: false,
-          }
-        )).to.equal(true)
-      })
-    })
-
-    describe("when showActionItem is false", () => {
+    describe("when in the IDEA_GENERATION stage", () => {
       it("pushes a `new_idea` event to the retroChannel, passing a happy idea by default", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
+        const retroChannel = { on: () => { }, push: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={retroChannel}
-            showActionItem={false}
+            stage={IDEA_GENERATION}
+            users={users}
           />
         )
 
@@ -60,7 +42,37 @@ describe("IdeaSubmissionForm component", () => {
             category: "happy",
             body: "",
             userId: 1,
+            assigneeId: null,
             ideaEntryStarted: false,
+          }
+        )).to.equal(true)
+      })
+    })
+
+    describe("when in the ACTION_ITEMS stage", () => {
+      it("pushes a `new_idea` event to the retroChannel with the action-item", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={retroChannel}
+            users={users}
+            stage={ACTION_ITEMS}
+          />
+        )
+
+        wrapper.setState({ assigneeId: 3, body: "Some issue", ideaEntryStarted: true })
+
+        wrapper.simulate("submit", fakeEvent)
+
+        expect(
+          retroChannel.push.calledWith("new_idea", {
+            body: "Some issue",
+            userId: 1,
+            assigneeId: 3,
+            ideaEntryStarted: true,
+            category: "action-item",
           }
         )).to.equal(true)
       })
@@ -70,15 +82,13 @@ describe("IdeaSubmissionForm component", () => {
   describe("on change of an idea's body", () => {
     it("pushes a `user_typing_idea` event to the retro channel, along with the user token", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
-
       wrapper = mountWithConnectedSubcomponents(
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={retroChannel}
-          showActionItem
+          users={users}
         />
       )
-
       const ideaInput = wrapper.find("input[name='idea']")
       ideaInput.simulate("change", { target: { value: "new value" } })
 
@@ -94,7 +104,7 @@ describe("IdeaSubmissionForm component", () => {
         <IdeaSubmissionForm
           currentUser={stubUser}
           retroChannel={mockRetroChannel}
-          showActionItem
+          users={users}
         />
       )
 
@@ -110,22 +120,48 @@ describe("IdeaSubmissionForm component", () => {
   })
 
   describe("at the outset the form submit is disabled", () => {
-    it("is enabled once the input receives a value", () => {
-      wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={mockRetroChannel}
-          showActionItem
-        />
-      )
-      let submitButton = wrapper.find("button[type='submit']")
-      const ideaInput = wrapper.find("input[name='idea']")
+    describe("during the IDEA_GENERATION stage", () => {
+      it("is enabled once the input receives a value", () => {
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={mockRetroChannel}
+            users={users}
+            stage={IDEA_GENERATION}
+          />
+        )
+        let submitButton = wrapper.find("button[type='submit']")
+        const ideaInput = wrapper.find("input[name='idea']")
 
-      expect(submitButton.prop("disabled")).to.equal(true)
-      ideaInput.simulate("change", { target: { value: "farts" } })
+        expect(submitButton.prop("disabled")).to.equal(true)
+        ideaInput.simulate("change", { target: { value: "farts" } })
 
-      submitButton = wrapper.find("button[type='submit']")
-      expect(submitButton.prop("disabled")).to.equal(false)
+        submitButton = wrapper.find("button[type='submit']")
+        expect(submitButton.prop("disabled")).to.equal(false)
+      })
+    })
+
+    describe("during the ACTION_ITEMS stage", () => {
+      it("is enabled once the input receives a value and an assignee is selected", () => {
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={mockRetroChannel}
+            users={users}
+            stage={ACTION_ITEMS}
+          />
+        )
+        let submitButton = wrapper.find("button[type='submit']")
+        const ideaInput = wrapper.find("input[name='idea']")
+
+        expect(submitButton.prop("disabled")).to.equal(true)
+        ideaInput.simulate("change", { target: { value: "farts" } })
+        submitButton = wrapper.find("button[type='submit']")
+        expect(submitButton.prop("disabled")).to.equal(true)
+        wrapper.setState({ assigneeId: 3 })
+        submitButton = wrapper.find("button[type='submit']")
+        expect(submitButton.prop("disabled")).to.equal(false)
+      })
     })
   })
 
@@ -136,26 +172,11 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
-            showActionItem={false}
+            users={users}
           />
         )
 
         wrapper.setState({ category: "stub" })
-      })
-
-
-      describe("passing a new `showActionItem` prop value", () => {
-        it("changes the state's `category` to 'action-item'", () => {
-          wrapper.setProps({ showActionItem: true })
-          expect(wrapper.state("category")).to.equal("action-item")
-        })
-      })
-
-      describe("passing a `showActionItem` prop value identical to the previous value", () => {
-        it("does not change the state's `category` value", () => {
-          wrapper.setProps({ showActionItem: false })
-          expect(wrapper.state("category")).to.equal("stub")
-        })
       })
     })
 
@@ -165,63 +186,19 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
-            showActionItem={false}
             alert={{ herp: "derp" }}
+            users={users}
           />
         )
       })
 
-      it("passes the state's `category` to 'action-item'", () => {
+      it("passes the state's focus back to action item input", () => {
         const ideaInput = wrapper.find("input[name='idea']")
         expect(document.activeElement).to.equal(ideaInput.instance())
         document.activeElement.blur()
         wrapper.setProps({ alert: null })
         expect(document.activeElement).to.equal(ideaInput.instance())
       })
-    })
-  })
-
-  describe("the showActionItem prop", () => {
-    it("when true results in the category list only rendering an 'action-item' option", () => {
-      wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={mockRetroChannel}
-          showActionItem
-        />
-      )
-
-      const categorySelect = wrapper.find("select")
-      expect(
-        categorySelect.contains(<option value="action-item">action-item</option>)
-      ).to.equal(true)
-    })
-
-    it("when false results in the category list rendering options for the basic retro categories", () => {
-      wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={mockRetroChannel}
-          showActionItem={false}
-        />
-      )
-
-      const categorySelect = wrapper.find("select")
-
-      const presumedMatches = [
-        <option key="happy" value="happy">happy</option>,
-        <option key="sad" value="sad">sad</option>,
-        <option key="confused" value="confused">confused</option>,
-      ]
-
-      expect(
-        categorySelect.contains(presumedMatches)
-      ).to.equal(true)
-
-
-      expect(
-        categorySelect.contains(<option value="action-item">action-item</option>)
-      ).to.equal(false)
     })
   })
 
@@ -232,7 +209,7 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
-            showActionItem
+            users={users}
           />
         )
         wrapper.setState({ ideaEntryStarted: true })
@@ -250,7 +227,7 @@ describe("IdeaSubmissionForm component", () => {
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
               stage={IDEA_GENERATION}
-              showActionItem
+              users={users}
             />
           )
           expect(
@@ -259,14 +236,30 @@ describe("IdeaSubmissionForm component", () => {
         })
       })
 
-      context("when the stage is something other than 'idea-generation'", () => {
+      context("when the stage is 'action-items'", () => {
+        it("does render a pointing label to prompt the user to enter an action item", () => {
+          wrapper = mountWithConnectedSubcomponents(
+            <IdeaSubmissionForm
+              currentUser={stubUser}
+              retroChannel={mockRetroChannel}
+              users={users}
+              stage={ACTION_ITEMS}
+            />
+          )
+          expect(
+            wrapper.find(".pointing").length
+          ).to.equal(1)
+        })
+      })
+
+      context("when the stage is something other than 'idea-generation' or 'action-items'", () => {
         it("does not render a pointing label", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
               stage={VOTING}
-              showActionItem
+              users={users}
             />
           )
           expect(

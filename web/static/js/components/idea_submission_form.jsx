@@ -1,14 +1,14 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import throttle from "lodash/throttle"
-import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 
 import styles from "./css_modules/idea_submission_form.css"
 import STAGES from "../configs/stages"
+import SelectDropdown from "./select_dropdown"
 
-const { IDEA_GENERATION } = STAGES
+const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 const PLACEHOLDER_TEXTS = {
   happy: "we have a linter!",
@@ -24,23 +24,19 @@ const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) =
 export class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
-    this.defaultCategory = "happy"
+    this.defaultCategory = this.props.stage === ACTION_ITEMS ? "action-item" : "happy"
     this.state = {
       body: "",
-      category: props.showActionItem ? "action-item" : this.defaultCategory,
+      category: this.defaultCategory,
       ideaEntryStarted: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
+    this.handleAssigneeChange = this.handleAssigneeChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (nextProps.showActionItem !== this.props.showActionItem) {
-      const category = nextProps.showActionItem ? "action-item" : this.defaultCategory
-      this.setState({ category })
-    }
-
     if (this.props.alert && !nextProps.alert) { this.ideaInput.focus() }
   }
 
@@ -52,6 +48,7 @@ export class IdeaSubmissionForm extends Component {
     const { currentUser } = this.props
     event.preventDefault()
     const newIdea = { ...this.state, userId: currentUser.id }
+    if (!newIdea.assigneeId) { newIdea.assigneeId = null }
     this.props.retroChannel.push("new_idea", newIdea)
     this.setState({ body: "" })
   }
@@ -66,19 +63,55 @@ export class IdeaSubmissionForm extends Component {
     this.setState({ category: event.target.value })
   }
 
+  handleAssigneeChange(event) {
+    this.setState({ assigneeId: Number.parseInt(event.target.value, 10) })
+  }
+
   render() {
-    const disabled = !this.state.body.length
+    const { users, stage } = this.props
+    const { assigneeId, body, ideaEntryStarted, category } = this.state
+    let disabled = !body.length
+    if (stage === ACTION_ITEMS) {
+      disabled = !(body.length && assigneeId)
+    }
+    const assigneeOptions = users.map(({ id, name }) =>
+      <option key={id} value={id}>{name}</option>
+    )
+    const defaultOption = (<option key={0} value={0}> -- </option>)
     const defaultCategoryOptions = [
       <option key="happy" value="happy">happy</option>,
       <option key="sad" value="sad">sad</option>,
       <option key="confused" value="confused">confused</option>,
     ]
-    let pointingLabel = null
 
-    if (!this.state.ideaEntryStarted && this.props.stage === IDEA_GENERATION) {
+    let pointingLabel = null
+    let pointerText = ""
+    let dropdownProps = {}
+
+    if (stage === IDEA_GENERATION) {
+      pointerText = !ideaEntryStarted ? "Submit an idea!" : ""
+      dropdownProps = {
+        labelName: "category",
+        value: category,
+        onChange: this.handleCategoryChange,
+        selectOptions: defaultCategoryOptions,
+      }
+    } else if (stage === ACTION_ITEMS) {
+      pointerText = !ideaEntryStarted ? "Create Action Items!" : ""
+      dropdownProps = {
+        labelName: "assignee",
+        value: assigneeId,
+        onChange: this.handleAssigneeChange,
+        selectOptions: [defaultOption, ...assigneeOptions],
+      }
+    }
+
+    const hasDropdownProps = Object.keys(dropdownProps).length > 0
+
+    if (pointerText) {
       pointingLabel = (
         <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
-          Submit an idea!
+          {pointerText}
         </div>
       )
     }
@@ -87,20 +120,7 @@ export class IdeaSubmissionForm extends Component {
       <form onSubmit={this.handleSubmit} className="ui form">
         {pointingLabel}
         <div className={`${styles.fields} fields`}>
-          <div className={`${styles.flex} five wide inline field`}>
-            <label htmlFor="category">Category:</label>
-            <select
-              id="category"
-              name="category"
-              value={this.state.category}
-              className={`ui dropdown ${styles.select}`}
-              onChange={this.handleCategoryChange}
-            >
-              { this.props.showActionItem ? <option value="action-item">action-item</option> :
-                defaultCategoryOptions
-              }
-            </select>
-          </div>
+          {hasDropdownProps && <SelectDropdown {...dropdownProps} />}
           <div className="eleven wide field">
             <div className="ui fluid action input">
               <label htmlFor="idea-body-input" className="visually-hidden">Idea input</label>
@@ -128,7 +148,7 @@ IdeaSubmissionForm.propTypes = {
   alert: AppPropTypes.alert,
   currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  showActionItem: PropTypes.bool.isRequired,
+  users: AppPropTypes.users.isRequired,
   stage: AppPropTypes.stage,
 }
 

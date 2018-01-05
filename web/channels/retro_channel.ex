@@ -45,16 +45,8 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("new_idea", %{"body" => body, "category" => category, "userId" => user_id}, socket) do
-    idea =
-      %Idea{
-        body: body,
-        category: category,
-        retro_id: socket.assigns.retro_id,
-        user_id: user_id
-      }
-      |> Idea.changeset
-      |> Repo.insert!
+  def handle_in("new_idea", props, socket) do
+    idea = add_idea! props, socket
 
     broadcast! socket, "new_idea_received", idea
     {:noreply, socket}
@@ -115,6 +107,18 @@ defmodule RemoteRetro.RetroChannel do
 
     broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
     {:noreply, socket}
+  end
+
+  defp add_idea!(%{"body" => body, "category" => category, "userId" => user_id, "assigneeId" => assignee_id}, socket) do
+    %Idea{
+      body: body,
+      category: category,
+      retro_id: socket.assigns.retro_id,
+      user_id: user_id,
+      assignee_id: assignee_id
+    }
+    |> Idea.changeset
+    |> Repo.insert!
   end
 
   defp update_retro!(retro_id, stage) do

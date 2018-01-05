@@ -19,7 +19,6 @@ const LowerThird = props => {
     if (stage === VOTING) {
       return <VotingLowerThirdContent {...props} config={stageConfig} />
     }
-
     return <IdeaGenerationLowerThirdContent {...props} config={stageConfig} />
   }
 

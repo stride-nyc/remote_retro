@@ -57,4 +57,26 @@ describe("<IdeaReadOnlyContent />", () => {
       expect(wrapper.text()).not.to.match(/\(edited\)/i)
     })
   })
+
+  context("when idea is an action_item and has been assigned to a user", () => {
+    const assignee = {
+      name: "Betty White",
+    }
+
+    const idea = {
+      body: "Do the thing",
+    }
+
+    const wrapper = shallow(
+      <IdeaReadOnlyContent
+        {...defaultProps}
+        assignee={assignee}
+        idea={idea}
+      />
+    )
+
+    it("contains the user's given_name next to the idea", () => {
+      expect(wrapper.text()).to.match(/Do the thing \(Betty White\)/)
+    })
+  })
 })

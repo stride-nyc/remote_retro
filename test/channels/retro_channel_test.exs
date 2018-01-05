@@ -86,11 +86,19 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a new idea to the socket" do
     setup [:persist_user_for_retro, :join_the_retro_channel]
 
-    test "results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
+    test "when in idea_generation stage results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
-      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id})
+      assignee_id = nil
+      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
 
       assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
+    end
+
+    test "when in action_items stage results in the broadcast of the new action item to all connected clients", %{socket: socket, user: user} do
+      user_id = user.id
+      push(socket, "new_idea", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
+
+      assert_broadcast("new_idea_received", %{category: "action-item", body: "Do something about the pacing", id: _, user_id: ^user_id, assignee_id: ^user_id})
     end
   end
 

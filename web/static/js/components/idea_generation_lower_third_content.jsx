@@ -7,13 +7,12 @@ import stageConfigs from "../configs/stage_configs"
 import * as AppPropTypes from "../prop_types"
 import STAGES from "../configs/stages"
 
-const { IDEA_GENERATION, ACTION_ITEMS, CLOSED } = STAGES
+const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 const IdeaGenerationLowerThirdContent = props => {
   const { stage, ideas } = props
 
   const stageConfig = stageConfigs[stage]
-  const showActionItem = [ACTION_ITEMS, CLOSED].includes(stage)
 
   function progressionDisabled() {
     const noIdeasCreated = stage === IDEA_GENERATION && !ideas.length
@@ -24,7 +23,7 @@ const IdeaGenerationLowerThirdContent = props => {
   return (
     <div className="ui stackable grid basic attached secondary center aligned segment">
       <div className="thirteen wide column">
-        <IdeaSubmissionForm {...props} showActionItem={showActionItem} />
+        <IdeaSubmissionForm {...props} />
       </div>
       <div className="three wide right aligned column">
         <StageProgressionButton
