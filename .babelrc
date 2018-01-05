@@ -1,9 +1,9 @@
 {
-  "presets": [["env", { "modules": false }], "react"],
+  "presets": [["env", { "modules": false }], "stage-2", "react"],
   "plugins": ["transform-object-rest-spread", "react-hot-loader/babel"],
   "env": {
     "test": {
-      "presets": ["env", "react"],
+      "presets": ["env", "stage-2", "react"],
       "plugins": ["transform-object-rest-spread"]
     }
   }
