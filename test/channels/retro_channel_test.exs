@@ -88,7 +88,8 @@ defmodule RemoteRetro.RetroChannelTest do
 
     test "when in idea_generation stage results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
-      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id})
+      assignee_id = nil
+      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
 
       assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
     end

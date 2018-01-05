@@ -109,24 +109,13 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  defp add_idea!(%{"body" => body, "category" => "action-item", "userId" => user_id, "assigneeId" => assignee_id}, socket) do
-    %Idea{
-      body: body,
-      category: "action-item",
-      retro_id: socket.assigns.retro_id,
-      user_id: user_id,
-      assignee_id: assignee_id
-    }
-    |> Idea.changeset
-    |> Repo.insert!
-  end
-
-  defp add_idea!(%{"body" => body, "category" => category, "userId" => user_id}, socket) do
+  defp add_idea!(%{"body" => body, "category" => category, "userId" => user_id, "assigneeId" => assignee_id}, socket) do
     %Idea{
       body: body,
       category: category,
       retro_id: socket.assigns.retro_id,
-      user_id: user_id
+      user_id: user_id,
+      assignee_id: assignee_id
     }
     |> Idea.changeset
     |> Repo.insert!

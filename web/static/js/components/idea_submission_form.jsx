@@ -48,6 +48,7 @@ export class IdeaSubmissionForm extends Component {
     const { currentUser } = this.props
     event.preventDefault()
     const newIdea = { ...this.state, userId: currentUser.id }
+    if (!newIdea.assigneeId) { newIdea.assigneeId = null }
     this.props.retroChannel.push("new_idea", newIdea)
     this.setState({ body: "" })
   }
