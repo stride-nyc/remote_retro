@@ -1,6 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
-import sinon from "sinon"
+import sinon, { spy, stub } from "sinon"
 
 import { CategoryColumn } from "../../web/static/js/components/category_column"
 import Idea from "../../web/static/js/components/idea"
@@ -292,6 +292,63 @@ describe("CategoryColumn", () => {
       )
 
       expect(wrapper.text()).not.to.match(/still no word on tests/)
+    })
+  })
+
+  context("when an item is dragged over it", () => {
+    const mockEvent = { preventDefault: spy(), dataTransfer: { dropEffect: null } }
+
+    before(() => {
+      const wrapper = shallow(
+        <CategoryColumn
+          {...defaultProps}
+        />
+      )
+
+      wrapper.simulate('dragOver', mockEvent)
+    })
+
+    it("prevents the default event behavior", () => {
+      expect(mockEvent.preventDefault.called).to.eql(true)
+    })
+
+    it("sets the accepted event dropEffect to 'move'", () => {
+      expect(mockEvent.dataTransfer.dropEffect).to.eql('move')
+    })
+  })
+
+  context("when an item is dropped on it", () => {
+    const ideaBody = 'sup'
+    const ideaId = 100
+    const mockEvent = { preventDefault: spy(), dataTransfer: { 
+      getData: stub()
+    }}
+    mockEvent.dataTransfer.getData.withArgs('ideaId').returns(ideaId).withArgs('ideaBody').returns(ideaBody)
+    const mockRetroChannel = { push: spy() }
+    const category = 'saaaaad'
+
+    before(() => {
+      const wrapper = shallow(
+        <CategoryColumn
+          {...defaultProps}
+          category={category}
+          retroChannel={mockRetroChannel}
+        />
+      )
+
+      wrapper.simulate('drop', mockEvent)
+    })
+
+    it("prevents the default event behavior", () => {
+      expect(mockEvent.preventDefault.called).to.eql(true)
+    })
+
+    it("pushes the idea_edited event with the idea id, body and new category", () => {
+      expect(mockRetroChannel.push.calledWith('idea_edited', {
+        id: ideaId,
+        body: ideaBody,
+        category
+      })).to.eql(true)
     })
   })
 })

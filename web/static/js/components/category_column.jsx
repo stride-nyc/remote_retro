@@ -27,7 +27,24 @@ export class CategoryColumn extends Component {
     }
   }
 
+  handleDragOver(event) {
+    event.preventDefault()
+    event.dataTransfer.dropEffect = "move"
+  }
+
+  handleDrop = (event) => {
+    const { category, retroChannel } = this.props
+    event.preventDefault()
+
+    retroChannel.push("idea_edited", {
+      id: event.dataTransfer.getData("ideaId"),
+      body: event.dataTransfer.getData("ideaBody"),
+      category
+    })
+  }
+
   render() {
+    const { handleDrop, handleDragOver } = this
     const { category, ideas, votes } = this.props
     const filteredIdeas = ideas.filter(idea => idea.category === category)
     const iconHeight = 45
@@ -59,7 +76,7 @@ export class CategoryColumn extends Component {
     )
 
     return (
-      <section className={`${category} ${styles.index} column`}>
+      <section className={`${category} ${styles.index} column`} onDrop={handleDrop} onDragOver={handleDragOver}>
         <div className={` ${styles.columnHead} ui center aligned basic segment`}>
           <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} alt={category} />
           <p><strong>{category}</strong></p>

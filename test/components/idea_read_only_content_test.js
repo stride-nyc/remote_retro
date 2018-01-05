@@ -1,5 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
+import { spy } from "sinon"
 
 import IdeaReadOnlyContent from "../../web/static/js/components/idea_read_only_content"
 import STAGES from "../../web/static/js/configs/stages"
@@ -77,6 +78,134 @@ describe("<IdeaReadOnlyContent />", () => {
 
     it("contains the user's given_name next to the idea", () => {
       expect(wrapper.text()).to.match(/Do the thing \(Betty White\)/)
+    })
+  })
+
+  context("when the user is a faciliator and the stage is idea-generation", () => {
+    const props = {
+      ...defaultProps,
+      currentUser: { is_facilitator: true },
+      stage: 'idea-generation'
+    }
+    let wrapper
+
+    before(() => {
+      wrapper = shallow(
+        <IdeaReadOnlyContent {...props} />
+      )
+    })
+
+    it("sets draggable=true", () => {
+      expect(wrapper.prop('draggable')).to.eql(true)
+    })
+  })
+
+  context("when the user is a faciliator and the stage is not idea-generation", () => {
+    const props = {
+      ...defaultProps,
+      currentUser: { is_facilitator: true },
+      stage: 'voting'
+    }
+    let wrapper
+
+    before(() => {
+      wrapper = shallow(
+        <IdeaReadOnlyContent {...props} />
+      )
+    })
+
+    it("sets draggable=false", () => {
+      expect(wrapper.prop('draggable')).to.eql(false)
+    })
+  })
+
+  context("when the user created the idea and the stage is idea-generation", () => {
+    const props = {
+      ...defaultProps,
+      currentUser: { id: 101 },
+      idea: { user_id: 101 },
+      stage: 'idea-generation'
+    }
+    let wrapper
+
+    before(() => {
+      wrapper = shallow(
+        <IdeaReadOnlyContent {...props} />
+      )
+    })
+
+    it("sets draggable=true", () => {
+      expect(wrapper.prop('draggable')).to.eql(true)
+    })
+  })
+
+  context("when the user created the idea and the stage is not idea-generation", () => {
+    const props = {
+      ...defaultProps,
+      currentUser: { id: 101 },
+      idea: { user_id: 101 },
+      stage: 'voting'
+    }
+    let wrapper
+
+    before(() => {
+      wrapper = shallow(
+        <IdeaReadOnlyContent {...props} />
+      )
+    })
+
+    it("sets draggable=false", () => {
+      expect(wrapper.prop('draggable')).to.eql(false)
+    })
+  })
+
+  context("when the user did not create the idea", () => {
+    const props = {
+      ...defaultProps,
+      currentUser: { id: 600 },
+      idea: { user_id: 101 }
+    }
+    let wrapper
+
+    before(() => {
+      wrapper = shallow(
+        <IdeaReadOnlyContent {...props} />
+      )
+    })
+
+    it("sets draggable=false", () => {
+      expect(wrapper.prop('draggable')).to.eql(false)
+    })
+  })
+
+  context("when the idea is being dragged", () => {
+    const idea = { id: 1, body: 'yo sup' }
+    const props = {
+      ...defaultProps,
+      currentUser: { is_facilitator: true },
+      stage: 'idea-generation',
+      idea
+    }
+    const mockEvent = { preventDefault: spy(), dataTransfer: { setData: spy(), dropEffect: null } }
+
+    before(() => {
+      const wrapper = shallow(
+        <IdeaReadOnlyContent {...props} />
+      )
+
+      wrapper.simulate('dragStart', mockEvent)
+    })
+
+    it("sets the drop effect on the event to 'move'", () => {
+      expect(mockEvent.dataTransfer.dropEffect).to.eql('move')
+    })
+
+    it("sets the idea id on the event data element", () => {
+      expect(mockEvent.dataTransfer.setData.calledWith("ideaId", idea.id)).to.eql(true)
+    })
+
+    it("sets the idea body on the event data element", () => {
+      expect(mockEvent.dataTransfer.setData.calledWith("ideaBody", idea.body)).to.eql(true)
     })
   })
 })
