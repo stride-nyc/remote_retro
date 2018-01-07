@@ -12,7 +12,7 @@ defmodule RemoteRetro.User do
     :last_login
   ]
 
-  @derive {Poison.Encoder, except: [:__meta__, :participations]}
+  @derive {Poison.Encoder, except: [:__meta__, :participations, :google_user_info]}
   schema "users" do
     field :email, :string
     field :google_user_info, :map
