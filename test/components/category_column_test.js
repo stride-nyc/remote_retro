@@ -305,7 +305,7 @@ describe("CategoryColumn", () => {
         />
       )
 
-      wrapper.simulate('dragOver', mockEvent)
+      wrapper.simulate("dragOver", mockEvent)
     })
 
     it("prevents the default event behavior", () => {
@@ -313,19 +313,22 @@ describe("CategoryColumn", () => {
     })
 
     it("sets the accepted event dropEffect to 'move'", () => {
-      expect(mockEvent.dataTransfer.dropEffect).to.eql('move')
+      expect(mockEvent.dataTransfer.dropEffect).to.eql("move")
     })
   })
 
   context("when an item is dropped on it", () => {
-    const ideaBody = 'sup'
+    const ideaBody = "sup"
     const ideaId = 100
-    const mockEvent = { preventDefault: spy(), dataTransfer: { 
-      getData: stub()
-    }}
-    mockEvent.dataTransfer.getData.withArgs('ideaId').returns(ideaId).withArgs('ideaBody').returns(ideaBody)
+    const mockEvent = {
+      preventDefault: spy(),
+      dataTransfer: {
+        getData: stub(),
+      },
+    }
+    mockEvent.dataTransfer.getData.withArgs("ideaId").returns(ideaId).withArgs("ideaBody").returns(ideaBody)
     const mockRetroChannel = { push: spy() }
-    const category = 'saaaaad'
+    const category = "saaaaad"
 
     before(() => {
       const wrapper = shallow(
@@ -336,7 +339,7 @@ describe("CategoryColumn", () => {
         />
       )
 
-      wrapper.simulate('drop', mockEvent)
+      wrapper.simulate("drop", mockEvent)
     })
 
     it("prevents the default event behavior", () => {
@@ -344,10 +347,10 @@ describe("CategoryColumn", () => {
     })
 
     it("pushes the idea_edited event with the idea id, body and new category", () => {
-      expect(mockRetroChannel.push.calledWith('idea_edited', {
+      expect(mockRetroChannel.push.calledWith("idea_edited", {
         id: ideaId,
         body: ideaBody,
-        category
+        category,
       })).to.eql(true)
     })
   })

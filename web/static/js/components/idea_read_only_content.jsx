@@ -5,7 +5,7 @@ import IdeaControls from "./idea_controls"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_read_only_content.css"
 
-const handleDragStart = (props) => (event) => {
+const handleDragStart = props => event => {
   const { idea } = props
   event.dataTransfer.dropEffect = "move"
   event.dataTransfer.setData("ideaId", idea.id)
@@ -18,7 +18,7 @@ const IdeaReadOnlyContent = props => {
   const hasAssignee = Object.keys(assignee).length > 0
 
   const canUserEditIdea = currentUser.is_facilitator || (currentUser.id === idea.user_id)
-  const isIdeaEditableInCurrentStage = stage === 'idea-generation'
+  const isIdeaEditableInCurrentStage = stage === "idea-generation"
 
   return (
     <div className={styles.ideaWrapper} draggable={canUserEditIdea && isIdeaEditableInCurrentStage} onDragStart={handleDragStart(props)}>

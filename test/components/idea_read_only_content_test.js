@@ -85,7 +85,7 @@ describe("<IdeaReadOnlyContent />", () => {
     const props = {
       ...defaultProps,
       currentUser: { is_facilitator: true },
-      stage: 'idea-generation'
+      stage: "idea-generation",
     }
     let wrapper
 
@@ -96,7 +96,7 @@ describe("<IdeaReadOnlyContent />", () => {
     })
 
     it("sets draggable=true", () => {
-      expect(wrapper.prop('draggable')).to.eql(true)
+      expect(wrapper.prop("draggable")).to.eql(true)
     })
   })
 
@@ -104,7 +104,7 @@ describe("<IdeaReadOnlyContent />", () => {
     const props = {
       ...defaultProps,
       currentUser: { is_facilitator: true },
-      stage: 'voting'
+      stage: "voting",
     }
     let wrapper
 
@@ -115,7 +115,7 @@ describe("<IdeaReadOnlyContent />", () => {
     })
 
     it("sets draggable=false", () => {
-      expect(wrapper.prop('draggable')).to.eql(false)
+      expect(wrapper.prop("draggable")).to.eql(false)
     })
   })
 
@@ -124,7 +124,7 @@ describe("<IdeaReadOnlyContent />", () => {
       ...defaultProps,
       currentUser: { id: 101 },
       idea: { user_id: 101 },
-      stage: 'idea-generation'
+      stage: "idea-generation",
     }
     let wrapper
 
@@ -135,7 +135,7 @@ describe("<IdeaReadOnlyContent />", () => {
     })
 
     it("sets draggable=true", () => {
-      expect(wrapper.prop('draggable')).to.eql(true)
+      expect(wrapper.prop("draggable")).to.eql(true)
     })
   })
 
@@ -144,7 +144,7 @@ describe("<IdeaReadOnlyContent />", () => {
       ...defaultProps,
       currentUser: { id: 101 },
       idea: { user_id: 101 },
-      stage: 'voting'
+      stage: "voting",
     }
     let wrapper
 
@@ -155,7 +155,7 @@ describe("<IdeaReadOnlyContent />", () => {
     })
 
     it("sets draggable=false", () => {
-      expect(wrapper.prop('draggable')).to.eql(false)
+      expect(wrapper.prop("draggable")).to.eql(false)
     })
   })
 
@@ -163,7 +163,7 @@ describe("<IdeaReadOnlyContent />", () => {
     const props = {
       ...defaultProps,
       currentUser: { id: 600 },
-      idea: { user_id: 101 }
+      idea: { user_id: 101 },
     }
     let wrapper
 
@@ -174,17 +174,17 @@ describe("<IdeaReadOnlyContent />", () => {
     })
 
     it("sets draggable=false", () => {
-      expect(wrapper.prop('draggable')).to.eql(false)
+      expect(wrapper.prop("draggable")).to.eql(false)
     })
   })
 
   context("when the idea is being dragged", () => {
-    const idea = { id: 1, body: 'yo sup' }
+    const idea = { id: 1, body: "yo sup" }
     const props = {
       ...defaultProps,
       currentUser: { is_facilitator: true },
-      stage: 'idea-generation',
-      idea
+      stage: "idea-generation",
+      idea,
     }
     const mockEvent = { preventDefault: spy(), dataTransfer: { setData: spy(), dropEffect: null } }
 
@@ -193,11 +193,11 @@ describe("<IdeaReadOnlyContent />", () => {
         <IdeaReadOnlyContent {...props} />
       )
 
-      wrapper.simulate('dragStart', mockEvent)
+      wrapper.simulate("dragStart", mockEvent)
     })
 
     it("sets the drop effect on the event to 'move'", () => {
-      expect(mockEvent.dataTransfer.dropEffect).to.eql('move')
+      expect(mockEvent.dataTransfer.dropEffect).to.eql("move")
     })
 
     it("sets the idea id on the event data element", () => {
