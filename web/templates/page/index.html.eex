@@ -26,8 +26,7 @@
   <% end %>
 
   <div class="ui compact hidden divider"></div>
-  <a href="/faq" class="ui right labeled teal icon button">
+  <a href="/faq" class="ui teal button">
     Frequently Asked Questions
-    <i class="arrow right icon"></i>
   </a>
 </div>
