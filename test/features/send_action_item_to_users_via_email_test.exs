@@ -17,16 +17,10 @@ defmodule SendActionItemToUsersViaEmailTest do
       retro_path = "/retros/" <> retro.id
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 
-      facilitator_session
-      |> find(Query.css("form"))
-      |> click(Query.option("Test User"))
-      |> fill_in(Query.text_field("idea"), with: "let's test this thing!")
-      |> click(Query.button("Submit"))
-
       click_and_confirm(facilitator_session, "Send Action Items")
 
       emails = Emails.action_items_email(retro.id)
-      assert emails.html_body =~ "let's test this thing! (Test User)"
+      assert emails.html_body =~ "Get better (Test User)"
 
       emails |> assert_delivered_email
     end

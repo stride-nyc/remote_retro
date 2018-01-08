@@ -6,9 +6,14 @@ defmodule RemoteRetro.TestHelpers do
 
   def persist_idea_for_retro(context) do
     %{idea: idea, retro: retro, user: user} = context
-    idea =
-      Map.merge(idea, %{retro_id: retro.id, user_id: user.id})
-      |>Repo.insert!
+
+    idea = if idea.category == "action-item" do
+            Map.merge(idea, %{retro_id: retro.id, user_id: user.id, assignee_id: user.id})
+            |>Repo.insert!
+          else
+            Map.merge(idea, %{retro_id: retro.id, user_id: user.id})
+            |>Repo.insert!
+          end
 
     Map.put(context, :idea, idea)
   end
