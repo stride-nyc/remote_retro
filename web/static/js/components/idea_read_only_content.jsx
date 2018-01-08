@@ -21,7 +21,11 @@ const IdeaReadOnlyContent = props => {
   const isIdeaEditableInCurrentStage = stage === "idea-generation"
 
   return (
-    <div className={styles.ideaWrapper} draggable={canUserEditIdea && isIdeaEditableInCurrentStage} onDragStart={handleDragStart(props)}>
+    <div
+      className={styles.ideaWrapper}
+      draggable={canUserEditIdea && isIdeaEditableInCurrentStage}
+      onDragStart={handleDragStart(props)}
+    >
       <IdeaControls
         idea={idea}
         retroChannel={retroChannel}
