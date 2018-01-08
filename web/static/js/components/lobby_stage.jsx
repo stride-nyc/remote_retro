@@ -25,10 +25,10 @@ const LobbyStage = props => {
       <div className="thirteen wide mobile eight wide tablet five wide computer column">
         <div className={styles.centeredText}>
           <h1 className="ui dividing header">Retro Lobby</h1>
-          <h5>
-            Hi, {currentUser.given_name}! Welcome to Remote Retro!
+          <p>
+            Hi, {currentUser.given_name}! Welcome to RemoteRetro!
             Once your party has arrived, {instructions}
-          </h5>
+          </p>
         </div>
       </div>
       <div className="row">
