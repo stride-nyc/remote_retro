@@ -6,7 +6,6 @@ defmodule StageProgressionRealtimeUpdateTest do
     retro_path = "/retros/" <> retro.id
     facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
     participant_session = authenticate(participant_session) |> visit(retro_path)
-    stub_js_confirms_for_phantomjs(facilitator_session)
 
     submit_idea(facilitator_session, %{category: "happy", body: "it works"})
 

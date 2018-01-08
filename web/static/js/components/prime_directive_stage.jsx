@@ -2,7 +2,6 @@ import React from "react"
 import PropTypes from "prop-types"
 
 import UserList from "./user_list"
-import ShareRetroLinkModal from "./share_retro_link_modal"
 import StageProgressionButton from "./stage_progression_button"
 import PrimeDirective from "./prime_directive"
 
@@ -21,7 +20,6 @@ const PrimeDirectiveStage = props => {
           <StageProgressionButton {...props} config={progressionConfig} />
         </div>
       </div>
-      <ShareRetroLinkModal />
     </div>
   )
 }

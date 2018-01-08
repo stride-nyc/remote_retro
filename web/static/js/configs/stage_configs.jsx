@@ -2,14 +2,27 @@ import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import StageChangeInfoIdeaGeneration from "../components/stage_change_info_idea_generation"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
+import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
 import STAGES from "./stages"
 
-const { PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
+const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
 export default {
-  [PRIME_DIRECTIVE]: {
+  [LOBBY]: {
     alert: null,
     confirmationMessage: "Has your entire party arrived?",
+    nextStage: PRIME_DIRECTIVE,
+    progressionButton: {
+      copy: "Begin Retro",
+      iconClass: "arrow right",
+    },
+  },
+  [PRIME_DIRECTIVE]: {
+    alert: {
+      headerText: "Stage Change: The Prime Directive!",
+      BodyComponent: StageChangeInfoPrimeDirective,
+    },
+    confirmationMessage: "Is everyone ready to begin?",
     nextStage: IDEA_GENERATION,
     progressionButton: {
       copy: "Proceed to Idea Generation",

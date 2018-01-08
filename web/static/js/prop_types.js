@@ -5,7 +5,7 @@ import PropTypes from "prop-types"
 
 import STAGES from "../js/configs/stages"
 
-const { PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
+const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
 export const alert = PropTypes.object
 
@@ -18,7 +18,7 @@ export const user = PropTypes.shape({
   is_facilitator: PropTypes.boolean,
 })
 
-export const users = PropTypes.arrayOf(PropTypes.object)
+export const users = PropTypes.arrayOf(user)
 
 export const retroChannel = PropTypes.shape({
   on: PropTypes.func,
@@ -33,6 +33,7 @@ export const idea = PropTypes.shape({
 })
 
 export const stage = PropTypes.oneOf([
+  LOBBY,
   PRIME_DIRECTIVE,
   IDEA_GENERATION,
   VOTING,
