@@ -52,10 +52,10 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("idea_edited", %{"id" => id, "body" => body, "category" => category}, socket) do
+  def handle_in("idea_edited", %{"id" => id, "body" => body, "category" => category, "assignee_id" => assignee_id}, socket) do
     idea =
       Repo.get(Idea, id)
-      |> Idea.changeset(%{body: body, category: category})
+      |> Idea.changeset(%{body: body, category: category, assignee_id: assignee_id})
       |> Repo.update!
 
     broadcast! socket, "idea_edited", idea
@@ -109,7 +109,7 @@ defmodule RemoteRetro.RetroChannel do
     {:noreply, socket}
   end
 
-  defp add_idea!(%{"body" => body, "category" => category, "userId" => user_id, "assigneeId" => assignee_id}, socket) do
+  defp add_idea!(%{"body" => body, "category" => category, "userId" => user_id, "assignee_id" => assignee_id}, socket) do
     %Idea{
       body: body,
       category: category,

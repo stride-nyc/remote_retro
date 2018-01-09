@@ -42,7 +42,7 @@ describe("IdeaSubmissionForm component", () => {
             category: "happy",
             body: "",
             userId: 1,
-            assigneeId: null,
+            assignee_id: null,
             ideaEntryStarted: false,
           }
         )).to.equal(true)
@@ -62,7 +62,7 @@ describe("IdeaSubmissionForm component", () => {
           />
         )
 
-        wrapper.setState({ assigneeId: 3, body: "Some issue", ideaEntryStarted: true })
+        wrapper.setState({ assignee_id: 3, body: "Some issue", ideaEntryStarted: true })
 
         wrapper.simulate("submit", fakeEvent)
 
@@ -70,7 +70,7 @@ describe("IdeaSubmissionForm component", () => {
           retroChannel.push.calledWith("new_idea", {
             body: "Some issue",
             userId: 1,
-            assigneeId: 3,
+            assignee_id: 3,
             ideaEntryStarted: true,
             category: "action-item",
           }
@@ -158,7 +158,7 @@ describe("IdeaSubmissionForm component", () => {
         ideaInput.simulate("change", { target: { value: "farts" } })
         submitButton = wrapper.find("button[type='submit']")
         expect(submitButton.prop("disabled")).to.equal(true)
-        wrapper.setState({ assigneeId: 3 })
+        wrapper.setState({ assignee_id: 3 })
         submitButton = wrapper.find("button[type='submit']")
         expect(submitButton.prop("disabled")).to.equal(false)
       })

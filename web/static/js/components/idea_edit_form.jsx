@@ -9,7 +9,9 @@ class IdeaEditForm extends Component {
     this.state = {
       ideaBody: props.idea.body,
       ideaCategory: props.idea.category,
+      assignee_id: props.idea.assignee_id
     }
+    this.onChangeAssignee = this.onChangeAssignee.bind(this)
     this.onChangeIdeaBody = this.onChangeIdeaBody.bind(this)
     this.onChangeIdeaCategory = this.onChangeIdeaCategory.bind(this)
     this.onSubmit = this.onSubmit.bind(this)
@@ -29,6 +31,10 @@ class IdeaEditForm extends Component {
     this.setState({ ideaCategory: event.target.value })
   }
 
+  onChangeAssignee(event) {
+    this.setState({ assignee_id: Number.parseInt(event.target.value, 10) })
+  }
+
   onCancel(event) {
     event.preventDefault()
     const { retroChannel, idea } = this.props
@@ -38,16 +44,18 @@ class IdeaEditForm extends Component {
   onSubmit(event) {
     event.preventDefault()
     const { idea, retroChannel } = this.props
-    const { ideaBody, ideaCategory } = this.state
+    const { ideaBody, ideaCategory, assignee_id } = this.state
+
     retroChannel.push("idea_edited", {
       id: idea.id,
       body: ideaBody,
       category: ideaCategory,
+      assignee_id: assignee_id,
     })
   }
 
   render() {
-    const { stage } = this.props
+    const { stage, users, idea } = this.props
     const categories = CATEGORIES
 
     return (
@@ -61,6 +69,16 @@ class IdeaEditForm extends Component {
         >
           {categories.map(category => (
             <option key={category} value={category}>{category}</option>
+          ))}
+        </select>}
+        {stage === "action-items" && <select
+          name="editable_assignee"
+          className="ui dropdown"
+          onChange={this.onChangeAssignee}
+          value={this.state.assignee_id || ""}
+        >
+          {users.map(user => (
+            <option key={user.id} value={user.id}>{user.name}</option>
           ))}
         </select>}
         <div className="field">
@@ -87,6 +105,7 @@ IdeaEditForm.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
+  users: AppPropTypes.presences.isRequired,
 }
 
 export default IdeaEditForm

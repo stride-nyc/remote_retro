@@ -15,10 +15,11 @@ defmodule RemoteRetro.Idea do
   end
 
   @required_fields [:category, :body, :retro_id, :user_id]
+  @mutable_fields [:assignee_id | @required_fields]
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, @required_fields)
+    |> cast(params, @mutable_fields)
     |> validate_required(@required_fields)
   end
 end

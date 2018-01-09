@@ -49,7 +49,7 @@ export class IdeaSubmissionForm extends Component {
     const { currentUser } = this.props
     event.preventDefault()
     const newIdea = { ...this.state, userId: currentUser.id }
-    if (!newIdea.assigneeId) { newIdea.assigneeId = null }
+    if (!newIdea.assignee_id) { newIdea.assignee_id = null }
     this.props.retroChannel.push("new_idea", newIdea)
     this.setState({ body: "" })
   }
@@ -65,15 +65,15 @@ export class IdeaSubmissionForm extends Component {
   }
 
   handleAssigneeChange(event) {
-    this.setState({ assigneeId: Number.parseInt(event.target.value, 10) })
+    this.setState({ assignee_id: Number.parseInt(event.target.value, 10) })
   }
 
   render() {
     const { users, stage } = this.props
-    const { assigneeId, body, ideaEntryStarted, category } = this.state
+    const { assignee_id, body, ideaEntryStarted, category } = this.state
     let disabled = !body.length
     if (stage === ACTION_ITEMS) {
-      disabled = !(body.length && assigneeId)
+      disabled = !(body.length && assignee_id)
     }
     const assigneeOptions = users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>
@@ -101,7 +101,7 @@ export class IdeaSubmissionForm extends Component {
       pointerText = !ideaEntryStarted ? "Create Action Items!" : ""
       dropdownProps = {
         labelName: "assignee",
-        value: assigneeId,
+        value: assignee_id,
         onChange: this.handleAssigneeChange,
         selectOptions: [defaultOption, ...assigneeOptions],
       }
