@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import throttle from "lodash/throttle"
+import values from "lodash/values"
 import * as AppPropTypes from "../prop_types"
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 
@@ -157,7 +158,10 @@ IdeaSubmissionForm.defaultProps = {
   stage: IDEA_GENERATION,
 }
 
-const mapStateToProps = ({ alert }) => ({ alert })
+const mapStateToProps = ({ alert, usersById }) => ({
+  alert,
+  users: values(usersById),
+})
 
 export default connect(
   mapStateToProps

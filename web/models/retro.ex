@@ -2,7 +2,7 @@ defmodule RemoteRetro.Retro do
   use RemoteRetro.Web, :model
 
   @primary_key {:id, :binary_id, autogenerate: true}
-  @derive {Poison.Encoder, except: [:__meta__, :participations]}
+  @derive {Poison.Encoder, except: [:__meta__]}
 
   schema "retros" do
     has_many :participations, RemoteRetro.Participation

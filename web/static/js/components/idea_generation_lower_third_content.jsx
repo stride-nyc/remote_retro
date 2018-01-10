@@ -10,7 +10,7 @@ import STAGES from "../configs/stages"
 const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 const IdeaGenerationLowerThirdContent = props => {
-  const { stage, ideas } = props
+  const { stage, ideas, currentUser, retroChannel } = props
 
   const stageConfig = stageConfigs[stage]
 
@@ -23,7 +23,12 @@ const IdeaGenerationLowerThirdContent = props => {
   return (
     <div className="ui stackable grid basic attached secondary center aligned segment">
       <div className="thirteen wide column">
-        <IdeaSubmissionForm {...props} />
+        <IdeaSubmissionForm
+          stage={stage}
+          currentUser={currentUser}
+          ideas={ideas}
+          retroChannel={retroChannel}
+        />
       </div>
       <div className="three wide right aligned column">
         <StageProgressionButton
@@ -38,6 +43,7 @@ const IdeaGenerationLowerThirdContent = props => {
 
 IdeaGenerationLowerThirdContent.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
+  currentUser: AppPropTypes.user.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }
