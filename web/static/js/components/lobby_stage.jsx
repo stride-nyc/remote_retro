@@ -7,18 +7,12 @@ import ShareRetroLinkModal from "./share_retro_link_modal"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/centered_text.css"
 
-export const instructionText = (userIsFacilitator, facilitatorName) => {
-  if (userIsFacilitator) {
-    return "it will be your responsibility to start the retro, which you can do by clicking the button below."
-  }
-  return `your facilitator, ${facilitatorName}, will begin the retro. Until then, hold tight!`
-}
-
 const LobbyStage = props => {
-  const { progressionConfig, currentUser, isFacilitator, users } = props
-  const facilitator = users.find(user => user.is_facilitator)
-  const facilitatorName = facilitator ? facilitator.given_name : ""
-  const instructions = instructionText(isFacilitator, facilitatorName)
+  const { progressionConfig, currentUser, presences } = props
+  const facilitator = presences.find(presence => presence.is_facilitator)
+  const facilitatorName = facilitator ? facilitator.name : ""
+  const instructions = currentUser.is_facilitator ? " As facilitator of this retro, it will be your responsibility to start the retro once your party has arrived. Get them in here!" :
+    ` Once your party has arrived, your facilitator, ${facilitatorName}, will begin the retro. Until then, hold tight!`
 
   return (
     <div className="ui centered grid">
@@ -27,7 +21,7 @@ const LobbyStage = props => {
           <h1 className="ui dividing header">Retro Lobby</h1>
           <p>
             Hi, {currentUser.given_name}! Welcome to RemoteRetro!
-            Once your party has arrived, {instructions}
+            {instructions}
           </p>
         </div>
       </div>
@@ -46,9 +40,8 @@ const LobbyStage = props => {
 
 LobbyStage.propTypes = {
   progressionConfig: PropTypes.object.isRequired,
-  currentUser: AppPropTypes.user.isRequired,
-  isFacilitator: PropTypes.bool.isRequired,
-  users: AppPropTypes.users.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
+  presences: AppPropTypes.presences.isRequired,
 }
 
 export default LobbyStage

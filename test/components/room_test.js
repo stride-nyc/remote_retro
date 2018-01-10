@@ -11,7 +11,7 @@ const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION } = STAGES
 
 describe("Room", () => {
   let room
-  const users = [{
+  const presences = [{
     given_name: "treezy",
     online_at: 803,
     picture: "http://herpderp.com",
@@ -22,7 +22,7 @@ describe("Room", () => {
       room = shallow(
         <Room
           stage={LOBBY}
-          users={users}
+          presences={presences}
         />
       )
       const lobbyStage = room.find(LobbyStage)
@@ -36,7 +36,7 @@ describe("Room", () => {
       room = shallow(
         <Room
           stage={PRIME_DIRECTIVE}
-          users={users}
+          presences={presences}
         />
       )
       const primeDirectiveStage = room.find(PrimeDirectiveStage)
@@ -50,7 +50,7 @@ describe("Room", () => {
       room = shallow(
         <Room
           stage={IDEA_GENERATION}
-          users={users}
+          presences={presences}
           ideas={[]}
           retroChannel={{}}
         />

@@ -10,6 +10,7 @@ import alert from "./alert"
 
 const rootReducer = combineReducers({
   users,
+  presences: users,
   usersById,
   ideas,
   votes,

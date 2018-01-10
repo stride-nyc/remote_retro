@@ -1,40 +1,47 @@
 import React from "react"
 import { shallow } from "enzyme"
 
-import LobbyStage, { instructionText } from "../../web/static/js/components/lobby_stage"
+import LobbyStage from "../../web/static/js/components/lobby_stage"
 
 describe("LobbyStage component", () => {
   let wrapper
   let props
   const currentUser = {
     given_name: "Carol",
+    is_facilitator: true,
+    id: 1,
   }
   const defaultProps = {
     progressionConfig: {},
     currentUser,
-    isFacilitator: false,
-    users: [],
+    presences: [currentUser],
+    retroChannel: {},
   }
 
   context("when the currentUser is the facilitator", () => {
-    props = { ...defaultProps, isFacilitator: true }
+    beforeEach(() => {
+      props = { ...defaultProps }
+    })
 
     it("contains the instructions specific to the facilitator", () => {
       wrapper = shallow(<LobbyStage {...props} />)
-      const expectedText = instructionText(true, "Carol")
 
-      expect(wrapper.text()).to.include(expectedText)
+      expect(wrapper.text()).to.include("responsibility")
     })
   })
 
   context("when the currentUser is not the facilitator", () => {
-    props = { ...defaultProps }
+    beforeEach(() => {
+      props = {
+        ...defaultProps,
+        currentUser: { ...currentUser, is_facilitator: false },
+      }
+    })
 
     it("contains the instructions specific to participants", () => {
       wrapper = shallow(<LobbyStage {...props} />)
-      const expectedText = instructionText(false, "Carol")
 
-      expect(wrapper.text()).to.include(expectedText)
+      expect(wrapper.text()).to.include("hold tight")
     })
   })
 })

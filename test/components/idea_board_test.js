@@ -15,7 +15,6 @@ describe("IdeaBoard component", () => {
   const defaultProps = {
     currentUser: stubUser,
     retroChannel: mockRetroChannel,
-    users: [],
     ideas: [],
     stage: IDEA_GENERATION,
     categories: CATEGORIES,

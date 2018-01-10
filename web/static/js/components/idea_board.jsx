@@ -30,11 +30,10 @@ IdeaBoard.defaultProps = {
 }
 
 IdeaBoard.propTypes = {
-  currentUser: AppPropTypes.user,
+  currentUser: AppPropTypes.presence,
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  users: AppPropTypes.users.isRequired,
   categories: AppPropTypes.categories.isRequired,
 }
 

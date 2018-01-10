@@ -147,9 +147,9 @@ export class IdeaSubmissionForm extends Component {
 
 IdeaSubmissionForm.propTypes = {
   alert: AppPropTypes.alert,
-  currentUser: AppPropTypes.user.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  users: AppPropTypes.users.isRequired,
+  users: AppPropTypes.presences.isRequired,
   stage: AppPropTypes.stage,
 }
 

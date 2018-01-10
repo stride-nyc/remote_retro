@@ -13,14 +13,14 @@ describe("DoorChime component", () => {
 
     beforeEach(() => {
       clock = sinon.useFakeTimers()
-      audioElement = mountWithConnectedSubcomponents(<DoorChime users={[]} />).getDOMNode()
+      audioElement = mountWithConnectedSubcomponents(<DoorChime presences={[]} />).getDOMNode()
     })
 
     it("is muted on component mount", () => {
       expect(audioElement.muted).to.equal(true)
     })
 
-    it("is unmuted after a timeout to allow the initial users list to render unheard", () => {
+    it("is unmuted after a timeout to allow the initial presences list to render unheard", () => {
       clock.tick(1600)
       expect(audioElement.muted).to.equal(false)
       clock.restore()
@@ -31,7 +31,7 @@ describe("DoorChime component", () => {
     let doorChimeWrapper
 
     beforeEach(() => {
-      doorChimeWrapper = mountWithConnectedSubcomponents(<DoorChime users={[]} />)
+      doorChimeWrapper = mountWithConnectedSubcomponents(<DoorChime presences={[]} />)
       audioElement = doorChimeWrapper.getDOMNode()
       audioElement.play = sinon.spy()
     })
@@ -43,7 +43,7 @@ describe("DoorChime component", () => {
         })
 
         expect(audioElement.play.called).to.equal(false)
-        doorChimeWrapper.setProps({ users: [{ name: "Hilly" }] })
+        doorChimeWrapper.setProps({ presences: [{ name: "Hilly" }] })
         expect(audioElement.play.called).to.equal(true)
       })
 
@@ -52,17 +52,17 @@ describe("DoorChime component", () => {
           get() { return 5 },
         })
 
-        doorChimeWrapper.setProps({ users: [{ name: "Hilly" }] })
+        doorChimeWrapper.setProps({ presences: [{ name: "Hilly" }] })
         expect(audioElement.src).to.equal(enterSound)
       })
 
       it("plays exit chime when the user list length decreases", () => {
-        doorChimeWrapper.setProps({ users: [{ name: "Hilly" }, { name: "Billy" }] })
+        doorChimeWrapper.setProps({ presences: [{ name: "Hilly" }, { name: "Billy" }] })
         Object.defineProperty(audioElement, "readyState", {
           get() { return 5 },
         })
 
-        doorChimeWrapper.setProps({ users: [{ name: "Hilly" }] })
+        doorChimeWrapper.setProps({ presences: [{ name: "Hilly" }] })
         expect(audioElement.src).to.equal(exitSound)
       })
     })
@@ -73,7 +73,7 @@ describe("DoorChime component", () => {
           get() { return 0 },
         })
 
-        doorChimeWrapper.setProps({ users: [{ name: "Danny" }] })
+        doorChimeWrapper.setProps({ presences: [{ name: "Danny" }] })
         expect(audioElement.play.called).to.equal(false)
       })
     })

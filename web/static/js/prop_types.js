@@ -12,13 +12,13 @@ export const alert = PropTypes.object
 // could be an enum if this is a fixed set of strings?
 export const category = PropTypes.string
 
-export const user = PropTypes.shape({
+export const presence = PropTypes.shape({
   given_name: PropTypes.string,
   online_at: PropTypes.number,
   is_facilitator: PropTypes.boolean,
 })
 
-export const users = PropTypes.arrayOf(user)
+export const presences = PropTypes.arrayOf(presence)
 
 export const retroChannel = PropTypes.shape({
   on: PropTypes.func,

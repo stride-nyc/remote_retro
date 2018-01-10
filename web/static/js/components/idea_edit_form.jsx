@@ -85,7 +85,7 @@ class IdeaEditForm extends Component {
 IdeaEditForm.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  currentUser: AppPropTypes.user.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }
 

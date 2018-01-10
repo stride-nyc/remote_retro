@@ -20,13 +20,13 @@ class DoorChime extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const userCountIncreased = this.props.users.length < nextProps.users.length
-    const userCountDecreased = this.props.users.length > nextProps.users.length
+    const presenceCountIncreased = this.props.presences.length < nextProps.presences.length
+    const presenceCountDecreased = this.props.presences.length > nextProps.presences.length
     const playAudio = () => this.audio.play()
 
-    if (userCountIncreased && this.audio.readyState) {
+    if (presenceCountIncreased && this.audio.readyState) {
       this.setState({ sound: enterSound }, playAudio)
-    } else if (userCountDecreased && this.audio.readyState) {
+    } else if (presenceCountDecreased && this.audio.readyState) {
       this.setState({ sound: exitSound }, playAudio)
     }
   }
@@ -43,7 +43,7 @@ class DoorChime extends Component {
 }
 
 DoorChime.propTypes = {
-  users: AppPropTypes.users.isRequired,
+  presences: AppPropTypes.presences.isRequired,
 }
 
 export default DoorChime

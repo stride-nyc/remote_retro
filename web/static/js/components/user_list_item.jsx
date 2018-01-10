@@ -29,7 +29,7 @@ export const UserListItem = ({ user, votes, stage }) => {
 }
 
 UserListItem.propTypes = {
-  user: AppPropTypes.user.isRequired,
+  user: AppPropTypes.presence.isRequired,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }

@@ -83,7 +83,7 @@ class StageProgressionButton extends Component {
 
 StageProgressionButton.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  currentUser: AppPropTypes.user.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
   config: PropTypes.object,
   buttonDisabled: PropTypes.bool,
 }

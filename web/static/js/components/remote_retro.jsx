@@ -20,22 +20,22 @@ export class RemoteRetro extends Component {
   }
 
   render() {
-    const { users, ideas, userToken, retroChannel, stage, alert } = this.props
+    const { presences, ideas, userToken, retroChannel, stage, alert } = this.props
     const categories = CATEGORIES
-    const currentUser = users.find(user => user.token === userToken)
+    const currentUser = presences.find(user => user.token === userToken)
 
     return (
       <div className={stage}>
         <Room
           currentUser={currentUser}
-          users={users}
+          presences={presences}
           ideas={ideas}
           stage={stage}
           retroChannel={retroChannel}
           categories={categories}
         />
         <Alert config={alert} />
-        <DoorChime users={users} />
+        <DoorChime presences={presences} />
       </div>
     )
   }
@@ -43,7 +43,7 @@ export class RemoteRetro extends Component {
 
 RemoteRetro.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  users: AppPropTypes.users,
+  presences: AppPropTypes.presences,
   ideas: AppPropTypes.ideas,
   userToken: PropTypes.string.isRequired,
   stage: AppPropTypes.stage.isRequired,
@@ -51,7 +51,7 @@ RemoteRetro.propTypes = {
 }
 
 RemoteRetro.defaultProps = {
-  users: [],
+  presences: [],
   ideas: [],
   alert: null,
 }

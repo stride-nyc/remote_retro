@@ -42,9 +42,9 @@ const IdeaReadOnlyContent = props => {
 IdeaReadOnlyContent.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  currentUser: AppPropTypes.user.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  assignee: AppPropTypes.user,
+  assignee: AppPropTypes.presence,
 }
 
 IdeaReadOnlyContent.defaultProps = {

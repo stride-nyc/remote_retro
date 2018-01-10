@@ -4,10 +4,10 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list.css"
 
 const UserList = props => {
-  const usersSortedByArrival = props.users.sort((a, b) => a.online_at - b.online_at)
+  const presencesSortedByArrival = props.presences.sort((a, b) => a.online_at - b.online_at)
 
-  const listItems = usersSortedByArrival.map(user =>
-    <UserListItem key={user.token} user={user} />
+  const listItems = presencesSortedByArrival.map(presence =>
+    <UserListItem key={presence.token} user={presence} />
   )
 
   return (
@@ -20,7 +20,7 @@ const UserList = props => {
 }
 
 UserList.propTypes = {
-  users: AppPropTypes.users.isRequired,
+  presences: AppPropTypes.presences.isRequired,
 }
 
 export default UserList

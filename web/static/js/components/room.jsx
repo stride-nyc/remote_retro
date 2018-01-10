@@ -43,7 +43,7 @@ Room.defaultProps = {
 
 Room.propTypes = {
   stage: AppPropTypes.stage.isRequired,
-  currentUser: AppPropTypes.user,
+  currentUser: AppPropTypes.presence,
 }
 
 export default Room

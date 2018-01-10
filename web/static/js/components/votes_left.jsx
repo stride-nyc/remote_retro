@@ -23,7 +23,7 @@ export const VotesLeft = props => {
 }
 
 VotesLeft.propTypes = {
-  currentUser: AppPropTypes.user.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
   votes: AppPropTypes.votes.isRequired,
 }
 

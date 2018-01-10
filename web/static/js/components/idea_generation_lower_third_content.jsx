@@ -43,7 +43,7 @@ const IdeaGenerationLowerThirdContent = props => {
 
 IdeaGenerationLowerThirdContent.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
-  currentUser: AppPropTypes.user.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }

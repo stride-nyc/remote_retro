@@ -19,7 +19,7 @@ const VotingLowerThirdContent = props => (
 )
 
 VotingLowerThirdContent.propTypes = {
-  currentUser: AppPropTypes.user.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
 }
 
 export default VotingLowerThirdContent

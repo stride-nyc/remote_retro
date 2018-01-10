@@ -12,7 +12,7 @@ describe("RemoteRetro component", () => {
   const defaultProps = {
     currentUser: stubUser,
     retroChannel: mockRetroChannel,
-    users: [],
+    presences: [],
     ideas: [],
     stage: IDEA_GENERATION,
     userToken: "",

@@ -67,7 +67,7 @@ VoteCounter.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   votes: AppPropTypes.votes.isRequired,
   buttonDisabled: PropTypes.bool,
-  currentUser: AppPropTypes.user.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }
 

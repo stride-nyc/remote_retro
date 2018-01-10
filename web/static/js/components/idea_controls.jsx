@@ -74,7 +74,7 @@ export const IdeaControls = props => {
 IdeaControls.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  currentUser: AppPropTypes.user.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   votes: AppPropTypes.votes,
 }
