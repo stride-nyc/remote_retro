@@ -18,3 +18,8 @@ export default (state = {}, action) => {
       return state
   }
 }
+
+// SELECTORS
+export const getUserById = (state, userId) => {
+  return state.usersById[userId]
+}

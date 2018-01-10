@@ -20,7 +20,11 @@ global.mountWithConnectedSubcomponents = (component, options) => {
   const store = {
     subscribe: () => {},
     dispatch: () => {},
-    getState: () => ({ votes: [], stage: IDEA_GENERATION }),
+    getState: () => ({
+      votes: [],
+      stage: IDEA_GENERATION,
+      usersById: {},
+    }),
   }
 
   const defaultOptions = {

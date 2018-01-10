@@ -1,6 +1,29 @@
 import deepFreeze from "deep-freeze"
 
-import usersById from "../../web/static/js/reducers/users_by_id"
+import usersById, { getUserById } from "../../web/static/js/reducers/users_by_id"
+
+describe("selectors", () => {
+  describe("getUserById", () => {
+    context("when the user with the specified id exists in state", () => {
+      const state = {
+        usersById: {
+          1: { id: 1, name: "Betty White" },
+          2: { id: 2, name: "Rue McClanahan" },
+          3: { id: 3, name: "Estelle Getty" },
+        },
+      }
+
+      const userId = 1
+
+      it("should select the user with the given userId", () => {
+        expect(getUserById(state, userId)).to.eql({
+          id: 1,
+          name: "Betty White",
+        })
+      })
+    })
+  })
+})
 
 describe("usersById reducer", () => {
   describe("when an action is nonexistent or unhandled", () => {

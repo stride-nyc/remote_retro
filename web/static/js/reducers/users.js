@@ -39,8 +39,3 @@ const users = (state = [], action) => {
 }
 
 export default users
-
-// SELECTORS
-export const getUser = (state, userId) => (
-  state.users ? state.users.find(user => user.id === userId) : {}
-)

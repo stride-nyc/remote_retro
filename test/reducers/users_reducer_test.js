@@ -1,5 +1,5 @@
 import deepFreeze from "deep-freeze"
-import usersReducer, { getUser } from "../../web/static/js/reducers/users"
+import usersReducer from "../../web/static/js/reducers/users"
 
 describe("user reducer", () => {
   describe("when there is an empty action", () => {
@@ -147,21 +147,6 @@ describe("user reducer", () => {
 
     it("should update user with matching token with new attributes", () => {
       expect(newState).to.deep.equal([{ token: "abc123", name: "Tiny Rick", age: 70 }, { token: "zzz444", name: "Morty", age: 15 }])
-    })
-  })
-
-  describe("getUser", () => {
-    const state = {
-      users: [
-        { id: 1, name: "Betty White" },
-        { id: 2, name: "Rue McClanahan" },
-        { id: 3, name: "Estelle Getty" },
-      ],
-    }
-    const userId = 1
-
-    it("should select the user with the given userId", () => {
-      expect(getUser(state, userId).name).to.equal("Betty White")
     })
   })
 })
