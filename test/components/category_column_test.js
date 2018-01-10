@@ -328,7 +328,7 @@ describe("CategoryColumn", () => {
     }
     mockEvent.dataTransfer.getData.withArgs("ideaId").returns(ideaId).withArgs("ideaBody").returns(ideaBody)
     const mockRetroChannel = { push: spy() }
-    const category = "saaaaad"
+    const category = "sad"
 
     before(() => {
       const wrapper = shallow(

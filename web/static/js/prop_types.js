@@ -4,13 +4,17 @@
 import PropTypes from "prop-types"
 
 import STAGES from "../js/configs/stages"
+import { CATEGORIES as startingCategories } from "../js/configs/retro_configs"
 
 const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
+
 export const alert = PropTypes.object
 
-// could be an enum if this is a fixed set of strings?
-export const category = PropTypes.string
+export const category = PropTypes.oneOf([
+  ...startingCategories,
+  "action-item",
+])
 
 export const presence = PropTypes.shape({
   given_name: PropTypes.string,
