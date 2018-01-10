@@ -58,6 +58,7 @@ module.exports = {
       }
     ],
     "no-underscore-dangle": "off",
+    "arrow-body-style": "off",
     "no-shadow": "off",
     "no-console": "off",
     "no-use-before-define": "off",
