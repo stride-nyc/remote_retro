@@ -1,15 +1,18 @@
 import keyBy from "lodash/keyBy"
+import values from "lodash/values"
+
+const USER_PRIMARY_KEY = "id"
 
 export default (state = {}, action) => {
   switch (action.type) {
     case "SET_INITIAL_STATE":
-      return keyBy(action.initialState.users, "id")
+      return keyBy(action.initialState.users, USER_PRIMARY_KEY)
     case "SET_USERS":
-      return Object.assign(state, keyBy(action.users, "id"))
+      return { ...state, ...keyBy(action.users, USER_PRIMARY_KEY) }
     case "SYNC_PRESENCE_DIFF": {
-      const presencesRepresentingJoins = Object.values(action.presenceDiff.joins)
+      const presencesRepresentingJoins = values(action.presenceDiff.joins)
       const users = presencesRepresentingJoins.map(join => join.user)
-      return Object.assign(state, keyBy(users, "id"))
+      return { ...state, ...keyBy(users, USER_PRIMARY_KEY) }
     }
     default:
       return state
