@@ -1,17 +1,17 @@
 import deepFreeze from "deep-freeze"
-import usersReducer from "../../web/static/js/reducers/users"
+import presencesReducer from "../../web/static/js/reducers/presences"
 
-describe("user reducer", () => {
+describe("presences reducer", () => {
   describe("when there is an empty action", () => {
     describe("when no new state is passed", () => {
       it("should return the initial state of an empty array", () => {
-        expect(usersReducer(undefined, {})).to.deep.equal([])
+        expect(presencesReducer(undefined, {})).to.deep.equal([])
       })
     })
   })
 
-  describe("when action is SET_USERS", () => {
-    const users = [{
+  describe("when action is SET_PRESENCES", () => {
+    const presences = [{
       token: "abc",
       online_at: 2,
     }, {
@@ -19,19 +19,19 @@ describe("user reducer", () => {
       online_at: 1,
     }]
 
-    deepFreeze(users)
+    deepFreeze(presences)
 
     describe("when there is existing state", () => {
-      const action = { type: "SET_USERS", users }
+      const action = { type: "SET_PRESENCES", presences }
 
-      it("adds users in the action to state, assigning facilitatorship to earliest arrival", () => {
-        const newState = usersReducer([], action)
-        const tokens = newState.map(user => user.token)
+      it("adds presences in the action to state, assigning facilitatorship to earliest arrival", () => {
+        const newState = presencesReducer([], action)
+        const tokens = newState.map(presences => presences.token)
         expect(tokens).to.deep.equal(["abc", "123"])
       })
 
-      it("assigns the facilitator role only to the user who's been online longest", () => {
-        expect(usersReducer([], action)).to.deep.equal([{
+      it("assigns the facilitator role only to the presences who's been online longest", () => {
+        expect(presencesReducer([], action)).to.deep.equal([{
           token: "abc",
           online_at: 2,
           is_facilitator: false,
@@ -47,14 +47,14 @@ describe("user reducer", () => {
       const action = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
       it("returns the previous state", () => {
-        expect(usersReducer([{ given_name: "Morty" }], action)).to.deep.equal([{ given_name: "Morty" }])
+        expect(presencesReducer([{ given_name: "Morty" }], action)).to.deep.equal([{ given_name: "Morty" }])
       })
     })
   })
 
   describe("when action is SYNC_PRESENCE_DIFF", () => {
-    describe("and the presence diff represents users joining", () => {
-      context("when the user is not already tracked in the users list", () => {
+    describe("and the presence diff represents presences joining", () => {
+      context("when the user is not already tracked in the presences list", () => {
         const presenceDiff = {
           joins: {
             ABC: { user: { name: "Kevin", online_at: 10, token: "ABC" } },
@@ -67,13 +67,13 @@ describe("user reducer", () => {
 
         const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
 
-        it("adds all of the users to state", () => {
-          const names = usersReducer([], action).map(user => user.name)
+        it("adds all of the presences to state", () => {
+          const names = presencesReducer([], action).map(presences => presences.name)
           expect(names).to.eql(["Kevin", "Sarah"])
         })
       })
 
-      context("and the user is already tracked in the users list", () => {
+      context("and the presences is already tracked in the presences list", () => {
         const presenceDiff = {
           joins: {
             ABC: { user: { name: "Kevin", online_at: 10, token: "ABC" } },
@@ -85,15 +85,18 @@ describe("user reducer", () => {
 
         const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
 
-        it("does not add a duplicate to the users list", () => {
-          const usersListAlreadyContainingUser = [{ token: "ABC", name: "Kevin", online_at: 10 }]
-          const names = usersReducer(usersListAlreadyContainingUser, action).map(user => user.name)
+        it("does not add a duplicate to the presences list", () => {
+          const presencessListAlreadyContainingUser = [{ token: "ABC", name: "Kevin", online_at: 10 }]
+          const names = presencesReducer(
+            presencessListAlreadyContainingUser,
+            action
+          ).map(presences => presences.name)
           expect(names).to.eql(["Kevin"])
         })
       })
     })
 
-    describe("and the presence diff represents several users on state leaving", () => {
+    describe("and the presence diff represents several presences on state leaving", () => {
       const presenceDiff = {
         joins: {},
         leaves: {
@@ -124,26 +127,26 @@ describe("user reducer", () => {
 
       const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
 
-      it("removes all of the users who have left", () => {
-        const newState = usersReducer(initialState, action)
+      it("removes all of the presences who have left", () => {
+        const newState = presencesReducer(initialState, action)
         const tokens = newState.map(user => user.token)
         expect(tokens).to.eql(["TOTALLY_COOL_TOKEN!"])
       })
 
       it("ensures the facilitatorship is transferred to the longest tenured", () => {
-        const newState = usersReducer(initialState, action)
+        const newState = presencesReducer(initialState, action)
         expect(newState[0].is_facilitator).to.equal(true)
       })
     })
   })
 
   describe("When action is UPDATE_PRESENCE", () => {
-    const userToken = "abc123"
+    const presenceToken = "abc123"
     const newAttributes = { age: 70 }
-    const action = { type: "UPDATE_PRESENCE", userToken, newAttributes }
+    const action = { type: "UPDATE_PRESENCE", presenceToken, newAttributes }
     const initialState = [{ token: "abc123", name: "Tiny Rick", age: 180 }, { token: "zzz444", name: "Morty", age: 15 }]
     deepFreeze(initialState)
-    const newState = usersReducer(initialState, action)
+    const newState = presencesReducer(initialState, action)
 
     it("should update user with matching token with new attributes", () => {
       expect(newState).to.deep.equal([{ token: "abc123", name: "Tiny Rick", age: 70 }, { token: "zzz444", name: "Morty", age: 15 }])

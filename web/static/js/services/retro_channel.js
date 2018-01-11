@@ -16,7 +16,7 @@ class RetroChannel {
 const applyListenerCallbacks = (retroChannel, store, actions) => {
   retroChannel.on("presence_state", presences => {
     const users = Presence.list(presences, (_username, presence) => (presence.user))
-    actions.setUsers(users)
+    actions.setPresences(users)
   })
 
   retroChannel.on("presence_diff", actions.syncPresenceDiff)

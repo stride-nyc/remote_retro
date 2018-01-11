@@ -1,19 +1,19 @@
-import * as actionCreators from "../../web/static/js/actions/user"
+import * as actionCreators from "../../web/static/js/actions/presence"
 
-describe("setUsers", () => {
-  const users = [{ given_name: "Tiny Rick" }]
+describe("setPresences", () => {
+  const presences = [{ given_name: "Tiny Rick" }]
 
-  it("should create an action to add user to users list", () => {
-    expect(actionCreators.setUsers(users)).to.deep.equal({ type: "SET_USERS", users })
+  it("should create an action to add presence to presences list", () => {
+    expect(actionCreators.setPresences(presences)).to.deep.equal({ type: "SET_PRESENCES", presences })
   })
 })
 
 describe("updatePresence", () => {
-  const userToken = "abcde12345"
+  const presenceToken = "abcde12345"
   const newAttributes = { age: 170 }
 
-  it("should create an action to update a given user's attributes in presences", () => {
-    expect(actionCreators.updatePresence(userToken, newAttributes)).to.deep.equal({ type: "UPDATE_PRESENCE", userToken, newAttributes })
+  it("should create an action to update a given presence's attributes in presences", () => {
+    expect(actionCreators.updatePresence(presenceToken, newAttributes)).to.deep.equal({ type: "UPDATE_PRESENCE", presenceToken, newAttributes })
   })
 })
 
