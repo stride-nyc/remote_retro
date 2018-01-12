@@ -135,6 +135,7 @@ export class IdeaSubmissionForm extends Component {
                 value={this.state.body}
                 onChange={this.handleIdeaChange}
                 placeholder={`Ex. ${PLACEHOLDER_TEXTS[this.state.category]}`}
+                maxLength="255"
               />
               <button type="submit" disabled={disabled} className="ui teal button">Submit</button>
             </div>
