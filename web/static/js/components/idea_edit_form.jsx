@@ -9,7 +9,7 @@ class IdeaEditForm extends Component {
     this.state = {
       ideaBody: props.idea.body,
       ideaCategory: props.idea.category,
-      assignee_id: props.idea.assignee_id
+      assignee_id: props.idea.assignee_id,
     }
     this.onChangeAssignee = this.onChangeAssignee.bind(this)
     this.onChangeIdeaBody = this.onChangeIdeaBody.bind(this)
@@ -50,12 +50,12 @@ class IdeaEditForm extends Component {
       id: idea.id,
       body: ideaBody,
       category: ideaCategory,
-      assignee_id: assignee_id,
+      assignee_id,
     })
   }
 
   render() {
-    const { stage, users, idea } = this.props
+    const { stage, users } = this.props
     const categories = CATEGORIES
 
     return (

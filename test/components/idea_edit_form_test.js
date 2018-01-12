@@ -3,7 +3,7 @@ import { shallow } from "enzyme"
 import sinon from "sinon"
 
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
-import STAGES from "../../web/static/js/configs/stages.js"
+import STAGES from "../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
@@ -19,10 +19,10 @@ describe("<IdeaEditForm />", () => {
     stage,
     users: [{
       id: 7,
-      name: "Helga Foggybottom"
+      name: "Helga Foggybottom",
     }, {
       id: 9,
-      name: "Prudence Pumpernickel"
+      name: "Prudence Pumpernickel",
     }],
   }
 
@@ -181,5 +181,4 @@ describe("<IdeaEditForm />", () => {
       ).to.equal(true)
     })
   })
-
 })

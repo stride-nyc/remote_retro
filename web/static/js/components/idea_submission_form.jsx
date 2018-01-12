@@ -70,10 +70,10 @@ export class IdeaSubmissionForm extends Component {
 
   render() {
     const { users, stage } = this.props
-    const { assignee_id, body, ideaEntryStarted, category } = this.state
+    const { assignee_id: assigneeId, body, ideaEntryStarted, category } = this.state
     let disabled = !body.length
     if (stage === ACTION_ITEMS) {
-      disabled = !(body.length && assignee_id)
+      disabled = !(body.length && assigneeId)
     }
     const assigneeOptions = users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>
@@ -101,7 +101,7 @@ export class IdeaSubmissionForm extends Component {
       pointerText = !ideaEntryStarted ? "Create Action Items!" : ""
       dropdownProps = {
         labelName: "assignee",
-        value: assignee_id,
+        value: assigneeId,
         onChange: this.handleAssigneeChange,
         selectOptions: [defaultOption, ...assigneeOptions],
       }
