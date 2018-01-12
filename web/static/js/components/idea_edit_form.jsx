@@ -1,7 +1,11 @@
 import React, { Component } from "react"
 import * as AppPropTypes from "../prop_types"
 
+import SelectDropdown from "./select_dropdown"
 import { CATEGORIES } from "../configs/retro_configs"
+import STAGES from "../configs/stages"
+
+const { ACTION_ITEMS } = STAGES
 
 class IdeaEditForm extends Component {
   constructor(props) {
@@ -9,7 +13,7 @@ class IdeaEditForm extends Component {
     this.state = {
       ideaBody: props.idea.body,
       ideaCategory: props.idea.category,
-      assignee_id: props.idea.assignee_id,
+      ideaAssigneeId: props.idea.assignee_id,
     }
     this.onChangeAssignee = this.onChangeAssignee.bind(this)
     this.onChangeIdeaBody = this.onChangeIdeaBody.bind(this)
@@ -32,7 +36,7 @@ class IdeaEditForm extends Component {
   }
 
   onChangeAssignee(event) {
-    this.setState({ assignee_id: Number.parseInt(event.target.value, 10) })
+    this.setState({ ideaAssigneeId: Number.parseInt(event.target.value, 10) })
   }
 
   onCancel(event) {
@@ -44,49 +48,48 @@ class IdeaEditForm extends Component {
   onSubmit(event) {
     event.preventDefault()
     const { idea, retroChannel } = this.props
-    const { ideaBody, ideaCategory, assignee_id } = this.state
+    const { ideaBody, ideaCategory, ideaAssigneeId } = this.state
 
     retroChannel.push("idea_edited", {
       id: idea.id,
       body: ideaBody,
       category: ideaCategory,
-      assignee_id,
+      assigneeId: ideaAssigneeId,
     })
   }
 
   render() {
     const { stage, users } = this.props
+    const { ideaCategory, ideaAssigneeId, ideaBody } = this.state
     const categories = CATEGORIES
+    const categoryOptions = categories.map(category => (
+      <option key={category} value={category}>{category}</option>
+    ))
+    const assigneeOptions = users.map(user => (
+      <option key={user.id} value={user.id}>{user.name}</option>
+    ))
 
     return (
       <form onSubmit={this.onSubmit} className="ui form raised segment idea-edit-form">
         <p className="ui center aligned sub header">Editing</p>
-        {stage !== "action-items" && <select
-          name="editable_category"
-          className="ui dropdown"
+        {stage !== ACTION_ITEMS && <SelectDropdown
+          labelName="editable_category"
+          value={ideaCategory}
           onChange={this.onChangeIdeaCategory}
-          value={this.state.ideaCategory}
-        >
-          {categories.map(category => (
-            <option key={category} value={category}>{category}</option>
-          ))}
-        </select>}
-        {stage === "action-items" && <select
-          name="editable_assignee"
-          className="ui dropdown"
+          selectOptions={categoryOptions}
+        />}
+        {stage === ACTION_ITEMS && <SelectDropdown
+          labelName="editable_assignee"
+          value={ideaAssigneeId || ""}
           onChange={this.onChangeAssignee}
-          value={this.state.assignee_id || ""}
-        >
-          {users.map(user => (
-            <option key={user.id} value={user.id}>{user.name}</option>
-          ))}
-        </select>}
+          selectOptions={assigneeOptions}
+        />}
         <div className="field">
           <textarea
             name="editable_idea"
             autoFocus
             rows="2"
-            value={this.state.ideaBody}
+            value={ideaBody}
             onChange={this.onChangeIdeaBody}
           />
         </div>

@@ -90,14 +90,14 @@ defmodule RemoteRetro.RetroChannelTest do
     test "when in idea_generation stage results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
       assignee_id = nil
-      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id, assignee_id: assignee_id})
+      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
 
       assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
     end
 
     test "when in action_items stage results in the broadcast of the new action item to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
-      push(socket, "new_idea", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assignee_id: user_id})
+      push(socket, "new_idea", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
 
       assert_broadcast("new_idea_received", %{category: "action-item", body: "Do something about the pacing", id: _, user_id: ^user_id, assignee_id: ^user_id})
     end
@@ -145,7 +145,7 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
-      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assignee_id: nil})
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assigneeId: nil})
 
       assert_broadcast("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
     end
@@ -154,7 +154,7 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
     test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
       idea_id = idea.id
-      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assignee_id: nil})
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assigneeId: nil})
 
       :timer.sleep(50)
       idea = Repo.get!(Idea, idea_id)

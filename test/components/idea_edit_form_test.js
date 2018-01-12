@@ -44,14 +44,14 @@ describe("<IdeaEditForm />", () => {
       }
 
       it("lists participants as potential assignees", () => {
-        const form = shallow(<IdeaEditForm {...testProps} />)
+        const form = mountWithConnectedSubcomponents(<IdeaEditForm {...testProps} />)
 
         const gripers = form.find("select[name='editable_assignee'] option")
         expect(gripers.map(option => option.text())).to.eql(["Helga Foggybottom", "Prudence Pumpernickel"])
       })
 
       it("shows the assigned user as selected initially", () => {
-        const form = shallow(<IdeaEditForm {...testProps} />)
+        const form = mountWithConnectedSubcomponents(<IdeaEditForm {...testProps} />)
 
         const value = form.find("select[name='editable_assignee']").props().value
         expect(value).to.equal(9)
@@ -159,7 +159,7 @@ describe("<IdeaEditForm />", () => {
           id: idea.id,
           body: idea.body,
           category: idea.category,
-          assignee_id: undefined,
+          assigneeId: undefined,
         })
       ).to.equal(true)
     })
