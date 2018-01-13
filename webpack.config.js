@@ -4,6 +4,7 @@ const path = require("path")
 const webpack = require("webpack")
 const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const WriteFileWebpackPlugin = require("write-file-webpack-plugin")
 const WebpackNotifierPlugin = require("webpack-notifier")
 
 process.noDeprecation = true
@@ -88,5 +89,6 @@ module.exports = {
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({ filename: "css/app.css" }),
     new CopyWebpackPlugin([{ from: "./web/static/assets" }]),
+    new WriteFileWebpackPlugin([{ from: "./web/static/assets" }]),
   ]
 }
