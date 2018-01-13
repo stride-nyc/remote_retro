@@ -1,5 +1,5 @@
 import React from "react"
-import { capitalize } from "lodash"
+import capitalize from "lodash/capitalize"
 import PropTypes from "prop-types"
 
 import styles from "./css_modules/idea_submission_form.css"
