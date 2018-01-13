@@ -20,6 +20,10 @@ config :remote_retro, RemoteRetro.Endpoint,
 # Configures Email API
 config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.SendgridAdapter, api_key: System.get_env("SENDGRID_API_KEY")
 
+# Configures HoneyBadger error reporting API
+config :honeybadger,
+  api_key: "stubDevValue"
+
 # Configures Elixir's Logger
 config :logger, :console,
   format: "$time $metadata[$level] $message\n",

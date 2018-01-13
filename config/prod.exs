@@ -29,6 +29,9 @@ config :logger, level: :info
 
 config :remote_retro, :oauth_client, OAuth2.Client
 
+config :honeybadger,
+  api_key: System.get_env("HONEYBADGER_API_KEY")
+
 # ## SSL Support
 #
 # To get SSL working, you will need to add the `https` key
