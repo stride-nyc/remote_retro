@@ -23,6 +23,17 @@ describe("<IdeaEditForm />", () => {
       const textAreaValue = wrapper.find("textarea").props().value
       expect(textAreaValue).to.equal("redundant tests")
     })
+
+    context("the textarea field for an idea", () => {
+      it("contains the maxLength property with a limit of 255 characters", () => {
+        const retroChannel = { on: () => { } }
+        const wrapper = shallow(
+          <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
+        )
+        const textarea = wrapper.find("textarea")
+        expect(textarea.props().maxLength).to.equal("255")
+      })
+    })
   })
 
   describe("on change of the textarea", () => {

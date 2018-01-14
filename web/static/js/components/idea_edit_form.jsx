@@ -70,6 +70,7 @@ class IdeaEditForm extends Component {
             rows="2"
             value={this.state.ideaBody}
             onChange={this.onChangeIdeaBody}
+            maxLength="255"
           />
         </div>
         <div className="ui buttons">

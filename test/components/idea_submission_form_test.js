@@ -20,6 +20,23 @@ describe("IdeaSubmissionForm component", () => {
     { id: 2, name: "Betty White" },
     { id: 3, name: "Bill Smith" },
   ]
+  describe("the input field for an idea", () => {
+    it("contains the maxLength property with a limit of 255 characters", () => {
+      const retroChannel = { on: () => { } }
+
+      wrapper = mountWithConnectedSubcomponents(
+        <IdeaSubmissionForm
+          currentUser={stubUser}
+          retroChannel={retroChannel}
+          stage={IDEA_GENERATION}
+          users={users}
+        />
+      )
+
+      const ideaInput = wrapper.find("input[name='idea']")
+      expect(ideaInput.props().maxLength).to.equal("255")
+    })
+  })
 
   describe("on submit", () => {
     describe("when in the IDEA_GENERATION stage", () => {
