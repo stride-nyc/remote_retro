@@ -77,12 +77,14 @@ class IdeaEditForm extends Component {
           value={ideaCategory}
           onChange={this.onChangeIdeaCategory}
           selectOptions={categoryOptions}
+          showLabel={false}
         />}
         {stage === ACTION_ITEMS && <SelectDropdown
           labelName="editable_assignee"
           value={ideaAssigneeId || ""}
           onChange={this.onChangeAssignee}
           selectOptions={assigneeOptions}
+          showLabel={false}
         />}
         <div className="field">
           <textarea
