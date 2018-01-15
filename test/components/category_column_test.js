@@ -318,40 +318,53 @@ describe("CategoryColumn", () => {
   })
 
   context("when an item is dropped on it", () => {
-    const ideaBody = "sup"
-    const ideaId = 100
-    const mockEvent = {
-      preventDefault: spy(),
-      dataTransfer: {
-        getData: stub(),
-      },
-    }
-    mockEvent.dataTransfer.getData.withArgs("ideaId").returns(ideaId).withArgs("ideaBody").returns(ideaBody)
-    const mockRetroChannel = { push: spy() }
-    const category = "sad"
+    context("and the data is a serialized idea with snake_cased attributes", () => {
+      const idea = {
+        id: 100,
+        body: "sup",
+        category: "sad",
+        assignee_id: null,
+      }
 
-    before(() => {
-      const wrapper = shallow(
-        <CategoryColumn
-          {...defaultProps}
-          category={category}
-          retroChannel={mockRetroChannel}
-        />
-      )
+      const serializedIdea = JSON.stringify(idea)
 
-      wrapper.simulate("drop", mockEvent)
-    })
+      const mockEvent = {
+        preventDefault: spy(),
+        dataTransfer: {
+          getData: stub(),
+        },
+      }
 
-    it("prevents the default event behavior", () => {
-      expect(mockEvent.preventDefault.called).to.eql(true)
-    })
+      mockEvent.dataTransfer.getData
+        .withArgs("idea").returns(serializedIdea)
 
-    it("pushes the idea_edited event with the idea id, body and new category", () => {
-      expect(mockRetroChannel.push.calledWith("idea_edited", {
-        id: ideaId,
-        body: ideaBody,
-        category,
-      })).to.eql(true)
+      const mockRetroChannel = { push: spy() }
+      const category = "sad"
+
+      before(() => {
+        const wrapper = shallow(
+          <CategoryColumn
+            {...defaultProps}
+            category={category}
+            retroChannel={mockRetroChannel}
+          />
+        )
+
+        wrapper.simulate("drop", mockEvent)
+      })
+
+      it("prevents the default event behavior", () => {
+        expect(mockEvent.preventDefault.called).to.eql(true)
+      })
+
+      it("pushes an idea_edited event w/ the idea's raw values, camelCased attributes, and its new category", () => {
+        expect(mockRetroChannel.push.calledWith("idea_edited", {
+          id: idea.id,
+          body: idea.body,
+          assigneeId: idea.assignee_id,
+          category,
+        })).to.eql(true)
+      })
     })
   })
 })

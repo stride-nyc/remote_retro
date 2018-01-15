@@ -8,8 +8,8 @@ import styles from "./css_modules/idea_read_only_content.css"
 const handleDragStart = props => event => {
   const { idea } = props
   event.dataTransfer.dropEffect = "move"
-  event.dataTransfer.setData("ideaId", idea.id)
-  event.dataTransfer.setData("ideaBody", idea.body)
+  // event dataTransfer only supports strings
+  event.dataTransfer.setData("idea", JSON.stringify(idea))
 }
 
 const IdeaReadOnlyContent = props => {

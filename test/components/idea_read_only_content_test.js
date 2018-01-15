@@ -201,11 +201,8 @@ describe("<IdeaReadOnlyContent />", () => {
     })
 
     it("sets the idea id on the event data element", () => {
-      expect(mockEvent.dataTransfer.setData.calledWith("ideaId", idea.id)).to.eql(true)
-    })
-
-    it("sets the idea body on the event data element", () => {
-      expect(mockEvent.dataTransfer.setData.calledWith("ideaBody", idea.body)).to.eql(true)
+      const stringifiedIdea = JSON.stringify(idea)
+      expect(mockEvent.dataTransfer.setData.calledWith("idea", stringifiedIdea)).to.eql(true)
     })
   })
 })

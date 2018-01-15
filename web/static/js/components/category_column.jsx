@@ -33,12 +33,14 @@ export class CategoryColumn extends Component {
   }
 
   handleDrop = event => {
-    const { category, retroChannel } = this.props
     event.preventDefault()
+    const { category, retroChannel } = this.props
+    const { id, body, assignee_id: assigneeId } = JSON.parse(event.dataTransfer.getData("idea"))
 
     retroChannel.push("idea_edited", {
-      id: event.dataTransfer.getData("ideaId"),
-      body: event.dataTransfer.getData("ideaBody"),
+      id,
+      body,
+      assigneeId,
       category,
     })
   }
