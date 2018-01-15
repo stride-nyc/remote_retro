@@ -6,7 +6,7 @@ import classNames from "classnames"
 import styles from "./css_modules/idea_submission_form.css"
 
 const SelectDropdown = ({ labelName, value, onChange, selectOptions, showLabel }) => {
-  const divClasses = showLabel ? `${styles.flex} five wide inline field`: ""
+  const divClasses = showLabel ? `${styles.flex} five wide inline field` : ""
   const selectClasses = classNames("ui dropdown", {
     [styles.select]: showLabel,
   })
