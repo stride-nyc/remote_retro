@@ -145,7 +145,7 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
-      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy"})
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assigneeId: nil})
 
       assert_broadcast("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
     end
@@ -154,7 +154,7 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
     test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
       idea_id = idea.id
-      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused"})
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assigneeId: nil})
 
       :timer.sleep(50)
       idea = Repo.get!(Idea, idea_id)

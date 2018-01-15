@@ -1,6 +1,7 @@
 import React from "react"
 import classNames from "classnames"
 import { connect } from "react-redux"
+import values from "lodash/values"
 
 import IdeaEditForm from "./idea_edit_form"
 import IdeaLiveEditContent from "./idea_live_edit_content"
@@ -10,7 +11,7 @@ import styles from "./css_modules/idea.css"
 import { getUserById } from "../reducers/users_by_id"
 
 export const Idea = props => {
-  const { idea, currentUser, retroChannel, stage } = props
+  const { idea, currentUser, retroChannel, stage, users } = props
   const classes = classNames(styles.index, {
     [styles.highlighted]: idea.isHighlighted,
   })
@@ -24,6 +25,7 @@ export const Idea = props => {
       retroChannel={retroChannel}
       currentUser={currentUser}
       stage={stage}
+      users={users}
     />)
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
@@ -44,6 +46,7 @@ Idea.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,
+  users: AppPropTypes.presences.isRequired,
 }
 
 Idea.defaultProps = {
@@ -52,6 +55,7 @@ Idea.defaultProps = {
 
 const mapStateToProps = (state, { idea }) => ({
   assignee: getUserById(state, idea.assignee_id),
+  users: values(state.usersById),
 })
 
 export default connect(mapStateToProps)(Idea)
