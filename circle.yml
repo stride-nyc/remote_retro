@@ -40,7 +40,9 @@ test:
     - npm run test
     - mix test --exclude feature_test
     - mix test --only feature_test
-    - mix coveralls.circle --include feature_test
+    - if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
+        mix coveralls.circle --include feature_test;
+      fi
 deployment:
   prod:
     branch: master
