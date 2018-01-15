@@ -3,10 +3,13 @@ import { shallow } from "enzyme"
 import sinon from "sinon"
 
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
+import STAGES from "../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 describe("<IdeaEditForm />", () => {
   const idea = { id: 999, body: "redundant tests", userId: 1 }
-  const stage = "idea-generation"
+  const stage = IDEA_GENERATION
   const currentUser = { is_facilitator: true }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const defaultProps = {
@@ -14,6 +17,13 @@ describe("<IdeaEditForm />", () => {
     currentUser,
     retroChannel: mockRetroChannel,
     stage,
+    users: [{
+      id: 7,
+      name: "Helga Foggybottom",
+    }, {
+      id: 9,
+      name: "Prudence Pumpernickel",
+    }],
   }
 
   describe("on initial render", () => {
@@ -35,6 +45,31 @@ describe("<IdeaEditForm />", () => {
       })
     })
   })
+
+  describe("the action item phase", () => {
+    context("when all collaborators are in the room", () => {
+      const testProps = {
+        ...defaultProps,
+        idea: { id: 1000, body: "do the thing", userId: 1, assignee_id: 9 },
+        stage: ACTION_ITEMS,
+      }
+
+      it("lists participants as potential assignees", () => {
+        const form = mountWithConnectedSubcomponents(<IdeaEditForm {...testProps} />)
+
+        const gripers = form.find("select[name='editable_assignee'] option")
+        expect(gripers.map(option => option.text())).to.eql(["Helga Foggybottom", "Prudence Pumpernickel"])
+      })
+
+      it("shows the assigned user as selected initially", () => {
+        const form = mountWithConnectedSubcomponents(<IdeaEditForm {...testProps} />)
+
+        const value = form.find("select[name='editable_assignee']").props().value
+        expect(value).to.equal(9)
+      })
+    })
+  })
+
 
   describe("on change of the textarea", () => {
     let retroChannel
@@ -99,7 +134,7 @@ describe("<IdeaEditForm />", () => {
       })
 
       it("the category dropdown is not visible", () => {
-        expect(wrapper.find("select").exists()).to.equal(false)
+        expect(wrapper.find("select[name='editable_category']").exists()).to.equal(false)
       })
     })
 
@@ -135,6 +170,7 @@ describe("<IdeaEditForm />", () => {
           id: idea.id,
           body: idea.body,
           category: idea.category,
+          assigneeId: undefined,
         })
       ).to.equal(true)
     })

@@ -17,6 +17,7 @@ describe("Idea component", () => {
   }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const mockUser = {}
+  const mockUsers = [{}]
 
   context("when the idea is being edited", () => {
     const ideaInEditState = { ...idea, editing: true, editorToken: "aljk" }
@@ -29,6 +30,7 @@ describe("Idea component", () => {
           currentUser={currentUser}
           retroChannel={mockRetroChannel}
           stage={IDEA_GENERATION}
+          users={mockUsers}
         />
       )
 
@@ -45,6 +47,7 @@ describe("Idea component", () => {
           currentUser={currentUser}
           retroChannel={mockRetroChannel}
           stage={IDEA_GENERATION}
+          users={mockUsers}
         />
       )
 
@@ -59,6 +62,7 @@ describe("Idea component", () => {
             currentUser={currentUser}
             retroChannel={mockRetroChannel}
             stage={IDEA_GENERATION}
+            users={mockUsers}
           />
         )
         it("renders the <IdeaLiveEditContent /> as a child", () => {
@@ -77,6 +81,7 @@ describe("Idea component", () => {
         currentUser={mockUser}
         retroChannel={mockRetroChannel}
         stage={IDEA_GENERATION}
+        users={mockUsers}
       />
     )
 

@@ -30,6 +30,7 @@ export class IdeaSubmissionForm extends Component {
       body: "",
       category: this.defaultCategory,
       ideaEntryStarted: false,
+      assigneeId: null,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
@@ -49,7 +50,6 @@ export class IdeaSubmissionForm extends Component {
     const { currentUser } = this.props
     event.preventDefault()
     const newIdea = { ...this.state, userId: currentUser.id }
-    if (!newIdea.assigneeId) { newIdea.assigneeId = null }
     this.props.retroChannel.push("new_idea", newIdea)
     this.setState({ body: "" })
   }
@@ -101,7 +101,7 @@ export class IdeaSubmissionForm extends Component {
       pointerText = !ideaEntryStarted ? "Create Action Items!" : ""
       dropdownProps = {
         labelName: "assignee",
-        value: assigneeId,
+        value: assigneeId || "",
         onChange: this.handleAssigneeChange,
         selectOptions: [defaultOption, ...assigneeOptions],
       }
