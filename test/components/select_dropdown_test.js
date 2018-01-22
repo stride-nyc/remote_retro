@@ -12,6 +12,11 @@ describe("SelectDropdown component", () => {
   }
   let wrapper
 
+  it("renders with a 'required' class", () => {
+    wrapper = shallow(<SelectDropdown {...defaultProps} />)
+    expect(wrapper.find(".required")).to.have.length(1)
+  })
+
   context("when pointerText is not provided as a prop", () => {
     it("does not render the pointing label", () => {
       wrapper = shallow(<SelectDropdown {...defaultProps} />)
