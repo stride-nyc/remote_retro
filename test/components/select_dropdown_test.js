@@ -12,9 +12,20 @@ describe("SelectDropdown component", () => {
   }
   let wrapper
 
-  it("renders with a 'required' class", () => {
-    wrapper = shallow(<SelectDropdown {...defaultProps} />)
-    expect(wrapper.find(".required")).to.have.length(1)
+  context("when the stage is 'action-items'", () => {
+    it("renders with a 'required' class for the 'Assignee' label", () => {
+      const props = Object.assign(defaultProps, { labelName: "assignee" })
+      wrapper = shallow(<SelectDropdown {...props} />)
+      expect(wrapper.find(".required")).to.have.length(1)
+    })
+  })
+
+  context("when the stage is 'idea-generation'", () => {
+    it("does not render with a 'required' class for the 'Category' label", () => {
+      const props = Object.assign(defaultProps, { labelName: "category" })
+      wrapper = shallow(<SelectDropdown {...props} />)
+      expect(wrapper.find(".required")).to.have.length(0)
+    })
   })
 
   context("when pointerText is not provided as a prop", () => {
