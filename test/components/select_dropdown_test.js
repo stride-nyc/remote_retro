@@ -9,22 +9,22 @@ describe("SelectDropdown component", () => {
     value: "value",
     onChange() {},
     selectOptions: [],
+    isRequired: false,
   }
   let wrapper
 
-  context("when the stage is 'action-items'", () => {
-    it("renders with a 'required' class for the 'Assignee' label", () => {
-      const props = Object.assign(defaultProps, { labelName: "assignee" })
-      wrapper = shallow(<SelectDropdown {...props} />)
-      expect(wrapper.find(".required")).to.have.length(1)
+  context("when the isRequired prop is false", () => {
+    it("does not render with a 'required' class for the 'Category' label", () => {
+      wrapper = shallow(<SelectDropdown {...defaultProps} />)
+      expect(wrapper.find(".required")).to.have.length(0)
     })
   })
 
-  context("when the stage is 'idea-generation'", () => {
-    it("does not render with a 'required' class for the 'Category' label", () => {
-      const props = Object.assign(defaultProps, { labelName: "category" })
+  context("when the isRequired prop is true", () => {
+    it("renders with a 'required' class for the 'Assignee' label", () => {
+      const props = Object.assign(defaultProps, { isRequired: true })
       wrapper = shallow(<SelectDropdown {...props} />)
-      expect(wrapper.find(".required")).to.have.length(0)
+      expect(wrapper.find(".required")).to.have.length(1)
     })
   })
 

@@ -96,6 +96,7 @@ export class IdeaSubmissionForm extends Component {
         value: category,
         onChange: this.handleCategoryChange,
         selectOptions: defaultCategoryOptions,
+        isRequired: false,
       }
     } else if (stage === ACTION_ITEMS) {
       pointerText = !ideaEntryStarted ? "Create Action Items!" : ""
@@ -104,6 +105,7 @@ export class IdeaSubmissionForm extends Component {
         value: assigneeId || "",
         onChange: this.handleAssigneeChange,
         selectOptions: [defaultOption, ...assigneeOptions],
+        isRequired: true,
       }
     }
 
