@@ -2,7 +2,7 @@ import React, { Component } from "react"
 import { bindActionCreators } from "redux"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import * as alertActionCreators from "../actions/alert"
+import { actions as alertActionCreators } from "../redux/alert"
 
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"

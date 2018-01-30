@@ -4,7 +4,7 @@ import Modal from "react-modal"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 
-import * as alertActionCreators from "../actions/alert"
+import { actions as alertActionCreators } from "../redux/alert"
 
 Modal.defaultStyles.content.zIndex = 2
 Modal.defaultStyles.overlay.zIndex = 2

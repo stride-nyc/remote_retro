@@ -6,7 +6,7 @@ import ideas from "./ideas"
 import votes from "./votes"
 import stage from "./stage"
 import insertedAt from "./inserted_at"
-import alert from "./alert"
+import { reducer as alert } from "../redux/alert"
 
 const rootReducer = combineReducers({
   presences,
