@@ -1,11 +1,26 @@
 import React, { Component } from "react"
+import { bindActionCreators } from "redux"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
+import * as alertActionCreators from "../actions/alert"
 
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import Alert from "./alert"
 import DoorChime from "./door_chime"
+
+function isNewFacilitator(prevCurrentUser, currentUser) {
+  return ((prevCurrentUser.is_facilitator !== currentUser.is_facilitator)
+    && currentUser.is_facilitator)
+}
+
+function findCurrentUser(presences, userToken) {
+  return presences.find(user => user.token === userToken)
+}
+
+function findFacilitatorName(presences) {
+  return presences.find(user => user.is_facilitator).name
+}
 
 export class RemoteRetro extends Component {
   // Trigger analytics events on page load and stage changes
@@ -14,13 +29,21 @@ export class RemoteRetro extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { stage } = this.props
+    const { stage, actions } = this.props
     if (prevProps.stage !== stage) { hj("trigger", stage) }
+
+    if (prevProps.presences.length) {
+      const prevCurrentUser = findCurrentUser(prevProps.presences, prevProps.userToken)
+      const currentUser = findCurrentUser(this.props.presences, this.props.userToken)
+      if (isNewFacilitator(prevCurrentUser, currentUser)) {
+        actions.changeFacilitator(findFacilitatorName(prevProps.presences))
+      }
+    }
   }
 
   render() {
     const { presences, ideas, userToken, retroChannel, stage, alert } = this.props
-    const currentUser = presences.find(user => user.token === userToken)
+    const currentUser = findCurrentUser(presences, userToken)
 
     return (
       <div className={stage}>
@@ -55,6 +78,11 @@ RemoteRetro.defaultProps = {
 
 const mapStateToProps = state => ({ ...state })
 
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(alertActionCreators, dispatch),
+})
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps,
 )(RemoteRetro)
