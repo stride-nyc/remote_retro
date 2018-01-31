@@ -1,6 +1,9 @@
 import deepFreeze from "deep-freeze"
 
-import ideasReducer from "../../web/static/js/reducers/ideas"
+import {
+  actions as actionCreators,
+  reducer as ideasReducer
+} from "../../web/static/js/redux/ideas"
 
 describe("idea reducer", () => {
   describe("when an action is nonexistent or unhandled", () => {
@@ -70,6 +73,40 @@ describe("idea reducer", () => {
         expect(ideasReducer(initialIdeas, action)).to.deep.equal([
           { id: 22, category: "n/a", user_id: 2 },
         ])
+      })
+    })
+  })
+})
+
+describe("actionCreators", () => {
+  describe("addIdea", () => {
+    it("creates an action to add idea to store", () => {
+      const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
+
+      expect(actionCreators.addIdea(idea)).to.deep.equal({ type: "ADD_IDEA", idea })
+    })
+  })
+
+  describe("updateIdea", () => {
+    it("creates an action to update an idea with particular id with new attributes", () => {
+      const ideaId = 999
+      const newAttributes = { name: "Kimberly" }
+
+      expect(actionCreators.updateIdea(ideaId, newAttributes)).to.deep.equal({
+        type: "UPDATE_IDEA",
+        ideaId,
+        newAttributes,
+      })
+    })
+  })
+
+  describe("deleteIdea", () => {
+    it("creates an action to delete an idea with particular id", () => {
+      const ideaId = 999
+
+      expect(actionCreators.deleteIdea(ideaId)).to.deep.equal({
+        type: "DELETE_IDEA",
+        ideaId,
       })
     })
   })
