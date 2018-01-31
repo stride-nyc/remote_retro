@@ -68,12 +68,14 @@ RemoteRetro.propTypes = {
   userToken: PropTypes.string.isRequired,
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
+  actions: PropTypes.object,
 }
 
 RemoteRetro.defaultProps = {
   presences: [],
   ideas: [],
   alert: null,
+  actions: {},
 }
 
 const mapStateToProps = state => ({ ...state })
@@ -84,5 +86,5 @@ const mapDispatchToProps = dispatch => ({
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps,
+  mapDispatchToProps
 )(RemoteRetro)

@@ -1,4 +1,4 @@
-import React from "react";
+import FacilitationTransferInfo from "../components/facilitation_transfer_info"
 
 const alert = (state = null, action) => {
   switch (action.type) {
@@ -6,7 +6,7 @@ const alert = (state = null, action) => {
       const { previousFacilitatorName } = action
       return {
         headerText: "Facilitation Transfer!",
-        BodyComponent: () => <p>With {previousFacilitatorName}'s departure, you have assumed the role of facilitator. You'll be responsible for advancing the retro!</p>
+        BodyComponent: () => FacilitationTransferInfo(previousFacilitatorName),
       }
     }
     case "UPDATE_STAGE": {
