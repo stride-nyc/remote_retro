@@ -9,16 +9,16 @@ import Room from "./room"
 import Alert from "./alert"
 import DoorChime from "./door_chime"
 
-function isNewFacilitator(prevCurrentUser, currentUser) {
+export function isNewFacilitator(prevCurrentUser, currentUser) {
   return ((prevCurrentUser.is_facilitator !== currentUser.is_facilitator)
     && currentUser.is_facilitator)
 }
 
-function findCurrentUser(presences, userToken) {
+export function findCurrentUser(presences, userToken) {
   return presences.find(user => user.token === userToken)
 }
 
-function findFacilitatorName(presences) {
+export function findFacilitatorName(presences) {
   return presences.find(user => user.is_facilitator).name
 }
 

@@ -86,7 +86,7 @@ describe("alert reducer", () => {
     }
     const actualAlertText = alert(initialState, action)
 
-    it("returns the alert for the given stage", () => {
+    it("returns the alert with the facilitation transfer info", () => {
       expect(actualAlertText.headerText).to.equal(expectedAlertText.headerText)
       expect(actualAlertText.BodyComponent().toString())
         .to.equal(expectedAlertText.BodyComponent().toString())
