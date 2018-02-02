@@ -1,6 +1,9 @@
 import deepFreeze from "deep-freeze"
 
-import usersById, { getUserById } from "../../web/static/js/reducers/users_by_id"
+import {
+  reducer,
+  selectors,
+} from "../../web/static/js/redux/users_by_id"
 
 describe("selectors", () => {
   describe("getUserById", () => {
@@ -16,7 +19,7 @@ describe("selectors", () => {
       const userId = 1
 
       it("should select the user with the given userId", () => {
-        expect(getUserById(state, userId)).to.eql({
+        expect(selectors.getUserById(state, userId)).to.eql({
           id: 1,
           name: "Betty White",
         })
@@ -31,8 +34,8 @@ describe("usersById reducer", () => {
       it("should return an empty object", () => {
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(usersById(undefined, {})).to.deep.equal({})
-        expect(usersById(undefined, unhandledAction)).to.deep.equal({})
+        expect(reducer(undefined, {})).to.deep.equal({})
+        expect(reducer(undefined, unhandledAction)).to.deep.equal({})
       })
     })
 
@@ -43,8 +46,8 @@ describe("usersById reducer", () => {
 
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(usersById(initialState, {})).to.deep.equal(initialState)
-        expect(usersById(initialState, unhandledAction)).to.deep.equal(initialState)
+        expect(reducer(initialState, {})).to.deep.equal(initialState)
+        expect(reducer(initialState, unhandledAction)).to.deep.equal(initialState)
       })
     })
   })
@@ -62,7 +65,7 @@ describe("usersById reducer", () => {
           },
         }
 
-        expect(usersById(undefined, action)).to.deep.equal({
+        expect(reducer(undefined, action)).to.deep.equal({
           3: { id: 3, name: "Hilary" },
           5: { id: 5, name: "Timmy" },
         })
@@ -83,7 +86,7 @@ describe("usersById reducer", () => {
           const initialState = {}
           deepFreeze(initialState)
 
-          expect(usersById(initialState, action)).to.deep.equal({
+          expect(reducer(initialState, action)).to.deep.equal({
             6: { id: 6, name: "Kevin" },
             7: { id: 7, name: "Blurg Man" },
           })
@@ -106,7 +109,7 @@ describe("usersById reducer", () => {
 
           deepFreeze(initialState)
 
-          expect(usersById(initialState, action)).to.deep.equal({
+          expect(reducer(initialState, action)).to.deep.equal({
             6: { id: 6, name: "Kevin" },
             7: { id: 7, name: "Blurg Man" },
           })
@@ -132,7 +135,7 @@ describe("usersById reducer", () => {
             5: { id: 5, name: "Travis" },
           }
 
-          expect(usersById(initialState, action)).to.deep.equal({
+          expect(reducer(initialState, action)).to.deep.equal({
             5: { id: 5, name: "Travis" },
             60: { id: 60, name: "Kevin" },
             61: { id: 61, name: "Sarah" },

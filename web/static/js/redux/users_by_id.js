@@ -3,7 +3,7 @@ import values from "lodash/values"
 
 const USER_PRIMARY_KEY = "id"
 
-export default (state = {}, action) => {
+export const reducer = (state = {}, action) => {
   switch (action.type) {
     case "SET_INITIAL_STATE":
       return keyBy(action.initialState.users, USER_PRIMARY_KEY)
@@ -19,7 +19,8 @@ export default (state = {}, action) => {
   }
 }
 
-// SELECTORS
-export const getUserById = (state, userId) => {
-  return state.usersById[userId]
+export const selectors = {
+  getUserById: (state, userId) => {
+    return state.usersById[userId]
+  },
 }

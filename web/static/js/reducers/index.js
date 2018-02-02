@@ -1,7 +1,7 @@
 import { combineReducers } from "redux"
 
 import { reducer as presences } from "../redux/presences"
-import usersById from "./users_by_id"
+import { reducer as usersById } from "../redux/users_by_id"
 import { reducer as ideas } from "../redux/ideas"
 import { reducer as votes } from "../redux/votes"
 import { reducer as stage } from "../redux/stage"
