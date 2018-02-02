@@ -1,5 +1,5 @@
 import deepFreeze from "deep-freeze"
-import votesReducer from "../../web/static/js/reducers/votes"
+import { reducer as votesReducer } from "../../web/static/js/redux/votes"
 
 describe("user reducer", () => {
   describe("when there is an empty action", () => {
