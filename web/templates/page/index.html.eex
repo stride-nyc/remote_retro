@@ -1,32 +1,22 @@
-<div class="ui basic segment welcome-wrapper">
-  <a href="https://github.com/stride-nyc/remote_retro"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
-  <h1>
-    Remote<br>
-    Retro<sup>BETA</sup>
-  </h1>
-
+<div class="landing-grid">
+  <h1 class="landing-logo">Remote Retro <sup class="logo-super-text">beta</sup></h1>
   <%= if @current_user do %>
-    <div class="ui header">
-      Glad to have you, <%= @current_user.given_name %>!
-    </div>
-
+  <div class="logged-in-greeting">
+    <p>Glad to have you, <%= @current_user.given_name %>!</p>
     <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
-      <%= submit "Create a Retrospective for Your Team", class: "ui button blue" %>
+      <%= submit "Create a Retrospective for Your Team", class: "ui button white" %>
     <% end %>
+  </div>
   <% else %>
-    <div class="ui header">
-      Get Better With Your Team
-      <p class="sub header">Remote Retro lets you get together, even when you're far apart.</p>
-    </div>
-
-    <a href="/auth/google" class="ui blue button">
-      <i class="google icon"></i>
-      Sign in with Google to Get Started
-    </a>
+  <div class="landing-description">
+    <h2 class="landing-subheading">Get better with your team</h2>
+    <p>Remote retro lets you get together, even when you're far apart.</p>
+  </div>
   <% end %>
-
-  <div class="ui compact hidden divider"></div>
-  <a href="/faq" class="ui teal button">
-    Frequently Asked Questions
-  </a>
+  <div class="landing-buttons">
+    <%= if !@current_user do %>
+    <a class="landing-button" href="/auth/google">Get started <span class="landing-button-small-text">Sign in with Google</span></a>
+    <a class="landing-button" href="/faq">Read F.A.Q.</a>
+    <% end %>
+  </div>
 </div>
