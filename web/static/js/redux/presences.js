@@ -2,6 +2,24 @@ import minBy from "lodash/minBy"
 import values from "lodash/values"
 import reject from "lodash/reject"
 
+export const actions = {
+  setPresences: presences => ({
+    type: "SET_PRESENCES",
+    presences,
+  }),
+
+  updatePresence: (presenceToken, newAttributes) => ({
+    type: "UPDATE_PRESENCE",
+    presenceToken,
+    newAttributes,
+  }),
+
+  syncPresenceDiff: presenceDiff => ({
+    type: "SYNC_PRESENCE_DIFF",
+    presenceDiff,
+  }),
+}
+
 const assignFacilitatorToLongestTenured = presences => {
   const facilitator = minBy(presences, "online_at")
   return presences.map(presence => ({
@@ -23,7 +41,7 @@ const removeDepartures = (presences, departures) => {
   return reject(presences, presence => departureTokens.includes(presence.token))
 }
 
-const presences = (state = [], action) => {
+export const reducer = (state = [], action) => {
   switch (action.type) {
     case "SET_PRESENCES":
       return assignFacilitatorToLongestTenured(action.presences)
@@ -44,17 +62,20 @@ const presences = (state = [], action) => {
   }
 }
 
-export default presences
-
-export const findCurrentUser = state => {
-  return state.find(user => user.token === window.userToken)
-}
-
-export const findFacilitator = state => {
+const findFacilitator = state => {
   return state.find(user => user.is_facilitator)
 }
 
-export const findFacilitatorName = state => {
-  const facilitator = findFacilitator(state)
-  return facilitator ? facilitator.name : ""
+export const selectors = {
+  findFacilitator,
+  findCurrentUser: state => {
+    return state.find(user => user.token === window.userToken)
+  },
+
+  findFacilitatorName: state => {
+    const facilitator = findFacilitator(state)
+    return facilitator ? facilitator.name : ""
+  },
 }
+
+export default reducer

@@ -1,6 +1,6 @@
 import { combineReducers } from "redux"
 
-import presences from "./presences"
+import { reducer as presences } from "../redux/presences"
 import usersById from "./users_by_id"
 import { reducer as ideas } from "../redux/ideas"
 import votes from "./votes"

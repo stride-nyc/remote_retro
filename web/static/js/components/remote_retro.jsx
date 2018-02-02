@@ -8,7 +8,7 @@ import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import Alert from "./alert"
 import DoorChime from "./door_chime"
-import { findCurrentUser, findFacilitatorName } from "../reducers/presences"
+import { selectors } from "../redux/presences"
 
 export function isNewFacilitator(prevCurrentUser, currentUser) {
   return ((prevCurrentUser.is_facilitator !== currentUser.is_facilitator)
@@ -84,8 +84,8 @@ RemoteRetro.defaultProps = {
 
 const mapStateToProps = state => ({
   ...state,
-  currentUser: findCurrentUser(state.presences),
-  facilitatorName: findFacilitatorName(state.presences),
+  currentUser: selectors.findCurrentUser(state.presences),
+  facilitatorName: selectors.findFacilitatorName(state.presences),
 })
 
 const mapDispatchToProps = dispatch => ({
