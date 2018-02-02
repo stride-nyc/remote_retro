@@ -1,7 +1,7 @@
 import STAGES from "../configs/stages"
 
 const { PRIME_DIRECTIVE } = STAGES
-const stage = (state = PRIME_DIRECTIVE, action) => {
+export const reducer = (state = PRIME_DIRECTIVE, action) => {
   switch (action.type) {
     case "SET_INITIAL_STATE":
       return action.initialState.stage
@@ -12,4 +12,4 @@ const stage = (state = PRIME_DIRECTIVE, action) => {
   }
 }
 
-export default stage
+export default reducer

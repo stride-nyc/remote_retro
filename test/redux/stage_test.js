@@ -1,4 +1,4 @@
-import stageReducer from "../../web/static/js/reducers/stage"
+import { reducer as stageReducer } from "../../web/static/js/redux/stage"
 
 describe("stage reducer", () => {
   describe("unhandled actions", () => {
