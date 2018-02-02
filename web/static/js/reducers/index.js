@@ -5,7 +5,7 @@ import usersById from "./users_by_id"
 import { reducer as ideas } from "../redux/ideas"
 import votes from "./votes"
 import stage from "./stage"
-import insertedAt from "./inserted_at"
+import { reducer as insertedAt } from "../redux/inserted_at"
 import { reducer as alert } from "../redux/alert"
 
 const rootReducer = combineReducers({

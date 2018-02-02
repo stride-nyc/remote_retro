@@ -1,4 +1,4 @@
-const insertedAt = (state = null, action) => {
+export const reducer = (state = null, action) => {
   switch (action.type) {
     case "SET_INITIAL_STATE":
       return action.initialState.inserted_at
@@ -7,4 +7,4 @@ const insertedAt = (state = null, action) => {
   }
 }
 
-export default insertedAt
+export default reducer

@@ -1,4 +1,4 @@
-import insertedAtReducer from "../../web/static/js/reducers/inserted_at"
+import { reducer as insertedAtReducer } from "../../web/static/js/redux/inserted_at"
 
 describe("insertedAt reducer", () => {
   describe("unhandled actions", () => {
