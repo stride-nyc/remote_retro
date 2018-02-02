@@ -1,4 +1,4 @@
-import * as actionCreators from "../../web/static/js/actions/retro"
+import { actions as actionCreators } from "../../web/static/js/redux/retro"
 
 import stageConfigs from "../../web/static/js/configs/stage_configs"
 import STAGES from "../../web/static/js/configs/stages"
