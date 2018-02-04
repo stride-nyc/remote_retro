@@ -1,7 +1,7 @@
 /* eslint-disable global-require */
 import { createStore } from "redux"
 
-import rootReducer from "./reducers"
+import { reducer as rootReducer } from "./redux"
 import interceptOverEagerReactReduxWarning from "./dev-utils/intercept_overeager_reactredux_warning"
 
 const isProd = location.host === "remoteretro.org"
@@ -16,8 +16,8 @@ export default () => {
   if (module.hot) {
     interceptOverEagerReactReduxWarning()
 
-    module.hot.accept("./reducers/index", () => {
-      const nextRootReducer = require("./reducers/index").default
+    module.hot.accept("./redux/index", () => {
+      const nextRootReducer = require("./redux/index").reducer
       store.replaceReducer(nextRootReducer)
     })
   }

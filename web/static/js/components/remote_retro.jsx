@@ -2,13 +2,12 @@ import React, { Component } from "react"
 import { bindActionCreators } from "redux"
 import PropTypes from "prop-types"
 import { connect } from "react-redux"
-import { actions as alertActionCreators } from "../redux/alert"
+import { actions, selectors } from "../redux"
 
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import Alert from "./alert"
 import DoorChime from "./door_chime"
-import { selectors } from "../redux/presences"
 
 export function isNewFacilitator(prevCurrentUser, currentUser) {
   return ((prevCurrentUser.is_facilitator !== currentUser.is_facilitator)
@@ -89,7 +88,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(alertActionCreators, dispatch),
+  actions: bindActionCreators(actions, dispatch),
 })
 
 export default connect(

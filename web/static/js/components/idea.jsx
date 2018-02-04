@@ -8,7 +8,7 @@ import IdeaLiveEditContent from "./idea_live_edit_content"
 import IdeaReadOnlyContent from "./idea_read_only_content"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
-import { selectors } from "../redux/users_by_id"
+import { selectors } from "../redux"
 
 export const Idea = props => {
   const { idea, currentUser, retroChannel, stage, users } = props

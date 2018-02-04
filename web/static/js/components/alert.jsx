@@ -4,7 +4,7 @@ import Modal from "react-modal"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 
-import { actions as alertActionCreators } from "../redux/alert"
+import { actions as actionCreators } from "../redux"
 
 Modal.defaultStyles.content.zIndex = 2
 Modal.defaultStyles.overlay.zIndex = 2
@@ -54,7 +54,7 @@ const mapStateToProps = state => ({
 })
 
 const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(alertActionCreators, dispatch),
+  actions: bindActionCreators(actionCreators, dispatch),
 })
 
 export default connect(

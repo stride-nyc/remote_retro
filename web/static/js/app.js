@@ -8,7 +8,7 @@ import { AppContainer } from "react-hot-loader"
 
 import RetroChannel from "./services/retro_channel"
 import configureStore from "./configure_store"
-import actions from "./actions"
+import { actions } from "./redux"
 
 const { userToken, retroUUID } = window
 
