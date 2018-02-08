@@ -59,7 +59,7 @@ export class ShareRetroLinkModal extends Component {
       <Modal
         contentLabel="Share Retro Link"
         isOpen={hasntBeenClosed && shouldOpen}
-        className="ui small modal visible active"
+        className={`ui small modal visible active ${styles.index}`}
       >
         <div className="ui basic padded center aligned segment">
           <div>
