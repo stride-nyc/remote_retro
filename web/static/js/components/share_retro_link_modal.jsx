@@ -74,7 +74,7 @@ export class ShareRetroLinkModal extends Component {
             <p>
               <i className={`big external share icon ${styles.shareIcon}`} />
             </p>
-            Share the unique retro link below with teammates!
+            Share the retro link below with teammates!
           </div>
           <div className={`ui input ${styles.textInputWrapper}`}>
             <input
