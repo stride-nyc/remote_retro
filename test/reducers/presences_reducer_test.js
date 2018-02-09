@@ -1,5 +1,5 @@
 import deepFreeze from "deep-freeze"
-import presencesReducer from "../../web/static/js/reducers/presences"
+import presencesReducer, { findFacilitatorName, findCurrentUser } from "../../web/static/js/reducers/presences"
 
 describe("presences reducer", () => {
   describe("when there is an empty action", () => {
@@ -150,6 +150,30 @@ describe("presences reducer", () => {
 
     it("should update user with matching token with new attributes", () => {
       expect(newState).to.deep.equal([{ token: "abc123", name: "Tiny Rick", age: 70 }, { token: "zzz444", name: "Morty", age: 15 }])
+    })
+  })
+})
+
+describe("selectors", () => {
+  describe("findCurrentUser", () => {
+    const stubUser = { token: "123" }
+    const stubPresences = [stubUser]
+    window.userToken = "123"
+
+    it("finds the user with the given token", () => {
+      expect(findCurrentUser(stubPresences)).to.deep.equal(stubUser)
+    })
+  })
+
+  describe("findFacilitatorName", () => {
+    const stubFacilitator = {
+      is_facilitator: true,
+      name: "Jill",
+    }
+    const stubPresences = [stubFacilitator, { is_facilitator: false, name: "Bob" }]
+
+    it("finds the facilitator's name", () => {
+      expect(findFacilitatorName(stubPresences)).to.equal(stubFacilitator.name)
     })
   })
 })

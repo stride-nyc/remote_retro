@@ -8,18 +8,11 @@ import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import Alert from "./alert"
 import DoorChime from "./door_chime"
+import { findCurrentUser, findFacilitatorName } from "../reducers/presences"
 
 export function isNewFacilitator(prevCurrentUser, currentUser) {
   return ((prevCurrentUser.is_facilitator !== currentUser.is_facilitator)
     && currentUser.is_facilitator)
-}
-
-export function findCurrentUser(presences, userToken) {
-  return presences.find(user => user.token === userToken)
-}
-
-export function findFacilitatorName(presences) {
-  return presences.find(user => user.is_facilitator).name
 }
 
 export class RemoteRetro extends Component {
@@ -29,21 +22,19 @@ export class RemoteRetro extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { stage, actions } = this.props
+    const { stage, actions, currentUser } = this.props
     if (prevProps.stage !== stage) { hj("trigger", stage) }
 
     if (prevProps.presences.length) {
-      const prevCurrentUser = findCurrentUser(prevProps.presences, prevProps.userToken)
-      const currentUser = findCurrentUser(this.props.presences, this.props.userToken)
+      const prevCurrentUser = prevProps.currentUser
       if (isNewFacilitator(prevCurrentUser, currentUser)) {
-        actions.changeFacilitator(findFacilitatorName(prevProps.presences))
+        actions.changeFacilitator(prevProps.facilitatorName)
       }
     }
   }
 
   render() {
-    const { presences, ideas, userToken, retroChannel, stage, alert } = this.props
-    const currentUser = findCurrentUser(presences, userToken)
+    const { presences, ideas, retroChannel, stage, alert, currentUser } = this.props
 
     return (
       <div className={stage}>
@@ -69,6 +60,8 @@ RemoteRetro.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
   actions: PropTypes.object,
+  currentUser: AppPropTypes.presence,
+  facilitatorName: PropTypes.string,
 }
 
 RemoteRetro.defaultProps = {
@@ -78,7 +71,11 @@ RemoteRetro.defaultProps = {
   actions: {},
 }
 
-const mapStateToProps = state => ({ ...state })
+const mapStateToProps = state => ({
+  ...state,
+  currentUser: findCurrentUser(state.presences),
+  facilitatorName: findFacilitatorName(state.presences),
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(alertActionCreators, dispatch),

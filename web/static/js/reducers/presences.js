@@ -45,3 +45,16 @@ const presences = (state = [], action) => {
 }
 
 export default presences
+
+export const findCurrentUser = state => {
+  return state.find(user => user.token === window.userToken)
+}
+
+export const findFacilitator = state => {
+  return state.find(user => user.is_facilitator)
+}
+
+export const findFacilitatorName = state => {
+  const facilitator = findFacilitator(state)
+  return facilitator ? facilitator.name : ""
+}

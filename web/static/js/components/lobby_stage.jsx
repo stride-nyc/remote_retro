@@ -6,11 +6,10 @@ import StageProgressionButton from "./stage_progression_button"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/centered_text.css"
+import { findFacilitatorName } from "../reducers/presences"
 
 const LobbyStage = props => {
-  const { progressionConfig, currentUser, presences } = props
-  const facilitator = presences.find(presence => presence.is_facilitator)
-  const facilitatorName = facilitator ? facilitator.name : ""
+  const { progressionConfig, currentUser, facilitatorName } = props
   const instructions = currentUser.is_facilitator ? " As facilitator of this retro, it will be your responsibility to start the retro once your party has arrived. Get them in here!" :
     ` Once your party has arrived, your facilitator, ${facilitatorName}, will begin the retro. Until then, hold tight!`
 
@@ -42,6 +41,7 @@ LobbyStage.propTypes = {
   progressionConfig: PropTypes.object.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   presences: AppPropTypes.presences.isRequired,
+  facilitatorName: PropTypes.string,
 }
 
 export default LobbyStage

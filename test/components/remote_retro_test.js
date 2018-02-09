@@ -1,7 +1,7 @@
 import React from "react"
 import { spy } from "sinon"
 
-import { RemoteRetro, isNewFacilitator, findCurrentUser, findFacilitatorName } from "../../web/static/js/components/remote_retro"
+import { RemoteRetro, isNewFacilitator } from "../../web/static/js/components/remote_retro"
 import STAGES from "../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION, CLOSED } = STAGES
@@ -65,24 +65,3 @@ describe("isNewFacilitator", () => {
   })
 })
 
-describe("findCurrentUser", () => {
-  const stubUser = { token: "123" }
-  const stubPresences = [stubUser]
-  const stubUserToken = "123"
-
-  it("finds the user with the given token", () => {
-    expect(findCurrentUser(stubPresences, stubUserToken)).to.deep.equal(stubUser)
-  })
-})
-
-describe("findFacilitatorName", () => {
-  const stubFacilitator = {
-    is_facilitator: true,
-    name: "Jill",
-  }
-  const stubPresences = [stubFacilitator, { is_facilitator: false, name: "Bob" }]
-
-  it("finds the facilitator's name", () => {
-    expect(findFacilitatorName(stubPresences)).to.equal(stubFacilitator.name)
-  })
-})
