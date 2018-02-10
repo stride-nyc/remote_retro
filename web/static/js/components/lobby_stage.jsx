@@ -6,7 +6,6 @@ import StageProgressionButton from "./stage_progression_button"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/centered_text.css"
-import { findFacilitatorName } from "../reducers/presences"
 
 const LobbyStage = props => {
   const { progressionConfig, currentUser, facilitatorName } = props
@@ -41,7 +40,7 @@ LobbyStage.propTypes = {
   progressionConfig: PropTypes.object.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   presences: AppPropTypes.presences.isRequired,
-  facilitatorName: PropTypes.string,
+  facilitatorName: PropTypes.string.isRequired,
 }
 
 export default LobbyStage

@@ -34,12 +34,21 @@ export class RemoteRetro extends Component {
   }
 
   render() {
-    const { presences, ideas, retroChannel, stage, alert, currentUser } = this.props
+    const {
+      presences,
+      ideas,
+      retroChannel,
+      stage,
+      alert,
+      currentUser,
+      facilitatorName,
+    } = this.props
 
     return (
       <div className={stage}>
         <Room
           currentUser={currentUser}
+          facilitatorName={facilitatorName}
           presences={presences}
           ideas={ideas}
           stage={stage}
@@ -60,11 +69,13 @@ RemoteRetro.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
   actions: PropTypes.object,
-  currentUser: AppPropTypes.presence,
-  facilitatorName: PropTypes.string,
+  currentUser: AppPropTypes.presence.isRequired,
+  facilitatorName: PropTypes.string.isRequired,
 }
 
 RemoteRetro.defaultProps = {
+  currentUser: {},
+  facilitatorName: "",
   presences: [],
   ideas: [],
   alert: null,

@@ -11,18 +11,21 @@ const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION } = STAGES
 
 describe("Room", () => {
   let room
-  const presences = [{
-    given_name: "treezy",
-    online_at: 803,
-    picture: "http://herpderp.com",
-  }]
+  const defaultProps = {
+    presences: [{
+      given_name: "treezy",
+      online_at: 803,
+      picture: "http://herpderp.com",
+    }],
+    facilitatorName: "Dirk",
+  }
 
   describe("when the stage is lobby", () => {
     it("renders the LobbyStage", () => {
       room = shallow(
         <Room
+          {...defaultProps}
           stage={LOBBY}
-          presences={presences}
         />
       )
       const lobbyStage = room.find(LobbyStage)
@@ -35,8 +38,8 @@ describe("Room", () => {
     it("renders the PrimeDirectiveStage", () => {
       room = shallow(
         <Room
+          {...defaultProps}
           stage={PRIME_DIRECTIVE}
-          presences={presences}
         />
       )
       const primeDirectiveStage = room.find(PrimeDirectiveStage)
@@ -49,10 +52,8 @@ describe("Room", () => {
     it("renders the IdeaGenerationStage", () => {
       room = shallow(
         <Room
+          {...defaultProps}
           stage={IDEA_GENERATION}
-          presences={presences}
-          ideas={[]}
-          retroChannel={{}}
         />
       )
       const ideaGenerationStage = room.find(IdeaGenerationStage)
