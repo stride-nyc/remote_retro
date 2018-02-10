@@ -1,8 +1,73 @@
 @import './colors.css';
 
+:global .landing-grid {
+  background-color: #336C99;
+  background-image: linear-gradient(110deg, #336C99, #38983C 65%);
+  color: #FFFFFF;
+  display: grid;
+  height: 100vh;
+  width: 100vw;
+  grid-template-columns: repeat(auto-fit, minmax(min-content, 23rem));
+  grid-column-gap: 40px;
+  justify-content: center;
+  align-items: flex-end;
+  padding-top: 40px;
+  grid-auto-rows: min-content;
+}
+:global .landing-logo {
+  font-size: 6rem;
+}
+:global .logo-super-text {
+  vertical-align: super;
+  text-transform: uppercase;
+  font-size: 1.2rem;
+  font-weight: 200;
+}
+:global .landing-description {
+  margin-bottom: 2rem;
+}
+:global .logged-in-greeting {
+  font-size: 1.6rem;
+}
+:global .landing-subheading {
+  font-size: 2rem;
+}
+:global .landing-buttons {
+  display: flex;
+  flex-direction: column;
+}
+:global .landing-button {
+  background-color: #FFFFFF;
+  border-radius: .3rem;
+  border-style: solid;
+  border-color: currentColor;
+  color: #2185D0;
+  border-width: .1rem;
+  font-size: 1.4rem;
+  text-align: center;
+  padding-top: 1rem;
+  padding-bottom: 1rem;
+  margin-bottom: 1rem;
+}
+:global .landing-button-small-text {
+  display: block;
+  font-size: 1rem;
+  margin-top: .5rem;
+}
+
+@media only screen and (max-width: 683px) {
+  :global .landing-grid {
+    grid-template-columns: minmax(min-content, 26rem);
+    padding-top: .5rem;
+  }
+
+  :global .landing-logo {
+    line-height: 1;
+    margin-bottom: 1.8rem;
+  }
+}
+
 :global .photo-backdrop {
-  background-image: url(/images/good_hearted_boyman_takes_part_in_remote_retro.jpg);
-  background-size: cover;
   box-shadow: inset 0 0 0 100rem rgba(255, 255, 255, 0.25);
 
   .welcome-wrapper {
@@ -22,10 +87,6 @@
     top: -2rem;
     font-size: 0.9rem;
   }
-}
-
-sup {
-  color: var(--magenta);
 }
 
 :global .ui.modal {
@@ -79,9 +140,9 @@ sup {
 }
 
 :global .visually-hidden {
-  position: absolute; 
-  overflow: hidden; 
-  clip: rect(0 0 0 0); 
-  height: 1px; width: 1px; 
-  margin: -1px; padding: 0; border: 0; 
+  position: absolute;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  height: 1px; width: 1px;
+  margin: -1px; padding: 0; border: 0;
 }

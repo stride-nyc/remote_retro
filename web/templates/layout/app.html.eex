@@ -36,7 +36,7 @@
     <% end %>
   </head>
 
-  <body class="<%= if assigns[:include_backdrop], do: "photo-backdrop" %>">
+  <body>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K8F6B6H"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
