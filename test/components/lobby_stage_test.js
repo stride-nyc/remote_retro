@@ -16,6 +16,7 @@ describe("LobbyStage component", () => {
     currentUser,
     presences: [currentUser],
     retroChannel: {},
+    facilitatorName: "Darren",
   }
 
   context("when the currentUser is the facilitator", () => {

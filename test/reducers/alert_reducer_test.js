@@ -1,6 +1,7 @@
 import deepFreeze from "deep-freeze"
 
 import alert from "../../web/static/js/reducers/alert"
+import FacilitationTransferInfo from "../../web/static/js/components/facilitation_transfer_info"
 
 describe("alert reducer", () => {
   describe("when an action is nonexistent or unhandled", () => {
@@ -66,6 +67,29 @@ describe("alert reducer", () => {
       it("returns null", () => {
         expect(alert({}, action)).to.equal(null)
       })
+    })
+  })
+
+  describe("when the action is CHANGE_FACILITATOR", () => {
+    const initialState = { headerText: "Warning!", bodyText: "You're being watched." }
+
+    deepFreeze(initialState)
+
+    const action = {
+      type: "CHANGE_FACILITATOR",
+      previousFacilitatorName: "Jane",
+    }
+
+    const expectedAlertText = {
+      headerText: "Facilitation Transfer!",
+      BodyComponent: () => FacilitationTransferInfo(action.previousFacilitatorName),
+    }
+    const actualAlertText = alert(initialState, action)
+
+    it("returns the alert with the facilitation transfer info", () => {
+      expect(actualAlertText.headerText).to.equal(expectedAlertText.headerText)
+      expect(actualAlertText.BodyComponent().toString())
+        .to.equal(expectedAlertText.BodyComponent().toString())
     })
   })
 })
