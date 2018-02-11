@@ -68,5 +68,6 @@ module.exports = {
     "jsx-a11y/no-static-element-interactions": 0,
     "import/no-named-as-default": "off",
     "no-unused-expressions": ["error", {"allowTernary": true}],
+    "no-param-reassign": [2, { "props": false }],
   }
 }
