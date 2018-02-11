@@ -24,6 +24,7 @@ const LobbyStage = props => {
         </div>
       </div>
       <div className="row">
+        <h2 className="ui medium dividing header">Current Users</h2>
         <UserList {...props} />
       </div>
       <div className="row">
