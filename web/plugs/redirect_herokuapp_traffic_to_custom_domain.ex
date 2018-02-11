@@ -11,7 +11,7 @@ defmodule RedirectHerokuappTrafficToCustomDomain do
       true ->
         conn
         |> put_status(301)
-        |> put_resp_header("Host", "remoteretro.org")
+        |> put_resp_header("host", "remoteretro.org")
         |> redirect(external: "http://remoteretro.org" <> conn.request_path)
       false ->
         conn
