@@ -71,9 +71,9 @@ export class IdeaSubmissionForm extends Component {
   render() {
     const { users, stage } = this.props
     const { assigneeId, body, ideaEntryStarted, category } = this.state
-    let disabled = !body.length
+    let disabled = !body.trim().length
     if (stage === ACTION_ITEMS) {
-      disabled = !(body.length && assigneeId)
+      disabled = disabled || !assigneeId
     }
     const assigneeOptions = users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>

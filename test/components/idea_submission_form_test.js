@@ -138,7 +138,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("at the outset the form submit is disabled", () => {
     describe("during the IDEA_GENERATION stage", () => {
-      it("is enabled once the input receives a value", () => {
+      it("is enabled once the input receives a non-whitespace value", () => {
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             currentUser={stubUser}
@@ -151,8 +151,12 @@ describe("IdeaSubmissionForm component", () => {
         const ideaInput = wrapper.find("input[name='idea']")
 
         expect(submitButton.prop("disabled")).to.equal(true)
-        ideaInput.simulate("change", { target: { value: "farts" } })
 
+        ideaInput.simulate("change", { target: { value: " " } })
+        submitButton = wrapper.find("button[type='submit']")
+        expect(submitButton.prop("disabled")).to.equal(true)
+
+        ideaInput.simulate("change", { target: { value: "farts" } })
         submitButton = wrapper.find("button[type='submit']")
         expect(submitButton.prop("disabled")).to.equal(false)
       })
