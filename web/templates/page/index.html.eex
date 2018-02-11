@@ -11,7 +11,10 @@
     </div>
 
     <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
-      <%= submit "Create a Retrospective for Your Team", class: "ui button blue" %>
+      <button type="submit" class="ui blue right labeled icon button">
+        Create a Retrospective for Your Team
+        <i class="arrow right icon"></i>
+      </button>
     <% end %>
   <% else %>
     <div class="ui header">
