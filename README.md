@@ -1,5 +1,5 @@
 [![CircleCI](https://circleci.com/gh/stride-nyc/remote_retro.svg?style=shield)](https://circleci.com/gh/stride-nyc/remote_retro)
-[![Coverage Status](https://coveralls.io/repos/github/stride-nyc/remote_retro/badge.svg?branch=master)](https://coveralls.io/github/stride-nyc/remote_retro?branch=master)
+[![Coveralls](https://coveralls.io/repos/github/stride-nyc/remote_retro/badge.svg?branch=master)](https://coveralls.io/github/stride-nyc/remote_retro?branch=master)
 [![Ebert](https://ebertapp.io/github/stride-nyc/remote_retro.svg)](https://ebertapp.io/github/stride-nyc/remote_retro)
 
 # RemoteRetro
