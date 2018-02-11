@@ -10,6 +10,11 @@ import STAGES from "../configs/stages"
 
 const { VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
+const handleDragOver = event => {
+  event.preventDefault()
+  event.dataTransfer.dropEffect = "move"
+}
+
 export class CategoryColumn extends Component {
   constructor(props) {
     super(props)
@@ -27,11 +32,6 @@ export class CategoryColumn extends Component {
     }
   }
 
-  handleDragOver(event) {
-    event.preventDefault()
-    event.dataTransfer.dropEffect = "move"
-  }
-
   handleDrop = event => {
     event.preventDefault()
     const { category, retroChannel } = this.props
@@ -46,7 +46,7 @@ export class CategoryColumn extends Component {
   }
 
   render() {
-    const { handleDrop, handleDragOver } = this
+    const { handleDrop } = this
     const { category, ideas, votes } = this.props
     const filteredIdeas = ideas.filter(idea => idea.category === category)
     const iconHeight = 45
