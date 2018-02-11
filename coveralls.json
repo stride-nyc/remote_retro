@@ -1,6 +1,7 @@
 {
   "skip_files": [
     "lib/tasks",
+    "lib/remote_retro",
     "test/support",
     "web/views/error_helpers.ex"
   ]
