@@ -22,9 +22,6 @@ module.exports = {
       name: "[name]",
       context: path.resolve(__dirname, "web/static/js"),
     }),
-    new webpack.DefinePlugin({
-      __REACT_DEVTOOLS_GLOBAL_HOOK__: "({ isDisabled: true })",
-    }),
   ],
   resolve: {
     modules: ["node_modules"],

@@ -5,6 +5,7 @@ defmodule Mix.Tasks.EndToEnd do
   def run(_) do
     compile_js()
     IO.puts "\n#{IO.ANSI.green()}Executing end-to-end tests...#{IO.ANSI.reset()}\n"
+    IO.puts "\tNote: browser logs will written to `browser_logs.log`\n"
     System.cmd(
       "mix",
       ["test", "test/features/", "--only", "feature_test", "--color"],
