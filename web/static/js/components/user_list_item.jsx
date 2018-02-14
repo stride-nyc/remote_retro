@@ -6,7 +6,7 @@ import styles from "./css_modules/user_list_item.css"
 import AnimatedEllipsis from "./animated_ellipsis"
 import STAGES from "../configs/stages"
 
-const { VOTING } = STAGES
+const { VOTING, CLOSED } = STAGES
 
 export const UserListItem = ({ user, votes, stage }) => {
   let givenName = user.given_name
@@ -14,7 +14,7 @@ export const UserListItem = ({ user, votes, stage }) => {
   const votesByUser = votes.filter(vote => vote.user_id === user.id).length
   const allVotesIn = votesByUser >= voteMax
 
-  if (user.is_facilitator) givenName += " (Facilitator)"
+  if (user.is_facilitator && stage !== CLOSED) givenName += " (Facilitator)"
 
   return (
     <li className={`item ${styles.wrapper}`}>
