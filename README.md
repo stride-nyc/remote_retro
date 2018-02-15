@@ -127,9 +127,10 @@ Copy the `dev.secret.exs.example` to `dev.secret.exs` and fill it out with the i
 ```
 use Mix.Config
 
-config :remote_retro, google_oauth_client_id: "<Client Id>"
-config :remote_retro, google_oauth_client_secret: "<Client secret>"
-config :remote_retro, google_oauth_redirect_uri: "http://localhost:4000/auth/google/callback"
+config :remote_retro, :google_oauth,
+  client_id: "<Client Id>",
+  client_secret: "<Client Secret>",
+  redirect_uri: "http://localhost:4000/auth/google/callback"
 
 ```
 

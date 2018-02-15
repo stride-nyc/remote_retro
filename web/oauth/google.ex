@@ -28,9 +28,9 @@ defmodule RemoteRetro.OAuth.Google do
 
   defp client do
     @oauth_client.new([
-      client_id: Application.get_env(:remote_retro, :google_oauth_client_id),
-      client_secret: Application.get_env(:remote_retro, :google_oauth_client_secret),
-      redirect_uri: Application.get_env(:remote_retro, :google_oauth_redirect_uri),
+      client_id: Application.get_env(:remote_retro, :google_oauth)[:client_id],
+      client_secret: Application.get_env(:remote_retro, :google_oauth)[:client_secret],
+      redirect_uri: Application.get_env(:remote_retro, :google_oauth)[:redirect_uri],
       site: "https://accounts.google.com",
       authorize_url: "https://accounts.google.com/o/oauth2/auth",
       token_url: "https://accounts.google.com/o/oauth2/token"
