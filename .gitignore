@@ -42,3 +42,4 @@ web/static/js/dll/*
 
 npm-debug.log*
 .eslintcache
+browser_logs.log
