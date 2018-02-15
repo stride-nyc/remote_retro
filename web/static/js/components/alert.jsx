@@ -8,12 +8,9 @@ import { actions as actionCreators } from "../redux"
 
 Modal.defaultStyles.content.zIndex = 2
 Modal.defaultStyles.overlay.zIndex = 2
+Modal.setAppElement("body")
 
 export class Alert extends Component {
-
-  componentWillMount() {
-    Modal.setAppElement("body")
-  }
 
   render() {
     if (!this.props.config) return null
