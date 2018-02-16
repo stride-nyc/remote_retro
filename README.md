@@ -122,12 +122,19 @@ Next, click on "Credentials" in the left sidebar nav. On the right hand side, cl
 - Authorized JavaScript origins: `http://localhost:4000`
 - Authorized redirect URIs: `http://localhost:4000/auth/google/callback`
 
-Click on the Create button. Using the information Google provides, add the following lines to your profile and source (or open a new terminal).
+Copy the `dev.secret.exs.example` to `dev.secret.exs` and fill it out with the information Google provides. The final file should look like this:
+
 ```
-export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID="<Client Id>"
-export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET="<Client secret>"
-export REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI="http://localhost:4000/auth/google/callback"
+use Mix.Config
+
+config :remote_retro, :google_oauth,
+  client_id: "<Client Id>",
+  client_secret: "<Client Secret>",
+  redirect_uri: "http://localhost:4000/auth/google/callback"
+
 ```
+
+__Ensure that the new file is included in your `.gitignore`!__
 
 Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis.com/overview) the Google+ API for your project.
 
