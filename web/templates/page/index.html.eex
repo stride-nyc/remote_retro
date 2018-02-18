@@ -19,7 +19,7 @@
   <% else %>
     <div class="ui header">
       Get Better With Your Team
-      <p class="sub header">Remote Retro lets you get together, even when you're far apart.</p>
+      <p class="sub header">RemoteRetro lets you get together, even when you're far apart.</p>
     </div>
 
     <a href="/auth/google" class="ui blue button">
