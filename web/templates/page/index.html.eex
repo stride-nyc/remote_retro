@@ -1,5 +1,5 @@
+<iframe class="social" src="//ghbtns.com/github-btn.html?user=stride-nyc&amp;repo=remote_retro&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
 <div class="ui basic segment welcome-wrapper">
-  <a href="https://github.com/stride-nyc/remote_retro"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://camo.githubusercontent.com/a6677b08c955af8400f44c6298f40e7d19cc5b2d/68747470733a2f2f73332e616d617a6f6e6177732e636f6d2f6769746875622f726962626f6e732f666f726b6d655f72696768745f677261795f3664366436642e706e67" alt="Fork me on GitHub" data-canonical-src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png"></a>
   <h1>
     Remote<br>
     Retro
@@ -28,9 +28,59 @@
       <i class="arrow right icon"></i>
     </a>
   <% end %>
+</div>
+<div class="ui secondary very padded segment">
+  <div class="ui three column center aligned divided relaxed stackable grid container">
+    <div class="row">
+      <div class="column">
+        <h2 class="ui icon header">
+          <i class="massive grey gift icon"></i>
+          Free!
+        </h2>
+        <p>Costs less than a song!</p>
+      </div>
+      <div class="column">
+        <h2 class="ui icon header">
+          <i class="massive grey users icon"></i>
+          Collaborative!
+        </h2>
+        <p>Interact with teammates in real time!</p>
+      </div>
+      <div class="column">
+        <h2 class="ui icon header">
+          <i class="massive grey train icon"></i>
+          Guided!
+        </h2>
+        <p>A retro on rails!</p>
+      </div>
+    </div>
+    <div class="ui divider computer tablet only grid"></div>
+    <div class="row">
+      <div class="column">
+        <h2 class="ui icon header">
+          <i class="massive grey code icon"></i>
+          Completely Open Source!
+        </h2>
+        <p>
+          <a href="https://github.com/stride-nyc/remote_retro" class="ui large button">GitHub</a>
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
 
-  <div class="ui compact hidden divider"></div>
-  <a href="/faq" class="ui teal button">
-    Frequently Asked Questions
-  </a>
+<div class="ui center aligned grid">
+  <div class="row">
+    <div class="ui basic segment cta-wrapper">
+      <a href="/auth/google" class="ui blue button">
+        <i class="google icon"></i>
+        Sign in with Google to Get Started
+        <i class="arrow right icon"></i>
+      </a>
+
+      <a href="/faq" class="ui teal fluid button">
+        F.A.Q.
+      </a>
+    </div>
+  </div>
 </div>

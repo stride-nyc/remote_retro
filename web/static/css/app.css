@@ -1,14 +1,19 @@
 @import './colors.css';
 
-:global .photo-backdrop {
-  background-image: url(/images/good_hearted_boyman_takes_part_in_remote_retro.jpg);
-  background-size: cover;
-  box-shadow: inset 0 0 0 100rem rgba(255, 255, 255, 0.25);
+:global .landing-page {
+  background: radial-gradient(rgba(250, 188, 46, 0.79), white);
 
+  --padding: 5rem;
   .welcome-wrapper {
-    --corner-offset: 5rem;
-    padding-top: var(--corner-offset);
-    padding-left: var(--corner-offset);
+    padding: var(--padding) 0 var(--padding) var(--padding);
+  }
+
+  .github {
+    float: right;
+  }
+
+  .cta-wrapper {
+    padding: calc(2 * var(--padding));
   }
 
   h1 {
@@ -16,6 +21,10 @@
     font-weight: 200;
     line-height: 4rem;
     color: var(--semantic-teal);
+
+    /* ensure header aligns with text below */
+    position: relative;
+    left: -0.35rem;
   }
 }
 
