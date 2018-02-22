@@ -19,7 +19,7 @@ const CenteredTextStageWrapper = props => {
       </div>
       <div className="row">
         <h2 className="ui medium dividing header">Current Users</h2>
-        <UserList {...props} />
+        <UserList />
       </div>
       <div className="row">
         <div className="thirteen wide mobile eight wide tablet four wide computer column">

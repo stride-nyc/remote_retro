@@ -10,7 +10,7 @@ import { CATEGORIES } from "../configs/retro_configs"
 const IdeaGenerationStage = props => (
   <div className={styles.wrapper}>
     <IdeaBoard {...props} categories={CATEGORIES} />
-    <UserList {...props} />
+    <UserList />
     <LowerThird {...props} />
   </div>
 )

@@ -17,19 +17,18 @@ const defaultProps = {
   votes: [],
   stage: IDEA_GENERATION,
   user: defaultUserAttrs,
-  facilitatorId: 999,
 }
 
 describe("UserListItem", () => {
   let wrapper
   let user
 
-  describe("passed a user whose id matches the facilitatorId", () => {
-    const user = { ...defaultUserAttrs, id: 5 }
+  describe("passed a facilitator user", () => {
+    const user = { ...defaultUserAttrs, is_facilitator: true }
 
-    it("renders a list item that labels the user a facilitator", () => {
+    it("renders a list item that labels the user the facilitator", () => {
       const wrapper = shallow(
-        <UserListItem {...defaultProps} user={user} facilitatorId={5} />
+        <UserListItem {...defaultProps} user={user} />
       )
       expect(wrapper.text()).to.match(/facilitator/i)
     })
@@ -42,7 +41,6 @@ describe("UserListItem", () => {
           <UserListItem
             {...defaultProps}
             user={user}
-            facilitatorId={6}
             stage={CLOSED}
           />
         )
@@ -51,12 +49,12 @@ describe("UserListItem", () => {
     })
   })
 
-  describe("passed a user whose id differs from the facilitatorId", () => {
-    const user = { ...defaultUserAttrs, id: 11 }
+  describe("passed a non-facilitator user", () => {
+    const user = { ...defaultUserAttrs, is_facilitator: false }
 
     it("renders a list item with no '(facilitator)' label", () => {
       const wrapper = shallow(
-        <UserListItem {...defaultProps} user={user} facilitatorId={2} />
+        <UserListItem {...defaultProps} user={user} />
       )
       expect(wrapper.text()).not.to.match(/dylan \(facilitator\)/i)
     })

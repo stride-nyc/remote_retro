@@ -25,6 +25,7 @@ global.mountWithConnectedSubcomponents = (component, options) => {
       votes: [],
       stage: IDEA_GENERATION,
       usersById: {},
+      presences: [],
     }),
   }
 

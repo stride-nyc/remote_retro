@@ -26,6 +26,73 @@ describe("selectors", () => {
       })
     })
   })
+
+  describe("getUserPresences", () => {
+    const state = {
+      facilitatorId: 1,
+      presences: [{
+        online_at: 987,
+        is_typing: true,
+        user_id: 1,
+      }, {
+        online_at: 123,
+        is_typing: false,
+        user_id: 3,
+      }],
+      usersById: {
+        1: { id: 1, name: "Betty White" },
+        2: { id: 2, name: "Rue McClanahan" },
+        3: { id: 3, name: "Estelle Getty" },
+      },
+    }
+
+    it("should merge each presence object with the associated user, dropping the foreign key and adding a is_facilitator boolean", () => {
+      expect(selectors.getUserPresences(state)).to.eql([{
+        id: 1,
+        online_at: 987,
+        is_typing: true,
+        name: "Betty White",
+        is_facilitator: true,
+      }, {
+        id: 3,
+        online_at: 123,
+        is_typing: false,
+        name: "Estelle Getty",
+        is_facilitator: false,
+      }])
+    })
+  })
+
+  describe("getCurrentUserPresence", () => {
+    context("when the presence with the token on window exists in state", () => {
+      beforeEach(() => {
+        window.userToken = "hErOboy"
+      })
+
+      const state = {
+        facilitatorId: 3,
+        presences: [{
+          user_id: 3,
+          token: "hErOboy",
+          online_at: 15,
+        }],
+        usersById: {
+          2: { id: 2, name: "Rue McClanahan" },
+          3: { id: 3, name: "Estelle Getty" },
+        },
+      }
+
+      it("merges the presence object, sans user_id, with the associated user attributes, adding a is_facilitator boolean attribute", () => {
+        expect(selectors.getCurrentUserPresence(state)).to.eql({
+          id: 3,
+          is_facilitator: true,
+          name: "Estelle Getty",
+          online_at: 15,
+          token: "hErOboy",
+        })
+      })
+    })
+  })
 })
 
 describe("usersById reducer", () => {

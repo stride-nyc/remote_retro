@@ -26,7 +26,7 @@ const addArrivals = (existingUsers, arrivals) => {
     !existingUsers.find(u => presence.token === u.token)
   )
 
-  return [...existingUsers, ...newUsers]
+  return [...existingUsers, ...normalizePresencesWithForeignKeyForUsers(newUsers)]
 }
 
 const removeDepartures = (presences, departures) => {
@@ -34,10 +34,19 @@ const removeDepartures = (presences, departures) => {
   return reject(presences, presence => includes(departureTokens, presence.token))
 }
 
+const normalizePresencesWithForeignKeyForUsers = presences => {
+  return presences.map(({ token, id, online_at }) => ({
+    user_id: id,
+    online_at,
+    token,
+  }))
+}
+
 export const reducer = (state = [], action) => {
   switch (action.type) {
-    case "SET_PRESENCES":
-      return action.presences
+    case "SET_PRESENCES": {
+      return normalizePresencesWithForeignKeyForUsers(action.presences)
+    }
     case "SYNC_PRESENCE_DIFF": {
       const { presenceDiff: { joins, leaves } } = action
       const withArrivalsAdded = addArrivals(state, joins)
@@ -54,16 +63,6 @@ export const reducer = (state = [], action) => {
   }
 }
 
-export const selectors = {
-  findCurrentUser: state => {
-    const currentUserPresence = state.presences.find(user => user.token === window.userToken)
-    if (!currentUserPresence) { return {} }
-
-    return {
-      ...currentUserPresence,
-      is_facilitator: state.facilitatorId === currentUserPresence.id,
-    }
-  },
-}
+export const selectors = {}
 
 export default reducer

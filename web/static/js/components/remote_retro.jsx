@@ -62,6 +62,7 @@ RemoteRetro.propTypes = {
 
 RemoteRetro.defaultProps = {
   currentUser: {},
+  facilitatorName: "",
   presences: [],
   ideas: [],
   alert: null,
@@ -70,7 +71,7 @@ RemoteRetro.defaultProps = {
 
 const mapStateToProps = state => ({
   ...state,
-  currentUser: selectors.findCurrentUser(state),
+  currentUser: selectors.getCurrentUserPresence(state),
   facilitatorName: selectors.getUserById(state, state.facilitatorId).name,
 })
 

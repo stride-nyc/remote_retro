@@ -2,7 +2,6 @@ import deepFreeze from "deep-freeze"
 import {
   reducer as presencesReducer,
   actions as actionCreators,
-  selectors,
 } from "../../web/static/js/redux/presences"
 
 describe("presences reducer", () => {
@@ -18,9 +17,13 @@ describe("presences reducer", () => {
     const presences = [{
       token: "abc",
       online_at: 2,
+      id: 3,
+      nonSenseAttributeThatShouldNotAppear: "Herp",
     }, {
       token: "123",
       online_at: 1,
+      id: 5,
+      nonSenseAttributeThatShouldNotAppear: "McDerp",
     }]
 
     deepFreeze(presences)
@@ -30,8 +33,29 @@ describe("presences reducer", () => {
 
       it("adds presences in the action to state", () => {
         const newState = presencesReducer([], action)
-        const tokens = newState.map(presences => presences.token)
+        const tokens = newState.map(presence => presence.token)
         expect(tokens).to.deep.equal(["abc", "123"])
+      })
+
+      it("maps the id attribute of the given presences to a user_id attribute", () => {
+        const newState = presencesReducer([], action)
+        const userIds = newState.map(presence => presence.user_id)
+        expect(userIds).to.deep.equal([3, 5])
+      })
+
+      // remainder of attributes are persisted on the user model
+      // the attributes we keep are either a foreign key to the user_model
+      // or ephemeral presence attributes
+      it("excludes attributes other than user_id, token, online_at", () => {
+        const newState = presencesReducer([], action)
+        const examplePresence = newState[0]
+        const presenceAttributesSorted = Object.keys(examplePresence).sort()
+
+        expect(presenceAttributesSorted).to.deep.equal([
+          "online_at",
+          "token",
+          "user_id",
+        ])
       })
     })
 
@@ -46,11 +70,11 @@ describe("presences reducer", () => {
 
   describe("when action is SYNC_PRESENCE_DIFF", () => {
     describe("and the presence diff represents presences joining", () => {
-      context("when the user is not already tracked in the presences list", () => {
+      context("when the new presences is *not already tracked* in the presences list", () => {
         const presenceDiff = {
           joins: {
-            ABC: { user: { name: "Kevin", online_at: 10, token: "ABC" } },
-            XYZ: { user: { name: "Sarah", online_at: 20, token: "XYZ" } },
+            ABC: { user: { id: 3, name: "Kevin", online_at: 10, token: "ABC" } },
+            XYZ: { user: { id: 7, name: "Sarah", online_at: 20, token: "XYZ" } },
           },
           leaves: {},
         }
@@ -60,15 +84,33 @@ describe("presences reducer", () => {
         const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
 
         it("adds all of the presences to state", () => {
-          const names = presencesReducer([], action).map(presences => presences.name)
-          expect(names).to.eql(["Kevin", "Sarah"])
+          const tokens = presencesReducer([], action).map(presence => presence.token)
+          expect(tokens).to.eql(["ABC", "XYZ"])
+        })
+
+        it("maps the id attribute of the given presences to a user_id attribute", () => {
+          const newState = presencesReducer([], action)
+          const userIds = newState.map(presence => presence.user_id)
+          expect(userIds).to.deep.equal([3, 7])
+        })
+
+        it("excludes attributes other than user_id, token, online_at, and is_facilitator", () => {
+          const newState = presencesReducer([], action)
+          const examplePresence = newState[0]
+          const presenceAttributesSorted = Object.keys(examplePresence).sort()
+
+          expect(presenceAttributesSorted).to.deep.equal([
+            "online_at",
+            "token",
+            "user_id",
+          ])
         })
       })
 
-      context("and the presences is already tracked in the presences list", () => {
+      context("and the joining presences is *already tracked* in the presences list", () => {
         const presenceDiff = {
           joins: {
-            ABC: { user: { name: "Kevin", online_at: 10, token: "ABC" } },
+            ABC: { user: { id: 5, name: "Kevin", online_at: 10, token: "ABC" } },
           },
           leaves: {},
         }
@@ -78,12 +120,13 @@ describe("presences reducer", () => {
         const action = { type: "SYNC_PRESENCE_DIFF", presenceDiff }
 
         it("does not add a duplicate to the presences list", () => {
-          const presencessListAlreadyContainingUser = [{ token: "ABC", name: "Kevin", online_at: 10 }]
-          const names = presencesReducer(
-            presencessListAlreadyContainingUser,
+          const presencesListAlreadyContainingUser = [{ token: "ABC", online_at: 10, user_id: 5 }]
+          const updatedPresencesList = presencesReducer(
+            presencesListAlreadyContainingUser,
             action
-          ).map(presences => presences.name)
-          expect(names).to.eql(["Kevin"])
+          )
+
+          expect(updatedPresencesList).to.eql([{ token: "ABC", online_at: 10, user_id: 5 }])
         })
       })
     })
@@ -131,60 +174,6 @@ describe("presences reducer", () => {
 
     it("should update user with matching token with new attributes", () => {
       expect(newState).to.deep.equal([{ token: "abc123", name: "Tiny Rick", age: 70 }, { token: "zzz444", name: "Morty", age: 15 }])
-    })
-  })
-})
-
-describe("selectors", () => {
-  describe("findCurrentUser", () => {
-    const state = {
-      facilitatorId: 99,
-      presences: [{
-        id: 99,
-        token: "123",
-      }, {
-        id: 101,
-        token: "83jdkdkd83",
-      }],
-    }
-
-    window.userToken = "123"
-
-    it("finds the user whose token matches the window's `userToken`", () => {
-      expect(selectors.findCurrentUser(state).token).to.deep.equal("123")
-    })
-
-    describe("when the facilitatorId on state matches the id of the current user", () => {
-      it("labels that user as the facilitator", () => {
-        expect(selectors.findCurrentUser(state)).to.deep.equal({
-          id: 99,
-          token: "123",
-          is_facilitator: true,
-        })
-      })
-    })
-
-    describe("when the facilitatorId on state does *not* match the id of the current user", () => {
-      it("explicitly labels that user a non-facilitator", () => {
-        const state = {
-          facilitatorId: 5,
-          presences: [{
-            id: 99,
-            token: "123",
-          }, {
-            id: 101,
-            token: "83jdkdkd83",
-          }],
-        }
-
-        window.userToken = "123"
-
-        expect(selectors.findCurrentUser(state)).to.deep.equal({
-          id: 99,
-          token: "123",
-          is_facilitator: false,
-        })
-      })
     })
   })
 })

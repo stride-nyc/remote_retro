@@ -8,13 +8,13 @@ import STAGES from "../configs/stages"
 
 const { VOTING, CLOSED } = STAGES
 
-export const UserListItem = ({ user, votes, stage, facilitatorId }) => {
+export const UserListItem = ({ user, votes, stage }) => {
   let givenName = user.given_name
   const imgSrc = user.picture.replace("sz=50", "sz=200")
   const votesByUser = votes.filter(vote => vote.user_id === user.id).length
   const allVotesIn = votesByUser >= voteMax
 
-  if (user.id === facilitatorId && stage !== CLOSED) givenName += " (Facilitator)"
+  if (user.is_facilitator && stage !== CLOSED) givenName += " (Facilitator)"
 
   return (
     <li className={`item ${styles.wrapper}`}>
@@ -32,7 +32,6 @@ UserListItem.propTypes = {
   user: AppPropTypes.presence.isRequired,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  facilitatorId: AppPropTypes.facilitatorId.isRequired,
 }
 
 const mapStateToProps = ({ votes, stage }) => ({ votes, stage })
