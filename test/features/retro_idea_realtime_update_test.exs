@@ -89,36 +89,13 @@ defmodule RetroIdeaRealtimeUpdateTest do
   end
 
   describe "when an action-item is reassigned" do
-    setup [:persist_user_for_retro]
+    setup [:persist_user_for_retro, :persist_other_user_for_retro, :assign_idea, :set_participation]
 
     @tag [
       retro_stage: "action-items",
       user: Map.put(@mock_user, "email", "action-man@protagonist.com"),
     ]
     test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do
-
-      # persist participation of mock_user_2
-
-      google_user = %{
-        "email" => "misstestuser@gmail.com",
-        "email_verified" => "true", "family_name" => "Alexander",
-        "gender" => "male", "given_name" => "Nicole",
-        "kind" => "plus#personOpenIdConnect", "locale" => "en",
-        "name" => "Other User",
-        "picture" => "https://lh3.googleusercontent.com/-zbm50wGQlTw/AAAAAAAAAAI/AAAAAAAAAAA/AGi4gfzhLKBFn9JUeSaNNsOiWcrwDPWy1w/s32-c-mo/photo.jpg",
-        "profile" => "https://plus.google.com/u/1/+NicholAlexander",
-        "sub" => "106702782098698370243"
-      }
-
-      u = RemoteRetro.User.build_user_from_oauth(google_user)
-      RemoteRetro.User.changeset(%RemoteRetro.User{}, u) |> RemoteRetro.Repo.insert!
-
-      mock_user_2 = RemoteRetro.User |> RemoteRetro.Repo.get_by(email: "misstestuser@gmail.com")
-
-      # persist action-item idea that belongs to mock_user_2 and associated Participation
-      %RemoteRetro.Idea{assignee_id: mock_user_2.id, body: "blurgh", category: "action-item", retro_id: retro.id, user_id: mock_user_2.id} |> RemoteRetro.Repo.insert!
-      %RemoteRetro.Participation{retro_id: retro.id, user_id: mock_user_2.id} |> RemoteRetro.Repo.insert!
-
       retro_path = "/retros/" <> retro.id
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 
@@ -133,7 +110,6 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
       assert String.contains?(action_items_list_text, "blurgh (Test User)")
-
     end
   end
 end

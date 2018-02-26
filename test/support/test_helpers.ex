@@ -3,7 +3,7 @@ defmodule RemoteRetro.TestHelpers do
   alias RemoteRetro.{Repo, User, Vote}
 
   @mock_user Application.get_env(:remote_retro, :mock_user)
-  @other_user Application.get_env(:remote_retro, :mock_user_2)
+  @other_user Application.get_env(:remote_retro, :other_user)
 
   def persist_idea_for_retro(context) do
     %{idea: idea, retro: retro, user: user} = context
@@ -38,14 +38,28 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def persist_other_user_for_retro(context) do
-    context = Map.merge(%{user: @other_user}, context)
-    %{user: user} = context
-    user_params = User.build_user_from_oauth(user)
-    user =
+    context = Map.merge(%{other_user: @other_user}, context)
+    %{other_user: other_user} = context
+    user_params = User.build_user_from_oauth(other_user)
+    other_user =
       User.changeset(%User{}, user_params)
       |> Repo.insert!
 
-    Map.put(context, :user, user)
+    Map.put(context, :other_user, other_user)
+  end
+
+  def assign_idea(context) do
+    other_user = context.other_user
+    retro = context.retro
+    idea = %RemoteRetro.Idea{assignee_id: other_user.id, body: "blurgh", category: "action-item", retro_id: retro.id, user_id: other_user.id} |> RemoteRetro.Repo.insert!
+    Map.put(context, :idea, idea)
+  end
+
+  def set_participation(context) do
+    other_user = context.other_user
+    retro = context.retro
+    participation = %RemoteRetro.Participation{retro_id: retro.id, user_id: other_user.id} |> RemoteRetro.Repo.insert!
+    Map.put(context, :participation, participation)
   end
 
   def new_browser_session(metadata \\ %{}) do
