@@ -49,5 +49,5 @@ config :remote_retro, :mock_user_2, %{
   "name" => "Other User",
   "picture" => "https://lh3.googleusercontent.com/-zbm50wGQlTw/AAAAAAAAAAI/AAAAAAAAAAA/AGi4gfzhLKBFn9JUeSaNNsOiWcrwDPWy1w/s32-c-mo/photo.jpg",
   "profile" => "https://plus.google.com/u/1/+NicholAlexander",
-  "sub" => "108658712426577966862"
+  "sub" => "106702782098698370243"
 }

@@ -3,6 +3,7 @@ defmodule RemoteRetro.TestHelpers do
   alias RemoteRetro.{Repo, User, Vote}
 
   @mock_user Application.get_env(:remote_retro, :mock_user)
+  @other_user Application.get_env(:remote_retro, :mock_user_2)
 
   def persist_idea_for_retro(context) do
     %{idea: idea, retro: retro, user: user} = context
@@ -27,6 +28,17 @@ defmodule RemoteRetro.TestHelpers do
 
   def persist_user_for_retro(context) do
     context = Map.merge(%{user: @mock_user}, context)
+    %{user: user} = context
+    user_params = User.build_user_from_oauth(user)
+    user =
+      User.changeset(%User{}, user_params)
+      |> Repo.insert!
+
+    Map.put(context, :user, user)
+  end
+
+  def persist_other_user_for_retro(context) do
+    context = Map.merge(%{user: @other_user}, context)
     %{user: user} = context
     user_params = User.build_user_from_oauth(user)
     user =
