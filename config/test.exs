@@ -40,3 +40,14 @@ config :remote_retro, :mock_user, %{
   "profile" => "https://plus.google.com/108658712426577966861",
   "sub" => "108658712426577966861"
 }
+
+config :remote_retro, :mock_user_2, %{
+  "email" => "misstestuser@gmail.com",
+  "email_verified" => "true", "family_name" => "Alexander",
+  "gender" => "male", "given_name" => "Nicole",
+  "kind" => "plus#personOpenIdConnect", "locale" => "en",
+  "name" => "Other User",
+  "picture" => "https://lh3.googleusercontent.com/-zbm50wGQlTw/AAAAAAAAAAI/AAAAAAAAAAA/AGi4gfzhLKBFn9JUeSaNNsOiWcrwDPWy1w/s32-c-mo/photo.jpg",
+  "profile" => "https://plus.google.com/u/1/+NicholAlexander",
+  "sub" => "108658712426577966862"
+}
