@@ -96,23 +96,47 @@ defmodule RetroIdeaRealtimeUpdateTest do
       user: Map.put(@mock_user, "email", "action-man@protagonist.com"),
     ]
     test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do
-      retro_path = "/retros/" <> retro.id
-      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 
       # persist participation of mock_user_2
 
-      # persist idea that belongs to mock_user_2
+      google_user = %{
+        "email" => "misstestuser@gmail.com",
+        "email_verified" => "true", "family_name" => "Alexander",
+        "gender" => "male", "given_name" => "Nicole",
+        "kind" => "plus#personOpenIdConnect", "locale" => "en",
+        "name" => "Other User",
+        "picture" => "https://lh3.googleusercontent.com/-zbm50wGQlTw/AAAAAAAAAAI/AAAAAAAAAAA/AGi4gfzhLKBFn9JUeSaNNsOiWcrwDPWy1w/s32-c-mo/photo.jpg",
+        "profile" => "https://plus.google.com/u/1/+NicholAlexander",
+        "sub" => "106702782098698370243"
+      }
 
-      # change the idea
+      u = RemoteRetro.User.build_user_from_oauth(google_user)
+      RemoteRetro.User.changeset(%RemoteRetro.User{}, u) |> RemoteRetro.Repo.insert!
 
-      facilitator_session
-      |> find(Query.css("form"))
-      |> click(Query.option("Test User"))
-      |> fill_in(Query.text_field("idea"), with: "let's do the thing!")
-      |> click(Query.button("Submit"))
+      mock_user_2 = RemoteRetro.User |> RemoteRetro.Repo.get_by(email: "misstestuser@gmail.com")
+
+      # persist action-item idea that belongs to mock_user_2
+
+      require Logger
+      Logger.error "\n#{mock_user_2.id}\n"
+
+      %RemoteRetro.Idea{body: "blurgh", category: "action-item", retro_id: retro.id, user_id: mock_user_2.id} |> RemoteRetro.Repo.insert!
+
+      retro_path = "/retros/" <> retro.id
+      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert String.contains?(action_items_list_text, "let's do the thing! (Other User)")
+      assert String.contains?(action_items_list_text, "blurgh")
+
+      facilitator_session 
+      |> click(Query.css(".edit"))
+      |> find(Query.css(".idea-edit-form"))
+      |> click(Query.option("Test User"))
+      |> click(Query.button("Save"))
+
+      action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
+      assert String.contains?(action_items_list_text, "blurgh (Test User)")
+
     end
   end
 end
