@@ -115,18 +115,15 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
       mock_user_2 = RemoteRetro.User |> RemoteRetro.Repo.get_by(email: "misstestuser@gmail.com")
 
-      # persist action-item idea that belongs to mock_user_2
-
-      require Logger
-      Logger.error "\n#{mock_user_2.id}\n"
-
-      %RemoteRetro.Idea{body: "blurgh", category: "action-item", retro_id: retro.id, user_id: mock_user_2.id} |> RemoteRetro.Repo.insert!
+      # persist action-item idea that belongs to mock_user_2 and associated Participation
+      %RemoteRetro.Idea{assignee_id: mock_user_2.id, body: "blurgh", category: "action-item", retro_id: retro.id, user_id: mock_user_2.id} |> RemoteRetro.Repo.insert!
+      %RemoteRetro.Participation{retro_id: retro.id, user_id: mock_user_2.id} |> RemoteRetro.Repo.insert!
 
       retro_path = "/retros/" <> retro.id
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert String.contains?(action_items_list_text, "blurgh")
+      assert String.contains?(action_items_list_text, "blurgh (Other User)")
 
       facilitator_session 
       |> click(Query.css(".edit"))
