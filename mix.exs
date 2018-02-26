@@ -63,7 +63,7 @@ defmodule RemoteRetro.Mixfile do
      "ecto.reset": ["ecto.drop", "ecto.setup"],
      "test": ["ecto.create --quiet", "ecto.migrate", "test --exclude feature_test"],
      "e2e": ["end_to_end"],
-     "defaults": ["preflight", "phoenix.server"]
+     "defaults": ["preflight", "phoenix.server"],
     ]
   end
 end
