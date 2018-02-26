@@ -48,16 +48,12 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :other_user, other_user)
   end
 
-  def assign_idea(context) do
-    other_user = context.other_user
-    retro = context.retro
+  def assign_idea(%{other_user: other_user, retro: retro} = context) do
     idea = %RemoteRetro.Idea{assignee_id: other_user.id, body: "blurgh", category: "action-item", retro_id: retro.id, user_id: other_user.id} |> RemoteRetro.Repo.insert!
     Map.put(context, :idea, idea)
   end
 
-  def set_participation(context) do
-    other_user = context.other_user
-    retro = context.retro
+  def set_participation(%{other_user: other_user, retro: retro} = context) do
     participation = %RemoteRetro.Participation{retro_id: retro.id, user_id: other_user.id} |> RemoteRetro.Repo.insert!
     Map.put(context, :participation, participation)
   end
