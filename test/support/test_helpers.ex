@@ -38,7 +38,7 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :user, user)
   end
 
-  defp insert_into_context(context, user) do
+  def insert_into_context(context, user) do
     user_name_atom = String.replace(user.name, ~r/ +/, "") |> Macro.underscore |> String.to_atom
     Map.put(context, user_name_atom, user)
   end
@@ -47,10 +47,12 @@ defmodule RemoteRetro.TestHelpers do
   def persist_other_user_for_retro(context) do
     %{users: users} = context
 
-    Enum.each(users, fn user ->  
+    Enum.each(users, fn user ->
+      # require Logger
+      # Logger.error "#{user.name}"
       user_params = User.build_user_from_oauth(user)
-      user =
-        User.changeset(%User{}, user_params)
+      # user = 
+      User.changeset(%User{}, user_params)
         |> Repo.insert!
     end)
 
@@ -67,7 +69,6 @@ defmodule RemoteRetro.TestHelpers do
     idea = %Idea{assignee_id: other_user.id, body: "blurgh", category: "action-item", retro_id: retro.id, user_id: other_user.id} |> Repo.insert!
     participation = %Participation{retro_id: retro.id, user_id: other_user.id} |> Repo.insert!
     Map.put(context, :idea, idea)
-    # , :participation, participation)
   end
 
   def new_browser_session(metadata \\ %{}) do

@@ -95,7 +95,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     @tag [
       retro_stage: "action-items",
       user: Map.put(@mock_user, "email", "action-man@protagonist.com"),
-      other_user: Map.put(@other_user, "email", "action-woman@protagonist.com"),
+      # other_user: Map.put(@other_user, "email", "action-woman@protagonist.com"),
       idea: %Idea{body: "blurgh", category: "action-item"},
       users: [@other_user]
     ]
