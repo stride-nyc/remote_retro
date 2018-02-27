@@ -3,6 +3,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
   alias RemoteRetro.Idea
 
   @mock_user Application.get_env(:remote_retro, :mock_user)
+  @other_user Application.get_env(:remote_retro, :other_user)
 
   test "the immediate appearance of other users' submitted ideas", %{session: session_one, retro: retro} do
     session_two = new_browser_session()
@@ -89,12 +90,16 @@ defmodule RetroIdeaRealtimeUpdateTest do
   end
 
   describe "when an action-item is reassigned" do
-    setup [:persist_user_for_retro, :persist_other_user_for_retro, :assign_idea, :set_participation]
+    setup [:persist_other_user_for_retro, :assign_idea]
 
     @tag [
       retro_stage: "action-items",
       user: Map.put(@mock_user, "email", "action-man@protagonist.com"),
+      other_user: Map.put(@other_user, "email", "action-woman@protagonist.com"),
+      idea: %Idea{body: "blurgh", category: "action-item"},
+      users: [@other_user]
     ]
+    
     test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do
       retro_path = "/retros/" <> retro.id
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)

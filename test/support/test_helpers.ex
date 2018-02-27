@@ -1,6 +1,7 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
-  alias RemoteRetro.{Repo, User, Vote}
+  alias RemoteRetro.{Repo, User, Vote, Idea, Participation}
+  require IEx
 
   @mock_user Application.get_env(:remote_retro, :mock_user)
   @other_user Application.get_env(:remote_retro, :other_user)
@@ -37,25 +38,36 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :user, user)
   end
 
-  def persist_other_user_for_retro(context) do
-    context = Map.merge(%{other_user: @other_user}, context)
-    %{other_user: other_user} = context
-    user_params = User.build_user_from_oauth(other_user)
-    other_user =
-      User.changeset(%User{}, user_params)
-      |> Repo.insert!
+  defp insert_into_context(context, user) do
+    user_name_atom = String.replace(user.name, ~r/ +/, "") |> Macro.underscore |> String.to_atom
+    Map.put(context, user_name_atom, user)
+  end
 
-    Map.put(context, :other_user, other_user)
+
+  def persist_other_user_for_retro(context) do
+    %{users: users} = context
+
+    Enum.each(users, fn user ->  
+      user_params = User.build_user_from_oauth(user)
+      user =
+        User.changeset(%User{}, user_params)
+        |> Repo.insert!
+    end)
+
+    users = User |> Repo.all
+    test_user = Enum.at(users, 0)
+    other_user = Enum.at(users, 1)
+
+    context = insert_into_context(context, test_user)
+    context = insert_into_context(context, other_user)
+    # IEx.pry
   end
 
   def assign_idea(%{other_user: other_user, retro: retro} = context) do
-    idea = %RemoteRetro.Idea{assignee_id: other_user.id, body: "blurgh", category: "action-item", retro_id: retro.id, user_id: other_user.id} |> RemoteRetro.Repo.insert!
+    idea = %Idea{assignee_id: other_user.id, body: "blurgh", category: "action-item", retro_id: retro.id, user_id: other_user.id} |> Repo.insert!
+    participation = %Participation{retro_id: retro.id, user_id: other_user.id} |> Repo.insert!
     Map.put(context, :idea, idea)
-  end
-
-  def set_participation(%{other_user: other_user, retro: retro} = context) do
-    participation = %RemoteRetro.Participation{retro_id: retro.id, user_id: other_user.id} |> RemoteRetro.Repo.insert!
-    Map.put(context, :participation, participation)
+    # , :participation, participation)
   end
 
   def new_browser_session(metadata \\ %{}) do
