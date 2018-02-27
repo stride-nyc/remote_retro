@@ -62,6 +62,7 @@ defmodule RemoteRetro.TestHelpers do
 
     context = insert_into_context(context, test_user)
     context = insert_into_context(context, other_user)
+    Apex.ap context
     # IEx.pry
   end
 
