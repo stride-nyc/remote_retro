@@ -25,6 +25,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     setup [:persist_user_for_retro, :persist_idea_for_retro]
 
     @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
+    @tag users: [@mock_user]
     @tag idea: %Idea{category: "sad", body: "no linter"}
     test "the immediate update of ideas as they are changed/saved", %{session: facilitator_session, retro: retro} do
       participant_session = new_browser_session()
@@ -49,6 +50,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       assert ideas_list_text == "No one uses the linter. (edited)"
     end
 
+    @tag users: [@mock_user]
     @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
     @tag idea: %Idea{category: "happy", body: "slack time!"}
     test "the immediate removal of an idea deleted by the facilitator", %{session: facilitator_session, retro: retro} do
@@ -68,11 +70,11 @@ defmodule RetroIdeaRealtimeUpdateTest do
   end
 
   describe "when an action-item is created" do
-    setup [:persist_user_for_retro]
+    setup [:persist_users_for_retro]
 
     @tag [
       retro_stage: "action-items",
-      user: Map.put(@mock_user, "email", "action-man@protagonist.com"),
+      users: [@mock_user],
     ]
     test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do
       retro_path = "/retros/" <> retro.id
@@ -90,14 +92,14 @@ defmodule RetroIdeaRealtimeUpdateTest do
   end
 
   describe "when an action-item is reassigned" do
-    setup [:persist_other_user_for_retro, :assign_idea]
+    setup [:persist_users_for_retro, :assign_idea]
 
     @tag [
       retro_stage: "action-items",
-      user: Map.put(@mock_user, "email", "action-man@protagonist.com"),
-      # other_user: Map.put(@other_user, "email", "action-woman@protagonist.com"),
       idea: %Idea{body: "blurgh", category: "action-item"},
-      users: [@other_user]
+      idea_creator: @other_user,
+      idea_assignee: @other_user,
+      users: [@mock_user, @other_user]
     ]
     
     test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do

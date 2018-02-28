@@ -38,38 +38,33 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :user, user)
   end
 
-  def insert_into_context(context, user) do
-    user_name_atom = String.replace(user.name, ~r/ +/, "") |> Macro.underscore |> String.to_atom
-    Map.put(context, user_name_atom, user)
+  defp user_name_atom(name) do
+    String.replace(name, ~r/ +/, "") |> Macro.underscore |> String.to_atom
   end
 
-
-  def persist_other_user_for_retro(context) do
+  def persist_users_for_retro(context) do
     %{users: users} = context
-
+    
     Enum.each(users, fn user ->
-      # require Logger
-      # Logger.error "#{user.name}"
       user_params = User.build_user_from_oauth(user)
-      # user = 
-      User.changeset(%User{}, user_params)
-        |> Repo.insert!
+      user = User.changeset(%User{}, user_params)
+        |> Repo.insert
     end)
 
-    users = User |> Repo.all
-    test_user = Enum.at(users, 0)
-    other_user = Enum.at(users, 1)
+    users = User |> Repo.all 
 
-    context = insert_into_context(context, test_user)
-    context = insert_into_context(context, other_user)
-    Apex.ap context
-    # IEx.pry
+    user_map = Enum.reduce users, %{}, fn user, acc ->
+      Map.put(acc, user_name_atom(user.name), user)
+    end
+
+    Map.merge(user_map, context)
   end
 
-  def assign_idea(%{other_user: other_user, retro: retro} = context) do
-    idea = %Idea{assignee_id: other_user.id, body: "blurgh", category: "action-item", retro_id: retro.id, user_id: other_user.id} |> Repo.insert!
-    participation = %Participation{retro_id: retro.id, user_id: other_user.id} |> Repo.insert!
-    Map.put(context, :idea, idea)
+  def assign_idea(%{idea: idea, idea_assignee: idea_assignee, retro: retro} = context) do
+    user = context[user_name_atom(idea_assignee["name"])]
+    persisted_idea = %Idea{assignee_id: user.id, body: idea.body, category: idea.category, retro_id: retro.id, user_id: user.id} |> Repo.insert!
+    participation = %Participation{retro_id: retro.id, user_id: user.id} |> Repo.insert!
+    Map.put(context, :idea, persisted_idea)
   end
 
   def new_browser_session(metadata \\ %{}) do
