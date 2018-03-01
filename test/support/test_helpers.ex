@@ -25,6 +25,18 @@ defmodule RemoteRetro.TestHelpers do
         |> Repo.insert
   end
 
+  # required for mix test!
+  def persist_user_for_retro(context) do
+    context = Map.merge(%{user: @mock_user}, context)
+    %{user: user} = context
+    user_params = User.build_user_from_oauth(user)
+    user =
+      User.changeset(%User{}, user_params)
+      |> Repo.insert!
+
+    Map.put(context, :user, user)
+  end
+
   def persist_users_for_retro(%{users: users} = context) do
     Enum.each(users, fn user ->
       persist_user(user)
@@ -58,6 +70,20 @@ defmodule RemoteRetro.TestHelpers do
             end
       Map.put(context, :idea, idea)
     end
+  end
+
+  def old_persist_idea_for_retro(context) do
+    %{idea: idea, retro: retro, user: user} = context
+
+    idea = if idea.category == "action-item" do
+            Map.merge(idea, %{retro_id: retro.id, user_id: user.id, assignee_id: user.id})
+            |>Repo.insert!
+          else
+            Map.merge(idea, %{retro_id: retro.id, user_id: user.id})
+            |>Repo.insert!
+          end
+
+    Map.put(context, :idea, idea)
   end
 
   def new_browser_session(metadata \\ %{}) do
