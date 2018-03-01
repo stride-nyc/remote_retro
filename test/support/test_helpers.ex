@@ -3,23 +3,6 @@ defmodule RemoteRetro.TestHelpers do
   alias RemoteRetro.{Repo, User, Vote, Idea, Participation}
   require IEx
 
-  @mock_user Application.get_env(:remote_retro, :mock_user)
-  @other_user Application.get_env(:remote_retro, :other_user)
-
-  def persist_idea_for_retro(context) do
-    %{idea: idea, retro: retro, user: user} = context
-
-    idea = if idea.category == "action-item" do
-            Map.merge(idea, %{retro_id: retro.id, user_id: user.id, assignee_id: user.id})
-            |>Repo.insert!
-          else
-            Map.merge(idea, %{retro_id: retro.id, user_id: user.id})
-            |>Repo.insert!
-          end
-
-    Map.put(context, :idea, idea)
-  end
-
   def use_all_votes(%{user: user, idea: idea} = context) do
     now = DateTime.utc_now
     vote = [user_id: user.id, idea_id: idea.id, inserted_at: now, updated_at: now]
@@ -27,44 +10,55 @@ defmodule RemoteRetro.TestHelpers do
     context
   end
 
-  def persist_user_for_retro(context) do
-    context = Map.merge(%{user: @mock_user}, context)
-    %{user: user} = context
-    user_params = User.build_user_from_oauth(user)
-    user =
-      User.changeset(%User{}, user_params)
-      |> Repo.insert!
-
-    Map.put(context, :user, user)
-  end
-
   defp user_name_atom(name) do
     String.replace(name, ~r/ +/, "") |> Macro.underscore |> String.to_atom
   end
 
-  def persist_users_for_retro(context) do
-    %{users: users} = context
-    
-    Enum.each(users, fn user ->
-      user_params = User.build_user_from_oauth(user)
-      user = User.changeset(%User{}, user_params)
-        |> Repo.insert
-    end)
-
-    users = User |> Repo.all 
-
-    user_map = Enum.reduce users, %{}, fn user, acc ->
+  defp user_map(users) do
+    Enum.reduce users, %{}, fn user, acc ->
       Map.put(acc, user_name_atom(user.name), user)
     end
-
-    Map.merge(user_map, context)
   end
 
-  def assign_idea(%{idea: idea, idea_assignee: idea_assignee, retro: retro} = context) do
-    user = context[user_name_atom(idea_assignee["name"])]
-    persisted_idea = %Idea{assignee_id: user.id, body: idea.body, category: idea.category, retro_id: retro.id, user_id: user.id} |> Repo.insert!
-    participation = %Participation{retro_id: retro.id, user_id: user.id} |> Repo.insert!
-    Map.put(context, :idea, persisted_idea)
+  defp persist_user(user) do
+    user_params = User.build_user_from_oauth(user)
+    user = User.changeset(%User{}, user_params)
+        |> Repo.insert
+  end
+
+  def persist_users_for_retro(%{users: users} = context) do
+    Enum.each(users, fn user ->
+      persist_user(user)
+    end)
+    persisted_users = User |> Repo.all 
+    Map.merge(user_map(persisted_users), context)
+  end
+
+  defp persist_assigned_idea(user, idea, retro) do
+    %Participation{retro_id: retro.id, user_id: user.id} |> Repo.insert!
+    idea = %Idea{assignee_id: user.id, body: idea.body, category: idea.category, retro_id: retro.id, user_id: user.id} |> Repo.insert!
+  end
+
+  defp persist_unassigned_idea(user, idea, retro) do
+    Map.merge(idea, %{retro_id: retro.id, user_id: user.id}) |>Repo.insert!
+  end
+
+  def persist_idea_for_retro(%{idea: idea, retro: retro} = context) do
+    if Map.has_key?(context, :idea_assignee) do
+      idea_assignee = context[:idea_assignee]
+      user = context[user_name_atom(idea_assignee["name"])]
+      idea = persist_assigned_idea(user, idea, retro)
+      Map.put(context, :idea, idea)
+    else
+      user = List.first(context[:users])
+      user = context[user_name_atom(user["name"])]
+      idea = if idea.category == "action-item" do
+              persist_assigned_idea(user, idea, retro)
+            else
+              persist_unassigned_idea(user, idea, retro)
+            end
+      Map.put(context, :idea, idea)
+    end
   end
 
   def new_browser_session(metadata \\ %{}) do
