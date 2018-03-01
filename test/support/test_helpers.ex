@@ -2,7 +2,9 @@ defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
   alias RemoteRetro.{Repo, User, Vote, Idea, Participation}
 
-  def use_all_votes(%{user: user, idea: idea} = context) do
+  @mock_user Application.get_env(:remote_retro, :mock_user)
+
+  def use_all_votes(%{test_user: user, idea: idea} = context) do
     now = DateTime.utc_now
     vote = [user_id: user.id, idea_id: idea.id, inserted_at: now, updated_at: now]
     Repo.insert_all(Vote, [vote, vote, vote, vote, vote])

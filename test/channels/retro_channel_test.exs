@@ -85,12 +85,10 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing a new idea to the socket" do
-    setup [:persist_user_for_retro, :join_the_retro_channel]
+    setup [:persist_users_for_retro, :join_the_retro_channel]
 
-    @tag [
-      users: [@mock_user]
-    ]
-    test "when in idea_generation stage results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
+    @tag users: [@mock_user]
+    test "when in idea_generation stage results in the broadcast of the new idea to all connected clients", %{socket: socket, test_user: user} do
       user_id = user.id
       assignee_id = nil
       push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
@@ -98,146 +96,152 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
     end
 
-    # test "when in action_items stage results in the broadcast of the new action item to all connected clients", %{socket: socket, user: user} do
-    #   user_id = user.id
-    #   push(socket, "new_idea", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
+    @tag users: [@mock_user]
+    test "when in action_items stage results in the broadcast of the new action item to all connected clients", %{socket: socket, test_user: user} do
+      user_id = user.id
+      push(socket, "new_idea", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
 
-    #   assert_broadcast("new_idea_received", %{category: "action-item", body: "Do something about the pacing", id: _, user_id: ^user_id, assignee_id: ^user_id})
-    # end
+      assert_broadcast("new_idea_received", %{category: "action-item", body: "Do something about the pacing", id: _, user_id: ^user_id, assignee_id: ^user_id})
+    end
   end
 
-  # describe "pushing an `enable_edit_state` event to the socket" do
-  #   setup [:join_the_retro_channel]
-  #   test "broadcasts the same event with the given payload and editorToken", %{socket: socket} do
-  #     push(socket, "enable_edit_state", %{"idea" => %{id: 4}, "editorToken" => "jkl"})
+  describe "pushing an `enable_edit_state` event to the socket" do
+    setup [:join_the_retro_channel]
+    test "broadcasts the same event with the given payload and editorToken", %{socket: socket} do
+      push(socket, "enable_edit_state", %{"idea" => %{id: 4}, "editorToken" => "jkl"})
 
-  #     assert_broadcast("enable_edit_state", %{"id" => 4, "editorToken" => "jkl"})
-  #   end
-  # end
+      assert_broadcast("enable_edit_state", %{"id" => 4, "editorToken" => "jkl"})
+    end
+  end
 
-  # describe "pushing an `disable_edit_state` event to the socket" do
-  #   setup [:join_the_retro_channel]
-  #   test "broadcasts the same event with the given payload", %{socket: socket} do
-  #     push(socket, "disable_edit_state", %{id: 4})
+  describe "pushing an `disable_edit_state` event to the socket" do
+    setup [:join_the_retro_channel]
+    test "broadcasts the same event with the given payload", %{socket: socket} do
+      push(socket, "disable_edit_state", %{id: 4})
 
-  #     assert_broadcast("disable_edit_state", %{"id" => 4})
-  #   end
-  # end
+      assert_broadcast("disable_edit_state", %{"id" => 4})
+    end
+  end
 
-  # describe "pushing a `user_typing_idea` event to the socket" do
-  #   setup [:join_the_retro_channel]
-  #   test "broadcasts the same event with the given payload", %{socket: socket} do
-  #     push(socket, "user_typing_idea", %{userToken: "insaneToken"})
+  describe "pushing a `user_typing_idea` event to the socket" do
+    setup [:join_the_retro_channel]
+    test "broadcasts the same event with the given payload", %{socket: socket} do
+      push(socket, "user_typing_idea", %{userToken: "insaneToken"})
 
-  #     assert_broadcast("user_typing_idea", %{"userToken" => "insaneToken"})
-  #   end
-  # end
+      assert_broadcast("user_typing_idea", %{"userToken" => "insaneToken"})
+    end
+  end
 
-  # describe "pushing an `idea_live_edit` event to the socket" do
-  #   setup [:join_the_retro_channel]
-  #   test "broadcasts the same event with the given payload", %{socket: socket} do
-  #     push(socket, "idea_live_edit", %{id: 4, liveEditText: "updated"})
+  describe "pushing an `idea_live_edit` event to the socket" do
+    setup [:join_the_retro_channel]
+    test "broadcasts the same event with the given payload", %{socket: socket} do
+      push(socket, "idea_live_edit", %{id: 4, liveEditText: "updated"})
 
-  #     assert_broadcast("idea_live_edit", %{"id" => 4, "liveEditText" => "updated"})
-  #   end
-  # end
+      assert_broadcast("idea_live_edit", %{"id" => 4, "liveEditText" => "updated"})
+    end
+  end
 
-  # describe "pushing an edit of an idea to the socket" do
-  #   setup [:persist_user_for_retro, :old_persist_idea_for_retro, :join_the_retro_channel]
+  describe "pushing an edit of an idea to the socket" do
+    setup [:persist_users_for_retro, :persist_idea_for_retro, :join_the_retro_channel]
 
-  #   @tag idea: %Idea{category: "sad", body: "JavaScript"}
-  #   test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
-  #     idea_id = idea.id
-  #     push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assigneeId: nil})
+    @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    @tag users: [@mock_user]
+    test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
+      idea_id = idea.id
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assigneeId: nil})
 
-  #     assert_broadcast("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
-  #   end
+      assert_broadcast("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
+    end
 
+    @tag idea: %Idea{category: "sad", body: "doggone keeper"}
+    @tag users: [@mock_user]
+    test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
+      idea_id = idea.id
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assigneeId: nil})
 
-  #   @tag idea: %Idea{category: "sad", body: "doggone keeper"}
-  #   test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
-  #     idea_id = idea.id
-  #     push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assigneeId: nil})
+      :timer.sleep(50)
+      idea = Repo.get!(Idea, idea_id)
+      assert idea.body == "hell's bells"
+      assert idea.category == "confused"
+    end
+  end
 
-  #     :timer.sleep(50)
-  #     idea = Repo.get!(Idea, idea_id)
-  #     assert idea.body == "hell's bells"
-  #     assert idea.category == "confused"
-  #   end
-  # end
+  describe "pushing a delete event to the socket" do
+    setup [:persist_users_for_retro, :join_the_retro_channel, :persist_idea_for_retro]
 
-  # describe "pushing a delete event to the socket" do
-  #   setup [:persist_user_for_retro, :join_the_retro_channel, :old_persist_idea_for_retro]
+    @tag idea: %Idea{category: "sad", body: "WIP commits on master"}
+    @tag users: [@mock_user]
+    test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
+      idea_id = idea.id
+      push(socket, "delete_idea", idea_id)
 
-  #   @tag idea: %Idea{category: "sad", body: "WIP commits on master"}
-  #   test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
-  #     idea_id = idea.id
-  #     push(socket, "delete_idea", idea_id)
+      assert_broadcast("idea_deleted", %{id: ^idea_id})
+    end
+  end
 
-  #     assert_broadcast("idea_deleted", %{id: ^idea_id})
-  #   end
-  # end
+  describe "pushing a `highlight_idea` event to the socket" do
+    setup [:join_the_retro_channel]
 
-  # describe "pushing a `highlight_idea` event to the socket" do
-  #   setup [:join_the_retro_channel]
+    test "broadcasts the id with the highlighted state", %{socket: socket} do
+      push(socket, "highlight_idea", %{"id" => 1, "isHighlighted" => false})
 
-  #   test "broadcasts the id with the highlighted state", %{socket: socket} do
-  #     push(socket, "highlight_idea", %{"id" => 1, "isHighlighted" => false})
+      assert_broadcast("idea_highlighted", %{"id" => 1, "isHighlighted" => false})
+    end
+  end
 
-  #     assert_broadcast("idea_highlighted", %{"id" => 1, "isHighlighted" => false})
-  #   end
-  # end
+  describe "pushing a `submit_vote` event to the socket" do
+    setup [:persist_users_for_retro, :persist_idea_for_retro, :join_the_retro_channel]
 
-  # describe "pushing a `submit_vote` event to the socket" do
-  #   setup [:persist_user_for_retro, :old_persist_idea_for_retro, :join_the_retro_channel]
+    @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    @tag users: [@mock_user]
+    test "results in the broadcast of the vote to connected clients", %{socket: socket, idea: idea, test_user: user} do
+      idea_id = idea.id
+      user_id = user.id
+      push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
+      :timer.sleep(25)
+      assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
+    end
 
-  #   @tag idea: %Idea{category: "sad", body: "JavaScript"}
-  #   test "results in the broadcast of the vote to connected clients", %{socket: socket, idea: idea, user: user} do
-  #     idea_id = idea.id
-  #     user_id = user.id
-  #     push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
-  #     :timer.sleep(25)
-  #     assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
-  #   end
+    @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    @tag users: [@mock_user]
+    test "results in the persistence of the vote", %{socket: socket, idea: idea, test_user: user} do
+      idea_id = idea.id
+      assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id) end)
+      push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
+      :timer.sleep(25)
+      assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
+    end
+  end
 
-  #   @tag idea: %Idea{category: "sad", body: "JavaScript"}
-  #   test "results in the persistence of the vote", %{socket: socket, idea: idea, user: user} do
-  #     idea_id = idea.id
-  #     assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id) end)
-  #     push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
-  #     :timer.sleep(25)
-  #     assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
-  #   end
-  # end
+  describe "when a user has already used their votes" do
+    setup [:persist_users_for_retro, :persist_idea_for_retro, :use_all_votes, :join_the_retro_channel]
 
-  # describe "when a user has already used their votes" do
-  #   setup [:persist_user_for_retro, :old_persist_idea_for_retro, :use_all_votes, :join_the_retro_channel]
+    @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    @tag users: [@mock_user]
+    test "pushing 'vote_submitted' does not broadcast a vote", %{socket: socket, idea: idea, test_user: user} do
+      idea_id = idea.id
+      user_id = user.id
+      push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
 
-  #   @tag idea: %Idea{category: "sad", body: "JavaScript"}
-  #   @tag user: [@mock_user]
-  #   test "pushing 'vote_submitted' does not broadcast a vote", %{socket: socket, idea: idea, user: user} do
-  #     idea_id = idea.id
-  #     user_id = user.id
-  #     push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
+      refute_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
+    end
 
-  #     refute_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
-  #   end
+    @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    @tag users: [@mock_user]
+    test "pushing 'vote_submitted' does not persist the vote", %{socket: socket, idea: idea, test_user: user} do
+      idea_id = idea.id
+      vote_count_query = from(v in "votes", where: [idea_id: ^idea_id, user_id: ^user.id])
 
-  #   @tag idea: %Idea{category: "sad", body: "JavaScript"}
-  #   test "pushing 'vote_submitted' does not persist the vote", %{socket: socket, idea: idea, user: user} do
-  #     idea_id = idea.id
-  #     vote_count_query = from(v in "votes", where: [idea_id: ^idea_id, user_id: ^user.id])
+      vote_count = Repo.aggregate(vote_count_query, :count, :id)
+      assert vote_count == 5
 
-  #     vote_count = Repo.aggregate(vote_count_query, :count, :id)
-  #     assert vote_count == 5
+      push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
+      :timer.sleep(50)
 
-  #     push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
-  #     :timer.sleep(50)
-
-  #     vote_count = Repo.aggregate(vote_count_query, :count, :id)
-  #     assert vote_count == 5
-  #   end
-  # end
+      vote_count = Repo.aggregate(vote_count_query, :count, :id)
+      assert vote_count == 5
+    end
+  end
 end
 
 
