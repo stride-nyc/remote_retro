@@ -1,7 +1,6 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
   alias RemoteRetro.{Repo, User, Vote, Idea, Participation}
-  require IEx
 
   def use_all_votes(%{user: user, idea: idea} = context) do
     now = DateTime.utc_now
