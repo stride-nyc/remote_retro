@@ -21,7 +21,7 @@ defmodule RemoteRetro.TestHelpers do
 
   defp persist_user(user) do
     user_params = User.build_user_from_oauth(user)
-    user = User.changeset(%User{}, user_params)
+    User.changeset(%User{}, user_params)
         |> Repo.insert
   end
 
@@ -35,7 +35,7 @@ defmodule RemoteRetro.TestHelpers do
 
   defp persist_assigned_idea(user, idea, retro) do
     %Participation{retro_id: retro.id, user_id: user.id} |> Repo.insert!
-    idea = %Idea{assignee_id: user.id, body: idea.body, category: idea.category, retro_id: retro.id, user_id: user.id} |> Repo.insert!
+    %Idea{assignee_id: user.id, body: idea.body, category: idea.category, retro_id: retro.id, user_id: user.id} |> Repo.insert!
   end
 
   defp persist_unassigned_idea(user, idea, retro) do
