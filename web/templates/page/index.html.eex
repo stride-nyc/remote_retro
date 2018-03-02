@@ -76,7 +76,7 @@
 <div class="ui center aligned grid">
   <div class="row">
     <div class="ui basic segment cta-wrapper">
-      <a href="/auth/google" class="ui blue button">
+      <a href="/auth/google" class="ui blue button sign-in">
         <i class="google icon"></i>
         Sign in with Google to Get Started
         <i class="arrow right icon"></i>
