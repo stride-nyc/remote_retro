@@ -5,7 +5,7 @@
 
   --padding: 5rem;
   .welcome-wrapper {
-    padding: var(--padding) 0 var(--padding) var(--padding);
+    padding: var(--padding) 0 calc(1rem + var(--padding)) var(--padding);
   }
 
   .github {
