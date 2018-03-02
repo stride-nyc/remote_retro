@@ -14,6 +14,10 @@
     /* explicit z-index to ensure clickability of floated elements */
     position: relative;
     z-index: 1;
+
+    & :not(:last-child) {
+      margin-right: 0.5rem;
+    }
   }
 
   .cta-wrapper {
