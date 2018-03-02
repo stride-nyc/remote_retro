@@ -25,6 +25,7 @@
     <a href="/auth/google" class="ui blue button">
       <i class="google icon"></i>
       Sign in with Google to Get Started
+      <i class="arrow right icon"></i>
     </a>
   <% end %>
 
