@@ -2,8 +2,6 @@ defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
   alias RemoteRetro.{Repo, User, Vote, Idea, Participation}
 
-  @mock_user Application.get_env(:remote_retro, :mock_user)
-
   def use_all_votes(%{test_user: user, idea: idea} = context) do
     now = DateTime.utc_now
     vote = [user_id: user.id, idea_id: idea.id, inserted_at: now, updated_at: now]
@@ -23,20 +21,28 @@ defmodule RemoteRetro.TestHelpers do
 
   defp persist_user(user) do
     user_params = User.build_user_from_oauth(user)
-    User.changeset(%User{}, user_params)
-        |> Repo.insert
+    changeset = User.changeset(%User{}, user_params) 
+    case Repo.insert(changeset) do
+      {:ok, item} -> item
+      {:error, changeset} -> User |> Repo.get_by(email: changeset.changes.email)
+    end
   end
 
-  def persist_users_for_retro(%{users: users} = context) do
-    Enum.each(users, fn user ->
+  defp persist_participation_for_users(users, retro) do
+    Enum.each(users, fn(user) ->
+      %Participation{retro_id: retro.id, user_id: user.id} |> Repo.insert!  
+    end)
+  end
+
+  def persist_users_for_retro(%{users: users, retro: retro} = context) do
+    persisted_users = Enum.map(users, fn(user) ->
       persist_user(user)
     end)
-    persisted_users = User |> Repo.all 
-    Map.merge(user_map(persisted_users), context)
+    persist_participation_for_users(persisted_users, retro)
+    Map.merge(context, user_map(persisted_users))
   end
 
   defp persist_assigned_idea(user, idea, retro) do
-    %Participation{retro_id: retro.id, user_id: user.id} |> Repo.insert!
     %Idea{assignee_id: user.id, body: idea.body, category: idea.category, retro_id: retro.id, user_id: user.id} |> Repo.insert!
   end
 

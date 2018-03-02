@@ -93,7 +93,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     end
   end
 
-  describe "when an action-item is reassigned" do
+  describe "it can be reassigned to another user" do
     setup [:persist_users_for_retro, :persist_idea_for_retro]
 
     @tag [
