@@ -30,10 +30,10 @@ config :remote_retro, RemoteRetro.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :remote_retro, :oauth_client, RemoteRetro.OAuth.Client.InMemory
-config :remote_retro, :mock_user, %{
-  "email" => "mistertestuser@gmail.com",
-  "email_verified" => "true", "family_name" => "Vander Hoop",
-  "gender" => "male", "given_name" => "Travis",
+config :remote_retro, :test_user_one, %{
+  "email" => "mrtestuser@one.com",
+  "email_verified" => "true", "family_name" => "User",
+  "gender" => "male", "given_name" => "Test",
   "kind" => "plus#personOpenIdConnect", "locale" => "en",
   "name" => "Test User",
   "picture" => "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
@@ -41,10 +41,10 @@ config :remote_retro, :mock_user, %{
   "sub" => "108658712426577966861"
 }
 
-config :remote_retro, :other_user, %{
-  "email" => "misstestuser@gmail.com",
-  "email_verified" => "true", "family_name" => "Alexander",
-  "gender" => "female", "given_name" => "Nicole",
+config :remote_retro, :test_user_two, %{
+  "email" => "missotheruser@two.com",
+  "email_verified" => "true", "family_name" => "User",
+  "gender" => "female", "given_name" => "Other",
   "kind" => "plus#personOpenIdConnect", "locale" => "en",
   "name" => "Other User",
   "picture" => "https://lh3.googleusercontent.com/-zbm50wGQlTw/AAAAAAAAAAI/AAAAAAAAAAA/AGi4gfzhLKBFn9JUeSaNNsOiWcrwDPWy1w/s32-c-mo/photo.jpg",

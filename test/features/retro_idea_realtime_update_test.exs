@@ -2,8 +2,8 @@ defmodule RetroIdeaRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.Idea
 
-  @mock_user Application.get_env(:remote_retro, :mock_user)
-  @other_user Application.get_env(:remote_retro, :other_user)
+  @test_user_one Application.get_env(:remote_retro, :test_user_one)
+  @test_user_two Application.get_env(:remote_retro, :test_user_two)
 
   test "the immediate appearance of other users' submitted ideas", %{session: session_one, retro: retro} do
     session_two = new_browser_session()
@@ -25,7 +25,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     setup [:persist_users_for_retro, :persist_idea_for_retro]
 
     @tag [  
-      users: [@mock_user],
+      users: [@test_user_one],
       idea: %Idea{category: "sad", body: "no linter"},
     ]
     test "the immediate update of ideas as they are changed/saved", %{session: facilitator_session, retro: retro} do
@@ -52,7 +52,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     end
 
     @tag [
-      users: [@mock_user],
+      users: [@test_user_one],
       idea: %Idea{category: "happy", body: "slack time!"},
     ]
     test "the immediate removal of an idea deleted by the facilitator", %{session: facilitator_session, retro: retro} do
@@ -76,7 +76,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
     @tag [
       retro_stage: "action-items",
-      users: [@mock_user],
+      users: [@test_user_one],
     ]
     test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do
       retro_path = "/retros/" <> retro.id
@@ -99,9 +99,9 @@ defmodule RetroIdeaRealtimeUpdateTest do
     @tag [
       retro_stage: "action-items",
       idea: %Idea{body: "blurgh", category: "action-item"},
-      idea_creator: @other_user,
-      idea_assignee: @other_user,
-      users: [@mock_user, @other_user]
+      idea_creator: @test_user_two,
+      idea_assignee: @test_user_two,
+      users: [@test_user_one, @test_user_two]
     ]
     
     test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do

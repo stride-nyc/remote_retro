@@ -3,7 +3,7 @@ defmodule PreExistingRetroStateRenderedOnJoiningRetroTest do
   alias RemoteRetro.{Idea, User}
 
   test "the rendering of ideas submitted prior to the user joining", %{session: session, retro: retro} do
-    user = Repo.get_by(User, email: "mistertestuser@gmail.com")
+    user = Repo.get_by(User, email: "mrtestuser@one.com")
     Repo.insert!(%Idea{ category: "happy", body: "continuous delivery!", retro_id: retro.id, user_id: user.id})
 
     retro_path = "/retros/" <> retro.id

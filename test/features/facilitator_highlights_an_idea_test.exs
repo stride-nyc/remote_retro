@@ -2,13 +2,13 @@ defmodule FacilitatorHighlightsAnIdeaTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.Idea
 
-  @mock_user Application.get_env(:remote_retro, :mock_user)
+  @test_user_one Application.get_env(:remote_retro, :test_user_one)
 
   describe "when the facilitator clicks on the announcement icon for an idea" do
     setup [:persist_users_for_retro, :persist_idea_for_retro]
 
     @tag idea: %Idea{category: "happy", body: "Teams worked well together"}
-    @tag users: [@mock_user]
+    @tag users: [@test_user_one]
     test "the idea that the facilitator clicked on toggles highlighted class for everyone", %{session: facilitator_session, retro: retro} do
       idea_body = "Teams worked well together"
       participant_session = new_browser_session()

@@ -39,11 +39,11 @@ defmodule RemoteRetro.AuthControllerTest do
       conn = get conn, "/auth/google/callback?code=schlarpdarp"
 
       session = retrieve_session(conn)
-      assert session["current_user"].email == "mistertestuser@gmail.com"
+      assert session["current_user"].email == "mrtestuser@one.com"
     end
 
     test "user on the session exists in the db", %{conn: conn} do
-      mock_google_info = Application.get_env(:remote_retro, :mock_user)
+      mock_google_info = Application.get_env(:remote_retro, :test_user_one)
       conn = get conn, "/auth/google/callback?code=schlarpdarp"
 
       session = retrieve_session(conn)
