@@ -9,6 +9,7 @@
   }
 
   .social {
+    padding-top: 0.25rem;
     float: right;
     /* explicit z-index to ensure clickability of floated elements */
     position: relative;
