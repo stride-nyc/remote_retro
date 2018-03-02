@@ -17,15 +17,6 @@
     line-height: 4rem;
     color: var(--semantic-teal);
   }
-
-  sup {
-    top: -2rem;
-    font-size: 0.9rem;
-  }
-}
-
-sup {
-  color: var(--magenta);
 }
 
 :global .ui.modal {
@@ -45,11 +36,6 @@ sup {
       font-weight: 200;
       font-size: large;
       padding-left: 1rem;
-    }
-
-    sup {
-      top: -0.4rem;
-      font-size: 0.1rem;
     }
   }
 
