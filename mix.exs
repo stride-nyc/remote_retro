@@ -49,7 +49,6 @@ defmodule RemoteRetro.Mixfile do
      {:bamboo, "~> 0.8"},
      {:honeybadger, "~> 0.7.0"},
      {:credo, "~> 0.3", only: [:dev, :test]},
-     {:apex, "~>1.2.0", only: [:dev, :test]},
      {:quick_alias, "~> 0.1.0", only: :dev}]
   end
 

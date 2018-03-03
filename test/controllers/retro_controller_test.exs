@@ -12,7 +12,7 @@ defmodule RemoteRetro.RetroControllerTest do
     end
 
     test "joining a retro results in a the persistence of a participation", %{conn: conn} do
-      mock_google_info = Application.get_env(:remote_retro, :test_user_one)
+      mock_google_info = Application.get_env(:remote_retro, :mock_user)
       user = Repo.get_by(User, email: mock_google_info["email"])
 
       create_retro_and_follow_redirect(conn)
@@ -23,7 +23,7 @@ defmodule RemoteRetro.RetroControllerTest do
     end
 
     test "rejoining a retro doesn't result in a participation being persisted", %{conn: conn} do
-      mock_google_info = Application.get_env(:remote_retro, :test_user_one)
+      mock_google_info = Application.get_env(:remote_retro, :mock_user)
       user = Repo.get_by(User, email: mock_google_info["email"])
 
       conn = create_retro_and_follow_redirect(conn)

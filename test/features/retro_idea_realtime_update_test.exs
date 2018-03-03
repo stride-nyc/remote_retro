@@ -2,8 +2,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.Idea
 
-  @test_user_one Application.get_env(:remote_retro, :test_user_one)
-  @test_user_two Application.get_env(:remote_retro, :test_user_two)
+  @mock_user Application.get_env(:remote_retro, :mock_user)
 
   test "the immediate appearance of other users' submitted ideas", %{session: session_one, retro: retro} do
     session_two = new_browser_session()
@@ -22,12 +21,10 @@ defmodule RetroIdeaRealtimeUpdateTest do
   end
 
   describe "when an idea already exists in a retro" do
-    setup [:persist_users_for_retro, :persist_idea_for_retro]
+    setup [:persist_user_for_retro, :persist_idea_for_retro]
 
-    @tag [  
-      users: [@test_user_one],
-      idea: %Idea{category: "sad", body: "no linter"},
-    ]
+    @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
+    @tag idea: %Idea{category: "sad", body: "no linter"}
     test "the immediate update of ideas as they are changed/saved", %{session: facilitator_session, retro: retro} do
       participant_session = new_browser_session()
 
@@ -51,10 +48,8 @@ defmodule RetroIdeaRealtimeUpdateTest do
       assert ideas_list_text == "No one uses the linter. (edited)"
     end
 
-    @tag [
-      users: [@test_user_one],
-      idea: %Idea{category: "happy", body: "slack time!"},
-    ]
+    @tag user: Map.put(@mock_user, "email", "hiro@protagonist.com")
+    @tag idea: %Idea{category: "happy", body: "slack time!"}
     test "the immediate removal of an idea deleted by the facilitator", %{session: facilitator_session, retro: retro} do
       participant_session = new_browser_session()
 
@@ -72,11 +67,11 @@ defmodule RetroIdeaRealtimeUpdateTest do
   end
 
   describe "when an action-item is created" do
-    setup [:persist_users_for_retro]
+    setup [:persist_user_for_retro]
 
     @tag [
       retro_stage: "action-items",
-      users: [@test_user_one],
+      user: Map.put(@mock_user, "email", "action-man@protagonist.com"),
     ]
     test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do
       retro_path = "/retros/" <> retro.id
@@ -90,35 +85,6 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
       assert String.contains?(action_items_list_text, "let's do the thing! (Test User)")
-    end
-  end
-
-  describe "it can be reassigned to another user" do
-    setup [:persist_users_for_retro, :persist_idea_for_retro]
-
-    @tag [
-      retro_stage: "action-items",
-      idea: %Idea{body: "blurgh", category: "action-item"},
-      idea_creator: @test_user_two,
-      idea_assignee: @test_user_two,
-      users: [@test_user_one, @test_user_two]
-    ]
-    
-    test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do
-      retro_path = "/retros/" <> retro.id
-      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
-
-      action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert String.contains?(action_items_list_text, "blurgh (Other User)")
-
-      facilitator_session 
-      |> click(Query.css(".edit"))
-      |> find(Query.css(".idea-edit-form"))
-      |> click(Query.option("Test User"))
-      |> click(Query.button("Save"))
-
-      action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert String.contains?(action_items_list_text, "blurgh (Test User)")
     end
   end
 end
