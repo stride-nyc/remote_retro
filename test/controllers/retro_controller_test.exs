@@ -22,7 +22,7 @@ defmodule RemoteRetro.RetroControllerTest do
       assert participation.user_id == user.id
     end
 
-    test "rejoining a retro doesn't result in a participation being persisted", %{conn: conn} do
+    test "rejoining a retro doesn't result in another participation being persisted", %{conn: conn} do
       mock_google_info = Application.get_env(:remote_retro, :test_user_one)
       user = Repo.get_by(User, email: mock_google_info["email"])
 
@@ -34,6 +34,21 @@ defmodule RemoteRetro.RetroControllerTest do
       participations = Repo.all(query)
 
       refute length(participations) > 1
+    end
+
+    test "GET requests to /retros welcomes users with no retro experience", %{conn: conn} do
+      conn = get conn, "/retros"
+      assert conn.resp_body =~ ~r/welcome/i
+      refute conn.resp_body =~ ~r/my retros/i
+    end
+
+    test "GET requests to /retros lists all retros for a user with retro experience", %{conn: conn} do
+      conn = conn
+        |> create_retro_and_follow_redirect
+        |> get("/retros")
+
+      assert conn.resp_body =~ ~r/my retros/i
+      refute conn.resp_body =~ ~r/welcome/i
     end
   end
 

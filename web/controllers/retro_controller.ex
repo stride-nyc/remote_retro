@@ -3,6 +3,16 @@ defmodule RemoteRetro.RetroController do
   alias RemoteRetro.{Retro, Participation}
   alias Phoenix.Token
 
+  def index(conn, _params) do
+    user = get_session(conn, "current_user")
+    query = from r in assoc(user, :retros), limit: 10, order_by: [desc: r.inserted_at]
+    retros = Repo.all(query)
+    render conn, "index.html", %{
+      current_user: user,
+      retros: retros,
+    }
+  end
+
   def show(conn, params) do
     user = get_session(conn, "current_user")
 

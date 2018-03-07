@@ -1,0 +1,29 @@
+<div class="ui very padded basic segment">
+
+  <%= if Enum.count(@retros) == 0 do %>
+    <h1 class="ui dividing header">Welcome <%= @current_user.given_name %>!</h1>
+    <p class="ui grey header">
+      Let's create your first retro!
+      <div class="ui hidden divider"></div>
+    </p>
+  <% else %>
+    <h1 class="ui dividing header">My Retros:</h1>
+    <ul>
+      <%= for retro <- @retros do %>
+        <li>
+          <a href="<%= retro_path @conn, :show, retro %>">
+            created <%= Timex.format!(retro.inserted_at, "{relative}", :relative) %>
+          </a>
+        </li>
+      <% end %>
+    </ul>
+  <% end %>
+
+  <div class="ui hidden divider"></div>
+  <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
+    <button type="submit" class="ui blue right labeled icon button">
+      Create a Retrospective!
+      <i class="arrow right icon"></i>
+    </button>
+  <% end %>
+</div>
