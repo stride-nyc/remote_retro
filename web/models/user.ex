@@ -54,7 +54,6 @@ defmodule RemoteRetro.User do
 
   defp build_from_oauth_data(user_info) do
     user_params = %{
-      "email" => user_info["email"],
       "google_user_info"=> user_info,
       "last_login"=> DateTime.utc_now
     }
