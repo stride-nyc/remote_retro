@@ -22,7 +22,7 @@
 
   .cta-wrapper {
     .sign-in {
-      margin-right: 0;
+      margin: 1rem 0;
     }
 
     padding: calc(2 * var(--padding));
