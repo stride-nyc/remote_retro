@@ -5,6 +5,7 @@
     <p class="ui grey header">
       Let's create your first retro!
       <div class="ui hidden divider"></div>
+      <div class="reveal"><span>👇</span><span>👇</span><span>👇</span></div>
     </p>
   <% else %>
     <h1 class="ui dividing header">My Retros:</h1>
