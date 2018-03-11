@@ -20,23 +20,19 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   defp persist_user(user) do
-    user_params = User.build_user_from_oauth(user)
-    changeset = User.changeset(%User{}, user_params) 
-    case Repo.insert(changeset) do
-      {:ok, item} -> item
-      {:error, changeset} -> User |> Repo.get_by(email: changeset.changes.email)
-    end
+    User.upsert_record_from(oauth_info: user)
   end
 
   defp persist_participation_for_users(users, retro) do
     Enum.each(users, fn(user) ->
-      %Participation{retro_id: retro.id, user_id: user.id} |> Repo.insert!  
+      %Participation{retro_id: retro.id, user_id: user.id} |> Repo.insert!
     end)
   end
 
   def persist_users_for_retro(%{users: users, retro: retro} = context) do
     persisted_users = Enum.map(users, fn(user) ->
-      persist_user(user)
+      {:ok, user} = persist_user(user)
+      user
     end)
     persist_participation_for_users(persisted_users, retro)
     Map.merge(context, user_map(persisted_users))

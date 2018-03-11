@@ -25,4 +25,14 @@ defmodule RemoteRetro.UserTest do
     changeset = User.changeset(%User{}, @invalid_attrs)
     refute changeset.valid?
   end
+
+  test "the valid inclusion of a virtual, unpersisted `online_at` attribute" do
+    user = %User{email: "monsieur@misspellingsarefine.com"}
+    assert %User{user | online_at: 393939393939}
+  end
+
+  test "the valid inclusion of a virtual, unpersisted `token` attribute" do
+    user = %User{email: "monsieur@misspellingsarefine.com"}
+    assert %User{user | token: "abc987zyx"}
+  end
 end

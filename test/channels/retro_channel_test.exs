@@ -2,16 +2,18 @@ defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetro.ChannelCase, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence, Retro, Vote}
+  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence, Retro, Vote, User}
 
   @test_user_one Application.get_env(:remote_retro, :test_user_one)
 
   defp join_the_retro_channel(%{retro: retro} = context) do
+    {:ok, user} = User.upsert_record_from(oauth_info: @test_user_one)
+
     {:ok, join_response, socket} =
-      socket("", %{user_token: Phoenix.Token.sign(socket(), "user", @test_user_one)})
+      socket("", %{user_token: Phoenix.Token.sign(socket(), "user", user)})
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
-    Map.merge(context, %{socket: socket, join_response: join_response})
+    Map.merge(context, %{socket: socket, join_response: join_response, user: user})
   end
 
   describe "joining a RetroChannel" do
@@ -36,7 +38,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_push "presence_diff", %{}
     end
 
-    test "results in a Presence tracking of the new user, including timestamp", %{retro: retro} do
+    test "results in a Presence tracking of the new user, including timestamp", %{retro: retro, user: user} do
       result = Presence.list("retro:" <> retro.id)
 
       presence_object =
@@ -45,10 +47,10 @@ defmodule RemoteRetro.RetroChannelTest do
         |> Map.get(:metas)
         |> List.first
 
-      assert presence_object["email"] == @test_user_one["email"]
-      assert presence_object["given_name"] == @test_user_one["given_name"]
-      assert presence_object["family_name"] == @test_user_one["family_name"]
-      assert %{online_at: _} = presence_object
+      assert presence_object.email == user.email
+      assert presence_object.given_name == user.given_name
+      assert presence_object.family_name == user.family_name
+      assert is_integer(presence_object.online_at)
     end
   end
 
