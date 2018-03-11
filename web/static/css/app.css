@@ -35,8 +35,7 @@
     color: var(--semantic-teal);
 
     /* ensure header aligns with text below */
-    position: relative;
-    left: -0.35rem;
+    transform: translateX(-0.35rem);
   }
 }
 
