@@ -1,6 +1,6 @@
 defmodule RemoteRetro.RetroControllerTest do
   use RemoteRetro.ConnCase, async: true
-  alias RemoteRetro.{User, Participation}
+  alias RemoteRetro.{User, Participation, Repo}
 
   describe "authenticated requests" do
     setup :authenticate_connection
@@ -11,15 +11,13 @@ defmodule RemoteRetro.RetroControllerTest do
       assert redirected_to(conn) =~ ~r/\/retros\/.+$/
     end
 
-    test "joining a retro results in a the persistence of a participation", %{conn: conn} do
-      mock_google_info = Application.get_env(:remote_retro, :test_user_one)
-      user = Repo.get_by(User, email: mock_google_info["email"])
-
+    test "joining a retro results in the persistence of a participation", %{conn: conn} do
+      participation_count_before = Repo.aggregate(Participation, :count, :id)
       create_retro_and_follow_redirect(conn)
+      participation_count_after = Repo.aggregate(Participation, :count, :id)
 
-      participation = Repo.get_by(Participation, user_id: user.id)
-
-      assert participation.user_id == user.id
+      participation_count_diff = participation_count_after - participation_count_before
+      assert participation_count_diff == 1
     end
 
     test "rejoining a retro doesn't result in another participation being persisted", %{conn: conn} do
