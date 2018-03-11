@@ -10,6 +10,9 @@
 
   .social {
     float: right;
+    /* explicit z-index to ensure clickability of floated elements */
+    position: relative;
+    z-index: 1;
   }
 
   .cta-wrapper {
