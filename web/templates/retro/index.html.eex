@@ -1,7 +1,7 @@
 <div class="ui very padded basic segment">
 
   <%= if Enum.count(@retros) == 0 do %>
-    <h1 class="ui dividing header">Welcome <%= @current_user.given_name %>!</h1>
+    <h1 class="ui dividing header">Welcome <%= assigns[:current_user].given_name %>!</h1>
     <p class="ui grey header">
       Let's create your first retro!
       <div class="ui hidden divider"></div>
