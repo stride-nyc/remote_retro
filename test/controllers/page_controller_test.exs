@@ -4,10 +4,10 @@ defmodule RemoteRetro.PageControllerTest do
   describe "authenticated visits to root" do
     setup [:authenticate_connection]
 
-    test "invite users to create a retrospective", %{conn: conn} do
+    test "redirect to the dashboard at /retros", %{conn: conn} do
       conn = get conn, "/"
 
-      assert Regex.match?(~r/create a retrospective/i, conn.resp_body)
+      assert redirected_to(conn) =~ "/retros"
     end
   end
 
@@ -15,8 +15,7 @@ defmodule RemoteRetro.PageControllerTest do
     test "asks users to authenticate", %{conn: conn} do
       conn = get conn, "/"
 
-      refute conn.resp_body =~ ~r/create a retrospective/i
-      assert conn.resp_body =~ ~r/sign in with google/i
+      assert html_response(conn, 200) =~ ~r/sign in with google/i
     end
   end
 

@@ -4,8 +4,12 @@ defmodule RemoteRetro.PageController do
   def index(conn, _params) do
     current_user = get_session(conn, :current_user)
 
-    conn = assign(conn, :current_user, current_user)
-    render conn, "index.html", %{is_landing_page: true, omit_header: true}
+    case current_user do
+      nil ->
+        render conn, "index.html", %{is_landing_page: true, omit_header: true}
+      _user ->
+        redirect conn, to: "/retros"
+    end
   end
 
   def faq(conn, _params) do

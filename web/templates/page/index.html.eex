@@ -9,29 +9,16 @@
     Retro
   </h1>
 
-  <%= if @current_user do %>
-    <div class="ui header">
-      Glad to have you, <%= @current_user.given_name %>!
-    </div>
+  <div class="ui header">
+    Get Better With Your Team
+    <p class="sub header">RemoteRetro lets you get together, even when you're far apart.</p>
+  </div>
 
-    <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
-      <button type="submit" class="ui blue right labeled icon button">
-        Create a Retrospective for Your Team
-        <i class="arrow right icon"></i>
-      </button>
-    <% end %>
-  <% else %>
-    <div class="ui header">
-      Get Better With Your Team
-      <p class="sub header">RemoteRetro lets you get together, even when you're far apart.</p>
-    </div>
-
-    <a href="/auth/google" class="ui blue button">
-      <i class="google icon"></i>
-      Sign in with Google to Get Started
-      <i class="arrow right icon"></i>
-    </a>
-  <% end %>
+  <a href="/auth/google" class="ui blue button">
+    <i class="google icon"></i>
+    Sign in with Google to Get Started
+    <i class="arrow right icon"></i>
+  </a>
 </div>
 <div class="ui secondary very padded segment">
   <div class="ui three column center aligned divided relaxed stackable grid container">
