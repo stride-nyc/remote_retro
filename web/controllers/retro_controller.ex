@@ -1,15 +1,14 @@
 defmodule RemoteRetro.RetroController do
   use RemoteRetro.Web, :controller
-  alias RemoteRetro.{Retro, Participation}
+  alias RemoteRetro.{Retro, Participation, Idea}
   alias Phoenix.Token
 
   def index(conn, _params) do
     user = get_session(conn, "current_user")
-    query = from r in assoc(user, :retros), limit: 10, order_by: [desc: r.inserted_at]
-    retros = Repo.all(query)
+
     render conn, "index.html", %{
       current_user: user,
-      retros: retros,
+      retros: recent_retros_with_action_items_preloaded(user),
     }
   end
 
@@ -32,5 +31,20 @@ defmodule RemoteRetro.RetroController do
   defp find_or_insert_participation_record(user, retro_id) do
     query = from p in Participation, where: p.user_id == ^user.id and p.retro_id == ^retro_id
     Repo.one(query) || Repo.insert!(%Participation{user_id: user.id, retro_id: retro_id})
+  end
+
+  defp recent_retros_with_action_items_preloaded(user) do
+    action_items_with_assignee =
+      from ai in Idea.action_items,
+      preload: [:assignee],
+      order_by: [asc: ai.inserted_at]
+
+    query =
+      from r in assoc(user, :retros),
+      limit: 10,
+      preload: [ideas: ^action_items_with_assignee],
+      order_by: [desc: r.inserted_at]
+
+    Repo.all(query)
   end
 end

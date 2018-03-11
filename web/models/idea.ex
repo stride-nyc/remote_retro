@@ -14,6 +14,11 @@ defmodule RemoteRetro.Idea do
     timestamps(type: :utc_datetime)
   end
 
+  def action_items do
+    from i in __MODULE__,
+    where: i.category == "action-item"
+  end
+
   @required_fields [:category, :body, :retro_id, :user_id]
   @mutable_fields [:assignee_id | @required_fields]
 
