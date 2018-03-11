@@ -1,7 +1,7 @@
 @import './colors.css';
 
 :global .landing-page {
-  background: radial-gradient(rgba(250, 188, 46, 0.79), white);
+  background: radial-gradient(var(--creamsicle-orange), white);
 
   --padding: 5rem;
   .welcome-wrapper {
