@@ -1,5 +1,6 @@
 defmodule RemoteRetro.User do
   use RemoteRetro.Web, :model
+  alias RemoteRetro.{Participation, Repo}
 
   @required_fields [
     :email,
@@ -27,7 +28,7 @@ defmodule RemoteRetro.User do
     field :online_at, :integer, virtual: true
     field :token, :string, virtual: true
 
-    has_many :participations, RemoteRetro.Participation
+    has_many :participations, Participation
     has_many :retros, through: [:participations, :retro]
 
     timestamps(type: :utc_datetime)
@@ -44,12 +45,12 @@ defmodule RemoteRetro.User do
   def upsert_record_from(oauth_info: oauth_info) do
     user_params = build_from_oauth_data(oauth_info)
 
-    case RemoteRetro.Repo.get_by(__MODULE__, email: user_params["email"]) do
+    case Repo.get_by(__MODULE__, email: user_params["email"]) do
       nil -> %__MODULE__{}
       user_from_db -> user_from_db
     end
     |> __MODULE__.changeset(user_params)
-    |> RemoteRetro.Repo.insert_or_update
+    |> Repo.insert_or_update
   end
 
   defp build_from_oauth_data(user_info) do
