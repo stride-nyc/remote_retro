@@ -8,7 +8,7 @@
     padding: var(--padding) 0 calc(1rem + var(--padding)) var(--padding);
   }
 
-  .github {
+  .social {
     float: right;
   }
 

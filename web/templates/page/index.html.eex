@@ -1,4 +1,8 @@
-<iframe class="social" src="//ghbtns.com/github-btn.html?user=stride-nyc&amp;repo=remote_retro&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
+<div class="social">
+  <iframe scrolling="no" frameborder="0" allowtransparency="true" class="twitter-share-button twitter-share-button-rendered twitter-tweet-button" style="position: static; visibility: visible; width: 61px; height: 20px;" title="Twitter Tweet Button" src="https://platform.twitter.com/widgets/tweet_button.2e798283373a8137c24e277b9b9620d6.en.html#dnt=false&amp;id=twitter-widget-0&amp;lang=en&amp;original_referer=https%3A%2F%2Fsemantic-ui.com%2F&amp;size=m&amp;text=I%20%E2%9D%A4%20RemoteRetro!%20Like,%20big%20time.&amp;time=1519956156939&amp;type=share&amp;url=http%3A%2F%2Fremoteretro.org&amp;via=StrideDev&amp;hashtags=myelixirstatus,opensource" data-url="http://remoteretro.org"></iframe>
+  <iframe src="//ghbtns.com/github-btn.html?user=stride-nyc&amp;repo=remote_retro&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
+</div>
+
 <div class="ui basic segment welcome-wrapper">
   <h1>
     Remote<br>
