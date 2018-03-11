@@ -117,3 +117,14 @@
     }
   }
 }
+
+:global(.bold) {
+  font-weight: bold;
+}
+
+:global(.nested-action-items-list) {
+  position: relative;
+  left: 0.9rem;
+
+  font-size: 0.9rem;
+}
