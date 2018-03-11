@@ -15,6 +15,16 @@
           <a href="<%= retro_path @conn, :show, retro %>">
             created <%= Timex.format!(retro.inserted_at, "{relative}", :relative) %>
           </a>
+          <%= if Enum.count(retro.ideas) > 0 do %>
+            <br>
+            Action Items:
+            <ul>
+              <%# ideas retrieved via association are scoped to action_items %>
+              <%= for idea <- retro.ideas do %>
+                <li><%= action_item_to_string(idea) %></li>
+              <% end %>
+            </ul>
+          <% end %>
         </li>
       <% end %>
     </ul>

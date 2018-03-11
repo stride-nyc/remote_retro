@@ -1,8 +1,7 @@
 defmodule RemoteRetro.Emails do
   import Bamboo.Email, except: [from: 2]
   import Ecto.Query
-  alias RemoteRetro.Repo
-  alias RemoteRetro.User
+  alias RemoteRetro.{Repo, User, IdeaView}
 
   def action_items_email(retro_id) do
     action_items = retro_action_items(retro_id)
@@ -58,6 +57,6 @@ defmodule RemoteRetro.Emails do
       preload: [assignee: a]
 
     action_items
-    |> Enum.map(&("#{&1.body} (#{&1.assignee.name})"))
+    |> Enum.map(&IdeaView.action_item_to_string/1)
   end
 end
