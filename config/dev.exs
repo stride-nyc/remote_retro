@@ -56,3 +56,5 @@ config :remote_retro, :mock_user, %{
   "profile" => "https://plus.google.com/108658712426577966861",
   "sub" => "108658712426577966861"
 }
+
+config :tzdata, :autoupdate, :disabled
