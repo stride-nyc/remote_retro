@@ -88,7 +88,10 @@ module.exports = {
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
     new webpack.HotModuleReplacementPlugin(),
     new ExtractTextPlugin({ filename: "css/app.css" }),
-    new CopyWebpackPlugin([{ from: "./web/static/assets" }]),
+    new CopyWebpackPlugin([{
+      from: "./web/static/assets",
+      ignore: "**/.DS_Store",
+    }]),
     new WriteFileWebpackPlugin([{ from: "./web/static/assets" }]),
   ]
 }
