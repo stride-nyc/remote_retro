@@ -38,10 +38,11 @@ dependencies:
 test:
   override:
     - npm run test
-    - mix test --exclude feature_test
-    - mix test --only feature_test
     - if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
         mix coveralls.circle --include feature_test;
+      else
+        mix test --exclude feature_test;
+        mix test --only feature_test;
       fi
 deployment:
   prod:
