@@ -34,6 +34,20 @@
     <% else %>
       <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
     <% end %>
+
+    <!--
+      disable css animations in end-to-end tests;
+      results in faster, more deterministic builds
+    -->
+    <%= if Mix.env == :test do %>
+      <style>
+        * {
+          transition: none !important;
+          transition-delay: 1ms !important;
+          transition-duration: 1ms !important;
+        }
+      </style>
+    <% end %>
   </head>
 
   <body class="<%= if assigns[:is_landing_page], do: "landing-page" %>">
