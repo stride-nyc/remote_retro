@@ -29,12 +29,12 @@ defmodule RemoteRetro.PresenceTest do
         "arbitrary_key" => %{
           metas: [%{
             :online_at => 1500,
-            "given_name" => "Hilary",
-            "family_name" => "Cassel",
-            "email" => "hilly@dilly.com",
-            "gender" => "female",
-            "name" => "Stub User",
-            "picture" => "stub",
+            given_name: "Hilary",
+            family_name: "Cassel",
+            email: "hilly@dilly.com",
+            gender: "female",
+            name: "Stub User",
+            picture: "stub",
           }, %{
             :online_at => 10,
             "given_name" => "other name"
@@ -46,10 +46,10 @@ defmodule RemoteRetro.PresenceTest do
       user = result["arbitrary_key"].user
 
       assert user.online_at == 1500
-      assert user["given_name"] == "Hilary"
-      assert user["family_name"] == "Cassel"
-      assert user["email"] == "hilly@dilly.com"
-      assert user["gender"] == "female"
+      assert user.given_name == "Hilary"
+      assert user.family_name == "Cassel"
+      assert user.email == "hilly@dilly.com"
+      assert user.gender == "female"
     end
   end
 end
