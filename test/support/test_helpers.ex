@@ -2,7 +2,7 @@ defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
   alias RemoteRetro.{Repo, User, Vote, Idea, Participation}
 
-  def use_all_votes(%{test_user: user, idea: idea} = context) do
+  def use_all_votes(%{user: user, idea: idea} = context) do
     now = DateTime.utc_now
     vote = [user_id: user.id, idea_id: idea.id, inserted_at: now, updated_at: now]
     Repo.insert_all(Vote, [vote, vote, vote, vote, vote])
@@ -29,8 +29,8 @@ defmodule RemoteRetro.TestHelpers do
     end)
   end
 
-  def persist_users_for_retro(%{users: users, retro: retro} = context) do
-    persisted_users = Enum.map(users, fn(user) ->
+  def persist_additional_users_for_retro(%{additional_users: additional_users, retro: retro} = context) do
+    persisted_users = Enum.map(additional_users, fn(user) ->
       {:ok, user} = persist_user(user)
       user
     end)
@@ -43,25 +43,16 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   defp persist_unassigned_idea(user, idea, retro) do
-    Map.merge(idea, %{retro_id: retro.id, user_id: user.id}) |>Repo.insert!
+    Map.merge(idea, %{retro_id: retro.id, user_id: user.id}) |> Repo.insert!
   end
 
-  def persist_idea_for_retro(%{idea: idea, retro: retro} = context) do
-    if Map.has_key?(context, :idea_assignee) do
-      idea_assignee = context[:idea_assignee]
-      user = context[user_name_atom(idea_assignee["name"])]
-      idea = persist_assigned_idea(user, idea, retro)
-      Map.put(context, :idea, idea)
-    else
-      user = List.first(context[:users])
-      user = context[user_name_atom(user["name"])]
-      idea = if idea.category == "action-item" do
-              persist_assigned_idea(user, idea, retro)
-            else
-              persist_unassigned_idea(user, idea, retro)
-            end
-      Map.put(context, :idea, idea)
-    end
+  def persist_idea_for_retro(%{idea: idea, retro: retro, user: user} = context) do
+    idea = if idea.category == "action-item" do
+            persist_assigned_idea(user, idea, retro)
+          else
+            persist_unassigned_idea(user, idea, retro)
+          end
+    Map.put(context, :idea, idea)
   end
 
   def new_browser_session(metadata \\ %{}) do

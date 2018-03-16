@@ -2,18 +2,14 @@ defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetro.ChannelCase, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence, Retro, Vote, User}
+  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence, Retro, Vote}
 
-  @test_user_one Application.get_env(:remote_retro, :test_user_one)
-
-  defp join_the_retro_channel(%{retro: retro} = context) do
-    {:ok, user} = User.upsert_record_from(oauth_info: @test_user_one)
-
+  defp join_the_retro_channel(%{retro: retro, user: user} = context) do
     {:ok, join_response, socket} =
       socket("", %{user_token: Phoenix.Token.sign(socket(), "user", user)})
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
-    Map.merge(context, %{socket: socket, join_response: join_response, user: user})
+    Map.merge(context, %{socket: socket, join_response: join_response})
   end
 
   describe "joining a RetroChannel" do
@@ -87,10 +83,9 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing a new idea to the socket" do
-    setup [:persist_users_for_retro, :join_the_retro_channel]
+    setup [:join_the_retro_channel]
 
-    @tag users: [@test_user_one]
-    test "when in idea_generation stage results in the broadcast of the new idea to all connected clients", %{socket: socket, test_user: user} do
+    test "when in idea_generation stage results in the broadcast of the new idea to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
       assignee_id = nil
       push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
@@ -98,8 +93,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
     end
 
-    @tag users: [@test_user_one]
-    test "when in action_items stage results in the broadcast of the new action item to all connected clients", %{socket: socket, test_user: user} do
+    test "when in action_items stage results in the broadcast of the new action item to all connected clients", %{socket: socket, user: user} do
       user_id = user.id
       push(socket, "new_idea", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
 
@@ -144,10 +138,9 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing an edit of an idea to the socket" do
-    setup [:persist_users_for_retro, :persist_idea_for_retro, :join_the_retro_channel]
+    setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    @tag users: [@test_user_one]
     test "results in the broadcast of the edited idea to all connected clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assigneeId: nil})
@@ -156,7 +149,6 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
-    @tag users: [@test_user_one]
     test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assigneeId: nil})
@@ -169,10 +161,9 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing a delete event to the socket" do
-    setup [:persist_users_for_retro, :join_the_retro_channel, :persist_idea_for_retro]
+    setup [:join_the_retro_channel, :persist_idea_for_retro]
 
     @tag idea: %Idea{category: "sad", body: "WIP commits on master"}
-    @tag users: [@test_user_one]
     test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "delete_idea", idea_id)
@@ -192,11 +183,10 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "pushing a `submit_vote` event to the socket" do
-    setup [:persist_users_for_retro, :persist_idea_for_retro, :join_the_retro_channel]
+    setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    @tag users: [@test_user_one]
-    test "results in the broadcast of the vote to connected clients", %{socket: socket, idea: idea, test_user: user} do
+    test "results in the broadcast of the vote to connected clients", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       user_id = user.id
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
@@ -205,8 +195,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    @tag users: [@test_user_one]
-    test "results in the persistence of the vote", %{socket: socket, idea: idea, test_user: user} do
+    test "results in the persistence of the vote", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id) end)
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
@@ -216,11 +205,10 @@ defmodule RemoteRetro.RetroChannelTest do
   end
 
   describe "when a user has already used their votes" do
-    setup [:persist_users_for_retro, :persist_idea_for_retro, :use_all_votes, :join_the_retro_channel]
+    setup [:persist_idea_for_retro, :use_all_votes, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    @tag users: [@test_user_one]
-    test "pushing 'vote_submitted' does not broadcast a vote", %{socket: socket, idea: idea, test_user: user} do
+    test "pushing 'vote_submitted' does not broadcast a vote", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       user_id = user.id
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
@@ -229,8 +217,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    @tag users: [@test_user_one]
-    test "pushing 'vote_submitted' does not persist the vote", %{socket: socket, idea: idea, test_user: user} do
+    test "pushing 'vote_submitted' does not persist the vote", %{socket: socket, idea: idea, user: user} do
       idea_id = idea.id
       vote_count_query = from(v in "votes", where: [idea_id: ^idea_id, user_id: ^user.id])
 

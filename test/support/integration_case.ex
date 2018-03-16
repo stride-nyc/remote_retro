@@ -1,11 +1,13 @@
 defmodule RemoteRetro.IntegrationCase do
 
   use ExUnit.CaseTemplate
-  alias RemoteRetro.Repo
-  alias RemoteRetro.Retro
-  import RemoteRetro.TestHelpers
-
   use Wallaby.DSL
+
+  alias RemoteRetro.{Repo, Retro, User, TestHelpers}
+
+  import TestHelpers
+
+  @test_user_one Application.get_env(:remote_retro, :test_user_one)
 
   setup_all context do
     {:ok, _} = Application.ensure_all_started(:wallaby)
@@ -37,10 +39,13 @@ defmodule RemoteRetro.IntegrationCase do
 
     metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(Repo, self())
     stage = tags[:retro_stage] || "idea-generation"
-    {:ok, retro} = Repo.insert(%Retro{stage: stage})
+
+    {:ok, user} = User.upsert_record_from(oauth_info: @test_user_one)
+    {:ok, retro} = Repo.insert(%Retro{stage: stage, facilitator_id: user.id})
 
     session = new_browser_session(metadata)
     session = authenticate(session)
-    {:ok, session: session, retro: retro}
+
+    {:ok, session: session, retro: retro, user: user}
   end
 end
