@@ -1,11 +1,22 @@
 defmodule RemoteRetro.RetroControllerTest do
   use RemoteRetro.ConnCase, async: true
-  alias RemoteRetro.{Participation, Repo}
+  alias RemoteRetro.{Participation, Retro, Repo}
 
   describe "authenticated requests" do
     setup :authenticate_connection
 
-    test "POST requests to /retros redirect to the new retro", %{conn: conn} do
+    test "POST requests to /retros result in the creation of a retro \
+      where the current user is the facilitator", %{conn: conn} do
+      conn = post conn, "/retros"
+
+      retro = Repo.one(from r in Retro, order_by: [desc: r.id], limit: 1)
+
+      current_user = get_session(conn, "current_user")
+
+      assert retro.facilitator_id == current_user.id
+    end
+
+    test "POST requests to /retros redirect to a newly created retro", %{conn: conn} do
       conn = post conn, "/retros"
 
       assert redirected_to(conn) =~ ~r/\/retros\/.+$/

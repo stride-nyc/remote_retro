@@ -24,7 +24,13 @@ defmodule RemoteRetro.RetroController do
   end
 
   def create(conn, _params) do
-    {:ok, retro} = Repo.insert(%Retro{})
+    user = get_session(conn, "current_user")
+
+    {:ok, retro} =
+      %Retro{facilitator_id: user.id}
+      |> Retro.changeset
+      |> Repo.insert
+
     redirect conn, to: "/retros/" <> retro.id
   end
 
