@@ -5,12 +5,15 @@ defmodule RemoteRetro.User do
   @required_fields [
     :email,
     :google_user_info,
-    :family_name,
     :given_name,
     :locale,
     :name,
     :picture,
-    :last_login
+    :last_login,
+  ]
+
+  @optional_fields [
+    :family_name,
   ]
 
   @derive {Poison.Encoder, except: [:__meta__, :participations, :retros, :google_user_info]}
@@ -36,7 +39,7 @@ defmodule RemoteRetro.User do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, @required_fields)
+    |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)

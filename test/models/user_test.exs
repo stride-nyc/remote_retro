@@ -21,6 +21,13 @@ defmodule RemoteRetro.UserTest do
     assert changeset.valid?
   end
 
+  test "valid changeset when optional fields are absent" do
+    attrs_minus_family_name = Map.drop(@valid_attrs, [:family_name])
+
+    changeset = User.changeset(%User{}, attrs_minus_family_name)
+    assert changeset.valid?
+  end
+
   test "changeset with invalid attributes" do
     changeset = User.changeset(%User{}, @invalid_attrs)
     refute changeset.valid?
