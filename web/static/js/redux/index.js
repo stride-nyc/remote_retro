@@ -32,6 +32,7 @@ import {
 
 import { reducer as stage } from "./stage"
 import { reducer as insertedAt } from "./inserted_at"
+import { reducer as facilitatorId } from "./facilitator_id"
 
 export const reducer = combineReducers({
   presences,
@@ -39,6 +40,7 @@ export const reducer = combineReducers({
   ideas,
   votes,
   stage,
+  facilitatorId,
   insertedAt,
   alert,
 })
