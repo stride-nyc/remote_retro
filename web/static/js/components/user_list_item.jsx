@@ -35,7 +35,7 @@ UserListItem.propTypes = {
   facilitatorId: AppPropTypes.facilitatorId.isRequired,
 }
 
-const mapStateToProps = ({ votes, stage, facilitatorId }) => ({ votes, stage, facilitatorId })
+const mapStateToProps = ({ votes, stage }) => ({ votes, stage })
 
 export default connect(
   mapStateToProps

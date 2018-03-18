@@ -17,6 +17,7 @@ const defaultProps = {
   votes: [],
   stage: IDEA_GENERATION,
   user: defaultUserAttrs,
+  facilitatorId: 999,
 }
 
 describe("UserListItem", () => {
@@ -120,6 +121,7 @@ describe("UserListItem", () => {
       it("renders an opaque span indicating that the user is done voting", () => {
         const wrapper = shallow(
           <UserListItem
+            {...defaultProps}
             user={userWithFiveVotes}
             stage={VOTING}
             votes={votes}
@@ -138,6 +140,7 @@ describe("UserListItem", () => {
       it("does not apply opaqueness to text indicating that the user is done voting", () => {
         const wrapper = shallow(
           <UserListItem
+            {...defaultProps}
             user={userWithFourVotes}
             stage={VOTING}
             votes={votes}
