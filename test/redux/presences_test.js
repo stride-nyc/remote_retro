@@ -28,22 +28,10 @@ describe("presences reducer", () => {
     describe("when there is existing state", () => {
       const action = { type: "SET_PRESENCES", presences }
 
-      it("adds presences in the action to state, assigning facilitatorship to earliest arrival", () => {
+      it("adds presences in the action to state", () => {
         const newState = presencesReducer([], action)
         const tokens = newState.map(presences => presences.token)
         expect(tokens).to.deep.equal(["abc", "123"])
-      })
-
-      it("assigns the facilitator role only to the presences who's been online longest", () => {
-        expect(presencesReducer([], action)).to.deep.equal([{
-          token: "abc",
-          online_at: 2,
-          is_facilitator: false,
-        }, {
-          token: "123",
-          online_at: 1,
-          is_facilitator: true,
-        }])
       })
     })
 
@@ -111,18 +99,12 @@ describe("presences reducer", () => {
 
       const initialState = [{
         name: "Kevin",
-        online_at: 300,
-        is_facilitator: false,
         token: "someLeaverTokenOne",
       }, {
         name: "Sarah",
-        online_at: 100,
-        is_facilitator: true,
         token: "someLeaverTokenTwo",
       }, {
         name: "Travy",
-        online_at: 500,
-        is_facilitator: false,
         token: "TOTALLY_COOL_TOKEN!",
       }]
 
@@ -135,11 +117,6 @@ describe("presences reducer", () => {
         const newState = presencesReducer(initialState, action)
         const tokens = newState.map(user => user.token)
         expect(tokens).to.eql(["TOTALLY_COOL_TOKEN!"])
-      })
-
-      it("ensures the facilitatorship is transferred to the longest tenured", () => {
-        const newState = presencesReducer(initialState, action)
-        expect(newState[0].is_facilitator).to.equal(true)
       })
     })
   })
@@ -160,24 +137,71 @@ describe("presences reducer", () => {
 
 describe("selectors", () => {
   describe("findCurrentUser", () => {
-    const stubUser = { token: "123" }
-    const stubPresences = [stubUser]
+    const state = {
+      facilitatorId: 99,
+      presences: [{
+        id: 99,
+        token: "123",
+      }, {
+        id: 101,
+        token: "83jdkdkd83",
+      }],
+    }
+
     window.userToken = "123"
 
-    it("finds the user with the given token", () => {
-      expect(selectors.findCurrentUser(stubPresences)).to.deep.equal(stubUser)
+    it("finds the user whose token matches the window's `userToken`", () => {
+      expect(selectors.findCurrentUser(state).token).to.deep.equal("123")
+    })
+
+    describe("when the facilitatorId on state matches the id of the current user", () => {
+      it("labels that user as the facilitator", () => {
+        expect(selectors.findCurrentUser(state)).to.deep.equal({
+          id: 99,
+          token: "123",
+          is_facilitator: true,
+        })
+      })
+    })
+
+    describe("when the facilitatorId on state does *not* match the id of the current user", () => {
+      it("explicitly labels that user a non-facilitator", () => {
+        const state = {
+          facilitatorId: 5,
+          presences: [{
+            id: 99,
+            token: "123",
+          }, {
+            id: 101,
+            token: "83jdkdkd83",
+          }],
+        }
+
+        window.userToken = "123"
+
+        expect(selectors.findCurrentUser(state)).to.deep.equal({
+          id: 99,
+          token: "123",
+          is_facilitator: false,
+        })
+      })
     })
   })
 
   describe("findFacilitatorName", () => {
-    const stubFacilitator = {
-      is_facilitator: true,
-      name: "Jill",
+    const state = {
+      facilitatorId: 7,
+      presences: [{
+        id: 7,
+        name: "Jill",
+      }, {
+        id: 20,
+        name: "Bob",
+      }],
     }
-    const stubPresences = [stubFacilitator, { is_facilitator: false, name: "Bob" }]
 
     it("finds the facilitator's name", () => {
-      expect(selectors.findFacilitatorName(stubPresences)).to.equal(stubFacilitator.name)
+      expect(selectors.findFacilitatorName(state)).to.equal("Jill")
     })
   })
 })

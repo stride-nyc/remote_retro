@@ -1,6 +1,6 @@
 import { reducer as facilitatorId } from "../../web/static/js/redux/facilitator_id"
 
-describe("stage reducer", () => {
+describe("facilitatorId reducer", () => {
   describe("unhandled actions", () => {
     describe("when there is an empty action", () => {
       describe("when no initial state is passed", () => {

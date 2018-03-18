@@ -8,7 +8,6 @@ import { CATEGORIES as startingCategories } from "../js/configs/retro_configs"
 
 const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
-
 export const alert = PropTypes.object
 
 export const category = PropTypes.oneOf([
@@ -19,7 +18,6 @@ export const category = PropTypes.oneOf([
 export const presence = PropTypes.shape({
   given_name: PropTypes.string,
   online_at: PropTypes.number,
-  is_facilitator: PropTypes.boolean,
 })
 
 export const presences = PropTypes.arrayOf(presence)
@@ -43,6 +41,8 @@ export const stage = PropTypes.oneOf([
   ACTION_ITEMS,
   CLOSED,
 ])
+
+export const facilitatorId = PropTypes.number
 
 export const categories = PropTypes.arrayOf(PropTypes.string)
 

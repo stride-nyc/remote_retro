@@ -9,7 +9,6 @@ const { IDEA_GENERATION, VOTING, CLOSED } = STAGES
 const defaultUserAttrs = {
   given_name: "dylan",
   online_at: 803,
-  is_facilitator: false,
   is_typing: false,
   picture: "http://some/image.jpg?sz=200",
 }
@@ -24,37 +23,39 @@ describe("UserListItem", () => {
   let wrapper
   let user
 
-  describe("passed a non-facilitator user", () => {
-    const nonFacilitator = { ...defaultUserAttrs, is_facilitator: false }
+  describe("passed a user whose id matches the facilitatorId", () => {
+    const user = { ...defaultUserAttrs, id: 5 }
 
-    it("renders a list item that does not label the user a facilitator", () => {
+    it("renders a list item that labels the user a facilitator", () => {
       const wrapper = shallow(
-        <UserListItem {...defaultProps} user={nonFacilitator} />
+        <UserListItem {...defaultProps} user={user} facilitatorId={5} />
       )
-      expect(wrapper.text()).not.to.match(/facilitator/i)
+      expect(wrapper.text()).to.match(/facilitator/i)
+    })
+
+    describe("when the stage is 'closed", () => {
+      const user = { ...defaultUserAttrs, id: 6 }
+
+      it("does not label the user a facilitator, as the retro is over", () => {
+        const wrapper = mount(
+          <UserListItem
+            {...defaultProps}
+            user={user}
+            facilitatorId={6}
+            stage={CLOSED}
+          />
+        )
+        expect(wrapper.text()).not.to.match(/dylan \(facilitator\)/i)
+      })
     })
   })
 
-  describe("passed a facilitator user", () => {
-    const facilitator = { ...defaultUserAttrs, is_facilitator: true }
+  describe("passed a user whose id differs from the facilitatorId", () => {
+    const user = { ...defaultUserAttrs, id: 11 }
 
-    it("renders a list item with text labeling the user facilitator", () => {
+    it("renders a list item with no '(facilitator)' label", () => {
       const wrapper = shallow(
-        <UserListItem {...defaultProps} user={facilitator} />
-      )
-      expect(wrapper.text()).to.match(/dylan \(facilitator\)/i)
-    })
-  })
-
-  describe("when the stage is 'closed", () => {
-    const facilitator = { ...defaultUserAttrs, is_facilitator: true }
-    it("does not label any new facilitators", () => {
-      const wrapper = mount(
-        <UserListItem
-          {...defaultProps}
-          user={facilitator}
-          stage={CLOSED}
-        />
+        <UserListItem {...defaultProps} user={user} facilitatorId={2} />
       )
       expect(wrapper.text()).not.to.match(/dylan \(facilitator\)/i)
     })

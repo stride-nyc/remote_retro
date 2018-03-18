@@ -24,6 +24,6 @@ describe("passed an array of users", () => {
 
   it("sorts the presences by their arrival in the room, ascending", () => {
     const wrapper = mountWithConnectedSubcomponents(<UserList presences={presences} />)
-    expect(wrapper.text()).to.match(/zandertreezy/i)
+    expect(wrapper.text()).to.match(/zander.*treezy/i)
   })
 })
