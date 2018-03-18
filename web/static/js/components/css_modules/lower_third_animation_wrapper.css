@@ -1,6 +1,8 @@
 @import '../../../css/colors.css';
 
 .index {
+  z-index: 2;
+
   /* ensure sticky footer appears flush with bottom of screen on bigscreens by adding shadow */
   :global(.attached.secondary.segment) {
     border-bottom: none;
