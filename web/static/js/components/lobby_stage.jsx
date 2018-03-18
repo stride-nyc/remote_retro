@@ -10,7 +10,8 @@ import styles from "./css_modules/centered_text.css"
 const facilitatorInstructions = (
   <span>
     As <strong>facilitator</strong> of this retro,
-    it will be your responsibility to start the retro once your party has arrived. Get them in here!
+    it will be your responsibility to advance the retro once your party has arrived.
+    Get them in here!
   </span>
 )
 

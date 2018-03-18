@@ -187,23 +187,6 @@ describe("selectors", () => {
       })
     })
   })
-
-  describe("findFacilitatorName", () => {
-    const state = {
-      facilitatorId: 7,
-      presences: [{
-        id: 7,
-        name: "Jill",
-      }, {
-        id: 20,
-        name: "Bob",
-      }],
-    }
-
-    it("finds the facilitator's name", () => {
-      expect(selectors.findFacilitatorName(state)).to.equal("Jill")
-    })
-  })
 })
 
 describe("presence actions", () => {

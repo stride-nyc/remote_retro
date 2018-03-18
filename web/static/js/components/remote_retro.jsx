@@ -72,7 +72,7 @@ RemoteRetro.defaultProps = {
 const mapStateToProps = state => ({
   ...state,
   currentUser: selectors.findCurrentUser(state),
-  facilitatorName: selectors.findFacilitatorName(state),
+  facilitatorName: selectors.getUserById(state, state.facilitatorId).name,
 })
 
 const mapDispatchToProps = dispatch => ({

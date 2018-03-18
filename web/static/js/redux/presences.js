@@ -53,12 +53,7 @@ export const reducer = (state = [], action) => {
   }
 }
 
-const findFacilitator = state => {
-  return state.presences.find(user => user.id === state.facilitatorId)
-}
-
 export const selectors = {
-  findFacilitator,
   findCurrentUser: state => {
     const currentUserPresence = state.presences.find(user => user.token === window.userToken)
     if (!currentUserPresence) { return {} }
@@ -67,11 +62,6 @@ export const selectors = {
       ...currentUserPresence,
       is_facilitator: state.facilitatorId === currentUserPresence.id,
     }
-  },
-
-  findFacilitatorName: state => {
-    const facilitator = findFacilitator(state)
-    return facilitator ? facilitator.name : ""
   },
 }
 
