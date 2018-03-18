@@ -62,7 +62,6 @@ RemoteRetro.propTypes = {
 
 RemoteRetro.defaultProps = {
   currentUser: {},
-  facilitatorName: "",
   presences: [],
   ideas: [],
   alert: null,

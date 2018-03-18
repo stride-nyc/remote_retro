@@ -15,6 +15,7 @@ describe("RemoteRetro component", () => {
     presences: [],
     ideas: [],
     stage: IDEA_GENERATION,
+    facilitatorName: "Daniel Handpan",
     userToken: "",
   }
 
