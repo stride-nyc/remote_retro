@@ -1,5 +1,4 @@
 import deepFreeze from "deep-freeze"
-import FacilitationTransferInfo from "../../web/static/js/components/facilitation_transfer_info"
 
 import {
   reducer,
@@ -73,42 +72,12 @@ describe("alert", () => {
         })
       })
     })
-
-    describe("when the action is CHANGE_FACILITATOR", () => {
-      const initialState = { headerText: "Warning!", bodyText: "You're being watched." }
-
-      deepFreeze(initialState)
-
-      const action = {
-        type: "CHANGE_FACILITATOR",
-        previousFacilitatorName: "Jane",
-      }
-
-      const expectedAlertText = {
-        headerText: "Facilitation Transfer!",
-        BodyComponent: () => FacilitationTransferInfo(action.previousFacilitatorName),
-      }
-      const actualAlertText = reducer(initialState, action)
-
-      it("returns the alert with the facilitation transfer info", () => {
-        expect(actualAlertText.headerText).to.equal(expectedAlertText.headerText)
-        expect(actualAlertText.BodyComponent().toString())
-          .to.equal(expectedAlertText.BodyComponent().toString())
-      })
-    })
   })
 
   describe("actions", () => {
     describe("clearAlert", () => {
       it("creates an action to clear the alert", () => {
         expect(actions.clearAlert()).to.deep.equal({ type: "CLEAR_ALERT" })
-      })
-    })
-
-    describe("changeFacilitator", () => {
-      it("creates an action to change alert text to facilitation transfer info", () => {
-        const previousFacilitatorName = "Jane"
-        expect(actions.changeFacilitator(previousFacilitatorName)).to.deep.equal({ type: "CHANGE_FACILITATOR", previousFacilitatorName })
       })
     })
   })

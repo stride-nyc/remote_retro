@@ -8,14 +8,6 @@ import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import Alert from "./alert"
 import DoorChime from "./door_chime"
-import STAGES from "../configs/stages"
-
-const { CLOSED } = STAGES
-
-export function isNewFacilitator(prevCurrentUser, currentUser) {
-  return ((prevCurrentUser.is_facilitator !== currentUser.is_facilitator)
-    && currentUser.is_facilitator)
-}
 
 export class RemoteRetro extends Component {
   // Trigger analytics events on page load and stage changes
@@ -24,15 +16,8 @@ export class RemoteRetro extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { stage, actions, currentUser } = this.props
+    const { stage } = this.props
     if (prevProps.stage !== stage) { hj("trigger", stage) }
-
-    if (prevProps.presences.length) {
-      const prevCurrentUser = prevProps.currentUser
-      if (isNewFacilitator(prevCurrentUser, currentUser) && stage !== CLOSED) {
-        actions.changeFacilitator(prevProps.facilitatorName)
-      }
-    }
   }
 
   render() {
