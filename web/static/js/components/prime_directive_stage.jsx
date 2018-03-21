@@ -1,26 +1,26 @@
 import React from "react"
 import PropTypes from "prop-types"
 
-import UserList from "./user_list"
-import StageProgressionButton from "./stage_progression_button"
-import PrimeDirective from "./prime_directive"
+import CenteredTextStageWrapper from "./centered_text_stage_wrapper"
+
+const primeDirectiveMarkup = (
+  <p>
+    Regardless of what we discover,<br />
+    we understand and truly believe<br />
+    that everyone did the best job they could,<br />
+    given what they knew at the time,<br />
+    their skills and abilities,<br />
+    the resources available, and the situation at hand.
+  </p>
+)
 
 const PrimeDirectiveStage = props => {
-  const { progressionConfig } = props
   return (
-    <div className="ui centered grid">
-      <div className="thirteen wide mobile eight wide tablet five wide computer column">
-        <PrimeDirective />
-      </div>
-      <div className="row">
-        <UserList {...props} />
-      </div>
-      <div className="row">
-        <div className="thirteen wide mobile eight wide tablet four wide computer column">
-          <StageProgressionButton {...props} config={progressionConfig} />
-        </div>
-      </div>
-    </div>
+    <CenteredTextStageWrapper
+      {...props}
+      headerText="The Prime Directive"
+      bodyMarkup={primeDirectiveMarkup}
+    />
   )
 }
 

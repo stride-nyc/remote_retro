@@ -1,0 +1,26 @@
+:global(.ui.grid).index {
+  @media(max-width: 450px) and (orientation: portrait) {
+    margin: 0 auto;
+    width: calc(100% - 4rem);
+  }
+
+  @media(max-width: 668px) and (orientation: landscape) {
+    margin: 0 auto;
+    width: 75%;
+  }
+
+  .variable-column {
+    padding: 11.5rem 0 5rem 0;
+
+    --portrait-padding: 5rem;
+    --landscape-padding: 3rem;
+
+    @media(max-width: 450px) and (orientation: portrait) {
+      padding: var(--portrait-padding) 0;
+    }
+
+    @media(max-width: 668px) and (orientation: landscape) {
+      padding: var(--landscape-padding) 0;
+    }
+  }
+}

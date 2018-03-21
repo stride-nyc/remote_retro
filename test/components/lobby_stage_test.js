@@ -1,5 +1,4 @@
 import React from "react"
-import { shallow } from "enzyme"
 
 import LobbyStage from "../../web/static/js/components/lobby_stage"
 
@@ -10,6 +9,8 @@ describe("LobbyStage component", () => {
     given_name: "Carol",
     is_facilitator: true,
     id: 1,
+    picture: "http://derp.com",
+    token: "herp",
   }
   const defaultProps = {
     progressionConfig: {},
@@ -25,7 +26,7 @@ describe("LobbyStage component", () => {
     })
 
     it("contains the instructions specific to the facilitator", () => {
-      wrapper = shallow(<LobbyStage {...props} />)
+      wrapper = mountWithConnectedSubcomponents(<LobbyStage {...props} />)
 
       expect(wrapper.text()).to.include("responsibility")
     })
@@ -40,7 +41,7 @@ describe("LobbyStage component", () => {
     })
 
     it("contains the instructions specific to participants", () => {
-      wrapper = shallow(<LobbyStage {...props} />)
+      wrapper = mountWithConnectedSubcomponents(<LobbyStage {...props} />)
 
       expect(wrapper.text()).to.include("hold tight")
     })
