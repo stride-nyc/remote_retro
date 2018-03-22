@@ -4,14 +4,7 @@
 
 # RemoteRetro
 
-![](https://media.giphy.com/media/xUOwGpGJcTTV3myapq/source.gif)
-
-___
-
-
-
-
-This repository houses the web application code for Remote Retro, an open source professional development project written in Elixir/Phoenix/React and sponsored by [Stride Consulting](http://stridenyc.com).
+This repository houses the application code for Remote Retro, an open source professional development project written in Elixir/Phoenix/React and sponsored by [Stride Consulting](http://stridenyc.com).
 
 ## Table of Contents
 1. [Roadmap to MVP](#roadmap-to-mvp)
