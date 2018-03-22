@@ -28,6 +28,20 @@
     padding: calc(2 * var(--padding));
   }
 
+  @media(max-width: 450px) and (orientation: portrait) {
+    .welcome-wrapper {
+      padding: 2.5rem;
+    }
+
+    .social {
+      display: none;
+    }
+
+    .cta-wrapper {
+      padding: 3.5rem;
+    }
+  }
+
   h1 {
     font-size: 4rem;
     font-weight: 200;
