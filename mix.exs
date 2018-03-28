@@ -5,7 +5,7 @@ defmodule RemoteRetro.Mixfile do
     [app: :remote_retro,
      version: "0.0.1",
      default_task: "defaults",
-     elixir: "~> 1.2",
+     elixir: "~> 1.5",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
@@ -22,7 +22,7 @@ defmodule RemoteRetro.Mixfile do
   def application do
     [mod: {RemoteRetro, []},
      applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :oauth2, :bamboo, :slender_channel, :honeybadger, :timex]]
+                    :phoenix_ecto, :postgrex, :oauth2, :bamboo, :slender_channel, :honeybadger, :timex, :libcluster]]
   end
 
   # Specifies which paths to compile per environment.
@@ -46,6 +46,7 @@ defmodule RemoteRetro.Mixfile do
      {:gettext, "~> 0.11"},
      {:wallaby, "~> 0.19.2"},
      {:slender_channel, "~> 0.1.1"},
+     {:libcluster, "~> 2.0.3"},
      {:cowboy, "~> 1.0"},
      {:bamboo, "~> 0.8"},
      {:honeybadger, "~> 0.7.0"},
