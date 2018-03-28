@@ -187,20 +187,6 @@ describe("IdeaSubmissionForm component", () => {
   })
 
   describe(".componentWillReceiveProps", () => {
-    describe("when the `category` state attribute is stubbed with nonsense", () => {
-      beforeEach(() => {
-        wrapper = mountWithConnectedSubcomponents(
-          <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={mockRetroChannel}
-            users={users}
-          />
-        )
-
-        wrapper.setState({ category: "stub" })
-      })
-    })
-
     describe("when the form has an alert object and the alert is then removed", () => {
       beforeEach(() => {
         wrapper = mountWithConnectedSubcomponents(
