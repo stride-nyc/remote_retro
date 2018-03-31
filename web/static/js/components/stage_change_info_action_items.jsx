@@ -9,7 +9,7 @@ export default () => (
           <ul>
             <li>
               <small>
-                <strong>Protip:</strong>
+                <strong>Protip: </strong>
                 let discussions breathe, conducting root cause analyses where appropriate.
               </small>
             </li>
