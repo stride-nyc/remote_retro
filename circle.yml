@@ -34,7 +34,7 @@ dependencies:
     - google-chrome --version
     - yarn
     - npm install -g phantomjs chromedriver
-    - npm run deploy
+    - npm run compile-production
 test:
   override:
     - npm run test
