@@ -115,7 +115,7 @@ Next, click on "Credentials" in the left sidebar nav. On the right hand side, cl
 - Authorized JavaScript origins: `http://localhost:4000`
 - Authorized redirect URIs: `http://localhost:4000/auth/google/callback`
 
-Click on the Create button. Using the information Google provides, add the following lines to your profile and source (or open a new terminal).
+Click on the Create button. Using the information Google provides, add the following lines to your profile and source (or open a new terminal). You can also, `cp .env.shadow .env` and add them there.
 ```
 export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID="<Client Id>"
 export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET="<Client secret>"
