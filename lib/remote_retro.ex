@@ -1,5 +1,6 @@
 defmodule RemoteRetro do
   use Application
+  require Logger
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -21,7 +22,15 @@ defmodule RemoteRetro do
     # See http://elixir-lang.org/docs/stable/elixir/Supervisor.html
     # for other strategies and supported options
     opts = [strategy: :one_for_one, name: RemoteRetro.Supervisor]
-    Supervisor.start_link(children, opts)
+
+    result = Supervisor.start_link(children, opts)
+
+    path_to_migrations = Path.join([:code.priv_dir(:remote_retro), "repo/migrations"])
+
+    Logger.info "Running migrations..."
+    Ecto.Migrator.run(RemoteRetro.Repo, path_to_migrations, :up, all: true)
+
+    result
   end
 
   # Tell Phoenix to update the endpoint configuration
