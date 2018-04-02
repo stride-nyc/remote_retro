@@ -1,4 +1,4 @@
-defmodule RemoteRetro.IdeaView do
+defmodule RemoteRetroWeb.IdeaView do
   def action_item_to_string(action_item) do
     case action_item.assignee do
       nil -> action_item.body

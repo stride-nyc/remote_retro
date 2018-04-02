@@ -1,5 +1,5 @@
-defmodule RemoteRetro.ErrorView do
-  use RemoteRetro.Web, :view
+defmodule RemoteRetroWeb.ErrorView do
+  use RemoteRetroWeb, :view
 
   def render("404.html", _assigns) do
     "Page not found"

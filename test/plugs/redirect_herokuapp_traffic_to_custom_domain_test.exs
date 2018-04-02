@@ -1,5 +1,5 @@
 defmodule RemoteRetro.RedirectHerokuAppTrafficToCustomDomainTest do
-  use RemoteRetro.ConnCase
+  use RemoteRetroWeb.ConnCase
 
   describe "RedirectHerokuAppTrafficToCustomDomain" do
     test "redirects requests to the herokuapp.com address to the new permanent address" do

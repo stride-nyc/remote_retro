@@ -1,5 +1,5 @@
 defmodule RemoteRetro.PageControllerTest do
-  use RemoteRetro.ConnCase, async: true
+  use RemoteRetroWeb.ConnCase, async: true
 
   describe "authenticated visits to root" do
     setup [:authenticate_connection]

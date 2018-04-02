@@ -25,16 +25,16 @@ defmodule RemoteRetro.Mixfile do
   end
 
   # Specifies which paths to compile per environment.
-  defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
-  defp elixirc_paths(_),     do: ["lib", "web"]
+  defp elixirc_paths(:test), do: ["lib", "test/support"]
+  defp elixirc_paths(_),     do: ["lib"]
 
   # Specifies your project dependencies.
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.2.1"},
+    [{:phoenix, "~> 1.3.2"},
      {:phoenix_pubsub, "~> 1.0.2"},
-     {:phoenix_ecto, "~> 3.2.2"},
+     {:phoenix_ecto, "~> 3.3.0"},
      {:distillery, "~> 1.0.0"},
      {:excoveralls, "~> 0.7.5", only: :test},
      {:postgrex, ">= 0.0.0"},

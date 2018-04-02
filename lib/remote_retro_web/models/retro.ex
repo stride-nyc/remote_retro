@@ -1,5 +1,5 @@
 defmodule RemoteRetro.Retro do
-  use RemoteRetro.Web, :model
+  use RemoteRetroWeb, :model
 
   @primary_key {:id, :binary_id, autogenerate: true}
 

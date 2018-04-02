@@ -1,5 +1,5 @@
-defmodule RemoteRetro.RetroController do
-  use RemoteRetro.Web, :controller
+defmodule RemoteRetroWeb.RetroController do
+  use RemoteRetroWeb, :controller
   alias RemoteRetro.{Retro, Participation, Idea}
   alias Phoenix.Token
 

@@ -1,7 +1,7 @@
-defmodule RemoteRetro.Endpoint do
+defmodule RemoteRetroWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :remote_retro
 
-  socket "/socket", RemoteRetro.UserSocket
+  socket "/socket", RemoteRetroWeb.UserSocket
 
   if Application.get_env(:remote_retro, :sql_sandbox) do
     plug Phoenix.Ecto.SQL.Sandbox
@@ -41,5 +41,5 @@ defmodule RemoteRetro.Endpoint do
     key: "_remote_retro_key",
     signing_salt: "D76dW6Sl"
 
-  plug RemoteRetro.Router
+  plug RemoteRetroWeb.Router
 end

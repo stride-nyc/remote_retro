@@ -1,6 +1,6 @@
 defmodule RemoteRetro.PresenceTest do
   use ExUnit.Case, async: true
-  alias RemoteRetro.Presence
+  alias RemoteRetroWeb.Presence
 
   @basic_presence_structure %{
     "9sah2y" => %{

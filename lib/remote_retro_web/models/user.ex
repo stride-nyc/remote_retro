@@ -1,5 +1,5 @@
 defmodule RemoteRetro.User do
-  use RemoteRetro.Web, :model
+  use RemoteRetroWeb, :model
   alias RemoteRetro.{Participation, Repo}
 
   @required_fields [

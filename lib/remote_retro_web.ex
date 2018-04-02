@@ -1,12 +1,12 @@
-defmodule RemoteRetro.Web do
+defmodule RemoteRetroWeb do
   @moduledoc """
   A module that keeps using definitions for controllers,
   views and so on.
 
   This can be used in your application as:
 
-      use RemoteRetro.Web, :controller
-      use RemoteRetro.Web, :view
+      use RemoteRetroWeb, :controller
+      use RemoteRetroWeb, :view
 
   The definitions below will be executed for every view,
   controller, etc, so keep them short and clean, focused
@@ -28,20 +28,21 @@ defmodule RemoteRetro.Web do
 
   def controller do
     quote do
-      use Phoenix.Controller
+      use Phoenix.Controller, namespace: RemoteRetroWeb
 
       alias RemoteRetro.Repo
       import Ecto
       import Ecto.Query
 
-      import RemoteRetro.Router.Helpers
-      import RemoteRetro.Gettext
+      import RemoteRetroWeb.Router.Helpers
+      import RemoteRetroWeb.Gettext
     end
   end
 
   def view do
     quote do
-      use Phoenix.View, root: "web/templates"
+      use Phoenix.View, root: "lib/remote_retro_web/templates",
+                        namespace: RemoteRetroWeb
 
       # Import convenience functions from controllers
       import Phoenix.Controller, only: [get_csrf_token: 0, get_flash: 2, view_module: 1]
@@ -49,9 +50,9 @@ defmodule RemoteRetro.Web do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import RemoteRetro.Router.Helpers
-      import RemoteRetro.ErrorHelpers
-      import RemoteRetro.Gettext
+      import RemoteRetroWeb.Router.Helpers
+      import RemoteRetroWeb.ErrorHelpers
+      import RemoteRetroWeb.Gettext
     end
   end
 
@@ -68,7 +69,7 @@ defmodule RemoteRetro.Web do
       alias RemoteRetro.Repo
       import Ecto
       import Ecto.Query
-      import RemoteRetro.Gettext
+      import RemoteRetroWeb.Gettext
     end
   end
 

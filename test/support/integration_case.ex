@@ -24,7 +24,7 @@ defmodule RemoteRetro.IntegrationCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import RemoteRetro.Router.Helpers
+      import RemoteRetroWeb.Router.Helpers
       import RemoteRetro.TestHelpers
       @moduletag :feature_test
     end
