@@ -136,6 +136,12 @@
   font-weight: bold;
 }
 
+:global(.retros-list) {
+  a {
+    font-size: 1.1rem;
+  }
+}
+
 :global(.nested-action-items-list) {
   position: relative;
   left: 0.9rem;

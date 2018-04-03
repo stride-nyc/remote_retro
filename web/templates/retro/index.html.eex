@@ -9,7 +9,7 @@
     </p>
   <% else %>
     <h1 class="ui dividing header">My Retros:</h1>
-    <ul>
+    <ul class="retros-list">
       <%= for retro <- @retros do %>
         <li>
           <a href="<%= retro_path @conn, :show, retro %>">
