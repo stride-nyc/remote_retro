@@ -17,7 +17,9 @@
           </a>
           <%= if Enum.count(retro.ideas) > 0 do %>
             <div class="nested-action-items-list hidden">
-              Action Items <i class="ui icon chevron down" onclick="toggleItems(this)"></i>
+              <span onclick="toggleItems(this)" class="action-items-label bold">
+                Action Items <i class="ui icon chevron down"></i>
+              </span>
               <ul>
                 <%# ideas retrieved via association are scoped to action_items %>
                 <%= for idea <- retro.ideas do %>
