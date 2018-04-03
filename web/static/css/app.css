@@ -141,4 +141,18 @@
   left: 0.9rem;
 
   font-size: 0.9rem;
+
+  i {
+    cursor: pointer;
+  }
+
+  &:global(.hidden) {
+    i {
+      transform: rotate(90deg);
+    }
+
+    ul {
+      display: none;
+    }
+  }
 }

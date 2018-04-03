@@ -16,8 +16,8 @@
             created <%= Timex.format!(retro.inserted_at, "{relative}", :relative) %>
           </a>
           <%= if Enum.count(retro.ideas) > 0 do %>
-            <div class="nested-action-items-list">
-              <span class="bold">Action Items:</span>
+            <div class="nested-action-items-list hidden">
+              Action Items <i class="ui icon chevron down" onclick="toggleItems(this)"></i>
               <ul>
                 <%# ideas retrieved via association are scoped to action_items %>
                 <%= for idea <- retro.ideas do %>
@@ -38,4 +38,11 @@
       <i class="arrow right icon"></i>
     </button>
   <% end %>
+
+  <script>
+    function toggleItems(toggleIcon) {
+      var nestedActionItemsListEl = toggleIcon.closest(".nested-action-items-list");
+      nestedActionItemsListEl.classList.toggle("hidden");
+    }
+  </script>
 </div>
