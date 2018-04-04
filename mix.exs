@@ -21,8 +21,7 @@ defmodule RemoteRetro.Mixfile do
   # Type `mix help compile.app` for more information.
   def application do
     [mod: {RemoteRetro, []},
-     applications: [:phoenix, :phoenix_pubsub, :phoenix_html, :cowboy, :logger, :gettext,
-                    :phoenix_ecto, :postgrex, :oauth2, :bamboo, :slender_channel, :honeybadger, :timex, :libcluster]]
+      extra_applications: [:logger]]
   end
 
   # Specifies which paths to compile per environment.
@@ -44,7 +43,7 @@ defmodule RemoteRetro.Mixfile do
      {:mix_test_watch, "~> 0.2", only: :dev},
      {:oauth2, "~> 0.9"},
      {:gettext, "~> 0.11"},
-     {:wallaby, "~> 0.19.2"},
+     {:wallaby, "~> 0.19.2", [runtime: false, only: :test]},
      {:slender_channel, "~> 0.1.1"},
      {:libcluster, "~> 2.0.3"},
      {:cowboy, "~> 1.0"},
