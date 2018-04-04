@@ -12,7 +12,7 @@ defmodule RemoteRetro.UserTest do
     name: "Test User",
     picture: "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
     profile: "https://plus.google.com/108658712426577966861",
-    last_login: %{day: 17, hour: 14, min: 0, month: 4, sec: 0, year: 2010}
+    last_login: ~N[2010-04-03 23:00:07]
   }
   @invalid_attrs %{}
 

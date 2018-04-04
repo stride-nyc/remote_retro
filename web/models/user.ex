@@ -26,7 +26,7 @@ defmodule RemoteRetro.User do
     field :name, :string
     field :picture, :string
     field :profile, :string
-    field :last_login, Ecto.DateTime
+    field :last_login, :naive_datetime
 
     field :online_at, :integer, virtual: true
     field :token, :string, virtual: true
