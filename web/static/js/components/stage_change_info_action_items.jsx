@@ -15,9 +15,12 @@ export default () => (
             </li>
           </ul>
         </li>
-        <li>Generate action-items aimed at obliterating the team's bottlenecks.</li>
-        <li>Generate action-items that will bolster the team's successes.</li>
-        <li>Give every action-item an assignee.</li>
+        <li>Generate action-items aimed at:
+          <ul>
+            <li>exploding the team's bottlenecks</li>
+            <li>bolstering the team's successes</li>
+          </ul>
+        </li>
       </ul>
     </div>
   </div>
