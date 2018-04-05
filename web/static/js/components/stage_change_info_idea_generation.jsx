@@ -7,10 +7,7 @@ export default () => (
       <ul className="ui list">
         <li>Reflect on the events of this past sprint.</li>
         <li>Submit items that made you happy, sad, or just plain confused.</li>
-        <li>
-          Don't throw anyone under the bus.
-          If a disaster occurred, leave the names at the door.
-        </li>
+        <li>Assume best intent; you're all here to improve.</li>
       </ul>
     </div>
   </div>
