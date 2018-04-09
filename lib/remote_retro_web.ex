@@ -34,8 +34,8 @@ defmodule RemoteRetroWeb do
       import Ecto
       import Ecto.Query
 
-      import RemoteRetroWeb.Router.Helpers
-      import RemoteRetroWeb.Gettext
+      alias RemoteRetroWeb.Router.Helpers
+      alias RemoteRetroWeb.Gettext
     end
   end
 
@@ -69,7 +69,7 @@ defmodule RemoteRetroWeb do
       alias RemoteRetro.Repo
       import Ecto
       import Ecto.Query
-      import RemoteRetroWeb.Gettext
+      alias RemoteRetroWeb.Gettext
     end
   end
 
