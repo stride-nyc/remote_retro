@@ -1,8 +1,9 @@
 defmodule RemoteRetro.RetroChannelTest do
-  use RemoteRetro.ChannelCase, async: false
+  use RemoteRetroWeb.ChannelCase, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.{RetroChannel, Repo, Idea, Presence, Retro, Vote}
+  alias RemoteRetro.{Repo, Idea, Retro, Vote}
+  alias RemoteRetroWeb.{RetroChannel, Presence}
 
   defp join_the_retro_channel(%{retro: retro, user: user} = context) do
     {:ok, join_response, socket} =
@@ -232,5 +233,3 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 end
-
-

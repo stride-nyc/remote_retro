@@ -1,5 +1,5 @@
 defmodule RemoteRetro.AuthControllerTest do
-  use RemoteRetro.ConnCase, async: true
+  use RemoteRetroWeb.ConnCase, async: true
   alias RemoteRetro.User
 
   setup context do

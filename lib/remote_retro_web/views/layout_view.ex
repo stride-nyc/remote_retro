@@ -1,5 +1,5 @@
-defmodule RemoteRetro.LayoutView do
-  use RemoteRetro.Web, :view
+defmodule RemoteRetroWeb.LayoutView do
+  use RemoteRetroWeb, :view
 
   def app_js(conn) do
     case Application.get_env(:remote_retro, :env) do

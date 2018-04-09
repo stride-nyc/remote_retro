@@ -1,6 +1,7 @@
 defmodule RemoteRetro.IdeaViewTest do
-  use RemoteRetro.ConnCase, async: true
-  alias RemoteRetro.{Idea, User, IdeaView}
+  use RemoteRetroWeb.ConnCase, async: true
+  alias RemoteRetro.{Idea, User}
+  alias RemoteRetroWeb.IdeaView
 
   describe ".action_item_to_string" do
     test "returns the action item's body, and assignee's name as a parenthetical" do

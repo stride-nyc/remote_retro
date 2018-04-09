@@ -1,7 +1,8 @@
 defmodule RemoteRetro.Emails do
   import Bamboo.Email, except: [from: 2]
   import Ecto.Query
-  alias RemoteRetro.{Repo, User, IdeaView}
+  alias RemoteRetro.{Repo, User}
+  alias RemoteRetroWeb.IdeaView
 
   def action_items_email(retro_id) do
     action_items = retro_action_items(retro_id)

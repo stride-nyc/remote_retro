@@ -1,5 +1,5 @@
-defmodule RemoteRetro.Router do
-  use RemoteRetro.Web, :router
+defmodule RemoteRetroWeb.Router do
+  use RemoteRetroWeb, :router
   use Honeybadger.Plug
 
   if Application.get_env(:remote_retro, :env) == :dev do
@@ -19,7 +19,7 @@ defmodule RemoteRetro.Router do
     plug :put_secure_browser_headers
   end
 
-  scope "/", RemoteRetro do
+  scope "/", RemoteRetroWeb do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
@@ -28,7 +28,7 @@ defmodule RemoteRetro.Router do
     get "/auth/google/callback", AuthController, :callback
   end
 
-  scope "/retros", RemoteRetro do
+  scope "/retros", RemoteRetroWeb do
     pipe_through [:browser, :authentication_required]
 
     resources "/", RetroController, only: [:index, :create, :show]

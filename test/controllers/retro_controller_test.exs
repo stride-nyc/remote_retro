@@ -1,5 +1,5 @@
 defmodule RemoteRetro.RetroControllerTest do
-  use RemoteRetro.ConnCase, async: true
+  use RemoteRetroWeb.ConnCase, async: true
   alias RemoteRetro.{Participation, Retro, Repo}
 
   describe "authenticated requests" do
