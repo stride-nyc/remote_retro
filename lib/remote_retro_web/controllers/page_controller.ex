@@ -1,5 +1,5 @@
-defmodule RemoteRetro.PageController do
-  use RemoteRetro.Web, :controller
+defmodule RemoteRetroWeb.PageController do
+  use RemoteRetroWeb, :controller
 
   def index(conn, _params) do
     current_user = get_session(conn, :current_user)

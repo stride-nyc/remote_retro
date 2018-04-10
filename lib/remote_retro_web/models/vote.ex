@@ -1,5 +1,5 @@
 defmodule RemoteRetro.Vote do
-  use RemoteRetro.Web, :model
+  use RemoteRetroWeb, :model
 
   @derive {Poison.Encoder, except: [:__meta__, :user, :idea]}
   schema "votes" do

@@ -1,6 +1,6 @@
 defmodule RemoteRetro.LayoutViewTest do
-  use RemoteRetro.ConnCase, async: false
-  alias RemoteRetro.LayoutView
+  use RemoteRetroWeb.ConnCase, async: false
+  alias RemoteRetroWeb.LayoutView
 
   test "app_js is served by the webpack dev server (at port 5001) in dev" do
     Application.put_env(:remote_retro, :env, :dev)

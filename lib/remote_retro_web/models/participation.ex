@@ -1,5 +1,5 @@
 defmodule RemoteRetro.Participation do
-  use RemoteRetro.Web, :model
+  use RemoteRetroWeb, :model
 
   @derive {Poison.Encoder, except: [:__meta__, :user, :retro]}
   schema "participations" do

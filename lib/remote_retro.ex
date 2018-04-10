@@ -1,6 +1,7 @@
 defmodule RemoteRetro do
   use Application
   require Logger
+  alias RemoteRetroWeb.Endpoint
 
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
@@ -12,8 +13,8 @@ defmodule RemoteRetro do
       # Start the Ecto repository
       supervisor(RemoteRetro.Repo, []),
       # Start the endpoint when the application starts
-      supervisor(RemoteRetro.Endpoint, []),
-      supervisor(RemoteRetro.Presence, []),
+      supervisor(RemoteRetroWeb.Endpoint, []),
+      supervisor(RemoteRetroWeb.Presence, []),
 
       # Start your own worker by calling: RemoteRetro.Worker.start_link(arg1, arg2, arg3)
       # worker(RemoteRetro.Worker, [arg1, arg2, arg3]),
@@ -36,7 +37,7 @@ defmodule RemoteRetro do
   # Tell Phoenix to update the endpoint configuration
   # whenever the application is updated.
   def config_change(changed, _new, removed) do
-    RemoteRetro.Endpoint.config_change(changed, removed)
+    Endpoint.config_change(changed, removed)
     :ok
   end
 end

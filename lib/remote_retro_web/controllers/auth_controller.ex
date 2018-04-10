@@ -1,5 +1,5 @@
-defmodule RemoteRetro.AuthController do
-  use RemoteRetro.Web, :controller
+defmodule RemoteRetroWeb.AuthController do
+  use RemoteRetroWeb, :controller
   alias RemoteRetro.OAuth.Google
   alias RemoteRetro.User
 

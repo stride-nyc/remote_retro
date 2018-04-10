@@ -1,4 +1,4 @@
-defmodule RemoteRetro.ErrorHelpers do
+defmodule RemoteRetroWeb.ErrorHelpers do
   @moduledoc """
   Conveniences for translating and building error messages.
   """
@@ -32,9 +32,9 @@ defmodule RemoteRetro.ErrorHelpers do
     #     dgettext "errors", "is invalid"
     #
     if count = opts[:count] do
-      Gettext.dngettext(RemoteRetro.Gettext, "errors", msg, msg, count, opts)
+      Gettext.dngettext(RemoteRetroWeb.Gettext, "errors", msg, msg, count, opts)
     else
-      Gettext.dgettext(RemoteRetro.Gettext, "errors", msg, opts)
+      Gettext.dgettext(RemoteRetroWeb.Gettext, "errors", msg, opts)
     end
   end
 end

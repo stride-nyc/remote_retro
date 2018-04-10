@@ -1,4 +1,4 @@
-defmodule RemoteRetro.ChannelCase do
+defmodule RemoteRetroWeb.ChannelCase do
   @moduledoc """
   This module defines the test case to be used by
   channel tests.
@@ -31,7 +31,7 @@ defmodule RemoteRetro.ChannelCase do
       import RemoteRetro.TestHelpers
 
       # The default endpoint for testing
-      @endpoint RemoteRetro.Endpoint
+      @endpoint RemoteRetroWeb.Endpoint
     end
   end
 

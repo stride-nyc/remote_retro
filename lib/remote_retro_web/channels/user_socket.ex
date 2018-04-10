@@ -1,8 +1,8 @@
-defmodule RemoteRetro.UserSocket do
+defmodule RemoteRetroWeb.UserSocket do
   use Phoenix.Socket
 
   ## Channels
-  channel "retro:*", RemoteRetro.RetroChannel
+  channel "retro:*", RemoteRetroWeb.RetroChannel
 
   ## Transports
   transport :websocket, Phoenix.Transports.WebSocket, timeout: 45_000
@@ -30,7 +30,7 @@ defmodule RemoteRetro.UserSocket do
   # Would allow you to broadcast a "disconnect" event and terminate
   # all active sockets and channels for a given user:
   #
-  #     RemoteRetro.Endpoint.broadcast("users_socket:#{user.id}", "disconnect", %{})
+  #     RemoteRetroWeb.Endpoint.broadcast("users_socket:#{user.id}", "disconnect", %{})
   #
   # Returning `nil` makes this socket anonymous.
   def id(_socket), do: nil

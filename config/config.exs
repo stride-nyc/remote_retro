@@ -11,10 +11,10 @@ config :remote_retro,
   env: Mix.env
 
 # Configures the endpoint
-config :remote_retro, RemoteRetro.Endpoint,
+config :remote_retro, RemoteRetroWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "6ui3X7f7bC31SgHyMUXXzRp1MjYOROvNkrpVrdBL/ZZdh97cS4iFIp9JXwfwmsIj",
-  render_errors: [view: RemoteRetro.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: RemoteRetroWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: RemoteRetro.PubSub,
            adapter: Phoenix.PubSub.PG2]
 

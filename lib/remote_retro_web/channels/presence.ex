@@ -1,4 +1,4 @@
-defmodule RemoteRetro.Presence do
+defmodule RemoteRetroWeb.Presence do
   @moduledoc """
   Handle users joining and leaving retros.
   """
