@@ -156,6 +156,25 @@ describe("RetroChannel", () => {
               ).to.equal(false)
             })
           })
+
+          describe("when the user with matching token is no longer present", () => {
+            beforeEach(() => {
+              store = createStore(() => ({
+                presences: [
+                  { is_typing: false, token: "s0meUserToken" },
+                ],
+              }))
+
+              retroChannel = RetroChannel.configure({ store, actions })
+            })
+
+            it("does not throw an error", () => {
+              expect(() => {
+                retroChannel.trigger("user_typing_idea", { userToken: "tokenRepresentingUserNotCurrentlyPresent" })
+                clock.tick(900)
+              }).to.not.throw()
+            })
+          })
         })
 
         describe("on `idea_live_edit`", () => {
