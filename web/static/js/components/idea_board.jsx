@@ -1,4 +1,5 @@
 import React from "react"
+import includes from "lodash/includes"
 
 import CategoryColumn from "./category_column"
 
@@ -10,7 +11,7 @@ const { ACTION_ITEMS, CLOSED } = STAGES
 
 const IdeaBoard = props => {
   const { stage, categories } = props
-  const showActionItem = [ACTION_ITEMS, CLOSED].includes(stage)
+  const showActionItem = includes([ACTION_ITEMS, CLOSED], stage)
   const renderableColumnCategories = [...categories]
   if (showActionItem) { renderableColumnCategories.push("action-item") }
 

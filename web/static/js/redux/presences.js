@@ -1,5 +1,6 @@
 import values from "lodash/values"
 import reject from "lodash/reject"
+import includes from "lodash/includes"
 
 export const actions = {
   setPresences: presences => ({
@@ -30,7 +31,7 @@ const addArrivals = (existingUsers, arrivals) => {
 
 const removeDepartures = (presences, departures) => {
   const departureTokens = Object.keys(departures)
-  return reject(presences, presence => departureTokens.includes(presence.token))
+  return reject(presences, presence => includes(departureTokens, presence.token))
 }
 
 export const reducer = (state = [], action) => {
