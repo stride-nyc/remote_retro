@@ -3,7 +3,7 @@
 echo -e "\nPreparing Semantic UI for Consumption by Phoenix\n"
 
 echo -e "  - Copying Semantic UI assets to priv/ ..."
-cp -rf node_modules/semantic-ui-css/ priv/static/css/semantic-ui/
+cp -rf node_modules/semantic-ui-offline/ priv/static/css/semantic-ui/
 
 echo -e "  - Stripping Semantic UI minified css of '!important' ...\n"
 sed -i -e 's/!important//g' priv/static/css/semantic-ui/semantic.min.css
