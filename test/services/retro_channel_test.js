@@ -10,6 +10,17 @@ const { CLOSED } = STAGES
 describe("RetroChannel", () => {
   describe(".configure", () => {
     let result
+    let initialConnectMethod
+
+    // ensure socket#connect is a no-op in tests
+    before(() => {
+      Socket.prototype.connect = () => {}
+    })
+
+    after(() => {
+      Socket.prototype.connect = initialConnectMethod
+    })
+
     beforeEach(() => {
       result = RetroChannel.configure({
         userToken: "38ddm2",
