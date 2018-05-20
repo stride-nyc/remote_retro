@@ -22,12 +22,19 @@ class DoorChime extends Component {
   componentWillReceiveProps(nextProps) {
     const presenceCountIncreased = this.props.presences.length < nextProps.presences.length
     const presenceCountDecreased = this.props.presences.length > nextProps.presences.length
-    const playAudio = () => this.audio.play()
+    const attemptToPlayEnterExitSound = () => {
+      const playPromise = this.audio.play()
+      if (!playPromise) { return }
+
+      playPromise
+        .then(() => {})
+        .catch(e => console.log(e))
+    }
 
     if (presenceCountIncreased && this.audio.readyState) {
-      this.setState({ sound: enterSound }, playAudio)
+      this.setState({ sound: enterSound }, attemptToPlayEnterExitSound)
     } else if (presenceCountDecreased && this.audio.readyState) {
-      this.setState({ sound: exitSound }, playAudio)
+      this.setState({ sound: exitSound }, attemptToPlayEnterExitSound)
     }
   }
 
