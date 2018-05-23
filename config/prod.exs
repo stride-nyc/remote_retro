@@ -29,6 +29,7 @@ config :remote_retro, RemoteRetro.Repo,
 config :logger, level: :info
 
 config :remote_retro, :oauth_client, OAuth2.Client
+config :remote_retro, :source_version, "${SOURCE_VERSION}"
 
 config :honeybadger,
   api_key: "${HONEYBADGER_API_KEY}"
