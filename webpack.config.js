@@ -6,14 +6,20 @@ const ExtractTextPlugin = require("extract-text-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const WriteFileWebpackPlugin = require("write-file-webpack-plugin")
 const WebpackNotifierPlugin = require("webpack-notifier")
+const HoneybadgerSourceMapPlugin = require("@honeybadger-io/webpack")
+
+const { HOST, NODE_ENV, HONEYBADGER_API_KEY, npm_package_gitHead } = process.env
 
 process.noDeprecation = true
 
 const DEV_SERVER_PORT = 5001
 const OUTPUT_PATH = `${__dirname}/priv/static`
 const OUTPUT_PUBLIC_PATH = `http://localhost:${DEV_SERVER_PORT}/`
+const PRODUCTION_ASSETS_URL = `https://${HOST}`
 
-const inDev = process.env.NODE_ENV === "dev"
+const inDev = NODE_ENV === "dev"
+const forDeployedProduction = HOST === "remoteretro.org"
+
 const devEntrypoints = [
   "react-hot-loader/patch",
   `webpack-dev-server/client?${OUTPUT_PUBLIC_PATH}`,
@@ -21,13 +27,35 @@ const devEntrypoints = [
 ]
 const supplementalEntrypoints = inDev ? devEntrypoints : []
 
+const productionOverrides = forDeployedProduction ? { devtool: "source-map" } : {}
+
+const prodSourceMapPlugins = [
+  new HoneybadgerSourceMapPlugin({
+    apiKey: HONEYBADGER_API_KEY,
+    assetsUrl: PRODUCTION_ASSETS_URL,
+    revision: npm_package_gitHead,
+  }),
+]
+
+const devSourceMapPlugins = [
+  new webpack.SourceMapDevToolPlugin({
+    test: /app\.js/,
+    filename: "js/app.js.map",
+    columns: false,
+  }),
+]
+
+const sourceMapPlugins =
+  forDeployedProduction ? prodSourceMapPlugins : devSourceMapPlugins
+
 module.exports = {
+  ...productionOverrides,
   cache: true,
   entry: [
     ...supplementalEntrypoints,
     "./web/static/css/app.css",
     "./web/static/css/tiny_modal.css",
-    "./web/static/js/app.js"
+    "./web/static/js/app.js",
   ],
   output: {
     path: OUTPUT_PATH,
@@ -50,40 +78,36 @@ module.exports = {
       use: [{
         loader: "babel-loader",
         query: {
-          cacheDirectory: true
+          cacheDirectory: true,
         },
       }],
     }, {
       test: /\.css$/,
-      use: ['css-hot-loader'].concat(ExtractTextPlugin.extract({
+      use: ["css-hot-loader"].concat(ExtractTextPlugin.extract({
         fallback: "style-loader",
         use: [
           {
-            loader: 'css-loader',
+            loader: "css-loader",
             options: {
-              camelCase: 'only', // remove dashed class names from style object
+              camelCase: "only", // remove dashed class names from style object
               modules: true,
               importLoaders: 1,
-              localIdentName: '[name]__[local]___[hash:base64:5]'
-            }
+              localIdentName: "[name]__[local]___[hash:base64:5]",
+            },
           },
           {
-            loader: 'postcss-loader',
-          }
-        ]
+            loader: "postcss-loader",
+          },
+        ],
       })),
-    }]
+    }],
   },
   plugins: [
     new webpack.DllReferencePlugin({
       context: path.resolve(__dirname, "web/static/js"),
-      manifest: require("./web/static/js/dll/vendor-manifest.json")
+      manifest: require("./web/static/js/dll/vendor-manifest.json"),
     }),
-    new webpack.SourceMapDevToolPlugin({
-      test: /app\.js/,
-      filename: "js/app.js.map",
-      columns: false,
-    }),
+    ...sourceMapPlugins,
     new webpack.NoEmitOnErrorsPlugin(),
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
     new webpack.HotModuleReplacementPlugin(),
@@ -93,5 +117,5 @@ module.exports = {
       ignore: "**/.DS_Store",
     }]),
     new WriteFileWebpackPlugin([{ from: "./web/static/assets" }]),
-  ]
+  ],
 }
