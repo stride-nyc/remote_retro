@@ -34,6 +34,7 @@
     "react-redux": "^5.0.6",
     "react-transition-group": "^1.2.1",
     "redux": "^3.6.0",
+    "redux-thunk": "^2.3.0",
     "semantic-ui-css": "2.2.10",
     "sinon": "^1.17.7",
     "webpack": "^3.8.1",
