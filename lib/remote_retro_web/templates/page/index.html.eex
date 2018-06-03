@@ -20,41 +20,71 @@
     <i class="arrow right icon"></i>
   </a>
 </div>
-<div class="ui secondary very padded segment">
-  <div class="ui three column center aligned divided relaxed stackable grid container">
-    <div class="row">
-      <div class="column">
-        <h2 class="ui icon header">
-          <i class="massive grey gift icon"></i>
-          Free!
-        </h2>
-        <p>Costs less than a song!</p>
+
+<div class="ui segments">
+  <div class="ui very padded secondary segment">
+    <div class="ui three column center aligned divided relaxed stackable grid container">
+      <div class="row">
+        <div class="column">
+          <h2 class="ui icon header">
+            <i class="massive grey gift icon"></i>
+            Free!
+          </h2>
+          <p>Costs less than a song!</p>
+        </div>
+        <div class="column">
+          <h2 class="ui icon header">
+            <i class="massive grey users icon"></i>
+            Collaborative!
+          </h2>
+          <p>Interact with teammates in real time!</p>
+        </div>
+        <div class="column">
+          <h2 class="ui icon header">
+            <i class="massive grey train icon"></i>
+            Guided!
+          </h2>
+          <p>A retro on rails!</p>
+        </div>
       </div>
-      <div class="column">
-        <h2 class="ui icon header">
-          <i class="massive grey users icon"></i>
-          Collaborative!
-        </h2>
-        <p>Interact with teammates in real time!</p>
-      </div>
-      <div class="column">
-        <h2 class="ui icon header">
-          <i class="massive grey train icon"></i>
-          Guided!
-        </h2>
-        <p>A retro on rails!</p>
+      <div class="ui divider computer tablet only grid"></div>
+      <div class="row">
+        <div class="column">
+          <h2 class="ui icon header">
+            <i class="massive grey code icon"></i>
+            Completely Open Source!
+          </h2>
+          <p>
+            <a href="https://github.com/stride-nyc/remote_retro" class="ui large button">GitHub</a>
+          </p>
+        </div>
       </div>
     </div>
-    <div class="ui divider computer tablet only grid"></div>
-    <div class="row">
-      <div class="column">
-        <h2 class="ui icon header">
-          <i class="massive grey code icon"></i>
-          Completely Open Source!
-        </h2>
-        <p>
-          <a href="https://github.com/stride-nyc/remote_retro" class="ui large button">GitHub</a>
-        </p>
+  </div>
+  <div class="ui very padded segment trusted-by">
+    <div class="ui six column center aligned relaxed stackable grid container">
+      <div class="ui mobile only padded basic segment grid">
+        <p class="ui dividing large black header">Trusted By</p>
+      </div>
+      <div class="row">
+        <div class="column middle aligned content">
+          <img src="/images/trusted_by/sony.svg" alt="Sony">
+        </div>
+        <div class="column middle aligned content">
+          <img src="/images/trusted_by/squarespace.svg" alt="Squarespace logo">
+        </div>
+        <div class="column ui computer tablet only grid middle aligned content">
+          <img src="/images/trusted_by/weather_channel.svg" alt="The Weather Channel">
+        </div>
+        <div class="column ui computer tablet only grid middle aligned content">
+          <img src="/images/trusted_by/flatiron_school.png" alt="Flatiron School">
+        </div>
+        <div class="column middle aligned content">
+          <img src="/images/trusted_by/shutterstock.svg" alt="Shutterstock">
+        </div>
+        <div class="column middle aligned content">
+          <img src="/images/trusted_by/casper.svg" alt="Casper">
+        </div>
       </div>
     </div>
   </div>

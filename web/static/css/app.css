@@ -28,6 +28,26 @@
     padding: calc(2 * var(--padding));
   }
 
+  .trusted-by {
+    .column {
+      img {
+        min-height: 2rem;
+
+        -webkit-user-drag: none;
+        -moz-user-drag: none;
+        -o-user-drag: none;
+        user-drag: none;
+      }
+
+      @media(max-width: 768px) {
+        img {
+          min-height: 6rem;
+          width: 50%;
+        }
+      }
+    }
+  }
+
   @media(max-width: 450px) and (orientation: portrait) {
     .welcome-wrapper {
       padding: 2.5rem;
