@@ -36,11 +36,7 @@
     <meta name="author" content="">
     <title>RemoteRetro</title>
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/semantic-ui/semantic.min.css") %>">
-    <%= if Application.get_env(:remote_retro, :env) == :dev do %>
-      <link id="css" rel="stylesheet" href="http://localhost:5001/css/app.css" />
-    <% else %>
-      <link rel="stylesheet" href="<%= static_path(@conn, "/css/app.css") %>">
-    <% end %>
+    <link rel="stylesheet" href="<%= app_css(@conn) %>">
 
     <!--
       disable css animations in end-to-end tests;
