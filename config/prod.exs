@@ -32,7 +32,8 @@ config :remote_retro, :oauth_client, OAuth2.Client
 config :remote_retro, :source_version, "${SOURCE_VERSION}"
 
 config :honeybadger,
-  api_key: "${HONEYBADGER_API_KEY}"
+  api_key: "${HONEYBADGER_API_KEY}",
+  environment_name: :production
 
 config :libcluster,
   topologies: [
