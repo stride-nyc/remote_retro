@@ -232,4 +232,18 @@ defmodule RemoteRetro.RetroChannelTest do
       assert vote_count == 5
     end
   end
+
+  describe "pushing an unhandled message to the socket" do
+    setup [:join_the_retro_channel]
+
+    test "replies with an error tuple", %{socket: socket} do
+      ref = push socket, "preposterous_mess@ge_", %{some: "string"}
+      assert_reply ref, :error, %{
+        unhandled_message: %{
+          type: "preposterous_mess@ge_",
+          payload: %{"some" => "string"}
+        },
+      }
+    end
+  end
 end
