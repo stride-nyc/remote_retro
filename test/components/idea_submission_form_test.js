@@ -4,7 +4,7 @@ import sinon from "sinon"
 import { IdeaSubmissionForm } from "../../web/static/js/components/idea_submission_form"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, VOTING, ACTION_ITEMS } = STAGES
+const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 describe("IdeaSubmissionForm component", () => {
   let wrapper
@@ -60,7 +60,7 @@ describe("IdeaSubmissionForm component", () => {
             body: "",
             userId: 1,
             assigneeId: null,
-            ideaEntryStarted: false,
+            hasTypedChar: false,
           }
         )).to.equal(true)
       })
@@ -79,7 +79,7 @@ describe("IdeaSubmissionForm component", () => {
           />
         )
 
-        wrapper.setState({ body: "Some issue", ideaEntryStarted: true })
+        wrapper.setState({ body: "Some issue", hasTypedChar: true })
 
         wrapper.simulate("submit", fakeEvent)
 
@@ -88,7 +88,7 @@ describe("IdeaSubmissionForm component", () => {
             body: "Some issue",
             userId: 1,
             assigneeId: 1,
-            ideaEntryStarted: true,
+            hasTypedChar: true,
             category: "action-item",
           }
         )).to.equal(true)
@@ -184,50 +184,60 @@ describe("IdeaSubmissionForm component", () => {
     })
   })
 
-  describe("ideaEntryStarted state", () => {
-    describe("when it is true", () => {
-      it("doesn't render a pointing label to prompt the user to enter an idea", () => {
-        wrapper = mountWithConnectedSubcomponents(
-          <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={mockRetroChannel}
-            users={users}
-          />
-        )
-        wrapper.setState({ ideaEntryStarted: true })
-        expect(
-          wrapper.find(".pointing").length
-        ).to.equal(0)
-      })
-    })
-
-    describe("when it is false", () => {
-      context("when the stage is 'idea-generation'", () => {
-        it("does render a pointing label to prompt the user to enter an idea", () => {
+  describe("hasTypedChar state", () => {
+    context("when the stage is 'idea-generation'", () => {
+      context("and the value is true", () => {
+        it("does not render a pointing label", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
+              stage={IDEA_GENERATION}
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
-              stage={IDEA_GENERATION}
               users={users}
             />
           )
+          wrapper.setState({ hasTypedChar: true })
+          expect(
+            wrapper.find(".pointing").length
+          ).to.equal(0)
+        })
+      })
+
+      context("and the value is false", () => {
+        it("renders a pointing label to prompt the user to enter an idea", () => {
+          wrapper = mountWithConnectedSubcomponents(
+            <IdeaSubmissionForm
+              stage={IDEA_GENERATION}
+              currentUser={stubUser}
+              retroChannel={mockRetroChannel}
+              users={users}
+            />
+          )
+          wrapper.setState({ hasTypedChar: false })
+
           expect(
             wrapper.find(".pointing").length
           ).to.equal(1)
         })
       })
+    })
 
-      context("when the stage is something other than 'idea-generation' or 'action-items'", () => {
-        it("does not render a pointing label", () => {
+    describe("when the stage is action items", () => {
+      context("and the hasTypedChar value is false", () => {
+        // we don't want to prompt users to just submit action items willy-nilly
+        // they should be discussed and generated thoughtfully
+        it("does not render a pointing label to prompt the user to enter an idea", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
               currentUser={stubUser}
               retroChannel={mockRetroChannel}
-              stage={VOTING}
+              stage={ACTION_ITEMS}
               users={users}
             />
           )
+
+          wrapper.setState({ hasTypedChar: false })
+
           expect(
             wrapper.find(".pointing").length
           ).to.equal(0)
