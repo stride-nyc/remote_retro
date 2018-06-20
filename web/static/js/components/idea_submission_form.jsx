@@ -82,7 +82,6 @@ export class IdeaSubmissionForm extends Component {
       <option key="confused" value="confused">confused</option>,
     ]
 
-    let pointingLabel = null
     let pointerText = ""
     let dropdownProps = {}
 
@@ -103,17 +102,13 @@ export class IdeaSubmissionForm extends Component {
       }
     }
 
-    if (pointerText) {
-      pointingLabel = (
-        <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
-          {pointerText}
-        </div>
-      )
-    }
-
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
-        {pointingLabel}
+        { pointerText &&
+          <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
+            {pointerText}
+          </div>
+        }
         <div className={`${styles.fields} fields`}>
           <SelectDropdown {...dropdownProps} />
           <div className="eleven wide field">
