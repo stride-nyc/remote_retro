@@ -25,12 +25,13 @@ const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) =
 export class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
-    this.defaultCategory = this.props.stage === ACTION_ITEMS ? "action-item" : "happy"
+    const { stage, users } = props
+    const isActionItemsStage = stage === ACTION_ITEMS
     this.state = {
       body: "",
-      category: this.defaultCategory,
+      category: isActionItemsStage ? "action-item" : "happy",
+      assigneeId: isActionItemsStage ? users[0].id : null,
       ideaEntryStarted: false,
-      assigneeId: null,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleIdeaChange = this.handleIdeaChange.bind(this)
@@ -71,14 +72,10 @@ export class IdeaSubmissionForm extends Component {
   render() {
     const { users, stage } = this.props
     const { assigneeId, body, ideaEntryStarted, category } = this.state
-    let disabled = !body.trim().length
-    if (stage === ACTION_ITEMS) {
-      disabled = disabled || !assigneeId
-    }
+    const disabled = !body.trim().length
     const assigneeOptions = users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>
     )
-    const defaultOption = (<option key={0} value={0}> -- </option>)
     const defaultCategoryOptions = [
       <option key="happy" value="happy">happy</option>,
       <option key="sad" value="sad">sad</option>,
@@ -96,15 +93,13 @@ export class IdeaSubmissionForm extends Component {
         value: category,
         onChange: this.handleCategoryChange,
         selectOptions: defaultCategoryOptions,
-        isRequired: false,
       }
     } else if (stage === ACTION_ITEMS) {
       dropdownProps = {
         labelName: "assignee",
-        value: assigneeId || "",
+        value: assigneeId,
         onChange: this.handleAssigneeChange,
-        selectOptions: [defaultOption, ...assigneeOptions],
-        isRequired: true,
+        selectOptions: assigneeOptions,
       }
     }
 

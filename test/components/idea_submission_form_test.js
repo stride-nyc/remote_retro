@@ -67,7 +67,7 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     describe("when in the ACTION_ITEMS stage", () => {
-      it("pushes a `new_idea` event to the retroChannel with the action-item", () => {
+      it("pushes a `new_idea` event, assigning the action-item to the first user by default", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
@@ -79,7 +79,7 @@ describe("IdeaSubmissionForm component", () => {
           />
         )
 
-        wrapper.setState({ assigneeId: 3, body: "Some issue", ideaEntryStarted: true })
+        wrapper.setState({ body: "Some issue", ideaEntryStarted: true })
 
         wrapper.simulate("submit", fakeEvent)
 
@@ -87,7 +87,7 @@ describe("IdeaSubmissionForm component", () => {
           retroChannel.push.calledWith("new_idea", {
             body: "Some issue",
             userId: 1,
-            assigneeId: 3,
+            assigneeId: 1,
             ideaEntryStarted: true,
             category: "action-item",
           }
@@ -137,52 +137,27 @@ describe("IdeaSubmissionForm component", () => {
   })
 
   describe("at the outset the form submit is disabled", () => {
-    describe("during the IDEA_GENERATION stage", () => {
-      it("is enabled once the input receives a non-whitespace value", () => {
-        wrapper = mountWithConnectedSubcomponents(
-          <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={mockRetroChannel}
-            users={users}
-            stage={IDEA_GENERATION}
-          />
-        )
-        let submitButton = wrapper.find("button[type='submit']")
-        const ideaInput = wrapper.find("input[name='idea']")
+    it("is enabled once the input receives a non-whitespace value", () => {
+      wrapper = mountWithConnectedSubcomponents(
+        <IdeaSubmissionForm
+          currentUser={stubUser}
+          retroChannel={mockRetroChannel}
+          users={users}
+          stage={IDEA_GENERATION}
+        />
+      )
+      let submitButton = wrapper.find("button[type='submit']")
+      const ideaInput = wrapper.find("input[name='idea']")
 
-        expect(submitButton.prop("disabled")).to.equal(true)
+      expect(submitButton.prop("disabled")).to.equal(true)
 
-        ideaInput.simulate("change", { target: { value: " " } })
-        submitButton = wrapper.find("button[type='submit']")
-        expect(submitButton.prop("disabled")).to.equal(true)
+      ideaInput.simulate("change", { target: { value: " " } })
+      submitButton = wrapper.find("button[type='submit']")
+      expect(submitButton.prop("disabled")).to.equal(true)
 
-        ideaInput.simulate("change", { target: { value: "farts" } })
-        submitButton = wrapper.find("button[type='submit']")
-        expect(submitButton.prop("disabled")).to.equal(false)
-      })
-    })
-
-    describe("during the ACTION_ITEMS stage", () => {
-      it("is enabled once the input receives a value and an assignee is selected", () => {
-        wrapper = mountWithConnectedSubcomponents(
-          <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={mockRetroChannel}
-            users={users}
-            stage={ACTION_ITEMS}
-          />
-        )
-        let submitButton = wrapper.find("button[type='submit']")
-        const ideaInput = wrapper.find("input[name='idea']")
-
-        expect(submitButton.prop("disabled")).to.equal(true)
-        ideaInput.simulate("change", { target: { value: "farts" } })
-        submitButton = wrapper.find("button[type='submit']")
-        expect(submitButton.prop("disabled")).to.equal(true)
-        wrapper.setState({ assigneeId: 3 })
-        submitButton = wrapper.find("button[type='submit']")
-        expect(submitButton.prop("disabled")).to.equal(false)
-      })
+      ideaInput.simulate("change", { target: { value: "farts" } })
+      submitButton = wrapper.find("button[type='submit']")
+      expect(submitButton.prop("disabled")).to.equal(false)
     })
   })
 
