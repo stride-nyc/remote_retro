@@ -61,8 +61,7 @@ class IdeaEditForm extends Component {
   render() {
     const { stage, users } = this.props
     const { ideaCategory, ideaAssigneeId, ideaBody } = this.state
-    const categories = CATEGORIES
-    const categoryOptions = categories.map(category => (
+    const categoryOptions = CATEGORIES.map(category => (
       <option key={category} value={category}>{category}</option>
     ))
     const assigneeOptions = users.map(user => (
