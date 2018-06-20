@@ -108,8 +108,6 @@ export class IdeaSubmissionForm extends Component {
       }
     }
 
-    const hasDropdownProps = Object.keys(dropdownProps).length > 0
-
     if (pointerText) {
       pointingLabel = (
         <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
@@ -122,7 +120,7 @@ export class IdeaSubmissionForm extends Component {
       <form onSubmit={this.handleSubmit} className="ui form">
         {pointingLabel}
         <div className={`${styles.fields} fields`}>
-          {hasDropdownProps && <SelectDropdown {...dropdownProps} />}
+          <SelectDropdown {...dropdownProps} />
           <div className="eleven wide field">
             <div className="ui fluid action input">
               <label htmlFor="idea-body-input" className="visually-hidden">Idea input</label>
