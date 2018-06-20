@@ -99,7 +99,6 @@ export class IdeaSubmissionForm extends Component {
         isRequired: false,
       }
     } else if (stage === ACTION_ITEMS) {
-      pointerText = !ideaEntryStarted ? "Create Action Items!" : ""
       dropdownProps = {
         labelName: "assignee",
         value: assigneeId || "",

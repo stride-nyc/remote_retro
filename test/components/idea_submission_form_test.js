@@ -243,22 +243,6 @@ describe("IdeaSubmissionForm component", () => {
         })
       })
 
-      context("when the stage is 'action-items'", () => {
-        it("does render a pointing label to prompt the user to enter an action item", () => {
-          wrapper = mountWithConnectedSubcomponents(
-            <IdeaSubmissionForm
-              currentUser={stubUser}
-              retroChannel={mockRetroChannel}
-              users={users}
-              stage={ACTION_ITEMS}
-            />
-          )
-          expect(
-            wrapper.find(".pointing").length
-          ).to.equal(1)
-        })
-      })
-
       context("when the stage is something other than 'idea-generation' or 'action-items'", () => {
         it("does not render a pointing label", () => {
           wrapper = mountWithConnectedSubcomponents(
