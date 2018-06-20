@@ -31,7 +31,7 @@ export class IdeaSubmissionForm extends Component {
       body: "",
       category: isActionItemsStage ? "action-item" : "happy",
       assigneeId: isActionItemsStage ? users[0].id : null,
-      ideaEntryStarted: false,
+      hasTypedChar: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
     this.handleBodyChange = this.handleBodyChange.bind(this)
@@ -58,7 +58,7 @@ export class IdeaSubmissionForm extends Component {
   handleBodyChange(event) {
     const { retroChannel, currentUser } = this.props
     pushUserTypingEventThrottled(retroChannel, currentUser.token)
-    this.setState({ body: event.target.value, ideaEntryStarted: true })
+    this.setState({ body: event.target.value, hasTypedChar: true })
   }
 
   handleCategoryChange(event) {
@@ -71,7 +71,7 @@ export class IdeaSubmissionForm extends Component {
 
   render() {
     const { users, stage } = this.props
-    const { assigneeId, body, ideaEntryStarted, category } = this.state
+    const { assigneeId, body, hasTypedChar, category } = this.state
     const disabled = !body.trim().length
     const assigneeOptions = users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>
@@ -82,11 +82,11 @@ export class IdeaSubmissionForm extends Component {
       <option key="confused" value="confused">confused</option>,
     ]
 
-    let pointerText = ""
+    let showSubmitIdeaPrompt = false
     let dropdownProps = {}
 
     if (stage === IDEA_GENERATION) {
-      pointerText = !ideaEntryStarted ? "Submit an idea!" : ""
+      showSubmitIdeaPrompt = !hasTypedChar
       dropdownProps = {
         labelName: "category",
         value: category,
@@ -104,9 +104,9 @@ export class IdeaSubmissionForm extends Component {
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
-        { pointerText &&
+        { showSubmitIdeaPrompt &&
           <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
-            {pointerText}
+            Submit an idea!
           </div>
         }
         <div className={`${styles.fields} fields`}>
