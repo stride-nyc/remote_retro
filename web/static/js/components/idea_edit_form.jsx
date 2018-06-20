@@ -81,7 +81,7 @@ class IdeaEditForm extends Component {
         />}
         {stage === ACTION_ITEMS && <SelectDropdown
           labelName="editable_assignee"
-          value={ideaAssigneeId || ""}
+          value={ideaAssigneeId}
           onChange={this.onChangeAssignee}
           selectOptions={assigneeOptions}
           showLabel={false}
