@@ -83,7 +83,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       |> click(Query.button("Submit"))
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert String.contains?(action_items_list_text, "let's do the thing! (Test User)")
+      assert action_items_list_text =~ "let's do the thing! (Test User)"
     end
   end
 
@@ -101,7 +101,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert String.contains?(action_items_list_text, "blurgh (Test User)")
+      assert action_items_list_text =~ "blurgh (Test User)"
 
       facilitator_session
       |> click(Query.css(".edit"))
@@ -110,7 +110,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       |> click(Query.button("Save"))
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert String.contains?(action_items_list_text, "blurgh (Other User)")
+      assert action_items_list_text =~ "blurgh (Other User)"
     end
   end
 end
