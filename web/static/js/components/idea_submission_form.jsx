@@ -34,7 +34,7 @@ export class IdeaSubmissionForm extends Component {
       ideaEntryStarted: false,
     }
     this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleIdeaChange = this.handleIdeaChange.bind(this)
+    this.handleBodyChange = this.handleBodyChange.bind(this)
     this.handleCategoryChange = this.handleCategoryChange.bind(this)
     this.handleAssigneeChange = this.handleAssigneeChange.bind(this)
   }
@@ -55,7 +55,7 @@ export class IdeaSubmissionForm extends Component {
     this.setState({ body: "" })
   }
 
-  handleIdeaChange(event) {
+  handleBodyChange(event) {
     const { retroChannel, currentUser } = this.props
     pushUserTypingEventThrottled(retroChannel, currentUser.token)
     this.setState({ body: event.target.value, ideaEntryStarted: true })
@@ -127,7 +127,7 @@ export class IdeaSubmissionForm extends Component {
                 autoFocus
                 ref={input => { this.ideaInput = input }}
                 value={body}
-                onChange={this.handleIdeaChange}
+                onChange={this.handleBodyChange}
                 placeholder={`Ex. ${PLACEHOLDER_TEXTS[this.state.category]}`}
                 maxLength="255"
               />
