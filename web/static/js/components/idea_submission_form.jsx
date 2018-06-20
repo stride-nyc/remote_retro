@@ -131,7 +131,7 @@ export class IdeaSubmissionForm extends Component {
                 autoComplete="off"
                 autoFocus
                 ref={input => { this.ideaInput = input }}
-                value={this.state.body}
+                value={body}
                 onChange={this.handleIdeaChange}
                 placeholder={`Ex. ${PLACEHOLDER_TEXTS[this.state.category]}`}
                 maxLength="255"
