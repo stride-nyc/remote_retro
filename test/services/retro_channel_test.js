@@ -188,9 +188,9 @@ describe("RetroChannel", () => {
           })
         })
 
-        describe("on `idea_live_edit`", () => {
+        describe("on `live_edit_idea`", () => {
           beforeEach(() => {
-            retroChannel.trigger("idea_live_edit", { id: 2, liveEditText: "lalala" })
+            retroChannel.trigger("live_edit_idea", { id: 2, liveEditText: "lalala" })
           })
 
           it("invokes the updateIdea action with idea id, passing the `liveEditText` value along", () => {

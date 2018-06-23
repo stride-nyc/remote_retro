@@ -34,7 +34,7 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
     actions.updateIdea(disabledIdea.id, { editing: false, liveEditText: null, editorToken: null })
   })
 
-  retroChannel.on("idea_live_edit", editedIdea => {
+  retroChannel.on("live_edit_idea", editedIdea => {
     actions.updateIdea(editedIdea.id, editedIdea)
   })
 
@@ -49,7 +49,7 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
 
   retroChannel.on("vote_submitted", actions.addVote)
 
-  retroChannel.on("idea_highlighted", highlightedIdea => {
+  retroChannel.on("highlight_idea", highlightedIdea => {
     actions.updateIdea(highlightedIdea.id, { isHighlighted: !highlightedIdea.isHighlighted })
   })
 

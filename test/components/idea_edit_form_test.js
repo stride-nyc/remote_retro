@@ -91,9 +91,9 @@ describe("<IdeaEditForm />", () => {
     })
 
     context("when the currentUser is the facilitator", () => {
-      it("pushes a `idea_live_edit` event to the retroChannel, passing current input value", () => {
+      it("pushes a `live_edit_idea` event to the retroChannel, passing current input value", () => {
         expect(
-          retroChannel.push.calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
+          retroChannel.push.calledWith("live_edit_idea", { id: idea.id, liveEditText: "some value" })
         ).to.equal(true)
       })
     })
@@ -112,7 +112,7 @@ describe("<IdeaEditForm />", () => {
         textarea.simulate("change", { target: { value: "some value" } })
       })
 
-      it("does not push an `idea_live_edit` event to the retroChannel", () => {
+      it("does not push an `live_edit_idea` event to the retroChannel", () => {
         expect(
           retroChannel.push.called
         ).to.equal(false)

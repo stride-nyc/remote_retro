@@ -1,5 +1,6 @@
 defmodule RemoteRetroWeb.RetroChannel do
   use RemoteRetroWeb, :channel
+  use SlenderChannel
 
   alias RemoteRetroWeb.{Presence, PresenceUtils}
   alias RemoteRetro.{Idea, Emails, Mailer, Retro, Vote}
@@ -20,30 +21,11 @@ defmodule RemoteRetroWeb.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("enable_idea_edit_state", ~m{id, editorToken}, socket) do
-    broadcast! socket, "enable_idea_edit_state", ~m{id, editorToken}
-    {:noreply, socket}
-  end
-
-  def handle_in("disable_idea_edit_state", ~m{id}, socket) do
-    broadcast! socket, "disable_idea_edit_state", ~m{id}
-    {:noreply, socket}
-  end
-
-  def handle_in("user_typing_idea", ~m{userToken}, socket) do
-    broadcast! socket, "user_typing_idea", ~m{userToken}
-    {:noreply, socket}
-  end
-
-  def handle_in("idea_live_edit", ~m{id, liveEditText}, socket) do
-    broadcast! socket, "idea_live_edit", ~m{id, liveEditText}
-    {:noreply, socket}
-  end
-
-  def handle_in("highlight_idea", ~m{id, isHighlighted}, socket) do
-    broadcast! socket, "idea_highlighted", ~m{id, isHighlighted}
-    {:noreply, socket}
-  end
+  handle_in_and_broadcast("enable_idea_edit_state", ~m{id, editorToken})
+  handle_in_and_broadcast("disable_idea_edit_state", ~m{id})
+  handle_in_and_broadcast("user_typing_idea", ~m{userToken})
+  handle_in_and_broadcast("live_edit_idea", ~m{id, liveEditText})
+  handle_in_and_broadcast("highlight_idea", ~m{id, isHighlighted})
 
   def handle_in("new_idea", props, socket) do
     idea = add_idea! props, socket

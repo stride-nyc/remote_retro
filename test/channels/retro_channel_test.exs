@@ -131,12 +131,12 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing an `idea_live_edit` event to the socket" do
+  describe "pushing an `live_edit_idea` event to the socket" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event with the given payload", ~M{socket} do
-      push(socket, "idea_live_edit", %{id: 4, liveEditText: "updated"})
+      push(socket, "live_edit_idea", %{id: 4, liveEditText: "updated"})
 
-      assert_broadcast("idea_live_edit", %{"id" => 4, "liveEditText" => "updated"})
+      assert_broadcast("live_edit_idea", %{"id" => 4, "liveEditText" => "updated"})
     end
   end
 
@@ -181,7 +181,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "broadcasts the id with the highlighted state", ~M{socket} do
       push(socket, "highlight_idea", %{"id" => 1, "isHighlighted" => false})
 
-      assert_broadcast("idea_highlighted", %{"id" => 1, "isHighlighted" => false})
+      assert_broadcast("highlight_idea", %{"id" => 1, "isHighlighted" => false})
     end
   end
 

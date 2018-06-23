@@ -25,7 +25,7 @@ class IdeaEditForm extends Component {
   onChangeIdeaBody(event) {
     const { retroChannel, idea, currentUser } = this.props
     if (currentUser.is_facilitator) {
-      retroChannel.push("idea_live_edit", { id: idea.id, liveEditText: event.target.value })
+      retroChannel.push("live_edit_idea", { id: idea.id, liveEditText: event.target.value })
     }
 
     this.setState({ ideaBody: event.target.value })
