@@ -87,7 +87,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     end
   end
 
-  describe "it can be reassigned to another user" do
+  describe "when an action item has been assigned to a particular user" do
     setup [:persist_additional_users_for_retro, :persist_idea_for_retro]
 
     @tag [
@@ -96,21 +96,21 @@ defmodule RetroIdeaRealtimeUpdateTest do
       additional_users: [@test_user_two]
     ]
 
-    test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do
+    test "it can be re-assigned to a different user", %{session: facilitator_session, retro: retro, user: user} do
       retro_path = "/retros/" <> retro.id
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert action_items_list_text =~ "blurgh (Test User)"
+      assert action_items_list_text =~ "blurgh (#{user.name})"
 
       facilitator_session
       |> click(Query.css(".edit"))
       |> find(Query.css(".idea-edit-form"))
-      |> click(Query.option("Other User"))
+      |> click(Query.option(@test_user_two["name"]))
       |> click(Query.button("Save"))
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert action_items_list_text =~ "blurgh (Other User)"
+      assert action_items_list_text =~ "blurgh (#{@test_user_two["name"]})"
     end
   end
 end

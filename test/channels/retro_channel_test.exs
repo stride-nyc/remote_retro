@@ -223,13 +223,13 @@ defmodule RemoteRetro.RetroChannelTest do
       vote_count_query = from(v in "votes", where: [idea_id: ^idea_id, user_id: ^user.id])
 
       vote_count = Repo.aggregate(vote_count_query, :count, :id)
-      assert vote_count == 5
+      assert vote_count == 3
 
       push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
       :timer.sleep(50)
 
       vote_count = Repo.aggregate(vote_count_query, :count, :id)
-      assert vote_count == 5
+      assert vote_count == 3
     end
   end
 

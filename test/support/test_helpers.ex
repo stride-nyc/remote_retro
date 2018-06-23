@@ -5,53 +5,44 @@ defmodule RemoteRetro.TestHelpers do
   def use_all_votes(%{user: user, idea: idea} = context) do
     now = DateTime.utc_now
     vote = [user_id: user.id, idea_id: idea.id, inserted_at: now, updated_at: now]
-    Repo.insert_all(Vote, [vote, vote, vote, vote, vote])
+    Repo.insert_all(Vote, [vote, vote, vote])
     context
   end
 
-  defp user_name_atom(name) do
-    String.replace(name, ~r/ +/, "") |> Macro.underscore |> String.to_atom
-  end
-
-  defp user_map(users) do
-    Enum.reduce users, %{}, fn user, acc ->
-      Map.put(acc, user_name_atom(user.name), user)
-    end
-  end
-
   defp persist_user(user) do
-    User.upsert_record_from(oauth_info: user)
+    {:ok, user } = User.upsert_record_from(oauth_info: user)
+    user
   end
 
-  defp persist_participation_for_users(users, retro) do
+  defp persist_participation_for_additional_users(users, retro) do
     Enum.each(users, fn(user) ->
       %Participation{retro_id: retro.id, user_id: user.id} |> Repo.insert!
     end)
   end
 
   def persist_additional_users_for_retro(%{additional_users: additional_users, retro: retro} = context) do
-    persisted_users = Enum.map(additional_users, fn(user) ->
-      {:ok, user} = persist_user(user)
-      user
-    end)
-    persist_participation_for_users(persisted_users, retro)
-    Map.merge(context, user_map(persisted_users))
+    persisted_users = Enum.map(additional_users, fn(u) -> persist_user(u) end)
+    persist_participation_for_additional_users(persisted_users, retro)
+    Map.put(context, :additional_users, persisted_users)
   end
 
-  defp persist_assigned_idea(user, idea, retro) do
-    %Idea{assignee_id: user.id, body: idea.body, category: idea.category, retro_id: retro.id, user_id: user.id} |> Repo.insert!
-  end
-
-  defp persist_unassigned_idea(user, idea, retro) do
-    Map.merge(idea, %{retro_id: retro.id, user_id: user.id}) |> Repo.insert!
+  defp persist_idea(user, idea, retro, options \\ [assignee_id: nil]) do
+    %Idea{
+      assignee_id: options[:assignee_id],
+      body: idea.body,
+      category: idea.category,
+      retro_id: retro.id,
+      user_id: user.id
+    } |> Repo.insert!
   end
 
   def persist_idea_for_retro(%{idea: idea, retro: retro, user: user} = context) do
-    idea = if idea.category == "action-item" do
-            persist_assigned_idea(user, idea, retro)
-          else
-            persist_unassigned_idea(user, idea, retro)
-          end
+    idea =
+      case idea.category == "action-item" do
+        true -> persist_idea(user, idea, retro, assignee_id: user.id)
+        false -> persist_idea(user, idea, retro)
+      end
+
     Map.put(context, :idea, idea)
   end
 
@@ -59,10 +50,6 @@ defmodule RemoteRetro.TestHelpers do
     :timer.sleep(50)
     {:ok, session} = Wallaby.start_session(metadata: metadata)
     resize_window(session, 1000, 1000)
-  end
-
-  def stub_js_confirms_for_phantomjs(session) do
-    execute_script(session, "window.confirm = function(){ return true; }")
   end
 
   def click_and_confirm(facilitator_session, button_text) do

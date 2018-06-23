@@ -43,6 +43,6 @@ defmodule RemoteRetroWeb.ChannelCase do
     {:ok, user} = User.upsert_record_from(oauth_info: @test_user_one)
     retro = Repo.insert!(%Retro{facilitator_id: user.id})
 
-    { :ok, retro: retro, user: user }
+    {:ok, retro: retro, user: user}
   end
 end
