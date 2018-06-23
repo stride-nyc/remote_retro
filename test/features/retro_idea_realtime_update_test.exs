@@ -2,9 +2,11 @@ defmodule RetroIdeaRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.Idea
 
+  import ShorterMaps
+
   @test_user_two Application.get_env(:remote_retro, :test_user_two)
 
-  test "the immediate appearance of other users' submitted ideas", %{session: session_one, retro: retro} do
+  test "the immediate appearance of other users' submitted ideas", ~M{retro, session: session_one} do
     session_two = new_browser_session()
 
     retro_path = "/retros/" <> retro.id
@@ -26,7 +28,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     @tag [
       idea: %Idea{category: "sad", body: "no linter"},
     ]
-    test "the immediate update of ideas as they are changed/saved", %{session: facilitator_session, retro: retro} do
+    test "the immediate update of ideas as they are changed/saved", ~M{retro, session: facilitator_session} do
       participant_session = new_browser_session()
 
       retro_path = "/retros/" <> retro.id
@@ -52,7 +54,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     @tag [
       idea: %Idea{category: "happy", body: "slack time!"},
     ]
-    test "the immediate removal of an idea deleted by the facilitator", %{session: facilitator_session, retro: retro} do
+    test "the immediate removal of an idea deleted by the facilitator", ~M{retro, session: facilitator_session} do
       participant_session = new_browser_session()
 
       retro_path = "/retros/" <> retro.id
@@ -72,7 +74,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     @tag [
       retro_stage: "action-items",
     ]
-    test "it is assigned to a particular user", %{session: facilitator_session, retro: retro} do
+    test "it is assigned to a particular user", ~M{retro, session: facilitator_session} do
       retro_path = "/retros/" <> retro.id
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 
@@ -96,7 +98,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       additional_users: [@test_user_two]
     ]
 
-    test "it can be re-assigned to a different user", %{session: facilitator_session, retro: retro, user: user} do
+    test "it can be re-assigned to a different user", ~M{retro, user, session: facilitator_session} do
       retro_path = "/retros/" <> retro.id
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 

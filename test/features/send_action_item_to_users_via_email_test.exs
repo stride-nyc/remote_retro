@@ -3,6 +3,8 @@ defmodule SendActionItemToUsersViaEmailTest do
   use RemoteRetro.IntegrationCase, async: false
   use Bamboo.Test, shared: true
 
+  import ShorterMaps
+
   describe "when an action-item already exists in a retro" do
     setup [:persist_idea_for_retro]
 
@@ -10,7 +12,7 @@ defmodule SendActionItemToUsersViaEmailTest do
       idea: %RemoteRetro.Idea{category: "action-item", body: "Get better"},
       retro_stage: "action-items",
     ]
-    test "Distributing action items via email", %{session: facilitator_session, retro: retro} do
+    test "Distributing action items via email", ~M{retro, session: facilitator_session} do
       retro_path = "/retros/" <> retro.id
       facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
 

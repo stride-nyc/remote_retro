@@ -1,7 +1,9 @@
 defmodule UserPresenceRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
 
-  test "the realtime updates of other users entering/leaving a retro", %{session: session_one, retro: retro} do
+  import ShorterMaps
+
+  test "the realtime updates of other users entering/leaving a retro", ~M{retro, session: session_one} do
     retro_path = "/retros/" <> retro.id
     session_one = visit(session_one, retro_path)
 

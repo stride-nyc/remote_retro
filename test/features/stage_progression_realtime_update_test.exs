@@ -1,7 +1,9 @@
 defmodule StageProgressionRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
 
-  test "realtime stage progression for connected users", %{session: facilitator_session, retro: retro} do
+  import ShorterMaps
+
+  test "realtime stage progression for connected users", ~M{retro, session: facilitator_session} do
     participant_session = new_browser_session()
     retro_path = "/retros/" <> retro.id
     facilitator_session = authenticate(facilitator_session) |> visit(retro_path)

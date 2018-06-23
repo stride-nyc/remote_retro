@@ -4,6 +4,8 @@ defmodule RemoteRetroWeb.RetroChannel do
   alias RemoteRetroWeb.{Presence, PresenceUtils}
   alias RemoteRetro.{Idea, Emails, Mailer, Retro, Vote}
 
+  import ShorterMaps
+
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
     retro = Repo.get!(Retro, retro_id) |> Repo.preload([:ideas, :votes, :users])
@@ -18,7 +20,7 @@ defmodule RemoteRetroWeb.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("enable_edit_state", %{"idea" => idea, "editorToken" => editorToken}, socket) do
+  def handle_in("enable_edit_state", ~m{idea, editorToken}, socket) do
     broadcast! socket, "enable_edit_state", %{
       "id" => idea["id"],
       "editorToken" => editorToken
@@ -26,23 +28,23 @@ defmodule RemoteRetroWeb.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("disable_edit_state", %{"id" => id}, socket) do
-    broadcast! socket, "disable_edit_state", %{"id" => id}
+  def handle_in("disable_edit_state", ~m{id}, socket) do
+    broadcast! socket, "disable_edit_state", ~m{id}
     {:noreply, socket}
   end
 
-  def handle_in("user_typing_idea", %{"userToken" => userToken}, socket) do
-    broadcast! socket, "user_typing_idea", %{"userToken" => userToken}
+  def handle_in("user_typing_idea", ~m{userToken}, socket) do
+    broadcast! socket, "user_typing_idea", ~m{userToken}
     {:noreply, socket}
   end
 
-  def handle_in("idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}, socket) do
-    broadcast! socket, "idea_live_edit", %{"id" => id, "liveEditText" => live_edit_text}
+  def handle_in("idea_live_edit", ~m{id, liveEditText}, socket) do
+    broadcast! socket, "idea_live_edit", ~m{id, liveEditText}
     {:noreply, socket}
   end
 
-  def handle_in("highlight_idea", %{"id" => id, "isHighlighted" => is_highlighted}, socket) do
-    broadcast! socket, "idea_highlighted", %{"id" => id, "isHighlighted" => is_highlighted}
+  def handle_in("highlight_idea", ~m{id, isHighlighted}, socket) do
+    broadcast! socket, "idea_highlighted", ~m{id, isHighlighted}
     {:noreply, socket}
   end
 
@@ -53,10 +55,10 @@ defmodule RemoteRetroWeb.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("idea_edited", %{"id" => id, "body" => body, "category" => category, "assigneeId" => assignee_id}, socket) do
+  def handle_in("idea_edited", ~m{id, body, category, assigneeId}, socket) do
     idea =
       Repo.get(Idea, id)
-      |> Idea.changeset(%{body: body, category: category, assignee_id: assignee_id})
+      |> Idea.changeset(~M{body, category, assignee_id: assigneeId})
       |> Repo.update!
 
     broadcast! socket, "idea_edited", idea
@@ -81,7 +83,7 @@ defmodule RemoteRetroWeb.RetroChannel do
     user_vote_count = Repo.aggregate(query, :count, :id)
 
     if user_vote_count < 3 do
-      broadcast! socket, "vote_submitted", %{"idea_id" => idea_id, "user_id" => user_id}
+      broadcast! socket, "vote_submitted", ~m{idea_id, user_id}
 
       %Vote{
         idea_id: idea_id,
@@ -103,10 +105,10 @@ defmodule RemoteRetroWeb.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("proceed_to_next_stage", %{"stage" => stage}, socket) do
+  def handle_in("proceed_to_next_stage", ~m{stage}, socket) do
     update_retro!(socket.assigns.retro_id, stage)
 
-    broadcast! socket, "proceed_to_next_stage", %{"stage" => stage}
+    broadcast! socket, "proceed_to_next_stage", ~m{stage}
     {:noreply, socket}
   end
 
@@ -117,13 +119,13 @@ defmodule RemoteRetroWeb.RetroChannel do
     {:reply, {:error, error_payload}, socket}
   end
 
-  defp add_idea!(%{"body" => body, "category" => category, "userId" => user_id, "assigneeId" => assignee_id}, socket) do
+  defp add_idea!(~m{body, category, userId, assigneeId}, socket) do
     %Idea{
       body: body,
       category: category,
       retro_id: socket.assigns.retro_id,
-      user_id: user_id,
-      assignee_id: assignee_id
+      user_id: userId,
+      assignee_id: assigneeId
     }
     |> Idea.changeset
     |> Repo.insert!
@@ -131,7 +133,7 @@ defmodule RemoteRetroWeb.RetroChannel do
 
   defp update_retro!(retro_id, stage) do
     Repo.get(Retro, retro_id)
-    |> Retro.changeset(%{stage: stage})
+    |> Retro.changeset(~m{stage})
     |> Repo.update!
   end
 end
