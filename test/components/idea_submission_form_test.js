@@ -40,7 +40,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("on submit", () => {
     describe("when in the IDEA_GENERATION stage", () => {
-      it("pushes a `new_idea` event to the retroChannel, passing a happy idea by default", () => {
+      it("pushes a `idea_submitted` event to the retroChannel, passing a happy idea by default", () => {
         const retroChannel = { on: () => { }, push: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
@@ -55,7 +55,7 @@ describe("IdeaSubmissionForm component", () => {
         wrapper.simulate("submit", fakeEvent)
 
         expect(
-          retroChannel.push.calledWith("new_idea", {
+          retroChannel.push.calledWith("idea_submitted", {
             category: "happy",
             body: "",
             userId: 1,
@@ -67,7 +67,7 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     describe("when in the ACTION_ITEMS stage", () => {
-      it("pushes a `new_idea` event, assigning the action-item to the first user by default", () => {
+      it("pushes a `idea_submitted` event, assigning the action-item to the first user by default", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
@@ -84,7 +84,7 @@ describe("IdeaSubmissionForm component", () => {
         wrapper.simulate("submit", fakeEvent)
 
         expect(
-          retroChannel.push.calledWith("new_idea", {
+          retroChannel.push.calledWith("idea_submitted", {
             body: "Some issue",
             userId: 1,
             assigneeId: 1,

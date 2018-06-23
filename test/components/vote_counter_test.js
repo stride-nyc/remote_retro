@@ -104,7 +104,7 @@ describe("VoteCounter", () => {
   })
 
   describe("handleClick", () => {
-    it("calls retroChannel.push with 'submit_vote', the idea's id, and the user id", () => {
+    it("calls retroChannel.push with 'vote_submitted', the idea's id, and the user id", () => {
       const pushSpy = spy()
       const retroChannelMock = {
         push: pushSpy,
@@ -119,7 +119,7 @@ describe("VoteCounter", () => {
       )
       voteCounter.instance().handleClick()
 
-      expect(pushSpy.calledWith("submit_vote", { ideaId: idea.id, userId: mockUser.id })).to.be.true
+      expect(pushSpy.calledWith("vote_submitted", { ideaId: idea.id, userId: mockUser.id })).to.be.true
     })
   })
 })

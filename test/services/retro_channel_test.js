@@ -85,9 +85,9 @@ describe("RetroChannel", () => {
           retroChannel = RetroChannel.configure({ actions })
         })
 
-        describe("on `new_idea_received`", () => {
+        describe("on `idea_committed`", () => {
           it("invokes the addIdea action", () => {
-            retroChannel.trigger("new_idea_received", { body: "zerp" })
+            retroChannel.trigger("idea_committed", { body: "zerp" })
             expect(addIdeaSpy.calledWith({ body: "zerp" })).to.equal(true)
           })
         })

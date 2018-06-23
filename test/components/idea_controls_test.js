@@ -29,7 +29,7 @@ describe("<IdeaControls />", () => {
 
   describe("on click of the removal icon", () => {
     context("when the idea is not currently being edited by its author", () => {
-      it("pushes an `delete_idea` event to the retro channel, passing the given idea's id", () => {
+      it("pushes an `idea_deleted` event to the retro channel, passing the given idea's id", () => {
         const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
         const retroChannel = { on: () => { }, push: sinon.spy() }
 
@@ -47,7 +47,7 @@ describe("<IdeaControls />", () => {
 
         removalIcon.simulate("click")
         expect(
-          retroChannel.push.calledWith("delete_idea", 666)
+          retroChannel.push.calledWith("idea_deleted", 666)
         ).to.equal(true)
       })
     })
@@ -71,7 +71,7 @@ describe("<IdeaControls />", () => {
 
         removalIcon.simulate("click")
         expect(
-          retroChannel.push.calledWith("delete_idea", 666)
+          retroChannel.push.calledWith("idea_deleted", 666)
         ).to.equal(false)
       })
     })

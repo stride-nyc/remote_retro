@@ -91,16 +91,16 @@ defmodule RemoteRetro.RetroChannelTest do
     test "when in idea_generation stage results in the broadcast of the new idea to all connected clients", ~M{socket, user} do
       user_id = user.id
       assignee_id = nil
-      push(socket, "new_idea", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
+      push(socket, "idea_submitted", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
 
-      assert_broadcast("new_idea_received", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
+      assert_broadcast("idea_committed", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
     end
 
     test "when in action_items stage results in the broadcast of the new action item to all connected clients", ~M{socket, user} do
       user_id = user.id
-      push(socket, "new_idea", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
+      push(socket, "idea_submitted", %{category: "action-item", body: "Do something about the pacing", userId: user_id, assigneeId: user_id})
 
-      assert_broadcast("new_idea_received", %{category: "action-item", body: "Do something about the pacing", id: _, user_id: ^user_id, assignee_id: ^user_id})
+      assert_broadcast("idea_committed", %{category: "action-item", body: "Do something about the pacing", id: _, user_id: ^user_id, assignee_id: ^user_id})
     end
   end
 
@@ -169,7 +169,7 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "WIP commits on master"}
     test "results in a broadcast of the id of the deleted idea to all clients", ~M{socket, idea} do
       idea_id = idea.id
-      push(socket, "delete_idea", idea_id)
+      push(socket, "idea_deleted", idea_id)
 
       assert_broadcast("idea_deleted", %{id: ^idea_id})
     end
@@ -185,14 +185,14 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a `submit_vote` event to the socket" do
+  describe "pushing a `vote_submitted` event to the socket" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the vote to connected clients", ~M{socket, idea, user} do
       idea_id = idea.id
       user_id = user.id
-      push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
+      push(socket, "vote_submitted", %{ideaId: idea_id, userId: user_id})
       :timer.sleep(25)
       assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
     end
@@ -201,7 +201,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "results in the persistence of the vote", ~M{socket, idea, user} do
       idea_id = idea.id
       assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id) end)
-      push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
+      push(socket, "vote_submitted", %{ideaId: idea_id, userId: user.id})
       :timer.sleep(25)
       assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
     end
@@ -214,7 +214,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "pushing 'vote_submitted' does not broadcast a vote", ~M{socket, idea, user} do
       idea_id = idea.id
       user_id = user.id
-      push(socket, "submit_vote", %{ideaId: idea_id, userId: user_id})
+      push(socket, "vote_submitted", %{ideaId: idea_id, userId: user_id})
 
       refute_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
     end
@@ -227,7 +227,7 @@ defmodule RemoteRetro.RetroChannelTest do
       vote_count = Repo.aggregate(vote_count_query, :count, :id)
       assert vote_count == 3
 
-      push(socket, "submit_vote", %{ideaId: idea_id, userId: user.id})
+      push(socket, "vote_submitted", %{ideaId: idea_id, userId: user.id})
       :timer.sleep(50)
 
       vote_count = Repo.aggregate(vote_count_query, :count, :id)

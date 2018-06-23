@@ -27,10 +27,10 @@ defmodule RemoteRetroWeb.RetroChannel do
   handle_in_and_broadcast("live_edit_idea", ~m{id, liveEditText})
   handle_in_and_broadcast("highlight_idea", ~m{id, isHighlighted})
 
-  def handle_in("new_idea", props, socket) do
+  def handle_in("idea_submitted", props, socket) do
     idea = add_idea! props, socket
 
-    broadcast! socket, "new_idea_received", idea
+    broadcast! socket, "idea_committed", idea
     {:noreply, socket}
   end
 
@@ -44,14 +44,14 @@ defmodule RemoteRetroWeb.RetroChannel do
     {:noreply, socket}
   end
 
-  def handle_in("delete_idea", id, socket) do
+  def handle_in("idea_deleted", id, socket) do
     idea = Repo.delete!(%Idea{id: id})
 
     broadcast! socket, "idea_deleted", idea
     {:noreply, socket}
   end
 
-  def handle_in("submit_vote", %{"ideaId" => idea_id, "userId" => user_id}, socket) do
+  def handle_in("vote_submitted", %{"ideaId" => idea_id, "userId" => user_id}, socket) do
     retro_id = socket.assigns.retro_id
     user_vote_count = Retro.user_vote_count(~M{user_id, retro_id})
 

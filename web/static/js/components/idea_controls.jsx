@@ -46,7 +46,7 @@ export const IdeaControls = props => {
           <i
             title={idea.editing ? authorEditing : "Delete Idea"}
             className={`${styles.actionIcon} remove circle icon ${idea.editing ? "disabled" : ""}`}
-            onClick={() => { idea.editing ? noOp() : retroChannel.push("delete_idea", idea.id) }}
+            onClick={() => { idea.editing ? noOp() : retroChannel.push("idea_deleted", idea.id) }}
           />
           <i
             title={idea.editing ? authorEditing : "Edit Idea"}

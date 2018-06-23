@@ -20,7 +20,7 @@ const applyListenerCallbacks = (retroChannel, store, actions) => {
   })
 
   retroChannel.on("presence_diff", actions.syncPresenceDiff)
-  retroChannel.on("new_idea_received", actions.addIdea)
+  retroChannel.on("idea_committed", actions.addIdea)
 
   retroChannel.on("proceed_to_next_stage", payload => {
     actions.updateStage(payload.stage)
