@@ -99,9 +99,9 @@ describe("RetroChannel", () => {
           })
         })
 
-        describe("on `enable_edit_state`", () => {
+        describe("on `enable_idea_edit_state`", () => {
           it("invokes updateIdea with idea id, editor token, editing: true", () => {
-            retroChannel.trigger("enable_edit_state", { id: 2, editorToken: "dogMan" })
+            retroChannel.trigger("enable_idea_edit_state", { id: 2, editorToken: "dogMan" })
 
             expect(
               updateIdeaSpy.calledWith(2, { editing: true, editorToken: "dogMan" })
@@ -109,9 +109,9 @@ describe("RetroChannel", () => {
           })
         })
 
-        describe("on `disable_edit_state`", () => {
+        describe("on `disable_idea_edit_state`", () => {
           beforeEach(() => {
-            retroChannel.trigger("disable_edit_state", { id: 3 })
+            retroChannel.trigger("disable_idea_edit_state", { id: 3 })
           })
 
           it("invokes updateIdea with idea id, `editing: false`, `liveEditText: null`", () => {

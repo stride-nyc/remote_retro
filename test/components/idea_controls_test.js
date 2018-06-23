@@ -79,7 +79,7 @@ describe("<IdeaControls />", () => {
 
   describe("on click of the edit icon", () => {
     context("when the idea is not currently being edited by its author", () => {
-      it("pushes an enable_edit_state event to the channel, passing the idea and editorToken", () => {
+      it("pushes an enable_idea_edit_state event to the channel, passing idea id and editorToken", () => {
         const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
         const retroChannel = { on: () => { }, push: sinon.spy() }
 
@@ -97,7 +97,7 @@ describe("<IdeaControls />", () => {
 
         editIcon.simulate("click")
         expect(
-          retroChannel.push.calledWith("enable_edit_state", { idea, editorToken: mockUser.token })
+          retroChannel.push.calledWith("enable_idea_edit_state", { id: idea.id, editorToken: mockUser.token })
         ).to.equal(true)
       })
     })
@@ -121,7 +121,7 @@ describe("<IdeaControls />", () => {
 
         editIcon.simulate("click")
         expect(
-          retroChannel.push.calledWith("enable_edit_state", { idea, editorToken: mockUser.token })
+          retroChannel.push.calledWith("enable_idea_edit_state", { idea, editorToken: mockUser.token })
         ).to.equal(false)
       })
     })

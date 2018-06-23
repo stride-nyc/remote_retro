@@ -51,7 +51,7 @@ export const IdeaControls = props => {
           <i
             title={idea.editing ? authorEditing : "Edit Idea"}
             className={`${styles.actionIcon} edit icon ${idea.editing ? "disabled" : ""}`}
-            onClick={() => { idea.editing ? noOp() : retroChannel.push("enable_edit_state", { idea, editorToken: currentUser.token }) }}
+            onClick={() => { idea.editing ? noOp() : retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
           />
           {
             currentUser.is_facilitator &&
