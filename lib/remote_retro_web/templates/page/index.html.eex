@@ -3,7 +3,7 @@
   <iframe src="//ghbtns.com/github-btn.html?user=stride-nyc&amp;repo=remote_retro&amp;type=watch&amp;count=true" allowtransparency="true" frameborder="0" scrolling="0" width="100" height="20"></iframe>
 </div>
 
-<div class="ui basic segment welcome-wrapper">
+<div class="welcome-wrapper polygons-background">
   <h1>
     Remote<br>
     Retro
@@ -22,7 +22,7 @@
 </div>
 
 <div class="ui segments">
-  <div class="ui very padded secondary segment">
+  <div class="ui very padded segment">
     <div class="ui three column center aligned divided relaxed stackable grid container">
       <div class="row">
         <div class="column">
@@ -61,7 +61,7 @@
       </div>
     </div>
   </div>
-  <div class="ui very padded segment trusted-by">
+  <div class="ui very padded secondary segment trusted-by">
     <div class="ui six column center aligned relaxed stackable grid container">
       <div class="ui mobile only padded basic segment grid">
         <p class="ui dividing large black header">Trusted By</p>
@@ -90,7 +90,7 @@
   </div>
 </div>
 
-<div class="ui center aligned grid">
+<div class="ui center aligned grid polygons-background">
   <div class="row">
     <div class="ui basic segment cta-wrapper">
       <a href="/auth/google" class="ui blue button sign-in">
