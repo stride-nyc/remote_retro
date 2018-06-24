@@ -1,10 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <script>
-      window.hj = function() { /* hotjar no-op for non-prod envs */ };
-    </script>
-
     <%= if Application.get_env(:remote_retro, :env) == :prod do %>
       <script>
         // Google Tag Manager
@@ -27,6 +23,10 @@
 
       <!-- HoneyBadger client-side error reporting -->
       <script src="https://js.honeybadger.io/v0.5/honeybadger.min.js" type="text/javascript" data-apiKey="<%= Application.get_env(:honeybadger, :api_key) %>" data-environment="production" data-revision="<%= Application.get_env(:remote_retro, :source_version) %>"></script>
+    <% else %>
+      <script>
+        window.hj = function() { /* hotjar no-op for non-prod envs */ };
+      </script>
     <% end %>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
