@@ -1,15 +1,23 @@
 @import './colors.css';
 
 :global .landing-page {
-  background: radial-gradient(var(--creamsicle-orange), white);
+  .polygons-background {
+    background-image: url('/images/polygons.jpg');
+    background-size: cover;
+    background-repeat: no-repeat;
+  }
 
-  --padding: 5rem;
+  --padding: 5.5rem;
   .welcome-wrapper {
     padding: var(--padding) 0 calc(1rem + var(--padding)) var(--padding);
   }
 
+  .ui.segments {
+    margin-top: 0;
+  }
+
   .social {
-    padding-top: 0.25rem;
+    padding-top: 1.25rem;
     float: right;
     /* explicit z-index to ensure clickability of floated elements */
     position: relative;
