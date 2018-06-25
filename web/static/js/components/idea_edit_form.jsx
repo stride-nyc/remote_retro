@@ -62,7 +62,7 @@ class IdeaEditForm extends Component {
 
     retroChannel.push("idea_edited", {
       id: idea.id,
-      body: ideaBody,
+      body: ideaBody.trim(),
       category: ideaCategory,
       assigneeId: ideaAssigneeId,
     })

@@ -8,7 +8,7 @@ import STAGES from "../../web/static/js/configs/stages"
 const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 describe("<IdeaEditForm />", () => {
-  const idea = { id: 999, body: "redundant tests", userId: 1 }
+  const idea = { id: 999, body: "  redundant tests   ", userId: 1 }
   const stage = IDEA_GENERATION
   const currentUser = { id: 7, name: "Helga Foggybottom", is_facilitator: true }
   const mockRetroChannel = { on: () => {}, push: () => {} }
@@ -31,7 +31,7 @@ describe("<IdeaEditForm />", () => {
       const wrapper = shallow(<IdeaEditForm {...defaultProps} />)
 
       const textAreaValue = wrapper.find("textarea").props().value
-      expect(textAreaValue).to.equal("redundant tests")
+      expect(textAreaValue).to.equal(idea.body)
     })
   })
 
@@ -189,7 +189,7 @@ describe("<IdeaEditForm />", () => {
   })
 
   describe("on submitting the form", () => {
-    it("pushes an `idea_edited` event to the given retroChannel", () => {
+    it("pushes an `idea_edited` event, trimming the idea body", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
 
       const wrapper = mountWithConnectedSubcomponents(
@@ -202,7 +202,7 @@ describe("<IdeaEditForm />", () => {
       expect(
         retroChannel.push.calledWith("idea_edited", {
           id: idea.id,
-          body: idea.body,
+          body: idea.body.trim(),
           category: idea.category,
           assigneeId: undefined,
         })
