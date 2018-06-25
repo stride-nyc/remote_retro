@@ -31,12 +31,12 @@ class IdeaEditForm extends Component {
     this.setState({ ideaBody: event.target.value })
   }
 
-  onChangeIdeaCategory(event) {
-    this.setState({ ideaCategory: event.target.value })
+  onChangeIdeaCategory({ target }) {
+    this.setState({ ideaCategory: target.value })
   }
 
-  onChangeAssignee(event) {
-    this.setState({ ideaAssigneeId: Number.parseInt(event.target.value, 10) })
+  onChangeAssignee({ target }) {
+    this.setState({ ideaAssigneeId: Number.parseInt(target.value, 10) })
   }
 
   onCancel(event) {
