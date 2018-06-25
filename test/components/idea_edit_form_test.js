@@ -33,17 +33,6 @@ describe("<IdeaEditForm />", () => {
       const textAreaValue = wrapper.find("textarea").props().value
       expect(textAreaValue).to.equal("redundant tests")
     })
-
-    context("the textarea field for an idea", () => {
-      it("contains the maxLength property with a limit of 255 characters", () => {
-        const retroChannel = { on: () => { } }
-        const wrapper = shallow(
-          <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
-        )
-        const textarea = wrapper.find("textarea")
-        expect(textarea.props().maxLength).to.equal("255")
-      })
-    })
   })
 
   describe("the action item phase", () => {
@@ -98,6 +87,10 @@ describe("<IdeaEditForm />", () => {
         const submitButton = wrapper.find("button[type='submit']")
         expect(submitButton.prop("disabled")).to.equal(true)
       })
+
+      it("an error is rendered", () => {
+        expect(wrapper.find(".error").exists()).to.equal(true)
+      })
     })
 
     describe("when the entered value is a string > 255 chars", () => {
@@ -110,6 +103,10 @@ describe("<IdeaEditForm />", () => {
         const submitButton = wrapper.find("button[type='submit']")
         expect(submitButton.prop("disabled")).to.equal(true)
       })
+
+      it("an error is rendered", () => {
+        expect(wrapper.find(".error").exists()).to.equal(true)
+      })
     })
 
     describe("when the entered value is a string < 255 chars with non-whitespace chars", () => {
@@ -120,6 +117,10 @@ describe("<IdeaEditForm />", () => {
       it("the form submission button is *not* disabled", () => {
         const submitButton = wrapper.find("button[type='submit']")
         expect(submitButton.prop("disabled")).to.equal(false)
+      })
+
+      it("no errors are rendered", () => {
+        expect(wrapper.find(".error.message").exists()).to.equal(false)
       })
 
       context("when the currentUser is the facilitator", () => {

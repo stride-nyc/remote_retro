@@ -33,9 +33,9 @@ class IdeaEditForm extends Component {
 
     const trimmedValue = target.value.trim()
     if (trimmedValue === "") {
-      newIdeaBodyError = "Ideas must have content"
+      newIdeaBodyError = "Ideas must have content."
     } else if (trimmedValue.length > 255) {
-      newIdeaBodyError = "Idea must be less than 255 chars"
+      newIdeaBodyError = "Idea cannot exceed 255 characters."
     }
 
     this.setState({ ideaBody: target.value, ideaBodyError: newIdeaBodyError })
@@ -79,7 +79,7 @@ class IdeaEditForm extends Component {
     ))
 
     return (
-      <form onSubmit={this.onSubmit} className="ui form raised segment idea-edit-form">
+      <form onSubmit={this.onSubmit} className="ui error form raised segment idea-edit-form">
         <p className="ui center aligned sub header">Editing</p>
         {stage !== ACTION_ITEMS && <SelectDropdown
           labelName="editable_category"
@@ -102,9 +102,14 @@ class IdeaEditForm extends Component {
             rows="2"
             value={ideaBody}
             onChange={this.onChangeIdeaBody}
-            maxLength="255"
           />
         </div>
+
+        { ideaBodyError &&
+          <div className="ui error message">
+            <p>{ideaBodyError}</p>
+          </div>
+        }
         <div className="ui buttons">
           <button onClick={this.onCancel} className="ui cancel button">Cancel</button>
           <div className="or" />
