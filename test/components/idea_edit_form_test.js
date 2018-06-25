@@ -10,7 +10,7 @@ const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 describe("<IdeaEditForm />", () => {
   const idea = { id: 999, body: "redundant tests", userId: 1 }
   const stage = IDEA_GENERATION
-  const currentUser = { is_facilitator: true }
+  const currentUser = { id: 7, name: "Helga Foggybottom", is_facilitator: true }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const defaultProps = {
     idea,
@@ -70,7 +70,6 @@ describe("<IdeaEditForm />", () => {
     })
   })
 
-
   describe("on change of the textarea", () => {
     let retroChannel
     let textarea
@@ -82,40 +81,74 @@ describe("<IdeaEditForm />", () => {
         <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
       )
       textarea = wrapper.find("textarea")
-      textarea.simulate("change", { target: { name: "editable_idea", value: "some value" } })
     })
 
     it("the value prop of the textarea updates in turn", () => {
+      textarea.simulate("change", { target: { name: "editable_idea", value: "some value" } })
       textarea = wrapper.find("textarea")
       expect(textarea.props().value).to.equal("some value")
     })
 
-    context("when the currentUser is the facilitator", () => {
-      it("pushes a `live_edit_idea` event to the retroChannel, passing current input value", () => {
-        expect(
-          retroChannel.push.calledWith("live_edit_idea", { id: idea.id, liveEditText: "some value" })
-        ).to.equal(true)
+    describe("when the entered value is an empty string", () => {
+      beforeEach(() => {
+        textarea.simulate("change", { target: { name: "editable_idea", value: "" } })
+      })
+
+      it("the form submission button is disabled", () => {
+        const submitButton = wrapper.find("button[type='submit']")
+        expect(submitButton.prop("disabled")).to.equal(true)
       })
     })
 
-    context("when the currentUser is *not* the facilitator", () => {
+    describe("when the entered value is a string > 255 chars", () => {
+      const stringGreaterThan255Chars = "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd"
       beforeEach(() => {
-        retroChannel = { on: () => {}, push: sinon.spy() }
-        wrapper = mountWithConnectedSubcomponents(
-          <IdeaEditForm
-            {...defaultProps}
-            retroChannel={retroChannel}
-            currentUser={{ is_facilitator: false }}
-          />
-        )
-        textarea = wrapper.find("textarea")
-        textarea.simulate("change", { target: { value: "some value" } })
+        textarea.simulate("change", { target: { name: "editable_idea", value: stringGreaterThan255Chars } })
       })
 
-      it("does not push an `live_edit_idea` event to the retroChannel", () => {
-        expect(
-          retroChannel.push.called
-        ).to.equal(false)
+      it("the form submission button is disabled", () => {
+        const submitButton = wrapper.find("button[type='submit']")
+        expect(submitButton.prop("disabled")).to.equal(true)
+      })
+    })
+
+    describe("when the entered value is a string < 255 chars with non-whitespace chars", () => {
+      beforeEach(() => {
+        textarea.simulate("change", { target: { name: "editable_idea", value: "some value" } })
+      })
+
+      it("the form submission button is *not* disabled", () => {
+        const submitButton = wrapper.find("button[type='submit']")
+        expect(submitButton.prop("disabled")).to.equal(false)
+      })
+
+      context("when the currentUser is the facilitator", () => {
+        it("pushes a `live_edit_idea` event to the retroChannel, passing current input value", () => {
+          expect(
+            retroChannel.push.calledWith("live_edit_idea", { id: idea.id, liveEditText: "some value" })
+          ).to.equal(true)
+        })
+      })
+
+      context("when the currentUser is *not* the facilitator", () => {
+        beforeEach(() => {
+          retroChannel = { on: () => {}, push: sinon.spy() }
+          wrapper = mountWithConnectedSubcomponents(
+            <IdeaEditForm
+              {...defaultProps}
+              retroChannel={retroChannel}
+              currentUser={{ is_facilitator: false }}
+            />
+          )
+          textarea = wrapper.find("textarea")
+          textarea.simulate("change", { target: { value: "some value" } })
+        })
+
+        it("does not push an `live_edit_idea` event to the retroChannel", () => {
+          expect(
+            retroChannel.push.called
+          ).to.equal(false)
+        })
       })
     })
   })

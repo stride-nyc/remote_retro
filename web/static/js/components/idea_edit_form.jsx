@@ -14,6 +14,7 @@ class IdeaEditForm extends Component {
       ideaBody: props.idea.body,
       ideaCategory: props.idea.category,
       ideaAssigneeId: props.idea.assignee_id,
+      ideaBodyError: undefined,
     }
     this.onChangeAssignee = this.onChangeAssignee.bind(this)
     this.onChangeIdeaBody = this.onChangeIdeaBody.bind(this)
@@ -22,13 +23,22 @@ class IdeaEditForm extends Component {
     this.onCancel = this.onCancel.bind(this)
   }
 
-  onChangeIdeaBody(event) {
+  onChangeIdeaBody({ target }) {
+    let newIdeaBodyError
     const { retroChannel, idea, currentUser } = this.props
+
     if (currentUser.is_facilitator) {
-      retroChannel.push("live_edit_idea", { id: idea.id, liveEditText: event.target.value })
+      retroChannel.push("live_edit_idea", { id: idea.id, liveEditText: target.value })
     }
 
-    this.setState({ ideaBody: event.target.value })
+    const trimmedValue = target.value.trim()
+    if (trimmedValue === "") {
+      newIdeaBodyError = "Ideas must have content"
+    } else if (trimmedValue.length > 255) {
+      newIdeaBodyError = "Idea must be less than 255 chars"
+    }
+
+    this.setState({ ideaBody: target.value, ideaBodyError: newIdeaBodyError })
   }
 
   onChangeIdeaCategory({ target }) {
@@ -60,7 +70,7 @@ class IdeaEditForm extends Component {
 
   render() {
     const { stage, users } = this.props
-    const { ideaCategory, ideaAssigneeId, ideaBody } = this.state
+    const { ideaCategory, ideaAssigneeId, ideaBody, ideaBodyError } = this.state
     const categoryOptions = CATEGORIES.map(category => (
       <option key={category} value={category}>{category}</option>
     ))
@@ -98,7 +108,13 @@ class IdeaEditForm extends Component {
         <div className="ui buttons">
           <button onClick={this.onCancel} className="ui cancel button">Cancel</button>
           <div className="or" />
-          <button type="submit" className="ui positive button">Save</button>
+          <button
+            type="submit"
+            disabled={!!ideaBodyError}
+            className="ui positive button"
+          >
+            Save
+          </button>
         </div>
       </form>
     )
