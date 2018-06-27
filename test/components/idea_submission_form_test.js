@@ -97,21 +97,63 @@ describe("IdeaSubmissionForm component", () => {
   })
 
   describe("on change of an idea's body", () => {
-    it("pushes a `user_typing_idea` event to the retro channel, along with the user token", () => {
-      const retroChannel = { on: () => {}, push: sinon.spy() }
-      wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={retroChannel}
-          users={users}
-        />
-      )
-      const ideaInput = wrapper.find("input[name='idea']")
-      ideaInput.simulate("change", { target: { value: "new value" } })
+    let clock
 
-      expect(
-        retroChannel.push.calledWith("user_typing_idea", { userToken: "xyz" })
-      ).to.equal(true)
+    before(() => {
+      clock = sinon.useFakeTimers()
+    })
+
+    beforeEach(() => {
+      // ensure we don't get false positives due to throttling of pushes
+      clock.tick(1000)
+    })
+
+    after(() => {
+      clock.restore()
+    })
+
+    describe("when the event isTrusted", () => {
+      it("pushes a `user_typing_idea` event to the retro channel, along with the user token", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={retroChannel}
+            users={users}
+          />
+        )
+        const ideaInput = wrapper.find("input[name='idea']")
+        ideaInput.simulate("change", {
+          isTrusted: true,
+          target: { value: "new value" },
+        })
+
+        expect(
+          retroChannel.push.calledWith("user_typing_idea", { userToken: "xyz" })
+        ).to.equal(true)
+      })
+    })
+
+    describe("when the event's isTrusted value is false", () => {
+      it("does *not* push a `user_typing_idea` event to the retro channel", () => {
+        const retroChannel = { on: () => {}, push: sinon.spy() }
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
+            currentUser={stubUser}
+            retroChannel={retroChannel}
+            users={users}
+          />
+        )
+        const ideaInput = wrapper.find("input[name='idea']")
+        ideaInput.simulate("change", {
+          isTrusted: false,
+          target: { value: "new value" },
+        })
+
+        expect(
+          retroChannel.push.called
+        ).to.equal(false)
+      })
     })
   })
 
@@ -151,11 +193,17 @@ describe("IdeaSubmissionForm component", () => {
 
       expect(submitButton.prop("disabled")).to.equal(true)
 
-      ideaInput.simulate("change", { target: { value: " " } })
+      ideaInput.simulate("change", {
+        target: { value: " " },
+        isTrusted: true,
+      })
       submitButton = wrapper.find("button[type='submit']")
       expect(submitButton.prop("disabled")).to.equal(true)
 
-      ideaInput.simulate("change", { target: { value: "farts" } })
+      ideaInput.simulate("change", {
+        target: { value: "farts" },
+        isTrusted: true,
+      })
       submitButton = wrapper.find("button[type='submit']")
       expect(submitButton.prop("disabled")).to.equal(false)
     })

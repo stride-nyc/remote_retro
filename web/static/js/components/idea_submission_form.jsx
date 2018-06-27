@@ -56,6 +56,8 @@ export class IdeaSubmissionForm extends Component {
   }
 
   handleBodyChange(event) {
+    if (!event.isTrusted) { return } // ignore events triggered by extensions/scripts
+
     const { retroChannel, currentUser } = this.props
     pushUserTypingEventThrottled(retroChannel, currentUser.token)
     this.setState({ body: event.target.value, hasTypedChar: true })
