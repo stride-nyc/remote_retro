@@ -50,11 +50,11 @@ export class RemoteRetro extends Component {
 
 RemoteRetro.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
-  presences: AppPropTypes.presences,
-  ideas: AppPropTypes.ideas,
+  presences: AppPropTypes.presences.isRequired,
+  ideas: AppPropTypes.ideas.isRequired,
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
-  actions: PropTypes.object,
+  actions: PropTypes.object.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   facilitatorName: PropTypes.string.isRequired,
 }
@@ -62,10 +62,7 @@ RemoteRetro.propTypes = {
 RemoteRetro.defaultProps = {
   currentUser: {},
   facilitatorName: "",
-  presences: [],
-  ideas: [],
   alert: null,
-  actions: {},
 }
 
 const mapStateToProps = state => ({
