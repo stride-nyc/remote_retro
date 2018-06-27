@@ -46,6 +46,17 @@ defmodule RemoteRetro.RetroControllerTest do
       assert participation_count_diff == 0
     end
 
+    test "invalid params for participation record results in 500", ~M{conn} do
+      conn = create_retro_and_follow_redirect(conn)
+
+      # extra chars break the changeset's UUID validation, causing Ecto to throw
+      invalid_uuid_param = "#{conn.params["id"]}kdkdkdkdkdk"
+
+      assert_error_sent 500, fn ->
+        get(conn, "/retros/#{invalid_uuid_param}")
+      end
+    end
+
     test "GET requests to /retros welcomes users with no retro experience", ~M{conn} do
       conn = get conn, "/retros"
       assert conn.resp_body =~ ~r/welcome/i

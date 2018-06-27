@@ -15,7 +15,8 @@ defmodule RemoteRetroWeb.RetroController do
   def show(conn, params) do
     user = get_session(conn, "current_user")
 
-    upsert_participation_record(user, params["id"])
+    soft_insert_participation_record!(user, params["id"])
+
     render conn, "show.html", %{
       user_token: Token.sign(conn, "user", user),
       retro_uuid: params["id"],
@@ -34,10 +35,10 @@ defmodule RemoteRetroWeb.RetroController do
     redirect conn, to: "/retros/" <> retro.id
   end
 
-  defp upsert_participation_record(user, retro_id) do
+  defp soft_insert_participation_record!(user, retro_id) do
     %Participation{user_id: user.id, retro_id: retro_id}
     |> Participation.changeset
-    |> Repo.insert_or_update
+    |> Repo.insert!(on_conflict: :nothing)
   end
 
   defp recent_retros_with_action_items_preloaded(user) do
