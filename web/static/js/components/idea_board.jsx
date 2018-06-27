@@ -26,12 +26,8 @@ const IdeaBoard = props => {
   )
 }
 
-IdeaBoard.defaultProps = {
-  currentUser: { is_facilitator: false },
-}
-
 IdeaBoard.propTypes = {
-  currentUser: AppPropTypes.presence,
+  currentUser: AppPropTypes.presence.isRequired,
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,

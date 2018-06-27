@@ -55,12 +55,20 @@ RemoteRetro.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
   actions: PropTypes.object.isRequired,
-  currentUser: AppPropTypes.presence.isRequired,
+  currentUser: AppPropTypes.presence,
   facilitatorName: PropTypes.string.isRequired,
 }
 
 RemoteRetro.defaultProps = {
-  currentUser: {},
+  /*
+  / account for initial render occurring before 'presence' state
+  / is sent by server, as this event necessarily arrives *after*
+  / the channel is joined with the initial persisted state
+  */
+  currentUser: {
+    is_facilitator: false,
+    token: window.userToken,
+  },
   facilitatorName: "",
   alert: null,
 }

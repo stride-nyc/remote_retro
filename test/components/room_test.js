@@ -18,6 +18,7 @@ describe("Room", () => {
       picture: "http://herpderp.com",
     }],
     facilitatorName: "Dirk",
+    currentUser: { is_facilitator: false, token: "33ndk" },
   }
 
   describe("when the stage is lobby", () => {

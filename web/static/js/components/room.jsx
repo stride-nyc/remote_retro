@@ -37,13 +37,9 @@ const Room = props => {
   return roomContents
 }
 
-Room.defaultProps = {
-  currentUser: { is_facilitator: false },
-}
-
 Room.propTypes = {
   stage: AppPropTypes.stage.isRequired,
-  currentUser: AppPropTypes.presence,
+  currentUser: AppPropTypes.presence.isRequired,
 }
 
 export default Room
