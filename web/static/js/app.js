@@ -28,7 +28,7 @@ retroChannel.join()
       render(
         <AppContainer>
           <Provider store={store}>
-            <RemoteRetro retroChannel={retroChannel} userToken={userToken} />
+            <RemoteRetro retroChannel={retroChannel} />
           </Provider>
         </AppContainer>,
         document.querySelector(".react-root")

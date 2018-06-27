@@ -52,7 +52,6 @@ RemoteRetro.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   presences: AppPropTypes.presences,
   ideas: AppPropTypes.ideas,
-  userToken: PropTypes.string.isRequired,
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
   actions: PropTypes.object,
