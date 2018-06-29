@@ -49,7 +49,7 @@ defmodule RemoteRetro.Mixfile do
      {:libcluster, "~> 2.5.0"},
      {:cowboy, "~> 1.0"},
      {:bamboo, "~> 0.8"},
-     {:honeybadger, "~> 0.7.0"},
+     {:honeybadger, "~> 0.10.1"},
      {:credo, "~> 0.3", only: [:dev, :test]},
      {:apex, "~>1.2.0", only: [:dev, :test]},
      {:timex, "~> 3.1"}]
