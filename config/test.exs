@@ -11,11 +11,15 @@ config :remote_retro, :sql_sandbox, true
 config :wallaby, screenshot_on_failure: true
 config :wallaby, driver: Wallaby.Experimental.Chrome
 config :bamboo, :refute_timeout, 10
+
 {:ok, file} = File.open("browser_logs.log", [:write])
 Application.put_env(:wallaby, :js_logger, file)
 
 # Print only warnings and errors during test
 config :logger, level: :warn
+
+config :honeybadger,
+  environment_name: :test
 
 config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.TestAdapter
 
