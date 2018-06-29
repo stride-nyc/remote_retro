@@ -29,12 +29,8 @@ const LowerThird = props => {
   )
 }
 
-LowerThird.defaultProps = {
-  currentUser: { is_facilitator: false },
-}
-
 LowerThird.propTypes = {
-  currentUser: AppPropTypes.presence,
+  currentUser: AppPropTypes.presence.isRequired,
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
