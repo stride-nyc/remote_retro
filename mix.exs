@@ -52,8 +52,7 @@ defmodule RemoteRetro.Mixfile do
      {:honeybadger, "~> 0.7.0"},
      {:credo, "~> 0.3", only: [:dev, :test]},
      {:apex, "~>1.2.0", only: [:dev, :test]},
-     {:timex, "~> 3.1"},
-     {:quick_alias, "~> 0.1.0", only: :dev}]
+     {:timex, "~> 3.1"}]
   end
 
   # Aliases are shortcuts or tasks specific to the current project.
