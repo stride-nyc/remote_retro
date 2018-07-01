@@ -85,11 +85,13 @@ export class CategoryColumn extends Component {
       <section className={`${category} ${styles.index} column`} onDrop={handleDrop} onDragOver={handleDragOver}>
         <div className={` ${styles.columnHead} ui center aligned basic segment`}>
           <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} alt={category} />
-          <p><strong>{category}</strong></p>
+          <div className="ui computer tablet only centered padded grid">
+            <p><strong>{category}</strong></p>
+          </div>
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
         { !!sortedIdeas.length &&
-          <ShadowedScrollContainer contentMaxHeight="55vh">
+          <ShadowedScrollContainer contentMaxHeight="54vh">
             <ul className={`${category} ${styles.list} ideas`}>
               {ideasList}
             </ul>
