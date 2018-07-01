@@ -76,11 +76,7 @@ IdeaControls.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  votes: AppPropTypes.votes,
-}
-
-IdeaControls.defaultProps = {
-  votes: [],
+  votes: AppPropTypes.votes.isRequired,
 }
 
 const mapStateToProps = ({ votes }) => ({ votes })
