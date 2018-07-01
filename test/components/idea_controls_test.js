@@ -11,13 +11,19 @@ const { IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 describe("<IdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
   const mockUser = { id: 2, is_facilitator: true }
+  const votes = []
+  const defaultProps = {
+    idea,
+    votes,
+    currentUser: mockUser,
+    stage: IDEA_GENERATION,
+    retroChannel: {},
+  }
 
   context("when the stage is closed", () => {
     const wrapper = shallow(
       <IdeaControls
-        idea={idea}
-        retroChannel={{}}
-        currentUser={mockUser}
+        {...defaultProps}
         stage={CLOSED}
       />
     )
@@ -35,10 +41,9 @@ describe("<IdeaControls />", () => {
 
         const wrapper = shallow(
           <IdeaControls
+            {...defaultProps}
             idea={idea}
             retroChannel={retroChannel}
-            currentUser={mockUser}
-            stage={IDEA_GENERATION}
           />
         )
 
@@ -59,10 +64,9 @@ describe("<IdeaControls />", () => {
 
         const wrapper = shallow(
           <IdeaControls
+            {...defaultProps}
             idea={idea}
             retroChannel={retroChannel}
-            currentUser={mockUser}
-            stage={IDEA_GENERATION}
           />
         )
 
@@ -85,10 +89,9 @@ describe("<IdeaControls />", () => {
 
         const wrapper = shallow(
           <IdeaControls
+            {...defaultProps}
             idea={idea}
             retroChannel={retroChannel}
-            currentUser={mockUser}
-            stage={IDEA_GENERATION}
           />
         )
 
@@ -109,10 +112,9 @@ describe("<IdeaControls />", () => {
 
         const wrapper = shallow(
           <IdeaControls
+            {...defaultProps}
             idea={idea}
             retroChannel={retroChannel}
-            currentUser={mockUser}
-            stage={IDEA_GENERATION}
           />
         )
 
@@ -135,10 +137,9 @@ describe("<IdeaControls />", () => {
 
         const wrapper = shallow(
           <IdeaControls
+            {...defaultProps}
             idea={idea}
             retroChannel={retroChannel}
-            currentUser={mockUser}
-            stage={IDEA_GENERATION}
           />
         )
 
@@ -156,10 +157,9 @@ describe("<IdeaControls />", () => {
 
         const wrapper = shallow(
           <IdeaControls
+            {...defaultProps}
             idea={idea}
             retroChannel={retroChannel}
-            currentUser={mockUser}
-            stage={IDEA_GENERATION}
           />
         )
 
@@ -178,10 +178,9 @@ describe("<IdeaControls />", () => {
 
       const wrapper = shallow(
         <IdeaControls
+          {...defaultProps}
           idea={highlightedIdea}
           retroChannel={retroChannel}
-          currentUser={mockUser}
-          stage={IDEA_GENERATION}
         />
       )
 
@@ -195,14 +194,10 @@ describe("<IdeaControls />", () => {
   describe("the delete icon", () => {
     context("when the user is the facilitator", () => {
       it("renders", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
-
         const wrapper = shallow(
           <IdeaControls
-            idea={idea}
-            retroChannel={retroChannel}
-            currentUser={mockUser}
-            stage={IDEA_GENERATION}
+            {...defaultProps}
+            currentUser={{ ...mockUser, is_facilitator: true }}
           />
         )
 
@@ -213,15 +208,11 @@ describe("<IdeaControls />", () => {
     context("when the user is not the facilitator", () => {
       context("and the idea is not theirs", () => {
         it("doesn't render any icons", () => {
-          const retroChannel = { on: () => {}, push: sinon.spy() }
-          const currentUser = { id: 2, is_facilitator: false }
-
           const wrapper = shallow(
             <IdeaControls
-              idea={idea}
-              retroChannel={retroChannel}
-              currentUser={currentUser}
-              stage={IDEA_GENERATION}
+              {...defaultProps}
+              idea={{ ...idea, user_id: 3 }}
+              currentUser={{ ...mockUser, id: 2, is_facilitator: false }}
             />
           )
 
@@ -230,16 +221,14 @@ describe("<IdeaControls />", () => {
       })
 
       context("and the idea is theirs", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
         const currentUser = { id: 1, is_facilitator: false }
         const freshIdea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
 
         const wrapper = shallow(
           <IdeaControls
+            {...defaultProps}
             idea={freshIdea}
-            retroChannel={retroChannel}
             currentUser={currentUser}
-            stage={IDEA_GENERATION}
           />
         )
 
@@ -260,14 +249,10 @@ describe("<IdeaControls />", () => {
     context("when the stage is not idea-generation", () => {
       context("and the category is not action-item", () => {
         it("renders", () => {
-          const retroChannel = { on: () => {}, push: sinon.spy() }
-          const currentUser = { id: 1, is_facilitator: false }
-
           const wrapper = shallow(
             <IdeaControls
-              idea={idea}
-              retroChannel={retroChannel}
-              currentUser={currentUser}
+              {...defaultProps}
+              idea={{ ...idea, category: "sad" }}
               stage={VOTING}
             />
           )
@@ -278,14 +263,13 @@ describe("<IdeaControls />", () => {
 
       context("and the category is action-item", () => {
         it("doesn't render", () => {
-          const retroChannel = { on: () => {}, push: sinon.spy() }
           const currentUser = { id: 1, is_facilitator: false }
           const actionItemIdea = { id: 667, category: "action-item", body: "write tests", user_id: 1 }
 
           const wrapper = shallow(
             <IdeaControls
+              {...defaultProps}
               idea={actionItemIdea}
-              retroChannel={retroChannel}
               currentUser={currentUser}
               stage={VOTING}
             />
@@ -298,13 +282,11 @@ describe("<IdeaControls />", () => {
 
     context("when the stage is idea-generation", () => {
       it("doesn't render", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
         const currentUser = { id: 1, is_facilitator: false }
 
         const wrapper = shallow(
           <IdeaControls
-            idea={idea}
-            retroChannel={retroChannel}
+            {...defaultProps}
             currentUser={currentUser}
             stage={IDEA_GENERATION}
           />
@@ -316,13 +298,11 @@ describe("<IdeaControls />", () => {
 
     context("after entering action-items stage", () => {
       it("renders a disabled VoteCounter for display purposes", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
         const currentUser = { id: 1, is_facilitator: false }
 
         const wrapper = shallow(
           <IdeaControls
-            idea={idea}
-            retroChannel={retroChannel}
+            {...defaultProps}
             currentUser={currentUser}
             stage={ACTION_ITEMS}
           />
@@ -332,18 +312,16 @@ describe("<IdeaControls />", () => {
       })
     })
 
-    context("when the currentUser has voted 5 times", () => {
+    context("when the currentUser has voted 3 times", () => {
       it("renders a disabled VoteCounter for the currentUser", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
         const currentUser = { id: 1, is_facilitator: false }
         const voteForUser = { user_id: 1 }
         const votes = [voteForUser, voteForUser, voteForUser, voteForUser, voteForUser]
 
         const wrapper = shallow(
           <IdeaControls
-            idea={idea}
+            {...defaultProps}
             votes={votes}
-            retroChannel={retroChannel}
             currentUser={currentUser}
             stage={VOTING}
           />
@@ -355,14 +333,10 @@ describe("<IdeaControls />", () => {
 
     context("when the currentUser has voted under 5 times", () => {
       it("renders an enabled VoteCounter for the currentUser", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
-        const currentUser = { id: 1, is_facilitator: false }
-
         const wrapper = shallow(
           <IdeaControls
-            idea={idea}
-            retroChannel={retroChannel}
-            currentUser={currentUser}
+            {...defaultProps}
+            votes={[]}
             stage={VOTING}
           />
         )
