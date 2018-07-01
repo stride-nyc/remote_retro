@@ -22,9 +22,11 @@ const CenteredTextStageWrapper = props => {
         <UserList />
       </div>
       <div className="row">
-        <div className="thirteen wide mobile eight wide tablet four wide computer column">
-          <StageProgressionButton {...props} config={progressionConfig} />
-        </div>
+        <StageProgressionButton
+          {...props}
+          className="thirteen wide mobile eight wide tablet four wide computer column"
+          config={progressionConfig}
+        />
       </div>
       {children}
     </div>

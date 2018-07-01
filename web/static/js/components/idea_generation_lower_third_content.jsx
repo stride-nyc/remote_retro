@@ -30,13 +30,12 @@ const IdeaGenerationLowerThirdContent = props => {
           retroChannel={retroChannel}
         />
       </div>
-      <div className="three wide right aligned column">
-        <StageProgressionButton
-          {...props}
-          config={stageConfig}
-          buttonDisabled={progressionDisabled()}
-        />
-      </div>
+      <StageProgressionButton
+        {...props}
+        className="three wide right aligned column"
+        config={stageConfig}
+        buttonDisabled={progressionDisabled()}
+      />
     </div>
   )
 }

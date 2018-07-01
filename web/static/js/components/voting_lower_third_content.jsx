@@ -11,9 +11,11 @@ const VotingLowerThirdContent = props => (
     <div className="ten wide column">
       <VotesLeft currentUser={props.currentUser} />
     </div>
-    {props.currentUser.is_facilitator && <div className="three wide column">
-      <StageProgressionButton {...props} />
-    </div>
+    {props.currentUser.is_facilitator &&
+      <StageProgressionButton
+        {...props}
+        className="three wide column"
+      />
     }
   </div>
 )

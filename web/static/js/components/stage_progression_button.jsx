@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import Modal from "react-modal"
 import * as AppPropTypes from "../prop_types"
+import styles from "./css_modules/stage_progression_button.css"
 
 class StageProgressionButton extends Component {
   constructor(props) {
@@ -37,11 +38,15 @@ class StageProgressionButton extends Component {
     const { config, currentUser } = this.props
     if (!config.progressionButton || !currentUser.is_facilitator) return null
 
-    const { config: { progressionButton, confirmationMessage }, buttonDisabled } = this.props
+    const {
+      buttonDisabled,
+      className,
+      config: { progressionButton, confirmationMessage },
+    } = this.props
     const { modalOpen } = this.state
 
     return (
-      <div>
+      <div className={`${className} ${styles.index}`}>
         <Modal
           contentLabel="Modal"
           isOpen={modalOpen}
@@ -84,11 +89,13 @@ class StageProgressionButton extends Component {
 StageProgressionButton.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
+  className: PropTypes.string,
   config: PropTypes.object,
   buttonDisabled: PropTypes.bool,
 }
 
 StageProgressionButton.defaultProps = {
+  className: "",
   buttonDisabled: false,
   config: null,
 }
