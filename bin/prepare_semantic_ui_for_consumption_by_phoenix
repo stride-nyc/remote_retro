@@ -1,0 +1,9 @@
+#!/bin/bash
+
+echo -e "\nPreparing Semantic UI for Consumption by Phoenix\n"
+
+echo -e "  - Copying Semantic UI assets to priv/ ..."
+cp -rf node_modules/semantic-ui-css/ priv/static/css/semantic-ui/
+
+echo -e "  - Stripping Semantic UI css assets of '!important' ...\n"
+sed -i -e 's/!important//g' priv/static/css/semantic-ui/semantic*css

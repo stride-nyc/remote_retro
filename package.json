@@ -5,7 +5,7 @@
     "compile-production": "webpack -p --config='webpack.dll.js' --hide-modules && webpack -p",
     "compile-dev": "webpack --config='webpack.dll.js' --hide-modules && webpack",
     "watch": "webpack --config='webpack.dll.js' --hide-modules && NODE_ENV=dev node webpack.devserver.js",
-    "postinstall": "cp -rf node_modules/semantic-ui-css/ priv/static/css/semantic-ui/",
+    "postinstall": "bin/prepare_semantic_ui_for_consumption_by_phoenix",
     "test": "mocha",
     "test:watch": "mocha --watch --watch-extensions jsx"
   },

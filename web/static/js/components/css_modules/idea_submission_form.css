@@ -5,7 +5,7 @@
 /* ensure select shares focus border styling consistent with other focused semantic ui inputs */
 .select:focus {
   --semantic-focused-input-border-color: #85B7D9;
-  border-color: var(--semantic-focused-input-border-color) !important;
+  border-color: var(--semantic-focused-input-border-color);
 }
 
 :global(.ui.form) .fields {
