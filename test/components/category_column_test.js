@@ -366,5 +366,34 @@ describe("CategoryColumn", () => {
         })).to.eql(true)
       })
     })
+
+    context("and there is no serialized idea data assciated with the event", () => {
+      const mockEvent = {
+        preventDefault: () => {},
+        dataTransfer: {
+          getData: stub(),
+        },
+      }
+
+      mockEvent.dataTransfer.getData
+        .withArgs("idea").returns("")
+
+      const mockRetroChannel = { push: spy() }
+
+      before(() => {
+        const wrapper = shallow(
+          <CategoryColumn
+            {...defaultProps}
+            retroChannel={mockRetroChannel}
+          />
+        )
+
+        wrapper.simulate("drop", mockEvent)
+      })
+
+      it("does not push an idea_edited event", () => {
+        expect(mockRetroChannel.push.called).to.eql(false)
+      })
+    })
   })
 })
