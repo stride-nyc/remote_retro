@@ -29,7 +29,7 @@ export const UserList = ({ presences }) => {
 
   return (
     <section className={`${styles.index} ui center aligned basic segment`}>
-      <ul id="user-list" className="ui horizontal list">
+      <ul id="user-list" className="ui tiny horizontal list">
         {listItems}
       </ul>
     </section>
