@@ -12,8 +12,7 @@
 
   .column-head {
     margin-bottom: 0;
-    padding-right: 0;
-    padding-left: 0;
+    padding: 0.8rem 0;
   }
 
   .divider:not(.vertical) {
