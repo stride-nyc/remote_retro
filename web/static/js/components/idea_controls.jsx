@@ -24,51 +24,47 @@ export const IdeaControls = props => {
 
   const allVotesUsed = voteCount >= voteMax
 
-  function renderIcons() {
-    if (stage !== IDEA_GENERATION && category !== "action-item") {
-      return (
-        <VoteCounter
-          retroChannel={retroChannel}
-          idea={idea}
-          votes={votes}
-          buttonDisabled={stage !== VOTING || allVotesUsed}
-          currentUser={currentUser}
-          stage={stage}
-        />
-      )
-    }
-
-    if (currentUser.is_facilitator || currentUser.id === userId) {
-      const authorEditing = "Author currently editing"
-      const noOp = () => {}
-      return (
-        <div className={styles.wrapper}>
-          <i
-            title={idea.editing ? authorEditing : "Delete Idea"}
-            className={`${styles.actionIcon} remove circle icon ${idea.editing ? "disabled" : ""}`}
-            onClick={() => { idea.editing ? noOp() : retroChannel.push("idea_deleted", idea.id) }}
-          />
-          <i
-            title={idea.editing ? authorEditing : "Edit Idea"}
-            className={`${styles.actionIcon} edit icon ${idea.editing ? "disabled" : ""}`}
-            onClick={() => { idea.editing ? noOp() : retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
-          />
-          {
-            currentUser.is_facilitator &&
-            <i
-              title={idea.editing ? authorEditing : highlightTitle}
-              className={`${highlightClasses} ${idea.editing ? "disabled" : ""}`}
-              onClick={() => { idea.editing ? noOp() : retroChannel.push("highlight_idea", { id, isHighlighted }) }}
-            />
-          }
-        </div>
-      )
-    }
-
-    return null
+  if (stage !== IDEA_GENERATION && category !== "action-item") {
+    return (
+      <VoteCounter
+        retroChannel={retroChannel}
+        idea={idea}
+        votes={votes}
+        buttonDisabled={stage !== VOTING || allVotesUsed}
+        currentUser={currentUser}
+        stage={stage}
+      />
+    )
   }
 
-  return renderIcons()
+  if (currentUser.is_facilitator || currentUser.id === userId) {
+    const authorEditing = "Author currently editing"
+    const noOp = () => {}
+    return (
+      <div className={styles.wrapper}>
+        <i
+          title={idea.editing ? authorEditing : "Delete Idea"}
+          className={`${styles.actionIcon} remove circle icon ${idea.editing ? "disabled" : ""}`}
+          onClick={() => { idea.editing ? noOp() : retroChannel.push("idea_deleted", idea.id) }}
+        />
+        <i
+          title={idea.editing ? authorEditing : "Edit Idea"}
+          className={`${styles.actionIcon} edit icon ${idea.editing ? "disabled" : ""}`}
+          onClick={() => { idea.editing ? noOp() : retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
+        />
+        {
+          currentUser.is_facilitator &&
+          <i
+            title={idea.editing ? authorEditing : highlightTitle}
+            className={`${highlightClasses} ${idea.editing ? "disabled" : ""}`}
+            onClick={() => { idea.editing ? noOp() : retroChannel.push("highlight_idea", { id, isHighlighted }) }}
+          />
+        }
+      </div>
+    )
+  }
+
+  return null
 }
 
 IdeaControls.propTypes = {
