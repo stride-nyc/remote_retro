@@ -39,24 +39,26 @@ export const IdeaControls = props => {
 
   if (currentUser.is_facilitator || currentUser.id === userId) {
     const authorEditing = "Author currently editing"
+    const conditionallyDisabledClass = idea.editing ? "disabled" : ""
     const noOp = () => {}
+
     return (
       <div className={styles.wrapper}>
         <i
           title={idea.editing ? authorEditing : "Delete Idea"}
-          className={`${styles.actionIcon} remove circle icon ${idea.editing ? "disabled" : ""}`}
+          className={`${styles.actionIcon} remove circle icon ${conditionallyDisabledClass}`}
           onClick={() => { idea.editing ? noOp() : retroChannel.push("idea_deleted", idea.id) }}
         />
         <i
           title={idea.editing ? authorEditing : "Edit Idea"}
-          className={`${styles.actionIcon} edit icon ${idea.editing ? "disabled" : ""}`}
+          className={`${styles.actionIcon} edit icon ${conditionallyDisabledClass}`}
           onClick={() => { idea.editing ? noOp() : retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
         />
         {
           currentUser.is_facilitator &&
           <i
             title={idea.editing ? authorEditing : highlightTitle}
-            className={`${highlightClasses} ${idea.editing ? "disabled" : ""}`}
+            className={`${highlightClasses} ${conditionallyDisabledClass}`}
             onClick={() => { idea.editing ? noOp() : retroChannel.push("highlight_idea", { id, isHighlighted }) }}
           />
         }
