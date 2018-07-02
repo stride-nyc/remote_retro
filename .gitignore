@@ -4,6 +4,8 @@
 /deps
 /*.ez
 
+TODOS.*
+
 # Test artifacts
 screenshots/
 # Generated on crash by the VM
