@@ -1,15 +1,18 @@
 /* eslint-disable global-require */
-import { createStore } from "redux"
+import { createStore, applyMiddleware, compose } from "redux"
+import thunk from "redux-thunk"
 
 import { reducer as rootReducer } from "./redux"
 import interceptOverEagerReactReduxWarning from "./dev-utils/intercept_overeager_reactredux_warning"
+import storeEnhancer from "./dev-utils/store_enhancer"
 
-const isProd = location.host === "remoteretro.org"
-
-export default () => {
+export default retroChannel => {
   const store = createStore(
     rootReducer,
-    !isProd && window.__REDUX_DEVTOOLS_EXTENSION__ && window.__REDUX_DEVTOOLS_EXTENSION__()
+    compose(
+      applyMiddleware(thunk.withExtraArgument(retroChannel)),
+      storeEnhancer
+    )
   )
 
   // ensures that updates to reducers are hot reloaded

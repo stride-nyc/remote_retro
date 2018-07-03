@@ -3,17 +3,15 @@ import { Socket, Presence } from "phoenix"
 import UserActivity from "./user_activity"
 
 class RetroChannel {
-  static configure({ userToken, retroUUID, store, actions }) {
+  static configure({ userToken, retroUUID }) {
     const socket = new Socket("/socket", { params: { userToken } })
     socket.connect()
 
-    const retroChannel = socket.channel(`retro:${retroUUID}`)
-
-    return applyListenerCallbacks(retroChannel, store, actions)
+    return socket.channel(`retro:${retroUUID}`)
   }
 }
 
-const applyListenerCallbacks = (retroChannel, store, actions) => {
+export const applyListenersWithDispatch = (retroChannel, store, actions) => {
   retroChannel.on("presence_state", presences => {
     const users = Presence.list(presences, (_username, presence) => (presence.user))
     actions.setPresences(users)
