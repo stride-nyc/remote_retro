@@ -27,6 +27,11 @@ import {
 } from "./alert"
 
 import {
+  actions as errorActions,
+  reducer as error,
+} from "./error"
+
+import {
   reducer as usersById,
   selectors as usersByIdSelectors,
 } from "./users_by_id"
@@ -44,10 +49,12 @@ export const reducer = combineReducers({
   facilitatorId,
   insertedAt,
   alert,
+  error,
 })
 
 export const actions = {
   ...alertActions,
+  ...errorActions,
   ...presenceActions,
   ...ideaActions,
   ...retroActions,
