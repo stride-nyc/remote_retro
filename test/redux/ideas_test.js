@@ -115,6 +115,22 @@ describe("actionCreators", () => {
         thunk(undefined, undefined, mockRetroChannel)
         expect(mockRetroChannel.push.calledWith("idea_submitted", idea)).to.eq(true)
       })
+
+      describe("when the push results in an error", () => {
+        let push
+
+        it("dispatches an error", () => {
+          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          push.trigger("error", {})
+
+          expect(
+            dispatchSpy.calledWithMatch({ type: "SET_ERROR" })
+          ).to.eq(true)
+        })
+      })
     })
   })
 

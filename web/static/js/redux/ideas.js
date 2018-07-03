@@ -28,7 +28,10 @@ export const actions = {
 
   submitIdea: idea => {
     return (dispatch, getState, retroChannel) => {
-      retroChannel.push("idea_submitted", idea)
+      const push = retroChannel.push("idea_submitted", idea)
+      push.receive("error", () => {
+        dispatch({ type: "ERROR" })
+      })
     }
   },
 
