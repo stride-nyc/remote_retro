@@ -19,10 +19,7 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:join_the_retro_channel]
 
     test "results in a response containing retro state", ~M{join_response} do
-      assert join_response.votes
-      assert join_response.ideas
-      assert join_response.stage
-      assert join_response.users
+      assert %{votes: _, ideas: _, stage: _, users: _} = join_response
     end
 
     test "assigns the retro_id to the socket", ~M{socket, retro} do
