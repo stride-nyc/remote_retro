@@ -26,6 +26,11 @@ export const actions = {
     }
   },
 
+  submitIdea: idea => {
+    return (dispatch, getState, retroChannel) => {
+      retroChannel.push("idea_submitted", idea)
+    }
+  },
 
   deleteIdea: ideaId => ({
     type: types.DELETE_IDEA,

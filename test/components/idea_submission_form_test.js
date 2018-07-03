@@ -40,13 +40,14 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("on submit", () => {
     describe("when in the IDEA_GENERATION stage", () => {
-      it("pushes a `idea_submitted` event to the retroChannel, passing a happy idea by default", () => {
-        const retroChannel = { on: () => { }, push: sinon.spy() }
+      it("invokes the submitIdea action, passing a happy idea by default", () => {
+        const actions = { submitIdea: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             currentUser={stubUser}
-            retroChannel={retroChannel}
+            retroChannel={mockRetroChannel}
+            actions={actions}
             stage={IDEA_GENERATION}
             users={users}
           />
@@ -55,7 +56,7 @@ describe("IdeaSubmissionForm component", () => {
         wrapper.simulate("submit", fakeEvent)
 
         expect(
-          retroChannel.push.calledWith("idea_submitted", {
+          actions.submitIdea.calledWith({
             category: "happy",
             body: "",
             userId: 1,
@@ -67,13 +68,14 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     describe("when in the ACTION_ITEMS stage", () => {
-      it("pushes a `idea_submitted` event, assigning the action-item to the first user by default", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
+      it("invokes the submitIdea action with the action-item", () => {
+        const actions = { submitIdea: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             currentUser={stubUser}
-            retroChannel={retroChannel}
+            retroChannel={mockRetroChannel}
+            actions={actions}
             users={users}
             stage={ACTION_ITEMS}
           />
@@ -84,7 +86,7 @@ describe("IdeaSubmissionForm component", () => {
         wrapper.simulate("submit", fakeEvent)
 
         expect(
-          retroChannel.push.calledWith("idea_submitted", {
+          actions.submitIdea.calledWith({
             body: "Some issue",
             userId: 1,
             assigneeId: 1,

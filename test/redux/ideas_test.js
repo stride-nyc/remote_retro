@@ -1,6 +1,7 @@
 import deepFreeze from "deep-freeze"
 import sinon from "sinon"
 
+import { setupMockPhoenixChannel } from "../support/js/test_helper"
 import {
   actions as actionCreators,
   reducer as ideasReducer
@@ -85,6 +86,35 @@ describe("actionCreators", () => {
       const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
 
       expect(actionCreators.addIdea(idea)).to.deep.equal({ type: "ADD_IDEA", idea })
+    })
+  })
+
+  describe("submitIdea", () => {
+    const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
+
+    it("returns a thunk", () => {
+      const result = actionCreators.submitIdea(idea)
+      expect(result).to.be.a("function")
+    })
+
+    describe("invoking the returned function", () => {
+      let thunk
+      let mockRetroChannel
+
+      beforeEach(() => {
+        thunk = actionCreators.submitIdea(idea)
+        mockRetroChannel = setupMockPhoenixChannel()
+        sinon.spy(mockRetroChannel, "push")
+      })
+
+      afterEach(() => {
+        mockRetroChannel.push.restore()
+      })
+
+      it("results in a push to the retroChannel", () => {
+        thunk(undefined, undefined, mockRetroChannel)
+        expect(mockRetroChannel.push.calledWith("idea_submitted", idea)).to.eq(true)
+      })
     })
   })
 
