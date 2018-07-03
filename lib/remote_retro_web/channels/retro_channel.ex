@@ -27,11 +27,14 @@ defmodule RemoteRetroWeb.RetroChannel do
   handle_in_and_broadcast("live_edit_idea", ~m{id, liveEditText})
   handle_in_and_broadcast("highlight_idea", ~m{id, isHighlighted})
 
-  def handle_in("idea_submitted", props, socket) do
-    idea = add_idea! props, socket
-
-    broadcast! socket, "idea_committed", idea
-    {:noreply, socket}
+  def handle_in("idea_submitted", idea_params, socket) do
+    try do
+      idea = add_idea!(idea_params, socket)
+      broadcast! socket, "idea_committed", idea
+      {:reply, :ok, socket}
+    rescue
+      _ -> {:reply, :error, socket}
+    end
   end
 
   def handle_in("idea_edited", ~m{id, body, category, assigneeId}, socket) do

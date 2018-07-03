@@ -82,7 +82,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a valid new idea to the socket" do
+  describe "pushing a valid new idea to the channel" do
     setup [:join_the_retro_channel]
 
     test "inserts the idea into the database", ~M{socket, user} do
@@ -90,7 +90,7 @@ defmodule RemoteRetro.RetroChannelTest do
       idea_count_before = Repo.aggregate(Idea, :count, :id)
 
       ref = push(socket, "idea_submitted", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: nil})
-      refute_reply ref, :ok # extra assertion required to wait for async process to complete before
+      assert_reply ref, :ok # extra assertion required to wait for async process to complete before
 
       idea_count_after = Repo.aggregate(Idea, :count, :id)
 
@@ -104,6 +104,24 @@ defmodule RemoteRetro.RetroChannelTest do
       push(socket, "idea_submitted", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
 
       assert_broadcast("idea_committed", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
+    end
+  end
+
+  describe "pushing an invalid idea to the channel" do
+    setup [:join_the_retro_channel]
+
+    test "results in an error reply", ~M{socket} do
+      invalid_idea = %{category: "", body: "", userId: 666, assigneeId: nil}
+      ref = push(socket, "idea_submitted", invalid_idea)
+      assert_reply ref, :error
+    end
+
+    test "does not trigger an 'idea_committed' broadcast to all connected clients", ~M{socket} do
+      invalid_idea = %{category: "", body: "", userId: 666, assigneeId: nil}
+
+      push(socket, "idea_submitted", invalid_idea)
+
+      refute_broadcast("idea_committed", %{}, 20)
     end
   end
 
@@ -219,7 +237,7 @@ defmodule RemoteRetro.RetroChannelTest do
       user_id = user.id
       push(socket, "vote_submitted", %{ideaId: idea_id, userId: user_id})
 
-      refute_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
+      refute_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id}, 20)
     end
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
