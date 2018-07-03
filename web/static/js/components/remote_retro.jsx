@@ -61,9 +61,9 @@ RemoteRetro.propTypes = {
 
 RemoteRetro.defaultProps = {
   /*
-  / account for initial render occurring before 'presence' state
-  / is sent by server, as this event necessarily arrives *after*
-  / the channel is joined with the initial persisted state
+  / account for initial render occurring before ephemeral 'presence' state
+  / is sent by server, as that event necessarily arrives *after*
+  / the channel is joined
   */
   currentUser: {
     is_facilitator: false,
