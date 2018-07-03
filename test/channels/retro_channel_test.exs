@@ -82,12 +82,25 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a new idea to the socket" do
+  describe "pushing a valid new idea to the socket" do
     setup [:join_the_retro_channel]
+
+    test "inserts the idea into the database", ~M{socket, user} do
+      user_id = user.id
+      idea_count_before = Repo.aggregate(Idea, :count, :id)
+
+      ref = push(socket, "idea_submitted", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: nil})
+      refute_reply ref, :ok # extra assertion required to wait for async process to complete before
+
+      idea_count_after = Repo.aggregate(Idea, :count, :id)
+
+      assert (idea_count_after - idea_count_before) == 1
+    end
 
     test "results in the broadcast of the new idea to all connected clients", ~M{socket, user} do
       user_id = user.id
       assignee_id = nil
+
       push(socket, "idea_submitted", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
 
       assert_broadcast("idea_committed", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
