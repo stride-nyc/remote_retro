@@ -201,3 +201,7 @@
 :global(.react-root .ui.active.large.centered.text.loader) {
   width: 10rem;
 }
+
+:global(.ReactModal__Content.ReactModal__Content--after-open:focus) {
+  outline: none;
+}
