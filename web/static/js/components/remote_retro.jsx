@@ -7,6 +7,7 @@ import { actions, selectors } from "../redux"
 import * as AppPropTypes from "../prop_types"
 import Room from "./room"
 import Alert from "./alert"
+import Error from "./error"
 import DoorChime from "./door_chime"
 
 export class RemoteRetro extends Component {
@@ -27,6 +28,7 @@ export class RemoteRetro extends Component {
       retroChannel,
       stage,
       alert,
+      error,
       currentUser,
       facilitatorName,
     } = this.props
@@ -42,6 +44,7 @@ export class RemoteRetro extends Component {
           retroChannel={retroChannel}
         />
         <Alert config={alert} />
+        <Error config={error} />
         <DoorChime presences={presences} />
       </div>
     )
@@ -54,6 +57,7 @@ RemoteRetro.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
+  error: PropTypes.object,
   actions: PropTypes.object.isRequired,
   currentUser: AppPropTypes.presence,
   facilitatorName: PropTypes.string.isRequired,
@@ -71,6 +75,7 @@ RemoteRetro.defaultProps = {
   },
   facilitatorName: "",
   alert: null,
+  error: null,
 }
 
 const mapStateToProps = state => ({
