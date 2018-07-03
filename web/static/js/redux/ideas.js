@@ -1,3 +1,5 @@
+import { types as errorTypes } from "./error"
+
 const types = {
   ADD_IDEA: "ADD_IDEA",
   UPDATE_IDEA: "UPDATE_IDEA",
@@ -31,7 +33,10 @@ export const actions = {
       const push = retroChannel.push("idea_submitted", idea)
 
       push.receive("error", () => {
-        dispatch({ type: "SET_ERROR" })
+        dispatch({
+          type: errorTypes.SET_ERROR,
+          error: { message: "Idea submission failed. Please try again." },
+        })
       })
     }
   },
