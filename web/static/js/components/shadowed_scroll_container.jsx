@@ -28,23 +28,14 @@ const detectIE = () => {
   return false
 }
 
-const ShadowedScrollContainer = ({ contentMaxHeight, children }) => {
-  /* height declaration, seemingly redundant, is neededto ensure IE 10 & 11 render columns
-  *  with proper height. Otherwise they're collapsed in IE. We DON'T want to add height *outside*
-  *  of IE because it causes the shadows to appear. (sigh)
-  */
-  const heightStyles = {
-    maxHeight: contentMaxHeight,
-    height: detectIE() && contentMaxHeight,
-  }
-
+const ShadowedScrollContainer = ({ children }) => {
   return (
     <div className={styles.overlay}>
       <div className="shadowContainer">
         <div className="radialShadowTop" />
         <div className="radialShadowBottom" />
       </div>
-      <div className="content" style={heightStyles}>
+      <div className={`content ${detectIE() ? "apply-height-for-IE" : ""}`}>
         <div className="shadowCoverTop" />
         {children}
         <div className="shadowCoverBottom" />
@@ -54,7 +45,6 @@ const ShadowedScrollContainer = ({ contentMaxHeight, children }) => {
 }
 
 ShadowedScrollContainer.propTypes = {
-  contentMaxHeight: PropTypes.string.isRequired,
   children: PropTypes.any.isRequired,
 }
 

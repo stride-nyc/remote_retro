@@ -8,6 +8,37 @@
   :global(.content) {
     background-color: var(--shadow-cover-color);
     overflow: scroll;
+
+    --heightForMobile: 50vh;
+    --heightForTablet: 56.25vh;
+    --heightForLaptop: 58vh;
+    @media only screen and (max-width: 767px) {
+      max-height: var(--heightForMobile);
+    }
+
+    @media only screen and (min-width: 768px) {
+      max-height: var(--heightForTablet);
+    }
+    @media only screen and (min-width: 992px) {
+      max-height: var(--heightForLaptop);
+    }
+
+    /* height declaration, seemingly redundant, is neededto ensure IE 10 & 11 render columns
+    *  with proper height. Otherwise they're collapsed in IE. We DON'T want to add height *outside*
+    *  of IE because it causes the shadows to appear. (sigh)
+    */
+    &:global(.apply-height-for-IE) {
+      @media only screen and (max-width: 767px) {
+        height: var(--heightForMobile);
+      }
+
+      @media only screen and (min-width: 768px) {
+        height: var(--heightForTablet);
+      }
+      @media only screen and (min-width: 992px) {
+        height: var(--heightForLaptop);
+      }
+    }
   }
 
   :global(.shadowContainer) {

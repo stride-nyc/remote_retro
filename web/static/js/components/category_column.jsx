@@ -91,7 +91,7 @@ export class CategoryColumn extends Component {
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
         { !!sortedIdeas.length &&
-          <ShadowedScrollContainer contentMaxHeight="54vh">
+          <ShadowedScrollContainer>
             <ul className={`${category} ${styles.list} ideas`}>
               {ideasList}
             </ul>
