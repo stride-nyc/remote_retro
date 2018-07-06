@@ -1,6 +1,5 @@
 import React from "react"
 import { connect } from "react-redux"
-import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_controls.css"
@@ -15,10 +14,6 @@ export const IdeaControls = props => {
   if (stage === CLOSED) return null
 
   const { id, user_id: userId, isHighlighted = false, category } = idea
-  const highlightClasses = classNames(`icon ${styles.actionIcon}`, {
-    announcement: !isHighlighted,
-    ban: isHighlighted,
-  })
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
   const voteCount = votes.filter(vote => vote.user_id === currentUser.id).length
 
@@ -38,28 +33,24 @@ export const IdeaControls = props => {
   }
 
   if (currentUser.is_facilitator || currentUser.id === userId) {
-    const authorEditing = "Author currently editing"
-    const conditionallyDisabledClass = idea.editing ? "disabled" : ""
-    const noOp = () => {}
-
     return (
-      <div className={styles.wrapper}>
+      <div className={`${styles.wrapper} ${idea.editing ? "disabled" : ""}`}>
         <i
-          title={idea.editing ? authorEditing : "Delete Idea"}
-          className={`${styles.actionIcon} remove circle icon ${conditionallyDisabledClass}`}
-          onClick={() => { idea.editing ? noOp() : retroChannel.push("idea_deleted", idea.id) }}
+          title="Delete Idea"
+          className="remove circle icon"
+          onClick={() => { retroChannel.push("idea_deleted", idea.id) }}
         />
         <i
-          title={idea.editing ? authorEditing : "Edit Idea"}
-          className={`${styles.actionIcon} edit icon ${conditionallyDisabledClass}`}
-          onClick={() => { idea.editing ? noOp() : retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
+          title="Edit Idea"
+          className="edit icon"
+          onClick={() => { retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
         />
         {
           currentUser.is_facilitator &&
           <i
-            title={idea.editing ? authorEditing : highlightTitle}
-            className={`${highlightClasses} ${conditionallyDisabledClass}`}
-            onClick={() => { idea.editing ? noOp() : retroChannel.push("highlight_idea", { id, isHighlighted }) }}
+            title={highlightTitle}
+            className={`${!isHighlighted ? "announcement" : "ban"} icon`}
+            onClick={() => { retroChannel.push("highlight_idea", { id, isHighlighted }) }}
           />
         }
       </div>

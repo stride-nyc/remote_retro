@@ -34,140 +34,68 @@ describe("<IdeaControls />", () => {
   })
 
   describe("on click of the removal icon", () => {
-    context("when the idea is not currently being edited by its author", () => {
-      it("pushes an `idea_deleted` event to the retro channel, passing the given idea's id", () => {
-        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
-        const retroChannel = { on: () => { }, push: sinon.spy() }
+    it("pushes an `idea_deleted` event to the retro channel, passing the given idea's id", () => {
+      const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
+      const retroChannel = { on: () => { }, push: sinon.spy() }
 
-        const wrapper = shallow(
-          <IdeaControls
-            {...defaultProps}
-            idea={idea}
-            retroChannel={retroChannel}
-          />
-        )
+      const wrapper = shallow(
+        <IdeaControls
+          {...defaultProps}
+          idea={idea}
+          retroChannel={retroChannel}
+        />
+      )
 
-        const removalIcon = wrapper.find(".remove.icon")
-        expect(removalIcon.prop("title")).to.equal("Delete Idea")
+      const removalIcon = wrapper.find(".remove.icon")
+      expect(removalIcon.prop("title")).to.equal("Delete Idea")
 
-        removalIcon.simulate("click")
-        expect(
-          retroChannel.push.calledWith("idea_deleted", 666)
-        ).to.equal(true)
-      })
-    })
-
-    context("when the idea is currently being edited by its author", () => {
-      it("performs no action while displaying 'Author currently editing' on hover", () => {
-        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: true }
-        const retroChannel = { on: () => { }, push: sinon.spy() }
-
-        const wrapper = shallow(
-          <IdeaControls
-            {...defaultProps}
-            idea={idea}
-            retroChannel={retroChannel}
-          />
-        )
-
-        const removalIcon = wrapper.find(".remove.icon")
-        expect(removalIcon.prop("title")).to.equal("Author currently editing")
-
-        removalIcon.simulate("click")
-        expect(
-          retroChannel.push.calledWith("idea_deleted", 666)
-        ).to.equal(false)
-      })
+      removalIcon.simulate("click")
+      expect(
+        retroChannel.push.calledWith("idea_deleted", 666)
+      ).to.equal(true)
     })
   })
 
   describe("on click of the edit icon", () => {
-    context("when the idea is not currently being edited by its author", () => {
-      it("pushes an enable_idea_edit_state event to the channel, passing idea id and editorToken", () => {
-        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
-        const retroChannel = { on: () => { }, push: sinon.spy() }
+    it("pushes an enable_idea_edit_state event to the channel, passing idea id and editorToken", () => {
+      const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
+      const retroChannel = { on: () => { }, push: sinon.spy() }
 
-        const wrapper = shallow(
-          <IdeaControls
-            {...defaultProps}
-            idea={idea}
-            retroChannel={retroChannel}
-          />
-        )
+      const wrapper = shallow(
+        <IdeaControls
+          {...defaultProps}
+          idea={idea}
+          retroChannel={retroChannel}
+        />
+      )
 
-        const editIcon = wrapper.find(".edit.icon")
-        expect(editIcon.prop("title")).to.equal("Edit Idea")
+      const editIcon = wrapper.find(".edit.icon")
+      expect(editIcon.prop("title")).to.equal("Edit Idea")
 
-        editIcon.simulate("click")
-        expect(
-          retroChannel.push.calledWith("enable_idea_edit_state", { id: idea.id, editorToken: mockUser.token })
-        ).to.equal(true)
-      })
-    })
-
-    context("when the idea is currently being edited by its author", () => {
-      it("performs no action while displaying 'Author currently editing' on hover", () => {
-        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: true }
-        const retroChannel = { on: () => { }, push: sinon.spy() }
-
-        const wrapper = shallow(
-          <IdeaControls
-            {...defaultProps}
-            idea={idea}
-            retroChannel={retroChannel}
-          />
-        )
-
-        const editIcon = wrapper.find(".edit.icon")
-        expect(editIcon.prop("title")).to.equal("Author currently editing")
-
-        editIcon.simulate("click")
-        expect(
-          retroChannel.push.calledWith("enable_idea_edit_state", { idea, editorToken: mockUser.token })
-        ).to.equal(false)
-      })
+      editIcon.simulate("click")
+      expect(
+        retroChannel.push.calledWith("enable_idea_edit_state", { id: idea.id, editorToken: mockUser.token })
+      ).to.equal(true)
     })
   })
 
   describe("on click of the announcement icon", () => {
-    context("when the idea is not currently being edited by its author", () => {
-      it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
-        const retroChannel = { on: () => { }, push: sinon.spy() }
-        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
+    it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
+      const retroChannel = { on: () => { }, push: sinon.spy() }
+      const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
 
-        const wrapper = shallow(
-          <IdeaControls
-            {...defaultProps}
-            idea={idea}
-            retroChannel={retroChannel}
-          />
-        )
+      const wrapper = shallow(
+        <IdeaControls
+          {...defaultProps}
+          idea={idea}
+          retroChannel={retroChannel}
+        />
+      )
 
-        wrapper.find(".announcement.icon").simulate("click")
-        expect(
-          retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: false })
-        ).to.equal(true)
-      })
-    })
-
-    context("when the idea is currently being edited by its author", () => {
-      it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
-        const retroChannel = { on: () => { }, push: sinon.spy() }
-        const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: true }
-
-        const wrapper = shallow(
-          <IdeaControls
-            {...defaultProps}
-            idea={idea}
-            retroChannel={retroChannel}
-          />
-        )
-
-        wrapper.find(".announcement.icon").simulate("click")
-        expect(
-          retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: false })
-        ).to.equal(false)
-      })
+      wrapper.find(".announcement.icon").simulate("click")
+      expect(
+        retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: false })
+      ).to.equal(true)
     })
   })
 
