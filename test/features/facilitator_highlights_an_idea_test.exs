@@ -9,11 +9,11 @@ defmodule FacilitatorHighlightsAnIdeaTest do
     @tag idea: %Idea{category: "happy", body: "Teams worked well together"}
     test "the idea that the facilitator clicked on toggles highlighted class for everyone", ~M{retro, session: facilitator_session} do
       idea_body = "Teams worked well together"
-      participant_session = new_browser_session()
+      participant_session = new_authenticated_browser_session()
 
       retro_path = "/retros/#{retro.id}"
-      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
-      participant_session = authenticate(participant_session) |> visit(retro_path)
+      facilitator_session = visit(facilitator_session, retro_path)
+      participant_session = visit(participant_session, retro_path)
 
       idea = participant_session |> find(Query.css("li[title='#{idea_body}']"))
       refute Element.attr(idea, "class") |> String.contains?("highlighted")

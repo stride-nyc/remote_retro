@@ -43,8 +43,7 @@ defmodule RemoteRetro.IntegrationCase do
     {:ok, user} = User.upsert_record_from(oauth_info: @test_user_one)
     {:ok, retro} = Repo.insert(%Retro{stage: stage, facilitator_id: user.id})
 
-    session = new_browser_session(metadata)
-    session = authenticate(session)
+    session = new_authenticated_browser_session(metadata)
 
     {:ok, session: session, retro: retro, user: user}
   end

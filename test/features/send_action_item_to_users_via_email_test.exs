@@ -14,7 +14,7 @@ defmodule SendActionItemToUsersViaEmailTest do
     ]
     test "Distributing action items via email", ~M{retro, session: facilitator_session} do
       retro_path = "/retros/" <> retro.id
-      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
+      facilitator_session = visit(facilitator_session, retro_path)
 
       click_and_confirm(facilitator_session, "Send Action Items")
 

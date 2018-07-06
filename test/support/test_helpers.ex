@@ -48,9 +48,10 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :idea, idea)
   end
 
-  def new_browser_session(metadata \\ %{}) do
+  def new_authenticated_browser_session(metadata \\ %{}) do
     :timer.sleep(50)
     {:ok, session} = Wallaby.start_session(metadata: metadata)
+    authenticate(session)
     resize_window(session, 1000, 1000)
   end
 

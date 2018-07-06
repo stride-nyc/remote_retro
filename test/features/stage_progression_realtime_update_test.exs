@@ -4,10 +4,10 @@ defmodule StageProgressionRealtimeUpdateTest do
   import ShorterMaps
 
   test "realtime stage progression for connected users", ~M{retro, session: facilitator_session} do
-    participant_session = new_browser_session()
+    participant_session = new_authenticated_browser_session()
     retro_path = "/retros/" <> retro.id
-    facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
-    participant_session = authenticate(participant_session) |> visit(retro_path)
+    facilitator_session = visit(facilitator_session, retro_path)
+    participant_session = visit(participant_session, retro_path)
 
     submit_idea(facilitator_session, %{category: "happy", body: "it works"})
 

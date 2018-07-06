@@ -7,11 +7,11 @@ defmodule RetroIdeaRealtimeUpdateTest do
   @test_user_two Application.get_env(:remote_retro, :test_user_two)
 
   test "the immediate appearance of other users' submitted ideas", ~M{retro, session: session_one} do
-    session_two = new_browser_session()
+    session_two = new_authenticated_browser_session()
 
     retro_path = "/retros/" <> retro.id
-    session_one = authenticate(session_one) |> visit(retro_path)
-    session_two = authenticate(session_two) |> visit(retro_path)
+    session_one = visit(session_one, retro_path)
+    session_two = visit(session_two, retro_path)
 
     ideas_list_text = session_one |> find(Query.css(".sad.column")) |> Element.text()
     refute String.contains?(ideas_list_text, "user stories lack clear business value")
@@ -29,11 +29,11 @@ defmodule RetroIdeaRealtimeUpdateTest do
       idea: %Idea{category: "sad", body: "no linter"},
     ]
     test "the immediate update of ideas as they are changed/saved", ~M{retro, session: facilitator_session} do
-      participant_session = new_browser_session()
+      participant_session = new_authenticated_browser_session()
 
       retro_path = "/retros/" <> retro.id
-      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
-      participant_session = authenticate(participant_session) |> visit(retro_path)
+      facilitator_session = visit(facilitator_session, retro_path)
+      participant_session = visit(participant_session, retro_path)
 
       facilitator_session |> find(Query.css(".edit.icon")) |> Element.click
       fill_in(facilitator_session, Query.text_field("editable_idea"), with: "No one uses the linter.")
@@ -55,11 +55,11 @@ defmodule RetroIdeaRealtimeUpdateTest do
       idea: %Idea{category: "happy", body: "slack time!"},
     ]
     test "the immediate removal of an idea deleted by the facilitator", ~M{retro, session: facilitator_session} do
-      participant_session = new_browser_session()
+      participant_session = new_authenticated_browser_session()
 
       retro_path = "/retros/" <> retro.id
-      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
-      participant_session = authenticate(participant_session) |> visit(retro_path)
+      facilitator_session = visit(facilitator_session, retro_path)
+      participant_session = visit(participant_session, retro_path)
 
       ideas_list_text = participant_session |> find(Query.css(".happy.ideas li")) |> Element.text
       assert ideas_list_text =~ ~r/slack time/
@@ -76,7 +76,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     ]
     test "it is assigned to a particular user", ~M{retro, session: facilitator_session} do
       retro_path = "/retros/" <> retro.id
-      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
+      facilitator_session = visit(facilitator_session, retro_path)
 
       facilitator_session
       |> find(Query.css("form"))
@@ -100,7 +100,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
     test "it can be re-assigned to a different user", ~M{retro, user, session: facilitator_session} do
       retro_path = "/retros/" <> retro.id
-      facilitator_session = authenticate(facilitator_session) |> visit(retro_path)
+      facilitator_session = visit(facilitator_session, retro_path)
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
       assert action_items_list_text =~ "blurgh (#{user.name})"

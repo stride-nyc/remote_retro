@@ -9,8 +9,8 @@ defmodule UserPresenceRealtimeUpdateTest do
 
     assert session_one |> find(Query.css("#user-list li", count: 1))
 
-    session_two = new_browser_session()
-    authenticate(session_two) |> visit(retro_path)
+    session_two = new_authenticated_browser_session()
+    visit(session_two, retro_path)
 
     assert session_one |> find(Query.css("#user-list li", count: 2))
 
