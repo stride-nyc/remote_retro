@@ -40,7 +40,7 @@ config :remote_retro, :test_user_one, %{
   "gender" => "male", "given_name" => "Test",
   "kind" => "plus#personOpenIdConnect", "locale" => "en",
   "name" => "Test User",
-  "picture" => "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
+  "picture" => "/images/test_user.png",
   "profile" => "https://plus.google.com/108658712426577966861",
   "sub" => "108658712426577966861"
 }
@@ -51,7 +51,7 @@ config :remote_retro, :test_user_two, %{
   "gender" => "female", "given_name" => "Other",
   "kind" => "plus#personOpenIdConnect", "locale" => "en",
   "name" => "Other User",
-  "picture" => "https://lh3.googleusercontent.com/-zbm50wGQlTw/AAAAAAAAAAI/AAAAAAAAAAA/AGi4gfzhLKBFn9JUeSaNNsOiWcrwDPWy1w/s32-c-mo/photo.jpg",
+  "picture" => "/images/test_user.png",
   "profile" => "https://plus.google.com/u/1/+NicholAlexander",
   "sub" => "106702782098698370243"
 }
