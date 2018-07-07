@@ -15,14 +15,13 @@ defmodule RemoteRetroWeb.ChannelCase do
 
   use ExUnit.CaseTemplate
 
-  alias RemoteRetro.{Repo, Retro, User}
-
-  @test_user_one Application.get_env(:remote_retro, :test_user_one)
+  alias RemoteRetro.{Repo}
 
   using do
     quote do
       # Import conveniences for testing with channels
       use Phoenix.ChannelTest
+      use RemoteRetro.UserRetroCase
 
       alias RemoteRetro.Repo
       import Ecto
@@ -35,14 +34,11 @@ defmodule RemoteRetroWeb.ChannelCase do
     end
   end
 
-  setup _tags do
+  setup tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
 
     Ecto.Adapters.SQL.Sandbox.mode(Repo, {:shared, self()})
 
-    {:ok, user} = User.upsert_record_from(oauth_info: @test_user_one)
-    retro = Repo.insert!(%Retro{facilitator_id: user.id})
-
-    {:ok, retro: retro, user: user}
+    {:ok, tags}
   end
 end
