@@ -16,13 +16,10 @@ defmodule FacilitatorHighlightsAnIdeaTest do
       participant_session = visit(participant_session, retro_path)
 
       idea = participant_session |> find(Query.css("li[title='#{idea_body}']"))
-      refute Element.attr(idea, "class") |> String.contains?("highlighted")
+      refute Element.attr(idea, "class") =~ "highlighted"
 
       facilitator_session |> find(Query.css("li[title='#{idea_body}'] .announcement.icon")) |> Element.click
-      assert Element.attr(idea, "class") |> String.contains?("highlighted")
-
-      facilitator_session |> find(Query.css("li[title='#{idea_body}'] .ban.icon")) |> Element.click
-      refute Element.attr(idea, "class") |> String.contains?("highlighted")
+      assert Element.attr(idea, "class") =~ "highlighted"
     end
   end
 
