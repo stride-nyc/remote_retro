@@ -52,7 +52,6 @@ defmodule RemoteRetro.TestHelpers do
     :timer.sleep(50)
     {:ok, session} = Wallaby.start_session(metadata: metadata)
     authenticate(session)
-    resize_window(session, 1000, 1000)
   end
 
   def click_and_confirm(facilitator_session, button_text) do
