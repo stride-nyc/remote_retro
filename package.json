@@ -35,7 +35,7 @@
     "react-transition-group": "^1.2.1",
     "redux": "^3.6.0",
     "redux-thunk": "^2.3.0",
-    "semantic-ui-offline": "github:vanderhoop/semantic-ui-offline",
+    "semantic-ui-offline": "github:vanderhoop/semantic-ui-offline#dbf68a08531a48aa5b2bdc123b92a3c3df112515",
     "sinon": "^1.17.7",
     "webpack": "^3.8.1",
     "write-file-webpack-plugin": "^4.2.0"

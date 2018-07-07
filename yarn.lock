@@ -5426,7 +5426,7 @@ selfsigned@^1.9.1:
   dependencies:
     node-forge "0.6.33"
 
-"semantic-ui-offline@github:vanderhoop/semantic-ui-offline":
+"semantic-ui-offline@github:vanderhoop/semantic-ui-offline#dbf68a08531a48aa5b2bdc123b92a3c3df112515":
   version "2.2.1-3.2"
   resolved "https://codeload.github.com/vanderhoop/semantic-ui-offline/tar.gz/dbf68a08531a48aa5b2bdc123b92a3c3df112515"
   dependencies:
