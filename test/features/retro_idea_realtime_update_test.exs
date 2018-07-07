@@ -70,25 +70,6 @@ defmodule RetroIdeaRealtimeUpdateTest do
     end
   end
 
-  describe "when an action-item is created" do
-    @tag [
-      retro_stage: "action-items",
-    ]
-    test "it is assigned to a particular user", ~M{retro, session: facilitator_session} do
-      retro_path = "/retros/" <> retro.id
-      facilitator_session = visit(facilitator_session, retro_path)
-
-      facilitator_session
-      |> find(Query.css("form"))
-      |> click(Query.option("Test User"))
-      |> fill_in(Query.text_field("idea"), with: "let's do the thing!")
-      |> click(Query.button("Submit"))
-
-      action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert action_items_list_text =~ "let's do the thing! (Test User)"
-    end
-  end
-
   describe "when an action item has been assigned to a particular user" do
     setup [:persist_additional_users_for_retro, :persist_idea_for_retro]
 
