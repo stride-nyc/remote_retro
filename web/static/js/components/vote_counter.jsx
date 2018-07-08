@@ -10,12 +10,7 @@ import STAGES from "../configs/stages"
 const { VOTING } = STAGES
 
 class VoteCounter extends React.Component {
-  constructor(props) {
-    super(props)
-    this.handleClick = this.handleClick.bind(this)
-  }
-
-  handleClick() {
+  handleClick = () => {
     const { idea, retroChannel, currentUser } = this.props
     retroChannel.push("vote_submitted", { ideaId: idea.id, userId: currentUser.id })
   }
