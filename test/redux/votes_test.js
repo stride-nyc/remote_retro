@@ -1,7 +1,7 @@
 import deepFreeze from "deep-freeze"
 import { reducer as votesReducer } from "../../web/static/js/redux/votes"
 
-describe("user reducer", () => {
+describe("votes reducer", () => {
   describe("when there is an empty action", () => {
     describe("when no new state is passed", () => {
       it("should return the initial state of an empty array", () => {
