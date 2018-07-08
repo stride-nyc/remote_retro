@@ -15,12 +15,12 @@ describe("<IdeaReadOnlyContent />", () => {
     stage: IDEA_GENERATION,
   }
 
-  it("renders IdeaControls as its first child for proper floating/text-wrapping", () => {
+  it("renders StageAwareIdeaControls as its first child for proper floating/text-wrapping", () => {
     const wrapper = shallow(
       <IdeaReadOnlyContent {...defaultProps} />
     )
 
-    expect(wrapper.childAt(0).name()).to.match(/IdeaControls/)
+    expect(wrapper.childAt(0).name()).to.match(/StageAwareIdeaControls/)
   })
 
   context("when the idea's updated_at value is more than one second greater than its inserted_at value", () => {

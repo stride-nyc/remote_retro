@@ -1,6 +1,6 @@
 import React from "react"
 
-import IdeaControls from "./idea_controls"
+import StageAwareIdeaControls from "./stage_aware_idea_controls"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_read_only_content.css"
@@ -26,7 +26,7 @@ const IdeaReadOnlyContent = props => {
       draggable={canUserEditIdea && isIdeaEditableInCurrentStage}
       onDragStart={handleDragStart(props)}
     >
-      <IdeaControls
+      <StageAwareIdeaControls
         idea={idea}
         retroChannel={retroChannel}
         currentUser={currentUser}

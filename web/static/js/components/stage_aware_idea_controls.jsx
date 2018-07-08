@@ -2,14 +2,14 @@ import React from "react"
 import { connect } from "react-redux"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/idea_controls.css"
+import styles from "./css_modules/stage_aware_idea_controls.css"
 import VoteCounter from "./vote_counter"
 import { voteMax } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
 
 const { IDEA_GENERATION, VOTING, CLOSED } = STAGES
 
-export const IdeaControls = props => {
+export const StageAwareIdeaControls = props => {
   const { idea, retroChannel, currentUser, stage, votes } = props
   if (stage === CLOSED) return null
 
@@ -60,7 +60,7 @@ export const IdeaControls = props => {
   return null
 }
 
-IdeaControls.propTypes = {
+StageAwareIdeaControls.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
@@ -72,4 +72,4 @@ const mapStateToProps = ({ votes }) => ({ votes })
 
 export default connect(
   mapStateToProps
-)(IdeaControls)
+)(StageAwareIdeaControls)
