@@ -24,6 +24,7 @@ erl_crash.dump
 /priv/static/css/semantic-ui/*
 !/priv/static/css/semantic-ui/semantic.min.css
 !/priv/static/css/semantic-ui/themes
+!/priv/static/css/semantic-ui/font
 
 # ignore dll manifest and generated vendor bundle, as these are built on every dev build and deploy
 web/static/js/dll/*
