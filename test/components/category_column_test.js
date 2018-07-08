@@ -9,10 +9,9 @@ import STAGES from "../../web/static/js/configs/stages"
 const { IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
 describe("CategoryColumn", () => {
-  const mockUser = { given_name: "daniel" }
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const defaultProps = {
-    currentUser: mockUser,
+    currentUser: { given_name: "daniel" },
     retroChannel: mockRetroChannel,
     votes: [],
     ideas: [],
@@ -25,17 +24,14 @@ describe("CategoryColumn", () => {
       id: 5,
       body: "should be third",
       category: "confused",
-      user: mockUser,
     }, {
       id: 2,
       body: "should be first",
       category: "confused",
-      user: mockUser,
     }, {
       id: 4,
       body: "should be second",
       category: "confused",
-      user: mockUser,
     }]
 
     it("renders ideas sorted by id ascending", () => {
@@ -74,17 +70,14 @@ describe("CategoryColumn", () => {
         id: 5,
         body: "should be third based on votes",
         category: "confused",
-        user: mockUser,
       }, {
         id: 2,
         body: "should be first based on votes",
         category: "confused",
-        user: mockUser,
       }, {
         id: 1,
         body: "should be second based on votes",
         category: "confused",
-        user: mockUser,
       }]
 
       const votes = [
@@ -128,17 +121,14 @@ describe("CategoryColumn", () => {
           id: 5,
           body: "should be second based on voting tie and a lower id",
           category: "confused",
-          user: mockUser,
         }, {
           id: 2,
           body: "should be first based on voting tie and a higher id",
           category: "confused",
-          user: mockUser,
         }, {
           id: 1,
           body: "should be third based on lack of votes",
           category: "confused",
-          user: mockUser,
         }]
 
         const votes = [
@@ -169,17 +159,14 @@ describe("CategoryColumn", () => {
         id: 5,
         body: "should be third based on id",
         category: "action-item",
-        user: mockUser,
       }, {
         id: 2,
         body: "should be second based on id",
         category: "action-item",
-        user: mockUser,
       }, {
         id: 1,
         body: "should be first based on id",
         category: "action-item",
-        user: mockUser,
       }]
 
       it("renders them sorted by id ascending", () => {
@@ -215,13 +202,11 @@ describe("CategoryColumn", () => {
       id: 5,
       body: "should be first after brief delay",
       category: "confused",
-      user: mockUser,
       vote_count: 16,
     }, {
       id: 2,
       body: "should be first at outset",
       category: "confused",
-      user: mockUser,
       vote_count: 1,
     }]
 
@@ -254,12 +239,10 @@ describe("CategoryColumn", () => {
         id: 1,
         body: "tests!",
         category: "happy",
-        user: mockUser,
       }, {
         id: 2,
         body: "winter break!",
         category: "happy",
-        user: mockUser,
       }]
 
       const wrapper = shallow(
@@ -279,7 +262,6 @@ describe("CategoryColumn", () => {
         id: 1,
         body: "still no word on tests",
         category: "confused",
-        user: mockUser,
       }]
 
       const differentCategory = "happy"
