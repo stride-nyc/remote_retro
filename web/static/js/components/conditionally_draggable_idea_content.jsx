@@ -3,7 +3,7 @@ import React from "react"
 import StageAwareIdeaControls from "./stage_aware_idea_controls"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/idea_read_only_content.css"
+import styles from "./css_modules/conditionally_draggable_idea_content.css"
 
 const handleDragStart = props => event => {
   const { idea } = props
@@ -12,7 +12,7 @@ const handleDragStart = props => event => {
   event.dataTransfer.setData("idea", JSON.stringify(idea))
 }
 
-const IdeaReadOnlyContent = props => {
+const ConditionallyDraggableIdeaContent = props => {
   const { idea, currentUser, retroChannel, stage, assignee } = props
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 1000
   const hasAssignee = Object.keys(assignee).length > 0
@@ -39,7 +39,7 @@ const IdeaReadOnlyContent = props => {
   )
 }
 
-IdeaReadOnlyContent.propTypes = {
+ConditionallyDraggableIdeaContent.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
@@ -47,8 +47,8 @@ IdeaReadOnlyContent.propTypes = {
   assignee: AppPropTypes.presence,
 }
 
-IdeaReadOnlyContent.defaultProps = {
+ConditionallyDraggableIdeaContent.defaultProps = {
   assignee: {},
 }
 
-export default IdeaReadOnlyContent
+export default ConditionallyDraggableIdeaContent

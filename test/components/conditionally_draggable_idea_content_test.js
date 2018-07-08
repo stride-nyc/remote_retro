@@ -2,12 +2,12 @@ import React from "react"
 import { shallow } from "enzyme"
 import { spy } from "sinon"
 
-import IdeaReadOnlyContent from "../../web/static/js/components/idea_read_only_content"
+import ConditionallyDraggableIdeaContent from "../../web/static/js/components/conditionally_draggable_idea_content"
 import STAGES from "../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION } = STAGES
 
-describe("<IdeaReadOnlyContent />", () => {
+describe("<ConditionallyDraggableIdeaContent />", () => {
   const defaultProps = {
     idea: {},
     currentUser: {},
@@ -17,7 +17,7 @@ describe("<IdeaReadOnlyContent />", () => {
 
   it("renders StageAwareIdeaControls as its first child for proper floating/text-wrapping", () => {
     const wrapper = shallow(
-      <IdeaReadOnlyContent {...defaultProps} />
+      <ConditionallyDraggableIdeaContent {...defaultProps} />
     )
 
     expect(wrapper.childAt(0).name()).to.match(/StageAwareIdeaControls/)
@@ -30,7 +30,7 @@ describe("<IdeaReadOnlyContent />", () => {
     }
 
     const wrapper = shallow(
-      <IdeaReadOnlyContent
+      <ConditionallyDraggableIdeaContent
         {...defaultProps}
         idea={editedIdea}
       />
@@ -48,7 +48,7 @@ describe("<IdeaReadOnlyContent />", () => {
     }
 
     const wrapper = shallow(
-      <IdeaReadOnlyContent
+      <ConditionallyDraggableIdeaContent
         {...defaultProps}
         idea={nonEditedIdea}
       />
@@ -69,7 +69,7 @@ describe("<IdeaReadOnlyContent />", () => {
     }
 
     const wrapper = shallow(
-      <IdeaReadOnlyContent
+      <ConditionallyDraggableIdeaContent
         {...defaultProps}
         assignee={assignee}
         idea={idea}
@@ -91,7 +91,7 @@ describe("<IdeaReadOnlyContent />", () => {
 
     before(() => {
       wrapper = shallow(
-        <IdeaReadOnlyContent {...props} />
+        <ConditionallyDraggableIdeaContent {...props} />
       )
     })
 
@@ -110,7 +110,7 @@ describe("<IdeaReadOnlyContent />", () => {
 
     before(() => {
       wrapper = shallow(
-        <IdeaReadOnlyContent {...props} />
+        <ConditionallyDraggableIdeaContent {...props} />
       )
     })
 
@@ -130,7 +130,7 @@ describe("<IdeaReadOnlyContent />", () => {
 
     before(() => {
       wrapper = shallow(
-        <IdeaReadOnlyContent {...props} />
+        <ConditionallyDraggableIdeaContent {...props} />
       )
     })
 
@@ -150,7 +150,7 @@ describe("<IdeaReadOnlyContent />", () => {
 
     before(() => {
       wrapper = shallow(
-        <IdeaReadOnlyContent {...props} />
+        <ConditionallyDraggableIdeaContent {...props} />
       )
     })
 
@@ -169,7 +169,7 @@ describe("<IdeaReadOnlyContent />", () => {
 
     before(() => {
       wrapper = shallow(
-        <IdeaReadOnlyContent {...props} />
+        <ConditionallyDraggableIdeaContent {...props} />
       )
     })
 
@@ -190,7 +190,7 @@ describe("<IdeaReadOnlyContent />", () => {
 
     before(() => {
       const wrapper = shallow(
-        <IdeaReadOnlyContent {...props} />
+        <ConditionallyDraggableIdeaContent {...props} />
       )
 
       wrapper.simulate("dragStart", mockEvent)

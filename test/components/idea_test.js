@@ -4,7 +4,7 @@ import { shallow } from "enzyme"
 import { Idea } from "../../web/static/js/components/idea"
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
 import IdeaLiveEditContent from "../../web/static/js/components/idea_live_edit_content"
-import IdeaReadOnlyContent from "../../web/static/js/components/idea_read_only_content"
+import ConditionallyDraggableIdeaContent from "../../web/static/js/components/conditionally_draggable_idea_content"
 import STAGES from "../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION } = STAGES
@@ -85,8 +85,8 @@ describe("Idea component", () => {
       />
     )
 
-    it("renders <IdeaReadOnlyContent /> as a child", () => {
-      expect(wrapper.find(IdeaReadOnlyContent).length).to.equal(1)
+    it("renders <ConditionallyDraggableIdeaContent /> as a child", () => {
+      expect(wrapper.find(ConditionallyDraggableIdeaContent).length).to.equal(1)
     })
 
     it("does not render <IdeaEditForm/> as a child", () => {

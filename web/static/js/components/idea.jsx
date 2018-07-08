@@ -5,7 +5,7 @@ import values from "lodash/values"
 
 import IdeaEditForm from "./idea_edit_form"
 import IdeaLiveEditContent from "./idea_live_edit_content"
-import IdeaReadOnlyContent from "./idea_read_only_content"
+import ConditionallyDraggableIdeaContent from "./conditionally_draggable_idea_content"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
 import { selectors } from "../redux"
@@ -30,7 +30,7 @@ export const Idea = props => {
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
   } else {
-    content = <IdeaReadOnlyContent {...props} />
+    content = <ConditionallyDraggableIdeaContent {...props} />
   }
 
   return (
