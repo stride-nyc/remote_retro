@@ -18,15 +18,19 @@ const handleDragOver = event => {
 export class CategoryColumn extends Component {
   constructor(props) {
     super(props)
+    const { stage, category } = props
+    const sortByVotes =
+      (stage === ACTION_ITEMS || stage === CLOSED) && category !== "action-item"
+
     this.state = {
-      animateSort: props.stage === ACTION_ITEMS || props.stage === CLOSED,
+      sortByVotes,
     }
   }
 
   componentWillReceiveProps(nextProps) {
     if (this.props.stage === VOTING && nextProps.stage === ACTION_ITEMS) {
       const timeout = setTimeout(() => {
-        this.setState({ animateSort: true })
+        this.setState({ sortByVotes: true })
         clearTimeout(timeout)
       }, 2000)
     }
@@ -50,13 +54,13 @@ export class CategoryColumn extends Component {
   }
 
   render() {
-    const { handleDrop } = this
-    const { category, ideas, votes } = this.props
+    const { handleDrop, props, state } = this
+    const { category, ideas, votes } = props
     const filteredIdeas = ideas.filter(idea => idea.category === category)
     const iconHeight = 45
 
     let sortedIdeas
-    if (this.state.animateSort && category !== "action-item") {
+    if (state.sortByVotes) {
       const voteCountsByIdea = countBy(votes, "idea_id")
       sortedIdeas = filteredIdeas.sort((a, b) => {
         const voteCountForIdeaA = voteCountsByIdea[a.id] || 0
@@ -67,19 +71,6 @@ export class CategoryColumn extends Component {
     } else {
       sortedIdeas = filteredIdeas.sort((a, b) => a.id - b.id)
     }
-
-    const ideasList = (
-      <FlipMove
-        duration={750}
-        staggerDelayBy={100}
-        easing="ease"
-        enterAnimation="none"
-        leaveAnimation="none"
-        typeName={null}
-      >
-        {sortedIdeas.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
-      </FlipMove>
-    )
 
     return (
       <section className={`${category} ${styles.index} column`} onDrop={handleDrop} onDragOver={handleDragOver}>
@@ -92,9 +83,18 @@ export class CategoryColumn extends Component {
         <div className={`ui fitted divider ${styles.divider}`} />
         { !!sortedIdeas.length &&
           <ShadowedScrollContainer>
-            <ul className={`${category} ${styles.list} ideas`}>
-              {ideasList}
-            </ul>
+            <FlipMove
+              duration={750}
+              staggerDelayBy={100}
+              disableAllAnimations={!state.sortByVotes}
+              easing="ease"
+              enterAnimation="none"
+              leaveAnimation="none"
+              className={`${category} ${styles.list} ideas`}
+              typeName="ul"
+            >
+              {sortedIdeas.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
+            </FlipMove>
           </ShadowedScrollContainer>
         }
       </section>

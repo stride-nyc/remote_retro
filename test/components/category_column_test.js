@@ -116,6 +116,20 @@ describe("CategoryColumn", () => {
         expect(listItemsDuringActionItemDistribution.at(2).text()).to.match(/should be third/)
       })
 
+      it("passes disableAllAnimations: false to the FlipMove component", () => {
+        const actionItemsStageWrapper = mountWithConnectedSubcomponents(
+          <CategoryColumn
+            {...defaultProps}
+            ideas={ideas}
+            votes={votes}
+            stage={CLOSED}
+          />
+        )
+
+        const flipMove = actionItemsStageWrapper.find("FlipMove")
+        expect(flipMove.prop("disableAllAnimations")).to.equal(false)
+      })
+
       context("when ideas have an identical vote count", () => {
         const ideas = [{
           id: 5,
@@ -183,6 +197,20 @@ describe("CategoryColumn", () => {
         expect(listItemsDuringActionItemsStage.first().text()).to.match(/should be first/)
         expect(listItemsDuringActionItemsStage.at(1).text()).to.match(/should be second/)
         expect(listItemsDuringActionItemsStage.at(2).text()).to.match(/should be third/)
+      })
+
+      it("passes disableAllAnimations: true to the FlipMove component", () => {
+        const actionItemsStageWrapper = mountWithConnectedSubcomponents(
+          <CategoryColumn
+            {...defaultProps}
+            ideas={ideas}
+            category="action-item"
+            stage={ACTION_ITEMS}
+          />
+        )
+
+        const flipMove = actionItemsStageWrapper.find("FlipMove")
+        expect(flipMove.prop("disableAllAnimations")).to.equal(true)
       })
     })
   })
