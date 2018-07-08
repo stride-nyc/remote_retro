@@ -15,6 +15,16 @@ const handleDragOver = event => {
   event.dataTransfer.dropEffect = "move"
 }
 
+const sortByVoteCountWithSecondarySortOnIdASC = (votes, ideas) => {
+  const voteCountsByIdea = countBy(votes, "idea_id")
+  return ideas.sort((a, b) => {
+    const voteCountForIdeaA = voteCountsByIdea[a.id] || 0
+    const voteCountForIdeaB = voteCountsByIdea[b.id] || 0
+    if (voteCountForIdeaB === voteCountForIdeaA) { return a.id - b.id }
+    return voteCountForIdeaB - voteCountForIdeaA
+  })
+}
+
 export class CategoryColumn extends Component {
   constructor(props) {
     super(props)
@@ -61,13 +71,7 @@ export class CategoryColumn extends Component {
 
     let sortedIdeas
     if (state.sortByVotes) {
-      const voteCountsByIdea = countBy(votes, "idea_id")
-      sortedIdeas = filteredIdeas.sort((a, b) => {
-        const voteCountForIdeaA = voteCountsByIdea[a.id] || 0
-        const voteCountForIdeaB = voteCountsByIdea[b.id] || 0
-        if (voteCountForIdeaB === voteCountForIdeaA) { return a.id - b.id }
-        return voteCountForIdeaB - voteCountForIdeaA
-      })
+      sortedIdeas = sortByVoteCountWithSecondarySortOnIdASC(votes, filteredIdeas)
     } else {
       sortedIdeas = filteredIdeas.sort((a, b) => a.id - b.id)
     }
