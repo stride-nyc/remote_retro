@@ -7,7 +7,12 @@
   :global(.icon) {
     cursor: pointer;
     font-size: 1.25rem;
+    margin: 0 0.15rem 0 0;
     float: right;
+
+    &:global(.edit), &:global(:first-child) {
+      margin-right: 0;
+    }
   }
 
   &:global(.disabled .icon) {
