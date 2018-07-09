@@ -3,14 +3,14 @@
 .wrapper {
   position: relative;
   top: 0.05rem;
+  float: right;
 
   :global(.icon) {
     cursor: pointer;
     font-size: 1.25rem;
     margin: 0 0.15rem 0 0;
-    float: right;
 
-    &:global(.edit), &:global(:first-child) {
+    &:global(.edit), &:global(:last-child) {
       margin-right: 0;
     }
   }

@@ -34,17 +34,7 @@ export const StageAwareIdeaControls = props => {
 
   if (currentUser.is_facilitator || currentUser.id === userId) {
     return (
-      <div className={`${styles.wrapper} ${idea.editing ? "disabled" : ""}`}>
-        <i
-          title="Delete Idea"
-          className="remove circle icon"
-          onClick={() => { retroChannel.push("idea_deleted", idea.id) }}
-        />
-        <i
-          title="Edit Idea"
-          className="edit icon"
-          onClick={() => { retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
-        />
+      <span className={`${styles.wrapper} ${idea.editing ? "disabled" : ""}`}>
         {
           currentUser.is_facilitator &&
           <i
@@ -53,7 +43,17 @@ export const StageAwareIdeaControls = props => {
             onClick={() => { retroChannel.push("highlight_idea", { id, isHighlighted }) }}
           />
         }
-      </div>
+        <i
+          title="Edit Idea"
+          className="edit icon"
+          onClick={() => { retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
+        />
+        <i
+          title="Delete Idea"
+          className="remove circle icon"
+          onClick={() => { retroChannel.push("idea_deleted", idea.id) }}
+        />
+      </span>
     )
   }
 
