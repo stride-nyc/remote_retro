@@ -1,15 +1,16 @@
 import React from "react"
 import { connect } from "react-redux"
+import PropTypes from "prop-types"
 
 import { voteMax } from "../configs/retro_configs"
 import styles from "./css_modules/votes_left.css"
+import { selectors } from "../redux"
 
 import * as AppPropTypes from "../prop_types"
 
 export const VotesLeft = props => {
-  const { currentUser, votes } = props
-  const userVoteCount = votes.filter(vote => vote.user_id === currentUser.id).length
-  const votesLeft = userVoteCount ? voteMax - userVoteCount : voteMax
+  const { voteCountForUser } = props
+  const votesLeft = voteCountForUser ? voteMax - voteCountForUser : voteMax
   const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"
 
   return (
@@ -24,10 +25,14 @@ export const VotesLeft = props => {
 
 VotesLeft.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
-  votes: AppPropTypes.votes.isRequired,
+  voteCountForUser: PropTypes.number.isRequired,
 }
 
-const mapStateToProps = ({ votes }) => ({ votes })
+const mapStateToProps = (state, { currentUser }) => {
+  return {
+    voteCountForUser: selectors.voteCountForUser(state, currentUser),
+  }
+}
 
 export default connect(
   mapStateToProps

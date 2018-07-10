@@ -18,6 +18,7 @@ describe("<StageAwareIdeaControls />", () => {
     currentUser: mockUser,
     stage: IDEA_GENERATION,
     retroChannel: {},
+    voteCountForUser: 0,
   }
 
   context("when the stage is closed", () => {
@@ -242,15 +243,10 @@ describe("<StageAwareIdeaControls />", () => {
 
     context("when the currentUser has voted 3 times", () => {
       it("renders a disabled VoteCounter for the currentUser", () => {
-        const currentUser = { id: 1, is_facilitator: false }
-        const voteForUser = { user_id: 1 }
-        const votes = [voteForUser, voteForUser, voteForUser, voteForUser, voteForUser]
-
         const wrapper = shallow(
           <StageAwareIdeaControls
             {...defaultProps}
-            votes={votes}
-            currentUser={currentUser}
+            voteCountForUser={3}
             stage={VOTING}
           />
          )
@@ -259,12 +255,12 @@ describe("<StageAwareIdeaControls />", () => {
       })
     })
 
-    context("when the currentUser has voted under 5 times", () => {
+    context("when the currentUser has voted under 3 times", () => {
       it("renders an enabled VoteCounter for the currentUser", () => {
         const wrapper = shallow(
           <StageAwareIdeaControls
             {...defaultProps}
-            votes={[]}
+            voteCountForUser={2}
             stage={VOTING}
           />
         )

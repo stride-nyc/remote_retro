@@ -18,6 +18,7 @@ import {
 import {
   actions as voteActions,
   reducer as votes,
+  selectors as voteSelectors,
 } from "./votes"
 
 import {
@@ -56,4 +57,5 @@ export const actions = {
 export const selectors = {
   ...presenceSelectors,
   ...usersByIdSelectors,
+  ...voteSelectors,
 }

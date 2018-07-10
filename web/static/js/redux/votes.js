@@ -20,4 +20,11 @@ export const reducer = (state = [], action) => {
   }
 }
 
+export const selectors = {
+  voteCountForUser: ({ votes }, user) => {
+    const votesForUser = votes.filter(vote => vote.user_id === user.id)
+    return votesForUser.length
+  },
+}
+
 export default reducer

@@ -1,5 +1,5 @@
 import deepFreeze from "deep-freeze"
-import { reducer as votesReducer } from "../../web/static/js/redux/votes"
+import { reducer as votesReducer, selectors } from "../../web/static/js/redux/votes"
 
 describe("votes reducer", () => {
   describe("when there is an empty action", () => {
@@ -40,6 +40,27 @@ describe("votes reducer", () => {
         { idea_id: 12, user_id: 33 },
         { idea_id: 31, user_id: 24 },
       ])
+    })
+  })
+})
+
+describe("selectors", () => {
+  describe("voteCountForUser", () => {
+    const state = {
+      votes: [{
+        user_id: 5, idea_id: 7,
+      }, {
+        user_id: 5, idea_id: 7,
+      }, {
+        user_id: 2, idea_id: 2,
+      }],
+    }
+
+    const user = { id: 5 }
+
+    it("returns the number of votes the given user has on the store", () => {
+      const voteCountForUser = selectors.voteCountForUser(state, user)
+      expect(voteCountForUser).to.equal(2)
     })
   })
 })

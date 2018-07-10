@@ -1,23 +1,24 @@
 import React from "react"
 import { connect } from "react-redux"
+import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/stage_aware_idea_controls.css"
 import VoteCounter from "./vote_counter"
 import { voteMax } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
+import { selectors } from "../redux"
 
 const { IDEA_GENERATION, VOTING, CLOSED } = STAGES
 
 export const StageAwareIdeaControls = props => {
-  const { idea, retroChannel, currentUser, stage, votes } = props
+  const { idea, retroChannel, currentUser, stage, votes, voteCountForUser } = props
   if (stage === CLOSED) return null
 
   const { id, user_id: userId, isHighlighted = false, category } = idea
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
-  const voteCount = votes.filter(vote => vote.user_id === currentUser.id).length
 
-  const allVotesUsed = voteCount >= voteMax
+  const allVotesUsed = voteCountForUser >= voteMax
 
   if (stage !== IDEA_GENERATION && category !== "action-item") {
     return (
@@ -66,9 +67,15 @@ StageAwareIdeaControls.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   votes: AppPropTypes.votes.isRequired,
+  voteCountForUser: PropTypes.number.isRequired,
 }
 
-const mapStateToProps = ({ votes }) => ({ votes })
+const mapStateToProps = (state, { currentUser }) => {
+  return {
+    voteCountForUser: selectors.voteCountForUser(state, currentUser),
+    votes: state.votes,
+  }
+}
 
 export default connect(
   mapStateToProps
