@@ -3,8 +3,8 @@ import { connect } from "react-redux"
 import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/stage_aware_idea_controls.css"
 import VoteCounter from "./vote_counter"
+import RightFloatedIdeaActions from "./right_floated_idea_actions"
 import { voteMax } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
 import { selectors } from "../redux"
@@ -15,8 +15,7 @@ export const StageAwareIdeaControls = props => {
   const { idea, retroChannel, currentUser, stage, votes, voteCountForUser } = props
   if (stage === CLOSED) return null
 
-  const { id, user_id: userId, isHighlighted = false, category } = idea
-  const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
+  const { user_id: userId, category } = idea
 
   const allVotesUsed = voteCountForUser >= voteMax
 
@@ -34,28 +33,7 @@ export const StageAwareIdeaControls = props => {
   }
 
   if (currentUser.is_facilitator || currentUser.id === userId) {
-    return (
-      <span className={`${styles.wrapper} ${idea.editing ? "disabled" : ""}`}>
-        {
-          currentUser.is_facilitator &&
-          <i
-            title={highlightTitle}
-            className={`${!isHighlighted ? "announcement" : "ban"} icon`}
-            onClick={() => { retroChannel.push("highlight_idea", { id, isHighlighted }) }}
-          />
-        }
-        <i
-          title="Edit Idea"
-          className="edit icon"
-          onClick={() => { retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
-        />
-        <i
-          title="Delete Idea"
-          className="remove circle icon"
-          onClick={() => { retroChannel.push("idea_deleted", idea.id) }}
-        />
-      </span>
-    )
+    return <RightFloatedIdeaActions {...props} />
   }
 
   return null

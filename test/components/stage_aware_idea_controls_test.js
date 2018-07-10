@@ -1,8 +1,7 @@
 import React from "react"
-import { shallow } from "enzyme"
-import sinon from "sinon"
 
 import { StageAwareIdeaControls } from "../../web/static/js/components/stage_aware_idea_controls"
+import RightFloatedIdeaActions from "../../web/static/js/components/right_floated_idea_actions"
 import VoteCounter from "../../web/static/js/components/vote_counter"
 import STAGES from "../../web/static/js/configs/stages"
 
@@ -17,12 +16,12 @@ describe("<StageAwareIdeaControls />", () => {
     votes,
     currentUser: mockUser,
     stage: IDEA_GENERATION,
-    retroChannel: {},
+    retroChannel: { push: () => {}, on: () => {} },
     voteCountForUser: 0,
   }
 
   context("when the stage is closed", () => {
-    const wrapper = shallow(
+    const wrapper = mountWithConnectedSubcomponents(
       <StageAwareIdeaControls
         {...defaultProps}
         stage={CLOSED}
@@ -34,142 +33,48 @@ describe("<StageAwareIdeaControls />", () => {
     })
   })
 
-  describe("on click of the removal icon", () => {
-    it("pushes an `idea_deleted` event to the retro channel, passing the given idea's id", () => {
-      const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
-      const retroChannel = { on: () => { }, push: sinon.spy() }
-
-      const wrapper = shallow(
+  context("when the user is the facilitator", () => {
+    it("renders <RightFloatedIdeaActions />", () => {
+      const wrapper = mountWithConnectedSubcomponents(
         <StageAwareIdeaControls
           {...defaultProps}
-          idea={idea}
-          retroChannel={retroChannel}
+          currentUser={{ ...mockUser, is_facilitator: true }}
         />
       )
 
-      const removalIcon = wrapper.find(".remove.icon")
-      expect(removalIcon.prop("title")).to.equal("Delete Idea")
-
-      removalIcon.simulate("click")
-      expect(
-        retroChannel.push.calledWith("idea_deleted", 666)
-      ).to.equal(true)
+      expect(wrapper.find(RightFloatedIdeaActions)).to.have.length(1)
     })
   })
 
-  describe("on click of the edit icon", () => {
-    it("pushes an enable_idea_edit_state event to the channel, passing idea id and editorToken", () => {
-      const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
-      const retroChannel = { on: () => { }, push: sinon.spy() }
-
-      const wrapper = shallow(
-        <StageAwareIdeaControls
-          {...defaultProps}
-          idea={idea}
-          retroChannel={retroChannel}
-        />
-      )
-
-      const editIcon = wrapper.find(".edit.icon")
-      expect(editIcon.prop("title")).to.equal("Edit Idea")
-
-      editIcon.simulate("click")
-      expect(
-        retroChannel.push.calledWith("enable_idea_edit_state", { id: idea.id, editorToken: mockUser.token })
-      ).to.equal(true)
-    })
-  })
-
-  describe("on click of the announcement icon", () => {
-    it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
-      const retroChannel = { on: () => { }, push: sinon.spy() }
-      const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
-
-      const wrapper = shallow(
-        <StageAwareIdeaControls
-          {...defaultProps}
-          idea={idea}
-          retroChannel={retroChannel}
-        />
-      )
-
-      wrapper.find(".announcement.icon").simulate("click")
-      expect(
-        retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: false })
-      ).to.equal(true)
-    })
-  })
-
-  describe("on click of the ban icon", () => {
-    it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
-      const retroChannel = { on: () => {}, push: sinon.spy() }
-      const highlightedIdea = Object.assign({}, idea, { isHighlighted: true })
-
-      const wrapper = shallow(
-        <StageAwareIdeaControls
-          {...defaultProps}
-          idea={highlightedIdea}
-          retroChannel={retroChannel}
-        />
-      )
-
-      wrapper.find(".ban.icon").simulate("click")
-      expect(
-        retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: true })
-      ).to.equal(true)
-    })
-  })
-
-  describe("the delete icon", () => {
-    context("when the user is the facilitator", () => {
-      it("renders", () => {
-        const wrapper = shallow(
+  context("when the user is not the facilitator", () => {
+    context("and the idea is not theirs", () => {
+      it("does not render <RightFloatedIdeaActions />", () => {
+        const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
-            currentUser={{ ...mockUser, is_facilitator: true }}
+            idea={{ ...idea, user_id: 3 }}
+            currentUser={{ ...mockUser, id: 2, is_facilitator: false }}
           />
         )
 
-        expect(wrapper.find(".remove.icon")).to.have.length(1)
+        expect(wrapper.find(RightFloatedIdeaActions)).to.have.length(0)
       })
     })
 
-    context("when the user is not the facilitator", () => {
-      context("and the idea is not theirs", () => {
-        it("doesn't render any icons", () => {
-          const wrapper = shallow(
-            <StageAwareIdeaControls
-              {...defaultProps}
-              idea={{ ...idea, user_id: 3 }}
-              currentUser={{ ...mockUser, id: 2, is_facilitator: false }}
-            />
-          )
+    context("and the idea is theirs", () => {
+      const currentUser = { id: 1, is_facilitator: false }
+      const freshIdea = { user_id: 1, id: 666, category: "sad", body: "redundant tests" }
 
-          expect(wrapper.find(".icon")).to.have.length(0)
-        })
-      })
+      const wrapper = mountWithConnectedSubcomponents(
+        <StageAwareIdeaControls
+          {...defaultProps}
+          idea={freshIdea}
+          currentUser={currentUser}
+        />
+      )
 
-      context("and the idea is theirs", () => {
-        const currentUser = { id: 1, is_facilitator: false }
-        const freshIdea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
-
-        const wrapper = shallow(
-          <StageAwareIdeaControls
-            {...defaultProps}
-            idea={freshIdea}
-            currentUser={currentUser}
-          />
-        )
-
-        it("renders icons for editing and deleting", () => {
-          expect(wrapper.find(".remove.icon")).to.have.length(1)
-          expect(wrapper.find(".edit.icon")).to.have.length(1)
-        })
-
-        it("does *not* render an icon for highlighting", () => {
-          expect(wrapper.find(".announcement.icon")).to.have.length(0)
-          expect(wrapper.find(".ban.icon")).to.have.length(0)
-        })
+      it("renders <RightFloatedIdeaActions />", () => {
+        expect(wrapper.find(RightFloatedIdeaActions)).to.have.length(1)
       })
     })
   })
@@ -178,7 +83,7 @@ describe("<StageAwareIdeaControls />", () => {
     context("when the stage is not idea-generation", () => {
       context("and the category is not action-item", () => {
         it("renders", () => {
-          const wrapper = shallow(
+          const wrapper = mountWithConnectedSubcomponents(
             <StageAwareIdeaControls
               {...defaultProps}
               idea={{ ...idea, category: "sad" }}
@@ -195,7 +100,7 @@ describe("<StageAwareIdeaControls />", () => {
           const currentUser = { id: 1, is_facilitator: false }
           const actionItemIdea = { id: 667, category: "action-item", body: "write tests", user_id: 1 }
 
-          const wrapper = shallow(
+          const wrapper = mountWithConnectedSubcomponents(
             <StageAwareIdeaControls
               {...defaultProps}
               idea={actionItemIdea}
@@ -213,7 +118,7 @@ describe("<StageAwareIdeaControls />", () => {
       it("doesn't render", () => {
         const currentUser = { id: 1, is_facilitator: false }
 
-        const wrapper = shallow(
+        const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
             currentUser={currentUser}
@@ -229,7 +134,7 @@ describe("<StageAwareIdeaControls />", () => {
       it("renders a disabled VoteCounter for display purposes", () => {
         const currentUser = { id: 1, is_facilitator: false }
 
-        const wrapper = shallow(
+        const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
             currentUser={currentUser}
@@ -243,7 +148,7 @@ describe("<StageAwareIdeaControls />", () => {
 
     context("when the currentUser has voted 3 times", () => {
       it("renders a disabled VoteCounter for the currentUser", () => {
-        const wrapper = shallow(
+        const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
             voteCountForUser={3}
@@ -257,7 +162,7 @@ describe("<StageAwareIdeaControls />", () => {
 
     context("when the currentUser has voted under 3 times", () => {
       it("renders an enabled VoteCounter for the currentUser", () => {
-        const wrapper = shallow(
+        const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
             voteCountForUser={2}
