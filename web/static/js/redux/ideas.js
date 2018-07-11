@@ -4,17 +4,28 @@ const types = {
   DELETE_IDEA: "DELETE_IDEA",
 }
 
+const updateIdea = (ideaId, newAttributes) => ({
+  type: types.UPDATE_IDEA,
+  ideaId,
+  newAttributes,
+})
+
 export const actions = {
+  updateIdea,
   addIdea: idea => ({
     type: types.ADD_IDEA,
     idea,
   }),
 
-  updateIdea: (ideaId, newAttributes) => ({
-    type: types.UPDATE_IDEA,
-    ideaId,
-    newAttributes,
-  }),
+  submitIdeaDeletion: ideaId => {
+    return (dispatch, getState, retroChannel) => {
+      retroChannel.push("idea_deleted", ideaId)
+
+      const updateIdeaAction = updateIdea(ideaId, { deletionSubmitted: true })
+      dispatch(updateIdeaAction)
+    }
+  },
+
 
   deleteIdea: ideaId => ({
     type: types.DELETE_IDEA,

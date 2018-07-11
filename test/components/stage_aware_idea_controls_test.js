@@ -11,7 +11,9 @@ describe("<StageAwareIdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
   const mockUser = { id: 2, is_facilitator: true }
   const votes = []
+  const actions = {}
   const defaultProps = {
+    actions,
     idea,
     votes,
     currentUser: mockUser,

@@ -7,15 +7,71 @@ import RightFloatedIdeaActions from "../../web/static/js/components/right_floate
 describe("<RightFloatedIdeaActions />", () => {
   let idea
   let retroChannel = {}
+  let actions = {}
   const mockUser = { id: 1, token: "abc" }
 
-  describe("on click of the removal icon", () => {
-    it("pushes an `idea_deleted` event to the retro channel, passing the given idea's id", () => {
-      idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
-      retroChannel = { on: () => { }, push: sinon.spy() }
+  describe("when idea in question is in the `editing` state", () => {
+    it("disables", () => {
+      idea = { id: 666, body: "redundant tests", user_id: 1, editing: true }
 
       const wrapper = shallow(
         <RightFloatedIdeaActions
+          actions={actions}
+          currentUser={mockUser}
+          idea={idea}
+          retroChannel={retroChannel}
+        />
+      )
+
+      const removalIconQuery = wrapper.find(".disabled")
+      expect(removalIconQuery.length).to.equal(1)
+    })
+  })
+
+  describe("when idea in question has been submitted for deletion", () => {
+    it("disables", () => {
+      idea = { id: 666, body: "redundant tests", user_id: 1, deletionSubmitted: true }
+
+      const wrapper = shallow(
+        <RightFloatedIdeaActions
+          actions={actions}
+          currentUser={mockUser}
+          idea={idea}
+          retroChannel={retroChannel}
+        />
+      )
+
+      const removalIconQuery = wrapper.find(".disabled")
+      expect(removalIconQuery.length).to.equal(1)
+    })
+  })
+
+  describe("when idea in question isnt in editing state and hasn't been submitted for deletion", () => {
+    it("is not disabled", () => {
+      idea = { id: 666, body: "redundant tests", user_id: 1, editing: false, deletionSubmitted: false }
+
+      const wrapper = shallow(
+        <RightFloatedIdeaActions
+          actions={actions}
+          currentUser={mockUser}
+          idea={idea}
+          retroChannel={retroChannel}
+        />
+      )
+
+      const removalIconQuery = wrapper.find(".disabled")
+      expect(removalIconQuery.length).to.equal(0)
+    })
+  })
+
+  describe("on click of the removal icon", () => {
+    it("dispatches the submitIdeaDeletion action with the idea id", () => {
+      actions = { submitIdeaDeletion: sinon.spy() }
+      idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
+
+      const wrapper = shallow(
+        <RightFloatedIdeaActions
+          actions={actions}
           currentUser={mockUser}
           idea={idea}
           retroChannel={retroChannel}
@@ -27,7 +83,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
       removalIcon.simulate("click")
       expect(
-        retroChannel.push.calledWith("idea_deleted", 666)
+        actions.submitIdeaDeletion.calledWith(666)
       ).to.equal(true)
     })
   })
@@ -39,6 +95,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
       const wrapper = shallow(
         <RightFloatedIdeaActions
+          actions={actions}
           retroChannel={retroChannel}
           currentUser={mockUser}
           idea={idea}
@@ -62,6 +119,7 @@ describe("<RightFloatedIdeaActions />", () => {
     it("renders an announcment icon", () => {
       const wrapper = shallow(
         <RightFloatedIdeaActions
+          actions={actions}
           idea={{}}
           currentUser={facilitator}
           retroChannel={retroChannel}
@@ -78,6 +136,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
         const wrapper = shallow(
           <RightFloatedIdeaActions
+            actions={actions}
             currentUser={facilitator}
             idea={idea}
             retroChannel={retroChannel}
@@ -96,6 +155,7 @@ describe("<RightFloatedIdeaActions />", () => {
         const highlightedIdea = Object.assign({}, idea, { isHighlighted: true })
         const wrapper = shallow(
           <RightFloatedIdeaActions
+            actions={actions}
             idea={highlightedIdea}
             retroChannel={retroChannel}
             currentUser={facilitator}
@@ -111,6 +171,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
           const wrapper = shallow(
             <RightFloatedIdeaActions
+              actions={actions}
               idea={{ id: 666, isHighlighted: true }}
               retroChannel={retroChannel}
               currentUser={facilitator}
@@ -130,6 +191,7 @@ describe("<RightFloatedIdeaActions />", () => {
     it("doesn't render an announcement icon", () => {
       const wrapper = shallow(
         <RightFloatedIdeaActions
+          actions={actions}
           idea={{ ...idea, user_id: 3 }}
           currentUser={{ ...mockUser, id: 2, is_facilitator: false }}
           retroChannel={retroChannel}

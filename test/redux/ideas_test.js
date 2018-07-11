@@ -1,4 +1,5 @@
 import deepFreeze from "deep-freeze"
+import sinon from "sinon"
 
 import {
   actions as actionCreators,
@@ -107,6 +108,44 @@ describe("actionCreators", () => {
       expect(actionCreators.deleteIdea(ideaId)).to.deep.equal({
         type: "DELETE_IDEA",
         ideaId,
+      })
+    })
+  })
+
+  describe("submitIdeaDeletion", () => {
+    const ideaId = 999
+
+    it("returns a thunk", () => {
+      const thunk = actionCreators.submitIdeaDeletion(ideaId)
+      expect(typeof thunk).to.equal("function")
+    })
+
+    describe("the thunk", () => {
+      const thunk = actionCreators.submitIdeaDeletion(ideaId)
+      const dispatchStub = () => {}
+      const getStateStub = () => {}
+
+      it("pushes a idea_deleted event to the retro channel", () => {
+        const retroChannel = { on: () => { }, push: sinon.spy() }
+        thunk(dispatchStub, getStateStub, retroChannel)
+
+        expect(
+          retroChannel.push.calledWith("idea_deleted", 999)
+        ).to.equal(true)
+      })
+
+      it("notifies the store that the idea has been submitted for deletion", () => {
+        const retroChannel = { on: () => { }, push: () => {} }
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, getStateStub, retroChannel)
+
+        expect(
+          dispatchSpy.calledWith({
+            type: "UPDATE_IDEA",
+            ideaId: 999,
+            newAttributes: { deletionSubmitted: true },
+          })
+        ).to.equal(true)
       })
     })
   })

@@ -1,16 +1,19 @@
 import React from "react"
+import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/right_floated_idea_actions.css"
 
 const RightFloatedIdeaActions = props => {
-  const { idea, retroChannel, currentUser } = props
+  const { idea, retroChannel, currentUser, actions } = props
   const { id, isHighlighted = false } = idea
 
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
 
+  const disabled = idea.editing || idea.deletionSubmitted
+
   return (
-    <span className={`${styles.wrapper} ${idea.editing ? "disabled" : ""}`}>
+    <span className={`${styles.wrapper} ${disabled ? "disabled" : ""}`}>
       {
         currentUser.is_facilitator &&
         <i
@@ -27,7 +30,7 @@ const RightFloatedIdeaActions = props => {
       <i
         title="Delete Idea"
         className="remove circle icon"
-        onClick={() => { retroChannel.push("idea_deleted", idea.id) }}
+        onClick={() => { actions.submitIdeaDeletion(idea.id) }}
       />
     </span>
   )
@@ -35,6 +38,7 @@ const RightFloatedIdeaActions = props => {
 
 RightFloatedIdeaActions.propTypes = {
   idea: AppPropTypes.idea.isRequired,
+  actions: PropTypes.object.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
 }
