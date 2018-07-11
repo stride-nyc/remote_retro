@@ -5,7 +5,7 @@ defmodule RemoteRetro.Mixfile do
     [app: :remote_retro,
      version: "0.0.1",
      default_task: "defaults",
-     elixir: "~> 1.5",
+     elixir: "~> 1.6.6",
      elixirc_paths: elixirc_paths(Mix.env),
      compilers: [:phoenix, :gettext] ++ Mix.compilers,
      build_embedded: Mix.env == :prod,
