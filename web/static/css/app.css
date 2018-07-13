@@ -40,11 +40,6 @@
     .column {
       img {
         min-height: 2rem;
-
-        -webkit-user-drag: none;
-        -moz-user-drag: none;
-        -o-user-drag: none;
-        user-drag: none;
       }
 
       @media(max-width: 768px) {
@@ -195,3 +190,10 @@
     }
   }
 }
+
+:global img {
+  -webkit-user-drag: none;
+  -moz-user-drag: none;
+  -o-user-drag: none;
+  user-drag: none;
+};
