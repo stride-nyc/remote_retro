@@ -80,82 +80,116 @@ describe("CategoryColumn", () => {
     })
   })
 
-  context("when an item is dropped on it", () => {
-    context("and the data is a serialized idea with snake_cased attributes", () => {
-      const idea = {
-        id: 100,
-        body: "sup",
-        category: "sad",
-        assignee_id: null,
-      }
+  context("when a dragEnter event is fired", () => {
+    let wrapper
+    const mockEvent = { preventDefault: spy(), dataTransfer: { dropEffect: null } }
 
-      const serializedIdea = JSON.stringify(idea)
+    beforeEach(() => {
+      wrapper = shallow(
+        <CategoryColumn
+          {...defaultProps}
+        />
+      )
 
-      const mockEvent = {
-        preventDefault: spy(),
-        dataTransfer: {
-          getData: stub(),
-        },
-      }
+      wrapper.simulate("dragEnter", mockEvent)
+    })
 
-      mockEvent.dataTransfer.getData
-        .withArgs("idea").returns(serializedIdea)
+    it("adds a 'dragged-over' class", () => {
+      expect(wrapper.find(".dragged-over").length).to.equal(1)
+    })
 
-      const mockRetroChannel = { push: spy() }
-      const category = "sad"
-
-      before(() => {
-        const wrapper = shallow(
-          <CategoryColumn
-            {...defaultProps}
-            category={category}
-            retroChannel={mockRetroChannel}
-          />
-        )
-
-        wrapper.simulate("drop", mockEvent)
+    context("when a dragLeave event follows", () => {
+      beforeEach(() => {
+        wrapper.simulate("dragLeave", mockEvent)
       })
 
-      it("prevents the default event behavior", () => {
-        expect(mockEvent.preventDefault.called).to.eql(true)
-      })
-
-      it("pushes an idea_edited event w/ the idea's raw values, camelCased attributes, and its new category", () => {
-        expect(mockRetroChannel.push.calledWith("idea_edited", {
-          id: idea.id,
-          body: idea.body,
-          assigneeId: idea.assignee_id,
-          category,
-        })).to.eql(true)
+      it("removes the dragged-over class", () => {
+        expect(wrapper.find(".dragged-over").length).to.equal(0)
       })
     })
 
-    context("and there is no serialized idea data assciated with the event", () => {
-      const mockEvent = {
-        preventDefault: () => {},
-        dataTransfer: {
-          getData: stub(),
-        },
-      }
+    context("and an item is dropped on it", () => {
+      context("and the data is a serialized idea with snake_cased attributes", () => {
+        const idea = {
+          id: 100,
+          body: "sup",
+          category: "sad",
+          assignee_id: null,
+        }
 
-      mockEvent.dataTransfer.getData
-        .withArgs("idea").returns("")
+        const serializedIdea = JSON.stringify(idea)
 
-      const mockRetroChannel = { push: spy() }
+        const mockEvent = {
+          preventDefault: spy(),
+          dataTransfer: {
+            getData: stub(),
+          },
+        }
 
-      before(() => {
-        const wrapper = shallow(
-          <CategoryColumn
-            {...defaultProps}
-            retroChannel={mockRetroChannel}
-          />
-        )
+        mockEvent.dataTransfer.getData
+          .withArgs("idea").returns(serializedIdea)
 
-        wrapper.simulate("drop", mockEvent)
+        const mockRetroChannel = { push: spy() }
+        const category = "sad"
+
+        beforeEach(() => {
+          wrapper = mountWithConnectedSubcomponents(
+            <CategoryColumn
+              {...defaultProps}
+              category={category}
+              retroChannel={mockRetroChannel}
+            />
+          )
+
+          wrapper.simulate("dragEnter")
+          wrapper.simulate("drop", mockEvent)
+        })
+
+        it("prevents the default event behavior", () => {
+          expect(mockEvent.preventDefault.called).to.eql(true)
+        })
+
+        it("pushes an idea_edited event w/ the idea's raw values, camelCased attributes, and its new category", () => {
+          expect(mockRetroChannel.push.calledWith("idea_edited", {
+            id: idea.id,
+            body: idea.body,
+            assigneeId: idea.assignee_id,
+            category,
+          })).to.eql(true)
+        })
+
+        it("removes the dragged-over class", () => {
+          expect(wrapper.find(".dragged-over").length).to.equal(0)
+        })
       })
 
-      it("does not push an idea_edited event", () => {
-        expect(mockRetroChannel.push.called).to.eql(false)
+      context("and there is no serialized idea data assciated with the event", () => {
+        const mockEvent = {
+          preventDefault: () => {},
+          dataTransfer: {
+            getData: stub(),
+          },
+        }
+
+        mockEvent.dataTransfer.getData
+          .withArgs("idea").returns("")
+
+        const mockRetroChannel = { push: spy() }
+
+        before(() => {
+          const wrapper = shallow(
+            <CategoryColumn
+              {...defaultProps}
+              retroChannel={mockRetroChannel}
+            />
+          )
+
+          wrapper.simulate("drop", mockEvent)
+        })
+
+        it("does not push an idea_edited event", () => {
+          expect(mockRetroChannel.push.called).to.eql(false)
+        })
       })
     })
   })

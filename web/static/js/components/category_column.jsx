@@ -6,15 +6,26 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 
 export class CategoryColumn extends Component {
+  state = {}
+
   handleDragOver = event => {
     event.preventDefault()
     event.dataTransfer.dropEffect = "move"
+  }
+
+  handleDragEnter =() => {
+    this.setState({ draggedOver: true })
+  }
+
+  handleDragLeave =() => {
+    this.setState({ draggedOver: false })
   }
 
   handleDrop = event => {
     const ideaData = event.dataTransfer.getData("idea")
     if (!ideaData) { return }
 
+    this.setState({ draggedOver: false })
     event.preventDefault()
     const { category, retroChannel } = this.props
 
@@ -29,12 +40,18 @@ export class CategoryColumn extends Component {
   }
 
   render() {
-    const { handleDragOver, handleDrop, props } = this
+    const { handleDragOver, handleDrop, handleDragEnter, handleDragLeave, props, state } = this
     const { category, ideas } = props
     const iconHeight = 45
 
     return (
-      <section className={`${category} ${styles.index} column`} onDrop={handleDrop} onDragOver={handleDragOver}>
+      <section
+        className={`${category} ${styles.index} ${state.draggedOver ? "dragged-over" : ""} column`}
+        onDragEnter={handleDragEnter}
+        onDragLeave={handleDragLeave}
+        onDragOver={handleDragOver}
+        onDrop={handleDrop}
+      >
         <div className={`${styles.columnHead} ui center aligned basic segment`}>
           <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} alt={category} />
           <div className="ui computer tablet only centered padded grid">
