@@ -46,7 +46,7 @@ defmodule RemoteRetro.Mixfile do
      {:wallaby, "~> 0.19.2", [runtime: false, only: :test]},
      {:shorter_maps, "~> 2.0"},
      {:slender_channel, "~> 0.1.1"},
-     {:libcluster, "~> 2.5.0"},
+     {:libcluster, "~> 3.0.2"},
      {:cowboy, "~> 1.0"},
      {:bamboo, "~> 0.8"},
      {:honeybadger, "~> 0.10.1"},
