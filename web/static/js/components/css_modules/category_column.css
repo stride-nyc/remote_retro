@@ -23,12 +23,4 @@
     background-color: var(--semantic-light-grey);
     border-color: var(--semantic-divider-border-top-color);
   }
-
-  .list {
-    margin-top: 0;
-    margin-bottom: 0;
-    padding-left: 0;
-
-    list-style: none;
-  }
 }
