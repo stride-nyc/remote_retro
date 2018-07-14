@@ -21,7 +21,7 @@ const IdeaGenerationLowerThirdContent = props => {
   }
 
   return (
-    <div className="ui stackable grid basic attached secondary center aligned segment">
+    <div className="ui stackable grid basic attached secondary left aligned segment">
       <div className="thirteen wide column">
         <IdeaSubmissionForm
           stage={stage}
