@@ -35,15 +35,16 @@ class StageProgressionButton extends Component {
   }
 
   render() {
-    const { config, currentUser } = this.props
-    if (!config.progressionButton || !currentUser.is_facilitator) return null
-
     const {
       buttonDisabled,
       className,
+      currentUser,
       config: { progressionButton, confirmationMessage },
     } = this.props
+
     const { modalOpen } = this.state
+
+    if (!progressionButton || !currentUser.is_facilitator) return null
 
     return (
       <div className={`${className} ${styles.index}`}>
