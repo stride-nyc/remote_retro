@@ -91,6 +91,24 @@ describe("selectors", () => {
           token: "hErOboy",
         })
       })
+
+      context("when you call the selector again, but the presence is no longer 'present'", () => {
+        const newStateLackingPresences = {
+          facilitatorId: 3,
+          presences: [],
+          usersById: {
+            2: { id: 2, name: "Rue McClanahan" },
+            3: { id: 3, name: "Estelle Getty" },
+          },
+        }
+
+        it("returns the (memoized) value from the first invociation", () => {
+          const firstResult = selectors.getCurrentUserPresence(state)
+          const secondResult = selectors.getCurrentUserPresence(newStateLackingPresences)
+
+          expect(secondResult).to.equal(firstResult)
+        })
+      })
     })
   })
 })

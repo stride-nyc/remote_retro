@@ -19,6 +19,7 @@ export const reducer = (state = {}, action) => {
   }
 }
 
+let previouslyDerivedCurrentUserPresence
 export const selectors = {
   getUserById: (state, userId) => {
     return state.usersById[userId]
@@ -36,6 +37,14 @@ export const selectors = {
   },
   getCurrentUserPresence: state => {
     const userPresences = selectors.getUserPresences(state)
-    return userPresences.find(presence => presence.token === window.userToken)
+    const currentUserPresence = userPresences.find(presence => presence.token === window.userToken)
+
+    // account for cases where channel has crashed and there are momentarily
+    // no presences, as events can still be pushed, and these events need ids/tokens
+    if (currentUserPresence) {
+      previouslyDerivedCurrentUserPresence = currentUserPresence
+    }
+
+    return previouslyDerivedCurrentUserPresence
   },
 }

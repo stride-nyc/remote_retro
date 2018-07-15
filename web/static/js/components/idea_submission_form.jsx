@@ -2,10 +2,7 @@ import React, { Component } from "react"
 import { connect } from "react-redux"
 import throttle from "lodash/throttle"
 import values from "lodash/values"
-import PropTypes from "prop-types"
-
 import * as AppPropTypes from "../prop_types"
-
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 
 import styles from "./css_modules/idea_submission_form.css"
@@ -61,10 +58,7 @@ export class IdeaSubmissionForm extends Component {
   handleBodyChange(event) {
     if (!event.isTrusted) { return } // ignore events triggered by extensions/scripts
 
-    const { retroChannel, currentUser, presences, usersById } = this.props
-    if (!currentUser.id) {
-      Honeybadger.notify({ usersById, presences, userToken: window.userToken }, "CurrentUserDerivationLacksId")
-    }
+    const { retroChannel, currentUser } = this.props
     pushUserTypingEventThrottled(retroChannel, currentUser.token)
     this.setState({ body: event.target.value, hasTypedChar: true })
   }
@@ -149,10 +143,6 @@ IdeaSubmissionForm.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   users: AppPropTypes.presences.isRequired,
   stage: AppPropTypes.stage,
-  /* eslint-disable react/require-default-props */
-  usersById: PropTypes.object,
-  presences: AppPropTypes.presences,
-  /* eslint-enable react/require-default-props */
 }
 
 IdeaSubmissionForm.defaultProps = {
@@ -160,15 +150,10 @@ IdeaSubmissionForm.defaultProps = {
   stage: IDEA_GENERATION,
 }
 
-const mapStateToProps = ({ alert, usersById, presences }) => {
-  return {
-    alert,
-    users: values(usersById),
-    // presences and usersById included for debugging presence issues
-    presences,
-    usersById,
-  }
-}
+const mapStateToProps = ({ alert, usersById }) => ({
+  alert,
+  users: values(usersById),
+})
 
 export default connect(
   mapStateToProps
