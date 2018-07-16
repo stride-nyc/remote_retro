@@ -196,4 +196,8 @@
   -moz-user-drag: none;
   -o-user-drag: none;
   user-drag: none;
-};
+}
+
+:global(.react-root .ui.active.large.centered.text.loader) {
+  width: 10rem;
+}
