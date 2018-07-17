@@ -99,16 +99,16 @@ describe("RetroChannel", () => {
         })
       })
 
-      describe("on `proceed_to_next_stage`", () => {
+      describe("on `retro_edited`", () => {
         it("invokes the updateStage action, passing the stage from the payload", () => {
-          retroChannel.trigger("proceed_to_next_stage", { stage: "dummy value" })
+          retroChannel.trigger("retro_edited", { stage: "dummy value" })
           expect(updateStageSpy.calledWith("dummy value")).to.equal(true)
         })
       })
 
-      describe("on `enable_idea_edit_state`", () => {
+      describe("on `idea_edit_state_enabled`", () => {
         it("invokes updateIdea with idea id, editor token, editing: true", () => {
-          retroChannel.trigger("enable_idea_edit_state", { id: 2, editorToken: "dogMan" })
+          retroChannel.trigger("idea_edit_state_enabled", { id: 2, editorToken: "dogMan" })
 
           expect(
             updateIdeaSpy.calledWith(2, { editing: true, editorToken: "dogMan" })
@@ -116,9 +116,9 @@ describe("RetroChannel", () => {
         })
       })
 
-      describe("on `disable_idea_edit_state`", () => {
+      describe("on `idea_edit_state_disabled`", () => {
         beforeEach(() => {
-          retroChannel.trigger("disable_idea_edit_state", { id: 3 })
+          retroChannel.trigger("idea_edit_state_disabled", { id: 3 })
         })
 
         it("invokes updateIdea with idea id, `editing: false`, `liveEditText: null`", () => {
@@ -128,7 +128,7 @@ describe("RetroChannel", () => {
         })
       })
 
-      describe("on `user_typing_idea`", () => {
+      describe("on `idea_typing_event`", () => {
         beforeEach(() => {
           store = createStore(() => ({
             presences: [
@@ -144,7 +144,7 @@ describe("RetroChannel", () => {
         afterEach(() => { clock.restore() })
 
         it("dispatches action for updating the user with matching token to is_typing true with timestamp", () => {
-          retroChannel.trigger("user_typing_idea", { userToken: "s0meUserToken" })
+          retroChannel.trigger("idea_typing_event", { userToken: "s0meUserToken" })
 
           expect(
             updatePresenceSpy.calledWith("s0meUserToken", { is_typing: true, last_typed: clock.now })
@@ -153,7 +153,7 @@ describe("RetroChannel", () => {
 
         describe("when the user with matching token has already typed", () => {
           it("dispatches action for updating the user with matching token to is_typing false after a delay", () => {
-            retroChannel.trigger("user_typing_idea", { userToken: "abc" })
+            retroChannel.trigger("idea_typing_event", { userToken: "abc" })
             clock.tick(900)
 
             expect(
@@ -162,11 +162,11 @@ describe("RetroChannel", () => {
           })
 
           it("delays setting `is_typing` back to false if the event is received again", () => {
-            retroChannel.trigger("user_typing_idea", { userToken: "abc" })
+            retroChannel.trigger("idea_typing_event", { userToken: "abc" })
             clock.tick(400)
             clock.restore() // necessary, as Date.now is used at 10ms interval in implementation
             clock = useFakeTimers(Date.now())
-            retroChannel.trigger("user_typing_idea", { userToken: "abc" })
+            retroChannel.trigger("idea_typing_event", { userToken: "abc" })
             clock.tick(500)
             expect(
               updatePresenceSpy.calledWith("abc", { is_typing: false })
@@ -188,16 +188,16 @@ describe("RetroChannel", () => {
 
           it("does not throw an error", () => {
             expect(() => {
-              retroChannel.trigger("user_typing_idea", { userToken: "tokenRepresentingUserNotCurrentlyPresent" })
+              retroChannel.trigger("idea_typing_event", { userToken: "tokenRepresentingUserNotCurrentlyPresent" })
               clock.tick(900)
             }).to.not.throw()
           })
         })
       })
 
-      describe("on `live_edit_idea`", () => {
+      describe("on `idea_live_edit`", () => {
         beforeEach(() => {
-          retroChannel.trigger("live_edit_idea", { id: 2, liveEditText: "lalala" })
+          retroChannel.trigger("idea_live_edit", { id: 2, liveEditText: "lalala" })
         })
 
         it("invokes the updateIdea action with idea id, passing the `liveEditText` value along", () => {

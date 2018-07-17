@@ -1,11 +1,8 @@
 defmodule RemoteRetroWeb.RetroChannel do
   use RemoteRetroWeb, :channel
-  use SlenderChannel
 
-  alias RemoteRetroWeb.{Presence, PresenceUtils}
-  alias RemoteRetro.{Idea, Emails, Mailer, Retro, Vote}
-
-  import ShorterMaps
+  alias RemoteRetroWeb.{Presence, PresenceUtils, VotingHandlers, IdeationHandlers, RetroManagementHandlers}
+  alias RemoteRetro.{Retro}
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
@@ -21,68 +18,18 @@ defmodule RemoteRetroWeb.RetroChannel do
     {:noreply, socket}
   end
 
-  handle_in_and_broadcast("enable_idea_edit_state", ~m{id, editorToken})
-  handle_in_and_broadcast("disable_idea_edit_state", ~m{id})
-  handle_in_and_broadcast("user_typing_idea", ~m{userToken})
-  handle_in_and_broadcast("live_edit_idea", ~m{id, liveEditText})
-  handle_in_and_broadcast("highlight_idea", ~m{id, isHighlighted})
-
-  def handle_in("idea_submitted", idea_params, socket) do
-    try do
-      idea = add_idea!(idea_params, socket)
-      broadcast! socket, "idea_committed", idea
-      {:reply, :ok, socket}
-    rescue
-      _ -> {:reply, :error, socket}
-    end
+  # delegate pattern matching and handling of idea-related messages to handler module
+  def handle_in("idea_" <> _ = message_type, idea_params, socket) do
+    IdeationHandlers.handle_in(message_type, idea_params, socket)
   end
 
-  def handle_in("idea_edited", ~m{id, body, category, assigneeId}, socket) do
-    idea =
-      Repo.get(Idea, id)
-      |> Idea.changeset(~M{body, category, assignee_id: assigneeId})
-      |> Repo.update!
-
-    broadcast! socket, "idea_edited", idea
-    {:noreply, socket}
+  # delegate pattern matching and handling of vote-related messages to handler module
+  def handle_in("vote_" <> _ = message_type, vote_params, socket) do
+    VotingHandlers.handle_in(message_type, vote_params, socket)
   end
 
-  def handle_in("idea_deleted", id, socket) do
-    idea = Repo.delete!(%Idea{id: id})
-
-    broadcast! socket, "idea_deleted", idea
-    {:noreply, socket}
-  end
-
-  def handle_in("vote_submitted", %{"ideaId" => idea_id, "userId" => user_id}, socket) do
-    retro_id = socket.assigns.retro_id
-    user_vote_count = Retro.user_vote_count(~M{user_id, retro_id})
-
-    if user_vote_count < 3 do
-      broadcast! socket, "vote_submitted", ~m{idea_id, user_id}
-
-      %Vote{idea_id: idea_id, user_id: user_id}
-      |> Vote.changeset
-      |> Repo.insert!
-    end
-
-    {:noreply, socket}
-  end
-
-  def handle_in("proceed_to_next_stage", %{"stage" => "closed"}, socket) do
-    retro_id = socket.assigns.retro_id
-    update_retro!(retro_id, "closed")
-    Emails.action_items_email(retro_id) |> Mailer.deliver_now
-
-    broadcast! socket, "proceed_to_next_stage", %{"stage" => "closed"}
-    {:noreply, socket}
-  end
-
-  def handle_in("proceed_to_next_stage", ~m{stage}, socket) do
-    update_retro!(socket.assigns.retro_id, stage)
-
-    broadcast! socket, "proceed_to_next_stage", ~m{stage}
-    {:noreply, socket}
+  def handle_in("retro_" <> _ = message_type, retro_params, socket) do
+    RetroManagementHandlers.handle_in(message_type, retro_params, socket)
   end
 
   def handle_in(unhandled_message, payload, socket) do
@@ -90,23 +37,5 @@ defmodule RemoteRetroWeb.RetroChannel do
     Honeybadger.notify(error_payload, %{retro_id: socket.assigns.retro_id})
 
     {:reply, {:error, error_payload}, socket}
-  end
-
-  defp add_idea!(~m{body, category, userId, assigneeId}, socket) do
-    %Idea{
-      body: body,
-      category: category,
-      retro_id: socket.assigns.retro_id,
-      user_id: userId,
-      assignee_id: assigneeId
-    }
-    |> Idea.changeset
-    |> Repo.insert!
-  end
-
-  defp update_retro!(retro_id, stage) do
-    Repo.get(Retro, retro_id)
-    |> Retro.changeset(~m{stage})
-    |> Repo.update!
   end
 end

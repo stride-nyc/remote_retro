@@ -89,7 +89,7 @@ describe("<RightFloatedIdeaActions />", () => {
   })
 
   describe("on click of the edit icon", () => {
-    it("pushes an enable_idea_edit_state event to the channel, passing idea id and editorToken", () => {
+    it("pushes an idea_edit_state_enabled event to the channel, passing idea id and editorToken", () => {
       idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
       retroChannel = { on: () => { }, push: sinon.spy() }
 
@@ -107,7 +107,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
       editIcon.simulate("click")
       expect(
-        retroChannel.push.calledWith("enable_idea_edit_state", { id: idea.id, editorToken: mockUser.token })
+        retroChannel.push.calledWith("idea_edit_state_enabled", { id: idea.id, editorToken: mockUser.token })
       ).to.equal(true)
     })
   })
@@ -130,7 +130,7 @@ describe("<RightFloatedIdeaActions />", () => {
     })
 
     describe("on click of the announcement icon", () => {
-      it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
+      it("pushes a `idea_highlight_toggled` event to the retro channel, passing the given idea's id and highlight state", () => {
         retroChannel = { on: () => { }, push: sinon.spy() }
         idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
 
@@ -145,7 +145,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
         wrapper.find(".announcement.icon").simulate("click")
         expect(
-          retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: false })
+          retroChannel.push.calledWith("idea_highlight_toggled", { id: 666, isHighlighted: false })
         ).to.equal(true)
       })
     })
@@ -166,7 +166,7 @@ describe("<RightFloatedIdeaActions />", () => {
       })
 
       describe("on click of the ban icon", () => {
-        it("pushes a `highlight_idea` event to the retro channel, passing the given idea's id and highlight state", () => {
+        it("pushes a `idea_highlight_toggled` event to the retro channel, passing the given idea's id and highlight state", () => {
           retroChannel = { on: () => {}, push: sinon.spy() }
 
           const wrapper = shallow(
@@ -180,7 +180,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
           wrapper.find(".ban.icon").simulate("click")
           expect(
-            retroChannel.push.calledWith("highlight_idea", { id: 666, isHighlighted: true })
+            retroChannel.push.calledWith("idea_highlight_toggled", { id: 666, isHighlighted: true })
           ).to.equal(true)
         })
       })

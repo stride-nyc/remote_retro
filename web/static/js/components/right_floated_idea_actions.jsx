@@ -19,13 +19,13 @@ const RightFloatedIdeaActions = props => {
         <i
           title={highlightTitle}
           className={`${!isHighlighted ? "announcement" : "ban"} icon`}
-          onClick={() => { retroChannel.push("highlight_idea", { id, isHighlighted }) }}
+          onClick={() => { retroChannel.push("idea_highlight_toggled", { id, isHighlighted }) }}
         />
       }
       <i
         title="Edit Idea"
         className="edit icon"
-        onClick={() => { retroChannel.push("enable_idea_edit_state", { id: idea.id, editorToken: currentUser.token }) }}
+        onClick={() => { retroChannel.push("idea_edit_state_enabled", { id: idea.id, editorToken: currentUser.token }) }}
       />
       <i
         title="Delete Idea"

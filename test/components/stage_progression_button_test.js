@@ -65,9 +65,9 @@ describe("StageProgressionButton", () => {
               stageProgressionButton.find("#yes").simulate("click")
             })
 
-            it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
+            it("pushes `retro_edited` to the retroChannel, passing the next stage", () => {
               expect(
-                retroChannel.push.calledWith("proceed_to_next_stage", { stage: "stageDos" })
+                retroChannel.push.calledWith("retro_edited", { stage: "stageDos" })
               ).to.equal(true)
             })
 
@@ -118,9 +118,9 @@ describe("StageProgressionButton", () => {
             stageProgressionButton.find("button").simulate("click")
           })
 
-          it("pushes `proceed_to_next_stage` to the retroChannel, passing the next stage", () => {
+          it("pushes `retro_edited` to the retroChannel, passing the next stage", () => {
             expect(
-              retroChannel.push.calledWith("proceed_to_next_stage", { stage: "stageTres" })
+              retroChannel.push.calledWith("retro_edited", { stage: "stageTres" })
             ).to.equal(true)
           })
         })

@@ -26,7 +26,7 @@ class StageProgressionButton extends Component {
   handleStageProgression() {
     const { config, retroChannel } = this.props
 
-    retroChannel.push("proceed_to_next_stage", { stage: config.nextStage })
+    retroChannel.push("retro_edited", { stage: config.nextStage })
     this.setState({ modalOpen: false })
   }
 

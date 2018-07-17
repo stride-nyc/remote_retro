@@ -28,7 +28,7 @@ class IdeaEditForm extends Component {
     const { retroChannel, idea, currentUser } = this.props
 
     if (currentUser.is_facilitator) {
-      retroChannel.push("live_edit_idea", { id: idea.id, liveEditText: target.value })
+      retroChannel.push("idea_live_edit", { id: idea.id, liveEditText: target.value })
     }
 
     const trimmedValue = target.value.trim()
@@ -52,7 +52,7 @@ class IdeaEditForm extends Component {
   onCancel(event) {
     event.preventDefault()
     const { retroChannel, idea } = this.props
-    retroChannel.push("disable_idea_edit_state", { id: idea.id })
+    retroChannel.push("idea_edit_state_disabled", { id: idea.id })
   }
 
   onSubmit(event) {

@@ -50,34 +50,34 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing `proceed_to_next_stage` with a stage of 'closed'" do
+  describe "pushing `retro_edited` with a stage of 'closed'" do
     setup [:join_the_retro_channel]
 
     test "broadcasts the same event to connected clients, along with stage", ~M{socket} do
-      push(socket, "proceed_to_next_stage", %{stage: "closed"})
+      push(socket, "retro_edited", %{stage: "closed"})
 
-      assert_broadcast("proceed_to_next_stage", %{"stage" => "closed"})
+      assert_broadcast("retro_edited", %{"stage" => "closed"})
     end
   end
 
-  describe "pushing a `proceed_to_next_stage` event" do
+  describe "pushing a `retro_edited` event" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event to connected clients, along with stage", ~M{socket} do
-      push(socket, "proceed_to_next_stage", %{stage: "action-items"})
+      push(socket, "retro_edited", %{stage: "action-items"})
 
-      assert_broadcast("proceed_to_next_stage", %{"stage" => "action-items"})
+      assert_broadcast("retro_edited", %{"stage" => "action-items"})
     end
 
     test "updates the retro stage to the value from the pushed event", ~M{socket, retro} do
-      push(socket, "proceed_to_next_stage", %{stage: "action-items"})
+      push(socket, "retro_edited", %{stage: "action-items"})
 
-      assert_broadcast("proceed_to_next_stage", %{"stage" => "action-items"})
+      assert_broadcast("retro_edited", %{"stage" => "action-items"})
       persisted_stage = Repo.get(Retro, retro.id).stage
       assert persisted_stage == "action-items"
     end
 
     test "doesn't send an email containing the retro action items", ~M{socket} do
-      push(socket, "proceed_to_next_stage", %{stage: "action-items"})
+      push(socket, "retro_edited", %{stage: "action-items"})
       assert_no_emails_delivered()
     end
   end
@@ -125,39 +125,39 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing an `enable_idea_edit_state` event to the socket" do
+  describe "pushing an `idea_edit_state_enabled` event to the socket" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event with the given payload and editorToken", ~M{socket} do
-      push(socket, "enable_idea_edit_state", %{id: 4, editorToken: "jkl"})
+      push(socket, "idea_edit_state_enabled", %{id: 4, editorToken: "jkl"})
 
-      assert_broadcast("enable_idea_edit_state", %{"id" => 4, "editorToken" => "jkl"})
+      assert_broadcast("idea_edit_state_enabled", %{"id" => 4, "editorToken" => "jkl"})
     end
   end
 
-  describe "pushing an `disable_idea_edit_state` event to the socket" do
+  describe "pushing an `idea_edit_state_disabled` event to the socket" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event with the given payload", ~M{socket} do
-      push(socket, "disable_idea_edit_state", %{id: 4})
+      push(socket, "idea_edit_state_disabled", %{id: 4})
 
-      assert_broadcast("disable_idea_edit_state", %{"id" => 4})
+      assert_broadcast("idea_edit_state_disabled", %{"id" => 4})
     end
   end
 
-  describe "pushing a `user_typing_idea` event to the socket" do
+  describe "pushing a `idea_typing_event` event to the socket" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event with the given payload", ~M{socket} do
-      push(socket, "user_typing_idea", %{userToken: "insaneToken"})
+      push(socket, "idea_typing_event", %{userToken: "insaneToken"})
 
-      assert_broadcast("user_typing_idea", %{"userToken" => "insaneToken"})
+      assert_broadcast("idea_typing_event", %{"userToken" => "insaneToken"})
     end
   end
 
-  describe "pushing an `live_edit_idea` event to the socket" do
+  describe "pushing an `idea_live_edit` event to the socket" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event with the given payload", ~M{socket} do
-      push(socket, "live_edit_idea", %{id: 4, liveEditText: "updated"})
+      push(socket, "idea_live_edit", %{id: 4, liveEditText: "updated"})
 
-      assert_broadcast("live_edit_idea", %{"id" => 4, "liveEditText" => "updated"})
+      assert_broadcast("idea_live_edit", %{"id" => 4, "liveEditText" => "updated"})
     end
   end
 
@@ -196,13 +196,13 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a `highlight_idea` event to the socket" do
+  describe "pushing a `idea_highlight_toggled` event to the socket" do
     setup [:join_the_retro_channel]
 
     test "broadcasts the id with the highlighted state", ~M{socket} do
-      push(socket, "highlight_idea", %{"id" => 1, "isHighlighted" => false})
+      push(socket, "idea_highlight_toggled", %{"id" => 1, "isHighlighted" => false})
 
-      assert_broadcast("highlight_idea", %{"id" => 1, "isHighlighted" => false})
+      assert_broadcast("idea_highlight_toggled", %{"id" => 1, "isHighlighted" => false})
     end
   end
 

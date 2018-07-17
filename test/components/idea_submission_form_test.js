@@ -115,7 +115,7 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     describe("when the event isTrusted", () => {
-      it("pushes a `user_typing_idea` event to the retro channel, along with the user token", () => {
+      it("pushes a `idea_typing_event` event to the retro channel, along with the user token", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
@@ -131,13 +131,13 @@ describe("IdeaSubmissionForm component", () => {
         })
 
         expect(
-          retroChannel.push.calledWith("user_typing_idea", { userToken: "xyz" })
+          retroChannel.push.calledWith("idea_typing_event", { userToken: "xyz" })
         ).to.equal(true)
       })
     })
 
     describe("when the event's isTrusted value is false", () => {
-      it("does *not* push a `user_typing_idea` event to the retro channel", () => {
+      it("does *not* push a `idea_typing_event` event to the retro channel", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm

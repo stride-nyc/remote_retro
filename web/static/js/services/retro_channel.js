@@ -20,19 +20,19 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
   retroChannel.on("presence_diff", actions.syncPresenceDiff)
   retroChannel.on("idea_committed", actions.addIdea)
 
-  retroChannel.on("proceed_to_next_stage", payload => {
+  retroChannel.on("retro_edited", payload => {
     actions.updateStage(payload.stage)
   })
 
-  retroChannel.on("enable_idea_edit_state", ({ id, editorToken }) => {
+  retroChannel.on("idea_edit_state_enabled", ({ id, editorToken }) => {
     actions.updateIdea(id, { editing: true, editorToken })
   })
 
-  retroChannel.on("disable_idea_edit_state", disabledIdea => {
+  retroChannel.on("idea_edit_state_disabled", disabledIdea => {
     actions.updateIdea(disabledIdea.id, { editing: false, liveEditText: null, editorToken: null })
   })
 
-  retroChannel.on("live_edit_idea", editedIdea => {
+  retroChannel.on("idea_live_edit", editedIdea => {
     actions.updateIdea(editedIdea.id, editedIdea)
   })
 
@@ -47,11 +47,11 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
 
   retroChannel.on("vote_submitted", actions.addVote)
 
-  retroChannel.on("highlight_idea", highlightedIdea => {
+  retroChannel.on("idea_highlight_toggled", highlightedIdea => {
     actions.updateIdea(highlightedIdea.id, { isHighlighted: !highlightedIdea.isHighlighted })
   })
 
-  retroChannel.on("user_typing_idea", ({ userToken }) => {
+  retroChannel.on("idea_typing_event", ({ userToken }) => {
     actions.updatePresence(userToken, { is_typing: true, last_typed: Date.now() })
     UserActivity.checkIfDoneTyping(store, userToken, () => {
       actions.updatePresence(userToken, { is_typing: false })

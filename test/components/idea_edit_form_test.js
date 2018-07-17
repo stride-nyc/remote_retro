@@ -124,9 +124,9 @@ describe("<IdeaEditForm />", () => {
       })
 
       context("when the currentUser is the facilitator", () => {
-        it("pushes a `live_edit_idea` event to the retroChannel, passing current input value", () => {
+        it("pushes a `idea_live_edit` event to the retroChannel, passing current input value", () => {
           expect(
-            retroChannel.push.calledWith("live_edit_idea", { id: idea.id, liveEditText: "some value" })
+            retroChannel.push.calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
           ).to.equal(true)
         })
       })
@@ -145,7 +145,7 @@ describe("<IdeaEditForm />", () => {
           textarea.simulate("change", { target: { value: "some value" } })
         })
 
-        it("does not push an `live_edit_idea` event to the retroChannel", () => {
+        it("does not push an `idea_live_edit` event to the retroChannel", () => {
           expect(
             retroChannel.push.called
           ).to.equal(false)
@@ -211,7 +211,7 @@ describe("<IdeaEditForm />", () => {
   })
 
   describe("on cancelling out of the edit form", () => {
-    it("pushes a `disable_idea_edit_state` event to the given retroChannel", () => {
+    it("pushes a `idea_edit_state_disabled` event to the given retroChannel", () => {
       const retroChannel = { on: () => {}, push: sinon.spy() }
 
       const wrapper = mountWithConnectedSubcomponents(
@@ -222,7 +222,7 @@ describe("<IdeaEditForm />", () => {
       cancelButton.simulate("click")
 
       expect(
-        retroChannel.push.calledWith("disable_idea_edit_state", { id: idea.id })
+        retroChannel.push.calledWith("idea_edit_state_disabled", { id: idea.id })
       ).to.equal(true)
     })
   })
