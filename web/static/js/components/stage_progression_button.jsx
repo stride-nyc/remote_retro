@@ -5,15 +5,9 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/stage_progression_button.css"
 
 class StageProgressionButton extends Component {
-  constructor(props) {
-    super(props)
-    this.handleStageProgression = this.handleStageProgression.bind(this)
-    this.handleModalClose = this.handleModalClose.bind(this)
-    this.handleStageProgressionButtonClick = this.handleStageProgressionButtonClick.bind(this)
-    this.state = { modalOpen: false }
-  }
+  state = { modalOpen: false }
 
-  handleStageProgressionButtonClick() {
+  handleStageProgressionButtonClick = () => {
     const { config } = this.props
     const noConfirmationNecessary = !config.confirmationMessage
     if (noConfirmationNecessary) {
@@ -23,14 +17,14 @@ class StageProgressionButton extends Component {
     }
   }
 
-  handleStageProgression() {
+  handleStageProgression = () => {
     const { config, retroChannel } = this.props
 
     retroChannel.push("retro_edited", { stage: config.nextStage })
     this.setState({ modalOpen: false })
   }
 
-  handleModalClose() {
+  handleModalClose = () => {
     this.setState({ modalOpen: false })
   }
 
