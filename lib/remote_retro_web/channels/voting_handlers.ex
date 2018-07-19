@@ -8,14 +8,25 @@ defmodule RemoteRetroWeb.VotingHandlers do
     retro_id = socket.assigns.retro_id
     user_vote_count = Retro.user_vote_count(~M{user_id, retro_id})
 
-    if user_vote_count < 3 do
-      broadcast! socket, "vote_submitted", ~m{idea_id, user_id}
+    reply_atom =
+      if user_vote_count < 3 do
+        try do
+          insert_vote!(idea_id, user_id)
+          broadcast! socket, "vote_submitted", ~m{idea_id, user_id}
+          :ok
+        rescue
+          _ -> :error
+        end
+      else
+        :ok
+      end
 
-      %Vote{idea_id: idea_id, user_id: user_id}
-      |> Vote.changeset
-      |> Repo.insert!
-    end
+    {:reply, reply_atom, socket}
+  end
 
-    {:noreply, socket}
+  defp insert_vote!(idea_id, user_id) do
+    %Vote{idea_id: idea_id, user_id: user_id}
+    |> Vote.changeset
+    |> Repo.insert!
   end
 end

@@ -206,15 +206,16 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a `vote_submitted` event to the socket" do
+  describe "pushing a `vote_submitted` event with a *valid* ideaId and userId" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the vote to connected clients", ~M{socket, idea, user} do
       idea_id = idea.id
       user_id = user.id
-      push(socket, "vote_submitted", %{ideaId: idea_id, userId: user_id})
-      :timer.sleep(25)
+      ref = push(socket, "vote_submitted", %{ideaId: idea_id, userId: user_id})
+      assert_reply ref, :ok
+
       assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
     end
 
@@ -225,6 +226,27 @@ defmodule RemoteRetro.RetroChannelTest do
       push(socket, "vote_submitted", %{ideaId: idea_id, userId: user.id})
       :timer.sleep(25)
       assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
+    end
+  end
+
+  describe "pushing an *invalid* vote to the channel" do
+    setup [:join_the_retro_channel]
+
+    test "results in an error reply", ~M{socket, user} do
+      invalid_vote =  %{ideaId: "HaaaaiYah!", userId: user.id}
+
+      push(socket, "vote_submitted", invalid_vote)
+      ref = push(socket, "vote_submitted", invalid_vote)
+
+      assert_reply ref, :error
+    end
+
+    test "does not trigger an 'idea_committed' broadcast to all connected clients", ~M{socket, user} do
+      invalid_vote =  %{ideaId: "The Fart Store", userId: user.id}
+
+      push(socket, "vote_submitted", invalid_vote)
+
+      refute_broadcast("vote_submitted", %{}, 20)
     end
   end
 
