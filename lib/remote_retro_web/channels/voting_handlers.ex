@@ -10,18 +10,22 @@ defmodule RemoteRetroWeb.VotingHandlers do
 
     reply_atom =
       if user_vote_count < 3 do
-        try do
-          insert_vote!(idea_id, user_id)
-          broadcast! socket, "vote_submitted", ~m{idea_id, user_id}
-          :ok
-        rescue
-          _ -> :error
-        end
+        insert_and_broadcast(idea_id, user_id, socket)
       else
         :ok
       end
 
     {:reply, reply_atom, socket}
+  end
+
+  defp insert_and_broadcast(idea_id, user_id, socket) do
+    try do
+      insert_vote!(idea_id, user_id)
+      broadcast! socket, "vote_submitted", ~m{idea_id, user_id}
+      :ok
+    rescue
+      _ -> :error
+    end
   end
 
   defp insert_vote!(idea_id, user_id) do
