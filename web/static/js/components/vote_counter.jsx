@@ -11,8 +11,8 @@ const { VOTING } = STAGES
 
 class VoteCounter extends React.Component {
   handleClick = () => {
-    const { idea, retroChannel, currentUser } = this.props
-    retroChannel.push("vote_submitted", { ideaId: idea.id, userId: currentUser.id })
+    const { actions, idea, currentUser } = this.props
+    actions.submitVote(idea, currentUser)
   }
 
   render() {
@@ -58,7 +58,6 @@ VoteCounter.defaultProps = {
 }
 
 VoteCounter.propTypes = {
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   idea: AppPropTypes.idea.isRequired,
   votes: AppPropTypes.votes.isRequired,
   buttonDisabled: PropTypes.bool,

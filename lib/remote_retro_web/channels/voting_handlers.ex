@@ -4,7 +4,7 @@ defmodule RemoteRetroWeb.VotingHandlers do
 
   import ShorterMaps
 
-  def handle_in("vote_submitted", %{"ideaId" => idea_id, "userId" => user_id}, socket) do
+  def handle_in("vote_submitted", ~m{idea_id, user_id}, socket) do
     retro_id = socket.assigns.retro_id
     user_vote_count = Retro.user_vote_count(~M{user_id, retro_id})
 

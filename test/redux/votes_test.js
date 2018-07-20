@@ -1,5 +1,10 @@
 import deepFreeze from "deep-freeze"
-import { reducer as votesReducer, selectors } from "../../web/static/js/redux/votes"
+import sinon from "sinon"
+import {
+  reducer as votesReducer,
+  selectors,
+  actions,
+} from "../../web/static/js/redux/votes"
 
 describe("votes reducer", () => {
   describe("when there is an empty action", () => {
@@ -61,6 +66,39 @@ describe("selectors", () => {
     it("returns the number of votes the given user has on the store", () => {
       const voteCountForUser = selectors.voteCountForUser(state, user)
       expect(voteCountForUser).to.equal(2)
+    })
+  })
+})
+
+describe("actions", () => {
+  describe("submitVote", () => {
+    const idea = { id: 10 }
+    const user = { id: 5 }
+
+    it("is a thunk", () => {
+      const result = actions.submitVote()
+      expect(typeof result).to.equal("function")
+    })
+
+    describe("the returned thunk", () => {
+      let thunk
+
+      beforeEach(() => {
+        thunk = actions.submitVote(idea, user)
+      })
+
+      it("calls retroChannel.push with 'vote_submitted', passing the idea and user ids as snakecased attributes", () => {
+        const pushSpy = sinon.spy()
+        const retroChannelMock = {
+          push: pushSpy,
+        }
+
+        thunk(undefined, undefined, retroChannelMock)
+
+        expect(
+          pushSpy.calledWith("vote_submitted", { idea_id: 10, user_id: 5 })
+        ).to.be.true
+      })
     })
   })
 })

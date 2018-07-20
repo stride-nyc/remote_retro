@@ -25,7 +25,6 @@ describe("VoteCounter", () => {
     actions: {},
     votes: [],
     currentUser: mockUser,
-    retroChannel: {},
     buttonDisabled: false,
     stage: VOTING,
   }
@@ -62,7 +61,6 @@ describe("VoteCounter", () => {
         actions: {},
         votes: [],
         currentUser: mockUser,
-        retroChannel: {},
         buttonDisabled: false,
         stage: ACTION_ITEMS,
       }
@@ -106,22 +104,22 @@ describe("VoteCounter", () => {
   })
 
   describe("handleClick", () => {
-    it("calls retroChannel.push with 'vote_submitted', the idea's id, and the user id", () => {
-      const pushSpy = spy()
-      const retroChannelMock = {
-        push: pushSpy,
+    it("calls actions.submitVote with the idea and currentUser", () => {
+      const submitVote = spy()
+      const actions = {
+        submitVote,
       }
       const voteCounter = shallow(
         <VoteCounter
           {...defaultProps}
-          retroChannel={retroChannelMock}
+          actions={actions}
           idea={idea}
           currentUser={mockUser}
         />
       )
       voteCounter.instance().handleClick()
 
-      expect(pushSpy.calledWith("vote_submitted", { ideaId: idea.id, userId: mockUser.id })).to.be.true
+      expect(submitVote.calledWith(idea, mockUser)).to.be.true
     })
   })
 })

@@ -14,11 +14,10 @@ const { IDEA_GENERATION, VOTING, CLOSED } = STAGES
 
 export const StageAwareIdeaControls = props => {
   const {
+    stage,
     idea,
     actions,
-    retroChannel,
     currentUser,
-    stage,
     votes,
     voteCountForUser,
   } = props
@@ -33,7 +32,6 @@ export const StageAwareIdeaControls = props => {
     return (
       <VoteCounter
         actions={actions}
-        retroChannel={retroChannel}
         idea={idea}
         votes={votes}
         buttonDisabled={stage !== VOTING || allVotesUsed}
@@ -52,6 +50,7 @@ export const StageAwareIdeaControls = props => {
 
 StageAwareIdeaControls.propTypes = {
   idea: AppPropTypes.idea.isRequired,
+  actions: PropTypes.object.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,

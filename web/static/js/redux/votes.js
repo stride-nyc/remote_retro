@@ -7,6 +7,14 @@ export const actions = {
     type: types.ADD_VOTE,
     vote,
   }),
+
+  submitVote: (idea, user) => {
+    return (dispatch, getState, retroChannel) => {
+      const snakeCaseVoteAttributes = { idea_id: idea.id, user_id: user.id }
+
+      retroChannel.push("vote_submitted", snakeCaseVoteAttributes)
+    }
+  },
 }
 
 export const reducer = (state = [], action) => {

@@ -206,14 +206,14 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a `vote_submitted` event with a *valid* ideaId and userId" do
+  describe "pushing a `vote_submitted` event with a *valid* idea_id and user_id" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the vote to connected clients", ~M{socket, idea, user} do
       idea_id = idea.id
       user_id = user.id
-      ref = push(socket, "vote_submitted", %{ideaId: idea_id, userId: user_id})
+      ref = push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
       assert_reply ref, :ok
 
       assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
@@ -223,7 +223,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "results in the persistence of the vote", ~M{socket, idea, user} do
       idea_id = idea.id
       assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id) end)
-      push(socket, "vote_submitted", %{ideaId: idea_id, userId: user.id})
+      push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user.id})
       :timer.sleep(25)
       assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
     end
@@ -233,7 +233,7 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:join_the_retro_channel]
 
     test "results in an error reply", ~M{socket, user} do
-      invalid_vote =  %{ideaId: "HaaaaiYah!", userId: user.id}
+      invalid_vote =  %{idea_id: "HaaaaiYah!", user_id: user.id}
 
       push(socket, "vote_submitted", invalid_vote)
       ref = push(socket, "vote_submitted", invalid_vote)
@@ -242,7 +242,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     test "does not trigger an 'idea_committed' broadcast to all connected clients", ~M{socket, user} do
-      invalid_vote =  %{ideaId: "The Fart Store", userId: user.id}
+      invalid_vote =  %{idea_id: "The Fart Store", user_id: user.id}
 
       push(socket, "vote_submitted", invalid_vote)
 
@@ -257,7 +257,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "pushing 'vote_submitted' does not broadcast a vote", ~M{socket, idea, user} do
       idea_id = idea.id
       user_id = user.id
-      push(socket, "vote_submitted", %{ideaId: idea_id, userId: user_id})
+      push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
 
       refute_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id}, 20)
     end
@@ -270,7 +270,7 @@ defmodule RemoteRetro.RetroChannelTest do
       vote_count = Repo.aggregate(vote_count_query, :count, :id)
       assert vote_count == 3
 
-      push(socket, "vote_submitted", %{ideaId: idea_id, userId: user.id})
+      push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user.id})
       :timer.sleep(50)
 
       vote_count = Repo.aggregate(vote_count_query, :count, :id)
