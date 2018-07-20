@@ -13,7 +13,16 @@ import { selectors, actions } from "../redux"
 const { IDEA_GENERATION, VOTING, CLOSED } = STAGES
 
 export const StageAwareIdeaControls = props => {
-  const { idea, retroChannel, currentUser, stage, votes, voteCountForUser } = props
+  const {
+    idea,
+    actions,
+    retroChannel,
+    currentUser,
+    stage,
+    votes,
+    voteCountForUser,
+  } = props
+
   if (stage === CLOSED) return null
 
   const { user_id: userId, category } = idea
@@ -23,6 +32,7 @@ export const StageAwareIdeaControls = props => {
   if (stage !== IDEA_GENERATION && category !== "action-item") {
     return (
       <VoteCounter
+        actions={actions}
         retroChannel={retroChannel}
         idea={idea}
         votes={votes}

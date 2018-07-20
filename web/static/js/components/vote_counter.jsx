@@ -64,6 +64,7 @@ VoteCounter.propTypes = {
   buttonDisabled: PropTypes.bool,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
+  actions: PropTypes.object.isRequired,
 }
 
 export default VoteCounter

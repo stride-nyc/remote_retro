@@ -22,6 +22,7 @@ describe("VoteCounter", () => {
 
   const defaultProps = {
     idea,
+    actions: {},
     votes: [],
     currentUser: mockUser,
     retroChannel: {},
@@ -58,6 +59,7 @@ describe("VoteCounter", () => {
     it("renders an anchor tag that contains the vote count of the given idea for all users", () => {
       const defaultProps = {
         idea,
+        actions: {},
         votes: [],
         currentUser: mockUser,
         retroChannel: {},
