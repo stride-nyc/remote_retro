@@ -19,18 +19,17 @@ defmodule VotingTest do
       session_one = visit(session_one, retro_path)
       session_two = visit(session_two, retro_path)
 
-      # session one submits a vote for a particular idea
-      # assert that the idea's vote count increments
-      session_one_ideas_list_text = session_one |> find(Query.css(".happy.column")) |> Element.text()
-      assert session_one_ideas_list_text =~ ~r/Vote\n0/ui
+      session_one |> assert_vote_count_is(0)
 
-      session_one |> find(Query.css("button.ui.green.button")) |> Element.click
+      session_one |> find(Query.css(".happy.column .green.button")) |> Element.click
 
-      session_one_ideas_list_text = session_one |> find(Query.css(".happy.column")) |> Element.text()
-      assert session_one_ideas_list_text =~ ~r/Vote\n1/ui
-
-      session_two_ideas_list_text = session_two |> find(Query.css(".happy.column")) |> Element.text()
-      assert session_two_ideas_list_text =~ ~r/Vote\n1/ui
+      session_one |> assert_vote_count_is(1)
+      session_two |> assert_vote_count_is(1)
     end
+  end
+
+  defp assert_vote_count_is(session, vote_count) do
+    body_text = session |> find(Query.css("body")) |> Element.text()
+    assert body_text =~ ~r/vote\n#{vote_count}/i
   end
 end
