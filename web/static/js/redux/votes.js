@@ -12,7 +12,13 @@ export const actions = {
     return (dispatch, getState, retroChannel) => {
       const snakeCaseVoteAttributes = { idea_id: idea.id, user_id: user.id }
 
-      retroChannel.push("vote_submitted", snakeCaseVoteAttributes)
+      const push = retroChannel.push("vote_submitted", snakeCaseVoteAttributes)
+      push.receive("error", () => {
+        dispatch({
+          type: "SET_ERROR",
+          error: { message: "Vote submission failed. Please try again." },
+        })
+      })
     }
   },
 }

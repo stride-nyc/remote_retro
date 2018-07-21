@@ -1,5 +1,7 @@
 import deepFreeze from "deep-freeze"
 import sinon from "sinon"
+import { setupMockPhoenixChannel } from "../support/js/test_helper"
+
 import {
   reducer as votesReducer,
   selectors,
@@ -82,22 +84,43 @@ describe("actions", () => {
 
     describe("the returned thunk", () => {
       let thunk
+      let mockRetroChannel
 
       beforeEach(() => {
         thunk = actions.submitVote(idea, user)
+        mockRetroChannel = setupMockPhoenixChannel()
       })
 
       it("calls retroChannel.push with 'vote_submitted', passing the idea and user ids as snakecased attributes", () => {
-        const pushSpy = sinon.spy()
-        const retroChannelMock = {
-          push: pushSpy,
-        }
+        const pushSpy = sinon.spy(mockRetroChannel, "push")
 
-        thunk(undefined, undefined, retroChannelMock)
+        thunk(undefined, undefined, mockRetroChannel)
 
         expect(
           pushSpy.calledWith("vote_submitted", { idea_id: 10, user_id: 5 })
         ).to.be.true
+
+        pushSpy.restore()
+      })
+
+      describe("when the push results in an error", () => {
+        let push
+
+        beforeEach(() => {
+          mockRetroChannel = setupMockPhoenixChannel()
+        })
+
+        it("dispatches an error", () => {
+          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          push.trigger("error", {})
+
+          expect(
+            dispatchSpy.calledWithMatch({ type: "SET_ERROR" })
+          ).to.eq(true)
+        })
       })
     })
   })
