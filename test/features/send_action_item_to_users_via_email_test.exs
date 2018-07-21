@@ -1,5 +1,5 @@
 defmodule SendActionItemToUsersViaEmailTest do
-  alias RemoteRetro.Emails
+  alias RemoteRetro.{Emails, Idea}
   use RemoteRetro.IntegrationCase, async: false
   use Bamboo.Test, shared: true
 
@@ -9,7 +9,7 @@ defmodule SendActionItemToUsersViaEmailTest do
     setup [:persist_idea_for_retro]
 
     @tag [
-      idea: %RemoteRetro.Idea{category: "action-item", body: "Get better"},
+      idea: %Idea{category: "action-item", body: "Get better"},
       retro_stage: "action-items",
     ]
     test "Distributing action items via email", ~M{retro, session: facilitator_session} do
