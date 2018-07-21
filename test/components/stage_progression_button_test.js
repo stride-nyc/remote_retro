@@ -70,10 +70,6 @@ describe("StageProgressionButton", () => {
                 retroChannel.push.calledWith("retro_edited", { stage: "stageDos" })
               ).to.equal(true)
             })
-
-            it("closes the modal", () => {
-              expect(stageProgressionButton.find("Modal").props().isOpen).to.equal(false)
-            })
           })
 
           context("when clicking no in the open modal", () => {
