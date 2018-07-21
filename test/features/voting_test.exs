@@ -21,6 +21,9 @@ defmodule VotingTest do
 
       # session one submits a vote for a particular idea
       # assert that the idea's vote count increments
+      session_one_ideas_list_text = session_one |> find(Query.css(".happy.column")) |> Element.text()
+      assert session_one_ideas_list_text =~ ~r/Vote\n0/ui
+
       session_one |> find(Query.css("button.ui.green.button")) |> Element.click
 
       session_one_ideas_list_text = session_one |> find(Query.css(".happy.column")) |> Element.text()
