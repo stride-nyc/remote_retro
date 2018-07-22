@@ -250,34 +250,6 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "when a user has already used their votes" do
-    setup [:persist_idea_for_retro, :use_all_votes, :join_the_retro_channel]
-
-    @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "pushing 'vote_submitted' does not broadcast a vote", ~M{socket, idea, user} do
-      idea_id = idea.id
-      user_id = user.id
-      push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
-
-      refute_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id}, 20)
-    end
-
-    @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "pushing 'vote_submitted' does not persist the vote", ~M{socket, idea, user} do
-      idea_id = idea.id
-      vote_count_query = from(v in "votes", where: [idea_id: ^idea_id, user_id: ^user.id])
-
-      vote_count = Repo.aggregate(vote_count_query, :count, :id)
-      assert vote_count == 3
-
-      push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user.id})
-      :timer.sleep(50)
-
-      vote_count = Repo.aggregate(vote_count_query, :count, :id)
-      assert vote_count == 3
-    end
-  end
-
   describe "pushing an unhandled message to the socket" do
     setup [:join_the_retro_channel]
 

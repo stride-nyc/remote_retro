@@ -20,16 +20,6 @@ defmodule RemoteRetro.Retro do
     timestamps(type: :utc_datetime)
   end
 
-  def user_vote_count(~M(user_id, retro_id)) do
-    query = from votes in Vote,
-              join: ideas in Idea,
-              where: votes.idea_id == ideas.id
-              and ideas.retro_id == ^retro_id
-              and votes.user_id == ^user_id
-
-    Repo.aggregate(query, :count, :id)
-  end
-
   def changeset(struct, params \\ %{}) do
     struct
     |> cast(params, [:stage, :facilitator_id])

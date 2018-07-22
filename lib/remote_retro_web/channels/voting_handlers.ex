@@ -1,27 +1,19 @@
 defmodule RemoteRetroWeb.VotingHandlers do
-  alias RemoteRetro.{Repo, Retro, Vote}
+  alias RemoteRetro.{Repo, Vote}
   import Phoenix.Channel
 
   import ShorterMaps
 
   def handle_in("vote_submitted", ~m{idea_id, user_id}, socket) do
-    retro_id = socket.assigns.retro_id
-    user_vote_count = Retro.user_vote_count(~M{user_id, retro_id})
-
-    reply_atom =
-      if user_vote_count < 3 do
-        insert_and_broadcast(idea_id, user_id, socket)
-      else
-        :ok
-      end
+    reply_atom = insert_and_broadcast_to_other_clients(idea_id, user_id, socket)
 
     {:reply, reply_atom, socket}
   end
 
-  defp insert_and_broadcast(idea_id, user_id, socket) do
+  defp insert_and_broadcast_to_other_clients(idea_id, user_id, socket) do
     try do
       insert_vote!(idea_id, user_id)
-      broadcast! socket, "vote_submitted", ~m{idea_id, user_id}
+      broadcast_from! socket, "vote_submitted", ~m{idea_id, user_id}
       :ok
     rescue
       _ -> :error

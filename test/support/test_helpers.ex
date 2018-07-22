@@ -1,15 +1,8 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
-  alias RemoteRetro.{Repo, User, Vote, Idea, Participation}
+  alias RemoteRetro.{Repo, User, Idea, Participation}
 
   import ShorterMaps
-
-  def use_all_votes(~M{user, idea} = context) do
-    now = DateTime.utc_now
-    vote = [user_id: user.id, idea_id: idea.id, inserted_at: now, updated_at: now]
-    Repo.insert_all(Vote, [vote, vote, vote])
-    context
-  end
 
   defp persist_user(user) do
     {:ok, user} = User.upsert_record_from(oauth_info: user)

@@ -1,4 +1,5 @@
-import { expect } from "chai"
+import chai, { expect } from "chai"
+import chaiUUID from "chai-uuid"
 import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
 import sinon from "sinon"
@@ -6,6 +7,8 @@ import { Socket } from "phoenix"
 import PropTypes from "prop-types"
 import noop from "lodash/noop"
 import STAGES from "../../../web/static/js/configs/stages"
+
+chai.use(chaiUUID)
 
 const { IDEA_GENERATION } = STAGES
 

@@ -27,6 +27,29 @@ describe("votes reducer", () => {
     })
   })
 
+  describe("when the action is VOTE_SUBMISSION_FAILURE", () => {
+    it("removes the vote with matching uuid from the list", () => {
+      const initialState = [
+        { id: "a374kdnvk3ndk", idea_id: 12, user_id: 33 },
+        { id: 1, idea_id: 31, user_id: 24 },
+      ]
+
+      const action = {
+        type: "VOTE_SUBMISSION_FAILURE",
+        optimisticUiVoteId: "a374kdnvk3ndk",
+      }
+
+      deepFreeze(initialState)
+      const result = votesReducer(initialState, action)
+
+      expect(result).to.eql([{
+        id: 1,
+        idea_id: 31,
+        user_id: 24,
+      }])
+    })
+  })
+
   describe("when the action is SET_INITIAL_STATE", () => {
     it("returns the initial state's votes", () => {
       const initialStateAction = {
@@ -85,16 +108,37 @@ describe("actions", () => {
     describe("the returned thunk", () => {
       let thunk
       let mockRetroChannel
+      let dispatch
 
       beforeEach(() => {
         thunk = actions.submitVote(idea, user)
         mockRetroChannel = setupMockPhoenixChannel()
+        dispatch = () => {}
+      })
+
+      it("dispatches the addVote action optimistically", () => {
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, undefined, mockRetroChannel)
+
+        expect(
+          dispatchSpy.calledWithMatch({ type: "ADD_VOTE" })
+        ).to.eq(true)
+      })
+
+      it("assigns a UUID to the optimistically added vote", () => {
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, undefined, mockRetroChannel)
+
+        const invocationArguments = dispatchSpy.args[0]
+        const addedVote = invocationArguments[0].vote
+
+        expect(addedVote.id).to.be.a.uuid("v4")
       })
 
       it("calls retroChannel.push with 'vote_submitted', passing the idea and user ids as snakecased attributes", () => {
         const pushSpy = sinon.spy(mockRetroChannel, "push")
 
-        thunk(undefined, undefined, mockRetroChannel)
+        thunk(dispatch, undefined, mockRetroChannel)
 
         expect(
           pushSpy.calledWith("vote_submitted", { idea_id: 10, user_id: 5 })
@@ -110,15 +154,21 @@ describe("actions", () => {
           mockRetroChannel = setupMockPhoenixChannel()
         })
 
-        it("dispatches an error", () => {
+        it("dispatches a VOTE_SUBMISSION_FAILURE with the optimistic UUID", () => {
           push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
+          const invocationArguments = dispatchSpy.args[0]
+          const optimisticallyAddedVote = invocationArguments[0].vote
+
           push.trigger("error", {})
 
           expect(
-            dispatchSpy.calledWithMatch({ type: "SET_ERROR" })
+            dispatchSpy.calledWithMatch({
+              type: "VOTE_SUBMISSION_FAILURE",
+              optimisticUiVoteId: optimisticallyAddedVote.id,
+            })
           ).to.eq(true)
         })
       })

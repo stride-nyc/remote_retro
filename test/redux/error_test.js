@@ -42,6 +42,22 @@ describe("error", () => {
       })
     })
 
+    describe("when the action type is VOTE_SUBMISSION_FAILURE", () => {
+      const initialState = deepFreeze({ message: "Something tragic has happened." })
+      const action = {
+        type: "VOTE_SUBMISSION_FAILURE",
+        error: { message: "new error" },
+      }
+
+      describe("when there is already an error object in state", () => {
+        it("overwrites the error", () => {
+          expect(reducer(initialState, action)).to.deep.equal({
+            message: "new error",
+          })
+        })
+      })
+    })
+
     describe("when the action is CLEAR_ERROR", () => {
       const action = { type: "CLEAR_ERROR" }
 
