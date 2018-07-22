@@ -1,7 +1,6 @@
 defmodule RemoteRetro.Retro do
   use RemoteRetroWeb, :model
-  alias RemoteRetro.{Idea, Participation, Repo, Vote}
-  import ShorterMaps
+  alias RemoteRetro.{Idea, Participation}
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
