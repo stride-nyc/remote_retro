@@ -167,22 +167,19 @@
 
 :global(.nested-action-items-list) {
   position: relative;
-  left: 0.9rem;
+  left: 0.5rem;
 
   :global(.action-items-label) {
     cursor: pointer;
   }
 
   i {
-    font-size: 0.9rem;
-    position: relative;
-    left: 0.2rem;
     transition: 50ms transform ease-in;
   }
 
   &:global(.hidden) {
     i {
-      transform: rotate(90deg) translate(2px,0px);
+      transform: rotate(-90deg) translate(-2px,0px);
     }
 
     ul {
