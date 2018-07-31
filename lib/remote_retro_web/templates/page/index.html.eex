@@ -23,7 +23,7 @@
 
 <div class="ui segments">
   <div class="ui very padded segment">
-    <div class="ui three column center aligned divided relaxed stackable grid container">
+    <div class="ui three column center aligned divided relaxed stackable grid">
       <div class="row">
         <div class="column">
           <h2 class="ui icon header">
