@@ -62,7 +62,7 @@
     </div>
   </div>
   <div class="ui very padded secondary segment trusted-by">
-    <div class="ui six column center aligned relaxed stackable grid container">
+    <div class="ui six column center aligned relaxed stackable centered grid">
       <div class="ui mobile only padded basic segment grid">
         <p class="ui dividing large black header">Trusted By</p>
       </div>
