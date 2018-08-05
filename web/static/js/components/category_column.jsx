@@ -13,10 +13,6 @@ export class CategoryColumn extends Component {
     event.preventDefault()
   }
 
-  handleDragEnter = () => {
-    this.setState({ draggedOver: true })
-  }
-
   handleDragLeave = event => {
     const { currentTarget, relatedTarget } = event
     if (currentTarget.contains(relatedTarget)) { return }
@@ -43,16 +39,15 @@ export class CategoryColumn extends Component {
   }
 
   render() {
-    const { handleDragOver, handleDrop, handleDragEnter, handleDragLeave, props, state } = this
+    const { handleDragOver, handleDrop, handleDragLeave, props, state } = this
     const { category, ideas } = props
     const iconHeight = 45
 
     return (
       <section
         className={`${category} ${styles.index} ${state.draggedOver ? "dragged-over" : ""} column`}
-        onDragEnter={handleDragEnter}
-        onDragLeave={handleDragLeave}
         onDragOver={handleDragOver}
+        onDragLeave={handleDragLeave}
         onDrop={handleDrop}
       >
         <div className={`${styles.columnHead} ui center aligned basic segment`}>

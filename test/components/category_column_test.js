@@ -8,6 +8,7 @@ import STAGES from "../../web/static/js/configs/stages"
 const { IDEA_GENERATION } = STAGES
 
 describe("CategoryColumn", () => {
+  let wrapper
   const mockRetroChannel = { on: () => {}, push: () => {} }
   const defaultProps = {
     currentUser: { given_name: "daniel" },
@@ -59,10 +60,12 @@ describe("CategoryColumn", () => {
   })
 
   context("when an item is dragged over it", () => {
-    const mockEvent = { preventDefault: spy(), dataTransfer: { dropEffect: null } }
+    let mockEvent
 
     before(() => {
-      const wrapper = shallow(
+      mockEvent = { preventDefault: spy(), dataTransfer: { dropEffect: null } }
+
+      wrapper = shallow(
         <CategoryColumn
           {...defaultProps}
         />
@@ -73,25 +76,6 @@ describe("CategoryColumn", () => {
 
     it("prevents the default event behavior", () => {
       expect(mockEvent.preventDefault.called).to.eql(true)
-    })
-  })
-
-  context("when a dragEnter event is fired", () => {
-    let wrapper
-    let mockEvent
-
-    beforeEach(() => {
-      wrapper = shallow(
-        <CategoryColumn
-          {...defaultProps}
-        />
-      )
-      mockEvent = {
-        preventDefault: spy(),
-        dataTransfer: {},
-      }
-
-      wrapper.simulate("dragEnter", mockEvent)
     })
 
     it("adds a 'dragged-over' class", () => {
@@ -204,7 +188,7 @@ describe("CategoryColumn", () => {
         const mockRetroChannel = { push: spy() }
 
         before(() => {
-          const wrapper = shallow(
+          wrapper = shallow(
             <CategoryColumn
               {...defaultProps}
               retroChannel={mockRetroChannel}
