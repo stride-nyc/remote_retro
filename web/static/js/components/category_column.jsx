@@ -10,7 +10,6 @@ export class CategoryColumn extends Component {
 
   handleDragOver = event => {
     event.preventDefault()
-    event.dataTransfer.dropEffect = "move"
   }
 
   handleDragEnter =() => {
