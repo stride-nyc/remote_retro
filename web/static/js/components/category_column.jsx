@@ -9,14 +9,18 @@ export class CategoryColumn extends Component {
   state = {}
 
   handleDragOver = event => {
+    this.setState({ draggedOver: true })
     event.preventDefault()
   }
 
-  handleDragEnter =() => {
+  handleDragEnter = () => {
     this.setState({ draggedOver: true })
   }
 
-  handleDragLeave =() => {
+  handleDragLeave = event => {
+    const { currentTarget, relatedTarget } = event
+    if (currentTarget.contains(relatedTarget)) { return }
+
     this.setState({ draggedOver: false })
   }
 
@@ -59,6 +63,8 @@ export class CategoryColumn extends Component {
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
         { !!ideas.length && <IdeaList {...props} /> }
+
+        <span className="overlay" />
       </section>
     )
   }

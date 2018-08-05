@@ -11,16 +11,18 @@
   }
 
   /* overlay for drop targeting */
-  &:global(.dragged-over):before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-    background-color: black;
-    opacity: 0.1;
-    z-index: 3;
+  &:global(.dragged-over) {
+    :global(.overlay) {
+      position: absolute;
+      top: 0;
+      left: 0;
+      height: 100%;
+      width: 100%;
+      background-color: black;
+      opacity: 0.1;
+      z-index: 3;
+      pointer-events: none;
+    }
   }
 
   .column-head {

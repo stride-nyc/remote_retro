@@ -74,15 +74,11 @@ describe("CategoryColumn", () => {
     it("prevents the default event behavior", () => {
       expect(mockEvent.preventDefault.called).to.eql(true)
     })
-
-    it("sets the accepted event dropEffect to 'move'", () => {
-      expect(mockEvent.dataTransfer.dropEffect).to.eql("move")
-    })
   })
 
   context("when a dragEnter event is fired", () => {
     let wrapper
-    const mockEvent = { preventDefault: spy(), dataTransfer: { dropEffect: null } }
+    let mockEvent
 
     beforeEach(() => {
       wrapper = shallow(
@@ -90,6 +86,10 @@ describe("CategoryColumn", () => {
           {...defaultProps}
         />
       )
+      mockEvent = {
+        preventDefault: spy(),
+        dataTransfer: {},
+      }
 
       wrapper.simulate("dragEnter", mockEvent)
     })
@@ -99,12 +99,39 @@ describe("CategoryColumn", () => {
     })
 
     context("when a dragLeave event follows", () => {
-      beforeEach(() => {
-        wrapper.simulate("dragLeave", mockEvent)
+      const relatedTarget = {}
+
+      context("and the event's target element *does* contain the related (dragged) elemant", () => {
+        beforeEach(() => {
+          mockEvent = {
+            relatedTarget,
+            currentTarget: {
+              contains: stub().withArgs(relatedTarget).returns(true),
+            },
+          }
+
+          wrapper.simulate("dragLeave", mockEvent)
+        })
+
+        it("doesn't remove the dragged-over class", () => {
+          expect(wrapper.find(".dragged-over").length).to.equal(1)
+        })
       })
 
-      it("removes the dragged-over class", () => {
-        expect(wrapper.find(".dragged-over").length).to.equal(0)
+      context("and the event's target element *doesn't* contain the related (dragged) elemant", () => {
+        beforeEach(() => {
+          mockEvent = {
+            relatedTarget,
+            currentTarget: {
+              contains: stub().withArgs(relatedTarget).returns(false),
+            },
+          }
+          wrapper.simulate("dragLeave", mockEvent)
+        })
+
+        it("removes the dragged-over class", () => {
+          expect(wrapper.find(".dragged-over").length).to.equal(0)
+        })
       })
     })
 
