@@ -1,13 +1,79 @@
-<div class="ui very padded basic segment">
+<%= if Enum.count(@retros) == 0 do %>
+  <div class="ui centered welcome tiny longer modal">
+    <div class="ui center aligned basic very padded segment no-margin-bottom">
+      <h2 class="ui header">Welcome, <%= assigns[:current_user].given_name %>!</h2>
+      <p>
+        You're about to take part in your first RemoteRetro, traversing the following stages:
+      </p>
+    </div>
+    <div class="ui stackable attached vertical steps">
+      <div class="step">
+        <i class="users icon"></i>
+        <div class="content">
+          <div class="title">The Lobby</div>
+          <div class="description">Gather the team!</div>
+        </div>
+      </div>
+      <div class="step">
+        <i class="heart icon"></i>
+        <div class="content">
+          <div class="title">The Retrospective Prime Directive</div>
+          <div class="description">Frame the retro as a safe, collaborative space</div>
+        </div>
+      </div>
+      <div class="step">
+        <i class="idea icon"></i>
+        <div class="content">
+          <div class="title">Idea Generation</div>
+          <div class="description">Invite ideas from participants</div>
+        </div>
+      </div>
+      <div class="step">
+        <i class="envelope outline icon"></i>
+        <div class="content">
+          <div class="title">Voting</div>
+          <div class="description">Vote anonymously to discuss ideas</div>
+        </div>
+      </div>
+      <div class="step">
+        <i class="comments icon"></i>
+        <div class="content">
+          <div class="title">Action Item Generation</div>
+          <div class="description">Generate and commit to action items</div>
+        </div>
+      </div>
+      <div class="final step">
+        <i class="gift icon"></i>
+        <div class="content">
+          <div class="title">Retrospective Close</div>
+          <div class="description">Distribute action items and depart!</div>
+        </div>
+      </div>
+    </div>
+    <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form content"], fn _f -> %>
+      <button type="submit" class="ui blue right labeled fluid icon button">
+        Let's Create Your First Retrospective!
+        <i class="arrow right icon"></i>
+      </button>
+    <% end %>
+  </div>
 
-  <%= if Enum.count(@retros) == 0 do %>
-    <h1 class="ui dividing header">Welcome <%= assigns[:current_user].given_name %>!</h1>
-    <p class="ui grey header">
-      Let's create your first retro!
-      <div class="ui hidden divider"></div>
-      <div class="reveal"><span>👇</span><span>👇</span><span>👇</span></div>
-    </p>
-  <% else %>
+  <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
+  <script src="<%= static_path(@conn, "/js/semantic.min.js") %>"></script>
+  <script>
+    $(document).ready(function() {
+      $(".longer.modal").modal({
+        observeChanges: true,
+        closable: false,
+      }).modal("show");
+
+      $(".final.step").on("animationend", function(){
+        $(".ui.form.content").css({ opacity: 1 });
+      });
+    })
+  </script>
+<% else %>
+  <div class="ui very padded basic segment">
     <h1 class="ui dividing header">My Retros:</h1>
     <ul class="retros-list">
       <%= for retro <- @retros do %>
@@ -31,20 +97,20 @@
         </li>
       <% end %>
     </ul>
-  <% end %>
+    <div class="ui hidden divider"></div>
+    <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
+      <button type="submit" class="ui blue right labeled icon button">
+        Create a Retrospective!
+        <i class="arrow right icon"></i>
+      </button>
+    <% end %>
 
-  <div class="ui hidden divider"></div>
-  <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
-    <button type="submit" class="ui blue right labeled icon button">
-      Create a Retrospective!
-      <i class="arrow right icon"></i>
-    </button>
-  <% end %>
+    <script>
+      function toggleItems(toggleIcon) {
+        var nestedActionItemsListEl = toggleIcon.closest(".nested-action-items-list");
+        nestedActionItemsListEl.classList.toggle("hidden");
+      }
+    </script>
+  </div>
+<% end %>
 
-  <script>
-    function toggleItems(toggleIcon) {
-      var nestedActionItemsListEl = toggleIcon.closest(".nested-action-items-list");
-      nestedActionItemsListEl.classList.toggle("hidden");
-    }
-  </script>
-</div>

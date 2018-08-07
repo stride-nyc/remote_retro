@@ -76,8 +76,46 @@
   }
 }
 
+@keyframes FadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 :global .ui.modal {
   top: 30%;
+
+  &:global(.welcome) {
+    top: 5%;
+
+    :global(.ui.form.content) {
+      transition: opacity 1s ease;
+      opacity: 0;
+    }
+  }
+}
+
+:global(.ui.steps) {
+  :global(.step) {
+    background-color: var(--semantic-secondary);
+
+    animation: FadeIn 1s linear;
+    animation-fill-mode: both;
+
+    &:nth-child(1) { animation-delay: 2s }
+    &:nth-child(2) { animation-delay: 2.5s }
+    &:nth-child(3) { animation-delay: 3s }
+    &:nth-child(4) { animation-delay: 3.5s }
+    &:nth-child(5) { animation-delay: 4s }
+    &:nth-child(6) { animation-delay: 4.5s }
+  }
+}
+
+:global .very.padded.segment.no-margin-bottom {
+  margin-bottom: 0;
 }
 
 :global .ui.branded-header-container {

@@ -67,7 +67,7 @@ export default {
   },
   [CLOSED]: {
     alert: {
-      headerText: "Action Items Distributed",
+      headerText: "Stage Change: Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
     confirmationMessage: null,
