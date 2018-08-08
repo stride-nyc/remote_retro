@@ -202,3 +202,7 @@
 :global(.ReactModal__Content.ReactModal__Content--after-open:focus) {
   outline: none;
 }
+
+:global([draggable=true]) {
+  cursor: move;
+}
