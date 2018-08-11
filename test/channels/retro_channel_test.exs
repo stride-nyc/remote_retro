@@ -121,7 +121,7 @@ defmodule RemoteRetro.RetroChannelTest do
 
       push(socket, "idea_submitted", invalid_idea)
 
-      refute_broadcast("idea_committed", %{}, 20)
+      refute_broadcast("idea_committed", %{}, 10)
     end
   end
 
@@ -175,9 +175,9 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
     test "results in the idea being updated in the database", ~M{socket, idea} do
       idea_id = idea.id
-      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assigneeId: nil})
+      ref = push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assigneeId: nil})
+      assert_reply ref, :ok # allow async handler to complete before checking db
 
-      :timer.sleep(50)
       idea = Repo.get!(Idea, idea_id)
       assert idea.body == "hell's bells"
       assert idea.category == "confused"
@@ -213,8 +213,7 @@ defmodule RemoteRetro.RetroChannelTest do
     test "results in the broadcast of the vote to connected clients", ~M{socket, idea, user} do
       idea_id = idea.id
       user_id = user.id
-      ref = push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
-      assert_reply ref, :ok
+      push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
 
       assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
     end
@@ -223,8 +222,10 @@ defmodule RemoteRetro.RetroChannelTest do
     test "results in the persistence of the vote", ~M{socket, idea, user} do
       idea_id = idea.id
       assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id) end)
-      push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user.id})
-      :timer.sleep(25)
+
+      ref = push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user.id})
+      assert_reply ref, :ok # allow async handler to complete before checking db
+
       assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
     end
   end
@@ -246,7 +247,7 @@ defmodule RemoteRetro.RetroChannelTest do
 
       push(socket, "vote_submitted", invalid_vote)
 
-      refute_broadcast("vote_submitted", %{}, 20)
+      refute_broadcast("vote_submitted", %{}, 10)
     end
   end
 

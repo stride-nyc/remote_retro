@@ -23,7 +23,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
       |> Repo.update!
 
     broadcast! socket, "idea_edited", idea
-    {:noreply, socket}
+    {:reply, :ok, socket}
   end
 
   def handle_in("idea_deleted", id, socket) do
