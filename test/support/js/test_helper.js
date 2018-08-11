@@ -32,6 +32,7 @@ global.mountWithConnectedSubcomponents = (component, options) => {
       stage: IDEA_GENERATION,
       usersById: {},
       presences: [],
+      retro: {},
     }),
   }
 

@@ -106,8 +106,8 @@ ShareRetroLinkModal.propTypes = {
   retroCreationTimestamp: PropTypes.string,
 }
 
-const mapStateToProps = ({ insertedAt }) => ({
-  retroCreationTimestamp: insertedAt,
+const mapStateToProps = ({ retro }) => ({
+  retroCreationTimestamp: retro.inserted_at,
 })
 
 export default connect(

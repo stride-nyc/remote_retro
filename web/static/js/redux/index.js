@@ -13,6 +13,7 @@ import {
 
 import {
   actions as retroActions,
+  reducer as retro,
 } from "./retro"
 
 import {
@@ -37,7 +38,6 @@ import {
 } from "./users_by_id"
 
 import { reducer as stage } from "./stage"
-import { reducer as insertedAt } from "./inserted_at"
 import { reducer as facilitatorId } from "./facilitator_id"
 
 export const reducer = combineReducers({
@@ -47,8 +47,8 @@ export const reducer = combineReducers({
   votes,
   stage,
   facilitatorId,
-  insertedAt,
   alert,
+  retro,
   error,
 })
 
