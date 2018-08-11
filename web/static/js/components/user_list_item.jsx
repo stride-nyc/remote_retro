@@ -34,7 +34,10 @@ UserListItem.propTypes = {
   stage: AppPropTypes.stage.isRequired,
 }
 
-const mapStateToProps = ({ votes, stage }) => ({ votes, stage })
+const mapStateToProps = ({ votes, retro }) => ({
+  votes,
+  stage: retro.stage,
+})
 
 export default connect(
   mapStateToProps

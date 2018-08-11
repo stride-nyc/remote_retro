@@ -1,3 +1,5 @@
+import deepFreeze from "deep-freeze"
+
 import {
   reducer,
   actions as actionCreators,
@@ -18,10 +20,10 @@ describe("retro reducer", () => {
       })
 
       describe("when an initial state is passed", () => {
-        const initialState = {
+        const initialState = deepFreeze({
           stage: "derp",
           inserted_at: "2017-04-14T17:30:10",
-        }
+        })
 
         it("should return that initial state", () => {
           expect(reducer(initialState, {})).to.equal(initialState)
@@ -48,17 +50,38 @@ describe("retro reducer", () => {
         })
       })
     })
+
+    describe("when invoked with an UPDATE_RETRO action", () => {
+      it("returns the transformed state with updated attributes", () => {
+        const initialState = deepFreeze({
+          stage: "lobby",
+          facilitator_id: 67,
+        })
+
+        const retro = {
+          stage: "new stage",
+          facilitator_id: 70,
+          someNewKey: "someNewVal",
+        }
+        const action = { type: "UPDATE_RETRO", retro }
+        expect(reducer(initialState, action)).to.eql({
+          stage: "new stage",
+          facilitator_id: 70,
+          someNewKey: "someNewVal",
+        })
+      })
+    })
   })
 })
 
 describe("action creators", () => {
-  describe("updateStage", () => {
-    it("creates an action to update the retro's stage", () => {
-      const newStage = "newSlang"
-
-      expect(actionCreators.updateStage(newStage)).to.deep.equal({
-        type: "UPDATE_STAGE",
-        stage: newStage,
+  describe("updateRetro", () => {
+    it("creates an action to update the retro", () => {
+      expect(actionCreators.updateRetro({ stage: "newSlang" })).to.deep.equal({
+        type: "UPDATE_RETRO",
+        retro: {
+          stage: "newSlang",
+        },
         stageConfigs,
       })
     })

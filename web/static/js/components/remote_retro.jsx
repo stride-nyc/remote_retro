@@ -79,9 +79,10 @@ RemoteRetro.defaultProps = {
 }
 
 const mapStateToProps = state => {
-  const { facilitator_id } = state.retro
+  const { stage, facilitator_id } = state.retro
   return {
     ...state,
+    stage,
     currentUser: selectors.getCurrentUserPresence(state),
     facilitatorName: selectors.getUserById(state, facilitator_id).name,
   }

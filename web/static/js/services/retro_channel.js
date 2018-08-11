@@ -20,9 +20,7 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
   retroChannel.on("presence_diff", actions.syncPresenceDiff)
   retroChannel.on("idea_committed", actions.addIdea)
 
-  retroChannel.on("retro_edited", payload => {
-    actions.updateStage(payload.stage)
-  })
+  retroChannel.on("retro_edited", actions.updateRetro)
 
   retroChannel.on("idea_edit_state_enabled", ({ id, editorToken }) => {
     actions.updateIdea(id, { editing: true, editorToken })

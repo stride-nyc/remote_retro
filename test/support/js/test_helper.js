@@ -26,14 +26,14 @@ global.mountWithConnectedSubcomponents = (component, options) => {
     subscribe: () => {},
     dispatch: () => {},
     getState: () => ({
-      ideas: [],
-      votes: [],
-      stage: IDEA_GENERATION,
-      usersById: {},
-      presences: [],
       retro: {
         facilitator_id: 1,
+        stage: IDEA_GENERATION,
       },
+      ideas: [],
+      votes: [],
+      usersById: {},
+      presences: [],
     }),
   }
 

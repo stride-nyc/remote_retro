@@ -37,14 +37,11 @@ import {
   selectors as usersByIdSelectors,
 } from "./users_by_id"
 
-import { reducer as stage } from "./stage"
-
 export const reducer = combineReducers({
   presences,
   usersById,
   ideas,
   votes,
-  stage,
   alert,
   retro,
   error,

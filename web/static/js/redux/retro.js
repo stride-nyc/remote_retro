@@ -2,12 +2,13 @@ import stageConfigs from "../configs/stage_configs"
 
 export const types = {
   SET_INITIAL_STATE: "SET_INITIAL_STATE",
+  UPDATE_RETRO: "UPDATE_RETRO",
 }
 
 export const actions = {
-  updateStage: newStage => ({
-    type: "UPDATE_STAGE",
-    stage: newStage,
+  updateRetro: retro => ({
+    type: types.UPDATE_RETRO,
+    retro,
     stageConfigs,
   }),
 
@@ -35,6 +36,8 @@ export const reducer = (state = null, action) => {
       // initial state comes with retro associations preloaded, but other
       // reducers parse those out and manager those slices of state
       return _stripAttributesPointingToArrays(action.initialState)
+    case types.UPDATE_RETRO:
+      return { ...state, ...action.retro }
     default:
       return state
   }

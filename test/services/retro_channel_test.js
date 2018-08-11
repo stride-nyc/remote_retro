@@ -64,7 +64,7 @@ describe("RetroChannel", () => {
       let deleteIdeaSpy
       let updateIdeaSpy
       let updatePresenceSpy
-      let updateStageSpy
+      let updateRetroSpy
       let addVoteSpy
       let clock
 
@@ -73,7 +73,7 @@ describe("RetroChannel", () => {
         deleteIdeaSpy = spy()
         updateIdeaSpy = spy()
         updatePresenceSpy = spy()
-        updateStageSpy = spy()
+        updateRetroSpy = spy()
         addVoteSpy = spy()
         clock = useFakeTimers(Date.now())
 
@@ -82,7 +82,7 @@ describe("RetroChannel", () => {
           deleteIdea: deleteIdeaSpy,
           updateIdea: updateIdeaSpy,
           updatePresence: updatePresenceSpy,
-          updateStage: updateStageSpy,
+          updateRetro: updateRetroSpy,
           addVote: addVoteSpy,
         }
 
@@ -100,9 +100,10 @@ describe("RetroChannel", () => {
       })
 
       describe("on `retro_edited`", () => {
-        it("invokes the updateStage action, passing the stage from the payload", () => {
-          retroChannel.trigger("retro_edited", { stage: "dummy value" })
-          expect(updateStageSpy.calledWith("dummy value")).to.equal(true)
+        it("invokes the updateRetro action, passing the payload", () => {
+          const payload = { stage: "dummy value" }
+          retroChannel.trigger("retro_edited", payload)
+          expect(updateRetroSpy.calledWith(payload)).to.equal(true)
         })
       })
 
