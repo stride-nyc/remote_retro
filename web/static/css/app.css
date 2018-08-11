@@ -169,32 +169,6 @@
   margin: -1px; padding: 0; border: 0;
 }
 
-@keyframes not-so-casual-prompt {
-    0% { opacity: 0; }
-   50% { opacity: 1; }
-  100% { opacity: 0; }
-}
-
-:global(.reveal) {
-  padding: 2rem 0;
-  font-size: 5rem;
-
-  :global(span) {
-    animation: not-so-casual-prompt 1s;
-    animation-iteration-count: 3;
-
-    &:nth-child(1) {
-      animation-delay: 0.0s;
-    }
-    &:nth-child(2) {
-      animation-delay: 0.1s;
-    }
-    &:nth-child(3) {
-      animation-delay: 0.2s;
-    }
-  }
-}
-
 :global(.bold) {
   font-weight: bold;
 }
