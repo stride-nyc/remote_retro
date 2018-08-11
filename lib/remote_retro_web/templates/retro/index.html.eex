@@ -67,7 +67,7 @@
         closable: false,
       }).modal("show");
 
-      $(".final.step").on("animationend", function(){
+      $(".final.step").on("animationstart", function(){
         $(".ui.form.content").css({ opacity: 1 });
       });
     })
