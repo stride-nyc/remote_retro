@@ -24,14 +24,14 @@ export const selectors = {
   getUserById: (state, userId) => {
     return state.usersById[userId]
   },
-  getUserPresences: ({ presences, usersById, facilitatorId }) => {
+  getUserPresences: ({ presences, usersById, retro }) => {
     return presences.map(presence => {
       const { user_id, ...restOfPresenceAttrs } = presence
       const user = usersById[user_id]
       return {
         ...user,
         ...restOfPresenceAttrs,
-        is_facilitator: user.id === facilitatorId,
+        is_facilitator: user.id === retro.facilitator_id,
       }
     })
   },

@@ -38,7 +38,6 @@ import {
 } from "./users_by_id"
 
 import { reducer as stage } from "./stage"
-import { reducer as facilitatorId } from "./facilitator_id"
 
 export const reducer = combineReducers({
   presences,
@@ -46,7 +45,6 @@ export const reducer = combineReducers({
   ideas,
   votes,
   stage,
-  facilitatorId,
   alert,
   retro,
   error,

@@ -78,11 +78,14 @@ RemoteRetro.defaultProps = {
   error: null,
 }
 
-const mapStateToProps = state => ({
-  ...state,
-  currentUser: selectors.getCurrentUserPresence(state),
-  facilitatorName: selectors.getUserById(state, state.facilitatorId).name,
-})
+const mapStateToProps = state => {
+  const { facilitator_id } = state.retro
+  return {
+    ...state,
+    currentUser: selectors.getCurrentUserPresence(state),
+    facilitatorName: selectors.getUserById(state, facilitator_id).name,
+  }
+}
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch),

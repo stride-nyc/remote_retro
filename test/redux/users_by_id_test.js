@@ -29,7 +29,9 @@ describe("selectors", () => {
 
   describe("getUserPresences", () => {
     const state = {
-      facilitatorId: 1,
+      retro: {
+        facilitator_id: 1,
+      },
       presences: [{
         online_at: 987,
         is_typing: true,
@@ -70,7 +72,9 @@ describe("selectors", () => {
       })
 
       const state = {
-        facilitatorId: 3,
+        retro: {
+          facilitator_id: 3,
+        },
         presences: [{
           user_id: 3,
           token: "hErOboy",
@@ -94,7 +98,9 @@ describe("selectors", () => {
 
       context("when you call the selector again, but the presence is no longer 'present'", () => {
         const newStateLackingPresences = {
-          facilitatorId: 3,
+          retro: {
+            facilitator_id: 3,
+          },
           presences: [],
           usersById: {
             2: { id: 2, name: "Rue McClanahan" },
