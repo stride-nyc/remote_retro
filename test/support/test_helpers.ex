@@ -42,7 +42,6 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def new_authenticated_browser_session(metadata \\ %{}) do
-    :timer.sleep(50)
     {:ok, session} = Wallaby.start_session(metadata: metadata)
     authenticate(session)
   end
