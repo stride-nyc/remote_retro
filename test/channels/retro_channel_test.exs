@@ -179,8 +179,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_reply ref, :ok # allow async handler to complete before checking db
 
       idea = Repo.get!(Idea, idea_id)
-      assert idea.body == "hell's bells"
-      assert idea.category == "confused"
+      assert %Idea{body: "hell's bells", category: "confused"} = idea
     end
   end
 
