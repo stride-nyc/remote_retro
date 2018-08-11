@@ -45,6 +45,38 @@
     }
   }
 
+  .testimonials {
+    .ui.header {
+      font-style: italic;
+
+      /*
+      the testimonial's text should be left justified, but we want the
+      opening quote outside this justification so that letters align */
+      .first-letter:before {
+        position: absolute;
+        left: 0.93rem;
+        content: "’";
+
+        -webkit-transform: rotateY(180deg) skewX(15deg);
+        transform: rotateY(180deg) skewX(15deg);
+      }
+    }
+
+    .ui.header, .author-attribution {
+      color: var(--semantic-dark-grey);
+    }
+
+    .author-attribution {
+      float: right;
+      position: relative;
+      right: 0.5rem;
+
+      .author {
+        font-weight: bolder;
+      }
+    }
+  }
+
   @media(max-width: 450px) and (orientation: portrait) {
     .welcome-wrapper {
       padding: 2.5rem;
@@ -137,7 +169,7 @@
     .logo-text {
       font-size: 12px;
       font-weight: 500;
-      color: var(--dark-grey);
+      color: var(--semantic-dark-grey);
       padding-right: 0.2rem;
       padding-top: 0.15rem;
     }

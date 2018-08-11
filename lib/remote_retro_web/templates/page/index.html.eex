@@ -88,6 +88,19 @@
       </div>
     </div>
   </div>
+  <div class="ui very padded segment testimonials">
+    <div class="ui two column stackable centered grid">
+      <div class="column">
+        <p class="ui header">
+          <span class="first-letter">R</span>emoteRetro provides a framework for the entire retrospective process, from idea generation to discussion to identification of action items, and it does so no matter what the limitations of the physical space may be. It's a great equalizer, and a major step forward for retro organizers and participants.’
+        </p>
+        <p class="author-attribution">
+          <span class="author">David A. Black</span><br>
+          author, The Well-Grounded Rubyist
+        </p>
+      </div>
+    </div>
+  </div>
 </div>
 
 <div class="ui center aligned grid polygons-background">
