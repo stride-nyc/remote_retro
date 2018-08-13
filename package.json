@@ -2,6 +2,7 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
+    "clean-hot-updates": "find . -name '*.hot-update.json' -delete",
     "compile-production": "webpack -p --config='webpack.dll.js' --hide-modules && webpack -p",
     "compile-dev": "webpack --config='webpack.dll.js' --hide-modules && webpack --hide-modules",
     "watch": "webpack --config='webpack.dll.js' --hide-modules && NODE_ENV=dev node webpack.devserver.js",
