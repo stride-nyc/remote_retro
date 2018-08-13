@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "compile-production": "webpack -p --config='webpack.dll.js' --hide-modules && webpack -p",
-    "compile-dev": "webpack --config='webpack.dll.js' --hide-modules && webpack",
+    "compile-dev": "webpack --config='webpack.dll.js' --hide-modules && webpack --hide-modules",
     "watch": "webpack --config='webpack.dll.js' --hide-modules && NODE_ENV=dev node webpack.devserver.js",
     "postinstall": "bin/prepare_semantic_ui_for_consumption_by_phoenix",
     "test": "mocha",
