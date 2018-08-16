@@ -105,3 +105,7 @@
     </div>
   </div>
 </div>
+
+<%# prefetch first-time-user-experience javascript during idle time on homepage for immediate execution on login %>
+<link rel="prefetch" href="<%= static_path(@conn, "/js/jquery.min.js") %>">
+<link rel="prefetch" href="<%= static_path(@conn, "/js/semantic.min.js") %>">
