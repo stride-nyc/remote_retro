@@ -89,7 +89,10 @@ jobs:  # basic units of work in a run
           command: |
             git remote add gigalixir https://$GIGALIXIR_EMAIL:$GIGALIXIR_API_KEY@git.gigalixir.com/$GIGALIXIR_APP_NAME.git
             git push -f gigalixir HEAD:refs/heads/master
-      - run: curl --data "deploy[environment]=production&deploy[revision]=$CIRCLE_SHA1&deploy[repository]=https://github.com/stride-nyc/remote_retro&api_key=$HONEYBADGER_API_KEY" "https://api.honeybadger.io/v1/deploys"
+      - run:
+          name: Notify HoneyBadger of Deploy
+          command: |
+            curl --data "deploy[environment]=production&deploy[revision]=$CIRCLE_SHA1&deploy[repository]=https://github.com/stride-nyc/remote_retro&api_key=$HONEYBADGER_API_KEY" "https://api.honeybadger.io/v1/deploys"
 
 workflows:
   version: 2
