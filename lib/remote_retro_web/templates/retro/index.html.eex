@@ -114,3 +114,7 @@
   </div>
 <% end %>
 
+<%# prefetch retro javascript for faster loading on retro creation :) %>
+<link rel="prefetch" href="<%= static_path(@conn, "/js/dll/dll.vendor.js")%>">
+<link rel="prefetch" href="<%= app_js(@conn) %>">
+
