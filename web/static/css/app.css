@@ -153,6 +153,7 @@
        * and height: 100% only applies if the element's container has an explicit height
        */
       height: 1.5rem;
+      width: auto;
 
       img {
         height: 100%;

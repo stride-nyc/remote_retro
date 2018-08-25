@@ -74,7 +74,7 @@
           <a href="http://www.stridenyc.com/">
             <div>
               <div class="middle aligned content logo-text">Built by</div>
-              <div class="ui tiny image"><img src="<%= static_path(@conn, "/images/stride_logo.svg") %>" alt="Stride" /></div>
+              <div class="ui tiny image"><img src="<%= static_path(@conn, "/images/stride_logo.png") %>" alt="Stride" /></div>
             </div>
           </a>
         </div>
