@@ -10,6 +10,16 @@
   --padding: 5.5rem;
   .welcome-wrapper {
     padding: var(--padding) 0 calc(1rem + var(--padding)) var(--padding);
+
+    [data-tooltip]:hover {
+      &:before {
+        opacity: 0;
+      }
+      &:after {
+        white-space: pre-wrap;
+        width: 275%;
+      }
+    }
   }
 
   .ui.segments {

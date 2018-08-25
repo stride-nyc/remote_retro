@@ -10,8 +10,8 @@
   </h1>
 
   <div class="ui header">
-    Get Better With Your Team
-    <p class="sub header">RemoteRetro lets you get together, even when you're far apart.</p>
+    Powerful <span data-position="top left" data-tooltip="Retrospectives are structured, democratic meetings used by software teams to identify areas for improvement, with a focus on generating action items that will help the team *make* those improvements.">retrospectives</span> for distributed teams
+    <p class="sub header">RemoteRetro helps teams come together and improve, even when they're far apart.</p>
   </div>
 
   <a href="/auth/google" class="ui blue button">
