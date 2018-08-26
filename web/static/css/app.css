@@ -1,12 +1,6 @@
 @import './colors.css';
 
 :global .landing-page {
-  .polygons-background {
-    background-image: url('/images/polygons.jpg');
-    background-size: cover;
-    background-repeat: no-repeat;
-  }
-
   --padding: 5.5rem;
   .welcome-wrapper {
     padding: var(--padding) 0 calc(1rem + var(--padding)) var(--padding);
