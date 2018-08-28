@@ -10,8 +10,8 @@
   </h1>
 
   <div class="ui header">
-    Powerful <span data-position="top left" data-tooltip="Retrospectives are structured, democratic meetings used by software teams to identify areas for improvement, with a focus on generating action items that will help the team *make* those improvements.">retrospectives</span> for distributed teams
-    <p class="sub header">RemoteRetro helps teams come together and improve, even when they're far apart.</p>
+    Effective retrospectives for distributed teams
+    <p class="sub header">RemoteRetro lets you come together & improve, even when you're far apart.</p>
   </div>
 
   <a href="/auth/google" class="ui blue button">
@@ -42,9 +42,9 @@
         <div class="column">
           <h2 class="ui icon header">
             <i class="massive grey train icon"></i>
-            Stage-by-Stage Guidance!
+            Guided!
           </h2>
-          <p>Best practices instilled every step of the way.</p>
+          <p>A retro on rails!</p>
         </div>
       </div>
       <div class="ui divider computer tablet only grid"></div>
