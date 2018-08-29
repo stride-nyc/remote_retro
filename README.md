@@ -61,6 +61,9 @@ launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
 initdb /usr/local/var/postgres -E utf8
 createdb
 
+# depending on how you installed postgres, this user may already exist
+createuser -s postgres
+
 # make sure you can log in to default database
 psql -h localhost
 ```
@@ -70,10 +73,6 @@ psql -h localhost
   - Install the Phoenix application's dependencies via `mix deps.get`
   - Compile the project and custom mix tasks via `mix compile`
   - Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
-    -  __Note:__ if the prior two commands are throwing errors, ensure that Postgres is setup properly on your machine:
-     1. Login to the default database `psql -h localhost`
-     2. Verify that username "postgres" exists with `SELECT usename from pg_user;`
-     3. If not found, then run `CREATE USER postgres WITH SUPERUSER;`
 
 #### Node Dependencies
 
