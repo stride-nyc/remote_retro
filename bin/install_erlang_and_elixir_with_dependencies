@@ -1,0 +1,52 @@
+#!/bin/bash
+
+printGreenLine () {
+  ENDCOLOR='\033[0m'
+  GREEN='\033[0;32m'
+  echo -e "${GREEN}$1${ENDCOLOR}\n";
+}
+
+printRedLine () {
+  RED='\033[0;31m'
+  ENDCOLOR='\033[0m'
+  echo -e "${RED}$1${ENDCOLOR}\n"
+}
+
+if command -v asdf >/dev/null; then
+  printGreenLine "asdf: operational. Proceeding with installation..."
+else
+  printRedLine "Error: The asdf version manager cannot be found."
+  echo -e "\tPlease ensure asdf has been installed and added to your PATH, following the directions at https://github.com/asdf-vm/asdf#setup"
+  exit 1
+fi
+
+if asdf plugin-list | grep erlang >/dev/null; then
+  printGreenLine "asdf: 'erlang' plugin already available. Skipping plugin installation!";
+else
+  printGreenLine "asdf: installing Erlang version-management plugin...";
+  asdf plugin-add erlang https://github.com/HashNuke/asdf-erlang.git;
+fi
+
+printGreenLine "asdf: installing Erlang version declared in \`.tool-versions\` BUILDING ERLANG TAKES AWHILE. SERIOUSLY. AND YOU MIGHT SEE A WARNING ABOUT PDFs/DOCS. THAT'S FINE. SIT TIGHT.";
+erlang_version=$(awk '/erlang/ { print $2 }' .tool-versions) && asdf install erlang ${erlang_version}
+
+if asdf plugin-list | grep elixir >/dev/null; then
+  printGreenLine "\nasdf: 'elixir' plugin already available. Skipping plugin installation!";
+else
+  printGreenLine "asdf: installing Elixir version-management plugin...";
+  asdf plugin-add elixir https://github.com/HashNuke/asdf-elixir.git;
+fi
+
+printGreenLine "asdf: installing Elixir version declared in \`.tool-versions\`";
+elixir_version=$(awk '/elixir/ { print $2 }' .tool-versions) && asdf install elixir ${elixir_version}
+
+printGreenLine "Ensuring Elixir's 'hex' package manager is available and up to date";
+mix local.hex --force
+
+printGreenLine "Ensuring Erlang's 'rebar3' compilation tool is available and up to date";
+mix local.rebar --force
+
+printGreenLine "Cleaning dependencies, fetching fresh dependencies, and compiling for Elixir $elixir_version...";
+mix deps.clean --all
+mix deps.get
+mix deps.compile

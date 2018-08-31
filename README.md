@@ -69,8 +69,8 @@ psql -h localhost
 ```
 
 #### Elixir/Phoenix Dependencies
-  - [Install Elixir](http://elixir-lang.org/install.html)
-  - Install the Phoenix application's dependencies via `mix deps.get`
+  - [Install the asdf version manager](https://github.com/asdf-vm/asdf)
+  - Install Erlang, Elixir, and their dependencies by running `bin/install_erlang_and_elixir_with_dependencies`
   - Compile the project and custom mix tasks via `mix compile`
   - Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
 
