@@ -2,7 +2,6 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "precommit": "lint-staged",
     "clean-hot-updates": "find . -name '*.hot-update*' -delete",
     "compile-production": "webpack -p --config='webpack.dll.js' --hide-modules && webpack -p",
     "compile-dev": "webpack --config='webpack.dll.js' --hide-modules && webpack --hide-modules",
