@@ -9,9 +9,9 @@ li {
 }
 
 .highlighted {
-  --highlight-blue: #CCE2FE;
-  background-color: var(--highlight-blue);
-  border-bottom: 1px solid var(--highlight-blue);
+  --mac-os-x-text-highlight-blue: #CCE2FE;
+  background-color: var(--mac-os-x-text-highlight-blue);
+  border-bottom: 1px solid var(--mac-os-x-text-highlight-blue);
   z-index: 2;
   position: relative;
 }
