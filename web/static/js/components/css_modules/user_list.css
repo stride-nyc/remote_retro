@@ -4,17 +4,11 @@
   }
   margin-top: 0;
   margin-bottom: 0;
-  padding-bottom: 0;
+  padding-bottom: 0.5rem;
   padding-top: 0;
 
   /* user list scrolls horizontally */
   width: 100%;
   white-space: nowrap;
   overflow-x: scroll;
-}
-
-@-moz-document url-prefix() {
-  :global(.basic.segment).index :global(.horizontal.list) {
-    padding-bottom: 0.5rem;
-  }
 }
