@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import countBy from "lodash/countBy"
 import FlipMove from "react-flip-move"
 
-import ShadowedScrollContainer from "./shadowed_scroll_container"
 import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_list.css"
@@ -34,6 +33,11 @@ class IdeaList extends Component {
     }
   }
 
+  componentDidMount() {
+    this.honorScrollabilityOfContent()
+    this.scrollabilityInterval = setInterval(this.honorScrollabilityOfContent, 300)
+  }
+
   componentWillReceiveProps(nextProps) {
     if (this.props.stage === VOTING && nextProps.stage === ACTION_ITEMS) {
       const timeout = setTimeout(() => {
@@ -42,6 +46,20 @@ class IdeaList extends Component {
       }, 2000)
     }
   }
+
+  componentWillUnmount() {
+    clearInterval(this.scrollabilityInterval)
+  }
+
+  honorScrollabilityOfContent = () => {
+    const { list } = this
+
+    const overflowed = list.offsetHeight < list.scrollHeight
+    if (overflowed !== this.state.overflowed) {
+      this.setState({ overflowed })
+    }
+  }
+
 
   render() {
     const { props, state } = this
@@ -55,7 +73,10 @@ class IdeaList extends Component {
     }
 
     return (
-      <ShadowedScrollContainer>
+      <ul
+        ref={list => { this.list = list }}
+        className={`${category} ${styles.list} ideas ${state.overflowed ? "overflowed" : ""}`}
+      >
         <FlipMove
           duration={750}
           staggerDelayBy={100}
@@ -63,12 +84,10 @@ class IdeaList extends Component {
           easing="ease"
           enterAnimation="none"
           leaveAnimation="none"
-          className={`${category} ${styles.list} ideas`}
-          typeName="ul"
         >
           {sortedIdeas.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
         </FlipMove>
-      </ShadowedScrollContainer>
+      </ul>
     )
   }
 }

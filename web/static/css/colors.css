@@ -1,6 +1,6 @@
 :root {
   --semantic-light-grey: #DCDDDE;
-  --semantic-disabled-grey: #9B9B9B;
+  --semantic-divider-border-top-color: rgba(34, 36, 38, 0.15);
   --semantic-teal: #00B5AD;
   --semantic-green: #2EB84D;
   --semantic-secondary: #F3F4F5;

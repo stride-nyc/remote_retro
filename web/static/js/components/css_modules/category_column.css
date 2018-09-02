@@ -5,6 +5,10 @@
   &:first-of-type { padding-right: var(--inner-column-padding) !important; }
   &:last-of-type { padding-left: var(--inner-column-padding) !important; }
 
+  /* forgive me, father, but overriding semantic ui's specificity was beyond my powers. */
+  display: flex !important;
+  flex-direction: column;
+
   &:not(:first-of-type):not(:last-of-type) {
     padding-left: var(--inner-column-padding);
     padding-right: var(--inner-column-padding);
@@ -34,7 +38,6 @@
     /* Semantic UI uses two different colors for the divider border-top and border-bottom.
     /  We want a solid appearance in the divider, so we use the top color across the board.
     */
-    --semantic-divider-border-top-color: rgba(34, 36, 38, 0.15);
     background-color: var(--semantic-light-grey);
     border-color: var(--semantic-divider-border-top-color);
   }

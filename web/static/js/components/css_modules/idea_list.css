@@ -1,7 +1,35 @@
+@import '../../../css/colors.css';
+
 .list {
-  margin-top: 0;
-  margin-bottom: 0;
+  list-style: none;
+
+  margin: 0;
   padding-left: 0;
 
-  list-style: none;
+  /* ensure list takes up maximum vertical space amount between column header and user list */
+  flex-grow: 1;
+
+  /* hack for scrollability (conditionally applied) in firefox,
+     as overflow content in a flex container will not scroll
+     without it. It will just continue to get larger.
+     Note that this declaration does *not* limit the height due
+     to the `flex-grow: 1` declaration above
+  */
+  height: 1px;
+
+  overflow-y: hidden;
+  &:global(.overflowed) {
+    overflow-y: scroll;
+    border-bottom: 1px solid #C0C1C2;
+
+    --width: 5px;
+    --inverse: -5px;
+    box-shadow:
+      inset 0 var(--inverse) var(--width) var(--inverse) rgba(0,0,0,.7),
+      inset 0 var(--width)   var(--width) var(--inverse) rgba(0,0,0,.7);
+
+    li:last-of-type {
+      border-bottom: none;
+    }
+  }
 }
