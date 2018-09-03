@@ -4,6 +4,7 @@
   position: relative;
   top: 0.05rem;
   float: right;
+  margin-left: 3px;
 
   :global(.icon) {
     cursor: pointer;

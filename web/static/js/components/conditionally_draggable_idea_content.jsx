@@ -32,9 +32,11 @@ const ConditionallyDraggableIdeaContent = props => {
         currentUser={currentUser}
         stage={stage}
       />
-      <span data-hj-masked>{ idea.body }</span>
-      {hasAssignee && <span className={styles.assignee}> ({assignee.name})</span>}
-      {isEdited && <span className={styles.editedIndicator}> (edited)</span>}
+      <div className="text">
+        <span data-hj-masked>{ idea.body }</span>
+        {hasAssignee && <span className={styles.assignee}> ({assignee.name})</span>}
+        {isEdited && <span className={styles.editedIndicator}> (edited)</span>}
+      </div>
     </div>
   )
 }

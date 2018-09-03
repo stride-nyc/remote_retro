@@ -1,6 +1,10 @@
 .idea-wrapper {
   padding: 0.2rem 0 0.2rem 0.25rem;
   overflow: auto;
+
+  :global(.text) {
+    line-height: 20px;
+  }
 }
 
 .edited-indicator {
