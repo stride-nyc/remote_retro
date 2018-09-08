@@ -10,7 +10,7 @@ defmodule RemoteRetro.Repo.Migrations.CreateUser do
       add :locale, :string, null: false
       add :name, :string, null: false
       add :picture, :string, null: false
-      add :last_login, :datetime, null: false
+      add :last_login, :naive_datetime, null: false
       add :profile, :string
 
       timestamps()
