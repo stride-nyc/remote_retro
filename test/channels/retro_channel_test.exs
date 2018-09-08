@@ -5,6 +5,7 @@ defmodule RemoteRetro.RetroChannelTest do
   alias RemoteRetro.{Repo, Idea, Retro, Vote}
   alias RemoteRetroWeb.{RetroChannel, Presence}
 
+  import Mock
   import ShorterMaps
 
   defp join_the_retro_channel(~M{retro, user} = context) do
@@ -101,9 +102,26 @@ defmodule RemoteRetro.RetroChannelTest do
       user_id = user.id
       assignee_id = nil
 
-      push(socket, "idea_submitted", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
+      ref = push(socket, "idea_submitted", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: assignee_id})
+      assert_reply ref, :ok
 
       assert_broadcast("idea_committed", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
+    end
+
+    test "rolls back the idea insertion if broadcast!/3 fails", ~M{socket, user} do
+      with_mock Phoenix.Channel, [broadcast!: fn(_, _, _) ->
+        raise "hell"
+      end] do
+        user_id = user.id
+        idea_count_before = Repo.aggregate(Idea, :count, :id)
+
+        ref = push(socket, "idea_submitted", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: nil})
+        assert_reply ref, :error # extra assertion required to wait for async process to complete before
+
+        idea_count_after = Repo.aggregate(Idea, :count, :id)
+
+        assert (idea_count_after - idea_count_before) == 0
+      end
     end
   end
 

@@ -7,13 +7,9 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   alias RemoteRetro.{Repo, Idea}
 
   def handle_in("idea_submitted", idea_params, socket) do
-    try do
-      idea = add_idea!(idea_params, socket)
-      broadcast! socket, "idea_committed", idea
-      {:reply, :ok, socket}
-    rescue
-      _ -> {:reply, :error, socket}
-    end
+    {reply_atom, _} = insert_and_broadcast(idea_params, socket)
+
+    {:reply, atom, socket}
   end
 
   def handle_in("idea_edited", ~m{id, body, category, assigneeId}, socket) do
@@ -38,6 +34,15 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   handle_in_and_broadcast("idea_typing_event", ~m{userToken})
   handle_in_and_broadcast("idea_edit_state_enabled", ~m{id, editorToken})
   handle_in_and_broadcast("idea_edit_state_disabled", ~m{id})
+
+  defp insert_and_broadcast(idea_params, socket) do
+    Repo.transaction(fn ->
+      idea = add_idea!(idea_params, socket)
+      broadcast! socket, "idea_committed", idea
+    end)
+  rescue
+    _ -> {:error, %{}}
+  end
 
   defp add_idea!(~m{body, category, userId, assigneeId}, socket) do
     %Idea{

@@ -41,6 +41,7 @@ defmodule RemoteRetro.Mixfile do
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
      {:mix_test_watch, "~> 0.2", only: :dev},
+     {:mock, "~> 0.3.0", only: :test},
      {:oauth2, "~> 0.9"},
      {:gettext, "~> 0.11"},
      {:wallaby, "~> 0.19.2", [runtime: false, only: :test]},
