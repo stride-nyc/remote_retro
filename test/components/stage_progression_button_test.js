@@ -89,38 +89,6 @@ describe("StageProgressionButton", () => {
           })
         })
       })
-
-      context("when the matching stage config lacks a `confirmationMessage`", () => {
-        const mockButtonConfig = {
-          confirmationMessage: null,
-          nextStage: "stageTres",
-          progressionButton: {
-            copy: "blurg!",
-            iconClass: "send",
-          },
-        }
-
-        context("onClick", () => {
-          let stageProgressionButton
-          let retroChannel
-
-          beforeEach(() => {
-            retroChannel = { on: () => {}, push: sinon.spy() }
-
-            const props = { ...defaultProps, retroChannel, config: mockButtonConfig }
-            stageProgressionButton = mountWithConnectedSubcomponents(
-              <StageProgressionButton {...props} />
-            )
-            stageProgressionButton.find("button").simulate("click")
-          })
-
-          it("pushes `retro_edited` to the retroChannel, passing the next stage", () => {
-            expect(
-              retroChannel.push.calledWith("retro_edited", { stage: "stageTres" })
-            ).to.equal(true)
-          })
-        })
-      })
     })
 
     context("when the user is not a facilitator", () => {

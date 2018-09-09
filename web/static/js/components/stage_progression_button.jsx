@@ -8,13 +8,7 @@ class StageProgressionButton extends Component {
   state = { modalOpen: false }
 
   handleStageProgressionButtonClick = () => {
-    const { config } = this.props
-    const noConfirmationNecessary = !config.confirmationMessage
-    if (noConfirmationNecessary) {
-      this.handleStageProgression()
-    } else {
-      this.setState({ modalOpen: true })
-    }
+    this.setState({ modalOpen: true })
   }
 
   handleStageProgression = () => {
