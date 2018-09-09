@@ -30,7 +30,7 @@ config :remote_retro, RemoteRetro.Repo,
   password: "postgres",
   database: "remote_retro_test",
   hostname: "localhost",
-  ownership_timeout: 25_000,
+  ownership_timeout: 60_000,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :remote_retro, :oauth_client, RemoteRetro.OAuth.Client.InMemory
