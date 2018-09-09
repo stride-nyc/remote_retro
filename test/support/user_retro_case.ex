@@ -1,6 +1,6 @@
 defmodule RemoteRetro.UserRetroCase do
   use ExUnit.CaseTemplate
-  alias RemoteRetro.{Repo, User, Retro}
+  alias RemoteRetro.{Repo, User, Retro, Participation}
 
   @test_user_one Application.get_env(:remote_retro, :test_user_one)
 
@@ -13,6 +13,7 @@ defmodule RemoteRetro.UserRetroCase do
     Ecto.Adapters.SQL.Sandbox.mode(Repo, :auto)
     {:ok, user} = User.upsert_record_from(oauth_info: @test_user_one)
     retro = Repo.insert!(%Retro{facilitator_id: user.id, stage: "idea-generation"})
+    participation = Repo.insert!(%Participation{user_id: user.id, retro_id: retro.id})
 
     on_exit fn ->
       # this callback needs to checkout its own connection since it
@@ -20,6 +21,7 @@ defmodule RemoteRetro.UserRetroCase do
       :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
       Ecto.Adapters.SQL.Sandbox.mode(Repo, :auto)
 
+      Repo.delete(participation)
       Repo.delete(retro)
       Repo.delete(user)
 
