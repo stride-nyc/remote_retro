@@ -61,7 +61,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a `retro_edited` event" do
+  describe "pushing a `retro_edited` event with a non-'closed' stage" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event to connected clients, along with stage", ~M{socket} do
       push(socket, "retro_edited", %{stage: "action-items"})
