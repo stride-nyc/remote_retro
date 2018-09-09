@@ -227,15 +227,6 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "results in the broadcast of the vote to connected clients", ~M{socket, idea, user} do
-      idea_id = idea.id
-      user_id = user.id
-      push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
-
-      assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
-    end
-
-    @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the persistence of the vote", ~M{socket, idea, user} do
       idea_id = idea.id
       assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id) end)
@@ -244,6 +235,34 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_reply ref, :ok # allow async handler to complete before checking db
 
       assert Repo.get_by!(Vote, idea_id: idea_id, user_id: user.id)
+    end
+
+    @tag idea: %Idea{category: "sad", body: "JavaScript"}
+    test "results in the broadcast of the vote to connected clients", ~M{socket, idea, user} do
+      idea_id = idea.id
+      user_id = user.id
+      ref = push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
+      assert_reply ref, :ok
+
+      assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
+    end
+
+    @tag idea: %Idea{category: "sad", body: "panda"}
+    test "rolls back the vote insertion if broadcast!/3 fails", ~M{socket, idea, user} do
+      with_mock Phoenix.Channel, [broadcast!: fn(_, _, _) ->
+        raise "hell"
+      end] do
+        user_id = user.id
+        idea_id = idea.id
+        vote_count_before = Repo.aggregate(Vote, :count, :id)
+
+        ref = push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
+        assert_reply ref, :error # extra assertion required to wait for async process to complete before
+
+        vote_count_after = Repo.aggregate(Vote, :count, :id)
+
+        assert (vote_count_after - vote_count_before) == 0
+      end
     end
   end
 

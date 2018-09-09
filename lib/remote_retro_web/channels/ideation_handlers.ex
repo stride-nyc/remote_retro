@@ -9,7 +9,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   def handle_in("idea_submitted", idea_params, socket) do
     {reply_atom, _} = insert_and_broadcast(idea_params, socket)
 
-    {:reply, atom, socket}
+    {:reply, reply_atom, socket}
   end
 
   def handle_in("idea_edited", ~m{id, body, category, assigneeId}, socket) do
