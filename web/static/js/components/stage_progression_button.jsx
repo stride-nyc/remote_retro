@@ -1,10 +1,14 @@
 import React, { Component } from "react"
+import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+
 import PropTypes from "prop-types"
 import Modal from "react-modal"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/stage_progression_button.css"
+import { actions as actionCreators } from "../redux"
 
-class StageProgressionButton extends Component {
+export class StageProgressionButton extends Component {
   state = { modalOpen: false }
 
   handleStageProgressionButtonClick = () => {
@@ -12,9 +16,9 @@ class StageProgressionButton extends Component {
   }
 
   handleStageProgression = () => {
-    const { config, retroChannel } = this.props
+    const { config, actions } = this.props
 
-    retroChannel.push("retro_edited", { stage: config.nextStage })
+    actions.updateRetroAsync({ stage: config.nextStage })
   }
 
   handleModalClose = () => {
@@ -75,7 +79,7 @@ class StageProgressionButton extends Component {
 }
 
 StageProgressionButton.propTypes = {
-  retroChannel: AppPropTypes.retroChannel.isRequired,
+  actions: PropTypes.object.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   className: PropTypes.string,
   config: PropTypes.object,
@@ -88,4 +92,13 @@ StageProgressionButton.defaultProps = {
   config: null,
 }
 
-export default StageProgressionButton
+const mapStateToProps = () => ({})
+
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actionCreators, dispatch),
+})
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(StageProgressionButton)

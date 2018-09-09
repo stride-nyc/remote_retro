@@ -1,4 +1,5 @@
 import stageConfigs from "../configs/stage_configs"
+import { types as errorTypes } from "./error"
 
 export const types = {
   SET_INITIAL_STATE: "SET_INITIAL_STATE",
@@ -6,11 +7,24 @@ export const types = {
 }
 
 export const actions = {
-  updateRetro: retro => ({
+  updateRetroSync: retro => ({
     type: types.UPDATE_RETRO,
     retro,
     stageConfigs,
   }),
+
+  updateRetroAsync: params => {
+    return (dispatch, getState, retroChannel) => {
+      const push = retroChannel.push("retro_edited", params)
+
+      push.receive("error", () => {
+        dispatch({
+          type: errorTypes.SET_ERROR,
+          error: { message: "Retro update failed. Please try again." },
+        })
+      })
+    }
+  },
 
   setInitialState: initialState => ({
     type: types.SET_INITIAL_STATE,

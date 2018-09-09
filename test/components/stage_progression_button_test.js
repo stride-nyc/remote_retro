@@ -1,10 +1,10 @@
 import React from "react"
 import sinon from "sinon"
 
-import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
+import { StageProgressionButton } from "../../web/static/js/components/stage_progression_button"
 
 describe("StageProgressionButton", () => {
-  const mockRetroChannel = { on: () => {}, push: () => {} }
+  const actions = { updateRetroAsync: () => {} }
   const mockButtonConfig = {
     confirmationMessage: "Are you sure?",
     nextStage: "stageDos",
@@ -15,7 +15,7 @@ describe("StageProgressionButton", () => {
   }
 
   const defaultProps = {
-    retroChannel: mockRetroChannel,
+    actions,
     config: mockButtonConfig,
     buttonDisabled: false,
     currentUser: { is_facilitator: true },
@@ -41,13 +41,13 @@ describe("StageProgressionButton", () => {
     context("onClick", () => {
       context("when the stage progression config requires confirmation", () => {
         let stageProgressionButton
-        let retroChannel
+        let actions
 
         beforeEach(() => {
-          retroChannel = { on: () => {}, push: sinon.spy() }
+          actions = { updateRetroAsync: sinon.spy() }
 
           stageProgressionButton = mountWithConnectedSubcomponents(
-            <StageProgressionButton {...defaultProps} retroChannel={retroChannel} />
+            <StageProgressionButton {...defaultProps} actions={actions} />
           )
         })
 
@@ -65,9 +65,9 @@ describe("StageProgressionButton", () => {
               stageProgressionButton.find("#yes").simulate("click")
             })
 
-            it("pushes `retro_edited` to the retroChannel, passing the next stage", () => {
+            it("invokes the  `updateRetroAsync` action, passing the next stage", () => {
               expect(
-                retroChannel.push.calledWith("retro_edited", { stage: "stageDos" })
+                actions.updateRetroAsync.calledWith({ stage: "stageDos" })
               ).to.equal(true)
             })
           })
@@ -77,9 +77,9 @@ describe("StageProgressionButton", () => {
               stageProgressionButton.find("#no").simulate("click")
             })
 
-            it("does not push an event to the retro channel", () => {
+            it("does not invoke the updateRetroAsync action creator", () => {
               expect(
-                retroChannel.push.called
+                actions.updateRetroAsync.called
               ).to.equal(false)
             })
 

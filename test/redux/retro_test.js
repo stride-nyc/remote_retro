@@ -1,4 +1,7 @@
 import deepFreeze from "deep-freeze"
+import sinon from "sinon"
+
+import { setupMockPhoenixChannel } from "../support/js/test_helper"
 
 import {
   reducer,
@@ -75,14 +78,57 @@ describe("retro reducer", () => {
 })
 
 describe("action creators", () => {
-  describe("updateRetro", () => {
+  describe("updateRetroSync", () => {
     it("creates an action to update the retro", () => {
-      expect(actionCreators.updateRetro({ stage: "newSlang" })).to.deep.equal({
+      expect(actionCreators.updateRetroSync({ stage: "newSlang" })).to.deep.equal({
         type: "UPDATE_RETRO",
         retro: {
           stage: "newSlang",
         },
         stageConfigs,
+      })
+    })
+  })
+
+  describe("updateRetroAsync", () => {
+    it("returns a thunk", () => {
+      const thunk = actionCreators.updateRetroAsync({ stage: "newSlang" })
+      expect(typeof thunk).to.equal("function")
+    })
+
+    describe("invoking the returned function", () => {
+      let thunk
+      let mockRetroChannel
+
+      beforeEach(() => {
+        thunk = actionCreators.updateRetroAsync({ stage: "newSlang" })
+        mockRetroChannel = setupMockPhoenixChannel()
+        sinon.spy(mockRetroChannel, "push")
+      })
+
+      afterEach(() => {
+        mockRetroChannel.push.restore()
+      })
+
+      it("results in a push to the retroChannel", () => {
+        thunk(undefined, undefined, mockRetroChannel)
+        expect(mockRetroChannel.push.calledWith("retro_edited", { stage: "newSlang" })).to.eq(true)
+      })
+
+      describe("when the push results in an error", () => {
+        let push
+
+        it("dispatches an error", () => {
+          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          push.trigger("error", {})
+
+          expect(
+            dispatchSpy.calledWithMatch({ type: "SET_ERROR" })
+          ).to.eq(true)
+        })
       })
     })
   })

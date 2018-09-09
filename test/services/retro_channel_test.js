@@ -82,7 +82,7 @@ describe("RetroChannel", () => {
           deleteIdea: deleteIdeaSpy,
           updateIdea: updateIdeaSpy,
           updatePresence: updatePresenceSpy,
-          updateRetro: updateRetroSpy,
+          updateRetroSync: updateRetroSpy,
           addVote: addVoteSpy,
         }
 
@@ -100,7 +100,7 @@ describe("RetroChannel", () => {
       })
 
       describe("on `retro_edited`", () => {
-        it("invokes the updateRetro action, passing the payload", () => {
+        it("invokes the updateRetroSync action, passing the payload", () => {
           const payload = { stage: "dummy value" }
           retroChannel.trigger("retro_edited", payload)
           expect(updateRetroSpy.calledWith(payload)).to.equal(true)
