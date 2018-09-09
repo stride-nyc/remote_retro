@@ -7,7 +7,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   alias RemoteRetro.{Repo, Idea}
 
   def handle_in("idea_submitted", idea_params, socket) do
-    {reply_atom, _} = insert_and_broadcast(idea_params, socket)
+    {reply_atom, _} = atomic_insert_and_broadcast(idea_params, socket)
 
     {:reply, reply_atom, socket}
   end
@@ -35,7 +35,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   handle_in_and_broadcast("idea_edit_state_enabled", ~m{id, editorToken})
   handle_in_and_broadcast("idea_edit_state_disabled", ~m{id})
 
-  defp insert_and_broadcast(idea_params, socket) do
+  defp atomic_insert_and_broadcast(idea_params, socket) do
     Repo.transaction(fn ->
       idea = insert_idea!(idea_params, socket)
       broadcast! socket, "idea_committed", idea
