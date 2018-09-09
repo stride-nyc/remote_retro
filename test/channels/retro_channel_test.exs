@@ -55,31 +55,68 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:join_the_retro_channel]
 
     test "broadcasts the same event to connected clients, along with stage", ~M{socket} do
-      push(socket, "retro_edited", %{stage: "closed"})
+      ref = push(socket, "retro_edited", %{stage: "closed"})
+      assert_reply ref, :ok
 
       assert_broadcast("retro_edited", %{"stage" => "closed"})
     end
   end
 
-  describe "pushing a `retro_edited` event with a non-'closed' stage" do
+  describe "pushing a `retro_edited` event with a valid, non-'closed' stage" do
     setup [:join_the_retro_channel]
     test "broadcasts the same event to connected clients, along with stage", ~M{socket} do
-      push(socket, "retro_edited", %{stage: "action-items"})
+      ref = push(socket, "retro_edited", %{stage: "action-items"})
+      assert_reply ref, :ok
 
       assert_broadcast("retro_edited", %{"stage" => "action-items"})
     end
 
     test "updates the retro stage to the value from the pushed event", ~M{socket, retro} do
-      push(socket, "retro_edited", %{stage: "action-items"})
+      ref = push(socket, "retro_edited", %{stage: "action-items"})
+      assert_reply ref, :ok
 
-      assert_broadcast("retro_edited", %{"stage" => "action-items"})
       persisted_stage = Repo.get(Retro, retro.id).stage
       assert persisted_stage == "action-items"
     end
 
     test "doesn't send an email containing the retro action items", ~M{socket} do
-      push(socket, "retro_edited", %{stage: "action-items"})
+      ref = push(socket, "retro_edited", %{stage: "action-items"})
+      assert_reply ref, :ok
       assert_no_emails_delivered()
+    end
+  end
+
+  describe "when broadcast of the update fails" do
+    setup [:join_the_retro_channel]
+
+    test "rolls back the update to the retro", ~M{socket, retro} do
+      with_mock Phoenix.Channel, [broadcast!: fn(_, _, _) ->
+        raise "hell"
+      end] do
+        retro_before = Repo.get!(Retro, retro.id)
+        ref = push(socket, "retro_edited", %{stage: "action-items"})
+        assert_reply ref, :error # extra assertion required to wait for async process to complete
+
+        retro_after = Repo.get!(Retro, retro.id)
+
+        assert retro_after.stage == retro_before.stage
+      end
+    end
+  end
+
+  describe "pushing a `retro_edited` event with an invalid, unrecognized stage" do
+    setup [:join_the_retro_channel]
+
+    test "results in an error reply", ~M{socket} do
+      ref = push(socket, "retro_edited", %{stage: "year of the depend adult undergarment"})
+      assert_reply ref, :error
+    end
+
+    test "does not trigger an 'retro_edited' broadcast to all connected clients", ~M{socket} do
+      ref = push(socket, "retro_edited", %{stage: "year of the depend adult undergarment"})
+      assert_reply ref, :error
+
+      refute_broadcast("retro_edited", %{}, 10)
     end
   end
 
