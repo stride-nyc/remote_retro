@@ -37,14 +37,14 @@ defmodule RemoteRetroWeb.IdeationHandlers do
 
   defp insert_and_broadcast(idea_params, socket) do
     Repo.transaction(fn ->
-      idea = add_idea!(idea_params, socket)
+      idea = insert_idea!(idea_params, socket)
       broadcast! socket, "idea_committed", idea
     end)
   rescue
     _ -> {:error, %{}}
   end
 
-  defp add_idea!(~m{body, category, userId, assigneeId}, socket) do
+  defp insert_idea!(~m{body, category, userId, assigneeId}, socket) do
     %Idea{
       body: body,
       category: category,
