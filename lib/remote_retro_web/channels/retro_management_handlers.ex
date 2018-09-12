@@ -1,6 +1,5 @@
 defmodule RemoteRetroWeb.RetroManagementHandlers do
   import Phoenix.Channel
-  import ShorterMaps
 
   alias RemoteRetro.{Emails, Mailer, Repo, Retro}
 
