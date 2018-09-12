@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow } from "enzyme"
+import { shallow, render } from "enzyme"
 import { spy } from "sinon"
 
 import LowerThird from "../../web/static/js/components/lower_third"
@@ -22,28 +22,15 @@ describe("LowerThird component", () => {
   }
 
   context("when the stage is `closed`", () => {
-    it("passes `displayContents: false` to the lower third wrapper", () => {
-      const lowerThird = shallow(
+    it("renders business about the retro being read-only", () => {
+      const lowerThird = render(
         <LowerThird
           {...defaultProps}
           stage={CLOSED}
         />
       )
 
-      expect(lowerThird.props().displayContents).to.eql(false)
-    })
-  })
-
-  context("when the stage isn't `closed`", () => {
-    it("passes `displayContents: true` to the lower third wrapper", () => {
-      const lowerThird = shallow(
-        <LowerThird
-          {...defaultProps}
-          stage={IDEA_GENERATION}
-        />
-      )
-
-      expect(lowerThird.props().displayContents).to.eql(true)
+      expect(lowerThird.text()).to.match(/read-only/i)
     })
   })
 

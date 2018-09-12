@@ -2,6 +2,7 @@ import React from "react"
 
 import IdeaGenerationLowerThirdContent from "./idea_generation_lower_third_content"
 import VotingLowerThirdContent from "./voting_lower_third_content"
+import ClosedLowerThirdContent from "./closed_lower_third_content"
 import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
 import stageConfigs from "../configs/stage_configs"
 
@@ -19,11 +20,16 @@ const LowerThird = props => {
     if (stage === VOTING) {
       return <VotingLowerThirdContent {...props} config={stageConfig} />
     }
+
+    if (stage === CLOSED) {
+      return <ClosedLowerThirdContent />
+    }
+
     return <IdeaGenerationLowerThirdContent {...props} config={stageConfig} />
   }
 
   return (
-    <LowerThirdAnimationWrapper displayContents={stage !== CLOSED} stage={stage}>
+    <LowerThirdAnimationWrapper stage={stage}>
       {stageSpecificContent()}
     </LowerThirdAnimationWrapper>
   )

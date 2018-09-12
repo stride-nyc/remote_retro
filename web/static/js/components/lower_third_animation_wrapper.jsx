@@ -5,13 +5,7 @@ import ReactCSSTransitionReplace from "react-css-transition-replace"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/lower_third_animation_wrapper.css"
 
-const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
-  const contents = (
-    <div key={stage}>
-      {children}
-    </div>
-  )
-
+const LowerThirdAnimationWrapper = ({ children, stage }) => {
   return (
     <ReactCSSTransitionReplace
       transitionName="translateY"
@@ -25,7 +19,9 @@ const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
       transitionAppearTimeout={700}
       transitionLeaveTimeout={450}
     >
-      {displayContents && contents}
+      <div key={stage}>
+        {children}
+      </div>
     </ReactCSSTransitionReplace>
   )
 }
@@ -33,7 +29,6 @@ const LowerThirdAnimationWrapper = ({ children, displayContents, stage }) => {
 LowerThirdAnimationWrapper.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   children: PropTypes.node.isRequired,
-  displayContents: PropTypes.bool.isRequired,
 }
 
 export default LowerThirdAnimationWrapper
