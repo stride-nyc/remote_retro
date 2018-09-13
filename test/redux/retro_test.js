@@ -54,8 +54,8 @@ describe("retro reducer", () => {
       })
     })
 
-    describe("when invoked with an UPDATE_RETRO action", () => {
-      it("returns the transformed state with updated attributes", () => {
+    describe("when invoked with an RETRO_UPDATE_COMMITTED action", () => {
+      it("returns the transformed state augmented with updated attributes", () => {
         const initialState = deepFreeze({
           stage: "lobby",
           facilitator_id: 67,
@@ -66,11 +66,60 @@ describe("retro reducer", () => {
           facilitator_id: 70,
           someNewKey: "someNewVal",
         }
-        const action = { type: "UPDATE_RETRO", retro }
-        expect(reducer(initialState, action)).to.eql({
+        const action = { type: "RETRO_UPDATE_COMMITTED", retro }
+        expect(reducer(initialState, action)).to.include({
           stage: "new stage",
           facilitator_id: 70,
           someNewKey: "someNewVal",
+        })
+      })
+
+      it("sets the updateRequested key to false", () => {
+        const initialState = deepFreeze({
+          updateRequested: true,
+        })
+
+        const action = { type: "RETRO_UPDATE_COMMITTED", retro: {} }
+        expect(reducer(initialState, action)).to.eql({
+          updateRequested: false,
+        })
+      })
+    })
+
+    describe("when invoked with the SET_ERROR action", () => {
+      const initialState = deepFreeze({ one: "two", updateRequested: true })
+
+      describe("when the actions `referer` attribute is 'RETRO_UPDATE'", () => {
+        it("sets `updateRequested` to false", () => {
+          const action = { type: "SET_ERROR", referer: "RETRO_UPDATE" }
+
+          expect(reducer(initialState, action)).to.eql({
+            one: "two",
+            updateRequested: false,
+          })
+        })
+      })
+
+      describe("when the actions `referer` attribute is *not* 'RETRO_UPDATE'", () => {
+        it("returns the state untouched", () => {
+          const action = { type: "SET_ERROR", referer: "someOtherReferer" }
+
+          expect(reducer(initialState, action)).to.equal(initialState)
+        })
+      })
+    })
+
+    describe("when invoked with an RETRO_UPDATE_REQUESTED action", () => {
+      it("transforms the state to reflect the in-progress request", () => {
+        const initialState = deepFreeze({
+          stage: "lobby",
+          facilitator_id: 67,
+        })
+
+        const action = { type: "RETRO_UPDATE_REQUESTED" }
+        expect(reducer(initialState, action)).to.eql({
+          ...initialState,
+          updateRequested: true,
         })
       })
     })
@@ -81,7 +130,7 @@ describe("action creators", () => {
   describe("updateRetroSync", () => {
     it("creates an action to update the retro", () => {
       expect(actionCreators.updateRetroSync({ stage: "newSlang" })).to.deep.equal({
-        type: "UPDATE_RETRO",
+        type: "RETRO_UPDATE_COMMITTED",
         retro: {
           stage: "newSlang",
         },
@@ -111,8 +160,15 @@ describe("action creators", () => {
       })
 
       it("results in a push to the retroChannel", () => {
-        thunk(undefined, undefined, mockRetroChannel)
+        thunk(() => {}, undefined, mockRetroChannel)
         expect(mockRetroChannel.push.calledWith("retro_edited", { stage: "newSlang" })).to.eq(true)
+      })
+
+      it("notifies the store that a retro update request is in flight", () => {
+        const dispatchSpy = sinon.spy()
+
+        thunk(dispatchSpy, undefined, mockRetroChannel)
+        expect(dispatchSpy.calledWithMatch({ type: "RETRO_UPDATE_REQUESTED" })).to.eq(true)
       })
 
       describe("when the push results in an error", () => {
@@ -126,7 +182,7 @@ describe("action creators", () => {
           push.trigger("error", {})
 
           expect(
-            dispatchSpy.calledWithMatch({ type: "SET_ERROR" })
+            dispatchSpy.calledWithMatch({ type: "SET_ERROR", referer: "RETRO_UPDATE" })
           ).to.eq(true)
         })
       })

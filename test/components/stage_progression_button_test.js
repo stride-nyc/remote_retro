@@ -39,54 +39,89 @@ describe("StageProgressionButton", () => {
     })
 
     context("onClick", () => {
-      context("when the stage progression config requires confirmation", () => {
-        let stageProgressionButton
-        let actions
+      let stageProgressionButton
+      let actions
 
+      beforeEach(() => {
+        actions = { updateRetroAsync: sinon.spy() }
+
+        stageProgressionButton = mountWithConnectedSubcomponents(
+          <StageProgressionButton {...defaultProps} actions={actions} />
+        )
+        stageProgressionButton.find("button.fluid.right.button").simulate("click")
+      })
+
+      it("opens the modal", () => {
+        expect(stageProgressionButton.find("Modal").props().isOpen).to.equal(true)
+      })
+
+      context("when the retroUpdateRequested prop is true", () => {
         beforeEach(() => {
           actions = { updateRetroAsync: sinon.spy() }
 
           stageProgressionButton = mountWithConnectedSubcomponents(
-            <StageProgressionButton {...defaultProps} actions={actions} />
+            <StageProgressionButton {...defaultProps} retroUpdateRequested />
           )
+          stageProgressionButton.find("button.fluid.right.button").simulate("click")
         })
 
-        context("when the stage progression button is clicked", () => {
-          beforeEach(() => {
-            stageProgressionButton.find("button.fluid.right.button").simulate("click")
-          })
+        it("renders the 'yes' button in a loading state", () => {
+          const name = stageProgressionButton.find("#yes").prop("className")
+          expect(name).to.match(/loading/i)
+        })
 
-          it("opens the modal", () => {
-            expect(stageProgressionButton.find("Modal").props().isOpen).to.equal(true)
-          })
+        it("renders the 'no' button in a disabled state", () => {
+          const name = stageProgressionButton.find("#no").prop("className")
+          expect(name).to.match(/disabled/i)
+        })
+      })
 
-          context("when clicking yes in the open modal", () => {
-            beforeEach(() => {
-              stageProgressionButton.find("#yes").simulate("click")
-            })
+      context("when the retroUpdateRequested prop is false", () => {
+        beforeEach(() => {
+          actions = { updateRetroAsync: sinon.spy() }
 
-            it("invokes the  `updateRetroAsync` action, passing the next stage", () => {
-              expect(
-                actions.updateRetroAsync.calledWith({ stage: "stageDos" })
-              ).to.equal(true)
-            })
-          })
+          stageProgressionButton = mountWithConnectedSubcomponents(
+            <StageProgressionButton {...defaultProps} retroUpdateRequested={false} />
+          )
+          stageProgressionButton.find("button.fluid.right.button").simulate("click")
+        })
 
-          context("when clicking no in the open modal", () => {
-            beforeEach(() => {
-              stageProgressionButton.find("#no").simulate("click")
-            })
+        it("does *not* render the 'yes' button in a 'loading' state", () => {
+          const name = stageProgressionButton.find("#yes").prop("className")
+          expect(name).to.not.match(/loading/i)
+        })
 
-            it("does not invoke the updateRetroAsync action creator", () => {
-              expect(
-                actions.updateRetroAsync.called
-              ).to.equal(false)
-            })
+        it("does *not* render the 'no' button in a disabled state", () => {
+          const name = stageProgressionButton.find("#no").prop("className")
+          expect(name).to.not.match(/disabled/i)
+        })
+      })
 
-            it("closes the modal", () => {
-              expect(stageProgressionButton.find("Modal").props().isOpen).to.equal(false)
-            })
-          })
+      context("when clicking yes in the open modal", () => {
+        beforeEach(() => {
+          stageProgressionButton.find("#yes").simulate("click")
+        })
+
+        it("invokes the  `updateRetroAsync` action, passing the next stage", () => {
+          expect(
+            actions.updateRetroAsync.calledWith({ stage: "stageDos" })
+          ).to.equal(true)
+        })
+      })
+
+      context("when clicking no in the open modal", () => {
+        beforeEach(() => {
+          stageProgressionButton.find("#no").simulate("click")
+        })
+
+        it("does not invoke the updateRetroAsync action creator", () => {
+          expect(
+            actions.updateRetroAsync.called
+          ).to.equal(false)
+        })
+
+        it("closes the modal", () => {
+          expect(stageProgressionButton.find("Modal").props().isOpen).to.equal(false)
         })
       })
     })

@@ -26,7 +26,7 @@ describe("alert", () => {
       })
     })
 
-    describe("when the action is UPDATE_RETRO", () => {
+    describe("when the action is RETRO_UPDATE_COMMITTED", () => {
       const initialState = { headerText: "Warning!", bodyText: "You're being watched." }
       const stageConfigs = {
         daybreak: {
@@ -43,7 +43,7 @@ describe("alert", () => {
 
       describe("when the given stage has an alert in the given configuration map", () => {
         const action = {
-          type: "UPDATE_RETRO",
+          type: "RETRO_UPDATE_COMMITTED",
           retro: {
             stage: "daybreak",
           },

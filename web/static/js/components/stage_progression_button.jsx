@@ -30,6 +30,7 @@ export class StageProgressionButton extends Component {
       buttonDisabled,
       className,
       currentUser,
+      retroUpdateRequested,
       config: { progressionButton, confirmationMessage },
     } = this.props
 
@@ -49,7 +50,7 @@ export class StageProgressionButton extends Component {
           </div>
           <div className="actions" ref={ref => { this.modalActionsRef = ref }}>
             <button
-              className="ui negative button"
+              className={`ui negative ${retroUpdateRequested ? "disabled" : ""} button`}
               id="no"
               onClick={this.handleModalClose}
             >
@@ -57,7 +58,7 @@ export class StageProgressionButton extends Component {
             </button>
             <button
               autoFocus
-              className="ui positive button"
+              className={`ui positive ${retroUpdateRequested ? "loading" : ""} button`}
               id="yes"
               onClick={this.handleStageProgression}
             >
@@ -84,15 +85,19 @@ StageProgressionButton.propTypes = {
   className: PropTypes.string,
   config: PropTypes.object,
   buttonDisabled: PropTypes.bool,
+  retroUpdateRequested: PropTypes.bool,
 }
 
 StageProgressionButton.defaultProps = {
   className: "",
   buttonDisabled: false,
+  retroUpdateRequested: false,
   config: null,
 }
 
-const mapStateToProps = () => ({})
+const mapStateToProps = ({ retro }) => ({
+  retroUpdateRequested: retro.updateRequested,
+})
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actionCreators, dispatch),

@@ -8,7 +8,7 @@ export const actions = {
 
 export const reducer = (state = null, action) => {
   switch (action.type) {
-    case "UPDATE_RETRO": {
+    case "RETRO_UPDATE_COMMITTED": {
       const { retro, stageConfigs } = action
       return stageConfigs[retro.stage].alert
     }

@@ -3,12 +3,13 @@ import { types as errorTypes } from "./error"
 
 export const types = {
   SET_INITIAL_STATE: "SET_INITIAL_STATE",
-  UPDATE_RETRO: "UPDATE_RETRO",
+  RETRO_UPDATE_COMMITTED: "RETRO_UPDATE_COMMITTED",
+  RETRO_UPDATE_REQUESTED: "RETRO_UPDATE_REQUESTED",
 }
 
 export const actions = {
   updateRetroSync: retro => ({
-    type: types.UPDATE_RETRO,
+    type: types.RETRO_UPDATE_COMMITTED,
     retro,
     stageConfigs,
   }),
@@ -16,10 +17,12 @@ export const actions = {
   updateRetroAsync: params => {
     return (dispatch, getState, retroChannel) => {
       const push = retroChannel.push("retro_edited", params)
+      dispatch({ type: types.RETRO_UPDATE_REQUESTED })
 
       push.receive("error", () => {
         dispatch({
           type: errorTypes.SET_ERROR,
+          referer: "RETRO_UPDATE",
           error: { message: "Retro update failed. Please try again." },
         })
       })
@@ -50,8 +53,13 @@ export const reducer = (state = null, action) => {
       // initial state comes with retro associations preloaded, but other
       // reducers parse those out and manager those slices of state
       return _stripAttributesPointingToArrays(action.initialState)
-    case types.UPDATE_RETRO:
-      return { ...state, ...action.retro }
+    case types.RETRO_UPDATE_REQUESTED:
+      return { ...state, updateRequested: true }
+    case types.RETRO_UPDATE_COMMITTED:
+      return { ...state, updateRequested: false, ...action.retro }
+    case errorTypes.SET_ERROR:
+      if (action.referer !== "RETRO_UPDATE") { return state }
+      return { ...state, updateRequested: false }
     default:
       return state
   }
