@@ -46,15 +46,21 @@
   }
 
   .testimonials {
-    .ui.header {
+    --semantic-medium-header-font-size: 1.28571429em;
+
+    .testimonial {
       font-style: italic;
+      font-family: 'Times New Roman';
+      font-weight: 600;
+      font-size: var(--semantic-medium-header-font-size);
+      line-height: var(--semantic-medium-header-font-size);
 
       /*
       the testimonial's text should be left justified, but we want the
       opening quote outside this justification so that letters align */
       .first-letter:before {
         position: absolute;
-        left: 0.93rem;
+        left: 0.7rem;
         content: "’";
 
         -webkit-transform: rotateY(180deg) skewX(15deg);
@@ -62,7 +68,7 @@
       }
     }
 
-    .ui.header, .author-attribution {
+    .testimonial, .author-attribution {
       color: var(--semantic-dark-grey);
     }
 
