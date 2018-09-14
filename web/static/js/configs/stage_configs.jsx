@@ -67,7 +67,7 @@ export default {
   },
   [CLOSED]: {
     alert: {
-      headerText: "Stage Change: Closed!",
+      headerText: "Retro: Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
     confirmationMessage: null,
