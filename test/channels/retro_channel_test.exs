@@ -244,7 +244,8 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "WIP commits on master"}
     test "results in a broadcast of the id of the deleted idea to all clients", ~M{socket, idea} do
       idea_id = idea.id
-      push(socket, "idea_deleted", idea_id)
+      ref = push(socket, "idea_deleted", idea_id)
+      assert_reply ref, :ok
 
       assert_broadcast("idea_deleted", %{id: ^idea_id})
     end
@@ -256,6 +257,19 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_reply ref, :ok # ensure async process complete before checking db state
 
       assert_raise(Ecto.NoResultsError, fn -> Repo.get!(Idea, idea_id) end)
+    end
+
+    @tag idea: %Idea{category: "sad", body: "no UI feedback on failure"}
+    test "a failed broadcast rolls back the deletion of the idea", ~M{socket, idea} do
+      with_mock Phoenix.Channel, [broadcast!: fn(_, _, _) ->
+        raise "hell"
+      end] do
+        idea_id = idea.id
+        ref = push(socket, "idea_deleted", idea_id)
+        assert_reply ref, :error # ensure async process complete before checking db state
+
+        assert Repo.get!(Idea, idea_id)
+      end
     end
   end
 

@@ -22,11 +22,9 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     {:reply, :ok, socket}
   end
 
-  def handle_in("idea_deleted", id, socket) do
-    idea = Repo.delete!(%Idea{id: id})
-
-    broadcast! socket, "idea_deleted", idea
-    {:reply, :ok, socket}
+  def handle_in("idea_deleted", idea_id, socket) do
+    {reply_atom, _} = atomic_delete_and_broadcast(idea_id, socket)
+    {:reply, reply_atom, socket}
   end
 
   handle_in_and_broadcast("idea_highlight_toggled", ~m{id, isHighlighted})
@@ -39,6 +37,15 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     Repo.transaction(fn ->
       idea = insert_idea!(idea_params, socket)
       broadcast! socket, "idea_committed", idea
+    end)
+  rescue
+    _ -> {:error, %{}}
+  end
+
+  defp atomic_delete_and_broadcast(idea_id, socket) do
+    Repo.transaction(fn ->
+      idea = Repo.delete!(%Idea{id: idea_id})
+      broadcast! socket, "idea_deleted", idea
     end)
   rescue
     _ -> {:error, %{}}
