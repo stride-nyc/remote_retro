@@ -1,9 +1,9 @@
-import { types as errorTypes } from "./error"
-
-const types = {
-  ADD_IDEA: "ADD_IDEA",
+export const types = {
   UPDATE_IDEA: "UPDATE_IDEA",
-  DELETE_IDEA: "DELETE_IDEA",
+  IDEA_SUBMISSION_COMMITTED: "IDEA_SUBMISSION_COMMITTED",
+  IDEA_SUBMISSION_REJECTED: "IDEA_SUBMISSION_REJECTED",
+  IDEA_DELETION_COMMITTED: "IDEA_DELETION_COMMITTED",
+  IDEA_DELETION_REJECTED: "IDEA_DELETION_REJECTED",
 }
 
 const updateIdea = (ideaId, newAttributes) => ({
@@ -12,19 +12,29 @@ const updateIdea = (ideaId, newAttributes) => ({
   newAttributes,
 })
 
+const ideaDeletionRejected = ideaId => ({
+  type: types.IDEA_DELETION_REJECTED,
+  ideaId,
+})
+
 export const actions = {
   updateIdea,
   addIdea: idea => ({
-    type: types.ADD_IDEA,
+    type: types.IDEA_SUBMISSION_COMMITTED,
     idea,
   }),
 
   submitIdeaDeletion: ideaId => {
     return (dispatch, getState, retroChannel) => {
-      retroChannel.push("idea_deleted", ideaId)
+      const push = retroChannel.push("idea_deleted", ideaId)
 
       const updateIdeaAction = updateIdea(ideaId, { deletionSubmitted: true })
       dispatch(updateIdeaAction)
+
+      push.receive("error", () => {
+        const ideaDeletionRejectedAction = ideaDeletionRejected(ideaId)
+        dispatch(ideaDeletionRejectedAction)
+      })
     }
   },
 
@@ -33,16 +43,13 @@ export const actions = {
       const push = retroChannel.push("idea_submitted", idea)
 
       push.receive("error", () => {
-        dispatch({
-          type: errorTypes.SET_ERROR,
-          error: { message: "Idea submission failed. Please try again." },
-        })
+        dispatch({ type: types.IDEA_SUBMISSION_REJECTED })
       })
     }
   },
 
   deleteIdea: ideaId => ({
-    type: types.DELETE_IDEA,
+    type: types.IDEA_DELETION_COMMITTED,
     ideaId,
   }),
 }
@@ -51,14 +58,18 @@ export const reducer = (state = [], action) => {
   switch (action.type) {
     case "SET_INITIAL_STATE":
       return action.initialState.ideas
-    case types.ADD_IDEA:
+    case types.IDEA_SUBMISSION_COMMITTED:
       return [...state, action.idea]
     case types.UPDATE_IDEA:
       return state.map(idea => (
         (idea.id === action.ideaId) ? { ...idea, ...action.newAttributes } : idea
       ))
-    case types.DELETE_IDEA:
+    case types.IDEA_DELETION_COMMITTED:
       return state.filter(idea => idea.id !== action.ideaId)
+    case types.IDEA_DELETION_REJECTED:
+      return state.map(idea => {
+        return idea.id === action.ideaId ? { ...idea, deletionSubmitted: false } : idea
+      })
     default:
       return state
   }

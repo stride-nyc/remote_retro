@@ -86,25 +86,14 @@ describe("retro reducer", () => {
       })
     })
 
-    describe("when invoked with the SET_ERROR action", () => {
-      const initialState = deepFreeze({ one: "two", updateRequested: true })
+    describe("when invoked with the RETRO_UPDATE_REJECTED action", () => {
+      it("sets `updateRequested` to false", () => {
+        const initialState = deepFreeze({ one: "two", updateRequested: true })
+        const action = { type: "RETRO_UPDATE_REJECTED" }
 
-      describe("when the actions `referer` attribute is 'RETRO_UPDATE'", () => {
-        it("sets `updateRequested` to false", () => {
-          const action = { type: "SET_ERROR", referer: "RETRO_UPDATE" }
-
-          expect(reducer(initialState, action)).to.eql({
-            one: "two",
-            updateRequested: false,
-          })
-        })
-      })
-
-      describe("when the actions `referer` attribute is *not* 'RETRO_UPDATE'", () => {
-        it("returns the state untouched", () => {
-          const action = { type: "SET_ERROR", referer: "someOtherReferer" }
-
-          expect(reducer(initialState, action)).to.equal(initialState)
+        expect(reducer(initialState, action)).to.eql({
+          one: "two",
+          updateRequested: false,
         })
       })
     })
@@ -182,7 +171,7 @@ describe("action creators", () => {
           push.trigger("error", {})
 
           expect(
-            dispatchSpy.calledWithMatch({ type: "SET_ERROR", referer: "RETRO_UPDATE" })
+            dispatchSpy.calledWithMatch({ type: "RETRO_UPDATE_REJECTED" })
           ).to.eq(true)
         })
       })

@@ -1,10 +1,10 @@
 import stageConfigs from "../configs/stage_configs"
-import { types as errorTypes } from "./error"
 
 export const types = {
   SET_INITIAL_STATE: "SET_INITIAL_STATE",
   RETRO_UPDATE_COMMITTED: "RETRO_UPDATE_COMMITTED",
   RETRO_UPDATE_REQUESTED: "RETRO_UPDATE_REQUESTED",
+  RETRO_UPDATE_REJECTED: "RETRO_UPDATE_REJECTED",
 }
 
 export const actions = {
@@ -21,9 +21,7 @@ export const actions = {
 
       push.receive("error", () => {
         dispatch({
-          type: errorTypes.SET_ERROR,
-          referer: "RETRO_UPDATE",
-          error: { message: "Retro update failed. Please try again." },
+          type: types.RETRO_UPDATE_REJECTED,
         })
       })
     }
@@ -57,8 +55,7 @@ export const reducer = (state = null, action) => {
       return { ...state, updateRequested: true }
     case types.RETRO_UPDATE_COMMITTED:
       return { ...state, updateRequested: false, ...action.retro }
-    case errorTypes.SET_ERROR:
-      if (action.referer !== "RETRO_UPDATE") { return state }
+    case types.RETRO_UPDATE_REJECTED:
       return { ...state, updateRequested: false }
     default:
       return state

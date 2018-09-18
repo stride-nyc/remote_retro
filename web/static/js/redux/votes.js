@@ -2,7 +2,7 @@ import uuidv4 from "uuid/v4"
 
 export const types = {
   ADD_VOTE: "ADD_VOTE",
-  VOTE_SUBMISSION_FAILURE: "VOTE_SUBMISSION_FAILURE",
+  VOTE_SUBMISSION_REJECTED: "VOTE_SUBMISSION_REJECTED",
 }
 
 const addVote = vote => ({
@@ -11,7 +11,7 @@ const addVote = vote => ({
 })
 
 const voteSubmissionFailure = optimisticUiVote => ({
-  type: types.VOTE_SUBMISSION_FAILURE,
+  type: types.VOTE_SUBMISSION_REJECTED,
   optimisticUiVoteId: optimisticUiVote.id,
   error: { message: "Vote submission failed. Please try again." },
 })
@@ -52,7 +52,7 @@ export const reducer = (state = [], action) => {
       return action.initialState.votes
     case types.ADD_VOTE:
       return [...state, action.vote]
-    case types.VOTE_SUBMISSION_FAILURE:
+    case types.VOTE_SUBMISSION_REJECTED:
       return state.filter(idea => idea.id !== action.optimisticUiVoteId)
     default:
       return state

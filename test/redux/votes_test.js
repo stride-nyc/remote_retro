@@ -27,7 +27,7 @@ describe("votes reducer", () => {
     })
   })
 
-  describe("when the action is VOTE_SUBMISSION_FAILURE", () => {
+  describe("when the action is VOTE_SUBMISSION_REJECTED", () => {
     it("removes the vote with matching uuid from the list", () => {
       const initialState = [
         { id: "a374kdnvk3ndk", idea_id: 12, user_id: 33 },
@@ -35,7 +35,7 @@ describe("votes reducer", () => {
       ]
 
       const action = {
-        type: "VOTE_SUBMISSION_FAILURE",
+        type: "VOTE_SUBMISSION_REJECTED",
         optimisticUiVoteId: "a374kdnvk3ndk",
       }
 
@@ -154,7 +154,7 @@ describe("actions", () => {
           mockRetroChannel = setupMockPhoenixChannel()
         })
 
-        it("dispatches a VOTE_SUBMISSION_FAILURE with the optimistic UUID", () => {
+        it("dispatches a VOTE_SUBMISSION_REJECTED with the optimistic UUID", () => {
           push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
@@ -166,7 +166,7 @@ describe("actions", () => {
 
           expect(
             dispatchSpy.calledWithMatch({
-              type: "VOTE_SUBMISSION_FAILURE",
+              type: "VOTE_SUBMISSION_REJECTED",
               optimisticUiVoteId: optimisticallyAddedVote.id,
             })
           ).to.eq(true)

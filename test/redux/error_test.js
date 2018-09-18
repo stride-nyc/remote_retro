@@ -26,33 +26,47 @@ describe("error", () => {
       })
     })
 
-    describe("when the action type is ERROR", () => {
-      const initialState = deepFreeze({ message: "Something horrible has happened." })
-      const action = {
-        type: "SET_ERROR",
-        error: { message: "new error" },
-      }
+    describe("when the action type is IDEA_DELETION_REJECTED", () => {
+      const initialState = deepFreeze({ message: "Something tragic has happened." })
+      const action = { type: "IDEA_DELETION_REJECTED" }
 
       describe("when there is already an error object in state", () => {
         it("overwrites the error", () => {
-          expect(reducer(initialState, action)).to.deep.equal({
-            message: "new error",
-          })
+          expect(reducer(initialState, action).message).to.match(/idea deletion failed\. please try again\./i)
         })
       })
     })
 
-    describe("when the action type is VOTE_SUBMISSION_FAILURE", () => {
+    describe("when the action type is IDEA_SUBMISSION_REJECTED", () => {
       const initialState = deepFreeze({ message: "Something tragic has happened." })
-      const action = {
-        type: "VOTE_SUBMISSION_FAILURE",
-        error: { message: "new error" },
-      }
+      const action = { type: "IDEA_SUBMISSION_REJECTED" }
+
+      describe("when there is already an error object in state", () => {
+        it("overwrites the error", () => {
+          expect(reducer(initialState, action).message).to.match(/idea submission failed\. please try again\./i)
+        })
+      })
+    })
+
+    describe("when the action type is VOTE_SUBMISSION_REJECTED", () => {
+      const initialState = deepFreeze({ message: "Something tragic has happened." })
+      const action = { type: "VOTE_SUBMISSION_REJECTED" }
+
+      describe("when there is already an error object in state", () => {
+        it("overwrites the error", () => {
+          expect(reducer(initialState, action).message).to.match(/vote submission failed\. please try again\./i)
+        })
+      })
+    })
+
+    describe("when the action type is RETRO_UPDATE_REJECTED", () => {
+      const initialState = deepFreeze({ message: "Something tragic has happened." })
+      const action = { type: "RETRO_UPDATE_REJECTED" }
 
       describe("when there is already an error object in state", () => {
         it("overwrites the error", () => {
           expect(reducer(initialState, action)).to.deep.equal({
-            message: "new error",
+            message: "Retro update failed. Please try again.",
           })
         })
       })

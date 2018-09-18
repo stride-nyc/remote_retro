@@ -30,12 +30,12 @@ describe("idea reducer", () => {
   })
 
   describe("the handled actions", () => {
-    describe("when the action is ADD_IDEA", () => {
+    describe("when the action is IDEA_SUBMISSION_COMMITTED", () => {
       it("should add an idea to list of ideas", () => {
         const initialState = [{ body: "i'm an old idea!", category: "happy", user_id: 2 }]
         deepFreeze(initialState)
         const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
-        const action = { type: "ADD_IDEA", idea }
+        const action = { type: "IDEA_SUBMISSION_COMMITTED", idea }
 
         expect(ideasReducer(initialState, action)).to.deep.equal([...initialState, idea])
       })
@@ -66,14 +66,30 @@ describe("idea reducer", () => {
       })
     })
 
-    describe("when the action is DELETE_IDEA", () => {
+    describe("when the action is IDEA_DELETION_COMMITTED", () => {
       const initialIdeas = [{ id: 667, category: "happy", user_id: 1 }, { id: 22, category: "n/a", user_id: 2 }]
       deepFreeze(initialIdeas)
 
       it("returns an updated set of ideas, where the idea with matching id has been removed", () => {
-        const action = { type: "DELETE_IDEA", ideaId: 667 }
+        const action = { type: "IDEA_DELETION_COMMITTED", ideaId: 667 }
         expect(ideasReducer(initialIdeas, action)).to.deep.equal([
           { id: 22, category: "n/a", user_id: 2 },
+        ])
+      })
+    })
+
+    describe("when the action is IDEA_DELETION_REJECTED", () => {
+      const initialIdeas = [
+        { id: 667, category: "happy", user_id: 1 },
+        { id: 22, category: "n/a", user_id: 2, deletionSubmitted: true },
+      ]
+      deepFreeze(initialIdeas)
+
+      it("returns an updated set of ideas, where the idea's no longer flagged as submitted for deletion", () => {
+        const action = { type: "IDEA_DELETION_REJECTED", ideaId: 22 }
+        expect(ideasReducer(initialIdeas, action)).to.deep.equal([
+          { id: 667, category: "happy", user_id: 1 },
+          { id: 22, category: "n/a", user_id: 2, deletionSubmitted: false },
         ])
       })
     })
@@ -85,7 +101,7 @@ describe("actionCreators", () => {
     it("creates an action to add idea to store", () => {
       const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
 
-      expect(actionCreators.addIdea(idea)).to.deep.equal({ type: "ADD_IDEA", idea })
+      expect(actionCreators.addIdea(idea)).to.deep.equal({ type: "IDEA_SUBMISSION_COMMITTED", idea })
     })
   })
 
@@ -127,7 +143,7 @@ describe("actionCreators", () => {
           push.trigger("error", {})
 
           expect(
-            dispatchSpy.calledWithMatch({ type: "SET_ERROR" })
+            dispatchSpy.calledWithMatch({ type: "IDEA_SUBMISSION_REJECTED" })
           ).to.eq(true)
         })
       })
@@ -152,17 +168,24 @@ describe("actionCreators", () => {
       const ideaId = 999
 
       expect(actionCreators.deleteIdea(ideaId)).to.deep.equal({
-        type: "DELETE_IDEA",
+        type: "IDEA_DELETION_COMMITTED",
         ideaId,
       })
     })
   })
 
   describe("submitIdeaDeletion", () => {
+    let thunk
+    let mockRetroChannel
+
     const ideaId = 999
 
+    beforeEach(() => {
+      thunk = actionCreators.submitIdeaDeletion(ideaId)
+      mockRetroChannel = setupMockPhoenixChannel()
+    })
+
     it("returns a thunk", () => {
-      const thunk = actionCreators.submitIdeaDeletion(ideaId)
       expect(typeof thunk).to.equal("function")
     })
 
@@ -172,18 +195,36 @@ describe("actionCreators", () => {
       const getStateStub = () => {}
 
       it("pushes a idea_deleted event to the retro channel", () => {
-        const retroChannel = { on: () => { }, push: sinon.spy() }
-        thunk(dispatchStub, getStateStub, retroChannel)
+        sinon.spy(mockRetroChannel, "push")
+
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
 
         expect(
-          retroChannel.push.calledWith("idea_deleted", 999)
+          mockRetroChannel.push.calledWith("idea_deleted", 999)
         ).to.equal(true)
+
+        mockRetroChannel.push.restore()
+      })
+
+      describe("when the push results in an error", () => {
+        let push
+
+        it("dispatches an error", () => {
+          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          push.trigger("error", {})
+
+          expect(
+            dispatchSpy.calledWith({ type: "IDEA_DELETION_REJECTED", ideaId: 999 })
+          ).to.eq(true)
+        })
       })
 
       it("notifies the store that the idea has been submitted for deletion", () => {
-        const retroChannel = { on: () => { }, push: () => {} }
         const dispatchSpy = sinon.spy()
-        thunk(dispatchSpy, getStateStub, retroChannel)
+        thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
         expect(
           dispatchSpy.calledWith({
