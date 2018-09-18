@@ -1,13 +1,14 @@
 export const types = {
-  UPDATE_IDEA: "UPDATE_IDEA",
   IDEA_SUBMISSION_COMMITTED: "IDEA_SUBMISSION_COMMITTED",
   IDEA_SUBMISSION_REJECTED: "IDEA_SUBMISSION_REJECTED",
+  IDEA_UPDATE_COMMITTED: "IDEA_UPDATE_COMMITTED",
+  IDEA_UPDATE_REJECTED: "IDEA_UPDATE_REJECTED",
   IDEA_DELETION_COMMITTED: "IDEA_DELETION_COMMITTED",
   IDEA_DELETION_REJECTED: "IDEA_DELETION_REJECTED",
 }
 
 const updateIdea = (ideaId, newAttributes) => ({
-  type: types.UPDATE_IDEA,
+  type: types.IDEA_UPDATE_COMMITTED,
   ideaId,
   newAttributes,
 })
@@ -24,7 +25,17 @@ export const actions = {
     idea,
   }),
 
-  submitIdeaDeletion: ideaId => {
+  submitIdeaEditAsync: ideaParams => {
+    return (dispatch, getState, retroChannel) => {
+      const push = retroChannel.push("idea_edited", ideaParams)
+
+      push.receive("error", () => {
+        dispatch({ type: types.IDEA_UPDATE_REJECTED })
+      })
+    }
+  },
+
+  submitIdeaDeletionAsync: ideaId => {
     return (dispatch, getState, retroChannel) => {
       const push = retroChannel.push("idea_deleted", ideaId)
 
@@ -60,7 +71,7 @@ export const reducer = (state = [], action) => {
       return action.initialState.ideas
     case types.IDEA_SUBMISSION_COMMITTED:
       return [...state, action.idea]
-    case types.UPDATE_IDEA:
+    case types.IDEA_UPDATE_COMMITTED:
       return state.map(idea => (
         (idea.id === action.ideaId) ? { ...idea, ...action.newAttributes } : idea
       ))

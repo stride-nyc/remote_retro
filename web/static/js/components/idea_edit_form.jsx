@@ -1,4 +1,6 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
+
 import * as AppPropTypes from "../prop_types"
 
 import SelectDropdown from "./select_dropdown"
@@ -16,14 +18,9 @@ class IdeaEditForm extends Component {
       ideaAssigneeId: props.idea.assignee_id,
       ideaBodyError: undefined,
     }
-    this.onChangeAssignee = this.onChangeAssignee.bind(this)
-    this.onChangeIdeaBody = this.onChangeIdeaBody.bind(this)
-    this.onChangeIdeaCategory = this.onChangeIdeaCategory.bind(this)
-    this.onSubmit = this.onSubmit.bind(this)
-    this.onCancel = this.onCancel.bind(this)
   }
 
-  onChangeIdeaBody({ target }) {
+  onChangeIdeaBody = ({ target }) => {
     let newIdeaBodyError
     const { retroChannel, idea, currentUser } = this.props
 
@@ -41,26 +38,26 @@ class IdeaEditForm extends Component {
     this.setState({ ideaBody: target.value, ideaBodyError: newIdeaBodyError })
   }
 
-  onChangeIdeaCategory({ target }) {
+  onChangeIdeaCategory = ({ target }) => {
     this.setState({ ideaCategory: target.value })
   }
 
-  onChangeAssignee({ target }) {
+  onChangeAssignee = ({ target }) => {
     this.setState({ ideaAssigneeId: Number.parseInt(target.value, 10) })
   }
 
-  onCancel(event) {
+  onCancel = event => {
     event.preventDefault()
     const { retroChannel, idea } = this.props
     retroChannel.push("idea_edit_state_disabled", { id: idea.id })
   }
 
-  onSubmit(event) {
+  onSubmit = event => {
     event.preventDefault()
-    const { idea, retroChannel } = this.props
+    const { idea, actions } = this.props
     const { ideaBody, ideaCategory, ideaAssigneeId } = this.state
 
-    retroChannel.push("idea_edited", {
+    actions.submitIdeaEditAsync({
       id: idea.id,
       body: ideaBody.trim(),
       category: ideaCategory,
@@ -132,6 +129,7 @@ IdeaEditForm.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   users: AppPropTypes.presences.isRequired,
+  actions: PropTypes.object.isRequired,
 }
 
 export default IdeaEditForm

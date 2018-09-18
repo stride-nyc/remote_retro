@@ -30,7 +30,7 @@ const RightFloatedIdeaActions = props => {
       <i
         title="Delete Idea"
         className="remove circle icon"
-        onClick={() => { actions.submitIdeaDeletion(idea.id) }}
+        onClick={() => { actions.submitIdeaDeletionAsync(idea.id) }}
       />
     </span>
   )

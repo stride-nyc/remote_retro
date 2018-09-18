@@ -48,6 +48,17 @@ describe("error", () => {
       })
     })
 
+    describe("when the action type is IDEA_UPDATE_REJECTED", () => {
+      const initialState = deepFreeze({ message: "Something tragic has happened." })
+      const action = { type: "IDEA_UPDATE_REJECTED" }
+
+      describe("when there is already an error object in state", () => {
+        it("overwrites the error", () => {
+          expect(reducer(initialState, action).message).to.match(/idea update failed\. please try again\./i)
+        })
+      })
+    })
+
     describe("when the action type is VOTE_SUBMISSION_REJECTED", () => {
       const initialState = deepFreeze({ message: "Something tragic has happened." })
       const action = { type: "VOTE_SUBMISSION_REJECTED" }

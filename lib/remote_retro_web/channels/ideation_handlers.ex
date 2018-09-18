@@ -8,18 +8,12 @@ defmodule RemoteRetroWeb.IdeationHandlers do
 
   def handle_in("idea_submitted", idea_params, socket) do
     {reply_atom, _} = atomic_insert_and_broadcast(idea_params, socket)
-
     {:reply, reply_atom, socket}
   end
 
-  def handle_in("idea_edited", ~m{id, body, category, assigneeId}, socket) do
-    idea =
-      Repo.get(Idea, id)
-      |> Idea.changeset(~M{body, category, assignee_id: assigneeId})
-      |> Repo.update!
-
-    broadcast! socket, "idea_edited", idea
-    {:reply, :ok, socket}
+  def handle_in("idea_edited", idea_params, socket) do
+    {reply_atom, _} = atomic_update_and_broadcast(idea_params, socket)
+    {:reply, reply_atom, socket}
   end
 
   def handle_in("idea_deleted", idea_id, socket) do
@@ -37,6 +31,19 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     Repo.transaction(fn ->
       idea = insert_idea!(idea_params, socket)
       broadcast! socket, "idea_committed", idea
+    end)
+  rescue
+    _ -> {:error, %{}}
+  end
+
+  defp atomic_update_and_broadcast(~m{id, body, category, assigneeId}, socket) do
+    Repo.transaction(fn ->
+      idea =
+        Repo.get(Idea, id)
+        |> Idea.changeset(~M{body, category, assignee_id: assigneeId})
+        |> Repo.update!
+
+      broadcast! socket, "idea_edited", idea
     end)
   rescue
     _ -> {:error, %{}}

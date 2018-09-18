@@ -53,12 +53,12 @@ describe("idea reducer", () => {
       })
     })
 
-    describe("when the action is UPDATE_IDEA", () => {
+    describe("when the action is IDEA_UPDATE_COMMITTED", () => {
       const initialIdeas = [{ id: 666, category: "happy", user_id: 1 }, { id: 22, category: "n/a", user_id: 2 }]
       deepFreeze(initialIdeas)
 
       it("returns an updated set of ideas, where the idea with matching id has updated attributes", () => {
-        const action = { type: "UPDATE_IDEA", ideaId: 666, newAttributes: { category: "sad" } }
+        const action = { type: "IDEA_UPDATE_COMMITTED", ideaId: 666, newAttributes: { category: "sad" } }
         expect(ideasReducer(initialIdeas, action)).to.deep.equal([
           { id: 666, category: "sad", user_id: 1 },
           { id: 22, category: "n/a", user_id: 2 },
@@ -97,6 +97,9 @@ describe("idea reducer", () => {
 })
 
 describe("actionCreators", () => {
+  let thunk
+  let mockRetroChannel
+
   describe("addIdea", () => {
     it("creates an action to add idea to store", () => {
       const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
@@ -156,9 +159,59 @@ describe("actionCreators", () => {
       const newAttributes = { name: "Kimberly" }
 
       expect(actionCreators.updateIdea(ideaId, newAttributes)).to.deep.equal({
-        type: "UPDATE_IDEA",
+        type: "IDEA_UPDATE_COMMITTED",
         ideaId,
         newAttributes,
+      })
+    })
+  })
+
+  describe("submitIdeaEditAsync", () => {
+    const ideaParams = {
+      id: 666,
+      nonsense: "param",
+      body: "chassis",
+    }
+
+    beforeEach(() => {
+      thunk = actionCreators.submitIdeaEditAsync(ideaParams)
+      mockRetroChannel = setupMockPhoenixChannel()
+    })
+
+    it("returns a thunk", () => {
+      expect(typeof thunk).to.equal("function")
+    })
+
+    describe("the thunk", () => {
+      const dispatchStub = () => {}
+      const getStateStub = () => {}
+
+      it("pushes an idea_edited event to the retro channel, along with the idea params", () => {
+        sinon.spy(mockRetroChannel, "push")
+
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
+
+        expect(
+          mockRetroChannel.push.calledWith("idea_edited", ideaParams)
+        ).to.equal(true)
+
+        mockRetroChannel.push.restore()
+      })
+
+      describe("when the push results in an error", () => {
+        let push
+
+        it("dispatches an error", () => {
+          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          push.trigger("error", {})
+
+          expect(
+            dispatchSpy.calledWithMatch({ type: "IDEA_UPDATE_REJECTED" })
+          ).to.eq(true)
+        })
       })
     })
   })
@@ -174,14 +227,11 @@ describe("actionCreators", () => {
     })
   })
 
-  describe("submitIdeaDeletion", () => {
-    let thunk
-    let mockRetroChannel
-
+  describe("submitIdeaDeletionAsync", () => {
     const ideaId = 999
 
     beforeEach(() => {
-      thunk = actionCreators.submitIdeaDeletion(ideaId)
+      thunk = actionCreators.submitIdeaDeletionAsync(ideaId)
       mockRetroChannel = setupMockPhoenixChannel()
     })
 
@@ -190,7 +240,6 @@ describe("actionCreators", () => {
     })
 
     describe("the thunk", () => {
-      const thunk = actionCreators.submitIdeaDeletion(ideaId)
       const dispatchStub = () => {}
       const getStateStub = () => {}
 
@@ -228,7 +277,7 @@ describe("actionCreators", () => {
 
         expect(
           dispatchSpy.calledWith({
-            type: "UPDATE_IDEA",
+            type: "IDEA_UPDATE_COMMITTED",
             ideaId: 999,
             newAttributes: { deletionSubmitted: true },
           })

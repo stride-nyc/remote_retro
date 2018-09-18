@@ -17,6 +17,8 @@ export const reducer = (state = null, action) => {
   switch (action.type) {
     case types.IDEA_SUBMISSION_REJECTED:
       return { message: "Idea submission failed. Please try again." }
+    case types.IDEA_UPDATE_REJECTED:
+      return { message: "Idea update failed. Please try again." }
     case types.IDEA_DELETION_REJECTED:
       return { message: "Idea deletion failed. Please try again." }
     case types.RETRO_UPDATE_REJECTED:

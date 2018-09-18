@@ -12,10 +12,12 @@ describe("<IdeaEditForm />", () => {
   const stage = IDEA_GENERATION
   const currentUser = { id: 7, name: "Helga Foggybottom", is_facilitator: true }
   const mockRetroChannel = { on: () => {}, push: () => {} }
+  const mockActions = { submitIdeaEditAsync: () => {} }
   const defaultProps = {
     idea,
     currentUser,
     retroChannel: mockRetroChannel,
+    actions: mockActions,
     stage,
     users: [{
       id: 7,
@@ -189,18 +191,18 @@ describe("<IdeaEditForm />", () => {
   })
 
   describe("on submitting the form", () => {
-    it("pushes an `idea_edited` event, trimming the idea body", () => {
-      const retroChannel = { on: () => {}, push: sinon.spy() }
+    it("invokes the submitIdeaEditAsync action with input body trimmed", () => {
+      const actions = { on: () => {}, submitIdeaEditAsync: sinon.spy() }
 
       const wrapper = mountWithConnectedSubcomponents(
-        <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
+        <IdeaEditForm {...defaultProps} actions={actions} />
       )
       const saveButton = wrapper.find("button[type='submit']")
 
       saveButton.simulate("submit")
 
       expect(
-        retroChannel.push.calledWith("idea_edited", {
+        actions.submitIdeaEditAsync.calledWith({
           id: idea.id,
           body: idea.body.trim(),
           category: idea.category,

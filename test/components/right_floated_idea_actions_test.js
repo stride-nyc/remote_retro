@@ -65,8 +65,8 @@ describe("<RightFloatedIdeaActions />", () => {
   })
 
   describe("on click of the removal icon", () => {
-    it("dispatches the submitIdeaDeletion action with the idea id", () => {
-      actions = { submitIdeaDeletion: sinon.spy() }
+    it("dispatches the submitIdeaDeletionAsync action with the idea id", () => {
+      actions = { submitIdeaDeletionAsync: sinon.spy() }
       idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
 
       const wrapper = shallow(
@@ -83,7 +83,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
       removalIcon.simulate("click")
       expect(
-        actions.submitIdeaDeletion.calledWith(666)
+        actions.submitIdeaDeletionAsync.calledWith(666)
       ).to.equal(true)
     })
   })

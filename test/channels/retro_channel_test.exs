@@ -222,7 +222,8 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the edited idea to all connected clients", ~M{socket, idea} do
       idea_id = idea.id
-      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assigneeId: nil})
+      ref = push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assigneeId: nil})
+      assert_reply ref, :ok
 
       assert_broadcast("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
     end
@@ -235,6 +236,17 @@ defmodule RemoteRetro.RetroChannelTest do
 
       idea = Repo.get!(Idea, idea_id)
       assert %Idea{body: "hell's bells", category: "confused"} = idea
+    end
+
+    @tag idea: %Idea{category: "sad", body: "no UI feedback on failure"}
+    test "a failed broadcast rolls back the deletion of the idea", ~M{socket, idea} do
+      with_mock Phoenix.Channel, [broadcast!: fn(_, _, _) -> raise "hell" end] do
+        idea_id = idea.id
+        ref = push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assigneeId: nil})
+        assert_reply ref, :error # ensure async process complete before checking db state
+
+        assert %{body: "no UI feedback on failure", category: "sad"} = Repo.get!(Idea, idea_id)
+      end
     end
   end
 
