@@ -26,7 +26,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     idea = Repo.delete!(%Idea{id: id})
 
     broadcast! socket, "idea_deleted", idea
-    {:noreply, socket}
+    {:reply, :ok, socket}
   end
 
   handle_in_and_broadcast("idea_highlight_toggled", ~m{id, isHighlighted})

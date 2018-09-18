@@ -248,6 +248,15 @@ defmodule RemoteRetro.RetroChannelTest do
 
       assert_broadcast("idea_deleted", %{id: ^idea_id})
     end
+
+    @tag idea: %Idea{category: "sad", body: "no UI feedback on failure"}
+    test "removes the idea from the database", ~M{socket, idea} do
+      idea_id = idea.id
+      ref = push(socket, "idea_deleted", idea_id)
+      assert_reply ref, :ok # ensure async process complete before checking db state
+
+      assert_raise(Ecto.NoResultsError, fn -> Repo.get!(Idea, idea_id) end)
+    end
   end
 
   describe "pushing a `idea_highlight_toggled` event to the socket" do
