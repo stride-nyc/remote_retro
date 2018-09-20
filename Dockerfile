@@ -84,6 +84,11 @@ RUN apt-get update &&\
     locales \
     curl    \
     bzip2   \
+    unzip   \
+    build-essential \
+    autoconf \
+    libncurses5-dev \
+    libssl-dev \
     git     &&\
     apt-get clean
 
@@ -99,6 +104,14 @@ RUN locale-gen en_US.UTF-8
 # RUN curl --version
 # RUN wget --version
 
+# https://github.com/stride-nyc/remote_retro#elixirphoenix-dependencies
+# Install the asdf version manager
+RUN git clone https://github.com/asdf-vm/asdf.git /asdf --branch v0.5.1
+
+# RUN $HOME/.asdf/asdf.sh && 
+
+RUN chmod +x /asdf/asdf.sh
+
 # Add user "nvm" as non-root user
 RUN useradd -ms /bin/bash nvm
 
@@ -109,32 +122,27 @@ COPY . /app/
 # Set sudoer for "nvm"
 RUN echo 'nvm ALL=(ALL) NOPASSWD: ALL' >> /etc/sudoers
 
-# Switch to user "nvm" from now
-USER nvm
-
-# https://github.com/stride-nyc/remote_retro#elixirphoenix-dependencies
-# Install the asdf version manager
-RUN git clone https://github.com/asdf-vm/asdf.git ~/.asdf --branch v0.5.1
-
-# RUN $HOME/.asdf/asdf.sh && 
-
-RUN chmod +x $HOME/.asdf/asdf.sh
-
-RUN echo -e '\n. $HOME/.asdf/asdf.sh' >> ~/.bashrc
-RUN echo -e '\n. $HOME/.asdf/completions/asdf.bash' >> ~/.bashrc
+RUN echo -e '\n. /asdf/asdf.sh' >> ~/.bashrc
+RUN echo -e '\n. /asdf/completions/asdf.bash' >> ~/.bashrc
 
 RUN /bin/bash -c "source ~/.bashrc"
 
-ENV PATH="${PATH}:$HOME/.asdf/shims:$HOME/.asdf/bin"
+ENV PATH="${PATH}:/asdf/shims:/asdf/bin"
+
+RUN chown -R nvm:nvm /asdf
 
 WORKDIR /app
 
+# Switch to user "nvm" from now
+USER nvm
+
 # Install Erlang, Elixir, and their dependencies by running bin/install_erlang_and_elixir_with_dependencies
 # RUN $HOME/.asdf/asdf.sh && bin/install_erlang_and_elixir_with_dependencies
-RUN /bin/bash -c "${PATH}:$HOME/.asdf/shims:$HOME/.asdf/bin" && /bin/bash -c "bin/install_erlang_and_elixir_with_dependencies"
+# RUN /bin/bash -c "${PATH}:/asdf/shims:/asdf/bin" && /bin/bash -c "bin/install_erlang_and_elixir_with_dependencies"
+RUN bin/install_erlang_and_elixir_with_dependencies
 
 # Compile the project and custom mix tasks via mix compile
-RUN $HOME/.asdf/asdf.sh && mix compile
+RUN /asdf/asdf.sh && mix compile
 
 # TODO: Create the "remote_retro_dev" database and migrate via mix ecto.create && mix ecto.migrate
 
