@@ -206,7 +206,7 @@ describe("<IdeaEditForm />", () => {
           id: idea.id,
           body: idea.body.trim(),
           category: idea.category,
-          assigneeId: undefined,
+          assignee_id: undefined,
         })
       ).to.equal(true)
     })

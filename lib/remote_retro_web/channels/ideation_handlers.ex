@@ -36,11 +36,11 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     _ -> {:error, %{}}
   end
 
-  defp atomic_update_and_broadcast(~m{id, body, category, assigneeId}, socket) do
+  defp atomic_update_and_broadcast(~m{id, body, category, assignee_id}, socket) do
     Repo.transaction(fn ->
       idea =
         Repo.get(Idea, id)
-        |> Idea.changeset(~M{body, category, assignee_id: assigneeId})
+        |> Idea.changeset(~M{body, category, assignee_id})
         |> Repo.update!
 
       broadcast! socket, "idea_edited", idea

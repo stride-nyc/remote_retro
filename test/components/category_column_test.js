@@ -9,10 +9,10 @@ const { IDEA_GENERATION } = STAGES
 
 describe("CategoryColumn", () => {
   let wrapper
-  const mockRetroChannel = { on: () => {}, push: () => {} }
+  const mockActions = { submitIdeaEditAsync: () => {} }
   const defaultProps = {
     currentUser: { given_name: "daniel" },
-    retroChannel: mockRetroChannel,
+    actions: mockActions,
     votes: [],
     ideas: [],
     stage: IDEA_GENERATION,
@@ -120,6 +120,14 @@ describe("CategoryColumn", () => {
     })
 
     context("and an item is dropped on it", () => {
+      let actions
+
+      beforeEach(() => {
+        actions = {
+          submitIdeaEditAsync: spy(),
+        }
+      })
+
       context("and the data is a serialized idea with snake_cased attributes", () => {
         const idea = {
           id: 100,
@@ -140,7 +148,6 @@ describe("CategoryColumn", () => {
         mockEvent.dataTransfer.getData
           .withArgs("idea").returns(serializedIdea)
 
-        const mockRetroChannel = { push: spy() }
         const category = "sad"
 
         beforeEach(() => {
@@ -148,7 +155,7 @@ describe("CategoryColumn", () => {
             <CategoryColumn
               {...defaultProps}
               category={category}
-              retroChannel={mockRetroChannel}
+              actions={actions}
             />
           )
 
@@ -161,12 +168,14 @@ describe("CategoryColumn", () => {
         })
 
         it("pushes an idea_edited event w/ the idea's raw values, camelCased attributes, and its new category", () => {
-          expect(mockRetroChannel.push.calledWith("idea_edited", {
-            id: idea.id,
-            body: idea.body,
-            assigneeId: idea.assignee_id,
-            category,
-          })).to.eql(true)
+          expect(
+            actions.submitIdeaEditAsync.calledWith({
+              id: idea.id,
+              body: idea.body,
+              assignee_id: idea.assignee_id,
+              category,
+            })
+          ).to.eql(true)
         })
 
         it("removes the dragged-over class", () => {
@@ -174,7 +183,7 @@ describe("CategoryColumn", () => {
         })
       })
 
-      context("and there is no serialized idea data assciated with the event", () => {
+      context("and there is not serialized idea data assciated with the event", () => {
         const mockEvent = {
           preventDefault: () => {},
           dataTransfer: {
@@ -185,21 +194,19 @@ describe("CategoryColumn", () => {
         mockEvent.dataTransfer.getData
           .withArgs("idea").returns("")
 
-        const mockRetroChannel = { push: spy() }
-
         before(() => {
           wrapper = shallow(
             <CategoryColumn
               {...defaultProps}
-              retroChannel={mockRetroChannel}
+              actions={actions}
             />
           )
 
           wrapper.simulate("drop", mockEvent)
         })
 
-        it("does not push an idea_edited event", () => {
-          expect(mockRetroChannel.push.called).to.eql(false)
+        it("does not invoke the submitIdeaEditAsync action", () => {
+          expect(actions.submitIdeaEditAsync.called).to.eql(false)
         })
       })
     })

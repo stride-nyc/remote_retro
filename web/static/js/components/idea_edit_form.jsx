@@ -61,7 +61,7 @@ class IdeaEditForm extends Component {
       id: idea.id,
       body: ideaBody.trim(),
       category: ideaCategory,
-      assigneeId: ideaAssigneeId,
+      assignee_id: ideaAssigneeId,
     })
   }
 

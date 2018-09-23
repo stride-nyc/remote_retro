@@ -1,9 +1,12 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
+import { bindActionCreators } from "redux"
+import PropTypes from "prop-types"
 
 import IdeaList from "./idea_list"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
+import { actions as actionCreators } from "../redux"
 
 export class CategoryColumn extends Component {
   state = {}
@@ -26,16 +29,11 @@ export class CategoryColumn extends Component {
 
     this.setState({ draggedOver: false })
     event.preventDefault()
-    const { category, retroChannel } = this.props
+    const { category, actions } = this.props
 
-    const { id, body, assignee_id: assigneeId } = JSON.parse(ideaData)
+    const idea = JSON.parse(ideaData)
 
-    retroChannel.push("idea_edited", {
-      id,
-      body,
-      assigneeId,
-      category,
-    })
+    actions.submitIdeaEditAsync({ ...idea, category })
   }
 
   render() {
@@ -69,8 +67,8 @@ CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   category: AppPropTypes.category.isRequired,
   votes: AppPropTypes.votes.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
+  actions: PropTypes.object.isRequired,
 }
 
 export const mapStateToProps = ({ votes, ideas }, props) => {
@@ -80,6 +78,11 @@ export const mapStateToProps = ({ votes, ideas }, props) => {
   }
 }
 
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actionCreators, dispatch),
+})
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(CategoryColumn)
