@@ -4,7 +4,7 @@
 
 # RemoteRetro
 
-This repository houses the application code for Remote Retro, an open source professional development project written in Elixir/Phoenix/React and sponsored by [Stride Consulting](http://stridenyc.com).
+This repository houses the application code for [RemoteRetro](http://remoteretro.org), a web app that allows distributed teams to conduct effective Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](http://stridenyc.com). 
 
 ## Table of Contents
 1. [Roadmap to MVP](#roadmap-to-mvp)
