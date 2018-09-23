@@ -42,7 +42,7 @@
   "quick_alias": {:hex, :quick_alias, "0.1.0", "9a0b11ca0963a88c32d869a55de4037e3e1c7f176ba27f6d7f92acb6e3da5892", [:mix], [], "hexpm"},
   "ranch": {:hex, :ranch, "1.3.2", "e4965a144dc9fbe70e5c077c65e73c57165416a901bd02ea899cfd95aa890986", [:rebar3], [], "hexpm"},
   "shorter_maps": {:hex, :shorter_maps, "2.2.5", "77b2e3632a49c72ca8aea2a47687767b3ad2623b9ade529ffe31f41865a32886", [:mix], [], "hexpm"},
-  "slender_channel": {:hex, :slender_channel, "0.1.1", "535d4079190175f22e2700d4f5353de9cadaea0b52064acf74550a8f77ca4a48", [:mix], [], "hexpm"},
+  "slender_channel": {:hex, :slender_channel, "0.2.0", "a49705df9d48bd982b68f93add3daf03fb8cc887912e417bff48943638da5938", [:mix], [], "hexpm"},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.1", "28a4d65b7f59893bc2c7de786dec1e1555bd742d336043fe644ae956c3497fbe", [:make, :rebar], [], "hexpm"},
   "timex": {:hex, :timex, "3.2.1", "639975eac45c4c08c2dbf7fc53033c313ff1f94fad9282af03619a3826493612", [:mix], [{:combine, "~> 0.10", [hex: :combine, repo: "hexpm", optional: false]}, {:gettext, "~> 0.10", [hex: :gettext, repo: "hexpm", optional: false]}, {:tzdata, "~> 0.1.8 or ~> 0.5", [hex: :tzdata, repo: "hexpm", optional: false]}], "hexpm"},
   "tzdata": {:hex, :tzdata, "0.5.16", "13424d3afc76c68ff607f2df966c0ab4f3258859bbe3c979c9ed1606135e7352", [:mix], [{:hackney, "~> 1.0", [hex: :hackney, repo: "hexpm", optional: false]}], "hexpm"},
