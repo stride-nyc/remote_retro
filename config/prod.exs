@@ -22,7 +22,7 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
 config :remote_retro, RemoteRetro.Repo,
   adapter: Ecto.Adapters.Postgres,
   url: "${DATABASE_URL}",
-  pool_size: 20,
+  pool_size: 15,
   ssl: true
 
 # Do not print debug messages in production
