@@ -1,5 +1,4 @@
 import React from "react"
-import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/right_floated_idea_actions.css"
@@ -38,7 +37,7 @@ const RightFloatedIdeaActions = props => {
 
 RightFloatedIdeaActions.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  actions: PropTypes.object.isRequired,
+  actions: AppPropTypes.actions.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
 }

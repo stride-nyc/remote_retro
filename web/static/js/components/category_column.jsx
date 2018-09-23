@@ -1,7 +1,6 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
-import PropTypes from "prop-types"
 
 import IdeaList from "./idea_list"
 import * as AppPropTypes from "../prop_types"
@@ -68,7 +67,7 @@ CategoryColumn.propTypes = {
   category: AppPropTypes.category.isRequired,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  actions: PropTypes.object.isRequired,
+  actions: AppPropTypes.actions.isRequired,
 }
 
 export const mapStateToProps = ({ votes, ideas }, props) => {

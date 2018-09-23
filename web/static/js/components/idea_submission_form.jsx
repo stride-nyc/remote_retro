@@ -1,6 +1,5 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
-import PropTypes from "prop-types"
 import { bindActionCreators } from "redux"
 import throttle from "lodash/throttle"
 import values from "lodash/values"
@@ -146,7 +145,7 @@ IdeaSubmissionForm.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   users: AppPropTypes.presences.isRequired,
   stage: AppPropTypes.stage,
-  actions: PropTypes.object,
+  actions: AppPropTypes.actions,
 }
 
 IdeaSubmissionForm.defaultProps = {

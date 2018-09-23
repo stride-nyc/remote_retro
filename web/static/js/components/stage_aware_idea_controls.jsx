@@ -50,7 +50,7 @@ export const StageAwareIdeaControls = props => {
 
 StageAwareIdeaControls.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  actions: PropTypes.object.isRequired,
+  actions: AppPropTypes.actions.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,

@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
 
@@ -129,7 +128,7 @@ IdeaEditForm.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   users: AppPropTypes.presences.isRequired,
-  actions: PropTypes.object.isRequired,
+  actions: AppPropTypes.actions.isRequired,
 }
 
 export default IdeaEditForm

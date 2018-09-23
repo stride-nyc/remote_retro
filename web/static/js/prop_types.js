@@ -48,3 +48,5 @@ export const votes = PropTypes.arrayOf(PropTypes.object)
 
 export const ideas = PropTypes.arrayOf(idea)
 
+export const actions = PropTypes.object
+

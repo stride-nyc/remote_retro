@@ -3,7 +3,6 @@ import classNames from "classnames"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import values from "lodash/values"
-import PropTypes from "prop-types"
 
 import IdeaEditForm from "./idea_edit_form"
 import IdeaLiveEditContent from "./idea_live_edit_content"
@@ -53,7 +52,7 @@ Idea.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,
   users: AppPropTypes.presences.isRequired,
-  actions: PropTypes.object,
+  actions: AppPropTypes.actions,
 }
 
 Idea.defaultProps = {

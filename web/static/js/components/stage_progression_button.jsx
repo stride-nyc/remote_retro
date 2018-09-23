@@ -80,7 +80,7 @@ export class StageProgressionButton extends Component {
 }
 
 StageProgressionButton.propTypes = {
-  actions: PropTypes.object.isRequired,
+  actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   className: PropTypes.string,
   config: PropTypes.object,

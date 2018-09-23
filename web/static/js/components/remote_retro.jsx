@@ -58,7 +58,7 @@ RemoteRetro.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
   error: PropTypes.object,
-  actions: PropTypes.object.isRequired,
+  actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.presence,
   facilitatorName: PropTypes.string.isRequired,
 }
