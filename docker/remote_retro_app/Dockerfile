@@ -19,7 +19,6 @@ FROM ubuntu:16.04
 # Prevent dialog during apt install
 ENV DEBIAN_FRONTEND noninteractive
 
-
 ENV NVM_VERSION v0.33.1
 
 ENV NODE_VERSION 8.7
@@ -202,34 +201,33 @@ RUN /bin/bash -c "mix compile"
 ### # RUN echo $NVM_VERSION
 ### # RUN echo https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh
 ### 
-### RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
-### 
-### #needed by nvm install
-### ENV NVM_DIR /home/nvm/.nvm
-### 
-### RUN . ~/.nvm/nvm.sh &&\
-###     nvm install ${NODE_VERSION} &&\
-###     nvm alias default ${NODE_VERSION} &&\
-###     npm install -g yarn phantomjs chromedriver &&\
-###     yarn
-### # # nvm
-### RUN echo 'export NVM_DIR="$HOME/.nvm"'                                       >> "$HOME/.bashrc"
-### RUN echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> "$HOME/.bashrc"
-### RUN echo '[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # This loads nvm bash_completion' >> "$HOME/.bashrc"
-### 
-### # RUN source $HOME/.bashrc
-### # RUN nvm install ${NODE_VERSION} &&\
-### #     nvm alias default ${NODE_VERSION}
-### # RUN npm install -g yarn phantomjs chromedriver &&\
-### #     yarn
-### # # nodejs and tools
-### # RUN bash -c 'source $HOME/.nvm/nvm.sh   && \
-### #     nvm install node                    && \
-### #     npm install -g doctoc urchin eclint dockerfile_lint && \
-### #     npm install --prefix "$HOME/.nvm/"'
-### 
-### # Set WORKDIR to nvm directory
-### #  WORKDIR /home/nvm/.nvm
-### 
-### # ENTRYPOINT ["/bin/bash"]
-### 
+RUN curl -o- https://raw.githubusercontent.com/creationix/nvm/$NVM_VERSION/install.sh | bash
+
+#needed by nvm install
+ENV NVM_DIR /home/nvm/.nvm
+
+RUN . ~/.nvm/nvm.sh &&\
+    nvm install ${NODE_VERSION} &&\
+    nvm alias default ${NODE_VERSION} &&\
+    npm install -g yarn phantomjs chromedriver &&\
+    yarn
+# # nvm
+RUN echo 'export NVM_DIR="$HOME/.nvm"'                                       >> "$HOME/.bashrc"
+RUN echo '[ -s "$NVM_DIR/nvm.sh" ] && . "$NVM_DIR/nvm.sh"  # This loads nvm' >> "$HOME/.bashrc"
+RUN echo '[ -s "$NVM_DIR/bash_completion" ] && . "$NVM_DIR/bash_completion" # This loads nvm bash_completion' >> "$HOME/.bashrc"
+
+# RUN source $HOME/.bashrc
+# RUN nvm install ${NODE_VERSION} &&\
+#     nvm alias default ${NODE_VERSION}
+# RUN npm install -g yarn phantomjs chromedriver &&\
+#     yarn
+# # nodejs and tools
+# RUN bash -c 'source $HOME/.nvm/nvm.sh   && \
+#     nvm install node                    && \
+#     npm install -g doctoc urchin eclint dockerfile_lint && \
+#     npm install --prefix "$HOME/.nvm/"'
+
+# Set WORKDIR to nvm directory
+#  WORKDIR /home/nvm/.nvm
+
+# ENTRYPOINT ["/bin/bash"]

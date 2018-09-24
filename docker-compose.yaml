@@ -12,8 +12,11 @@ services:
       - "db"
     command: [ "tail", "-f", "/dev/null" ]    
     # command: ["dockerize", "-wait", "tcp://db:3306", "-timeout", "30s", "--", "sh", "-c", "/entrypoint.sh"]    
-    # environment:
-    #   - RETRO_DB_HOST: "db"
+    environment:
+      - RETRO_DB_HOST=db
+      - REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID=Client_Id
+      - REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET=Client secret
+      - REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI=http://localhost:4000/auth/google/callback
     volumes:
       - ".:/app"  
 
@@ -27,9 +30,9 @@ services:
     # depends_on: 
     #   - "db"
     # command: ["dockerize", "-wait", "tcp://db:3306", "-timeout", "30s", "--", "sh", "-c", "/entrypoint.sh"]    
-    # environment:
-    #   - POSTGRES_USER: postgres
-    #   - POSTGRES_PASSWORD: postgres
-    #   - POSTGRES_DB: remote_retro_dev
-    #   # - RETRO_DB_DATABASE: remote_retro_dev
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=remote_retro_dev
+      # - RETRO_DB_DATABASE: remote_retro_dev
         
