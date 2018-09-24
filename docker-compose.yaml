@@ -1,0 +1,35 @@
+version: '2.4'
+
+services:
+  app:
+    build: 
+      context: .
+      dockerfile: ./docker/remote_retro_app/Dockerfile
+    image: registry2.swarm.devfactory.com/dockerization/bduman/remote_retro_app
+    ports: 
+      - "4000:4000"
+    depends_on: 
+      - "db"
+    command: [ "tail", "-f", "/dev/null" ]    
+    # command: ["dockerize", "-wait", "tcp://db:3306", "-timeout", "30s", "--", "sh", "-c", "/entrypoint.sh"]    
+    # environment:
+    #   - RETRO_DB_HOST: "db"
+    volumes:
+      - ".:/app"  
+
+  db:
+    build: 
+      context: .
+      dockerfile: ./docker/remote_retro_db/Dockerfile
+    image: registry2.swarm.devfactory.com/dockerization/bduman/remote_retro_db
+    ports: 
+      - "5432:5432"
+    # depends_on: 
+    #   - "db"
+    # command: ["dockerize", "-wait", "tcp://db:3306", "-timeout", "30s", "--", "sh", "-c", "/entrypoint.sh"]    
+    # environment:
+    #   - POSTGRES_USER: postgres
+    #   - POSTGRES_PASSWORD: postgres
+    #   - POSTGRES_DB: remote_retro_dev
+    #   # - RETRO_DB_DATABASE: remote_retro_dev
+        

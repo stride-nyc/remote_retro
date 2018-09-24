@@ -1,0 +1,8 @@
+.stfolder
+.stignore
+.git
+venv/
+// priv/
+deps/
+node_modules/
+_build/
