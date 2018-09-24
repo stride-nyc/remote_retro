@@ -33,13 +33,20 @@
   .trusted-by {
     .column {
       img {
-        min-height: 2rem;
+        min-height: 6rem;
+        width: 50%;
       }
 
-      @media(max-width: 768px) {
+      @media(min-width: 768px) {
         img {
-          min-height: 6rem;
-          width: 50%;
+          min-height: 2rem;
+          width: 90%;
+        }
+      }
+
+      @media(min-width: 1040px) {
+        img {
+          width: 72%;
         }
       }
     }
