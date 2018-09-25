@@ -20,7 +20,7 @@ export const Idea = props => {
     [styles.highlighted]: idea.isHighlighted,
   })
 
-  const userIsEditing = idea.editing && idea.editorToken === currentUser.token
+  const userIsEditing = idea.inEditState && idea.isLocalEdit
 
   let content
   if (userIsEditing) {

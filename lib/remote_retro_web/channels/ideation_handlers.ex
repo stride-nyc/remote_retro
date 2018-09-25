@@ -24,8 +24,8 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   handle_in_and_broadcast("idea_highlight_toggled", ~m{id, isHighlighted})
   handle_in_and_broadcast("idea_live_edit", ~m{id, liveEditText})
   handle_in_and_broadcast("idea_typing_event", ~m{userToken})
-  handle_in_and_broadcast("idea_edit_state_enabled", ~m{id, editorToken})
-  handle_in_and_broadcast("idea_edit_state_disabled", ~m{id})
+  handle_in_and_broadcast_from("idea_edit_state_enabled", ~m{id})
+  handle_in_and_broadcast_from("idea_edit_state_disabled", ~m{id})
 
   defp atomic_insert_and_broadcast(idea_params, socket) do
     Repo.transaction(fn ->

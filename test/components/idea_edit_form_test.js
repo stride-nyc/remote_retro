@@ -213,18 +213,18 @@ describe("<IdeaEditForm />", () => {
   })
 
   describe("on cancelling out of the edit form", () => {
-    it("pushes a `idea_edit_state_disabled` event to the given retroChannel", () => {
-      const retroChannel = { on: () => {}, push: sinon.spy() }
+    it("invokes the cancelIdeaEditState action", () => {
+      const actions = { on: () => {}, cancelIdeaEditState: sinon.spy() }
 
       const wrapper = mountWithConnectedSubcomponents(
-        <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
+        <IdeaEditForm {...defaultProps} actions={actions} />
       )
       const cancelButton = wrapper.find("button.cancel.button")
 
       cancelButton.simulate("click")
 
       expect(
-        retroChannel.push.calledWith("idea_edit_state_disabled", { id: idea.id })
+        actions.cancelIdeaEditState.calledWith(idea.id)
       ).to.equal(true)
     })
   })

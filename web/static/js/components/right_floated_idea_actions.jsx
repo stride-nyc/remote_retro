@@ -9,7 +9,7 @@ const RightFloatedIdeaActions = props => {
 
   const highlightTitle = isHighlighted ? "De-Highlight Idea for Participants" : "Announce Idea to Channel"
 
-  const disabled = idea.editing || idea.deletionSubmitted
+  const disabled = idea.inEditState || idea.deletionSubmitted
 
   return (
     <span className={`${styles.wrapper} ${disabled ? "disabled" : ""}`}>
@@ -24,7 +24,7 @@ const RightFloatedIdeaActions = props => {
       <i
         title="Edit Idea"
         className="edit icon"
-        onClick={() => { retroChannel.push("idea_edit_state_enabled", { id: idea.id, editorToken: currentUser.token }) }}
+        onClick={() => { actions.initiateIdeaEditState(idea.id) }}
       />
       <i
         title="Delete Idea"

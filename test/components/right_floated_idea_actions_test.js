@@ -10,9 +10,9 @@ describe("<RightFloatedIdeaActions />", () => {
   let actions = {}
   const mockUser = { id: 1, token: "abc" }
 
-  describe("when idea in question is in the `editing` state", () => {
+  describe("when idea in question is in an edit state", () => {
     it("disables", () => {
-      idea = { id: 666, body: "redundant tests", user_id: 1, editing: true }
+      idea = { id: 666, body: "redundant tests", user_id: 1, inEditState: true }
 
       const wrapper = shallow(
         <RightFloatedIdeaActions
@@ -48,7 +48,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
   describe("when idea in question isnt in editing state and hasn't been submitted for deletion", () => {
     it("is not disabled", () => {
-      idea = { id: 666, body: "redundant tests", user_id: 1, editing: false, deletionSubmitted: false }
+      idea = { id: 666, body: "redundant tests", user_id: 1, inEditState: false, deletionSubmitted: false }
 
       const wrapper = shallow(
         <RightFloatedIdeaActions
@@ -67,7 +67,7 @@ describe("<RightFloatedIdeaActions />", () => {
   describe("on click of the removal icon", () => {
     it("dispatches the submitIdeaDeletionAsync action with the idea id", () => {
       actions = { submitIdeaDeletionAsync: sinon.spy() }
-      idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
+      idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
 
       const wrapper = shallow(
         <RightFloatedIdeaActions
@@ -89,9 +89,9 @@ describe("<RightFloatedIdeaActions />", () => {
   })
 
   describe("on click of the edit icon", () => {
-    it("pushes an idea_edit_state_enabled event to the channel, passing idea id and editorToken", () => {
-      idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
-      retroChannel = { on: () => { }, push: sinon.spy() }
+    it("dispatches the initiateIdeaEditState action with the idea id", () => {
+      actions = { initiateIdeaEditState: sinon.spy() }
+      idea = { id: 789, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
 
       const wrapper = shallow(
         <RightFloatedIdeaActions
@@ -107,7 +107,7 @@ describe("<RightFloatedIdeaActions />", () => {
 
       editIcon.simulate("click")
       expect(
-        retroChannel.push.calledWith("idea_edit_state_enabled", { id: idea.id, editorToken: mockUser.token })
+        actions.initiateIdeaEditState.calledWith(789)
       ).to.equal(true)
     })
   })
@@ -132,7 +132,7 @@ describe("<RightFloatedIdeaActions />", () => {
     describe("on click of the announcement icon", () => {
       it("pushes a `idea_highlight_toggled` event to the retro channel, passing the given idea's id and highlight state", () => {
         retroChannel = { on: () => { }, push: sinon.spy() }
-        idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, editing: false }
+        idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
 
         const wrapper = shallow(
           <RightFloatedIdeaActions

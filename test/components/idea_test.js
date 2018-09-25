@@ -19,32 +19,29 @@ describe("Idea component", () => {
   const mockUser = {}
   const mockUsers = [{}]
 
-  context("when the idea is being edited", () => {
-    const ideaInEditState = { ...idea, editing: true, editorToken: "aljk" }
+  context("when the idea is being edited locally", () => {
+    const ideaInEditState = { ...idea, inEditState: true, isLocalEdit: true }
 
-    context("and the idea's `editorToken` matches the current user's token", () => {
-      const currentUser = { token: "aljk" }
-      const wrapper = shallow(
-        <Idea
-          idea={ideaInEditState}
-          currentUser={currentUser}
-          retroChannel={mockRetroChannel}
-          stage={IDEA_GENERATION}
-          users={mockUsers}
-        />
-      )
+    const wrapper = shallow(
+      <Idea
+        idea={ideaInEditState}
+        currentUser={mockUser}
+        retroChannel={mockRetroChannel}
+        stage={IDEA_GENERATION}
+        users={mockUsers}
+      />
+    )
 
-      it("renders an <IdeaEditForm/> as a child", () => {
-        expect(wrapper.find(IdeaEditForm).length).to.equal(1)
-      })
+    it("renders an <IdeaEditForm/> as a child", () => {
+      expect(wrapper.find(IdeaEditForm).length).to.equal(1)
     })
 
-    context("and the idea's `editorToken` does *not* match the current user's token", () => {
-      const currentUser = { token: "merp" }
+    context("when the idea is being edited on a *different* client", () => {
+      const ideaInEditState = { ...idea, inEditState: true, isLocalEdit: false }
       const wrapper = shallow(
         <Idea
           idea={ideaInEditState}
-          currentUser={currentUser}
+          currentUser={mockUser}
           retroChannel={mockRetroChannel}
           stage={IDEA_GENERATION}
           users={mockUsers}
@@ -59,7 +56,7 @@ describe("Idea component", () => {
         const wrapper = shallow(
           <Idea
             idea={{ ...ideaInEditState, liveEditText: "editing bigtime" }}
-            currentUser={currentUser}
+            currentUser={mockUser}
             retroChannel={mockRetroChannel}
             stage={IDEA_GENERATION}
             users={mockUsers}
@@ -73,7 +70,7 @@ describe("Idea component", () => {
   })
 
   context("when the idea is not in an edit state", () => {
-    const ideaInDefaultState = { ...idea, editing: false }
+    const ideaInDefaultState = { ...idea, inEditState: false }
 
     const wrapper = shallow(
       <Idea

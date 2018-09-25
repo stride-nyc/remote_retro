@@ -47,8 +47,8 @@ class IdeaEditForm extends Component {
 
   onCancel = event => {
     event.preventDefault()
-    const { retroChannel, idea } = this.props
-    retroChannel.push("idea_edit_state_disabled", { id: idea.id })
+    const { actions, idea } = this.props
+    actions.cancelIdeaEditState(idea.id)
   }
 
   onSubmit = event => {

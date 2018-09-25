@@ -22,12 +22,12 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
 
   retroChannel.on("retro_edited", actions.updateRetroSync)
 
-  retroChannel.on("idea_edit_state_enabled", ({ id, editorToken }) => {
-    actions.updateIdea(id, { editing: true, editorToken })
+  retroChannel.on("idea_edit_state_enabled", ({ id }) => {
+    actions.updateIdea(id, { inEditState: true, isLocalEdit: false })
   })
 
   retroChannel.on("idea_edit_state_disabled", disabledIdea => {
-    actions.updateIdea(disabledIdea.id, { editing: false, liveEditText: null, editorToken: null })
+    actions.updateIdea(disabledIdea.id, { inEditState: false, liveEditText: null })
   })
 
   retroChannel.on("idea_live_edit", editedIdea => {
@@ -35,7 +35,7 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
   })
 
   retroChannel.on("idea_edited", editedIdea => {
-    const updatedIdea = { ...editedIdea, editing: false, liveEditText: null }
+    const updatedIdea = { ...editedIdea, inEditState: false, liveEditText: null }
     actions.updateIdea(editedIdea.id, updatedIdea)
   })
 

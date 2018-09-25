@@ -285,4 +285,88 @@ describe("actionCreators", () => {
       })
     })
   })
+
+  describe("initiateIdeaEditState", () => {
+    const ideaId = 111
+
+    beforeEach(() => {
+      thunk = actionCreators.initiateIdeaEditState(ideaId)
+      mockRetroChannel = setupMockPhoenixChannel()
+    })
+
+    it("returns a thunk", () => {
+      expect(typeof thunk).to.equal("function")
+    })
+
+    describe("the thunk", () => {
+      const dispatchStub = () => {}
+      const getStateStub = () => {}
+
+      it("pushes a idea_edit_state_enabled event to the retro channel", () => {
+        sinon.spy(mockRetroChannel, "push")
+
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
+        expect(
+          mockRetroChannel.push.calledWith("idea_edit_state_enabled", { id: ideaId })
+        ).to.equal(true)
+
+        mockRetroChannel.push.restore()
+      })
+
+      it("notifies the store that the idea has entered into an edit state", () => {
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, getStateStub, mockRetroChannel)
+
+        expect(
+          dispatchSpy.calledWith({
+            type: "IDEA_UPDATE_COMMITTED",
+            ideaId,
+            newAttributes: { inEditState: true, isLocalEdit: true },
+          })
+        ).to.equal(true)
+      })
+    })
+  })
+
+  describe("cancelIdeaEditState", () => {
+    const ideaId = 111
+
+    beforeEach(() => {
+      thunk = actionCreators.cancelIdeaEditState(ideaId)
+      mockRetroChannel = setupMockPhoenixChannel()
+    })
+
+    it("returns a thunk", () => {
+      expect(typeof thunk).to.equal("function")
+    })
+
+    describe("the thunk", () => {
+      const dispatchStub = () => {}
+      const getStateStub = () => {}
+
+      it("pushes a idea_edit_state_disabled event to the retro channel", () => {
+        sinon.spy(mockRetroChannel, "push")
+
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
+        expect(
+          mockRetroChannel.push.calledWith("idea_edit_state_disabled", { id: ideaId })
+        ).to.equal(true)
+
+        mockRetroChannel.push.restore()
+      })
+
+      it("notifies the store that the idea has left the edit state", () => {
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, getStateStub, mockRetroChannel)
+
+        expect(
+          dispatchSpy.calledWith({
+            type: "IDEA_UPDATE_COMMITTED",
+            ideaId,
+            newAttributes: { inEditState: false },
+          })
+        ).to.equal(true)
+      })
+    })
+  })
 })

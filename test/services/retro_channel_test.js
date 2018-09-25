@@ -108,11 +108,11 @@ describe("RetroChannel", () => {
       })
 
       describe("on `idea_edit_state_enabled`", () => {
-        it("invokes updateIdea with idea id, editor token, editing: true", () => {
-          retroChannel.trigger("idea_edit_state_enabled", { id: 2, editorToken: "dogMan" })
+        it("invokes updateIdea with idea id, specifying that the edit is desired by another client", () => {
+          retroChannel.trigger("idea_edit_state_enabled", { id: 2 })
 
           expect(
-            updateIdeaSpy.calledWith(2, { editing: true, editorToken: "dogMan" })
+            updateIdeaSpy.calledWith(2, { inEditState: true, isLocalEdit: false })
           ).to.equal(true)
         })
       })
@@ -122,9 +122,9 @@ describe("RetroChannel", () => {
           retroChannel.trigger("idea_edit_state_disabled", { id: 3 })
         })
 
-        it("invokes updateIdea with idea id, `editing: false`, `liveEditText: null`", () => {
+        it("invokes updateIdea with idea id, passing edit nullification attributes", () => {
           expect(
-            updateIdeaSpy.calledWith(3, { editing: false, liveEditText: null, editorToken: null })
+            updateIdeaSpy.calledWith(3, { inEditState: false, liveEditText: null })
           ).to.equal(true)
         })
       })
@@ -220,7 +220,7 @@ describe("RetroChannel", () => {
 
         it("invokes updateIdea action, passing idea id & nulling the editing attributes", () => {
           expect(updateIdeaSpy.calledWith(2, {
-            id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES", liveEditText: null, editing: false,
+            id: 2, body: "i like TEENAGE MUTANT NINJA TURTLES", liveEditText: null, inEditState: false,
           })).to.eql(true)
         })
       })

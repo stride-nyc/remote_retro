@@ -49,6 +49,24 @@ export const actions = {
     }
   },
 
+  initiateIdeaEditState: ideaId => {
+    return (dispatch, getState, retroChannel) => {
+      retroChannel.push("idea_edit_state_enabled", { id: ideaId })
+
+      const updateIdeaAction = updateIdea(ideaId, { inEditState: true, isLocalEdit: true })
+      dispatch(updateIdeaAction)
+    }
+  },
+
+  cancelIdeaEditState: ideaId => {
+    return (dispatch, getState, retroChannel) => {
+      retroChannel.push("idea_edit_state_disabled", { id: ideaId })
+
+      const updateIdeaAction = updateIdea(ideaId, { inEditState: false })
+      dispatch(updateIdeaAction)
+    }
+  },
+
   submitIdea: idea => {
     return (dispatch, getState, retroChannel) => {
       const push = retroChannel.push("idea_submitted", idea)

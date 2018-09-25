@@ -182,10 +182,10 @@ defmodule RemoteRetro.RetroChannelTest do
 
   describe "pushing an `idea_edit_state_enabled` event to the socket" do
     setup [:join_the_retro_channel]
-    test "broadcasts the same event with the given payload and editorToken", ~M{socket} do
-      push(socket, "idea_edit_state_enabled", %{id: 4, editorToken: "jkl"})
+    test "broadcasts the same event with the given payload", ~M{socket} do
+      push(socket, "idea_edit_state_enabled", %{id: 4})
 
-      assert_broadcast("idea_edit_state_enabled", %{"id" => 4, "editorToken" => "jkl"})
+      assert_broadcast("idea_edit_state_enabled", %{"id" => 4})
     end
   end
 
