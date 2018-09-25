@@ -5,13 +5,14 @@ services:
     build: 
       context: .
       dockerfile: ./docker/remote_retro_app/Dockerfile
-    image: registry2.swarm.devfactory.com/dockerization/bduman/remote_retro_app
+    image: remote_retro_app
     ports: 
       - "4000:4000"
+      - "5001:5001"
     depends_on: 
       - "db"
     # command: [ "tail", "-f", "/dev/null" ]    
-    command: ["dockerize", "-wait", "tcp://${RETRO_DB_HOST}:3306", "-timeout", "30s", "--", "sh", "-c", "tail", "-f", "/dev/null"]  
+    command: ["dockerize", "-wait", "tcp://db:5432", "-timeout", "30s", "--", "tail", "-f", "/dev/null"]  
     # TODO: a script that already run mix deps.clean --all && mix deps.get && mix.deps.compile && ecto.create && ecto.migrate, mix ?  
     environment:
       - RETRO_DB_HOST=db
@@ -25,7 +26,7 @@ services:
     build: 
       context: .
       dockerfile: ./docker/remote_retro_db/Dockerfile
-    image: registry2.swarm.devfactory.com/dockerization/bduman/remote_retro_db
+    image: remote_retro_db
     ports: 
       - "5432:5432"
     # depends_on: 
@@ -37,7 +38,7 @@ services:
       - POSTGRES_DB=remote_retro_dev
       # - RETRO_DB_DATABASE: remote_retro_dev
 
-volumes:
-  app:
+# volumes:
+#   app:
 
         
