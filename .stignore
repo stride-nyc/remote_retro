@@ -1,8 +1,9 @@
 .stfolder
 .stignore
 .git
-venv/
-// priv/
+
+# App artifacts
+// priv
 deps/
 node_modules/
 _build/

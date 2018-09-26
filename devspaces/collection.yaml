@@ -1,0 +1,27 @@
+version: '2'
+name: remote-retro-v100
+
+images:
+- name: remote-retro-dev
+  url: birkand/remote_retro_dev
+- name: remote-retro-db
+  url: postgres
+
+configs:
+- name: dev
+  containers:
+  - name: dev
+    image: remote-retro-dev
+    volumes:
+    - host_path: ''
+      container_path: /app  
+    ports:
+    - port: 4000
+      protocol: TCP
+    - port: 5001
+      protocol: TCP
+  - name: db
+    image: remote-retro-db 
+    ports:
+    - port: 5432
+      protocol: TCP    
