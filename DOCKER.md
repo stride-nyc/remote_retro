@@ -1,6 +1,6 @@
 # RemoteRetro on Docker
 
-Development environment is also available on Docker. This setup is a Docker Compose environment, a container with all the dependencies, and a db backend ready to start development.
+Development environment is also available on Docker. This setup is a Docker Compose environment, a container with all the dependencies, and a db backend, all ready to start development.
 
 ## Dev Environment Setup
 
