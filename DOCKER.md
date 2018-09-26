@@ -91,8 +91,8 @@ docker-compose exec dev /bin/bash
 
 #### Node Dependencies
 - [x] nvm (node version manager) (already installed)
-- [ ] node (already installed)
-- [ ] yarn phantomjs chromedriver (already installed)
+- [x] node (already installed)
+- [x] yarn phantomjs chromedriver (already installed)
 - [ ] Install Local NPM Packages via Yarn
 ```
 yarn
