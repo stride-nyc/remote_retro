@@ -74,11 +74,7 @@ cd <project_root_dir>
 docker-compose push
 ```
 
-__NOTE:__ to be able to push the image, first you need to login to docker.hub with your own credentials via `docker login`, and update `image: ` entry for `dev` service in `docker-compose.yaml` file with your own namespace and image name, such as <your_docker_hub_id>/remote_retro_dev.
-
-
-
-
+__NOTE:__ to be able to push the image, first you need to login to docker.hub with your own credentials via `docker login` command, and update `image: ` entry for `dev` service in `docker-compose.yaml` file with your own namespace and image name, such as <your_docker_hub_id>/remote_retro_dev.
 
 ## Connect to Docker container and start development
 
@@ -87,14 +83,17 @@ docker-compose exec dev /bin/bash
 ```
 
 #### Elixir/Phoenix Dependencies
-  - ~~[Install the asdf version manager](https://github.com/asdf-vm/asdf)~~
-  - Install ~~Erlang, Elixir, and their~~ dependencies by running `bin/install_erlang_and_elixir_with_dependencies`
-  - Compile the project and custom mix tasks via `mix compile`
-  - Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
+  - [x] asdf version manager (already installed)
+  - [x] Erlang, Elixir (already installed)
+  - [ ] Install Erlang, Elixir dependencies by running `bin/install_erlang_and_elixir_with_dependencies`
+  - [ ] Compile the project and custom mix tasks via `mix compile`
+  - [ ] Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
-
-Install Local NPM Packages via Yarn
+- [x] nvm (node version manager) (already installed)
+- [ ] node (already installed)
+- [ ] yarn phantomjs chromedriver (already installed)
+- [ ] Install Local NPM Packages via Yarn
 ```
 yarn
 ```
