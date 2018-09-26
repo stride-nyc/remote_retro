@@ -33,9 +33,9 @@ Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis
 
 ## Managing development environment
 
-Development environment is started and stopped via docker-compose commands.
+Development environment is started and stopped via `docker-compose` commands.
 
-- Starting dev environment
+#### Starting dev environment
 
 ```sh
 cd <project_root_dir>
@@ -45,14 +45,14 @@ docker-compose up -d
 
 __NOTE:__ here we use `docker-compose pull` to be able to use the image already pushed to docker.hub registry, otherwise `docker-compose up` will build the image locally before running the environment.
 
-- Stopping dev environment
+#### Stopping dev environment
 
 ```sh
 cd <project_root_dir>
 docker-compose down
 ```
 
-- Updating dev environment
+#### Updating dev environment
 
 Docker images used by the dev environment already includes Erlang, and Elixir versions defined in `.tool-versions` file, and `nvm v0.33.1`, `node 8.7`. If you have updates in `.tool-versions` file for Erlang/Elixir versions, or need to update `nvm`/`node` versions, you can use `docker-compose build` command for this.
 
@@ -93,28 +93,6 @@ docker-compose exec dev /bin/bash
   - Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
-
-~~Install nvm (node version manager):
-
-```
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
-```
-__Note:__ additional nvm installation notes found at [the nvm repo](https://github.com/creationix/nvm#install-script).
-
-Install the latest node via nvm:
-```
-nvm install 8.7
-```
-
-Ensure the latest node is your default node version in new shells:
-```
-nvm alias default 8.7
-```
-
-Install Global NPM Packages
-```
-npm install -g yarn phantomjs chromedriver
-```~~
 
 Install Local NPM Packages via Yarn
 ```
