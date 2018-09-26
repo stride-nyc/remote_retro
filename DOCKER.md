@@ -37,6 +37,8 @@ Development environment is started and stopped via `docker-compose` commands.
 
 #### Starting dev environment
 
+__NOTE:__ `4000`, `5001` and `5432` ports will be mapped to localhost ports respectively while starting dev environment. Please ensure that that ports are available on your host before starting dev environment.
+
 ```sh
 cd <project_root_dir>
 docker-compose pull
