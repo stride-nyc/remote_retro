@@ -23,7 +23,9 @@ RUN apt-get update \
         libssl-dev \
         sudo \
         git  \
-    && apt-get clean
+        inotify-tools \
+    && apt-get clean \
+    && rm -fr /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Set the locale
 RUN sed -i -e 's/# \(en_US\.UTF-8 .*\)/\1/' /etc/locale.gen \
