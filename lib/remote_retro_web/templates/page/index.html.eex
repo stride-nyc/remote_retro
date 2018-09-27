@@ -10,8 +10,8 @@
   </h1>
 
   <div class="ui header">
-    Effective retrospectives for distributed teams
-    <p class="sub header">RemoteRetro lets you come together & improve, even when you're far apart.</p>
+    Agile retrospectives for distributed teams
+    <p class="sub header">RemoteRetro lets you get together, even when you're far apart.</p>
   </div>
 
   <a href="/auth/google" class="ui blue button">
