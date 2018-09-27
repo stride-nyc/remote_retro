@@ -52,7 +52,8 @@ To be able to use devspaces environment, you need to be a member of `jira-users`
 
   All build commands being used locally are also available on remote container, such as `bin/install_erlang_and_elixir_with_dependencies` in `/app` folder for dependency installation, `mix compile`, `mix` to compile and run the application.
 
-  __NOTE:__ update `dev.exs`: to be able to use `mix ecto.migrate`, RemoteRetro.Repo `hostname` variable should be updated to `dev` to match with the actual config name as the new host name in devspaces. Also end user facing url's should be updated to their actual IP and port information reflected in `cndevspaces info` command if you want to do manual testing via browser. i.e. http://localhost:5001 url being called should be modified to http://<ACTUAL_DEVSPACES_IP>:<ACTUAL_DEVSPACES_PORT_FOR_5001> in UI resources, since they should be available to end users (browser access).
+  __NOTE:__ if you want to do manual testing via browser. here are some required steps.
+  update `dev.exs`: to be able to use `mix ecto.migrate`, RemoteRetro.Repo `hostname` variable should be updated to `dev` to match with the actual config name as the new host name in devspaces. Also end user facing url's should be updated to their actual IP and port information reflected in `cndevspaces info` command  i.e. http://localhost:5001 url being called by UI resources should be modified to http://<ACTUAL_DEVSPACES_IP>:<ACTUAL_DEVSPACES_PORT_FOR_5001> in UI resources, since they should be available to end users (browser access).
 
   #### Remote IP and port information
 
