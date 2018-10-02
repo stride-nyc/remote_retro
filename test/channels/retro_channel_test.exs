@@ -2,7 +2,7 @@ defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetroWeb.ChannelCase, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.{Repo, Idea, Retro, Vote}
+  alias RemoteRetro.{Repo, Idea, Retro, Vote, Emails}
   alias RemoteRetroWeb.{RetroChannel, Presence}
 
   import Mock
@@ -54,16 +54,17 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing `retro_edited` with a stage of 'closed'" do
     setup [:join_the_retro_channel]
 
-    test "broadcasts the same event to connected clients, along with stage", ~M{socket} do
-      ref = push(socket, "retro_edited", %{stage: "closed"})
-      assert_reply ref, :ok
+    test "results in an action items email being sent to participants", ~M{socket, retro} do
+      push(socket, "retro_edited", %{stage: "closed"})
+      emails = Emails.action_items_email(retro.id)
 
-      assert_broadcast("retro_edited", %{"stage" => "closed"})
+      assert_delivered_email emails
     end
   end
 
   describe "pushing a `retro_edited` event with a valid, non-'closed' stage" do
     setup [:join_the_retro_channel]
+
     test "broadcasts the same event to connected clients, along with stage", ~M{socket} do
       ref = push(socket, "retro_edited", %{stage: "action-items"})
       assert_reply ref, :ok
