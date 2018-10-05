@@ -14,7 +14,7 @@ const handleDragStart = props => event => {
 
 const ConditionallyDraggableIdeaContent = props => {
   const { idea, currentUser, retroChannel, stage, assignee } = props
-  const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 1000
+  const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 100
   const hasAssignee = Object.keys(assignee).length > 0
 
   const canUserEditIdea = currentUser.is_facilitator || (currentUser.id === idea.user_id)
