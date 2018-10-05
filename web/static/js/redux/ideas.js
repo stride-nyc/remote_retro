@@ -29,8 +29,11 @@ export const actions = {
     return (dispatch, getState, retroChannel) => {
       const push = retroChannel.push("idea_edited", ideaParams)
 
+      const updateIdeaAction = updateIdea(ideaParams.id, { editSubmitted: true })
+      dispatch(updateIdeaAction)
+
       push.receive("error", () => {
-        dispatch({ type: types.IDEA_UPDATE_REJECTED })
+        dispatch({ type: types.IDEA_UPDATE_REJECTED, ideaId: ideaParams.id })
       })
     }
   },
@@ -93,6 +96,10 @@ export const reducer = (state = [], action) => {
       return state.map(idea => (
         (idea.id === action.ideaId) ? { ...idea, ...action.newAttributes } : idea
       ))
+    case types.IDEA_UPDATE_REJECTED:
+      return state.map(idea => {
+        return idea.id === action.ideaId ? { ...idea, editSubmitted: false } : idea
+      })
     case types.IDEA_DELETION_COMMITTED:
       return state.filter(idea => idea.id !== action.ideaId)
     case types.IDEA_DELETION_REJECTED:

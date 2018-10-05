@@ -35,7 +35,13 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
   })
 
   retroChannel.on("idea_edited", editedIdea => {
-    const updatedIdea = { ...editedIdea, inEditState: false, liveEditText: null }
+    const updatedIdea = {
+      ...editedIdea,
+      inEditState: false,
+      editSubmitted: false,
+      liveEditText: null,
+    }
+
     actions.updateIdea(editedIdea.id, updatedIdea)
   })
 

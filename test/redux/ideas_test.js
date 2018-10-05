@@ -53,15 +53,21 @@ describe("idea reducer", () => {
       })
     })
 
-    describe("when the action is IDEA_UPDATE_COMMITTED", () => {
-      const initialIdeas = [{ id: 666, category: "happy", user_id: 1 }, { id: 22, category: "n/a", user_id: 2 }]
+    describe("when the action is IDEA_UPDATE_REJECTED", () => {
+      const initialIdeas = [{
+        id: 666,
+        editSubmitted: true,
+      }, {
+        id: 22,
+      }]
+
       deepFreeze(initialIdeas)
 
-      it("returns an updated set of ideas, where the idea with matching id has updated attributes", () => {
-        const action = { type: "IDEA_UPDATE_COMMITTED", ideaId: 666, newAttributes: { category: "sad" } }
+      it("returns updated set of ideas, where the idea with matching id is no longer in an edit submitted state", () => {
+        const action = { type: "IDEA_UPDATE_REJECTED", ideaId: 666 }
         expect(ideasReducer(initialIdeas, action)).to.deep.equal([
-          { id: 666, category: "sad", user_id: 1 },
-          { id: 22, category: "n/a", user_id: 2 },
+          { id: 666, editSubmitted: false },
+          { id: 22 },
         ])
       })
     })
@@ -198,6 +204,19 @@ describe("actionCreators", () => {
         mockRetroChannel.push.restore()
       })
 
+      it("lets the store know that an idea edit submission is in flight", () => {
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, getStateStub, mockRetroChannel)
+
+        expect(
+          dispatchSpy.calledWith({
+            type: "IDEA_UPDATE_COMMITTED",
+            ideaId: ideaParams.id,
+            newAttributes: { editSubmitted: true },
+          })
+        ).to.equal(true)
+      })
+
       describe("when the push results in an error", () => {
         let push
 
@@ -209,7 +228,7 @@ describe("actionCreators", () => {
           push.trigger("error", {})
 
           expect(
-            dispatchSpy.calledWithMatch({ type: "IDEA_UPDATE_REJECTED" })
+            dispatchSpy.calledWithMatch({ type: "IDEA_UPDATE_REJECTED", ideaId: ideaParams.id })
           ).to.eq(true)
         })
       })

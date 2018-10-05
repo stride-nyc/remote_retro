@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
 
@@ -65,7 +66,7 @@ class IdeaEditForm extends Component {
   }
 
   render() {
-    const { stage, users } = this.props
+    const { stage, users, idea } = this.props
     const { ideaCategory, ideaAssigneeId, ideaBody, ideaBodyError } = this.state
     const categoryOptions = CATEGORIES.map(category => (
       <option key={category} value={category}>{category}</option>
@@ -73,6 +74,9 @@ class IdeaEditForm extends Component {
     const assigneeOptions = users.map(user => (
       <option key={user.id} value={user.id}>{user.name}</option>
     ))
+
+    const cancelButtonClasses = classNames("ui cancel button", { disabled: idea.editSubmitted })
+    const saveButtonClasses = classNames("ui positive button", { loading: idea.editSubmitted })
 
     return (
       <form onSubmit={this.onSubmit} className="ui error form raised segment idea-edit-form">
@@ -107,12 +111,12 @@ class IdeaEditForm extends Component {
           </div>
         }
         <div className="ui buttons">
-          <button onClick={this.onCancel} className="ui cancel button">Cancel</button>
+          <button onClick={this.onCancel} className={cancelButtonClasses}>Cancel</button>
           <div className="or" />
           <button
             type="submit"
             disabled={!!ideaBodyError}
-            className="ui positive button"
+            className={saveButtonClasses}
           >
             Save
           </button>
