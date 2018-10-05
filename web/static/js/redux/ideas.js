@@ -62,7 +62,7 @@ export const actions = {
     return (dispatch, getState, retroChannel) => {
       retroChannel.push("idea_edit_state_disabled", { id: ideaId })
 
-      const updateIdeaAction = updateIdea(ideaId, { inEditState: false })
+      const updateIdeaAction = updateIdea(ideaId, { inEditState: false, liveEditText: null })
       dispatch(updateIdeaAction)
     }
   },

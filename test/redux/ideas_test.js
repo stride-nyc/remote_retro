@@ -363,7 +363,7 @@ describe("actionCreators", () => {
           dispatchSpy.calledWith({
             type: "IDEA_UPDATE_COMMITTED",
             ideaId,
-            newAttributes: { inEditState: false },
+            newAttributes: { inEditState: false, liveEditText: null },
           })
         ).to.equal(true)
       })
