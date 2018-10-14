@@ -4,6 +4,7 @@ import sinonChai from "sinon-chai"
 
 import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
+import React from "react"
 import sinon from "sinon"
 import { Socket } from "phoenix"
 import PropTypes from "prop-types"
@@ -24,27 +25,30 @@ global.requestAnimationFrame = callback => {
   setTimeout(callback, 0)
 }
 
+const store = {
+  subscribe: () => {},
+  dispatch: () => {},
+  getState: () => ({
+    retro: {
+      facilitator_id: 1,
+      stage: IDEA_GENERATION,
+    },
+    ideas: [],
+    votes: [],
+    usersById: {},
+    presences: [],
+    mobile: {
+      selectedCategoryTab: "happy",
+    },
+  }),
+}
+
+const defaultOptions = {
+  context: { store },
+  childContextTypes: { store: PropTypes.object.isRequired },
+}
+
 global.mountWithConnectedSubcomponents = (component, options) => {
-  const store = {
-    subscribe: () => {},
-    dispatch: () => {},
-    getState: () => ({
-      retro: {
-        facilitator_id: 1,
-        stage: IDEA_GENERATION,
-      },
-      ideas: [],
-      votes: [],
-      usersById: {},
-      presences: [],
-    }),
-  }
-
-  const defaultOptions = {
-    context: { store },
-    childContextTypes: { store: PropTypes.object.isRequired },
-  }
-
   return Enzyme.mount(component, { ...defaultOptions, ...options })
 }
 
@@ -70,3 +74,18 @@ export const setupMockPhoenixChannel = () => {
 
   return mockPhoenixChannel
 }
+
+const MediaQuery = require("react-responsive").default
+const MediaQueryProps = require("react-responsive").MediaQueryProps
+
+const MockMediaQuery = (props: MediaQueryProps) => {
+  const defaultWidth = window.innerWidth
+  const defaultHeight = window.innerHeight
+  const values = Object.assign({}, { width: defaultWidth, height: defaultHeight }, props.values)
+  const newProps = Object.assign({}, props, { values })
+
+  return React.createElement(MediaQuery, newProps)
+}
+
+require("react-responsive").default = MockMediaQuery
+

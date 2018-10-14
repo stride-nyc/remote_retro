@@ -8,14 +8,8 @@
 
   /* ensure list takes up maximum vertical space amount between column header and user list */
   flex-grow: 1;
-  /* hack for scrollability (conditionally applied) in firefox and iOS safari,
-     as overflow content in a flex container will not scroll
-     without it. It will just continue to get larger.
-     Note that this declaration does *not* limit the height due
-     to the `flex-grow: 1` declaration above
-  */
-  height: 1px;
 
+  min-height: 0;
   overflow-y: hidden;
   &:global(.overflowed) {
     overflow-y: scroll;
@@ -29,6 +23,20 @@
 
     li:last-of-type {
       border-bottom: none;
+    }
+  }
+}
+
+/* hack for scrollability (conditionally applied) in firefox,
+   as overflow content in a flex container will not scroll
+   without it. It will just continue to get larger.
+   Note that this declaration does *not* limit the height due
+   to the `flex-grow: 1` declaration above
+*/
+@-moz-document url-prefix() {
+  @media (min-width: 768px) {
+    .list {
+      height: 1px;
     }
   }
 }

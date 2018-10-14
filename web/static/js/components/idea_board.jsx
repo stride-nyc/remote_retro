@@ -1,11 +1,12 @@
 import React from "react"
+import MediaQuery from "react-responsive"
 import includes from "lodash/includes"
 
-import CategoryColumn from "./category_column"
-
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/idea_board.css"
+import ColumnarBoardLayout from "./columnar_board_layout"
+import TabularBoardLayout from "./tabular_board_layout"
 import STAGES from "../configs/stages"
+import { MIN_TABLET_WIDTH } from "../configs/responsive"
 
 const { ACTION_ITEMS, CLOSED } = STAGES
 
@@ -15,14 +16,16 @@ const IdeaBoard = props => {
   const renderableColumnCategories = [...categories]
   if (showActionItem) { renderableColumnCategories.push("action-item") }
 
-  const categoryColumns = renderableColumnCategories.map(category => (
-    <CategoryColumn {...props} category={category} key={category} />
-  ))
-
   return (
-    <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-      { categoryColumns }
-    </div>
+    <React.Fragment>
+      <MediaQuery minWidth={MIN_TABLET_WIDTH}>
+        {isTabletOrAbove => {
+          const Layout = isTabletOrAbove ? ColumnarBoardLayout : TabularBoardLayout
+
+          return <Layout {...props} categories={renderableColumnCategories} />
+        }}
+      </MediaQuery>
+    </React.Fragment>
   )
 }
 

@@ -1,8 +1,7 @@
 import React from "react"
-import { shallow } from "enzyme"
 
 import IdeaBoard from "../../web/static/js/components/idea_board"
-import CategoryColumn from "../../web/static/js/components/category_column"
+import ColumnarBoardLayout from "../../web/static/js/components/columnar_board_layout"
 import STAGES from "../../web/static/js/configs/stages"
 import { CATEGORIES } from "../../web/static/js/configs/retro_configs"
 
@@ -21,37 +20,41 @@ describe("IdeaBoard component", () => {
   }
 
   describe("when the stage is 'idea-generation'", () => {
-    before(() => {
-      ideaBoard = shallow(<IdeaBoard {...defaultProps} stage={IDEA_GENERATION} />)
+    beforeEach(() => {
+      ideaBoard = mountWithConnectedSubcomponents(
+        <IdeaBoard {...defaultProps} stage={IDEA_GENERATION} />
+      )
     })
 
-    it("renders columns for happy, sad, and confused ideas", () => {
-      expect(categoriesRendered(ideaBoard)).to.eql(["happy", "sad", "confused"])
+    it("passes categories of happy, sad, and confused", () => {
+      expect(categoriesPassedTo(ideaBoard)).to.eql(["happy", "sad", "confused"])
     })
   })
 
   describe("when the stage is 'action-items'", () => {
-    before(() => {
-      ideaBoard = shallow(<IdeaBoard {...defaultProps} stage={ACTION_ITEMS} />)
+    beforeEach(() => {
+      ideaBoard = mountWithConnectedSubcomponents(
+        <IdeaBoard {...defaultProps} stage={ACTION_ITEMS} />
+      )
     })
 
-    it("renders a fourth column for displaying the action-items", () => {
-      expect(categoriesRendered(ideaBoard)).to.eql(["happy", "sad", "confused", "action-item"])
+    it("passes an additional fourth category of action-items", () => {
+      expect(categoriesPassedTo(ideaBoard)).to.eql(["happy", "sad", "confused", "action-item"])
     })
   })
 
   describe("when the stage is 'closed'", () => {
-    before(() => {
-      ideaBoard = shallow(<IdeaBoard {...defaultProps} stage={CLOSED} />)
+    beforeEach(() => {
+      ideaBoard = mountWithConnectedSubcomponents(<IdeaBoard {...defaultProps} stage={CLOSED} />)
     })
 
-    it("renders a fourth column for displaying the action-items", () => {
-      expect(categoriesRendered(ideaBoard)).to.eql(["happy", "sad", "confused", "action-item"])
+    it("passes an additional fourth category of action-items", () => {
+      expect(categoriesPassedTo(ideaBoard)).to.eql(["happy", "sad", "confused", "action-item"])
     })
   })
 })
 
-const categoriesRendered = ideaBoard => {
-  const categoryColumns = ideaBoard.find(CategoryColumn)
-  return categoryColumns.map(column => (column.prop("category")))
+const categoriesPassedTo = ideaBoard => {
+  const layout = ideaBoard.find(ColumnarBoardLayout)
+  return layout.prop("categories")
 }

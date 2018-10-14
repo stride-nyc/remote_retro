@@ -37,6 +37,11 @@ import {
   selectors as usersByIdSelectors,
 } from "./users_by_id"
 
+import {
+  reducer as mobile,
+  actions as mobileActions,
+} from "./mobile"
+
 export const reducer = combineReducers({
   presences,
   usersById,
@@ -45,6 +50,7 @@ export const reducer = combineReducers({
   alert,
   retro,
   error,
+  mobile,
 })
 
 export const actions = {
@@ -53,6 +59,7 @@ export const actions = {
   ...presenceActions,
   ...ideaActions,
   ...retroActions,
+  ...mobileActions,
   ...voteActions,
 }
 

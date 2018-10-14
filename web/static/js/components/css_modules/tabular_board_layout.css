@@ -1,0 +1,19 @@
+:global(.ui.tabular.menu) {
+  margin-bottom: 0;
+
+  .tab {
+    justify-content: center;
+
+    flex-grow: 1;
+    flex-basis: 0;
+
+    cursor: pointer;
+  }
+}
+
+.idea-list-wrapper {
+  display: flex;
+  flex: 1;
+  padding: 0 0.25rem;
+  min-height: 0;
+}
