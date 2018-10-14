@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import countBy from "lodash/countBy"
 import FlipMove from "react-flip-move"
+import classNames from "classnames"
 
 import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
@@ -64,6 +65,9 @@ class IdeaList extends Component {
   render() {
     const { props, state } = this
     const { category, ideas, votes } = props
+    const classes = classNames("ideas", category, styles.list, {
+      overflowed: state.overflowed,
+    })
 
     let sortedIdeas
     if (state.sortByVotes) {
@@ -75,7 +79,7 @@ class IdeaList extends Component {
     return (
       <ul
         ref={list => { this.list = list }}
-        className={`${category} ${styles.list} ideas ${state.overflowed ? "overflowed" : ""}`}
+        className={classes}
       >
         <FlipMove
           duration={750}
