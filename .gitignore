@@ -43,6 +43,7 @@ web/static/js/dll/*
 /priv/static/robots.txt
 .DS_Store
 
+package-lock.json
 npm-debug.log*
 .eslintcache
 browser_logs.log
