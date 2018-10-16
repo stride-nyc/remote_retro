@@ -70,7 +70,11 @@
             <p>RemoteRetro</p>
           </div>
         </a>
-        <div class="ui right floated header right-branded-header">
+        <div class="ui right floated header right-branded-header grid">
+          <button class="ui blue button">
+            Log Out
+          </button>
+
           <a href="http://www.stridenyc.com/" target="_blank">
             <div>
               <div class="middle aligned content logo-text">Built by</div>
