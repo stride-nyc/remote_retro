@@ -16,6 +16,11 @@ defmodule RemoteRetroWeb.AuthController do
     redirect conn, to: get_session(conn, "requested_endpoint") || "/"
   end
 
+  def logout(conn, _params) do
+    conn = put_session(conn, :current_user, nil)
+    redirect(conn, to: "/")
+  end
+
   defp authorize_url! do
     Google.authorize_url!(scope: "email profile")
   end

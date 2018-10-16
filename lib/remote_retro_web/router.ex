@@ -25,6 +25,7 @@ defmodule RemoteRetroWeb.Router do
     get "/faq", PageController, :faq
     get "/auth/google", AuthController, :index
     get "/auth/google/callback", AuthController, :callback
+    get "/logout", AuthController, :logout
   end
 
   scope "/retros", RemoteRetroWeb do
