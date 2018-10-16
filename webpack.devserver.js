@@ -10,6 +10,7 @@ new WebpackDevServer(webpack(config), {
   hot: true,
   compress: true,
   clientLogLevel: "none",
+  overlay: true,
   headers: { "Access-Control-Allow-Origin": "*" },
   stats: { modules: false },
 }).listen(port, "0.0.0.0", err => {
