@@ -260,3 +260,15 @@
 :global([draggable=true]) {
   cursor: move;
 }
+
+/*
+/  preposterous iOS Safari-specific hack to avoid zooming in on form inputs on focus.
+/    - requires 16px or larger font-size to avoid zoom
+/      - https://stackoverflow.com/questions/2989263/disable-auto-zoom-in-input-text-tag-safari-on-iphone
+/    - include labels and submit buttons for visual consistency in forms
+*/
+@supports (-webkit-overflow-scrolling: touch) {
+  select, textarea, input[type="text"], label, button[type="submit"] {
+    font-size: 16px !important;
+  }
+}
