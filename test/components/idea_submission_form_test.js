@@ -20,21 +20,56 @@ describe("IdeaSubmissionForm component", () => {
     { id: 2, name: "Betty White" },
     { id: 3, name: "Bill Smith" },
   ]
+
+  const defaultProps = {
+    currentUser: stubUser,
+    retroChannel: mockRetroChannel,
+    stage: IDEA_GENERATION,
+    users,
+  }
+
   describe("the input field for an idea", () => {
     it("contains the maxLength property with a limit of 255 characters", () => {
-      const retroChannel = { on: () => { } }
-
       wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={retroChannel}
-          stage={IDEA_GENERATION}
-          users={users}
-        />
+        <IdeaSubmissionForm {...defaultProps} />
       )
 
       const ideaInput = wrapper.find("input[name='idea']")
       expect(ideaInput.props().maxLength).to.equal("255")
+    })
+
+    context("when the user is on a mobile device", () => {
+      beforeEach(() => {
+        global.navigator = {
+          userAgent: "Mozilla/5.0 (iPhone; CPU iPhone OS 11_0 like Mac OS X) AppleWebKit/604.1.38 (KHTML, like Gecko) Version/11.0 Mobile/15A372 Safari/604.1",
+        }
+
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm {...defaultProps} />
+        )
+      })
+
+      it("renders without autofocus", () => {
+        const ideaInput = wrapper.find("input[name='idea']")
+        expect(ideaInput.props().autoFocus).to.equal(false)
+      })
+    })
+
+    context("when the user is *not* on a mobile device", () => {
+      beforeEach(() => {
+        global.navigator = {
+          userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/69.0.3497.100 Safari/537.36",
+        }
+
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm {...defaultProps} />
+        )
+      })
+
+      it("renders autofocused", () => {
+        const ideaInput = wrapper.find("input[name='idea']")
+        expect(ideaInput.props().autoFocus).to.equal(true)
+      })
     })
   })
 
@@ -45,18 +80,15 @@ describe("IdeaSubmissionForm component", () => {
 
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={mockRetroChannel}
+            {...defaultProps}
             actions={actions}
-            stage={IDEA_GENERATION}
-            users={users}
           />
         )
 
         wrapper.simulate("submit", fakeEvent)
 
         expect(
-          actions.submitIdea.calledWith({
+          actions.submitIdea.calledWithMatch({
             category: "happy",
             body: "",
             userId: 1,
@@ -73,10 +105,8 @@ describe("IdeaSubmissionForm component", () => {
 
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={mockRetroChannel}
+            {...defaultProps}
             actions={actions}
-            users={users}
             stage={ACTION_ITEMS}
           />
         )
@@ -86,7 +116,7 @@ describe("IdeaSubmissionForm component", () => {
         wrapper.simulate("submit", fakeEvent)
 
         expect(
-          actions.submitIdea.calledWith({
+          actions.submitIdea.calledWithMatch({
             body: "Some issue",
             userId: 1,
             assigneeId: 1,
@@ -240,10 +270,8 @@ describe("IdeaSubmissionForm component", () => {
         it("does not render a pointing label", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
+              {...defaultProps}
               stage={IDEA_GENERATION}
-              currentUser={stubUser}
-              retroChannel={mockRetroChannel}
-              users={users}
             />
           )
           wrapper.setState({ hasTypedChar: true })
@@ -257,10 +285,8 @@ describe("IdeaSubmissionForm component", () => {
         it("renders a pointing label to prompt the user to enter an idea", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
+              {...defaultProps}
               stage={IDEA_GENERATION}
-              currentUser={stubUser}
-              retroChannel={mockRetroChannel}
-              users={users}
             />
           )
           wrapper.setState({ hasTypedChar: false })
@@ -279,10 +305,8 @@ describe("IdeaSubmissionForm component", () => {
         it("does not render a pointing label to prompt the user to enter an idea", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
-              currentUser={stubUser}
-              retroChannel={mockRetroChannel}
+              {...defaultProps}
               stage={ACTION_ITEMS}
-              users={users}
             />
           )
 

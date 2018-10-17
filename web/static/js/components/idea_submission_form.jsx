@@ -34,22 +34,22 @@ export class IdeaSubmissionForm extends Component {
       category: isActionItemsStage ? "action-item" : "happy",
       assigneeId: isActionItemsStage ? users[0].id : null,
       hasTypedChar: false,
+      isMobile: navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i),
     }
-    this.handleSubmit = this.handleSubmit.bind(this)
-    this.handleBodyChange = this.handleBodyChange.bind(this)
-    this.handleCategoryChange = this.handleCategoryChange.bind(this)
-    this.handleAssigneeChange = this.handleAssigneeChange.bind(this)
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.alert && !nextProps.alert) { this.ideaInput.focus() }
+    const { isMobile } = this.state
+    const alertDismissed = this.props.alert && !nextProps.alert
+
+    if (alertDismissed && !isMobile) { this.ideaInput.focus() }
   }
 
   componentDidUpdate(prevProps, prevState) {
     if (this.state.category !== prevState.category) { this.ideaInput.focus() }
   }
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     const { currentUser } = this.props
     event.preventDefault()
     const newIdea = { ...this.state, userId: currentUser.id }
@@ -57,7 +57,7 @@ export class IdeaSubmissionForm extends Component {
     this.setState({ body: "" })
   }
 
-  handleBodyChange(event) {
+  handleBodyChange = event => {
     if (!event.isTrusted) { return } // ignore events triggered by extensions/scripts
 
     const { retroChannel, currentUser } = this.props
@@ -65,17 +65,17 @@ export class IdeaSubmissionForm extends Component {
     this.setState({ body: event.target.value, hasTypedChar: true })
   }
 
-  handleCategoryChange(event) {
+  handleCategoryChange = event => {
     this.setState({ category: event.target.value })
   }
 
-  handleAssigneeChange(event) {
+  handleAssigneeChange = event => {
     this.setState({ assigneeId: Number.parseInt(event.target.value, 10) })
   }
 
   render() {
     const { users, stage } = this.props
-    const { assigneeId, body, hasTypedChar, category } = this.state
+    const { assigneeId, body, hasTypedChar, category, isMobile } = this.state
     const disabled = !body.trim().length
     const assigneeOptions = users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>
@@ -123,7 +123,7 @@ export class IdeaSubmissionForm extends Component {
                 type="text"
                 name="idea"
                 autoComplete="off"
-                autoFocus
+                autoFocus={!isMobile}
                 ref={input => { this.ideaInput = input }}
                 value={body}
                 onChange={this.handleBodyChange}
