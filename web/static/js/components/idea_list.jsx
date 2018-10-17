@@ -84,6 +84,7 @@ class IdeaList extends Component {
           easing="ease"
           enterAnimation="none"
           leaveAnimation="none"
+          typeName={null}
         >
           {sortedIdeas.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
         </FlipMove>
