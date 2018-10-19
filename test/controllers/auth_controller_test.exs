@@ -70,6 +70,26 @@ defmodule RemoteRetro.AuthControllerTest do
     end
   end
 
+  describe ".logout" do
+    setup :authenticate_connection
+
+    test "it sets session current_user to nil", ~M{conn} do
+      assert get_session(conn, "current_user")
+
+      conn = conn
+        |> get(auth_path(conn, :logout))
+
+      refute get_session(conn, "current_user")
+    end
+
+    test "it redirects the user to /", ~M{conn} do
+      conn = conn
+        |> get(auth_path(conn, :logout))
+
+      assert redirected_to(conn, 302) == "/"
+    end
+  end
+
   defp retrieve_session(conn) do
     conn.private.plug_session
   end
