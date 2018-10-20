@@ -34,15 +34,15 @@ export class IdeaSubmissionForm extends Component {
       category: isActionItemsStage ? "action-item" : "happy",
       assigneeId: isActionItemsStage ? users[0].id : null,
       hasTypedChar: false,
-      isMobile: navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i),
+      isMobileDevice: navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i),
     }
   }
 
   componentWillReceiveProps(nextProps) {
-    const { isMobile } = this.state
+    const { isMobileDevice } = this.state
     const alertDismissed = this.props.alert && !nextProps.alert
 
-    if (alertDismissed && !isMobile) { this.ideaInput.focus() }
+    if (alertDismissed && !isMobileDevice) { this.ideaInput.focus() }
   }
 
   componentDidUpdate(prevProps, prevState) {
@@ -75,7 +75,7 @@ export class IdeaSubmissionForm extends Component {
 
   render() {
     const { users, stage } = this.props
-    const { assigneeId, body, hasTypedChar, category, isMobile } = this.state
+    const { assigneeId, body, hasTypedChar, category, isMobileDevice } = this.state
     const disabled = !body.trim().length
     const assigneeOptions = users.map(({ id, name }) =>
       <option key={id} value={id}>{name}</option>
@@ -123,7 +123,7 @@ export class IdeaSubmissionForm extends Component {
                 type="text"
                 name="idea"
                 autoComplete="off"
-                autoFocus={!isMobile}
+                autoFocus={!isMobileDevice}
                 ref={input => { this.ideaInput = input }}
                 value={body}
                 onChange={this.handleBodyChange}
