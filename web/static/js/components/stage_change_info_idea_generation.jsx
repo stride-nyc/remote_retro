@@ -1,7 +1,7 @@
 import React from "react"
 
 export default () => (
-  <div>
+  <React.Fragment>
     The skinny on Idea Generation:
     <div className="ui basic segment">
       <ul className="ui list">
@@ -10,5 +10,5 @@ export default () => (
         <li>Assume best intent; you're all here to improve.</li>
       </ul>
     </div>
-  </div>
+  </React.Fragment>
 )

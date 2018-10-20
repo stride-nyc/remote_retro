@@ -1,7 +1,7 @@
 import React from "react"
 
 export default () => (
-  <div>
+  <React.Fragment>
     The skinny on voting:
     <div className="ui basic segment">
       <ul className="ui list">
@@ -14,5 +14,5 @@ export default () => (
         <li>Once a vote has been cast, there's no taking it back, so vote carefully!</li>
       </ul>
     </div>
-  </div>
+  </React.Fragment>
 )
