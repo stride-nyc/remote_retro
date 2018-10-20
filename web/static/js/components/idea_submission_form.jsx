@@ -50,10 +50,10 @@ export class IdeaSubmissionForm extends Component {
   }
 
   handleSubmit = event => {
-    const { currentUser } = this.props
+    const { currentUser, actions } = this.props
     event.preventDefault()
     const newIdea = { ...this.state, userId: currentUser.id }
-    this.props.actions.submitIdea(newIdea)
+    actions.submitIdea(newIdea)
     this.setState({ body: "" })
   }
 
