@@ -1,5 +1,7 @@
 import chai, { expect } from "chai"
 import chaiUUID from "chai-uuid"
+import sinonChai from "sinon-chai"
+
 import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
 import sinon from "sinon"
@@ -9,6 +11,7 @@ import noop from "lodash/noop"
 import STAGES from "../../../web/static/js/configs/stages"
 
 chai.use(chaiUUID)
+chai.use(sinonChai)
 
 const { IDEA_GENERATION } = STAGES
 

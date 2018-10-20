@@ -138,7 +138,7 @@ describe("actionCreators", () => {
 
       it("results in a push to the retroChannel", () => {
         thunk(undefined, undefined, mockRetroChannel)
-        expect(mockRetroChannel.push.calledWith("idea_submitted", idea)).to.eq(true)
+        expect(mockRetroChannel.push).calledWith("idea_submitted", idea)
       })
 
       describe("when the push results in an error", () => {
@@ -151,9 +151,7 @@ describe("actionCreators", () => {
 
           push.trigger("error", {})
 
-          expect(
-            dispatchSpy.calledWithMatch({ type: "IDEA_SUBMISSION_REJECTED" })
-          ).to.eq(true)
+          expect(dispatchSpy).calledWithMatch({ type: "IDEA_SUBMISSION_REJECTED" })
         })
       })
     })
@@ -197,9 +195,7 @@ describe("actionCreators", () => {
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
-        expect(
-          mockRetroChannel.push.calledWith("idea_edited", ideaParams)
-        ).to.equal(true)
+        expect(mockRetroChannel.push).calledWith("idea_edited", ideaParams)
 
         mockRetroChannel.push.restore()
       })
@@ -208,13 +204,11 @@ describe("actionCreators", () => {
         const dispatchSpy = sinon.spy()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-        expect(
-          dispatchSpy.calledWith({
-            type: "IDEA_UPDATE_COMMITTED",
-            ideaId: ideaParams.id,
-            newAttributes: { editSubmitted: true },
-          })
-        ).to.equal(true)
+        expect(dispatchSpy).calledWith({
+          type: "IDEA_UPDATE_COMMITTED",
+          ideaId: ideaParams.id,
+          newAttributes: { editSubmitted: true },
+        })
       })
 
       describe("when the push results in an error", () => {
@@ -227,9 +221,7 @@ describe("actionCreators", () => {
 
           push.trigger("error", {})
 
-          expect(
-            dispatchSpy.calledWithMatch({ type: "IDEA_UPDATE_REJECTED", ideaId: ideaParams.id })
-          ).to.eq(true)
+          expect(dispatchSpy).calledWithMatch({ type: "IDEA_UPDATE_REJECTED", ideaId: ideaParams.id })
         })
       })
     })
@@ -267,9 +259,7 @@ describe("actionCreators", () => {
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
-        expect(
-          mockRetroChannel.push.calledWith("idea_deleted", 999)
-        ).to.equal(true)
+        expect(mockRetroChannel.push).calledWith("idea_deleted", 999)
 
         mockRetroChannel.push.restore()
       })
@@ -284,9 +274,7 @@ describe("actionCreators", () => {
 
           push.trigger("error", {})
 
-          expect(
-            dispatchSpy.calledWith({ type: "IDEA_DELETION_REJECTED", ideaId: 999 })
-          ).to.eq(true)
+          expect(dispatchSpy).calledWith({ type: "IDEA_DELETION_REJECTED", ideaId: 999 })
         })
       })
 
@@ -294,13 +282,11 @@ describe("actionCreators", () => {
         const dispatchSpy = sinon.spy()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-        expect(
-          dispatchSpy.calledWith({
-            type: "IDEA_UPDATE_COMMITTED",
-            ideaId: 999,
-            newAttributes: { deletionSubmitted: true },
-          })
-        ).to.equal(true)
+        expect(dispatchSpy).calledWith({
+          type: "IDEA_UPDATE_COMMITTED",
+          ideaId: 999,
+          newAttributes: { deletionSubmitted: true },
+        })
       })
     })
   })
@@ -325,9 +311,7 @@ describe("actionCreators", () => {
         sinon.spy(mockRetroChannel, "push")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
-        expect(
-          mockRetroChannel.push.calledWith("idea_edit_state_enabled", { id: ideaId })
-        ).to.equal(true)
+        expect(mockRetroChannel.push).calledWith("idea_edit_state_enabled", { id: ideaId })
 
         mockRetroChannel.push.restore()
       })
@@ -336,13 +320,11 @@ describe("actionCreators", () => {
         const dispatchSpy = sinon.spy()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-        expect(
-          dispatchSpy.calledWith({
-            type: "IDEA_UPDATE_COMMITTED",
-            ideaId,
-            newAttributes: { inEditState: true, isLocalEdit: true },
-          })
-        ).to.equal(true)
+        expect(dispatchSpy).calledWith({
+          type: "IDEA_UPDATE_COMMITTED",
+          ideaId,
+          newAttributes: { inEditState: true, isLocalEdit: true },
+        })
       })
     })
   })
@@ -367,9 +349,7 @@ describe("actionCreators", () => {
         sinon.spy(mockRetroChannel, "push")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
-        expect(
-          mockRetroChannel.push.calledWith("idea_edit_state_disabled", { id: ideaId })
-        ).to.equal(true)
+        expect(mockRetroChannel.push).calledWith("idea_edit_state_disabled", { id: ideaId })
 
         mockRetroChannel.push.restore()
       })
@@ -378,13 +358,11 @@ describe("actionCreators", () => {
         const dispatchSpy = sinon.spy()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-        expect(
-          dispatchSpy.calledWith({
-            type: "IDEA_UPDATE_COMMITTED",
-            ideaId,
-            newAttributes: { inEditState: false, liveEditText: null },
-          })
-        ).to.equal(true)
+        expect(dispatchSpy).calledWith({
+          type: "IDEA_UPDATE_COMMITTED",
+          ideaId,
+          newAttributes: { inEditState: false, liveEditText: null },
+        })
       })
     })
   })

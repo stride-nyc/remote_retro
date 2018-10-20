@@ -82,9 +82,7 @@ describe("<RightFloatedIdeaActions />", () => {
       expect(removalIcon.prop("title")).to.equal("Delete Idea")
 
       removalIcon.simulate("click")
-      expect(
-        actions.submitIdeaDeletionAsync.calledWith(666)
-      ).to.equal(true)
+      expect(actions.submitIdeaDeletionAsync).calledWith(666)
     })
   })
 
@@ -106,9 +104,7 @@ describe("<RightFloatedIdeaActions />", () => {
       expect(editIcon.prop("title")).to.equal("Edit Idea")
 
       editIcon.simulate("click")
-      expect(
-        actions.initiateIdeaEditState.calledWith(789)
-      ).to.equal(true)
+      expect(actions.initiateIdeaEditState).calledWith(789)
     })
   })
 
@@ -144,9 +140,7 @@ describe("<RightFloatedIdeaActions />", () => {
         )
 
         wrapper.find(".announcement.icon").simulate("click")
-        expect(
-          retroChannel.push.calledWith("idea_highlight_toggled", { id: 666, isHighlighted: false })
-        ).to.equal(true)
+        expect(retroChannel.push).calledWith("idea_highlight_toggled", { id: 666, isHighlighted: false })
       })
     })
 
@@ -179,9 +173,7 @@ describe("<RightFloatedIdeaActions />", () => {
           )
 
           wrapper.find(".ban.icon").simulate("click")
-          expect(
-            retroChannel.push.calledWith("idea_highlight_toggled", { id: 666, isHighlighted: true })
-          ).to.equal(true)
+          expect(retroChannel.push).calledWith("idea_highlight_toggled", { id: 666, isHighlighted: true })
         })
       })
     })

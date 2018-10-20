@@ -150,14 +150,14 @@ describe("action creators", () => {
 
       it("results in a push to the retroChannel", () => {
         thunk(() => {}, undefined, mockRetroChannel)
-        expect(mockRetroChannel.push.calledWith("retro_edited", { stage: "newSlang" })).to.eq(true)
+        expect(mockRetroChannel.push).calledWith("retro_edited", { stage: "newSlang" })
       })
 
       it("notifies the store that a retro update request is in flight", () => {
         const dispatchSpy = sinon.spy()
 
         thunk(dispatchSpy, undefined, mockRetroChannel)
-        expect(dispatchSpy.calledWithMatch({ type: "RETRO_UPDATE_REQUESTED" })).to.eq(true)
+        expect(dispatchSpy).calledWithMatch({ type: "RETRO_UPDATE_REQUESTED" })
       })
 
       describe("when the push results in an error", () => {
@@ -170,9 +170,7 @@ describe("action creators", () => {
 
           push.trigger("error", {})
 
-          expect(
-            dispatchSpy.calledWithMatch({ type: "RETRO_UPDATE_REJECTED" })
-          ).to.eq(true)
+          expect(dispatchSpy).calledWithMatch({ type: "RETRO_UPDATE_REJECTED" })
         })
       })
     })

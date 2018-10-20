@@ -103,9 +103,7 @@ describe("StageProgressionButton", () => {
         })
 
         it("invokes the  `updateRetroAsync` action, passing the next stage", () => {
-          expect(
-            actions.updateRetroAsync.calledWith({ stage: "stageDos" })
-          ).to.equal(true)
+          expect(actions.updateRetroAsync).calledWith({ stage: "stageDos" })
         })
       })
 
@@ -115,9 +113,7 @@ describe("StageProgressionButton", () => {
         })
 
         it("does not invoke the updateRetroAsync action creator", () => {
-          expect(
-            actions.updateRetroAsync.called
-          ).to.equal(false)
+          expect(actions.updateRetroAsync).not.called
         })
 
         it("closes the modal", () => {

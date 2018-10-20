@@ -95,7 +95,7 @@ describe("RetroChannel", () => {
       describe("on `idea_committed`", () => {
         it("invokes the addIdea action", () => {
           retroChannel.trigger("idea_committed", { body: "zerp" })
-          expect(addIdeaSpy.calledWith({ body: "zerp" })).to.equal(true)
+          expect(addIdeaSpy).calledWith({ body: "zerp" })
         })
       })
 
@@ -103,7 +103,7 @@ describe("RetroChannel", () => {
         it("invokes the updateRetroSync action, passing the payload", () => {
           const payload = { stage: "dummy value" }
           retroChannel.trigger("retro_edited", payload)
-          expect(updateRetroSpy.calledWith(payload)).to.equal(true)
+          expect(updateRetroSpy).calledWith(payload)
         })
       })
 
@@ -111,9 +111,7 @@ describe("RetroChannel", () => {
         it("invokes updateIdea with idea id, specifying that the edit is desired by another client", () => {
           retroChannel.trigger("idea_edit_state_enabled", { id: 2 })
 
-          expect(
-            updateIdeaSpy.calledWith(2, { inEditState: true, isLocalEdit: false })
-          ).to.equal(true)
+          expect(updateIdeaSpy).calledWith(2, { inEditState: true, isLocalEdit: false })
         })
       })
 
@@ -123,9 +121,7 @@ describe("RetroChannel", () => {
         })
 
         it("invokes updateIdea with idea id, passing edit nullification attributes", () => {
-          expect(
-            updateIdeaSpy.calledWith(3, { inEditState: false, liveEditText: null })
-          ).to.equal(true)
+          expect(updateIdeaSpy).calledWith(3, { inEditState: false, liveEditText: null })
         })
       })
 
@@ -147,9 +143,7 @@ describe("RetroChannel", () => {
         it("dispatches action for updating the user with matching token to is_typing true with timestamp", () => {
           retroChannel.trigger("idea_typing_event", { userToken: "s0meUserToken" })
 
-          expect(
-            updatePresenceSpy.calledWith("s0meUserToken", { is_typing: true, last_typed: clock.now })
-          ).to.equal(true)
+          expect(updatePresenceSpy).calledWith("s0meUserToken", { is_typing: true, last_typed: clock.now })
         })
 
         describe("when the user with matching token has already typed", () => {
@@ -157,9 +151,7 @@ describe("RetroChannel", () => {
             retroChannel.trigger("idea_typing_event", { userToken: "abc" })
             clock.tick(900)
 
-            expect(
-              updatePresenceSpy.calledWith("abc", { is_typing: false })
-            ).to.equal(true)
+            expect(updatePresenceSpy).calledWith("abc", { is_typing: false })
           })
 
           it("delays setting `is_typing` back to false if the event is received again", () => {
@@ -169,9 +161,7 @@ describe("RetroChannel", () => {
             clock = useFakeTimers(Date.now())
             retroChannel.trigger("idea_typing_event", { userToken: "abc" })
             clock.tick(500)
-            expect(
-              updatePresenceSpy.calledWith("abc", { is_typing: false })
-            ).to.equal(false)
+            expect(updatePresenceSpy).not.calledWith("abc", { is_typing: false })
           })
         })
 
@@ -202,14 +192,14 @@ describe("RetroChannel", () => {
         })
 
         it("invokes the updateIdea action with idea id, passing the `liveEditText` value along", () => {
-          expect(updateIdeaSpy.calledWith(2, { id: 2, liveEditText: "lalala" })).to.equal(true)
+          expect(updateIdeaSpy).calledWith(2, { id: 2, liveEditText: "lalala" })
         })
       })
 
       describe("on `idea_deleted`", () => {
         it("invokes deleteIdea action, passing in the idea's id", () => {
           retroChannel.trigger("idea_deleted", { id: 6 })
-          expect(deleteIdeaSpy.calledWith(6)).to.equal(true)
+          expect(deleteIdeaSpy).calledWith(6)
         })
       })
 
@@ -219,14 +209,14 @@ describe("RetroChannel", () => {
         })
 
         it("invokes updateIdea action, passing idea id & nulling the editing attributes", () => {
-          expect(updateIdeaSpy.calledWith(2, {
+          expect(updateIdeaSpy).calledWith(2, {
             id:
             2,
             body: "i like TEENAGE MUTANT NINJA TURTLES",
             liveEditText: null,
             inEditState: false,
             editSubmitted: false,
-          })).to.eql(true)
+          })
         })
       })
 
@@ -241,10 +231,10 @@ describe("RetroChannel", () => {
         })
 
         it("invokes the addVote action, passing the vote", () => {
-          expect(addVoteSpy.calledWith({
+          expect(addVoteSpy).calledWith({
             idea_id: 50,
             user_id: 99,
-          })).to.eql(true)
+          })
         })
       })
     })

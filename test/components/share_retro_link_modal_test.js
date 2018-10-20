@@ -60,7 +60,7 @@ describe("ShareRetroLinkModal component", () => {
             sinon.assert.callOrder(readonlyUrlInput.select, document.execCommand)
           }).to.not.throw()
 
-          expect(document.execCommand.calledWithExactly("copy")).to.equal(true)
+          expect(document.execCommand).calledWithExactly("copy")
         })
       })
 

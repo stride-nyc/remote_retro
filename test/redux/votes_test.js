@@ -120,9 +120,7 @@ describe("actions", () => {
         const dispatchSpy = sinon.spy()
         thunk(dispatchSpy, undefined, mockRetroChannel)
 
-        expect(
-          dispatchSpy.calledWithMatch({ type: "ADD_VOTE" })
-        ).to.eq(true)
+        expect(dispatchSpy).calledWithMatch({ type: "ADD_VOTE" })
       })
 
       it("assigns a UUID to the optimistically added vote", () => {
@@ -140,9 +138,7 @@ describe("actions", () => {
 
         thunk(dispatch, undefined, mockRetroChannel)
 
-        expect(
-          pushSpy.calledWith("vote_submitted", { idea_id: 10, user_id: 5 })
-        ).to.be.true
+        expect(pushSpy).calledWith("vote_submitted", { idea_id: 10, user_id: 5 })
 
         pushSpy.restore()
       })
@@ -164,12 +160,10 @@ describe("actions", () => {
 
           push.trigger("error", {})
 
-          expect(
-            dispatchSpy.calledWithMatch({
-              type: "VOTE_SUBMISSION_REJECTED",
-              optimisticUiVoteId: optimisticallyAddedVote.id,
-            })
-          ).to.eq(true)
+          expect(dispatchSpy).calledWithMatch({
+            type: "VOTE_SUBMISSION_REJECTED",
+            optimisticUiVoteId: optimisticallyAddedVote.id,
+          })
         })
       })
     })

@@ -42,9 +42,9 @@ describe("DoorChime component", () => {
           get() { return 5 },
         })
 
-        expect(audioElement.play.called).to.equal(false)
+        expect(audioElement.play).not.called
         doorChimeWrapper.setProps({ presences: [{ name: "Hilly" }] })
-        expect(audioElement.play.called).to.equal(true)
+        expect(audioElement.play).called
       })
 
       it("plays enter chime when the user list length increases", () => {
@@ -74,7 +74,7 @@ describe("DoorChime component", () => {
         })
 
         doorChimeWrapper.setProps({ presences: [{ name: "Danny" }] })
-        expect(audioElement.play.called).to.equal(false)
+        expect(audioElement.play).not.called
       })
     })
   })

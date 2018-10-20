@@ -27,8 +27,7 @@ describe("RemoteRetro component", () => {
         <RemoteRetro {...defaultProps} stage={CLOSED} />
       )
 
-      expect(hotjarSpy.calledWith("trigger", CLOSED)).to.eql(true)
-      hotjarSpy.restore()
+      expect(hotjarSpy).calledWith("trigger", CLOSED)
     })
   })
 })

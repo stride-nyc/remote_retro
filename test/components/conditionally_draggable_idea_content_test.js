@@ -202,7 +202,9 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
 
     it("sets the idea id on the event data element", () => {
       const stringifiedIdea = JSON.stringify(idea)
-      expect(mockEvent.dataTransfer.setData.calledWith("idea", stringifiedIdea)).to.eql(true)
+      expect(
+        mockEvent.dataTransfer.setData
+      ).calledWith("idea", stringifiedIdea)
     })
   })
 })

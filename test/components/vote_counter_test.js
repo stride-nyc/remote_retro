@@ -119,7 +119,7 @@ describe("VoteCounter", () => {
       )
       voteCounter.instance().handleClick()
 
-      expect(submitVote.calledWith(idea, mockUser)).to.be.true
+      expect(submitVote).calledWith(idea, mockUser)
     })
   })
 })

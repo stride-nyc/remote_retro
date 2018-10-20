@@ -87,15 +87,13 @@ describe("IdeaSubmissionForm component", () => {
 
         wrapper.simulate("submit", fakeEvent)
 
-        expect(
-          actions.submitIdea.calledWithMatch({
-            category: "happy",
-            body: "",
-            userId: 1,
-            assigneeId: null,
-            hasTypedChar: false,
-          }
-        )).to.equal(true)
+        expect(actions.submitIdea).calledWithMatch({
+          category: "happy",
+          body: "",
+          userId: 1,
+          assigneeId: null,
+          hasTypedChar: false,
+        })
       })
     })
 
@@ -115,15 +113,13 @@ describe("IdeaSubmissionForm component", () => {
 
         wrapper.simulate("submit", fakeEvent)
 
-        expect(
-          actions.submitIdea.calledWithMatch({
-            body: "Some issue",
-            userId: 1,
-            assigneeId: 1,
-            hasTypedChar: true,
-            category: "action-item",
-          }
-        )).to.equal(true)
+        expect(actions.submitIdea).calledWithMatch({
+          body: "Some issue",
+          userId: 1,
+          assigneeId: 1,
+          hasTypedChar: true,
+          category: "action-item",
+        })
       })
     })
   })
@@ -160,9 +156,7 @@ describe("IdeaSubmissionForm component", () => {
           target: { value: "new value" },
         })
 
-        expect(
-          retroChannel.push.calledWith("idea_typing_event", { userToken: "xyz" })
-        ).to.equal(true)
+        expect(retroChannel.push).calledWith("idea_typing_event", { userToken: "xyz" })
       })
     })
 
@@ -182,9 +176,7 @@ describe("IdeaSubmissionForm component", () => {
           target: { value: "new value" },
         })
 
-        expect(
-          retroChannel.push.called
-        ).to.equal(false)
+        expect(retroChannel.push).not.called
       })
     })
   })

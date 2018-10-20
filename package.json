@@ -42,7 +42,6 @@
     "redux": "^3.6.0",
     "redux-thunk": "^2.3.0",
     "semantic-ui-offline": "github:vanderhoop/semantic-ui-offline#dbf68a08531a48aa5b2bdc123b92a3c3df112515",
-    "sinon": "^1.17.7",
     "uuid": "^3.3.2",
     "webpack": "^3.8.1",
     "write-file-webpack-plugin": "^4.2.0"
@@ -76,6 +75,8 @@
     "mocha": "^4.0.1",
     "mock-css-modules": "^1.0.0",
     "react-test-renderer": "^16.1.1",
+    "sinon": "^1.17.7",
+    "sinon-chai": "^3.2.0",
     "style-loader": "^0.13.1",
     "webpack-dev-server": "^2.9.2",
     "webpack-notifier": "^1.5.0"

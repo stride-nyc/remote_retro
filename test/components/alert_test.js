@@ -48,7 +48,7 @@ describe("Alert component", () => {
     })
 
     it("invokes the clearAlert action", () => {
-      expect(actions.clearAlert.called).to.eql(true)
+      expect(actions.clearAlert).called
     })
   })
 })

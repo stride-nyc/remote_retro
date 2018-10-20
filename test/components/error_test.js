@@ -37,7 +37,7 @@ describe("Error component", () => {
     })
 
     it("invokes the clearError action", () => {
-      expect(actions.clearError.called).to.eql(true)
+      expect(actions.clearError).called
     })
   })
 })

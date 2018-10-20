@@ -75,7 +75,7 @@ describe("CategoryColumn", () => {
     })
 
     it("prevents the default event behavior", () => {
-      expect(mockEvent.preventDefault.called).to.eql(true)
+      expect(mockEvent.preventDefault).called
     })
 
     it("adds a 'dragged-over' class", () => {
@@ -164,18 +164,16 @@ describe("CategoryColumn", () => {
         })
 
         it("prevents the default event behavior", () => {
-          expect(mockEvent.preventDefault.called).to.eql(true)
+          expect(mockEvent.preventDefault).called
         })
 
         it("pushes an idea_edited event w/ the idea's raw values, camelCased attributes, and its new category", () => {
-          expect(
-            actions.submitIdeaEditAsync.calledWith({
-              id: idea.id,
-              body: idea.body,
-              assignee_id: idea.assignee_id,
-              category,
-            })
-          ).to.eql(true)
+          expect(actions.submitIdeaEditAsync).calledWith({
+            id: idea.id,
+            body: idea.body,
+            assignee_id: idea.assignee_id,
+            category,
+          })
         })
 
         it("removes the dragged-over class", () => {
@@ -206,7 +204,7 @@ describe("CategoryColumn", () => {
         })
 
         it("does not invoke the submitIdeaEditAsync action", () => {
-          expect(actions.submitIdeaEditAsync.called).to.eql(false)
+          expect(actions.submitIdeaEditAsync).not.called
         })
       })
     })

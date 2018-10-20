@@ -128,8 +128,8 @@ describe("<IdeaEditForm />", () => {
       context("when the currentUser is the facilitator", () => {
         it("pushes a `idea_live_edit` event to the retroChannel, passing current input value", () => {
           expect(
-            retroChannel.push.calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
-          ).to.equal(true)
+            retroChannel.push
+          ).calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
         })
       })
 
@@ -149,8 +149,8 @@ describe("<IdeaEditForm />", () => {
 
         it("does not push an `idea_live_edit` event to the retroChannel", () => {
           expect(
-            retroChannel.push.called
-          ).to.equal(false)
+            retroChannel.push
+          ).not.called
         })
       })
     })
@@ -201,14 +201,12 @@ describe("<IdeaEditForm />", () => {
 
       saveButton.simulate("submit")
 
-      expect(
-        actions.submitIdeaEditAsync.calledWith({
-          id: idea.id,
-          body: idea.body.trim(),
-          category: idea.category,
-          assignee_id: undefined,
-        })
-      ).to.equal(true)
+      expect(actions.submitIdeaEditAsync).calledWith({
+        id: idea.id,
+        body: idea.body.trim(),
+        category: idea.category,
+        assignee_id: undefined,
+      })
     })
   })
 
@@ -223,9 +221,7 @@ describe("<IdeaEditForm />", () => {
 
       cancelButton.simulate("click")
 
-      expect(
-        actions.cancelIdeaEditState.calledWith(idea.id)
-      ).to.equal(true)
+      expect(actions.cancelIdeaEditState).calledWith(idea.id)
     })
   })
 })
