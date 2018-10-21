@@ -67,7 +67,12 @@ defmodule RemoteRetro.TestHelpers do
 
   def delete_idea(session, ~M{body}) do
     session
+    |> stub_js_confirms
     |> find(Query.css(".ideas li", text: body))
     |> click(Query.css(".remove.icon"))
+  end
+
+  defp stub_js_confirms(session) do
+    execute_script(session, "window.confirm = function(){ return true; }")
   end
 end
