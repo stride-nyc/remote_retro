@@ -11,8 +11,21 @@
     font-size: 1.4rem;
     margin-right: 0.4rem;
 
-    &:global(:last-child) {
-      margin-right: 0;
+    &:global(.edit.icon) {
+      margin-right: 0.35rem;
+    }
+
+    &:global(.remove.icon) {
+      margin-right: 0.2rem;
+
+      /* Semantic UI uses psuedoelements for icons, and the placement
+      / of this remove icon, visually, is on the far right of the actual
+      / DOM real-estate that the element takes up by default, causing clicks/touches
+      / that seemingly fall 'left' of the icon to end up causing the click
+      / event handler to fire. here, we limit the width to keep the button
+      / from causing less unwanted idea deletions
+      */
+      width: fit-content;
     }
 
     @media (min-width: 768px) {
