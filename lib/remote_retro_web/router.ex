@@ -16,6 +16,7 @@ defmodule RemoteRetroWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug :set_current_user
   end
 
   scope "/", RemoteRetroWeb do
@@ -32,5 +33,10 @@ defmodule RemoteRetroWeb.Router do
     pipe_through [:browser, :authentication_required]
 
     resources "/", RetroController, only: [:index, :create, :show]
+  end
+
+  def set_current_user(conn, _) do
+    conn
+    |> assign(:current_user, get_session(conn, :current_user))
   end
 end

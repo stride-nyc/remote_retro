@@ -78,9 +78,11 @@
             </div>
           </a>
 
-          <a href="/logout" class="ui button mini">
-            Log Out
-          </a>
+          <%= if @current_user do %>
+            <a href="/logout" class="ui button mini">
+              Log Out
+            </a>
+          <% end %>
         </div>
       </div>
     <% end %>
