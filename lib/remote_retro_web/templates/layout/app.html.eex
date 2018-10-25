@@ -79,7 +79,7 @@
           </a>
 
           <%= if @current_user do %>
-            <a href="/logout" class="ui button mini">
+            <a href="/logout" class="ui mini compact logout button">
               Log Out
             </a>
           <% end %>

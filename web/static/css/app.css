@@ -198,6 +198,10 @@
         height: 100%;
       }
     }
+
+    :global(.logout) {
+      transform: translateY(1px);
+    }
   }
 }
 
