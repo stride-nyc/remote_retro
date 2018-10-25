@@ -71,7 +71,7 @@
           </div>
         </a>
         <div class="ui right floated header right-branded-header grid">
-          <a href="http://www.stridenyc.com/" target="_blank">
+          <a href="http://www.stridenyc.com/" target="_blank" class="ui grid computer tablet only">
             <div>
               <div class="middle aligned content logo-text">Built by</div>
               <div class="ui tiny image"><img src="<%= static_path(@conn, "/images/stride_logo.png") %>" alt="Stride" /></div>
