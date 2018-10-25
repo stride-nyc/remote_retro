@@ -16,6 +16,7 @@ defmodule RemoteRetroWeb.Router do
     plug :fetch_flash
     plug :protect_from_forgery
     plug :put_secure_browser_headers
+    plug SetCurrentUser
   end
 
   scope "/", RemoteRetroWeb do
@@ -25,6 +26,7 @@ defmodule RemoteRetroWeb.Router do
     get "/faq", PageController, :faq
     get "/auth/google", AuthController, :index
     get "/auth/google/callback", AuthController, :callback
+    get "/logout", AuthController, :logout
   end
 
   scope "/retros", RemoteRetroWeb do

@@ -73,6 +73,7 @@ psql -h localhost
   - Install Erlang, Elixir, and their dependencies by running `bin/install_erlang_and_elixir_with_dependencies`
   - Compile the project and custom mix tasks via `mix compile`
   - Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
+  - Create the "remote_retro_test" database and migrate via `MIX_ENV=test mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
 
