@@ -115,9 +115,6 @@ jobs:  # basic units of work in a run
 workflows:
   version: 2
   build-bump-deploy:
-    filters:
-      branches:
-        only: this-shouldnt-bump
     jobs:
       - build
       - bump:
