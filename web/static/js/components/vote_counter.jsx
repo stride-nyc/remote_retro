@@ -36,7 +36,7 @@ class VoteCounter extends React.Component {
           className={`ui green button ${styles.voteButton}`}
           onClick={this.handleClick}
         >
-          Vote
+          Vote +
         </button>
         <a className={`ui basic green label ${styles.voteCount}`}>
           <ReactTransitionGroup
