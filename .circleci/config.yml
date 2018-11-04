@@ -120,7 +120,7 @@ workflows:
             - build
           filters:
             branches:
-              only: circle-ci-test
+              only: circle-ci-test-2
       - deploy:
           requires:
             - build
