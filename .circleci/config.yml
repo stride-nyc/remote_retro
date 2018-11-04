@@ -117,7 +117,7 @@ workflows:
   build-bump-deploy:
     filters:
       branches:
-        only: master
+        only: this-shouldnt-bump
     jobs:
       - build
       - bump:
