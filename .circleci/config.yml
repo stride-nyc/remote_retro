@@ -114,7 +114,10 @@ jobs:  # basic units of work in a run
 
 workflows:
   version: 2
-  build-and-deploy:
+  build-bump-deploy:
+    filters:
+      branches:
+        only: master
     jobs:
       - build
       - bump:
