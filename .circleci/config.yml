@@ -84,6 +84,9 @@ jobs:  # basic units of work in a run
     working_directory: ~/app # directory where steps will run
     steps:
       - checkout
+      - add_ssh_keys:
+          fingerprints:
+            - "92:99:00:c7:6c:b3:98:ed:c3:ab:e4:ce:a7:9c:8f:4f"
       - run:
           name: Bump version pre-deploy
           command: |
@@ -92,10 +95,6 @@ jobs:  # basic units of work in a run
             git config --global user.name "CircleCI"
             git commit --allow-empty -m "CircleCI - Automated version bump\n\t- [skip ci]"
             git push origin ${CIRCLE_BRANCH}
-      - run:
-          name: Notify HoneyBadger of Deploy
-          command: |
-            curl --data "deploy[environment]=production&deploy[revision]=$CIRCLE_SHA1&deploy[repository]=https://github.com/stride-nyc/remote_retro&api_key=$HONEYBADGER_API_KEY" "https://api.honeybadger.io/v1/deploys"
 
   deploy:
     machine:
