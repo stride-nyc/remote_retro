@@ -3,7 +3,7 @@ defmodule RemoteRetro.Mixfile do
 
   def project do
     [app: :remote_retro,
-     version: "0.0.1",
+     version: app_version(),
      default_task: "defaults",
      elixir: "1.5.3",
      elixirc_paths: elixirc_paths(Mix.env),
@@ -69,5 +69,16 @@ defmodule RemoteRetro.Mixfile do
      "e2e": ["end_to_end"],
      "defaults": ["preflight", "phx.server"],
     ]
+  end
+
+  # ensure unique app version for deploys of master from CircleCI, as a different
+  # version is required by distillery for hot-upgrade deploys
+  defp app_version do
+    if Mix.env == :prod do
+      {commit_count, 0} = System.cmd("git", ~w[rev-list --count HEAD], stderr_to_stdout: true)
+      "1.0." <> String.trim(commit_count)
+    else
+      "1.0.1"
+    end
   end
 end
