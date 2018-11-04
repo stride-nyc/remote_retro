@@ -78,6 +78,25 @@ jobs:  # basic units of work in a run
       - store_artifacts:
           path: screenshots
 
+  bump:
+    machine:
+      enabled: true
+    working_directory: ~/app # directory where steps will run
+    steps:
+      - checkout
+      - run:
+          name: Bump version pre-deploy
+          command: |
+            git push --set-upstream origin ${CIRCLE_BRANCH}
+            git config --global user.email "versionbumper@circleci.com"
+            git config --global user.name "CircleCI"
+            git commit --allow-empty -m "CircleCI - Automated version bump\n\t- [skip ci]"
+            git push origin ${CIRCLE_BRANCH}
+      - run:
+          name: Notify HoneyBadger of Deploy
+          command: |
+            curl --data "deploy[environment]=production&deploy[revision]=$CIRCLE_SHA1&deploy[repository]=https://github.com/stride-nyc/remote_retro&api_key=$HONEYBADGER_API_KEY" "https://api.honeybadger.io/v1/deploys"
+
   deploy:
     machine:
       enabled: true
@@ -99,9 +118,16 @@ workflows:
   build-and-deploy:
     jobs:
       - build
+      - bump:
+          requires:
+            - build
+          filters:
+            branches:
+              only: circle-ci-test
       - deploy:
           requires:
             - build
+            - bump
           filters:
             branches:
               only: master
