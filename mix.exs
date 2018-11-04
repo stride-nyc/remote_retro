@@ -3,7 +3,7 @@ defmodule RemoteRetro.Mixfile do
 
   def project do
     [app: :remote_retro,
-     version: "0.0.1",
+     version: "0.0.2",
      default_task: "defaults",
      elixir: "1.5.3",
      elixirc_paths: elixirc_paths(Mix.env),
