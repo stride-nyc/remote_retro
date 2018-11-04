@@ -86,7 +86,7 @@ jobs:  # basic units of work in a run
       - checkout
       - add_ssh_keys:
           fingerprints:
-            - "92:99:00:c7:6c:b3:98:ed:c3:ab:e4:ce:a7:9c:8f:4f"
+            - "37:7f:e8:fa:a2:d5:ec:bd:db:a3:0d:2d:e0:b9:19:0d"
       - run:
           name: Bump version pre-deploy
           command: |
