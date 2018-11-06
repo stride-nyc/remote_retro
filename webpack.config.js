@@ -61,6 +61,8 @@ module.exports = {
     path: OUTPUT_PATH,
     filename: "js/app.js",
     publicPath: OUTPUT_PUBLIC_PATH,
+    hotUpdateChunkFilename: "hot/hot-update.js",
+    hotUpdateMainFilename: "hot/hot-update.json",
   },
   devServer: {
     port: DEV_SERVER_PORT,
