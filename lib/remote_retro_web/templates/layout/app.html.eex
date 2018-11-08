@@ -40,6 +40,7 @@
     <link rel="preload" href="<%= static_path(@conn, "/css/semantic-ui/themes/default/assets/fonts/icons.woff2") %>" as="font" crossorigin="anonymous" />
     <link rel="stylesheet" href="<%= static_path(@conn, "/css/semantic-ui/semantic.min.css") %>">
     <link rel="stylesheet" href="<%= app_css(@conn) %>">
+    <link rel="apple-touch-icon" href="<%= static_path(@conn, "/images/apple-touch-icon.png") %>">
 
     <!--
       disable css animations in end-to-end tests;
