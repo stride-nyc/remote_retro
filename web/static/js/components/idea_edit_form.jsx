@@ -24,7 +24,7 @@ class IdeaEditForm extends Component {
     let newIdeaBodyError
     const { retroChannel, idea, currentUser } = this.props
 
-    if (currentUser.is_facilitator) {
+    if (currentUser.is_facilitator && currentUser.id !== idea.user_id) {
       retroChannel.push("idea_live_edit", { id: idea.id, liveEditText: target.value })
     }
 

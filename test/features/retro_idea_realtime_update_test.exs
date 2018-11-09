@@ -27,6 +27,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
     @tag [
       idea: %Idea{category: "sad", body: "no linter"},
+      idea_author: :non_facilitator
     ]
     test "the immediate update of ideas as they are changed/saved", ~M{retro, session: facilitator_session} do
       participant_session = new_authenticated_browser_session()
@@ -71,20 +72,19 @@ defmodule RetroIdeaRealtimeUpdateTest do
   end
 
   describe "when an action item has been assigned to a particular user" do
-    setup [:persist_additional_users_for_retro, :persist_idea_for_retro]
+    setup [:persist_idea_for_retro]
 
     @tag [
       retro_stage: "action-items",
       idea: %Idea{body: "blurgh", category: "action-item"},
-      additional_users: [@test_user_two]
     ]
 
-    test "it can be re-assigned to a different user", ~M{retro, user, session: facilitator_session} do
+    test "it can be re-assigned to a different user", ~M{retro, facilitator, session: facilitator_session} do
       retro_path = "/retros/" <> retro.id
       facilitator_session = visit(facilitator_session, retro_path)
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert action_items_list_text =~ "blurgh (#{user.name})"
+      assert action_items_list_text =~ "blurgh (#{facilitator.name})"
 
       facilitator_session
       |> click(Query.css(".edit"))

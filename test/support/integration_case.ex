@@ -41,7 +41,10 @@ defmodule RemoteRetro.IntegrationCase do
     retro =
       case tags[:retro_stage] do
         nil -> tags[:retro]
-        _ -> Repo.insert!(%Retro{stage: tags[:retro_stage], facilitator_id: user.id})
+        _ ->
+          tags[:retro]
+          |> Retro.changeset(%{stage: tags[:retro_stage]})
+          |> Repo.update!
       end
 
     session = new_authenticated_browser_session(metadata)

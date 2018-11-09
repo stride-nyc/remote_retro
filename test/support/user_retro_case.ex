@@ -3,6 +3,7 @@ defmodule RemoteRetro.UserRetroCase do
   alias RemoteRetro.{Repo, User, Retro, Participation}
 
   @test_user_one Application.get_env(:remote_retro, :test_user_one)
+  @test_user_two Application.get_env(:remote_retro, :test_user_two)
 
   setup_all _tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
@@ -11,9 +12,12 @@ defmodule RemoteRetro.UserRetroCase do
     # and rolls back when it exits. setup_all runs in a distinct process
     # from each test so the data doesn't exist for each test.
     Ecto.Adapters.SQL.Sandbox.mode(Repo, :auto)
-    {:ok, user} = User.upsert_record_from(oauth_info: @test_user_one)
-    retro = Repo.insert!(%Retro{facilitator_id: user.id, stage: "idea-generation"})
-    participation = Repo.insert!(%Participation{user_id: user.id, retro_id: retro.id})
+
+    {:ok, facilitator} = User.upsert_record_from(oauth_info: @test_user_one)
+    {:ok, non_facilitator} = User.upsert_record_from(oauth_info: @test_user_two)
+    retro = Repo.insert!(%Retro{facilitator_id: facilitator.id, stage: "idea-generation"})
+    participation = Repo.insert!(%Participation{user_id: facilitator.id, retro_id: retro.id})
+    participation_two = Repo.insert!(%Participation{user_id: non_facilitator.id, retro_id: retro.id})
 
     on_exit fn ->
       # this callback needs to checkout its own connection since it
@@ -22,12 +26,14 @@ defmodule RemoteRetro.UserRetroCase do
       Ecto.Adapters.SQL.Sandbox.mode(Repo, :auto)
 
       Repo.delete(participation)
+      Repo.delete(participation_two)
       Repo.delete(retro)
-      Repo.delete(user)
+      Repo.delete(facilitator)
+      Repo.delete(non_facilitator)
 
       :ok
     end
 
-    [user: user, retro: retro]
+    [facilitator: facilitator, retro: retro, non_facilitator: non_facilitator]
   end
 end

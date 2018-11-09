@@ -126,10 +126,31 @@ describe("<IdeaEditForm />", () => {
       })
 
       context("when the currentUser is the facilitator", () => {
-        it("pushes a `idea_live_edit` event to the retroChannel, passing current input value", () => {
-          expect(
-            retroChannel.push
-          ).calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
+        context("when ideas are *not* authored by the facilitator", () => {
+          it("pushes a `idea_live_edit` event to the retroChannel, passing current input value", () => {
+            expect(
+              retroChannel.push
+            ).calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
+          })
+        })
+
+        context("when ideas are authored by the facilitator", () => {
+          it("does not push a `idea_live_edit` event to the retroChannel", () => {
+            const testProps = {
+              ...defaultProps,
+              idea: { id: 1000, body: "do the thing", user_id: currentUser.id, assignee_id: 9 },
+            }
+            retroChannel = { on: () => {}, push: sinon.spy() }
+            wrapper = mountWithConnectedSubcomponents(
+              <IdeaEditForm {...testProps} retroChannel={retroChannel} />
+            )
+            textarea = wrapper.find("textarea")
+            textarea.simulate("change", { target: { name: "editable_idea", value: "some value" } })
+
+            expect(
+              retroChannel.push
+            ).not.called
+          })
         })
       })
 
