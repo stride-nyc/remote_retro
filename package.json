@@ -19,7 +19,7 @@
     "babel-preset-react": "^6.24.1",
     "babel-register": "^6.26.0",
     "classnames": "^2.2.5",
-    "hard-source-webpack-plugin": "^0.4.9",
+    "hard-source-webpack-plugin": "^0.13.1",
     "immutability-helper": "^2.1.2",
     "lodash": "^4.17.4",
     "phoenix": "file:deps/phoenix",
