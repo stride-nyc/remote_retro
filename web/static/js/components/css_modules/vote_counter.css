@@ -32,6 +32,11 @@
 
   .vote-button {
     padding: 0.475rem 0.9rem;
+
+    /* allow wrapping element's disabled styling to handle dimming for consistency */
+    &:disabled {
+      opacity: 1;
+    }
   }
 
   .vote-count {

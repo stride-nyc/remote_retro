@@ -98,8 +98,35 @@ describe("VoteCounter", () => {
       )
     })
 
-    it("renders a disabled VoteCounter", () => {
+    it("renders the VoteCounter with disabled styling", () => {
       expect(voteCounter.hasClass("disabled")).to.be.true
+    })
+
+    // necessary due to keyboard events potentially firing on an already-focused button
+    it("renders a functionally disabled button", () => {
+      const button = voteCounter.find("button")
+      expect(button.prop("disabled")).to.be.true
+    })
+  })
+
+  context("when buttonDisabled is false", () => {
+    let voteCounter
+    beforeEach(() => {
+      voteCounter = shallow(
+        <VoteCounter
+          {...defaultProps}
+          buttonDisabled={false}
+        />
+      )
+    })
+
+    it("does *not* render the VoteCounter with disabled styling", () => {
+      expect(voteCounter.hasClass("disabled")).to.be.false
+    })
+
+    it("does not disable the functionality of the underlying button element", () => {
+      const button = voteCounter.find("button")
+      expect(button.prop("disabled")).to.be.false
     })
   })
 
