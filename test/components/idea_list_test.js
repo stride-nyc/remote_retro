@@ -15,6 +15,7 @@ describe("IdeaList", () => {
     ideas: [],
     stage: IDEA_GENERATION,
     category: "confused",
+    alert: null,
   }
 
   context("when the stage is either idea-generation or voting stage", () => {
@@ -214,48 +215,52 @@ describe("IdeaList", () => {
   })
 
   context("when the stage is transitioned from voting to action-items", () => {
-    let clock
+    context("and the alert is cleared", () => {
+      let clock
 
-    beforeEach(() => {
-      clock = sinon.useFakeTimers()
-    })
+      beforeEach(() => {
+        clock = sinon.useFakeTimers()
+      })
 
-    afterEach(() => {
-      clock.restore()
-    })
+      afterEach(() => {
+        clock.restore()
+      })
 
-    const ideas = [{
-      id: 5,
-      body: "should be first after brief delay",
-      category: "confused",
-      vote_count: 16,
-    }, {
-      id: 2,
-      body: "should be first at outset",
-      category: "confused",
-      vote_count: 1,
-    }]
+      const ideas = [{
+        id: 5,
+        body: "should be first after brief delay",
+        category: "confused",
+        vote_count: 16,
+      }, {
+        id: 2,
+        body: "should be first at outset",
+        category: "confused",
+        vote_count: 1,
+      }]
 
-    const votes = [{ idea_id: 5 }]
+      const votes = [{ idea_id: 5 }]
 
-    it("alters the sort order to most votes DESC after a delay", () => {
-      const wrapper = mountWithConnectedSubcomponents(
-        <IdeaList
-          {...defaultProps}
-          votes={votes}
-          ideas={ideas}
-          stage={VOTING}
-        />
-      )
+      it("alters the sort order to most votes DESC after a delay", () => {
+        const wrapper = mountWithConnectedSubcomponents(
+          <IdeaList
+            {...defaultProps}
+            votes={votes}
+            ideas={ideas}
+            stage={VOTING}
+            alert={null}
+          />
+        )
 
-      wrapper.setProps({ stage: ACTION_ITEMS })
-      let listItems = wrapper.find("li")
-      expect(listItems.first().text()).to.match(/should be first at outset/)
+        wrapper.setProps({ stage: ACTION_ITEMS, alert: { headerText: "Stage Change: Action Items" } })
+        let listItems = wrapper.find("li")
+        expect(listItems.first().text()).to.match(/should be first at outset/)
+        wrapper.setProps({ alert: null })
 
-      clock.tick(2250)
-      wrapper.update()
-      listItems = wrapper.find("li")
-      expect(listItems.first().text()).to.match(/should be first after brief delay/)
+        clock.tick(2250)
+        wrapper.update()
+        listItems = wrapper.find("li")
+        expect(listItems.first().text()).to.match(/should be first after brief delay/)
+      })
     })
   })
 })

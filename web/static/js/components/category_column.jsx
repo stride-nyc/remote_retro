@@ -68,10 +68,11 @@ CategoryColumn.propTypes = {
   actions: AppPropTypes.actions.isRequired,
 }
 
-export const mapStateToProps = ({ votes, ideas }, props) => {
+export const mapStateToProps = ({ votes, ideas, alert }, props) => {
   return {
     votes,
     ideas: ideas.filter(idea => idea.category === props.category),
+    alert,
   }
 }
 

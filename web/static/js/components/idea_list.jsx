@@ -8,7 +8,7 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_list.css"
 import STAGES from "../configs/stages"
 
-const { VOTING, ACTION_ITEMS, CLOSED } = STAGES
+const { ACTION_ITEMS, CLOSED } = STAGES
 
 const sortByVoteCountWithSecondarySortOnIdASC = (votes, ideas) => {
   const voteCountsByIdea = countBy(votes, "idea_id")
@@ -40,7 +40,10 @@ class IdeaList extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    if (this.props.stage === VOTING && nextProps.stage === ACTION_ITEMS) {
+    const { stage, alert } = this.props
+    const actionItemsStageChangeAlertCleared = stage === ACTION_ITEMS && alert && !nextProps.alert
+
+    if (actionItemsStageChangeAlertCleared) {
       const timeout = setTimeout(() => {
         this.setState({ sortByVotes: true })
         clearTimeout(timeout)
@@ -103,6 +106,11 @@ IdeaList.propTypes = {
   votes: AppPropTypes.votes.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
+  alert: AppPropTypes.alert,
+}
+
+IdeaList.defaultProps = {
+  alert: null,
 }
 
 export default IdeaList
