@@ -47,7 +47,7 @@ class IdeaList extends Component {
       const timeout = setTimeout(() => {
         this.setState({ sortByVotes: true })
         clearTimeout(timeout)
-      }, 2000)
+      }, 500)
     }
   }
 
