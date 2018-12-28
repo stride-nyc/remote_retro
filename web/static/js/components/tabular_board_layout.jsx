@@ -44,7 +44,8 @@ export const TabularBoardLayout = props => {
   )
 }
 
-export const mapStateToProps = ({ mobile, ideas, votes }) => ({
+export const mapStateToProps = ({ mobile, ideas, votes, alert }) => ({
+  alert,
   votes,
   selectedCategoryTab: mobile.selectedCategoryTab,
   ideas: ideas.filter(idea => idea.category === mobile.selectedCategoryTab),
