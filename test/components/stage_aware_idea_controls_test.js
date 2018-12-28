@@ -23,15 +23,32 @@ describe("<StageAwareIdeaControls />", () => {
   }
 
   context("when the stage is closed", () => {
-    const wrapper = mountWithConnectedSubcomponents(
-      <StageAwareIdeaControls
-        {...defaultProps}
-        stage={CLOSED}
-      />
-    )
+    context("and idea represents an action-item", () => {
+      const wrapper = mountWithConnectedSubcomponents(
+        <StageAwareIdeaControls
+          {...defaultProps}
+          stage={CLOSED}
+          idea={{ ...idea, category: "action-item" }}
+        />
+      )
 
-    it("doesn't render", () => {
-      expect(wrapper.html()).to.equal(null)
+      it("renders no markup", () => {
+        expect(wrapper.html()).to.equal(null)
+      })
+    })
+
+    context("and idea does *not* represent an action item", () => {
+      const wrapper = mountWithConnectedSubcomponents(
+        <StageAwareIdeaControls
+          {...defaultProps}
+          stage={CLOSED}
+          idea={{ ...idea, category: "sad" }}
+        />
+      )
+
+      it("renders the disabled voting interface", () => {
+        expect(wrapper.html()).to.match(/<button .* disabled.*>Vote<\/button/)
+      })
     })
   })
 
