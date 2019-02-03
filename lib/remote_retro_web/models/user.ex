@@ -27,6 +27,7 @@ defmodule RemoteRetro.User do
     field :picture, :string
     field :profile, :string
     field :last_login, :naive_datetime
+    field :completed_retros_count, :integer
 
     field :online_at, :integer, virtual: true
     field :token, :string, virtual: true
