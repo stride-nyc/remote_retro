@@ -4,12 +4,12 @@ defmodule RemoteRetroWeb.RetroManagementHandlers do
   alias RemoteRetro.{Emails, Mailer, Repo, Retro}
 
   def handle_in("retro_edited" = message, payload, socket) do
-    {reply_atom, _} = atomic_update_and_broadcast(socket, payload, message)
+    {reply_atom, _} = atomic_update_and_broadcast(message, payload, socket)
 
     {:reply, reply_atom, socket}
   end
 
-  defp atomic_update_and_broadcast(socket, payload, message) do
+  defp atomic_update_and_broadcast(message, payload, socket) do
     Repo.transaction (fn ->
       retro_id = socket.assigns.retro_id
       update_retro!(retro_id, payload)
