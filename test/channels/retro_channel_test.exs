@@ -1,9 +1,8 @@
 defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetroWeb.ChannelCase, async: false
-  use Bamboo.Test, shared: true
 
-  alias RemoteRetro.{Repo, Idea, Retro, Vote, Emails}
-  alias RemoteRetroWeb.{RetroChannel, Presence}
+  alias RemoteRetro.{Repo, Idea, Retro, Vote}
+  alias RemoteRetroWeb.{RetroChannel, Presence, RetroManagement}
 
   import Mock
   import ShorterMaps
@@ -51,17 +50,6 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing `retro_edited` with a stage of 'closed'" do
-    setup [:join_the_retro_channel]
-
-    test "results in an action items email being sent to participants", ~M{socket, retro} do
-      push(socket, "retro_edited", %{stage: "closed"})
-      emails = Emails.action_items_email(retro.id)
-
-      assert_delivered_email emails
-    end
-  end
-
   describe "pushing a `retro_edited` event with a valid, non-'closed' stage" do
     setup [:join_the_retro_channel]
 
@@ -78,12 +66,6 @@ defmodule RemoteRetro.RetroChannelTest do
 
       persisted_stage = Repo.get(Retro, retro.id).stage
       assert persisted_stage == "action-items"
-    end
-
-    test "doesn't send an email containing the retro action items", ~M{socket} do
-      ref = push(socket, "retro_edited", %{stage: "action-items"})
-      assert_reply ref, :ok
-      assert_no_emails_delivered()
     end
   end
 
@@ -105,19 +87,23 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a `retro_edited` event with an invalid, unrecognized stage" do
+  describe "when the retro update blows up" do
     setup [:join_the_retro_channel]
 
-    test "results in an error reply", ~M{socket} do
-      ref = push(socket, "retro_edited", %{stage: "year of the depend adult undergarment"})
-      assert_reply ref, :error
-    end
+    with_mock RetroManagement, [update!: fn(_, _) ->
+      raise "hell"
+    end] do
+      test "an error reply is sent", ~M{socket} do
+        ref = push(socket, "retro_edited", %{stage: "year of the depend adult undergarment"})
+        assert_reply ref, :error
+      end
 
-    test "does not trigger an 'retro_edited' broadcast to all connected clients", ~M{socket} do
-      ref = push(socket, "retro_edited", %{stage: "year of the depend adult undergarment"})
-      assert_reply ref, :error
+      test "does not trigger an 'retro_edited' broadcast to all connected clients", ~M{socket} do
+        ref = push(socket, "retro_edited", %{stage: "year of the depend adult undergarment"})
+        assert_reply ref, :error
 
-      refute_broadcast("retro_edited", %{}, 10)
+        refute_broadcast("retro_edited", %{}, 10)
+      end
     end
   end
 
