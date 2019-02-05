@@ -1,6 +1,7 @@
 defmodule RemoteRetro.UserRetroCase do
   use ExUnit.CaseTemplate
   alias RemoteRetro.{Repo, User, Retro, Participation}
+  import Ecto.Query, only: [from: 2]
 
   @test_user_one Application.get_env(:remote_retro, :test_user_one)
   @test_user_two Application.get_env(:remote_retro, :test_user_two)
@@ -25,11 +26,13 @@ defmodule RemoteRetro.UserRetroCase do
       :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
       Ecto.Adapters.SQL.Sandbox.mode(Repo, :auto)
 
-      Repo.delete(participation)
-      Repo.delete(participation_two)
+      participation_ids = [participation.id, participation_two.id]
+      from(p in Participation, where: p.id in ^participation_ids) |> Repo.delete_all
+
       Repo.delete(retro)
-      Repo.delete(facilitator)
-      Repo.delete(non_facilitator)
+
+      user_ids = [facilitator.id, non_facilitator.id]
+      from(u in User, where: u.id in ^user_ids) |> Repo.delete_all
 
       :ok
     end
