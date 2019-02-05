@@ -54,7 +54,7 @@ defmodule RemoteRetro.User do
       user_from_db -> user_from_db
     end
     |> __MODULE__.changeset(user_params)
-    |> Repo.insert_or_update
+    |> Repo.insert_or_update(returning: true)
   end
 
   defp build_from_oauth_data(user_info) do
