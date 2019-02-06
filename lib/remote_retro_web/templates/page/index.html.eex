@@ -10,8 +10,8 @@
   </h1>
 
   <div class="ui header">
-    Agile retrospectives for distributed teams
-    <p class="sub header">RemoteRetro lets you get together, even when you're far apart.</p>
+    Free. World-class. Retrospectives.
+    <p class="sub header">RemoteRetro takes teams full of cats and molds them into Agile sled dogs.</p>
   </div>
 
   <a href="/auth/google" class="ui blue button">
@@ -28,23 +28,20 @@
         <div class="column">
           <h2 class="ui icon header">
             <i class="massive grey gift icon"></i>
-            Free!
+            Free
           </h2>
-          <p>Costs less than a song!</p>
         </div>
         <div class="column">
           <h2 class="ui icon header">
-            <i class="massive grey users icon"></i>
-            Collaborative!
+            <i class="massive grey handshake icon"></i>
+            Constructive
           </h2>
-          <p>Interact with teammates in real time!</p>
         </div>
         <div class="column">
           <h2 class="ui icon header">
             <i class="massive grey train icon"></i>
-            Guided!
+            Focused
           </h2>
-          <p>A retro on rails!</p>
         </div>
       </div>
       <div class="ui divider computer tablet only grid"></div>
@@ -52,7 +49,7 @@
         <div class="column">
           <h2 class="ui icon header">
             <i class="massive grey code icon"></i>
-            Completely Open Source!
+            Completely Open Source
           </h2>
           <p>
             <a href="https://github.com/stride-nyc/remote_retro" class="ui large button">GitHub</a>
