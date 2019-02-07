@@ -57,7 +57,7 @@ Idea.propTypes = {
 
 Idea.defaultProps = {
   actions: {},
-  assignee: {},
+  assignee: null,
 }
 
 const mapStateToProps = (state, { idea }) => ({
