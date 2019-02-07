@@ -5,7 +5,10 @@ import StageAwareIdeaControls from "./stage_aware_idea_controls"
 
 import * as AppPropTypes from "../prop_types"
 import { MIN_TABLET_WIDTH } from "../configs/responsive"
+import STAGES from "../configs/stages"
 import styles from "./css_modules/conditionally_draggable_idea_content.css"
+
+const { IDEA_GENERATION, GROUPING } = STAGES
 
 const handleDragStart = props => event => {
   const { idea } = props
@@ -18,15 +21,18 @@ const ConditionallyDraggableIdeaContent = props => {
   const { idea, currentUser, retroChannel, stage, assignee } = props
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 100
 
-  const canUserEditIdea = currentUser.is_facilitator || (currentUser.id === idea.user_id)
-  const isIdeaEditableInCurrentStage = stage === "idea-generation"
+  const userHasContentEditPermissions =
+    currentUser.is_facilitator || (currentUser.id === idea.user_id)
+
+  const isIdeaDragEligible =
+    (stage === GROUPING || (stage === IDEA_GENERATION && userHasContentEditPermissions))
 
   return (
     <MediaQuery minWidth={MIN_TABLET_WIDTH}>
       {isTabletOrAbove => (
         <div
           className={styles.ideaWrapper}
-          draggable={canUserEditIdea && isIdeaEditableInCurrentStage && isTabletOrAbove}
+          draggable={isIdeaDragEligible && isTabletOrAbove}
           onDragStart={handleDragStart(props)}
         >
           <StageAwareIdeaControls
