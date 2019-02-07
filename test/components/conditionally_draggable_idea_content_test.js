@@ -24,7 +24,7 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
     expect(wrapper.html()).to.match(/<i.*><\/i>.*body text/)
   })
 
-  context("when the idea's updated_at value is more than one second greater than its inserted_at value", () => {
+  context("when the idea's updated_at value is greater than its inserted_at value", () => {
     beforeEach(() => {
       const editedIdea = {
         inserted_at: "2017-04-14T17:30:10",
