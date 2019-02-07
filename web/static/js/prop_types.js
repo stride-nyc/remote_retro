@@ -6,7 +6,15 @@ import PropTypes from "prop-types"
 import STAGES from "../js/configs/stages"
 import { CATEGORIES as startingCategories } from "../js/configs/retro_configs"
 
-const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
+const {
+  LOBBY,
+  PRIME_DIRECTIVE,
+  IDEA_GENERATION,
+  GROUPING,
+  VOTING,
+  ACTION_ITEMS,
+  CLOSED,
+} = STAGES
 
 export const alert = PropTypes.object
 
@@ -37,6 +45,7 @@ export const stage = PropTypes.oneOf([
   LOBBY,
   PRIME_DIRECTIVE,
   IDEA_GENERATION,
+  GROUPING,
   VOTING,
   ACTION_ITEMS,
   CLOSED,

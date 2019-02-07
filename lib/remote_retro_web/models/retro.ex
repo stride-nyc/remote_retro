@@ -23,6 +23,6 @@ defmodule RemoteRetro.Retro do
     struct
     |> cast(params, [:stage, :facilitator_id])
     |> validate_required(@required_fields)
-    |> validate_inclusion(:stage, ["lobby", "prime-directive", "idea-generation", "voting", "action-items", "closed"])
+    |> validate_inclusion(:stage, ["lobby", "prime-directive", "idea-generation", "grouping", "voting", "action-items", "closed"])
   end
 end

@@ -1,11 +1,44 @@
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import StageChangeInfoIdeaGeneration from "../components/stage_change_info_idea_generation"
+import StageChangeInfoGrouping from "../components/stage_change_info_grouping"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
 import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
 import STAGES from "./stages"
 
-const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
+const {
+  LOBBY,
+  PRIME_DIRECTIVE,
+  IDEA_GENERATION,
+  GROUPING,
+  VOTING,
+  ACTION_ITEMS,
+  CLOSED,
+} = STAGES
+
+const baseIdeaGenerationConfig = {
+  alert: {
+    headerText: "Stage Change: Idea Generation!",
+    BodyComponent: StageChangeInfoIdeaGeneration,
+  },
+}
+const ideaGenerationConfig = localStorage["groupingDev"] ? {
+  ...baseIdeaGenerationConfig,
+  confirmationMessage: "Are you sure you would like to proceed to the grouping stage?",
+  nextStage: GROUPING,
+  progressionButton: {
+    copy: "Proceed to Grouping",
+    iconClass: "arrow right",
+  },
+} : {
+  ...baseIdeaGenerationConfig,
+  confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
+  nextStage: VOTING,
+  progressionButton: {
+    copy: "Proceed to Voting",
+    iconClass: "arrow right",
+  },
+};
 
 export default {
   [LOBBY]: {
@@ -29,10 +62,11 @@ export default {
       iconClass: "arrow right",
     },
   },
-  [IDEA_GENERATION]: {
+  [IDEA_GENERATION]: ideaGenerationConfig,
+  [GROUPING]: {
     alert: {
-      headerText: "Stage Change: Idea Generation!",
-      BodyComponent: StageChangeInfoIdeaGeneration,
+      headerText: "Stage Change: Grouping!",
+      BodyComponent: StageChangeInfoGrouping,
     },
     confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
     nextStage: VOTING,
