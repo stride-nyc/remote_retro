@@ -4,7 +4,7 @@ import { shallow, mount } from "enzyme"
 import { UserListItem } from "../../web/static/js/components/user_list_item"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, VOTING, CLOSED } = STAGES
+const { IDEA_GENERATION, VOTING } = STAGES
 
 const defaultUserAttrs = {
   given_name: "dylan",
@@ -31,21 +31,6 @@ describe("UserListItem", () => {
         <UserListItem {...defaultProps} user={user} />
       )
       expect(wrapper.text()).to.match(/facilitator/i)
-    })
-
-    describe("when the stage is 'closed", () => {
-      const user = { ...defaultUserAttrs, id: 6 }
-
-      it("does not label the user a facilitator, as the retro is over", () => {
-        const wrapper = mount(
-          <UserListItem
-            {...defaultProps}
-            user={user}
-            stage={CLOSED}
-          />
-        )
-        expect(wrapper.text()).not.to.match(/dylan \(facilitator\)/i)
-      })
     })
   })
 
