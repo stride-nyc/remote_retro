@@ -14,6 +14,7 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
     currentUser: {},
     retroChannel: {},
     stage: IDEA_GENERATION,
+    canUserEditIdeaContents: true,
   }
 
   it("renders the control icons before idea body text to ensure floating/text-wrapping", () => {
@@ -97,109 +98,68 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
       window.innerWidth = defaultGlobalWidth
     })
 
-    context("and the user is a faciliator and the stage is idea-generation", () => {
-      beforeEach(() => {
+    context("when the user has edit permissions", () => {
+      context("when the stage is idea-generation", () => {
+        beforeEach(() => {
+          const props = {
+            ...defaultProps,
+            canUserEditIdeaContents: true,
+            stage: "idea-generation",
+          }
+
+          wrapper = mountWithConnectedSubcomponents(
+            <ConditionallyDraggableIdeaContent {...props} />
+          )
+        })
+
+        it("sets draggable=true", () => {
+          expect(wrapper.html()).to.match(/draggable="true"/)
+        })
+      })
+
+      context("when the stage is *not* idea-generation", () => {
         const props = {
           ...defaultProps,
-          currentUser: { is_facilitator: true },
-          stage: "idea-generation",
+          canUserEditIdeaContents: true,
+          stage: "voting",
         }
 
-        wrapper = mountWithConnectedSubcomponents(
-          <ConditionallyDraggableIdeaContent {...props} />
-        )
-      })
+        beforeEach(() => {
+          wrapper = mountWithConnectedSubcomponents(
+            <ConditionallyDraggableIdeaContent {...props} />
+          )
+        })
 
-      it("sets draggable=true", () => {
-        expect(wrapper.html()).to.match(/draggable="true"/)
-      })
-    })
-
-    context("when the user is a faciliator and the stage is *not* idea-generation", () => {
-      const props = {
-        ...defaultProps,
-        currentUser: { is_facilitator: true },
-        stage: "voting",
-      }
-
-      beforeEach(() => {
-        wrapper = mountWithConnectedSubcomponents(
-          <ConditionallyDraggableIdeaContent {...props} />
-        )
-      })
-
-      it("sets draggable=false", () => {
-        expect(wrapper.html()).to.match(/draggable="false"/)
+        it("sets draggable=false", () => {
+          expect(wrapper.html()).to.match(/draggable="false"/)
+        })
       })
     })
 
-    context("when the user created the idea and the stage is idea-generation", () => {
-      const props = {
-        ...defaultProps,
-        currentUser: { id: 101 },
-        idea: { user_id: 101 },
-        stage: "idea-generation",
-      }
+    context("when the user lacks edit permissions", () => {
+      context("and the stage is idea-generation", () => {
+        const props = {
+          ...defaultProps,
+          canUserEditIdeaContents: false,
+          stage: IDEA_GENERATION,
+        }
 
-      beforeEach(() => {
-        wrapper = mountWithConnectedSubcomponents(
-          <ConditionallyDraggableIdeaContent {...props} />
-        )
-      })
+        beforeEach(() => {
+          wrapper = mountWithConnectedSubcomponents(
+            <ConditionallyDraggableIdeaContent {...props} />
+          )
+        })
 
-      it("sets draggable=true", () => {
-        expect(wrapper.html()).to.match(/draggable="true"/)
-      })
-    })
+        it("sets draggable=false", () => {
+          expect(wrapper.html()).to.match(/draggable="false"/)
+        })
 
-    context("when the user created the idea and the stage is not idea-generation", () => {
-      const props = {
-        ...defaultProps,
-        currentUser: { id: 101 },
-        idea: { user_id: 101 },
-        stage: "voting",
-      }
-
-      before(() => {
-        wrapper = mountWithConnectedSubcomponents(
-          <ConditionallyDraggableIdeaContent {...props} />
-        )
-      })
-
-      it("sets draggable=false", () => {
-        expect(wrapper.html()).to.match(/draggable="false"/)
-      })
-    })
-
-    context("when the user did not create the idea", () => {
-      const props = {
-        ...defaultProps,
-        currentUser: { id: 600 },
-        idea: { user_id: 101 },
-      }
-
-      beforeEach(() => {
-        wrapper = mountWithConnectedSubcomponents(
-          <ConditionallyDraggableIdeaContent {...props} />
-        )
-      })
-
-      it("sets draggable=false", () => {
-        expect(wrapper.html()).to.match(/draggable="false"/)
-      })
-    })
-
-    context("when the stage is grouping", () => {
-      context("and the user is neither the facilitator", () => {
-        context("nor the author of the idea", () => {
+        context("when the stage is grouping", () => {
           beforeEach(() => {
             wrapper = mountWithConnectedSubcomponents(
               <ConditionallyDraggableIdeaContent
                 {...defaultProps}
-                currentUser={{
-                  is_facilitator: false,
-                  id: 393939393939,
-                }}
+                canUserEditIdeaContents={false}
                 stage={GROUPING}
               />
             )
@@ -216,7 +176,6 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
       const idea = { id: 1, body: "yo sup" }
       const props = {
         ...defaultProps,
-        currentUser: { is_facilitator: true },
         stage: "idea-generation",
         idea,
       }
@@ -258,11 +217,11 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
       window.innerWidth = defaultGlobalWidth
     })
 
-    context("and the user is a faciliator and the stage is idea-generation", () => {
+    context("and the user has edit permissions and the stage is idea-generation", () => {
       beforeEach(() => {
         const props = {
           ...defaultProps,
-          currentUser: { is_facilitator: true },
+          canUserEditIdeaContents: true,
           stage: "idea-generation",
         }
 
@@ -272,25 +231,6 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
       })
 
       it("sets draggable=false", () => {
-        expect(wrapper.html()).to.match(/draggable="false"/)
-      })
-    })
-
-    context("when the user created the idea and the stage is idea-generation", () => {
-      const props = {
-        ...defaultProps,
-        currentUser: { id: 101 },
-        idea: { user_id: 101 },
-        stage: "idea-generation",
-      }
-
-      beforeEach(() => {
-        wrapper = mountWithConnectedSubcomponents(
-          <ConditionallyDraggableIdeaContent {...props} />
-        )
-      })
-
-      it("sets draggable=true", () => {
         expect(wrapper.html()).to.match(/draggable="false"/)
       })
     })

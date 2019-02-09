@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import classNames from "classnames"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
@@ -7,6 +8,7 @@ import values from "lodash/values"
 import IdeaEditForm from "./idea_edit_form"
 import IdeaLiveEditContent from "./idea_live_edit_content"
 import ConditionallyDraggableIdeaContent from "./conditionally_draggable_idea_content"
+import IdeaPermissions from "../services/idea_permissions"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
 import {
@@ -53,6 +55,7 @@ Idea.propTypes = {
   assignee: AppPropTypes.presence,
   users: AppPropTypes.presences.isRequired,
   actions: AppPropTypes.actions,
+  canUserEditIdeaContents: PropTypes.bool.isRequired,
 }
 
 Idea.defaultProps = {
@@ -60,9 +63,10 @@ Idea.defaultProps = {
   assignee: null,
 }
 
-const mapStateToProps = (state, { idea }) => ({
+const mapStateToProps = (state, { idea, currentUser }) => ({
   assignee: selectors.getUserById(state, idea.assignee_id),
   users: values(state.usersById),
+  canUserEditIdeaContents: IdeaPermissions.canUserEditContents(idea, currentUser),
 })
 
 const mapDispatchToProps = dispatch => ({

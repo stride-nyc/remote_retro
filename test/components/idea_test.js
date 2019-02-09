@@ -23,6 +23,7 @@ describe("Idea component", () => {
     users: [],
     retroChannel: mockRetroChannel,
     stage: IDEA_GENERATION,
+    canUserEditIdeaContents: true,
     idea,
   }
 

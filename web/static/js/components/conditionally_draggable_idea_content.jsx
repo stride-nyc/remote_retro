@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import MediaQuery from "react-responsive"
 
 import StageAwareIdeaControls from "./stage_aware_idea_controls"
@@ -18,14 +19,11 @@ const handleDragStart = props => event => {
 }
 
 const ConditionallyDraggableIdeaContent = props => {
-  const { idea, currentUser, retroChannel, stage, assignee } = props
+  const { idea, currentUser, retroChannel, stage, assignee, canUserEditIdeaContents } = props
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 100
 
-  const userHasContentEditPermissions =
-    currentUser.is_facilitator || (currentUser.id === idea.user_id)
-
   const isIdeaDragEligible =
-    (stage === GROUPING || (stage === IDEA_GENERATION && userHasContentEditPermissions))
+    (stage === GROUPING || (stage === IDEA_GENERATION && canUserEditIdeaContents))
 
   return (
     <MediaQuery minWidth={MIN_TABLET_WIDTH}>
@@ -40,6 +38,7 @@ const ConditionallyDraggableIdeaContent = props => {
             retroChannel={retroChannel}
             currentUser={currentUser}
             stage={stage}
+            canUserEditIdeaContents={canUserEditIdeaContents}
           />
           <div className="text">
             <span data-hj-masked>{ idea.body }</span>
@@ -58,6 +57,7 @@ ConditionallyDraggableIdeaContent.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,
+  canUserEditIdeaContents: PropTypes.bool.isRequired,
 }
 
 ConditionallyDraggableIdeaContent.defaultProps = {

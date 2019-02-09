@@ -20,11 +20,12 @@ export const StageAwareIdeaControls = props => {
     currentUser,
     votes,
     voteCountForUser,
+    canUserEditIdeaContents,
   } = props
 
   if (stage === GROUPING) return null
 
-  const { user_id: userId, category } = idea
+  const { category } = idea
 
   const allVotesUsed = voteCountForUser >= voteMax
 
@@ -43,7 +44,7 @@ export const StageAwareIdeaControls = props => {
 
   if (stage === CLOSED) return null
 
-  if (currentUser.is_facilitator || currentUser.id === userId) {
+  if (canUserEditIdeaContents) {
     return <RightFloatedIdeaActions {...props} />
   }
 

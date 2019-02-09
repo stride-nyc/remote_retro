@@ -9,14 +9,12 @@ const { IDEA_GENERATION, VOTING, GROUPING, ACTION_ITEMS, CLOSED } = STAGES
 
 describe("<StageAwareIdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
-  const mockUser = { id: 2, is_facilitator: true }
-  const votes = []
-  const actions = {}
+
   const defaultProps = {
-    actions,
+    actions: {},
     idea,
-    votes,
-    currentUser: mockUser,
+    votes: [],
+    currentUser: {},
     stage: IDEA_GENERATION,
     retroChannel: { push: () => {}, on: () => {} },
     voteCountForUser: 0,
@@ -65,12 +63,12 @@ describe("<StageAwareIdeaControls />", () => {
     })
   })
 
-  context("when the user is the facilitator", () => {
+  context("when the user has edit permissions", () => {
     it("renders <RightFloatedIdeaActions />", () => {
       const wrapper = mountWithConnectedSubcomponents(
         <StageAwareIdeaControls
           {...defaultProps}
-          currentUser={{ ...mockUser, is_facilitator: true }}
+          canUserEditIdeaContents
         />
       )
 
@@ -78,36 +76,16 @@ describe("<StageAwareIdeaControls />", () => {
     })
   })
 
-  context("when the user is not the facilitator", () => {
-    context("and the idea is not theirs", () => {
-      it("does not render <RightFloatedIdeaActions />", () => {
-        const wrapper = mountWithConnectedSubcomponents(
-          <StageAwareIdeaControls
-            {...defaultProps}
-            idea={{ ...idea, user_id: 3 }}
-            currentUser={{ ...mockUser, id: 2, is_facilitator: false }}
-          />
-        )
-
-        expect(wrapper.find(RightFloatedIdeaActions)).to.have.length(0)
-      })
-    })
-
-    context("and the idea is theirs", () => {
-      const currentUser = { id: 1, is_facilitator: false }
-      const freshIdea = { user_id: 1, id: 666, category: "sad", body: "redundant tests" }
-
+  context("when the user lacks edit permissions", () => {
+    it("does not render <RightFloatedIdeaActions />", () => {
       const wrapper = mountWithConnectedSubcomponents(
         <StageAwareIdeaControls
           {...defaultProps}
-          idea={freshIdea}
-          currentUser={currentUser}
+          canUserEditIdeaContents={false}
         />
       )
 
-      it("renders <RightFloatedIdeaActions />", () => {
-        expect(wrapper.find(RightFloatedIdeaActions)).to.have.length(1)
-      })
+      expect(wrapper.find(RightFloatedIdeaActions)).to.have.length(0)
     })
   })
 
@@ -127,16 +105,14 @@ describe("<StageAwareIdeaControls />", () => {
         })
       })
 
-      context("and the category is action-item", () => {
+      context("and the idea category is action-item", () => {
         it("doesn't render", () => {
-          const currentUser = { id: 1, is_facilitator: false }
           const actionItemIdea = { id: 667, category: "action-item", body: "write tests", user_id: 1 }
 
           const wrapper = mountWithConnectedSubcomponents(
             <StageAwareIdeaControls
               {...defaultProps}
               idea={actionItemIdea}
-              currentUser={currentUser}
               stage={VOTING}
             />
           )
@@ -148,12 +124,9 @@ describe("<StageAwareIdeaControls />", () => {
 
     context("when the stage is idea-generation", () => {
       it("doesn't render", () => {
-        const currentUser = { id: 1, is_facilitator: false }
-
         const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
-            currentUser={currentUser}
             stage={IDEA_GENERATION}
           />
          )
@@ -164,12 +137,9 @@ describe("<StageAwareIdeaControls />", () => {
 
     context("after entering action-items stage", () => {
       it("renders a disabled VoteCounter for display purposes", () => {
-        const currentUser = { id: 1, is_facilitator: false }
-
         const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
-            currentUser={currentUser}
             stage={ACTION_ITEMS}
           />
          )
