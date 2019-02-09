@@ -16,7 +16,7 @@ class VoteCounter extends React.Component {
   }
 
   render() {
-    const { buttonDisabled, votes, idea, stage } = this.props
+    const { buttonDisabled, votes, idea, stage, currentUser } = this.props
     const counterClasses = classNames("ui labeled right floated button", {
       disabled: buttonDisabled,
     })
@@ -24,7 +24,7 @@ class VoteCounter extends React.Component {
     let voteCountForIdea
     if (stage === VOTING) {
       voteCountForIdea = votes.filter(vote =>
-        vote.idea_id === idea.id && vote.user_id === this.props.currentUser.id
+        vote.idea_id === idea.id && vote.user_id === currentUser.id
       ).length
     } else {
       voteCountForIdea = votes.filter(vote => vote.idea_id === idea.id).length
