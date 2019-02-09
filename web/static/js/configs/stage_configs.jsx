@@ -22,7 +22,7 @@ const baseIdeaGenerationConfig = {
     BodyComponent: StageChangeInfoIdeaGeneration,
   },
 }
-const ideaGenerationConfig = localStorage["groupingDev"] ? {
+const ideaGenerationConfig = localStorage.groupingDev ? {
   ...baseIdeaGenerationConfig,
   confirmationMessage: "Are you sure you would like to proceed to the grouping stage?",
   nextStage: GROUPING,
@@ -38,7 +38,7 @@ const ideaGenerationConfig = localStorage["groupingDev"] ? {
     copy: "Proceed to Voting",
     iconClass: "arrow right",
   },
-};
+}
 
 export default {
   [LOBBY]: {
