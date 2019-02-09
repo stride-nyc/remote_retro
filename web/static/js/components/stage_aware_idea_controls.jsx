@@ -10,7 +10,7 @@ import { voteMax } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
 import { selectors, actions } from "../redux"
 
-const { IDEA_GENERATION, VOTING, CLOSED } = STAGES
+const { IDEA_GENERATION, GROUPING, VOTING, CLOSED } = STAGES
 
 export const StageAwareIdeaControls = props => {
   const {
@@ -21,6 +21,8 @@ export const StageAwareIdeaControls = props => {
     votes,
     voteCountForUser,
   } = props
+
+  if (stage === GROUPING) return null
 
   const { user_id: userId, category } = idea
 
