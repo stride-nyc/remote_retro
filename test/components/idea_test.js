@@ -15,20 +15,24 @@ describe("Idea component", () => {
     body: "redundant tests",
     user_id: 1,
   }
+
   const mockRetroChannel = { on: () => {}, push: () => {} }
-  const mockUser = {}
-  const mockUsers = [{}]
+
+  const defaultProps = {
+    currentUser: {},
+    users: [],
+    retroChannel: mockRetroChannel,
+    stage: IDEA_GENERATION,
+    idea,
+  }
 
   context("when the idea is being edited locally", () => {
     const ideaInEditState = { ...idea, inEditState: true, isLocalEdit: true }
 
     const wrapper = shallow(
       <Idea
+        {...defaultProps}
         idea={ideaInEditState}
-        currentUser={mockUser}
-        retroChannel={mockRetroChannel}
-        stage={IDEA_GENERATION}
-        users={mockUsers}
       />
     )
 
@@ -40,11 +44,8 @@ describe("Idea component", () => {
       const ideaInEditState = { ...idea, inEditState: true, isLocalEdit: false }
       const wrapper = shallow(
         <Idea
+          {...defaultProps}
           idea={ideaInEditState}
-          currentUser={mockUser}
-          retroChannel={mockRetroChannel}
-          stage={IDEA_GENERATION}
-          users={mockUsers}
         />
       )
 
@@ -55,13 +56,11 @@ describe("Idea component", () => {
       context("when the idea has a `liveEditText` value", () => {
         const wrapper = shallow(
           <Idea
+            {...defaultProps}
             idea={{ ...ideaInEditState, liveEditText: "editing bigtime" }}
-            currentUser={mockUser}
-            retroChannel={mockRetroChannel}
-            stage={IDEA_GENERATION}
-            users={mockUsers}
           />
         )
+
         it("renders the <IdeaLiveEditContent /> as a child", () => {
           expect(wrapper.find(IdeaLiveEditContent).length).to.equal(1)
         })
@@ -74,11 +73,8 @@ describe("Idea component", () => {
 
     const wrapper = shallow(
       <Idea
+        {...defaultProps}
         idea={ideaInDefaultState}
-        currentUser={mockUser}
-        retroChannel={mockRetroChannel}
-        stage={IDEA_GENERATION}
-        users={mockUsers}
       />
     )
 
