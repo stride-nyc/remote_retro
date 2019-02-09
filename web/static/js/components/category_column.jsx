@@ -1,63 +1,41 @@
-import React, { Component } from "react"
+import React from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
+import classNames from "classnames"
 
 import IdeaList from "./idea_list"
+import IdeaDropTarget from "./idea_drop_target"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 import { actions as actionCreators } from "../redux"
 
-export class CategoryColumn extends Component {
-  state = {}
+export const CategoryColumn = props => {
+  const { category, ideas, actions } = props
+  const iconHeight = 45
+  const wrapperClassName = classNames(category, styles.index, "column")
 
-  handleDragOver = event => {
-    this.setState({ draggedOver: true })
-    event.preventDefault()
-  }
-
-  handleDragLeave = event => {
-    const { currentTarget, relatedTarget } = event
-    if (currentTarget.contains(relatedTarget)) { return }
-
-    this.setState({ draggedOver: false })
-  }
-
-  handleDrop = event => {
-    const ideaData = event.dataTransfer.getData("idea")
-    if (!ideaData) { return }
-
-    this.setState({ draggedOver: false })
-    event.preventDefault()
-    const { category, actions } = this.props
-
-    const idea = JSON.parse(ideaData)
-
-    actions.submitIdeaEditAsync({ ...idea, category })
-  }
-
-  render() {
-    const { handleDragOver, handleDrop, handleDragLeave, props, state } = this
-    const { category, ideas } = props
-    const iconHeight = 45
-
-    return (
-      <section
-        className={`${category} ${styles.index} ${state.draggedOver ? "dragged-over" : ""} column`}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
-      >
-        <div className={`${styles.columnHead} ui center aligned basic segment`}>
-          <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} alt={category} />
-          <p><strong>{category}</strong></p>
-        </div>
-        <div className={`ui fitted divider ${styles.divider}`} />
-        { !!ideas.length && <IdeaList {...props} /> }
-
-        <span className="overlay" />
-      </section>
-    )
-  }
+  return (
+    <IdeaDropTarget
+      wrapperClassName={wrapperClassName}
+      onDropOfIdea={idea => {
+        actions.submitIdeaEditAsync({ ...idea, category })
+      }}
+    >
+      <div className={`${styles.columnHead} ui center aligned basic segment`}>
+        <img
+          src={`/images/${category}.svg`}
+          height={iconHeight}
+          width={iconHeight}
+          alt={category}
+        />
+        <p><strong>{category}</strong></p>
+      </div>
+      <div className={`ui fitted divider ${styles.divider}`} />
+      {!!ideas.length &&
+        <IdeaList {...props} />
+      }
+    </IdeaDropTarget>
+  )
 }
 
 CategoryColumn.propTypes = {
