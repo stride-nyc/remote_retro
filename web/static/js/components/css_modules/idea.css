@@ -1,11 +1,9 @@
 @import '../../../css/colors.css';
 
-li {
-  transition: background-color 300ms, border-bottom 300ms;
-}
-
 .index {
+  transition: background-color 300ms, border-bottom 300ms;
   border-bottom: 1px solid var(--semantic-light-grey);
+  background-color: rgba(255, 255, 255, 0.75);
 }
 
 .highlighted {
