@@ -36,18 +36,22 @@ export class IdeaDropTarget extends Component {
 
   render() {
     const { handleDragOver, handleDrop, handleDragLeave, props, state } = this
-    const { children, wrapperClassName } = props
+    const { children, wrapperClassName, dragAndDropHandlersActive } = props
 
     const className = classNames(wrapperClassName, {
       "dragged-over": state.draggedOver,
     })
 
+    const dragAndDropHandlers = dragAndDropHandlersActive ? {
+      onDragOver: handleDragOver,
+      onDragLeave: handleDragLeave,
+      onDrop: handleDrop,
+    } : {}
+
     return (
       <div
         className={className}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
+        {...dragAndDropHandlers}
       >
         {children}
         <span className="overlay" />
@@ -58,10 +62,12 @@ export class IdeaDropTarget extends Component {
 
 IdeaDropTarget.propTypes = {
   onDropOfIdea: PropTypes.func.isRequired,
+  dragAndDropHandlersActive: PropTypes.bool,
   wrapperClassName: PropTypes.string,
 }
 
 IdeaDropTarget.defaultProps = {
+  dragAndDropHandlersActive: true,
   wrapperClassName: "",
 }
 
