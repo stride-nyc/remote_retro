@@ -11,8 +11,30 @@ describe("IdeaDropTarget", () => {
   const defaultProps = {
     onDropOfIdea: () => {},
     dragAndDropHandlersActive: true,
-
   }
+
+  it("renders a div wrapping element by default", () => {
+    wrapper = shallow(
+      <IdeaDropTarget
+        {...defaultProps}
+      />
+    )
+
+    expect(wrapper.html()).to.match(/^<div /)
+  })
+
+  context("when a tagName is specified", () => {
+    it("renders the wrapping element with the specified tagName", () => {
+      wrapper = shallow(
+        <IdeaDropTarget
+          {...defaultProps}
+          tagName="li"
+        />
+      )
+
+      expect(wrapper.html()).to.match(/^<li /)
+    })
+  })
 
   context("when dragAndDropHandlersActive is true", () => {
     it("applies drag and drop handlers", () => {

@@ -36,7 +36,7 @@ export class IdeaDropTarget extends Component {
 
   render() {
     const { handleDragOver, handleDrop, handleDragLeave, props, state } = this
-    const { children, wrapperClassName, dragAndDropHandlersActive } = props
+    const { tagName, children, wrapperClassName, dragAndDropHandlersActive } = props
 
     const className = classNames(wrapperClassName, {
       "dragged-over": state.draggedOver,
@@ -48,26 +48,31 @@ export class IdeaDropTarget extends Component {
       onDrop: handleDrop,
     } : {}
 
+    // React requires a Capitalized constant
+    const WrappingElement = tagName
+
     return (
-      <div
+      <WrappingElement
         className={className}
         {...dragAndDropHandlers}
       >
         {children}
         <span className="overlay" />
-      </div>
+      </WrappingElement>
     )
   }
 }
 
 IdeaDropTarget.propTypes = {
-  onDropOfIdea: PropTypes.func.isRequired,
   dragAndDropHandlersActive: PropTypes.bool,
+  onDropOfIdea: PropTypes.func.isRequired,
+  tagName: PropTypes.string,
   wrapperClassName: PropTypes.string,
 }
 
 IdeaDropTarget.defaultProps = {
   dragAndDropHandlersActive: true,
+  tagName: "div",
   wrapperClassName: "",
 }
 
