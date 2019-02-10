@@ -2,7 +2,7 @@
 :global(.dragged-over) {
   position: relative;
 
-  :global(.overlay) {
+  :global(> .overlay) {
     position: absolute;
     top: 0;
     left: 0;
