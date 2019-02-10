@@ -8,15 +8,17 @@ import IdeaDropTarget from "./idea_drop_target"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 import { actions as actionCreators } from "../redux"
+import STAGES from "../configs/stages"
 
 export const CategoryColumn = props => {
-  const { category, ideas, actions } = props
+  const { category, ideas, actions, stage } = props
   const iconHeight = 45
   const wrapperClassName = classNames(category, styles.index, "column")
 
   return (
     <IdeaDropTarget
       wrapperClassName={wrapperClassName}
+      dragAndDropHandlersActive={stage === STAGES.IDEA_GENERATION}
       onDropOfIdea={idea => {
         actions.submitIdeaEditAsync({ ...idea, category })
       }}
