@@ -13,6 +13,7 @@ describe("<StageAwareIdeaControls />", () => {
   const defaultProps = {
     actions: {},
     idea,
+    canUserEditIdeaContents: true,
     votes: [],
     currentUser: {},
     stage: IDEA_GENERATION,
