@@ -36,7 +36,7 @@ export class IdeaDropTarget extends Component {
 
   render() {
     const { handleDragOver, handleDrop, handleDragLeave, props, state } = this
-    const { tagName, children, wrapperClassName, dragAndDropHandlersActive } = props
+    const { tagName, children, wrapperClassName, dragAndDropHandlersActive, title } = props
 
     const className = classNames(wrapperClassName, {
       "dragged-over": state.draggedOver,
@@ -54,6 +54,7 @@ export class IdeaDropTarget extends Component {
     return (
       <WrappingElement
         className={className}
+        title={title}
         {...dragAndDropHandlers}
       >
         {children}
@@ -67,12 +68,14 @@ IdeaDropTarget.propTypes = {
   dragAndDropHandlersActive: PropTypes.bool,
   onDropOfIdea: PropTypes.func.isRequired,
   tagName: PropTypes.string,
+  title: PropTypes.string,
   wrapperClassName: PropTypes.string,
 }
 
 IdeaDropTarget.defaultProps = {
   dragAndDropHandlersActive: true,
   tagName: "div",
+  title: "",
   wrapperClassName: "",
 }
 

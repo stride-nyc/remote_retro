@@ -6,6 +6,7 @@ import { bindActionCreators } from "redux"
 import values from "lodash/values"
 
 import IdeaEditForm from "./idea_edit_form"
+import IdeaDropTarget from "./idea_drop_target"
 import IdeaLiveEditContent from "./idea_live_edit_content"
 import ConditionallyDraggableIdeaContent from "./conditionally_draggable_idea_content"
 import IdeaPermissions from "../services/idea_permissions"
@@ -41,9 +42,15 @@ export const Idea = props => {
   }
 
   return (
-    <li className={classes} title={idea.body} key={idea.id}>
+    <IdeaDropTarget
+      tagName="li"
+      wrapperClassName={classes}
+      onDropOfIdea={() => {}}
+      title={idea.body}
+      key={idea.id}
+    >
       {content}
-    </li>
+    </IdeaDropTarget>
   )
 }
 
