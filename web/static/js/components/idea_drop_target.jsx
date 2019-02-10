@@ -9,15 +9,15 @@ export class IdeaDropTarget extends Component {
   state = {}
 
   handleDragOver = event => {
-    // must always be called to ensure drop events fire
+    // must always be called to ensure drop event fires
     // https://stackoverflow.com/questions/19133225/is-call-to-preventdefault-really-necessary-on-drop-event
     event.preventDefault()
 
     // dragOver fires every few ms, even when the mouse *isn't* moving, so we debounce
-    this._debouncedUpdateToDraggedOverTrue()
+    this._throttledUpdateToDraggedOverTrue()
   }
 
-  _debouncedUpdateToDraggedOverTrue = throttle(() => {
+  _throttledUpdateToDraggedOverTrue = throttle(() => {
     this.setState({ draggedOver: true })
   }, 100)
 
@@ -25,7 +25,7 @@ export class IdeaDropTarget extends Component {
     // cancel any queued updates triggered by the dragOver handler so that
     // draggedOver doesn't get set to true *after* being set to false
     // https://lodash.com/docs/4.17.11#throttle
-    this._debouncedUpdateToDraggedOverTrue.cancel()
+    this._throttledUpdateToDraggedOverTrue.cancel()
     this.setState({ draggedOver: false })
   }
 
@@ -65,7 +65,7 @@ export class IdeaDropTarget extends Component {
       onDrop: handleDrop,
     } : {}
 
-    // React requires a Capitalized constant
+    // React requires a Capitalized constant for dynamic tag
     const WrappingElement = tagName
 
     return (
