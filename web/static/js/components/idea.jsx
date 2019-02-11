@@ -65,6 +65,7 @@ Idea.propTypes = {
   users: AppPropTypes.presences.isRequired,
   actions: AppPropTypes.actions,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
+  isTabletOrAbove: PropTypes.bool.isRequired,
 }
 
 Idea.defaultProps = {
@@ -76,6 +77,7 @@ const mapStateToProps = (state, { idea, currentUser }) => ({
   assignee: selectors.getUserById(state, idea.assignee_id),
   users: values(state.usersById),
   canUserEditIdeaContents: IdeaPermissions.canUserEditContents(idea, currentUser),
+  isTabletOrAbove: selectors.isTabletOrAbove(state),
 })
 
 const mapDispatchToProps = dispatch => ({

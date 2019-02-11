@@ -1,4 +1,5 @@
 import { combineReducers } from "redux"
+import { responsiveStateReducer } from "redux-responsive"
 
 import {
   actions as presenceActions,
@@ -51,6 +52,7 @@ export const reducer = combineReducers({
   retro,
   error,
   mobile,
+  browser: responsiveStateReducer,
 })
 
 export const actions = {
@@ -67,4 +69,7 @@ export const selectors = {
   ...presenceSelectors,
   ...usersByIdSelectors,
   ...voteSelectors,
+  isTabletOrAbove: ({ browser }) => {
+    return browser.greaterThan.small
+  },
 }

@@ -13,6 +13,7 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
     idea: { body: "body text" },
     currentUser: {},
     retroChannel: {},
+    isTabletOrAbove: true,
     stage: IDEA_GENERATION,
     canUserEditIdeaContents: true,
   }
@@ -88,21 +89,12 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
   })
 
   context("when the device is tablet or larger", () => {
-    const defaultGlobalWidth = window.innerWidth
-
-    before(() => {
-      window.innerWidth = 1440
-    })
-
-    after(() => {
-      window.innerWidth = defaultGlobalWidth
-    })
-
     context("when the user has edit permissions", () => {
       context("when the stage is idea-generation", () => {
         beforeEach(() => {
           const props = {
             ...defaultProps,
+            isTabletOrAbove: true,
             canUserEditIdeaContents: true,
             stage: "idea-generation",
           }
@@ -120,6 +112,7 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
       context("when the stage is *not* idea-generation", () => {
         const props = {
           ...defaultProps,
+          isTabletOrAbove: true,
           canUserEditIdeaContents: true,
           stage: "voting",
         }
@@ -140,6 +133,7 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
       context("and the stage is idea-generation", () => {
         const props = {
           ...defaultProps,
+          isTabletOrAbove: true,
           canUserEditIdeaContents: false,
           stage: IDEA_GENERATION,
         }
@@ -207,20 +201,11 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
   })
 
   context("when the device has a screen width less than the common tablet", () => {
-    const defaultGlobalWidth = window.innerWidth
-
-    before(() => {
-      window.innerWidth = 600
-    })
-
-    after(() => {
-      window.innerWidth = defaultGlobalWidth
-    })
-
     context("and the user has edit permissions and the stage is idea-generation", () => {
       beforeEach(() => {
         const props = {
           ...defaultProps,
+          isTabletOrAbove: false,
           canUserEditIdeaContents: true,
           stage: "idea-generation",
         }

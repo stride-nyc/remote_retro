@@ -4,7 +4,6 @@ import sinonChai from "sinon-chai"
 
 import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
-import React from "react"
 import sinon from "sinon"
 import { Socket } from "phoenix"
 import PropTypes from "prop-types"
@@ -39,6 +38,13 @@ const store = {
     presences: [],
     mobile: {
       selectedCategoryTab: "happy",
+    },
+    browser: {
+      greaterThan: {
+        small: true,
+        medium: true,
+        large: true,
+      },
     },
   }),
 }
@@ -90,18 +96,3 @@ export const buildIdeaDragEvent = idea => {
 
   return mockEvent
 }
-
-const MediaQuery = require("react-responsive").default
-const MediaQueryProps = require("react-responsive").MediaQueryProps
-
-const MockMediaQuery = (props: MediaQueryProps) => {
-  const defaultWidth = window.innerWidth
-  const defaultHeight = window.innerHeight
-  const values = Object.assign({}, { width: defaultWidth, height: defaultHeight }, props.values)
-  const newProps = Object.assign({}, props, { values })
-
-  return React.createElement(MediaQuery, newProps)
-}
-
-require("react-responsive").default = MockMediaQuery
-

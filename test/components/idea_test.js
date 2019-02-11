@@ -24,6 +24,7 @@ describe("Idea component", () => {
     retroChannel: mockRetroChannel,
     stage: IDEA_GENERATION,
     canUserEditIdeaContents: true,
+    isTabletOrAbove: true,
     idea,
   }
 

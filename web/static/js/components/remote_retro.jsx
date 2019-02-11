@@ -31,6 +31,7 @@ export class RemoteRetro extends Component {
       error,
       currentUser,
       facilitatorName,
+      isTabletOrAbove,
     } = this.props
 
     return (
@@ -42,6 +43,7 @@ export class RemoteRetro extends Component {
           ideas={ideas}
           stage={stage}
           retroChannel={retroChannel}
+          isTabletOrAbove={isTabletOrAbove}
         />
         <Alert config={alert} />
         <Error config={error} />
@@ -61,6 +63,7 @@ RemoteRetro.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.presence,
   facilitatorName: PropTypes.string.isRequired,
+  isTabletOrAbove: PropTypes.bool.isRequired,
 }
 
 RemoteRetro.defaultProps = {
@@ -85,6 +88,7 @@ const mapStateToProps = state => {
     stage,
     currentUser: selectors.getCurrentUserPresence(state),
     facilitatorName: selectors.getUserById(state, facilitator_id).name,
+    isTabletOrAbove: selectors.isTabletOrAbove(state),
   }
 }
 

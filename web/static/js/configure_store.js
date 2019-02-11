@@ -1,17 +1,19 @@
 /* eslint-disable global-require */
 import { createStore, applyMiddleware, compose } from "redux"
 import thunk from "redux-thunk"
+import { responsiveStoreEnhancer } from "redux-responsive"
 
 import { reducer as rootReducer } from "./redux"
 import interceptOverEagerReactReduxWarning from "./dev-utils/intercept_overeager_reactredux_warning"
-import storeEnhancer from "./dev-utils/store_enhancer"
+import devStoreEnhancer from "./dev-utils/store_enhancer"
 
 export default retroChannel => {
   const store = createStore(
     rootReducer,
     compose(
       applyMiddleware(thunk.withExtraArgument(retroChannel)),
-      storeEnhancer
+      responsiveStoreEnhancer,
+      devStoreEnhancer
     )
   )
 

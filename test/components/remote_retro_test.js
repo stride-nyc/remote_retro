@@ -12,6 +12,7 @@ describe("RemoteRetro component", () => {
   const defaultProps = {
     currentUser: stubUser,
     retroChannel: mockRetroChannel,
+    isTabletOrAbove: true,
     presences: [],
     actions: {},
     ideas: [],

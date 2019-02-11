@@ -16,6 +16,7 @@ describe("IdeaBoard component", () => {
     retroChannel: mockRetroChannel,
     ideas: [],
     stage: IDEA_GENERATION,
+    isTabletOrAbove: true,
     categories: CATEGORIES,
   }
 

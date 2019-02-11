@@ -1,11 +1,9 @@
 import React from "react"
 import PropTypes from "prop-types"
-import MediaQuery from "react-responsive"
 
 import StageAwareIdeaControls from "./stage_aware_idea_controls"
 
 import * as AppPropTypes from "../prop_types"
-import { MIN_TABLET_WIDTH } from "../configs/responsive"
 import STAGES from "../configs/stages"
 import styles from "./css_modules/conditionally_draggable_idea_content.css"
 
@@ -19,35 +17,40 @@ const handleDragStart = props => event => {
 }
 
 const ConditionallyDraggableIdeaContent = props => {
-  const { idea, currentUser, retroChannel, stage, assignee, canUserEditIdeaContents } = props
+  const {
+    idea,
+    currentUser,
+    retroChannel,
+    stage,
+    assignee,
+    canUserEditIdeaContents,
+    isTabletOrAbove,
+  } = props
+
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 100
 
   const isIdeaDragEligible =
     (stage === GROUPING || (stage === IDEA_GENERATION && canUserEditIdeaContents))
 
   return (
-    <MediaQuery minWidth={MIN_TABLET_WIDTH}>
-      {isTabletOrAbove => (
-        <div
-          className={styles.ideaWrapper}
-          draggable={isIdeaDragEligible && isTabletOrAbove}
-          onDragStart={handleDragStart(props)}
-        >
-          <StageAwareIdeaControls
-            idea={idea}
-            retroChannel={retroChannel}
-            currentUser={currentUser}
-            stage={stage}
-            canUserEditIdeaContents={canUserEditIdeaContents}
-          />
-          <div className="text">
-            <span data-hj-masked>{ idea.body }</span>
-            {assignee && <span className={styles.assignee}> ({assignee.name})</span>}
-            {isEdited && <span className={styles.editedIndicator}> (edited)</span>}
-          </div>
-        </div>
-      )}
-    </MediaQuery>
+    <div
+      className={styles.ideaWrapper}
+      draggable={isIdeaDragEligible && isTabletOrAbove}
+      onDragStart={handleDragStart(props)}
+    >
+      <StageAwareIdeaControls
+        idea={idea}
+        retroChannel={retroChannel}
+        currentUser={currentUser}
+        stage={stage}
+        canUserEditIdeaContents={canUserEditIdeaContents}
+      />
+      <div className="text">
+        <span data-hj-masked>{ idea.body }</span>
+        {assignee && <span className={styles.assignee}> ({assignee.name})</span>}
+        {isEdited && <span className={styles.editedIndicator}> (edited)</span>}
+      </div>
+    </div>
   )
 }
 
@@ -58,6 +61,7 @@ ConditionallyDraggableIdeaContent.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
+  isTabletOrAbove: PropTypes.bool.isRequired,
 }
 
 ConditionallyDraggableIdeaContent.defaultProps = {
