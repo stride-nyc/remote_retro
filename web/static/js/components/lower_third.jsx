@@ -3,34 +3,32 @@ import React from "react"
 import IdeaGenerationLowerThirdContent from "./idea_generation_lower_third_content"
 import VotingLowerThirdContent from "./voting_lower_third_content"
 import ClosedLowerThirdContent from "./closed_lower_third_content"
+import GroupingLowerThirdContent from "./grouping_lower_third_content"
 import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
 import stageConfigs from "../configs/stage_configs"
 
 import * as AppPropTypes from "../prop_types"
 import STAGES from "../configs/stages"
 
-const { VOTING, CLOSED } = STAGES
+const { VOTING, CLOSED, GROUPING, IDEA_GENERATION, ACTION_ITEMS } = STAGES
+
+const stageToComponentMap = {
+  [IDEA_GENERATION]: IdeaGenerationLowerThirdContent,
+  [GROUPING]: GroupingLowerThirdContent,
+  [VOTING]: VotingLowerThirdContent,
+  [ACTION_ITEMS]: IdeaGenerationLowerThirdContent,
+  [CLOSED]: ClosedLowerThirdContent,
+}
 
 const LowerThird = props => {
   const { stage } = props
 
   const stageConfig = stageConfigs[stage]
-
-  function stageSpecificContent() {
-    if (stage === VOTING) {
-      return <VotingLowerThirdContent {...props} config={stageConfig} />
-    }
-
-    if (stage === CLOSED) {
-      return <ClosedLowerThirdContent />
-    }
-
-    return <IdeaGenerationLowerThirdContent {...props} config={stageConfig} />
-  }
+  const StageSpecificComponent = stageToComponentMap[stage]
 
   return (
     <LowerThirdAnimationWrapper stage={stage}>
-      {stageSpecificContent()}
+      <StageSpecificComponent {...props} config={stageConfig} />
     </LowerThirdAnimationWrapper>
   )
 }
