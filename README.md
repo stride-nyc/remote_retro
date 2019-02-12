@@ -76,22 +76,17 @@ psql -h localhost
   - Create the "remote_retro_test" database and migrate via `MIX_ENV=test mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
+We will use `asdf-nodejs`.
+It has a couple other dependencies, see [their README](https://github.com/asdf-vm/asdf-nodejs) for specifics for your system.
 
-Install nvm (node version manager):
-
+Install `nodejs` using `asdf` after following the directions from their README.
 ```
-curl -o- https://raw.githubusercontent.com/creationix/nvm/v0.33.1/install.sh | bash
-```
-__Note:__ additional nvm installation notes found at [the nvm repo](https://github.com/creationix/nvm#install-script).
-
-Install the latest node via nvm:
-```
-nvm install 8.7
+asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
 ```
 
-Ensure the latest node is your default node version in new shells:
+Install the project's version of nodejs
 ```
-nvm alias default 8.7
+asdf install nodejs $(cat .tool-versions | grep nodejs | awk '{print $2}')
 ```
 
 Install Global NPM Packages
