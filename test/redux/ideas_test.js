@@ -361,7 +361,7 @@ describe("actionCreators", () => {
         expect(dispatchSpy).calledWith({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId,
-          newAttributes: { inEditState: false, liveEditText: null },
+          newAttributes: { inEditState: false, liveEditText: null, isLocalEdit: null },
         })
       })
     })
