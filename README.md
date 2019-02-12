@@ -4,7 +4,7 @@
 
 # RemoteRetro
 
-This repository houses the application code for [RemoteRetro](http://remoteretro.org), a web app that allows distributed teams to conduct effective Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](http://stridenyc.com). 
+This repository houses the application code for [RemoteRetro](http://remoteretro.org), a web app that allows distributed teams to conduct effective Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](http://stridenyc.com).
 
 ## Table of Contents
 1. [Roadmap to MVP](#roadmap-to-mvp)
@@ -76,28 +76,9 @@ psql -h localhost
   - Create the "remote_retro_test" database and migrate via `MIX_ENV=test mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
-We will use `asdf-nodejs`.
-It has a couple other dependencies, see [their README](https://github.com/asdf-vm/asdf-nodejs) for specifics for your system.
-
-Install `nodejs` using `asdf` after following the directions from their README.
-```
-asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git
-```
-
-Install the project's version of nodejs
-```
-asdf install nodejs $(cat .tool-versions | grep nodejs | awk '{print $2}')
-```
-
-Install Global NPM Packages
-```
-npm install -g yarn phantomjs chromedriver
-```
-
-Install Local NPM Packages via Yarn
-```
-yarn
-```
+  - [Ensure you have the asdf version manager installed](https://github.com/asdf-vm/asdf)
+  - Install the `asdf-nodejs` plugin per the instructions at https://github.com/asdf-vm/asdf-nodejs
+  - Install the project's Node version and Node dependencies by running `bin/install_node_with_dependencies`
 
 #### Google OAuth
 

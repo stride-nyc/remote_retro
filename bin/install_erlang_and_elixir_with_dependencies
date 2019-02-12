@@ -1,16 +1,9 @@
 #!/bin/bash
 
-printGreenLine () {
-  ENDCOLOR='\033[0m'
-  GREEN='\033[0;32m'
-  echo -e "${GREEN}$1${ENDCOLOR}\n";
-}
-
-printRedLine () {
-  RED='\033[0;31m'
-  ENDCOLOR='\033[0m'
-  echo -e "${RED}$1${ENDCOLOR}\n"
-}
+# import helpers
+DIR="${BASH_SOURCE%/*}"
+if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
+. "$DIR/utils/io.sh" --source-only
 
 if command -v asdf >/dev/null; then
   printGreenLine "asdf: operational. Proceeding with installation..."
