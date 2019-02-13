@@ -39,7 +39,7 @@
     "react-redux": "^5.0.6",
     "react-transition-group": "^1.2.1",
     "redux": "^3.6.0",
-    "redux-responsive": "^4.3.8",
+    "redux-responsive": "^3.2.2",
     "redux-thunk": "^2.3.0",
     "semantic-ui-offline": "github:vanderhoop/semantic-ui-offline#dbf68a08531a48aa5b2bdc123b92a3c3df112515",
     "uuid": "^3.3.2",
