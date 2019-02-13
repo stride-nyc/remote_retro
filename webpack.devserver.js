@@ -12,7 +12,7 @@ new WebpackDevServer(webpack(config), {
   clientLogLevel: "none",
   overlay: true,
   headers: { "Access-Control-Allow-Origin": "*" },
-  stats: { modules: false },
+  stats: { modules: false, entrypoints: false, children: false },
 }).listen(port, "0.0.0.0", err => {
   if (err) console.error(err)
   console.log(`[info] Running webpack-dev-server using http://localhost:${port}`)

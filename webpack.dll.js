@@ -5,7 +5,7 @@ const HardSourceWebpackPlugin = require("hard-source-webpack-plugin")
 process.noDeprecation = true
 
 module.exports = {
-  cache: true,
+  mode: "development", // default, which is overriden for prod by passing flag to CLI
   entry: {
     vendor: ["./web/static/js/vendor"],
   },

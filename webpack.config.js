@@ -2,7 +2,7 @@
 
 const path = require("path")
 const webpack = require("webpack")
-const ExtractTextPlugin = require("extract-text-webpack-plugin")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const WriteFileWebpackPlugin = require("write-file-webpack-plugin")
 const WebpackNotifierPlugin = require("webpack-notifier")
@@ -50,13 +50,14 @@ const sourceMapPlugins =
 
 module.exports = {
   ...productionOverrides,
-  cache: true,
+  mode: "development", // default, which is overriden for prod by passing flag to CLI
   entry: [
     ...supplementalEntrypoints,
     "./web/static/css/app.css",
     "./web/static/css/tiny_modal.css",
     "./web/static/js/app.js",
   ],
+  stats: { modules: false, entrypoints: false, children: false },
   output: {
     path: OUTPUT_PATH,
     filename: "js/app.js",
@@ -74,20 +75,26 @@ module.exports = {
     extensions: [".js", ".jsx"],
   },
   module: {
-    rules: [{
-      test: /\.jsx?$/,
-      exclude: /(node_modules|bower_components|polyfills)/,
-      use: [{
-        loader: "babel-loader",
-        query: {
-          cacheDirectory: true,
-        },
-      }],
-    }, {
-      test: /\.css$/,
-      use: ["css-hot-loader"].concat(ExtractTextPlugin.extract({
-        fallback: "style-loader",
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(node_modules|bower_components|polyfills)/,
+        use: [{
+          loader: "babel-loader",
+          query: {
+            cacheDirectory: true,
+          },
+        }],
+      },
+      {
+        test: /\.css$/,
         use: [
+          {
+            loader: "css-hot-loader",
+          },
+          {
+            loader: MiniCssExtractPlugin.loader,
+          },
           {
             loader: "css-loader",
             options: {
@@ -101,8 +108,8 @@ module.exports = {
             loader: "postcss-loader",
           },
         ],
-      })),
-    }],
+      }
+    ],
   },
   plugins: [
     new webpack.DllReferencePlugin({
@@ -110,10 +117,11 @@ module.exports = {
       manifest: require("./web/static/js/dll/vendor-manifest.json"),
     }),
     ...sourceMapPlugins,
-    new webpack.NoEmitOnErrorsPlugin(),
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
     new webpack.HotModuleReplacementPlugin(),
-    new ExtractTextPlugin({ filename: "css/app.css" }),
+    new MiniCssExtractPlugin({
+      filename: "css/app.css",
+    }),
     new CopyWebpackPlugin([{
       from: "./web/static/assets",
       ignore: "**/.DS_Store",
