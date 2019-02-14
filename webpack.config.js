@@ -3,6 +3,7 @@
 const path = require("path")
 const webpack = require("webpack")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const WriteFileWebpackPlugin = require("write-file-webpack-plugin")
 const WebpackNotifierPlugin = require("webpack-notifier")
@@ -27,7 +28,14 @@ const devEntrypoints = [
 ]
 const supplementalEntrypoints = inDev ? devEntrypoints : []
 
-const productionOverrides = forDeployedProduction ? { devtool: "source-map" } : {}
+const productionOverrides = forDeployedProduction ? {
+  optimization: {
+    minimizer: [
+      new OptimizeCSSAssetsPlugin({}),
+    ]
+  },
+  devtool: "source-map",
+} : {}
 
 const prodSourceMapPlugins = [
   new HoneybadgerSourceMapPlugin({

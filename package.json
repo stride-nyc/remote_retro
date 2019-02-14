@@ -75,6 +75,7 @@
     "mocha": "^4.0.1",
     "mock-css-modules": "^1.0.0",
     "mock-local-storage": "^1.1.8",
+    "optimize-css-assets-webpack-plugin": "^5.0.1",
     "react-test-renderer": "^16.1.1",
     "sinon": "^1.17.7",
     "sinon-chai": "^2.14.0",
