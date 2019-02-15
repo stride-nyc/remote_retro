@@ -114,16 +114,28 @@ To continually execute the backend unit tests on file change:
 mix test.watch
 ```
 
+To execute the backend unit tests manually:
+
+```
+mix test
+```
+
 To execute the end-to-end tests:
 
 ```
 mix e2e
 ```
 
-To continually execute the client-side unit tests on file change, run:
+To continually execute the client-side unit tests on file change:
 
 ```
-npm run test:watch
+yarn test:watch
+```
+
+To execute the client-side unit tests manually:
+
+```
+yarn test
 ```
 
 ## Code
