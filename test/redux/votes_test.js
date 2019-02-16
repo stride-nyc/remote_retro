@@ -30,13 +30,13 @@ describe("votes reducer", () => {
   describe("when the action is VOTE_SUBMISSION_REJECTED", () => {
     it("removes the vote with matching uuid from the list", () => {
       const initialState = [
-        { id: "a374kdnvk3ndk", idea_id: 12, user_id: 33 },
+        { optimisticUUID: "a374kdnvk3ndk", idea_id: 12, user_id: 33 },
         { id: 1, idea_id: 31, user_id: 24 },
       ]
 
       const action = {
         type: "VOTE_SUBMISSION_REJECTED",
-        optimisticUiVoteId: "a374kdnvk3ndk",
+        optimisticUUID: "a374kdnvk3ndk",
       }
 
       deepFreeze(initialState)
@@ -130,7 +130,7 @@ describe("actions", () => {
         const invocationArguments = dispatchSpy.args[0]
         const addedVote = invocationArguments[0].vote
 
-        expect(addedVote.id).to.be.a.uuid("v4")
+        expect(addedVote.optimisticUUID).to.be.a.uuid("v4")
       })
 
       it("calls retroChannel.push with 'vote_submitted', passing the idea and user ids as snakecased attributes", () => {
@@ -162,7 +162,7 @@ describe("actions", () => {
 
           expect(dispatchSpy).calledWithMatch({
             type: "VOTE_SUBMISSION_REJECTED",
-            optimisticUiVoteId: optimisticallyAddedVote.id,
+            optimisticUUID: optimisticallyAddedVote.optimisticUUID,
           })
         })
       })

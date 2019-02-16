@@ -12,7 +12,7 @@ const addVote = vote => ({
 
 const voteSubmissionFailure = optimisticUiVote => ({
   type: types.VOTE_SUBMISSION_REJECTED,
-  optimisticUiVoteId: optimisticUiVote.id,
+  optimisticUUID: optimisticUiVote.optimisticUUID,
   error: { message: "Vote submission failed. Please try again." },
 })
 
@@ -20,7 +20,7 @@ const buildOptimisticUiVote = snakeCaseVoteAttributes => {
   const optimisticUUID = uuidv4()
 
   return {
-    id: optimisticUUID,
+    optimisticUUID,
     ...snakeCaseVoteAttributes,
   }
 }
@@ -53,7 +53,7 @@ export const reducer = (state = [], action) => {
     case types.ADD_VOTE:
       return [...state, action.vote]
     case types.VOTE_SUBMISSION_REJECTED:
-      return state.filter(vote => vote.id !== action.optimisticUiVoteId)
+      return state.filter(vote => vote.optimisticUUID !== action.optimisticUUID)
     default:
       return state
   }
