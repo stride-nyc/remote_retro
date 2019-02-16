@@ -2,6 +2,7 @@ import uuidv4 from "uuid/v4"
 
 export const types = {
   ADD_VOTE: "ADD_VOTE",
+  VOTE_SUBMISSION_ACCEPTED: "VOTE_SUBMISSION_ACCEPTED",
   VOTE_SUBMISSION_REJECTED: "VOTE_SUBMISSION_REJECTED",
 }
 
@@ -33,6 +34,14 @@ const submitVote = (idea, user) => {
     const optimisticUiVote = buildOptimisticUiVote(snakeCaseVoteAttributes)
     const addOptimisticUiVoteAction = addVote(optimisticUiVote)
     dispatch(addOptimisticUiVoteAction)
+
+    push.receive("ok", vote => {
+      dispatch({
+        type: types.VOTE_SUBMISSION_ACCEPTED,
+        optimisticUUID: optimisticUiVote.optimisticUUID,
+        persistedVote: vote,
+      })
+    })
 
     push.receive("error", () => {
       const failureAction = voteSubmissionFailure(optimisticUiVote)

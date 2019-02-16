@@ -143,6 +143,31 @@ describe("actions", () => {
         pushSpy.restore()
       })
 
+      describe("when the push results in an 'ok' response", () => {
+        let push
+
+        beforeEach(() => {
+          mockRetroChannel = setupMockPhoenixChannel()
+        })
+
+        it("dispatches VOTE_SUBMISSION_ACCEPTED with the optimistic UUID and the persisted idea", () => {
+          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          const invocationArguments = dispatchSpy.args[0]
+          const optimisticallyAddedVote = invocationArguments[0].vote
+
+          push.trigger("ok", { id: 1001, user_id: 1, idea_id: 3 })
+
+          expect(dispatchSpy).calledWithMatch({
+            type: "VOTE_SUBMISSION_ACCEPTED",
+            optimisticUUID: optimisticallyAddedVote.optimisticUUID,
+            persistedVote: { id: 1001, user_id: 1, idea_id: 3 },
+          })
+        })
+      })
+
       describe("when the push results in an error", () => {
         let push
 
