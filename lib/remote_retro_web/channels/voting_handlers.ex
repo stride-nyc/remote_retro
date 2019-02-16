@@ -12,8 +12,8 @@ defmodule RemoteRetroWeb.VotingHandlers do
 
   defp atomic_insert_and_broadcast_to_other_clients(idea_id, user_id, socket) do
     Repo.transaction(fn ->
-      insert_vote!(idea_id, user_id)
-      broadcast_from! socket, "vote_submitted", ~m{idea_id, user_id}
+      vote = insert_vote!(idea_id, user_id)
+      broadcast_from! socket, "vote_submitted", vote
     end)
   rescue
     _ -> {:error, %{}}

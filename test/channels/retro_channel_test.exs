@@ -297,13 +297,13 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "results in the broadcast of the vote to connected clients", ~M{socket, idea, facilitator} do
+    test "results in the broadcast of the persisted vote to connected clients", ~M{socket, idea, facilitator} do
       idea_id = idea.id
       user_id = facilitator.id
       ref = push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
       assert_reply ref, :ok
 
-      assert_broadcast("vote_submitted", %{"idea_id" => ^idea_id, "user_id" => ^user_id})
+      assert_broadcast("vote_submitted", %{idea_id: ^idea_id, user_id: ^user_id, id: _})
     end
 
     @tag idea: %Idea{category: "sad", body: "panda"}
