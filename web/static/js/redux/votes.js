@@ -53,7 +53,7 @@ export const reducer = (state = [], action) => {
     case types.ADD_VOTE:
       return [...state, action.vote]
     case types.VOTE_SUBMISSION_REJECTED:
-      return state.filter(idea => idea.id !== action.optimisticUiVoteId)
+      return state.filter(vote => vote.id !== action.optimisticUiVoteId)
     default:
       return state
   }
