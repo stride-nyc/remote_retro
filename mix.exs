@@ -32,14 +32,15 @@ defmodule RemoteRetro.Mixfile do
   #
   # Type `mix help deps` for examples and options.
   defp deps do
-    [{:phoenix, "~> 1.3.3"},
+    [{:phoenix, "~> 1.3.4"},
      {:phoenix_pubsub, "~> 1.1.0"},
      {:phoenix_ecto, "~> 3.4.0"},
      {:distillery, "~> 1.5.0", only: :prod},
      {:excoveralls, "~> 0.9.1", only: :test},
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.6"},
-     {:phoenix_live_reload, "~> 1.0", only: :dev},
+     {:phoenix_live_reload, "~> 1.1.7", only: :dev},
+     {:plug_cowboy, "~> 1.0"},
      {:mix_test_watch, "~> 0.9", [runtime: false, only: :dev]},
      {:mock, "~> 0.3.0", only: :test},
      {:oauth2, "~> 0.9"},
@@ -48,7 +49,6 @@ defmodule RemoteRetro.Mixfile do
      {:shorter_maps, "~> 2.0"},
      {:slender_channel, "~> 0.2.0"},
      {:libcluster, "~> 2.5.0"},
-     {:cowboy, "~> 1.0"},
      {:bamboo, "~> 0.8"},
      {:honeybadger, "~> 0.10.1"},
      {:credo, "~> 0.3", only: [:dev, :test]},
