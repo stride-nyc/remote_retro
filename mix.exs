@@ -40,7 +40,7 @@ defmodule RemoteRetro.Mixfile do
      {:postgrex, ">= 0.0.0"},
      {:phoenix_html, "~> 2.6"},
      {:phoenix_live_reload, "~> 1.0", only: :dev},
-     {:mix_test_watch, "~> 0.2", only: :dev},
+     {:mix_test_watch, "~> 0.9", [runtime: false, only: :dev]},
      {:mock, "~> 0.3.0", only: :test},
      {:oauth2, "~> 0.9"},
      {:gettext, "~> 0.11"},
