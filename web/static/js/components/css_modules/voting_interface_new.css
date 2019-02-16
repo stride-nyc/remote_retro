@@ -23,11 +23,48 @@
   transform: translate3d(0, -2.5rem, 0);
 }
 
-:global(.ui.labeled.button){
+:global(.ui.labeled.button).wrapper {
   --fontSize: 0.85rem;
+  cursor: default;
+
+  &:global(.static) {
+    pointer-events: none;
+
+    .vote-button {
+      font-size: 0.95rem;
+    }
+  }
 
   .vote-button, .vote-count {
     font-size: var(--fontSize);
+  }
+
+  /* override hyper specific semantic UI styling */
+  .alter-count-button-group {
+    height: unset;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+
+    .vote-button {
+      padding: 0.475rem 0.8rem;
+
+      &:disabled {
+        :global(i.icon) {
+          opacity: 0.5;
+        }
+      }
+    }
+
+    :global(i.icon) {
+      margin-right: 0 !important;
+      font-size: 0.75rem;
+
+      &:before {
+        position: relative;
+        left: 1px;
+        top: 1px;
+      }
+    }
   }
 
   .vote-button {

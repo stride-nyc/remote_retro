@@ -1,43 +1,48 @@
+// IMPORTANT: this module is on the chopping block, and will be killed once
+// the new interface is feature complete and we remove the 'subtractVoteDev' feature flag
+// As such, any new work on the voting interface belongs in VotingInterfaceNew
 import React from "react"
 import PropTypes from "prop-types"
 import ReactTransitionGroup from "react-transition-group/CSSTransitionGroup"
 import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/voting_interface.css"
-import STAGES from "../configs/stages"
+import styles from "./css_modules/voting_interface_old.css"
 
-const { VOTING } = STAGES
-
-class VotingInterface extends React.Component {
+class VotingInterfaceOld extends React.Component {
   handleAddVoteClick = () => {
     const { actions, idea, currentUser } = this.props
     actions.submitVote(idea, currentUser)
   }
 
   render() {
-    const { buttonDisabled, votesForIdea, stage, currentUser } = this.props
+    const {
+      votesForIdea,
+      currentUser,
+      buttonDisabled,
+      isVotingStage,
+    } = this.props
+
     const counterClasses = classNames("ui labeled right floated button", {
       disabled: buttonDisabled,
     })
 
-    let displayableVoteCount
-    if (stage === VOTING) {
-      displayableVoteCount = votesForIdea.filter(vote => vote.user_id === currentUser.id).length
-    } else {
-      displayableVoteCount = votesForIdea.length
-    }
+    const userVoteCountForIdea = votesForIdea.filter(vote => vote.user_id === currentUser.id).length
+
+    // voting is blind. totals revealed after stage progression.
+    const displayableVoteCount = isVotingStage ? userVoteCountForIdea : votesForIdea.length
 
     return (
       <div className={counterClasses}>
         <button
+          type="submit"
           className={`ui green button ${styles.voteButton}`}
           onClick={this.handleAddVoteClick}
           disabled={buttonDisabled}
-          type="submit"
         >
           Vote
         </button>
+
         <div className={`ui basic green label ${styles.voteCount}`}>
           <ReactTransitionGroup
             component="div"
@@ -48,22 +53,24 @@ class VotingInterface extends React.Component {
             <div key={displayableVoteCount}>{displayableVoteCount}</div>
           </ReactTransitionGroup>
         </div>
+
       </div>
     )
   }
 }
 
-VotingInterface.defaultProps = {
+VotingInterfaceOld.defaultProps = {
   buttonDisabled: false,
+  isVotingStage: false,
 }
 
-VotingInterface.propTypes = {
+VotingInterfaceOld.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   votesForIdea: AppPropTypes.votes.isRequired,
-  buttonDisabled: PropTypes.bool,
   currentUser: AppPropTypes.presence.isRequired,
-  stage: AppPropTypes.stage.isRequired,
+  buttonDisabled: PropTypes.bool,
+  isVotingStage: PropTypes.bool,
   actions: AppPropTypes.actions.isRequired,
 }
 
-export default VotingInterface
+export default VotingInterfaceOld
