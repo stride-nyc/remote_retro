@@ -291,7 +291,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: facilitator.id) end)
 
       ref = push(socket, "vote_submitted", %{idea_id: idea_id, user_id: facilitator.id})
-      assert_reply ref, :ok # allow async handler to complete before checking db
+      assert_reply ref, :ok, %{user_id: _user_id, idea_id: idea_id, id: _} # allow async handler to complete before checking db
 
       assert Repo.get_by!(Vote, idea_id: idea_id, user_id: facilitator.id)
     end
