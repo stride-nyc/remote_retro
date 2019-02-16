@@ -61,6 +61,10 @@ export const reducer = (state = [], action) => {
       return action.initialState.votes
     case types.ADD_VOTE:
       return [...state, action.vote]
+    case types.VOTE_SUBMISSION_ACCEPTED:
+      return state.map(vote => {
+        return vote.optimisticUUID === action.optimisticUUID ? action.persistedVote : vote
+      })
     case types.VOTE_SUBMISSION_REJECTED:
       return state.filter(vote => vote.optimisticUUID !== action.optimisticUUID)
     default:

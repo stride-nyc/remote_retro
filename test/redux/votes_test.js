@@ -27,6 +27,34 @@ describe("votes reducer", () => {
     })
   })
 
+  describe("when the action is VOTE_SUBMISSION_ACCEPTED", () => {
+    it("replaces the vote with matching uuid, stripping the optimisticUUID property", () => {
+      const initialState = [
+        { optimisticUUID: "a374kdnvk3ndk", idea_id: 12, user_id: 33 },
+        { id: 1, idea_id: 31, user_id: 24 },
+      ]
+
+      const action = {
+        type: "VOTE_SUBMISSION_ACCEPTED",
+        optimisticUUID: "a374kdnvk3ndk",
+        persistedVote: { id: 2, idea_id: 12, user_id: 33 },
+      }
+
+      deepFreeze(initialState)
+      const result = votesReducer(initialState, action)
+
+      expect(result).to.eql([{
+        id: 2,
+        idea_id: 12,
+        user_id: 33,
+      }, {
+        id: 1,
+        idea_id: 31,
+        user_id: 24,
+      }])
+    })
+  })
+
   describe("when the action is VOTE_SUBMISSION_REJECTED", () => {
     it("removes the vote with matching uuid from the list", () => {
       const initialState = [
