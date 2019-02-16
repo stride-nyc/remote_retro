@@ -7,8 +7,6 @@ import * as AppPropTypes from "../prop_types"
 import STAGES from "../configs/stages"
 import styles from "./css_modules/conditionally_draggable_idea_content.css"
 
-const { IDEA_GENERATION, GROUPING } = STAGES
-
 const handleDragStart = props => event => {
   const { idea } = props
   event.dataTransfer.dropEffect = "move"
@@ -29,8 +27,7 @@ const ConditionallyDraggableIdeaContent = props => {
 
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 100
 
-  const isIdeaDragEligible =
-    (stage === GROUPING || (stage === IDEA_GENERATION && canUserEditIdeaContents))
+  const isIdeaDragEligible = stage === STAGES.IDEA_GENERATION && canUserEditIdeaContents
 
   return (
     <div

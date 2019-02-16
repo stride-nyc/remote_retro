@@ -4,29 +4,6 @@
   transition: background-color 300ms, border-bottom 300ms;
   border-bottom: 1px solid var(--semantic-light-grey);
   background-color: rgba(255, 255, 255, 0.75);
-
-  /* add centered linkify icon when hoving in grouping stage */
-  &:global(.dragged-over .overlay):before {
-    content: "\f0c1";
-    font-family: Icons;
-    font-style: normal;
-    font-weight: 400;
-    font-size: 1.6rem;
-    margin-top: 0.1rem;
-
-    -webkit-transform: scale(-1,1);
-    transform: scale(-1,1);
-
-    position: absolute;
-    top: 0;
-    left: 0;
-    height: 100%;
-    width: 100%;
-
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-  }
 }
 
 .highlighted {

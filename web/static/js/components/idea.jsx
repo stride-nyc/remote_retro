@@ -5,9 +5,7 @@ import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import values from "lodash/values"
 
-import STAGES from "../configs/stages"
 import IdeaEditForm from "./idea_edit_form"
-import IdeaDropTarget from "./idea_drop_target"
 import IdeaLiveEditContent from "./idea_live_edit_content"
 import ConditionallyDraggableIdeaContent from "./conditionally_draggable_idea_content"
 import IdeaPermissions from "../services/idea_permissions"
@@ -43,16 +41,9 @@ export const Idea = props => {
   }
 
   return (
-    <IdeaDropTarget
-      tagName="li"
-      dragAndDropHandlersActive={stage === STAGES.GROUPING}
-      wrapperClassName={classes}
-      onDropOfIdea={() => {}}
-      title={idea.body}
-      key={idea.id}
-    >
+    <li className={classes} title={idea.body} key={idea.id}>
       {content}
-    </IdeaDropTarget>
+    </li>
   )
 }
 

@@ -4,7 +4,7 @@ import { spy } from "sinon"
 import ConditionallyDraggableIdeaContent from "../../web/static/js/components/conditionally_draggable_idea_content"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, GROUPING } = STAGES
+const { IDEA_GENERATION } = STAGES
 
 describe("<ConditionallyDraggableIdeaContent />", () => {
   let wrapper
@@ -146,22 +146,6 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
 
         it("sets draggable=false", () => {
           expect(wrapper.html()).to.match(/draggable="false"/)
-        })
-
-        context("when the stage is grouping", () => {
-          beforeEach(() => {
-            wrapper = mountWithConnectedSubcomponents(
-              <ConditionallyDraggableIdeaContent
-                {...defaultProps}
-                canUserEditIdeaContents={false}
-                stage={GROUPING}
-              />
-            )
-          })
-
-          it("sets draggable=true", () => {
-            expect(wrapper.html()).to.match(/draggable="true"/)
-          })
         })
       })
     })

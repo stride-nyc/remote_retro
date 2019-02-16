@@ -80,19 +80,3 @@ export const setupMockPhoenixChannel = () => {
 
   return mockPhoenixChannel
 }
-
-export const buildIdeaDragEvent = idea => {
-  const serializedIdea = JSON.stringify(idea)
-
-  const mockEvent = {
-    preventDefault: sinon.spy(),
-    dataTransfer: {
-      getData: sinon.stub(),
-    },
-  }
-
-  mockEvent.dataTransfer.getData
-    .withArgs("idea").returns(serializedIdea)
-
-  return mockEvent
-}
