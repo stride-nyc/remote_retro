@@ -43,6 +43,7 @@ module.exports = {
       "error",
       "never"
     ],
+    "object-curly-newline": "off",
     "arrow-parens": [
       "error",
       "as-needed",
@@ -65,7 +66,16 @@ module.exports = {
     "react/no-unescaped-entities": "off",
     "react/no-unused-prop-types": "off",
     "react/forbid-prop-types": "off",
+    "react/jsx-one-expression-per-line": "off",
+    "no-restricted-globals": "off",
+    "jsx-a11y/no-autofocus": 0,
     "jsx-a11y/no-static-element-interactions": 0,
+    "jsx-a11y/label-has-associated-control": {
+      "some": [ "nesting", "id" ]
+    },
+    "jsx-a11y/label-has-for": {
+      "some": [ "nesting", "id" ]
+    },
     "import/no-named-as-default": "off",
     "no-unused-expressions": ["error", {"allowTernary": true}],
     "no-param-reassign": [2, { "props": false }],

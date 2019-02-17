@@ -22,9 +22,9 @@ export const actions = {
 
 const addArrivals = (existingUsers, arrivals) => {
   const presencesInArrivals = values(arrivals).map(join => join.user)
-  const newUsers = presencesInArrivals.filter(presence =>
-    !existingUsers.find(u => presence.token === u.token)
-  )
+  const newUsers = presencesInArrivals.filter(presence => {
+    return !existingUsers.find(u => presence.token === u.token)
+  })
 
   return [...existingUsers, ...normalizePresencesWithForeignKeyForUsers(newUsers)]
 }
@@ -35,6 +35,7 @@ const removeDepartures = (presences, departures) => {
 }
 
 const normalizePresencesWithForeignKeyForUsers = presences => {
+  // eslint-disable-next-line camelcase
   return presences.map(({ token, id, online_at }) => ({
     user_id: id,
     online_at,
@@ -54,9 +55,10 @@ export const reducer = (state = [], action) => {
     }
     case "UPDATE_PRESENCE": {
       const { presenceToken, newAttributes } = action
-      return state.map(presence => (
-        presence.token === presenceToken ? { ...presence, ...newAttributes } : presence)
-      )
+      return state.map(presence => {
+        const isTarget = presence.token === presenceToken
+        return isTarget ? { ...presence, ...newAttributes } : presence
+      })
     }
     default:
       return state

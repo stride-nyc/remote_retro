@@ -27,7 +27,7 @@ describe("ShareRetroLinkModal component", () => {
         <ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />
       )
 
-      const isOpen = wrapper.find("Modal").props().isOpen
+      const { isOpen } = wrapper.find("Modal").props()
 
       expect(isOpen).to.equal(true)
     })
@@ -66,14 +66,14 @@ describe("ShareRetroLinkModal component", () => {
 
       describe("and the close icon is clicked", () => {
         beforeEach(() => {
-          const content = portalToModalContent.content
+          const { content } = portalToModalContent
           const closeIcon = content.querySelector(".close.icon")
           closeIcon.click()
         })
 
         it("closes the modal", () => {
           wrapper.update()
-          const isOpen = wrapper.find("Modal").props().isOpen
+          const { isOpen } = wrapper.find("Modal").props()
           expect(isOpen).to.equal(false)
         })
       })
@@ -90,10 +90,9 @@ describe("ShareRetroLinkModal component", () => {
         <ShareRetroLinkModal retroCreationTimestamp={earlierDate.toUTCString()} />
       )
 
-      const isOpen = wrapper.find("Modal").props().isOpen
+      const { isOpen } = wrapper.find("Modal").props()
 
       expect(isOpen).to.equal(false)
     })
   })
 })
-

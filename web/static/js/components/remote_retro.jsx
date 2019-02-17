@@ -13,7 +13,8 @@ import DoorChime from "./door_chime"
 export class RemoteRetro extends Component {
   // Trigger analytics events on page load and stage changes
   componentDidMount() {
-    hj("trigger", this.props.stage)
+    const { stage } = this.props
+    hj("trigger", stage)
   }
 
   componentDidUpdate(prevProps) {
@@ -62,7 +63,7 @@ RemoteRetro.propTypes = {
   error: PropTypes.object,
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.presence,
-  facilitatorName: PropTypes.string.isRequired,
+  facilitatorName: PropTypes.string,
   isTabletOrAbove: PropTypes.bool.isRequired,
 }
 
@@ -82,7 +83,7 @@ RemoteRetro.defaultProps = {
 }
 
 const mapStateToProps = state => {
-  const { stage, facilitator_id } = state.retro
+  const { stage, facilitator_id } = state.retro /* eslint-disable-line camelcase */
   return {
     ...state,
     stage,

@@ -130,7 +130,7 @@ describe("<StageAwareIdeaControls />", () => {
             {...defaultProps}
             stage={IDEA_GENERATION}
           />
-         )
+        )
 
         expect(wrapper.find(VoteCounter)).to.have.length(0)
       })
@@ -143,7 +143,7 @@ describe("<StageAwareIdeaControls />", () => {
             {...defaultProps}
             stage={ACTION_ITEMS}
           />
-         )
+        )
 
         expect(wrapper.find(VoteCounter).prop("buttonDisabled")).to.be.true
       })
@@ -157,7 +157,7 @@ describe("<StageAwareIdeaControls />", () => {
             voteCountForUser={3}
             stage={VOTING}
           />
-         )
+        )
 
         expect(wrapper.find(VoteCounter).prop("buttonDisabled")).to.be.true
       })

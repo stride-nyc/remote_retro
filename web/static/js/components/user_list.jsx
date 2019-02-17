@@ -19,13 +19,13 @@ export const UserList = ({ presences }) => {
 
   // account for cases where the facilitator isn't present
   // (comp falls asleep, browser refresh, et cetera)
-  const presencesToRender = indexOfFacilitator === -1 ?
-    sortedByArrival :
-    [presences[indexOfFacilitator], ...nonFacilitators]
+  const presencesToRender = indexOfFacilitator === -1
+    ? sortedByArrival
+    : [presences[indexOfFacilitator], ...nonFacilitators]
 
-  const listItems = presencesToRender.map(presence =>
-    <UserListItem key={presence.token} user={presence} />
-  )
+  const listItems = presencesToRender.map(presence => {
+    return <UserListItem key={presence.token} user={presence} />
+  })
 
   return (
     <section className={`${styles.index} ui center aligned basic segment`}>

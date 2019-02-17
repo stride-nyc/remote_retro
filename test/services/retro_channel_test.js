@@ -222,12 +222,10 @@ describe("RetroChannel", () => {
 
       describe("on `vote_submitted`", () => {
         beforeEach(() => {
-          retroChannel.trigger("vote_submitted",
-            {
-              idea_id: 50,
-              user_id: 99,
-            }
-          )
+          retroChannel.trigger("vote_submitted", {
+            idea_id: 50,
+            user_id: 99,
+          })
         })
 
         it("invokes the addVote action, passing the vote", () => {
@@ -240,4 +238,3 @@ describe("RetroChannel", () => {
     })
   })
 })
-

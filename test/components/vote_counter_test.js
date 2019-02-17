@@ -48,7 +48,7 @@ describe("VoteCounter", () => {
           votes={votes}
         />
       )
-      const label = voteCounter.find("a")
+      const label = voteCounter.find("div.basic.label")
 
       expect(label.text()).to.equal("3")
     })
@@ -81,7 +81,7 @@ describe("VoteCounter", () => {
           votes={votes}
         />
       )
-      const label = voteCounter.find("a")
+      const label = voteCounter.find("div.basic.label")
 
       expect(label.text()).to.equal("4")
     })

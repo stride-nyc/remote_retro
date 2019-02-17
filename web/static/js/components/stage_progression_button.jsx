@@ -52,6 +52,7 @@ export class StageProgressionButton extends Component {
             <button
               className={`ui negative ${retroUpdateRequested ? "disabled" : ""} button`}
               id="no"
+              type="button"
               onClick={this.handleModalClose}
             >
               No
@@ -60,6 +61,7 @@ export class StageProgressionButton extends Component {
               autoFocus
               className={`ui positive ${retroUpdateRequested ? "loading" : ""} button`}
               id="yes"
+              type="button"
               onClick={this.handleStageProgression}
             >
               Yes
@@ -70,6 +72,7 @@ export class StageProgressionButton extends Component {
           className="fluid ui right labeled blue icon button"
           onClick={this.handleStageProgressionButtonClick}
           disabled={buttonDisabled}
+          type="button"
         >
           { progressionButton.copy }
           <i className={`${progressionButton.iconClass} icon`} />

@@ -55,7 +55,7 @@ describe("<IdeaEditForm />", () => {
       it("shows the assigned user as selected initially", () => {
         const form = mountWithConnectedSubcomponents(<IdeaEditForm {...testProps} />)
 
-        const value = form.find("select[name='editable_assignee']").props().value
+        const { value } = form.find("select[name='editable_assignee']").props()
         expect(value).to.equal(9)
       })
     })
@@ -186,7 +186,7 @@ describe("<IdeaEditForm />", () => {
       beforeEach(() => {
         retroChannel = { on: () => { }, push: sinon.spy() }
         wrapper = mountWithConnectedSubcomponents(
-          <IdeaEditForm {...defaultProps} stage={"action-items"} retroChannel={retroChannel} />
+          <IdeaEditForm {...defaultProps} stage="action-items" retroChannel={retroChannel} />
         )
       })
 
@@ -199,7 +199,7 @@ describe("<IdeaEditForm />", () => {
       beforeEach(() => {
         retroChannel = { on: () => { }, push: sinon.spy() }
         wrapper = mountWithConnectedSubcomponents(
-          <IdeaEditForm {...defaultProps} stage={"voting"} retroChannel={retroChannel} />
+          <IdeaEditForm {...defaultProps} stage="voting" retroChannel={retroChannel} />
         )
         categoryDropdown = wrapper.find("select")
         categoryDropdown.simulate("change", { target: { name: "editable_category", value: "confused" } })

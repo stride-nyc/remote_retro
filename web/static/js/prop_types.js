@@ -3,8 +3,8 @@
 //
 import PropTypes from "prop-types"
 
-import STAGES from "../js/configs/stages"
-import { CATEGORIES as startingCategories } from "../js/configs/retro_configs"
+import STAGES from "./configs/stages"
+import { CATEGORIES as startingCategories } from "./configs/retro_configs"
 
 const {
   LOBBY,
@@ -58,4 +58,3 @@ export const votes = PropTypes.arrayOf(PropTypes.object)
 export const ideas = PropTypes.arrayOf(idea)
 
 export const actions = PropTypes.object
-

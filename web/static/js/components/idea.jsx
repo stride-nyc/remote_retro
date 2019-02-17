@@ -26,14 +26,16 @@ export const Idea = props => {
 
   let content
   if (userIsEditing) {
-    content = (<IdeaEditForm
-      idea={idea}
-      retroChannel={retroChannel}
-      currentUser={currentUser}
-      stage={stage}
-      users={users}
-      actions={actions}
-    />)
+    content = (
+      <IdeaEditForm
+        idea={idea}
+        retroChannel={retroChannel}
+        currentUser={currentUser}
+        stage={stage}
+        users={users}
+        actions={actions}
+      />
+    )
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
   } else {

@@ -6,9 +6,11 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/columnar_board_layout.css"
 
 const ColumnarBoardLayout = props => {
+  const { categories } = props
+
   return (
     <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
-      {props.categories.map(category => (
+      {categories.map(category => (
         <CategoryColumn {...props} category={category} key={category} />
       ))}
     </div>

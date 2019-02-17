@@ -81,20 +81,24 @@ class IdeaEditForm extends Component {
     return (
       <form onSubmit={this.onSubmit} className="ui error form raised segment idea-edit-form">
         <p className="ui center aligned sub header">Editing</p>
-        {stage !== ACTION_ITEMS && <SelectDropdown
-          labelName="editable_category"
-          value={ideaCategory}
-          onChange={this.onChangeIdeaCategory}
-          selectOptions={categoryOptions}
-          showLabel={false}
-        />}
-        {stage === ACTION_ITEMS && <SelectDropdown
-          labelName="editable_assignee"
-          value={ideaAssigneeId}
-          onChange={this.onChangeAssignee}
-          selectOptions={assigneeOptions}
-          showLabel={false}
-        />}
+        {stage !== ACTION_ITEMS && (
+          <SelectDropdown
+            labelName="editable_category"
+            value={ideaCategory}
+            onChange={this.onChangeIdeaCategory}
+            selectOptions={categoryOptions}
+            showLabel={false}
+          />
+        )}
+        {stage === ACTION_ITEMS && (
+          <SelectDropdown
+            labelName="editable_assignee"
+            value={ideaAssigneeId}
+            onChange={this.onChangeAssignee}
+            selectOptions={assigneeOptions}
+            showLabel={false}
+          />
+        )}
         <div className="field">
           <textarea
             name="editable_idea"
@@ -105,13 +109,19 @@ class IdeaEditForm extends Component {
           />
         </div>
 
-        { ideaBodyError &&
+        { ideaBodyError && (
           <div className="ui error message">
             <p>{ideaBodyError}</p>
           </div>
-        }
+        )}
         <div className="ui buttons">
-          <button onClick={this.onCancel} className={cancelButtonClasses}>Cancel</button>
+          <button
+            onClick={this.onCancel}
+            className={cancelButtonClasses}
+            type="button"
+          >
+            Cancel
+          </button>
           <div className="or" />
           <button
             type="submit"

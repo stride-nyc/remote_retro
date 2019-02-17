@@ -11,7 +11,7 @@ const ClosedLowerThirdContent = () => (
       </div>
     </div>
     <a href="/retros" className={styles.dashboardLink}>
-      <button className="ui right labeled gray icon button">
+      <button type="submit" className="ui right labeled gray icon button">
         Visit your dashboard
         <i className="arrow right icon" />
       </button>
@@ -20,4 +20,3 @@ const ClosedLowerThirdContent = () => (
 )
 
 export default ClosedLowerThirdContent
-

@@ -23,8 +23,8 @@ const nonFacilitatorInstructions = facilitatorName => (
 
 const LobbyStage = props => {
   const { currentUser, facilitatorName } = props
-  const bodyMarkup = currentUser.is_facilitator ? facilitatorInstructions :
-    nonFacilitatorInstructions(facilitatorName)
+  const bodyMarkup = currentUser.is_facilitator ? facilitatorInstructions
+    : nonFacilitatorInstructions(facilitatorName)
 
   return (
     <CenteredTextStageWrapper

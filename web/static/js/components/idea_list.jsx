@@ -26,8 +26,7 @@ class IdeaList extends Component {
   constructor(props) {
     super(props)
     const { stage, category } = props
-    const sortByVotes =
-      (stage === ACTION_ITEMS || stage === CLOSED) && category !== "action-item"
+    const sortByVotes = (stage === ACTION_ITEMS || stage === CLOSED) && category !== "action-item"
 
     this.state = {
       sortByVotes,
@@ -56,10 +55,10 @@ class IdeaList extends Component {
   }
 
   honorScrollabilityOfContent = () => {
-    const { list } = this
+    const { list, state } = this
 
     const overflowed = list.offsetHeight < list.scrollHeight
-    if (overflowed !== this.state.overflowed) {
+    if (overflowed !== state.overflowed) {
       this.setState({ overflowed })
     }
   }

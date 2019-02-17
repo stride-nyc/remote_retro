@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
@@ -6,28 +6,30 @@ import Modal from "react-modal"
 
 import { actions as actionCreators } from "../redux"
 
-export class Error extends Component {
-  render() {
-    if (!this.props.config) return null
+export const Error = props => {
+  const { actions, config } = props
 
-    const { actions, config } = this.props
+  if (!config) return null
 
-    return (
-      <Modal
-        className="ui tiny modal visible transition fade in"
-        label="Error"
-        isOpen
-      >
-        <div className="ui negative message">
-          <i className="close icon" onClick={actions.clearError} />
-          <div className="header">
-            Server Error
-          </div>
-          <p autoFocus>{config.message}</p>
+  return (
+    <Modal
+      className="ui tiny modal visible transition fade in"
+      label="Error"
+      isOpen
+    >
+      <div className="ui negative message">
+        <i
+          className="close icon"
+          onClick={actions.clearError}
+          onKeyPress={actions.clearError}
+        />
+        <div className="header">
+          Server Error
         </div>
-      </Modal>
-    )
-  }
+        <p>{config.message}</p>
+      </div>
+    </Modal>
+  )
 }
 
 Error.propTypes = {

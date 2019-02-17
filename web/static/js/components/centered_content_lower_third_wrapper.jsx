@@ -5,20 +5,24 @@ import StageProgressionButton from "./stage_progression_button"
 
 import * as AppPropTypes from "../prop_types"
 
-const CenteredLowerThirdContentWrapper = props => (
-  <div className="ui stackable grid basic attached secondary center aligned segment">
-    {props.currentUser.is_facilitator && <div className="three wide column ui computer tablet only" />}
-    <div className="ten wide column">
-      {props.children}
+const CenteredLowerThirdContentWrapper = props => {
+  const { currentUser, children } = props
+  return (
+    <div className="ui stackable grid basic attached secondary center aligned segment">
+      {currentUser.is_facilitator && <div className="three wide column ui computer tablet only" />}
+      <div className="ten wide column">
+        {children}
+      </div>
+
+      {currentUser.is_facilitator && (
+        <StageProgressionButton
+          {...props}
+          className="three wide column"
+        />
+      )}
     </div>
-    {props.currentUser.is_facilitator &&
-      <StageProgressionButton
-        {...props}
-        className="three wide column"
-      />
-    }
-  </div>
-)
+  )
+}
 
 CenteredLowerThirdContentWrapper.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,

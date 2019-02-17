@@ -39,14 +39,17 @@ export class IdeaSubmissionForm extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
+    const { alert } = this.props
     const { isMobileDevice } = this.state
-    const alertDismissed = this.props.alert && !nextProps.alert
+
+    const alertDismissed = alert && !nextProps.alert
 
     if (alertDismissed && !isMobileDevice) { this.ideaInput.focus() }
   }
 
   componentDidUpdate(prevProps, prevState) {
-    if (this.state.category !== prevState.category) { this.ideaInput.focus() }
+    const { category } = this.state
+    if (category !== prevState.category) { this.ideaInput.focus() }
   }
 
   handleSubmit = event => {
@@ -77,9 +80,7 @@ export class IdeaSubmissionForm extends Component {
     const { users, stage } = this.props
     const { assigneeId, body, hasTypedChar, category, isMobileDevice } = this.state
     const disabled = !body.trim().length
-    const assigneeOptions = users.map(({ id, name }) =>
-      <option key={id} value={id}>{name}</option>
-    )
+    const assigneeOptions = users.map(({ id, name }) => <option key={id} value={id}>{name}</option>)
     const defaultCategoryOptions = [
       <option key="happy" value="happy">happy</option>,
       <option key="sad" value="sad">sad</option>,
@@ -108,16 +109,21 @@ export class IdeaSubmissionForm extends Component {
 
     return (
       <form onSubmit={this.handleSubmit} className="ui form">
-        { showSubmitIdeaPrompt &&
+        { showSubmitIdeaPrompt && (
           <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
             Submit an idea!
           </div>
-        }
+        )}
         <div className={`${styles.fields} fields`}>
           <SelectDropdown {...dropdownProps} />
           <div className="eleven wide field">
             <div className="ui fluid action input">
-              <label htmlFor="idea-body-input" className="visually-hidden">Idea input</label>
+              <label
+                htmlFor="idea-body-input"
+                className="visually-hidden"
+              >
+                Idea input
+              </label>
               <input
                 id="idea-body-input"
                 type="text"
@@ -127,7 +133,7 @@ export class IdeaSubmissionForm extends Component {
                 ref={input => { this.ideaInput = input }}
                 value={body}
                 onChange={this.handleBodyChange}
-                placeholder={`Ex. ${PLACEHOLDER_TEXTS[this.state.category]}`}
+                placeholder={`Ex. ${PLACEHOLDER_TEXTS[category]}`}
                 maxLength="255"
               />
               <button type="submit" disabled={disabled} className="ui teal button">Submit</button>

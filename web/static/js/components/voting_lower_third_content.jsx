@@ -5,11 +5,15 @@ import CenteredContentLowerThirdWrapper from "./centered_content_lower_third_wra
 
 import * as AppPropTypes from "../prop_types"
 
-const VotingLowerThirdContent = props => (
-  <CenteredContentLowerThirdWrapper {...props}>
-    <VotesLeft currentUser={props.currentUser} />
-  </CenteredContentLowerThirdWrapper>
-)
+const VotingLowerThirdContent = props => {
+  const { currentUser } = props
+
+  return (
+    <CenteredContentLowerThirdWrapper {...props}>
+      <VotesLeft currentUser={currentUser} />
+    </CenteredContentLowerThirdWrapper>
+  )
+}
 
 VotingLowerThirdContent.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,

@@ -10,6 +10,7 @@ class DoorChime extends Component {
       sound: enterSound,
     }
   }
+
   componentDidMount() {
     this.audio.volume = 0.15
 
@@ -20,8 +21,9 @@ class DoorChime extends Component {
   }
 
   componentWillReceiveProps(nextProps) {
-    const presenceCountIncreased = this.props.presences.length < nextProps.presences.length
-    const presenceCountDecreased = this.props.presences.length > nextProps.presences.length
+    const { presences } = this.props
+    const presenceCountIncreased = presences.length < nextProps.presences.length
+    const presenceCountDecreased = presences.length > nextProps.presences.length
     const attemptToPlayEnterExitSound = () => {
       const playPromise = this.audio.play()
       if (!playPromise) { return }
@@ -39,10 +41,12 @@ class DoorChime extends Component {
   }
 
   render() {
+    const { sound } = this.state
+
     return (
       <audio
         muted
-        src={this.state.sound}
+        src={sound}
         ref={audio => { this.audio = audio }}
       />
     )
@@ -54,4 +58,3 @@ DoorChime.propTypes = {
 }
 
 export default DoorChime
-

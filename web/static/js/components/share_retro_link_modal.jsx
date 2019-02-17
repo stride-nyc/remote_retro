@@ -65,6 +65,7 @@ export class ShareRetroLinkModal extends Component {
           <div>
             <button
               className="ui basic compact right floated icon button"
+              type="button"
               onClick={this.closeModal}
             >
               <i className="close icon" />
@@ -87,7 +88,11 @@ export class ShareRetroLinkModal extends Component {
             />
           </div>
           <div className="ui basic center aligned segment">
-            <button className={copyButtonClasses} onClick={this.handleCopyLink}>
+            <button
+              className={copyButtonClasses}
+              onClick={this.handleCopyLink}
+              type="button"
+            >
               <i className={`icon ${buttonClicked ? "checkmark" : "copy"}`} />
               { buttonClicked ? "Copied!" : "Copy Link to Clipboard" }
             </button>

@@ -23,9 +23,9 @@ class VoteCounter extends React.Component {
 
     let voteCountForIdea
     if (stage === VOTING) {
-      voteCountForIdea = votes.filter(vote =>
-        vote.idea_id === idea.id && vote.user_id === currentUser.id
-      ).length
+      voteCountForIdea = votes.filter(vote => {
+        return vote.idea_id === idea.id && vote.user_id === currentUser.id
+      }).length
     } else {
       voteCountForIdea = votes.filter(vote => vote.idea_id === idea.id).length
     }
@@ -36,10 +36,11 @@ class VoteCounter extends React.Component {
           className={`ui green button ${styles.voteButton}`}
           onClick={this.handleClick}
           disabled={buttonDisabled}
+          type="submit"
         >
           Vote
         </button>
-        <a className={`ui basic green label ${styles.voteCount}`}>
+        <div className={`ui basic green label ${styles.voteCount}`}>
           <ReactTransitionGroup
             component="div"
             transitionName="increment"
@@ -48,7 +49,7 @@ class VoteCounter extends React.Component {
           >
             <div key={voteCountForIdea}>{voteCountForIdea}</div>
           </ReactTransitionGroup>
-        </a>
+        </div>
       </div>
     )
   }
