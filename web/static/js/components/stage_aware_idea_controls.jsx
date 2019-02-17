@@ -19,7 +19,7 @@ export const StageAwareIdeaControls = props => {
     actions,
     currentUser,
     votes,
-    voteCountForUser,
+    cumulativeVoteCountForUser,
     canUserEditIdeaContents,
   } = props
 
@@ -27,7 +27,7 @@ export const StageAwareIdeaControls = props => {
 
   const { category } = idea
 
-  const allVotesUsed = voteCountForUser >= voteMax
+  const allVotesUsed = cumulativeVoteCountForUser >= voteMax
 
   if (stage !== IDEA_GENERATION && category !== "action-item") {
     return (
@@ -59,12 +59,12 @@ StageAwareIdeaControls.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   votes: AppPropTypes.votes.isRequired,
-  voteCountForUser: PropTypes.number.isRequired,
+  cumulativeVoteCountForUser: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = (state, { currentUser }) => {
   return {
-    voteCountForUser: selectors.voteCountForUser(state, currentUser),
+    cumulativeVoteCountForUser: selectors.cumulativeVoteCountForUser(state, currentUser),
     votes: state.votes,
   }
 }

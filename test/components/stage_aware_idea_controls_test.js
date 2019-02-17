@@ -18,7 +18,7 @@ describe("<StageAwareIdeaControls />", () => {
     currentUser: {},
     stage: IDEA_GENERATION,
     retroChannel: { push: () => {}, on: () => {} },
-    voteCountForUser: 0,
+    cumulativeVoteCountForUser: 0,
   }
 
   context("when the stage is 'grouping'", () => {
@@ -154,7 +154,7 @@ describe("<StageAwareIdeaControls />", () => {
         const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
-            voteCountForUser={3}
+            cumulativeVoteCountForUser={3}
             stage={VOTING}
           />
         )
@@ -168,7 +168,7 @@ describe("<StageAwareIdeaControls />", () => {
         const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
-            voteCountForUser={2}
+            cumulativeVoteCountForUser={2}
             stage={VOTING}
           />
         )

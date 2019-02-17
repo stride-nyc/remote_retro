@@ -103,7 +103,7 @@ describe("votes reducer", () => {
 })
 
 describe("selectors", () => {
-  describe("voteCountForUser", () => {
+  describe("cumulativeVoteCountForUser", () => {
     const state = {
       votes: [{
         user_id: 5, idea_id: 7,
@@ -117,8 +117,8 @@ describe("selectors", () => {
     const user = { id: 5 }
 
     it("returns the number of votes the given user has on the store", () => {
-      const voteCountForUser = selectors.voteCountForUser(state, user)
-      expect(voteCountForUser).to.equal(2)
+      const cumulativeVoteCountForUser = selectors.cumulativeVoteCountForUser(state, user)
+      expect(cumulativeVoteCountForUser).to.equal(2)
     })
   })
 

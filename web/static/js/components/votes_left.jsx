@@ -9,8 +9,8 @@ import { selectors } from "../redux"
 import * as AppPropTypes from "../prop_types"
 
 export const VotesLeft = props => {
-  const { voteCountForUser } = props
-  const votesLeft = voteCountForUser ? voteMax - voteCountForUser : voteMax
+  const { cumulativeVoteCountForUser } = props
+  const votesLeft = cumulativeVoteCountForUser ? voteMax - cumulativeVoteCountForUser : voteMax
   const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"
 
   return (
@@ -25,12 +25,12 @@ export const VotesLeft = props => {
 
 VotesLeft.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
-  voteCountForUser: PropTypes.number.isRequired,
+  cumulativeVoteCountForUser: PropTypes.number.isRequired,
 }
 
 const mapStateToProps = (state, { currentUser }) => {
   return {
-    voteCountForUser: selectors.voteCountForUser(state, currentUser),
+    cumulativeVoteCountForUser: selectors.cumulativeVoteCountForUser(state, currentUser),
   }
 }
 

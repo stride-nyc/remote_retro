@@ -73,7 +73,7 @@ export const reducer = (state = [], action) => {
 }
 
 export const selectors = {
-  voteCountForUser: ({ votes }, user) => {
+  cumulativeVoteCountForUser: ({ votes }, user) => {
     const votesForUser = votes.filter(vote => vote.user_id === user.id)
     return votesForUser.length
   },
