@@ -77,6 +77,10 @@ export const selectors = {
     const votesForUser = votes.filter(vote => vote.user_id === user.id)
     return votesForUser.length
   },
+
+  votesForIdea: ({ votes }, idea) => {
+    return votes.filter(vote => vote.idea_id === idea.id)
+  },
 }
 
 export default reducer

@@ -121,6 +121,29 @@ describe("selectors", () => {
       expect(voteCountForUser).to.equal(2)
     })
   })
+
+  describe("votesForIdea", () => {
+    const state = {
+      votes: [{
+        user_id: 5, idea_id: 7,
+      }, {
+        user_id: 5, idea_id: 7,
+      }, {
+        user_id: 2, idea_id: 2,
+      }],
+    }
+
+    const idea = { id: 7 }
+
+    it("returns only the votes for the given idea", () => {
+      const votesForIdea = selectors.votesForIdea(state, idea)
+      expect(votesForIdea).to.deep.eql([{
+        user_id: 5, idea_id: 7,
+      }, {
+        user_id: 5, idea_id: 7,
+      }])
+    })
+  })
 })
 
 describe("actions", () => {
