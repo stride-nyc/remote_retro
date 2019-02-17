@@ -4,7 +4,7 @@ import { bindActionCreators } from "redux"
 import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
-import VoteCounter from "./vote_counter"
+import VotingInterface from "./voting_interface"
 import RightFloatedIdeaActions from "./right_floated_idea_actions"
 import { voteMax } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
@@ -31,7 +31,7 @@ export const StageAwareIdeaControls = props => {
 
   if (stage !== IDEA_GENERATION && category !== "action-item") {
     return (
-      <VoteCounter
+      <VotingInterface
         actions={actions}
         idea={idea}
         votes={votes}

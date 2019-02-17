@@ -2,12 +2,12 @@ import React from "react"
 import { shallow } from "enzyme"
 import { spy } from "sinon"
 
-import VoteCounter from "../../web/static/js/components/vote_counter"
+import VotingInterface from "../../web/static/js/components/voting_interface"
 import STAGES from "../../web/static/js/configs/stages"
 
 const { ACTION_ITEMS, VOTING } = STAGES
 
-describe("VoteCounter", () => {
+describe("VotingInterface", () => {
   const idea = {
     id: 23,
     category: "sad",
@@ -43,7 +43,7 @@ describe("VoteCounter", () => {
       ]
 
       const voteCounter = mountWithConnectedSubcomponents(
-        <VoteCounter
+        <VotingInterface
           {...defaultProps}
           votes={votes}
         />
@@ -76,7 +76,7 @@ describe("VoteCounter", () => {
       ]
 
       const voteCounter = mountWithConnectedSubcomponents(
-        <VoteCounter
+        <VotingInterface
           {...defaultProps}
           votes={votes}
         />
@@ -91,14 +91,14 @@ describe("VoteCounter", () => {
     let voteCounter
     beforeEach(() => {
       voteCounter = shallow(
-        <VoteCounter
+        <VotingInterface
           {...defaultProps}
           buttonDisabled
         />
       )
     })
 
-    it("renders the VoteCounter with disabled styling", () => {
+    it("renders the VotingInterface with disabled styling", () => {
       expect(voteCounter.hasClass("disabled")).to.be.true
     })
 
@@ -113,14 +113,14 @@ describe("VoteCounter", () => {
     let voteCounter
     beforeEach(() => {
       voteCounter = shallow(
-        <VoteCounter
+        <VotingInterface
           {...defaultProps}
           buttonDisabled={false}
         />
       )
     })
 
-    it("does *not* render the VoteCounter with disabled styling", () => {
+    it("does *not* render the VotingInterface with disabled styling", () => {
       expect(voteCounter.hasClass("disabled")).to.be.false
     })
 
@@ -137,7 +137,7 @@ describe("VoteCounter", () => {
         submitVote,
       }
       const voteCounter = shallow(
-        <VoteCounter
+        <VotingInterface
           {...defaultProps}
           actions={actions}
           idea={idea}

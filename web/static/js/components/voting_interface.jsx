@@ -4,12 +4,12 @@ import ReactTransitionGroup from "react-transition-group/CSSTransitionGroup"
 import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/vote_counter.css"
+import styles from "./css_modules/voting_interface.css"
 import STAGES from "../configs/stages"
 
 const { VOTING } = STAGES
 
-class VoteCounter extends React.Component {
+class VotingInterface extends React.Component {
   handleClick = () => {
     const { actions, idea, currentUser } = this.props
     actions.submitVote(idea, currentUser)
@@ -55,11 +55,11 @@ class VoteCounter extends React.Component {
   }
 }
 
-VoteCounter.defaultProps = {
+VotingInterface.defaultProps = {
   buttonDisabled: false,
 }
 
-VoteCounter.propTypes = {
+VotingInterface.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   votes: AppPropTypes.votes.isRequired,
   buttonDisabled: PropTypes.bool,
@@ -68,4 +68,4 @@ VoteCounter.propTypes = {
   actions: AppPropTypes.actions.isRequired,
 }
 
-export default VoteCounter
+export default VotingInterface
