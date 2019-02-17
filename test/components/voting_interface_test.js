@@ -130,8 +130,8 @@ describe("VotingInterface", () => {
     })
   })
 
-  describe("handleClick", () => {
-    it("calls actions.submitVote with the idea and currentUser", () => {
+  describe("clicking the button therein", () => {
+    it("submits a vote with references to the idea and user", () => {
       const submitVote = spy()
       const actions = {
         submitVote,
@@ -144,7 +144,8 @@ describe("VotingInterface", () => {
           currentUser={mockUser}
         />
       )
-      voteCounter.instance().handleClick()
+
+      voteCounter.find(".green.button").simulate("click")
 
       expect(submitVote).calledWith(idea, mockUser)
     })

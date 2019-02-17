@@ -10,7 +10,7 @@ import STAGES from "../configs/stages"
 const { VOTING } = STAGES
 
 class VotingInterface extends React.Component {
-  handleClick = () => {
+  handleAddVoteClick = () => {
     const { actions, idea, currentUser } = this.props
     actions.submitVote(idea, currentUser)
   }
@@ -34,7 +34,7 @@ class VotingInterface extends React.Component {
       <div className={counterClasses}>
         <button
           className={`ui green button ${styles.voteButton}`}
-          onClick={this.handleClick}
+          onClick={this.handleAddVoteClick}
           disabled={buttonDisabled}
           type="submit"
         >
