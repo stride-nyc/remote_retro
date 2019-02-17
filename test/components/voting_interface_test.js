@@ -23,34 +23,31 @@ describe("VotingInterface", () => {
   const defaultProps = {
     idea,
     actions: {},
-    votes: [],
+    votesForIdea: [],
     currentUser: mockUser,
     buttonDisabled: false,
     stage: VOTING,
   }
 
   context("during the voting stage", () => {
-    it("renders an anchor tag that contains the vote count of the given idea for the current user", () => {
+    it("renders an anchor tag that contains the vote count for the current user", () => {
       const voteForIdea = { idea_id: 23, user_id: 55 }
       const voteForIdeaForOtherUser = { idea_id: 23, user_id: 77 }
-      const voteForOtherIdea = { idea_id: 45, user_id: 1 }
-      const votes = [
-        voteForIdea,
+      const votesForIdea = [
         voteForIdea,
         voteForIdea,
         voteForIdeaForOtherUser,
-        voteForOtherIdea,
       ]
 
       const voteCounter = mountWithConnectedSubcomponents(
         <VotingInterface
           {...defaultProps}
-          votes={votes}
+          votesForIdea={votesForIdea}
         />
       )
       const label = voteCounter.find("div.basic.label")
 
-      expect(label.text()).to.equal("3")
+      expect(label.text()).to.equal("2")
     })
   })
 
@@ -59,31 +56,28 @@ describe("VotingInterface", () => {
       const defaultProps = {
         idea,
         actions: {},
-        votes: [],
+        votesForIdea: [],
         currentUser: mockUser,
         buttonDisabled: false,
         stage: ACTION_ITEMS,
       }
       const voteForIdea = { idea_id: 23, user_id: 55 }
       const voteForIdeaForOtherUser = { idea_id: 23, user_id: 77 }
-      const voteForOtherIdea = { idea_id: 45, user_id: 1 }
-      const votes = [
-        voteForIdea,
+      const votesForIdea = [
         voteForIdea,
         voteForIdea,
         voteForIdeaForOtherUser,
-        voteForOtherIdea,
       ]
 
       const votingInterface = mountWithConnectedSubcomponents(
         <VotingInterface
           {...defaultProps}
-          votes={votes}
+          votesForIdea={votesForIdea}
         />
       )
       const label = votingInterface.find("div.basic.label")
 
-      expect(label.text()).to.equal("4")
+      expect(label.text()).to.equal("3")
     })
   })
 

@@ -16,18 +16,16 @@ class VotingInterface extends React.Component {
   }
 
   render() {
-    const { buttonDisabled, votes, idea, stage, currentUser } = this.props
+    const { buttonDisabled, votesForIdea, stage, currentUser } = this.props
     const counterClasses = classNames("ui labeled right floated button", {
       disabled: buttonDisabled,
     })
 
-    let voteCountForIdea
+    let displayableVoteCount
     if (stage === VOTING) {
-      voteCountForIdea = votes.filter(vote => {
-        return vote.idea_id === idea.id && vote.user_id === currentUser.id
-      }).length
+      displayableVoteCount = votesForIdea.filter(vote => vote.user_id === currentUser.id).length
     } else {
-      voteCountForIdea = votes.filter(vote => vote.idea_id === idea.id).length
+      displayableVoteCount = votesForIdea.length
     }
 
     return (
@@ -47,7 +45,7 @@ class VotingInterface extends React.Component {
             transitionEnterTimeout={250}
             transitionLeaveTimeout={250}
           >
-            <div key={voteCountForIdea}>{voteCountForIdea}</div>
+            <div key={displayableVoteCount}>{displayableVoteCount}</div>
           </ReactTransitionGroup>
         </div>
       </div>
@@ -61,7 +59,7 @@ VotingInterface.defaultProps = {
 
 VotingInterface.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  votes: AppPropTypes.votes.isRequired,
+  votesForIdea: AppPropTypes.votes.isRequired,
   buttonDisabled: PropTypes.bool,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,

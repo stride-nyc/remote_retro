@@ -18,7 +18,7 @@ export const StageAwareIdeaControls = props => {
     idea,
     actions,
     currentUser,
-    votes,
+    votesForIdea,
     cumulativeVoteCountForUser,
     canUserEditIdeaContents,
   } = props
@@ -34,7 +34,7 @@ export const StageAwareIdeaControls = props => {
       <VotingInterface
         actions={actions}
         idea={idea}
-        votes={votes}
+        votesForIdea={votesForIdea}
         buttonDisabled={stage !== VOTING || allVotesUsed}
         currentUser={currentUser}
         stage={stage}
@@ -58,14 +58,14 @@ StageAwareIdeaControls.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  votes: AppPropTypes.votes.isRequired,
+  votesForIdea: AppPropTypes.votes.isRequired,
   cumulativeVoteCountForUser: PropTypes.number.isRequired,
 }
 
-const mapStateToProps = (state, { currentUser }) => {
+const mapStateToProps = (state, { currentUser, idea }) => {
   return {
     cumulativeVoteCountForUser: selectors.cumulativeVoteCountForUser(state, currentUser),
-    votes: state.votes,
+    votesForIdea: selectors.votesForIdea(state, idea),
   }
 }
 

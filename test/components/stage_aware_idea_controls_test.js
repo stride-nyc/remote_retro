@@ -14,7 +14,7 @@ describe("<StageAwareIdeaControls />", () => {
     actions: {},
     idea,
     canUserEditIdeaContents: true,
-    votes: [],
+    votesForIdea: [],
     currentUser: {},
     stage: IDEA_GENERATION,
     retroChannel: { push: () => {}, on: () => {} },
