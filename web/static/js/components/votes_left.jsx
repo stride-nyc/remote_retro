@@ -2,7 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import PropTypes from "prop-types"
 
-import { voteMax } from "../configs/retro_configs"
+import { VOTE_LIMIT } from "../configs/retro_configs"
 import styles from "./css_modules/votes_left.css"
 import { selectors } from "../redux"
 
@@ -10,7 +10,7 @@ import * as AppPropTypes from "../prop_types"
 
 export const VotesLeft = props => {
   const { cumulativeVoteCountForUser } = props
-  const votesLeft = cumulativeVoteCountForUser ? voteMax - cumulativeVoteCountForUser : voteMax
+  const votesLeft = VOTE_LIMIT - cumulativeVoteCountForUser
   const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"
 
   return (

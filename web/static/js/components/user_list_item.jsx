@@ -1,6 +1,6 @@
 import React from "react"
 import { connect } from "react-redux"
-import { voteMax } from "../configs/retro_configs"
+import { VOTE_LIMIT } from "../configs/retro_configs"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list_item.css"
 import AnimatedEllipsis from "./animated_ellipsis"
@@ -11,7 +11,7 @@ const { VOTING } = STAGES
 export const UserListItem = ({ user, votes, stage }) => {
   const imgSrc = user.picture.replace("sz=50", "sz=200")
   const votesByUser = votes.filter(vote => vote.user_id === user.id).length
-  const allVotesIn = votesByUser >= voteMax
+  const allVotesIn = votesByUser >= VOTE_LIMIT
 
   let identifier = user.given_name
   if (user.is_facilitator) {

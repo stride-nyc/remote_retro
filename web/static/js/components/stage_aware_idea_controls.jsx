@@ -6,7 +6,7 @@ import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 import VotingInterface from "./voting_interface"
 import RightFloatedIdeaActions from "./right_floated_idea_actions"
-import { voteMax } from "../configs/retro_configs"
+import { VOTE_LIMIT } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
 import { selectors, actions } from "../redux"
 
@@ -27,7 +27,7 @@ export const StageAwareIdeaControls = props => {
 
   const { category } = idea
 
-  const allVotesUsed = cumulativeVoteCountForUser >= voteMax
+  const allVotesUsed = cumulativeVoteCountForUser >= VOTE_LIMIT
 
   if (stage !== IDEA_GENERATION && category !== "action-item") {
     return (
