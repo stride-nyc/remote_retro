@@ -75,22 +75,22 @@ describe("VotingInterface", () => {
         voteForOtherIdea,
       ]
 
-      const voteCounter = mountWithConnectedSubcomponents(
+      const votingInterface = mountWithConnectedSubcomponents(
         <VotingInterface
           {...defaultProps}
           votes={votes}
         />
       )
-      const label = voteCounter.find("div.basic.label")
+      const label = votingInterface.find("div.basic.label")
 
       expect(label.text()).to.equal("4")
     })
   })
 
   context("when buttonDisabled is true", () => {
-    let voteCounter
+    let votingInterface
     beforeEach(() => {
-      voteCounter = shallow(
+      votingInterface = shallow(
         <VotingInterface
           {...defaultProps}
           buttonDisabled
@@ -99,20 +99,20 @@ describe("VotingInterface", () => {
     })
 
     it("renders the VotingInterface with disabled styling", () => {
-      expect(voteCounter.hasClass("disabled")).to.be.true
+      expect(votingInterface.hasClass("disabled")).to.be.true
     })
 
     // necessary due to keyboard events potentially firing on an already-focused button
     it("renders a functionally disabled button", () => {
-      const button = voteCounter.find("button")
+      const button = votingInterface.find("button")
       expect(button.prop("disabled")).to.be.true
     })
   })
 
   context("when buttonDisabled is false", () => {
-    let voteCounter
+    let votingInterface
     beforeEach(() => {
-      voteCounter = shallow(
+      votingInterface = shallow(
         <VotingInterface
           {...defaultProps}
           buttonDisabled={false}
@@ -121,11 +121,11 @@ describe("VotingInterface", () => {
     })
 
     it("does *not* render the VotingInterface with disabled styling", () => {
-      expect(voteCounter.hasClass("disabled")).to.be.false
+      expect(votingInterface.hasClass("disabled")).to.be.false
     })
 
     it("does not disable the functionality of the underlying button element", () => {
-      const button = voteCounter.find("button")
+      const button = votingInterface.find("button")
       expect(button.prop("disabled")).to.be.false
     })
   })
@@ -136,7 +136,7 @@ describe("VotingInterface", () => {
       const actions = {
         submitVote,
       }
-      const voteCounter = shallow(
+      const votingInterface = shallow(
         <VotingInterface
           {...defaultProps}
           actions={actions}
@@ -145,7 +145,7 @@ describe("VotingInterface", () => {
         />
       )
 
-      voteCounter.find(".green.button").simulate("click")
+      votingInterface.find(".green.button").simulate("click")
 
       expect(submitVote).calledWith(idea, mockUser)
     })
