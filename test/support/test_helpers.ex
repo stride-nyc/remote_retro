@@ -26,6 +26,19 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :idea, idea)
   end
 
+  def persist_idea_for_retro(~M{retro, facilitator} = context) do
+    idea_author = Map.get(context, context[:idea_author] || :facilitator)
+
+    idea =
+      persist_idea(
+        idea_author,
+        %Idea{category: "confused", body: "whether I am alive right now? Is this real?"},
+        retro
+      )
+
+    Map.put(context, :idea, idea)
+  end
+
   def new_authenticated_browser_session(metadata \\ %{}) do
     :timer.sleep(100)
     {:ok, session} = Wallaby.start_session(metadata: metadata)
