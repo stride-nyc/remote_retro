@@ -1,6 +1,6 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
-  alias RemoteRetro.{Repo, Idea}
+  alias RemoteRetro.{Repo, Idea, Vote}
 
   import ShorterMaps
 
@@ -37,6 +37,15 @@ defmodule RemoteRetro.TestHelpers do
       )
 
     Map.put(context, :idea, idea)
+  end
+
+  def persist_a_vote(%{idea: idea, non_facilitator: non_facilitator} = context) do
+    vote =
+      %Vote{idea_id: idea.id, user_id: non_facilitator.id}
+      |> Vote.changeset
+      |> Repo.insert!
+
+    Map.put(context, :vote, vote)
   end
 
   def new_authenticated_browser_session(metadata \\ %{}) do

@@ -10,6 +10,13 @@ defmodule RemoteRetroWeb.VotingHandlers do
     {:reply, reply_tuple, socket}
   end
 
+  def handle_in("vote_retracted", %{"id" => id}, socket) do
+    %Vote{id: id}
+    |> Repo.delete!
+
+    {:reply, :ok, socket}
+  end
+
   defp atomic_insert_and_broadcast_to_other_clients(idea_id, user_id, socket) do
     Repo.transaction(fn ->
       vote = insert_vote!(idea_id, user_id)

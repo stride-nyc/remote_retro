@@ -325,6 +325,17 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "pushing a `vote_retracted` event with a given id" do
+    setup [:persist_idea_for_retro, :persist_a_vote, :join_the_retro_channel]
+
+    test "removes the vote with the given id from the database", ~M{socket, vote} do
+      ref = push(socket, "vote_retracted", %{id: vote.id})
+      assert_reply ref, :ok
+
+      refute Repo.get(Vote, vote.id)
+    end
+  end
+
   describe "pushing an *invalid* vote to the channel" do
     setup [:join_the_retro_channel]
 
