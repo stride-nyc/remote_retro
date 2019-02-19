@@ -50,8 +50,12 @@ const submitVote = (idea, user) => {
   }
 }
 
+const retractVote = () => {
+}
+
 export const actions = {
   addVote,
+  retractVote,
   submitVote,
 }
 

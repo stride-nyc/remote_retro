@@ -12,6 +12,12 @@ class VotingInterfaceNew extends React.Component {
     actions.submitVote(idea, currentUser)
   }
 
+  handleSubtractVoteClick = () => {
+    const { actions, votesForIdea, currentUser } = this.props
+    const voteToRetract = votesForIdea.find(vote => vote.user_id === currentUser.id)
+    actions.retractVote(voteToRetract.id)
+  }
+
   render() {
     const {
       votesForIdea,
@@ -37,6 +43,7 @@ class VotingInterfaceNew extends React.Component {
               type="submit"
               disabled={userVoteCountForIdea === 0}
               className={`ui minus button ${styles.voteButton}`}
+              onClick={this.handleSubtractVoteClick}
             >
               <i className="minus icon" />
             </button>

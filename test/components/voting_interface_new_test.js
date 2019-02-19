@@ -110,6 +110,40 @@ describe("VotingInterfaceNew", () => {
         const minusButton = votingInterface.find(".icon.buttons .minus.button")
         expect(minusButton.prop("disabled")).to.eql(false)
       })
+
+      describe("upon clicking the subtract button", () => {
+        const someOtherUserId = currentUser.id + 1
+
+        it("triggers a vote retraction, passing the id of a vote belonging to the current user", () => {
+          const actions = {
+            retractVote: spy(),
+          }
+          const votingInterface = shallow(
+            <VotingInterfaceNew
+              {...defaultProps}
+              actions={actions}
+              idea={idea}
+              currentUser={currentUser}
+              isVotingStage
+              votesForIdea={[{
+                id: 1,
+                user_id: someOtherUserId,
+              }, {
+                id: 2,
+                user_id: someOtherUserId,
+              }, {
+                id: 3,
+                user_id: currentUser.id,
+              }]}
+              userHasExhaustedVotes={false}
+            />
+          )
+
+          votingInterface.find(".minus.button").simulate("click")
+
+          expect(actions.retractVote).calledWith(3)
+        })
+      })
     })
 
     context("when none of the user's votes have been applied to the idea", () => {
