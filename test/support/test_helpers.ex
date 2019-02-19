@@ -26,7 +26,7 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :idea, idea)
   end
 
-  def persist_idea_for_retro(~M{retro, facilitator} = context) do
+  def persist_idea_for_retro(~M{retro} = context) do
     idea_author = Map.get(context, context[:idea_author] || :facilitator)
 
     idea =
