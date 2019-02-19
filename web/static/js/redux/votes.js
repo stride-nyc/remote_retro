@@ -50,7 +50,10 @@ const submitVote = (idea, user) => {
   }
 }
 
-const retractVote = () => {
+const retractVote = vote => {
+  return (dispatch, getState, retroChannel) => {
+    retroChannel.push("vote_retracted", vote)
+  }
 }
 
 export const actions = {

@@ -15,7 +15,7 @@ class VotingInterfaceNew extends React.Component {
   handleSubtractVoteClick = () => {
     const { actions, votesForIdea, currentUser } = this.props
     const voteToRetract = votesForIdea.find(vote => vote.user_id === currentUser.id)
-    actions.retractVote(voteToRetract.id)
+    actions.retractVote(voteToRetract)
   }
 
   render() {

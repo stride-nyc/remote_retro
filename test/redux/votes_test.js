@@ -244,4 +244,33 @@ describe("actions", () => {
       })
     })
   })
+
+  describe("retractVote", () => {
+    it("is a thunk", () => {
+      const result = actions.retractVote()
+      expect(typeof result).to.equal("function")
+    })
+
+    describe("the returned thunk", () => {
+      let thunk
+      let dispatch
+      let mockRetroChannel
+      let vote
+      let pushSpy
+
+      beforeEach(() => {
+        vote = { id: 21 }
+        thunk = actions.retractVote(vote)
+        mockRetroChannel = setupMockPhoenixChannel()
+        pushSpy = sinon.spy(mockRetroChannel, "push")
+        thunk(dispatch, undefined, mockRetroChannel)
+      })
+
+      it("calls retroChannel.push with 'vote_retracted', passing the given vote", () => {
+        expect(pushSpy).calledWith("vote_retracted", vote)
+
+        pushSpy.restore()
+      })
+    })
+  })
 })

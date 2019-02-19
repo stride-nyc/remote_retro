@@ -114,7 +114,7 @@ describe("VotingInterfaceNew", () => {
       describe("upon clicking the subtract button", () => {
         const someOtherUserId = currentUser.id + 1
 
-        it("triggers a vote retraction, passing the id of a vote belonging to the current user", () => {
+        it("triggers a vote retraction, passing a vote belonging to the current user", () => {
           const actions = {
             retractVote: spy(),
           }
@@ -141,7 +141,7 @@ describe("VotingInterfaceNew", () => {
 
           votingInterface.find(".minus.button").simulate("click")
 
-          expect(actions.retractVote).calledWith(3)
+          expect(actions.retractVote).calledWith({ id: 3, user_id: currentUser.id })
         })
       })
     })
