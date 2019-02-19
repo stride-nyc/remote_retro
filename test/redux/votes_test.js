@@ -247,7 +247,7 @@ describe("actions", () => {
 
   describe("retractVote", () => {
     it("is a thunk", () => {
-      const result = actions.retractVote()
+      const result = actions.submitVoteRetraction()
       expect(typeof result).to.equal("function")
     })
 
@@ -260,7 +260,7 @@ describe("actions", () => {
 
       beforeEach(() => {
         vote = { id: 21 }
-        thunk = actions.retractVote(vote)
+        thunk = actions.submitVoteRetraction(vote)
         mockRetroChannel = setupMockPhoenixChannel()
         pushSpy = sinon.spy(mockRetroChannel, "push")
         thunk(dispatch, undefined, mockRetroChannel)

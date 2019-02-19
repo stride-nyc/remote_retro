@@ -2,12 +2,18 @@ import uuidv4 from "uuid/v4"
 
 export const types = {
   ADD_VOTE: "ADD_VOTE",
+  RETRACT_VOTE: "RETRACT_VOTE",
   VOTE_SUBMISSION_ACCEPTED: "VOTE_SUBMISSION_ACCEPTED",
   VOTE_SUBMISSION_REJECTED: "VOTE_SUBMISSION_REJECTED",
 }
 
 const addVote = vote => ({
   type: types.ADD_VOTE,
+  vote,
+})
+
+const retractVote = vote => ({
+  type: types.RETRACT_VOTE,
   vote,
 })
 
@@ -50,7 +56,7 @@ const submitVote = (idea, user) => {
   }
 }
 
-const retractVote = vote => {
+const submitVoteRetraction = vote => {
   return (dispatch, getState, retroChannel) => {
     retroChannel.push("vote_retracted", vote)
   }
@@ -60,6 +66,7 @@ export const actions = {
   addVote,
   retractVote,
   submitVote,
+  submitVoteRetraction,
 }
 
 export const reducer = (state = [], action) => {

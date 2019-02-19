@@ -116,7 +116,7 @@ describe("VotingInterfaceNew", () => {
 
         it("triggers a vote retraction, passing a vote belonging to the current user", () => {
           const actions = {
-            retractVote: spy(),
+            submitVoteRetraction: spy(),
           }
           const votingInterface = shallow(
             <VotingInterfaceNew
@@ -141,7 +141,7 @@ describe("VotingInterfaceNew", () => {
 
           votingInterface.find(".minus.button").simulate("click")
 
-          expect(actions.retractVote).calledWith({ id: 3, user_id: currentUser.id })
+          expect(actions.submitVoteRetraction).calledWith({ id: 3, user_id: currentUser.id })
         })
       })
     })
