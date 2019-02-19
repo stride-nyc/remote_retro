@@ -50,6 +50,7 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
   })
 
   retroChannel.on("vote_submitted", actions.addVote)
+  retroChannel.on("vote_retracted", actions.retractVote)
 
   retroChannel.on("idea_highlight_toggled", highlightedIdea => {
     actions.updateIdea(highlightedIdea.id, { isHighlighted: !highlightedIdea.isHighlighted })

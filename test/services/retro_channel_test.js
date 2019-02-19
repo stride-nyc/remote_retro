@@ -66,6 +66,7 @@ describe("RetroChannel", () => {
       let updatePresenceSpy
       let updateRetroSpy
       let addVoteSpy
+      let retractVoteSpy
       let clock
 
       beforeEach(() => {
@@ -75,6 +76,7 @@ describe("RetroChannel", () => {
         updatePresenceSpy = spy()
         updateRetroSpy = spy()
         addVoteSpy = spy()
+        retractVoteSpy = spy()
         clock = useFakeTimers(Date.now())
 
         actions = {
@@ -84,6 +86,7 @@ describe("RetroChannel", () => {
           updatePresence: updatePresenceSpy,
           updateRetroSync: updateRetroSpy,
           addVote: addVoteSpy,
+          retractVote: retractVoteSpy,
         }
 
         store = { getState: () => {} }
@@ -233,6 +236,16 @@ describe("RetroChannel", () => {
             idea_id: 50,
             user_id: 99,
           })
+        })
+      })
+
+      describe("on `vote_retracted`", () => {
+        beforeEach(() => {
+          retroChannel.trigger("vote_retracted", { id: 21 })
+        })
+
+        it("invokes the retractVote action, passing the vote", () => {
+          expect(retractVoteSpy).calledWith({ id: 21 })
         })
       })
     })
