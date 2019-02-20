@@ -1,3 +1,9 @@
+.github-star-prompt {
+  position: absolute;
+  top: 1rem;
+  left: 0%;
+}
+
 .dashboard-link {
   margin-bottom: 1rem;
 
