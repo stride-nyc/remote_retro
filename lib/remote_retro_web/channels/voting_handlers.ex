@@ -14,7 +14,7 @@ defmodule RemoteRetroWeb.VotingHandlers do
     %Vote{id: id}
     |> Repo.delete!
 
-    broadcast_from! socket, "vote_retracted", %{"id" => id}
+    broadcast! socket, "vote_retracted", %{"id" => id}
 
     {:reply, :ok, socket}
   end

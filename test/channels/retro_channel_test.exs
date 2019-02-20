@@ -342,6 +342,14 @@ defmodule RemoteRetro.RetroChannelTest do
 
       assert_broadcast("vote_retracted", %{"id" => ^vote_id})
     end
+
+    test "broadcasts the same event to the initiator client", ~M{socket, vote} do
+      vote_id = vote.id
+      ref = push(socket, "vote_retracted", %{id: vote_id})
+      assert_reply ref, :ok
+
+      assert_push("vote_retracted", %{"id" => ^vote_id})
+    end
   end
 
   describe "pushing an *invalid* vote to the channel" do
