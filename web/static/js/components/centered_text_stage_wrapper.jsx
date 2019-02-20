@@ -11,7 +11,7 @@ const CenteredTextStageWrapper = props => {
 
   return (
     <div className={`ui centered grid ${styles.index}`}>
-      <div className={`sixteen wide mobile eight wide tablet five wide computer column ${styles.variableColumn}`}>
+      <div className={`sixteen wide mobile eight wide tablet four wide computer column ${styles.variableColumn}`}>
         <h1 className="ui dividing header">
           {headerText}
         </h1>

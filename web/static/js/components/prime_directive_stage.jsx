@@ -15,7 +15,9 @@ const primeDirectiveMarkup = (
     <br />
     their skills and abilities,
     <br />
-    the resources available, and the situation at hand.
+    the resources available,
+    <br />
+    and the situation at hand.
   </p>
 )
 
