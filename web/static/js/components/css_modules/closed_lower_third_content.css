@@ -1,4 +1,4 @@
-.github-star-prompt {
+.github-star-prompt-wrapper {
   display: none;
 
   @media (min-width: 768px) {
@@ -8,6 +8,16 @@
   position: absolute;
   top: 1rem;
   left: 0%;
+
+  .display-relative {
+    display: relative;
+  }
+
+  .call-to-action {
+    width: fit-content;
+    top: -47.5px;
+    right: 122.5px;
+  }
 }
 
 .dashboard-link {

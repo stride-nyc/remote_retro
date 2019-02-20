@@ -19,11 +19,19 @@ const ClosedLowerThirdContent = () => (
     </a>
 
     <span
-      className={`${styles.githubStarPrompt}`}
-      dangerouslySetInnerHTML={{
-        __html: "<iframe src='https://ghbtns.com/github-btn.html?user=stride-nyc&amp;repo=remote_retro&amp;type=watch&amp;count=true&size=large' allowtransparency='true' frameborder='0' scrolling='0' width='160px' height='30px'></iframe>",
-      }}
-    />
+      className={styles.githubStarPromptWrapper}
+    >
+      <div className={styles.displayRelative}>
+        <span
+          dangerouslySetInnerHTML={{
+            __html: "<iframe src='https://ghbtns.com/github-btn.html?user=stride-nyc&amp;repo=remote_retro&amp;type=watch&amp;count=true&size=large' allowtransparency='true' frameborder='0' scrolling='0' width='131px' height='30px'></iframe>",
+          }}
+        />
+        <div className={`ui pointing below blue large label ${styles.callToAction}`}>
+          Star the repo!
+        </div>
+      </div>
+    </span>
   </div>
 )
 
