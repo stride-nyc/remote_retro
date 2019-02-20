@@ -27,6 +27,16 @@ describe("votes reducer", () => {
     })
   })
 
+  describe("when the action is RETRACT_VOTE", () => {
+    it("removes the vote from the state", () => {
+      const retractVoteAction = { type: "RETRACT_VOTE", vote: { id: 17 } }
+      const initialState = [{ id: 17 }]
+      deepFreeze(initialState)
+      const result = votesReducer(initialState, retractVoteAction)
+      expect(result).to.eql([])
+    })
+  })
+
   describe("when the action is VOTE_SUBMISSION_ACCEPTED", () => {
     it("replaces the vote with matching uuid, stripping the optimisticUUID property", () => {
       const initialState = [
