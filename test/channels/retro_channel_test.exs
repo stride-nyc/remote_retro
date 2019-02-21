@@ -350,6 +350,17 @@ defmodule RemoteRetro.RetroChannelTest do
 
       assert_push("vote_retracted", %{"id" => ^vote_id})
     end
+
+    test "rolls back the vote retraction if broadcast fails, responding :error", ~M{socket, vote} do
+      with_mock Phoenix.Channel, [broadcast!: fn(_, _, _) ->
+        raise "hell"
+      end] do
+        ref = push(socket, "vote_retracted", %{id: vote.id})
+        assert_reply ref, :error # extra assertion required to wait for async process to complete
+
+        assert Repo.get(Vote, vote.id)
+      end
+    end
   end
 
   describe "pushing an *invalid* vote to the channel" do

@@ -11,12 +11,14 @@ defmodule RemoteRetroWeb.VotingHandlers do
   end
 
   def handle_in("vote_retracted", %{"id" => id}, socket) do
-    %Vote{id: id}
-    |> Repo.delete!
-
-    broadcast! socket, "vote_retracted", %{"id" => id}
+    Repo.transaction(fn ->
+      %Vote{id: id} |> Repo.delete!
+      broadcast! socket, "vote_retracted", %{"id" => id}
+    end)
 
     {:reply, :ok, socket}
+  rescue
+    _ -> {:reply, :error, socket}
   end
 
   defp atomic_insert_and_broadcast_to_other_clients(idea_id, user_id, socket) do
