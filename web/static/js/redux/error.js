@@ -25,6 +25,8 @@ export const reducer = (state = null, action) => {
       return { message: "Retro update failed. Please try again." }
     case types.VOTE_SUBMISSION_REJECTED:
       return { message: "Vote submission failed. Please try again." }
+    case types.VOTE_RETRACTION_REJECTED:
+      return { message: "Vote retraction failed. Please try again." }
     case types.CLEAR_ERROR:
       return null
     default:

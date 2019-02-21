@@ -70,6 +70,15 @@ describe("error", () => {
       })
     })
 
+    describe("when the action type is VOTE_RETRACTION_REJECTED", () => {
+      const action = { type: "VOTE_RETRACTION_REJECTED" }
+      const initialState = deepFreeze({ message: "The server is in shambles." })
+
+      it("overwrites the error with vote retraction error", () => {
+        expect(reducer(initialState, action).message).to.match(/vote retraction/i)
+      })
+    })
+
     describe("when the action type is RETRO_UPDATE_REJECTED", () => {
       const initialState = deepFreeze({ message: "Something tragic has happened." })
       const action = { type: "RETRO_UPDATE_REJECTED" }

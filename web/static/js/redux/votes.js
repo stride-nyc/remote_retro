@@ -21,7 +21,6 @@ const retractVote = vote => ({
 const voteSubmissionFailure = optimisticUiVote => ({
   type: types.VOTE_SUBMISSION_REJECTED,
   optimisticUUID: optimisticUiVote.optimisticUUID,
-  error: { message: "Vote submission failed. Please try again." },
 })
 
 const buildOptimisticUiVote = snakeCaseVoteAttributes => {
@@ -62,10 +61,7 @@ const submitVoteRetraction = vote => {
     const push = retroChannel.push("vote_retracted", vote)
 
     push.receive("error", () => {
-      dispatch({
-        type: types.VOTE_RETRACTION_REJECTED,
-        error: { message: "Vote retraction failed. Please try again." },
-      })
+      dispatch({ type: types.VOTE_RETRACTION_REJECTED })
     })
   }
 }
