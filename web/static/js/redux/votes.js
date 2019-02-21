@@ -5,6 +5,7 @@ export const types = {
   RETRACT_VOTE: "RETRACT_VOTE",
   VOTE_SUBMISSION_ACCEPTED: "VOTE_SUBMISSION_ACCEPTED",
   VOTE_SUBMISSION_REJECTED: "VOTE_SUBMISSION_REJECTED",
+  VOTE_RETRACTION_REJECTED: "VOTE_RETRACTION_REJECTED",
 }
 
 const addVote = vote => ({
@@ -58,7 +59,14 @@ const submitVote = (idea, user) => {
 
 const submitVoteRetraction = vote => {
   return (dispatch, getState, retroChannel) => {
-    retroChannel.push("vote_retracted", vote)
+    const push = retroChannel.push("vote_retracted", vote)
+
+    push.receive("error", () => {
+      dispatch({
+        type: types.VOTE_RETRACTION_REJECTED,
+        error: { message: "Vote retraction failed. Please try again." },
+      })
+    })
   }
 }
 

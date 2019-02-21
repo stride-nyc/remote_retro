@@ -266,20 +266,35 @@ describe("actions", () => {
       let dispatch
       let mockRetroChannel
       let vote
+      let push
       let pushSpy
 
       beforeEach(() => {
         vote = { id: 21 }
-        thunk = actions.submitVoteRetraction(vote)
         mockRetroChannel = setupMockPhoenixChannel()
-        pushSpy = sinon.spy(mockRetroChannel, "push")
-        thunk(dispatch, undefined, mockRetroChannel)
+        thunk = actions.submitVoteRetraction(vote)
       })
 
       it("calls retroChannel.push with 'vote_retracted', passing the given vote", () => {
-        expect(pushSpy).calledWith("vote_retracted", vote)
+        pushSpy = sinon.spy(mockRetroChannel, "push")
+        thunk(dispatch, undefined, mockRetroChannel)
 
+        expect(pushSpy).calledWith("vote_retracted", vote)
         pushSpy.restore()
+      })
+
+      describe("when the push results in an error", () => {
+        it("dispatches a VOTE_RETRACTION_REJECTED with the optimistic UUID", () => {
+          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          push.trigger("error", {})
+
+          expect(dispatchSpy).calledWithMatch({
+            type: "VOTE_RETRACTION_REJECTED",
+          })
+        })
       })
     })
   })
