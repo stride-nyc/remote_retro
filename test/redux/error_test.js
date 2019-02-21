@@ -74,7 +74,7 @@ describe("error", () => {
       const action = { type: "VOTE_RETRACTION_REJECTED" }
       const initialState = deepFreeze({ message: "The server is in shambles." })
 
-      it("overwrites the error with vote retraction error", () => {
+      it("overwrites the error with vote retraction error messaging", () => {
         expect(reducer(initialState, action).message).to.match(/vote retraction/i)
       })
     })
