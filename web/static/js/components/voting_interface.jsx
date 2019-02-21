@@ -4,9 +4,9 @@ import ReactTransitionGroup from "react-transition-group/CSSTransitionGroup"
 import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/voting_interface_new.css"
+import styles from "./css_modules/voting_interface.css"
 
-class VotingInterfaceNew extends React.Component {
+class VotingInterface extends React.Component {
   handleAddVoteClick = () => {
     const { actions, idea, currentUser } = this.props
     actions.submitVote(idea, currentUser)
@@ -78,12 +78,12 @@ class VotingInterfaceNew extends React.Component {
   }
 }
 
-VotingInterfaceNew.defaultProps = {
+VotingInterface.defaultProps = {
   isVotingStage: false,
   userHasExhaustedVotes: false,
 }
 
-VotingInterfaceNew.propTypes = {
+VotingInterface.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   votesForIdea: AppPropTypes.votes.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
@@ -92,4 +92,4 @@ VotingInterfaceNew.propTypes = {
   actions: AppPropTypes.actions.isRequired,
 }
 
-export default VotingInterfaceNew
+export default VotingInterface

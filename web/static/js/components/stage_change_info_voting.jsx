@@ -11,9 +11,6 @@ export default () => (
           Voting is <strong>blind</strong>.
           Totals will be revealed when the facilitator advances the retro.
         </li>
-        { !localStorage.subtractVoteDev
-          && <li>Once a vote has been cast, there's no taking it back, so vote carefully!</li>
-        }
       </ul>
     </div>
   </React.Fragment>

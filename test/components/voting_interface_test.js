@@ -2,9 +2,9 @@ import React from "react"
 import { shallow } from "enzyme"
 import { spy } from "sinon"
 
-import VotingInterfaceNew from "../../web/static/js/components/voting_interface_new"
+import VotingInterface from "../../web/static/js/components/voting_interface"
 
-describe("VotingInterfaceNew", () => {
+describe("VotingInterface", () => {
   const idea = {
     id: 23,
     category: "sad",
@@ -29,7 +29,7 @@ describe("VotingInterfaceNew", () => {
   context("during the voting stage", () => {
     it("renders icon buttons", () => {
       const votingInterface = shallow(
-        <VotingInterfaceNew
+        <VotingInterface
           {...defaultProps}
           isVotingStage
         />
@@ -44,7 +44,7 @@ describe("VotingInterfaceNew", () => {
     context("when the user has exhausted their votes", () => {
       it("disables the add button", () => {
         const votingInterface = shallow(
-          <VotingInterfaceNew
+          <VotingInterface
             {...defaultProps}
             isVotingStage
             userHasExhaustedVotes
@@ -59,7 +59,7 @@ describe("VotingInterfaceNew", () => {
     context("when the user has votes left", () => {
       it("the add button can be engaged", () => {
         const votingInterface = shallow(
-          <VotingInterfaceNew
+          <VotingInterface
             {...defaultProps}
             isVotingStage
             userHasExhaustedVotes={false}
@@ -76,7 +76,7 @@ describe("VotingInterfaceNew", () => {
             submitVote: spy(),
           }
           const votingInterface = shallow(
-            <VotingInterfaceNew
+            <VotingInterface
               {...defaultProps}
               actions={actions}
               isVotingStage
@@ -97,7 +97,7 @@ describe("VotingInterfaceNew", () => {
 
       it("allows the user to detract the vote", () => {
         const votingInterface = shallow(
-          <VotingInterfaceNew
+          <VotingInterface
             {...defaultProps}
             isVotingStage
             idea={idea}
@@ -119,7 +119,7 @@ describe("VotingInterfaceNew", () => {
             submitVoteRetraction: spy(),
           }
           const votingInterface = shallow(
-            <VotingInterfaceNew
+            <VotingInterface
               {...defaultProps}
               actions={actions}
               idea={idea}
@@ -152,7 +152,7 @@ describe("VotingInterfaceNew", () => {
 
       it("disallows retraction of votes", () => {
         const votingInterface = shallow(
-          <VotingInterfaceNew
+          <VotingInterface
             {...defaultProps}
             isVotingStage
             idea={idea}
@@ -177,7 +177,7 @@ describe("VotingInterfaceNew", () => {
       ]
 
       const votingInterface = mountWithConnectedSubcomponents(
-        <VotingInterfaceNew
+        <VotingInterface
           {...defaultProps}
           votesForIdea={votesForIdea}
           isVotingStage
@@ -192,7 +192,7 @@ describe("VotingInterfaceNew", () => {
   context("when rendered outside the voting stage", () => {
     it("does not render plus/minus icons", () => {
       const votingInterface = shallow(
-        <VotingInterfaceNew
+        <VotingInterface
           {...defaultProps}
           isVotingStage={false}
         />
@@ -214,7 +214,7 @@ describe("VotingInterfaceNew", () => {
       ]
 
       const votingInterface = mountWithConnectedSubcomponents(
-        <VotingInterfaceNew
+        <VotingInterface
           {...defaultProps}
           isVotingStage={false}
           votesForIdea={votesForIdea}

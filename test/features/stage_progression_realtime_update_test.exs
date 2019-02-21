@@ -11,10 +11,10 @@ defmodule StageProgressionRealtimeUpdateTest do
 
     submit_idea(facilitator_session, %{category: "happy", body: "it works"})
 
-    assert participant_session |> find(Query.css(".ui.green.button", text: "Vote", count: 0))
+    assert participant_session |> find(Query.css(".ui.button", text: "Proceed to Action Items", count: 0))
 
     click_and_confirm(facilitator_session, "Proceed to Voting")
 
-    assert participant_session |> find(Query.css(".ui.green.button", text: "Vote"))
+    assert participant_session |> find(Query.css(".ui.button", text: "Proceed to Action Items", count: 1))
   end
 end

@@ -2,7 +2,7 @@ import React from "react"
 
 import { StageAwareIdeaControls } from "../../web/static/js/components/stage_aware_idea_controls"
 import RightFloatedIdeaActions from "../../web/static/js/components/right_floated_idea_actions"
-import VotingInterfaceOld from "../../web/static/js/components/voting_interface_old"
+import VotingInterface from "../../web/static/js/components/voting_interface"
 import STAGES from "../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION, VOTING, GROUPING, ACTION_ITEMS, CLOSED } = STAGES
@@ -58,8 +58,8 @@ describe("<StageAwareIdeaControls />", () => {
         />
       )
 
-      it("renders the disabled voting interface", () => {
-        expect(wrapper.html()).to.match(/<button .* disabled.*>Vote<\/button/)
+      it("renders the voting interface", () => {
+        expect(wrapper.html()).to.match(/<div .*>Votes<\/div/)
       })
     })
   })
@@ -102,7 +102,7 @@ describe("<StageAwareIdeaControls />", () => {
             />
           )
 
-          expect(wrapper.find(VotingInterfaceOld)).to.have.length(1)
+          expect(wrapper.find(VotingInterface)).to.have.length(1)
         })
       })
 
@@ -118,7 +118,7 @@ describe("<StageAwareIdeaControls />", () => {
             />
           )
 
-          expect(wrapper.find(VotingInterfaceOld)).to.have.length(0)
+          expect(wrapper.find(VotingInterface)).to.have.length(0)
         })
       })
     })
@@ -132,12 +132,12 @@ describe("<StageAwareIdeaControls />", () => {
           />
         )
 
-        expect(wrapper.find(VotingInterfaceOld)).to.have.length(0)
+        expect(wrapper.find(VotingInterface)).to.have.length(0)
       })
     })
 
     context("after entering action-items stage", () => {
-      it("renders a disabled VotingInterfaceOld for display purposes", () => {
+      it("renders a VotingInterface for display purposes", () => {
         const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
@@ -145,35 +145,7 @@ describe("<StageAwareIdeaControls />", () => {
           />
         )
 
-        expect(wrapper.find(VotingInterfaceOld).prop("buttonDisabled")).to.be.true
-      })
-    })
-
-    context("when the currentUser has voted 3 times", () => {
-      it("renders a disabled VotingInterfaceOld for the currentUser", () => {
-        const wrapper = mountWithConnectedSubcomponents(
-          <StageAwareIdeaControls
-            {...defaultProps}
-            cumulativeVoteCountForUser={3}
-            stage={VOTING}
-          />
-        )
-
-        expect(wrapper.find(VotingInterfaceOld).prop("buttonDisabled")).to.be.true
-      })
-    })
-
-    context("when the currentUser has voted under 3 times", () => {
-      it("renders an enabled VotingInterfaceOld for the currentUser", () => {
-        const wrapper = mountWithConnectedSubcomponents(
-          <StageAwareIdeaControls
-            {...defaultProps}
-            cumulativeVoteCountForUser={2}
-            stage={VOTING}
-          />
-        )
-
-        expect(wrapper.find(VotingInterfaceOld).prop("buttonDisabled")).to.be.false
+        expect(wrapper.find(VotingInterface)).to.have.length(1)
       })
     })
   })

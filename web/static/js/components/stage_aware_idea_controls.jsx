@@ -4,8 +4,7 @@ import { bindActionCreators } from "redux"
 import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
-import VotingInterfaceNew from "./voting_interface_new"
-import VotingInterfaceOld from "./voting_interface_old"
+import VotingInterface from "./voting_interface"
 import RightFloatedIdeaActions from "./right_floated_idea_actions"
 import { VOTE_LIMIT } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
@@ -32,22 +31,13 @@ export const StageAwareIdeaControls = props => {
 
   const isVotingStage = stage === VOTING
   if (stage !== IDEA_GENERATION && category !== "action-item") {
-    return localStorage.subtractVoteDev ? (
-      <VotingInterfaceNew
+    return (
+      <VotingInterface
         actions={actions}
         idea={idea}
         votesForIdea={votesForIdea}
         isVotingStage={isVotingStage}
         userHasExhaustedVotes={userHasExhaustedVotes}
-        currentUser={currentUser}
-      />
-    ) : (
-      <VotingInterfaceOld
-        actions={actions}
-        idea={idea}
-        votesForIdea={votesForIdea}
-        buttonDisabled={userHasExhaustedVotes || !isVotingStage}
-        isVotingStage={isVotingStage}
         currentUser={currentUser}
       />
     )
