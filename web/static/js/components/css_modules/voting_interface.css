@@ -48,6 +48,10 @@
     .vote-button {
       padding: 0.475rem 0.8rem;
 
+      &:focus {
+        color: rgba(0, 0, 0, 0.6);
+      }
+
       &:disabled {
         :global(i.icon) {
           opacity: 0.5;
