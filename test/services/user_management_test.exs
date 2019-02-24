@@ -1,12 +1,13 @@
 defmodule RemoteRetroWeb.UserManagementTest do
   use ExUnit.Case, async: false
+  use Bamboo.Test, shared: true
 
   alias RemoteRetro.{User, Mailer}
   alias RemoteRetroWeb.{UserManagement}
 
   import Mock
 
-  @google_user_map Application.get_env(:remote_retro, :test_user_one)
+  @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
 
   # The syntax for with_mocks gets very bracey/bracketey, so we break the mock declarations
   # out into private helper methods, allowing us to spy on the stubbed functions within the test
@@ -24,7 +25,7 @@ defmodule RemoteRetroWeb.UserManagementTest do
   describe ".handle_google_oauth" do
     test "it calls the user model's insert_or_update/1 func" do
       with_mocks [mock_deliver_now(), mock_upsert_record_from()] do
-        UserManagement.handle_google_oauth(@google_user_map)
+        UserManagement.handle_google_oauth(@mock_google_user_info)
 
         assert_called User.upsert_record_from(oauth_info: %{})
       end
@@ -32,7 +33,7 @@ defmodule RemoteRetroWeb.UserManagementTest do
 
     test "triggers an email when the user comes back as inserted" do
       with_mocks [mock_deliver_now(), mock_upsert_record_from(:inserted)] do
-        {:ok, _user} = UserManagement.handle_google_oauth(@google_user_map)
+        {:ok, _user} = UserManagement.handle_google_oauth(@mock_google_user_info)
 
         assert_called Mailer.deliver_now(%{})
       end
@@ -40,7 +41,7 @@ defmodule RemoteRetroWeb.UserManagementTest do
 
     test "does *not* trigger an email when the user comes back as updated" do
       with_mocks [mock_deliver_now(), mock_upsert_record_from(:updated)] do
-        {:ok, _user} = UserManagement.handle_google_oauth(@google_user_map)
+        {:ok, _user} = UserManagement.handle_google_oauth(@mock_google_user_info)
 
         refute called(Mailer.deliver_now(%{}))
       end

@@ -3,13 +3,13 @@ defmodule UserPresenceRealtimeUpdateTest do
 
   import ShorterMaps
 
-  test "the realtime updates of other users entering/leaving a retro", ~M{retro, session: session_one} do
+  test "the realtime updates of other users entering/leaving a retro", ~M{retro, session: session_one, non_facilitator} do
     retro_path = "/retros/" <> retro.id
     session_one = visit(session_one, retro_path)
 
     assert session_one |> find(Query.css("#user-list li", count: 1))
 
-    session_two = new_authenticated_browser_session()
+    session_two = new_authenticated_browser_session(non_facilitator)
     visit(session_two, retro_path)
 
     assert session_one |> find(Query.css("#user-list li", count: 2))

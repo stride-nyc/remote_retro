@@ -1,8 +1,24 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
-  alias RemoteRetro.{Repo, Idea, Vote}
+  alias RemoteRetro.{Repo, Idea, Vote, User}
 
   import ShorterMaps
+
+  @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
+
+  def persist_test_user do
+    unique_integer = System.unique_integer()
+    email = "user-#{unique_integer}@stridenyc.com"
+    name = "Test User #{unique_integer}"
+
+    oauth_info = Map.merge(@mock_google_user_info, %{
+      "email" => email,
+      "name" => name,
+    })
+
+    {:ok, user, _} = User.upsert_record_from(oauth_info: oauth_info)
+    user
+  end
 
   defp persist_idea(user, idea, retro, options \\ [assignee_id: nil]) do
     %Idea{
@@ -48,10 +64,10 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :vote, vote)
   end
 
-  def new_authenticated_browser_session(metadata \\ %{}) do
+  def new_authenticated_browser_session(user, metadata \\ %{}) do
     :timer.sleep(100)
     {:ok, session} = Wallaby.start_session(metadata: metadata)
-    authenticate(session)
+    authenticate(session, user)
   end
 
   def click_and_confirm(facilitator_session, button_text) do
@@ -59,8 +75,8 @@ defmodule RemoteRetro.TestHelpers do
     facilitator_session |> find(Query.button("Yes")) |> Element.click
   end
 
-  def authenticate(session) do
-    visit(session, "/auth/google/callback?code=love")
+  def authenticate(session, user) do
+    visit(session, "/auth/google/callback?code=#{user.email}&test_override=true")
   end
 
   def submit_idea(session, ~M{category, body}) do

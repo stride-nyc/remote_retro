@@ -16,7 +16,6 @@ defmodule RemoteRetro.IntegrationCase do
   using do
     quote do
       use Wallaby.DSL
-      use RemoteRetro.UserRetroCase
 
       alias RemoteRetro.Repo
       import Ecto
@@ -29,26 +28,25 @@ defmodule RemoteRetro.IntegrationCase do
     end
   end
 
-  setup tags do
+  setup context do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
 
-    unless tags[:async] do
+    unless context[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(Repo, {:shared, self()})
     end
 
     metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(Repo, self())
 
-    retro =
-      case tags[:retro_stage] do
-        nil -> tags[:retro]
-        _ ->
-          tags[:retro]
-          |> Retro.changeset(%{stage: tags[:retro_stage]})
-          |> Repo.update!
-      end
+    facilitator = persist_test_user()
+    non_facilitator = persist_test_user()
 
-    session = new_authenticated_browser_session(metadata)
+    retro = Repo.insert!(%Retro{
+      stage: context[:retro_stage] || "idea-generation",
+      facilitator_id: facilitator.id
+    })
 
-    {:ok, session: session, retro: retro}
+    session = new_authenticated_browser_session(facilitator, metadata)
+
+    {:ok, session: session, retro: retro, facilitator: facilitator, non_facilitator: non_facilitator}
   end
 end

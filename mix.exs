@@ -34,7 +34,8 @@ defmodule RemoteRetro.Mixfile do
   defp deps do
     [{:phoenix, "~> 1.3.4"},
      {:phoenix_pubsub, "~> 1.1.0"},
-     {:phoenix_ecto, "~> 3.4.0"},
+     {:phoenix_ecto, "~> 4.0.0"},
+     {:ecto_sql, "~> 3.0"},
      {:distillery, "~> 1.5.0", only: :prod},
      {:excoveralls, "~> 0.9.1", only: :test},
      {:postgrex, ">= 0.0.0"},

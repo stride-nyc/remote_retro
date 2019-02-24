@@ -25,7 +25,6 @@ config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.TestAdapter
 
 # Configure your database
 config :remote_retro, RemoteRetro.Repo,
-  adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
   database: "remote_retro_test",
@@ -34,7 +33,8 @@ config :remote_retro, RemoteRetro.Repo,
   pool: Ecto.Adapters.SQL.Sandbox
 
 config :remote_retro, :oauth_client, RemoteRetro.OAuth.Client.InMemory
-config :remote_retro, :test_user_one, %{
+config :remote_retro, :allow_user_masquerade, true
+config :remote_retro, :mock_google_user_info, %{
   "email" => "mrtestuser@one.com",
   "email_verified" => "true", "family_name" => "User",
   "gender" => "male", "given_name" => "Test",
@@ -45,13 +45,3 @@ config :remote_retro, :test_user_one, %{
   "sub" => "108658712426577966861"
 }
 
-config :remote_retro, :test_user_two, %{
-  "email" => "missotheruser@two.com",
-  "email_verified" => "true", "family_name" => "User",
-  "gender" => "female", "given_name" => "Other",
-  "kind" => "plus#personOpenIdConnect", "locale" => "en",
-  "name" => "Other User",
-  "picture" => "/images/test_user.png",
-  "profile" => "https://plus.google.com/u/1/+NicholAlexander",
-  "sub" => "106702782098698370243"
-}

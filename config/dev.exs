@@ -36,7 +36,6 @@ config :phoenix, :stacktrace_depth, 20
 
 # Configure your database
 config :remote_retro, RemoteRetro.Repo,
-  adapter: Ecto.Adapters.Postgres,
   username: "postgres",
   password: "postgres",
   database: "remote_retro_dev",

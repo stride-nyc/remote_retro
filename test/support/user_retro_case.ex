@@ -1,10 +1,8 @@
 defmodule RemoteRetro.UserRetroCase do
   use ExUnit.CaseTemplate
-  alias RemoteRetro.{Repo, User, Retro, Participation}
+  alias RemoteRetro.{Repo, Retro, User, Participation, TestHelpers}
   import Ecto.Query, only: [from: 2]
-
-  @test_user_one Application.get_env(:remote_retro, :test_user_one)
-  @test_user_two Application.get_env(:remote_retro, :test_user_two)
+  import TestHelpers
 
   setup_all _tags do
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
@@ -14,25 +12,26 @@ defmodule RemoteRetro.UserRetroCase do
     # from each test so the data doesn't exist for each test.
     Ecto.Adapters.SQL.Sandbox.mode(Repo, :auto)
 
-    {:ok, facilitator, _} = User.upsert_record_from(oauth_info: @test_user_one)
-    {:ok, non_facilitator, _} = User.upsert_record_from(oauth_info: @test_user_two)
+    facilitator = persist_test_user()
+    non_facilitator = persist_test_user()
+
     retro = Repo.insert!(%Retro{facilitator_id: facilitator.id, stage: "idea-generation"})
-    participation = Repo.insert!(%Participation{user_id: facilitator.id, retro_id: retro.id})
-    participation_two = Repo.insert!(%Participation{user_id: non_facilitator.id, retro_id: retro.id})
+
+    Repo.insert!(%Participation{user_id: facilitator.id, retro_id: retro.id})
+    Repo.insert!(%Participation{user_id: non_facilitator.id, retro_id: retro.id})
 
     on_exit fn ->
       # this callback needs to checkout its own connection since it
       # runs in its own process
       :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
-      Ecto.Adapters.SQL.Sandbox.mode(Repo, :auto)
 
-      participation_ids = [participation.id, participation_two.id]
-      from(p in Participation, where: p.id in ^participation_ids) |> Repo.delete_all
-
+      # participations are deleted via cascade on deletion of retro
+      retro = Repo.get!(Retro, retro.id)
       Repo.delete(retro)
 
       user_ids = [facilitator.id, non_facilitator.id]
       from(u in User, where: u.id in ^user_ids) |> Repo.delete_all
+
 
       :ok
     end

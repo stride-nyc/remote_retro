@@ -1,13 +1,12 @@
 defmodule RemoteRetro.RetroManagementTest do
-  use RemoteRetro.UserRetroCase
+  use RemoteRetro.UserRetroCase, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.{Repo, Retro, User, Emails}
+  alias RemoteRetro.{Repo, Retro, User, Emails, TestHelpers}
   alias RemoteRetroWeb.RetroManagement
 
   import ShorterMaps
-
-  @test_user_template Application.get_env(:remote_retro, :test_user_one)
+  import TestHelpers
 
   describe "update!/2" do
     test "updates the retro with the given id with the given params", ~M{retro} do
@@ -47,8 +46,7 @@ defmodule RemoteRetro.RetroManagementTest do
     end
 
     test "not updating the completed retro counts of users *not* in the closed retro", ~M{retro} do
-      just_another_guy = %{@test_user_template | "email" => "hey@you.com"}
-      {:ok, just_another_guy, _} = User.upsert_record_from(oauth_info: just_another_guy)
+      just_another_guy = persist_test_user()
 
       assert just_another_guy.completed_retros_count == 0
 

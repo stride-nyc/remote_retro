@@ -1,5 +1,5 @@
 defmodule RemoteRetro.OAuth.Client.InMemory do
-  @test_user_one Application.get_env(:remote_retro, :test_user_one)
+  @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
 
   defdelegate new(config), to: OAuth2.Client
   defdelegate authorize_url!(client, scope), to: OAuth2.Client
@@ -26,7 +26,7 @@ defmodule RemoteRetro.OAuth.Client.InMemory do
 
   def get!(_client_with_token, _resource_url) do
     %OAuth2.Response{
-      body: @test_user_one,
+      body: @mock_google_user_info,
       headers: [
         {"expires", "Thu, 23 Feb 2017 00:45:51 GMT"},
         {"date", "Thu, 23 Feb 2017 00:45:51 GMT"},

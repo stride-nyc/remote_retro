@@ -11,7 +11,7 @@ defmodule RemoteRetro.RetroControllerTest do
       where the current user is the facilitator", ~M{conn} do
       conn = post conn, "/retros"
 
-      retro = Repo.one(from r in Retro, order_by: [desc: r.id], limit: 1)
+      retro = Repo.one(from r in Retro, order_by: [desc: r.inserted_at], limit: 1)
 
       current_user = get_session(conn, "current_user")
 

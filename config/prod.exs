@@ -22,7 +22,6 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
   version: Keyword.get(Mix.Project.config, :version)
 
 config :remote_retro, RemoteRetro.Repo,
-  adapter: Ecto.Adapters.Postgres,
   url: "${DATABASE_URL}",
   pool_size: 15,
   ssl: true

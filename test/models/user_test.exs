@@ -3,6 +3,8 @@ defmodule RemoteRetro.UserTest do
 
   alias RemoteRetro.User
 
+  @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
+
   @valid_attrs %{
     email: "mistertestuser@gmail.com",
     google_user_info: %{test: "one two"},
@@ -43,39 +45,29 @@ defmodule RemoteRetro.UserTest do
     assert %User{user | token: "abc987zyx"}
   end
 
-  test "user is persisted in the db" do
-    mock_google_info = Application.get_env(:remote_retro, :test_user_one)
+  describe "upsert_record_from/1" do
+    test "persists a user in the db, flagging it as inserted" do
+      assert {
+        :ok,
+        %User{id: _, last_login: _},
+        :inserted
+      } = User.upsert_record_from(oauth_info: @mock_google_user_info)
+    end
 
-    User.upsert_record_from(oauth_info: mock_google_info)
+    test "existing users are updated in the db, and flagged as updated" do
+      User.upsert_record_from(oauth_info: @mock_google_user_info)
 
-    assert Repo.get_by(User, email: mock_google_info["email"]) !== nil
-  end
+      updated_google_info = Map.merge(@mock_google_user_info, %{"name" => "Named User"})
 
-  test "user is persisted in the db and flagged as inserted user" do
-    mock_google_info = Application.get_env(:remote_retro, :test_user_one)
+      {:ok, _user, :updated} = User.upsert_record_from(oauth_info: updated_google_info)
+      user = Repo.get_by(User, email: @mock_google_user_info["email"])
 
-    assert { :ok, _, :inserted } = User.upsert_record_from(oauth_info: mock_google_info)
-  end
+      assert user.name == "Named User"
+    end
 
-  test "user is updated in the db" do
-    mock_google_info = Application.get_env(:remote_retro, :test_user_one)
-    User.upsert_record_from(oauth_info: mock_google_info)
-
-    updated_google_info = Map.merge(mock_google_info, %{"name" => "Named User"})
-
-    User.upsert_record_from(oauth_info: updated_google_info)
-    user = Repo.get_by(User, email: mock_google_info["email"])
-
-    assert user.name == "Named User"
-  end
-
-  test "user is flagged as updated in the returned tuple" do
-    mock_google_info = Application.get_env(:remote_retro, :test_user_one)
-    User.upsert_record_from(oauth_info: mock_google_info)
-
-    updated_google_info = Map.merge(mock_google_info, %{"name" => "Named User"})
-
-    User.upsert_record_from(oauth_info: updated_google_info)
-    assert {:ok, _, :updated} = User.upsert_record_from(oauth_info: updated_google_info)
+    test "includes a last_login timestamp" do
+      {:ok, user, _} = User.upsert_record_from(oauth_info: @mock_google_user_info)
+      assert user.last_login
+    end
   end
 end

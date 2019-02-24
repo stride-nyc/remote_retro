@@ -7,9 +7,9 @@ defmodule FacilitatorHighlightsAnIdeaTest do
     setup [:persist_idea_for_retro]
 
     @tag idea: %Idea{category: "happy", body: "Teams worked well together"}
-    test "the idea that the facilitator clicked on toggles highlighted class for everyone", ~M{retro, session: facilitator_session} do
+    test "the idea that the facilitator clicked on toggles highlighted class for everyone", ~M{retro, session: facilitator_session, non_facilitator} do
       idea_body = "Teams worked well together"
-      participant_session = new_authenticated_browser_session()
+      participant_session = new_authenticated_browser_session(non_facilitator)
 
       retro_path = "/retros/#{retro.id}"
       facilitator_session = visit(facilitator_session, retro_path)

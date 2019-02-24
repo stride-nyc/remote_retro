@@ -37,36 +37,11 @@ defmodule RemoteRetro.AuthControllerTest do
       assert Map.has_key?(conn.private, :plug_session)
     end
 
-    test "set the current_user on the session", ~M{conn} do
-      conn = get conn, "/auth/google/callback?code=schlarpdarp"
-
-      session = retrieve_session(conn)
-      assert session["current_user"].email == "mrtestuser@one.com"
-    end
-
-    test "user on the session exists in the db", ~M{conn} do
-      mock_google_info = Application.get_env(:remote_retro, :test_user_one)
-      conn = get conn, "/auth/google/callback?code=schlarpdarp"
-
-      session = retrieve_session(conn)
-
-      user = Repo.get_by(User, email: mock_google_info["email"])
-      assert user.email == session["current_user"].email
-    end
-
-    test "when a user logs in more than once, ensure last_login is updated and doesn't match inserted_at", ~M{conn} do
+    test "sets a persisted user on the session", ~M{conn} do
       conn = get conn, "/auth/google/callback?code=schlarpdarp"
       session = retrieve_session(conn)
-      session_email = session["current_user"].email
-      user_first_login = Repo.get_by(User, email: session_email)
 
-      conn = conn |> clear_session |> get("/auth/google/callback?code=schlarpdarp")
-
-      session = retrieve_session(conn)
-      session_email = session["current_user"].email
-      user_second_login = Repo.get_by(User, email: session_email)
-
-      refute user_first_login.last_login == user_second_login.last_login
+      assert %User{email: _, id: _} = session["current_user"]
     end
   end
 
