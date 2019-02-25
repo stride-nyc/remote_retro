@@ -4,6 +4,38 @@ defmodule RemoteRetro.Emails do
   alias RemoteRetro.{Repo, User}
   alias RemoteRetroWeb.IdeaView
 
+  def welcome_email(user) do
+    new_email(
+      to: [user.email],
+      from: {"RemoteRetro", "do-not-reply@remoteretro.org"},
+      subject: "#{user.given_name}! Welcome to RemoteRetro!",
+      text_body: text_welcome_email_body(user),
+      html_body: html_welcome_email_body(user),
+    )
+  end
+
+  defp text_welcome_email_body(user) do
+    """
+    #{user.given_name}!\n\n
+    We're thrilled that you've chosen RemoteRetro to aid your team on the path to continuous improvement. You can now visit your user dashboard at https://remoteretro.org/retros, and we encourage you to forward this email to your teams(s) with encouragement to check us out!\n\n
+    Looking forward,\n
+    The RemoteRetro Team\n
+    """
+  end
+
+  defp html_welcome_email_body(user) do
+    """
+    <div>
+      <p>#{user.given_name}!</p>
+      <p>We're thrilled that you've chosen RemoteRetro to aid your team on the path to continuous improvement. You can now visit your user dashboard at https://remoteretro.org/retros, and we encourage you to forward this email to your teams(s) with encouragement to check us out!</p>
+
+      <br>
+      <p>Looking forward,</p>
+      <p>The RemoteRetro Team</p>
+    </div>
+    """
+  end
+
   def action_items_email(retro_id) do
     action_items = retro_action_items(retro_id)
 

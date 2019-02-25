@@ -1,7 +1,7 @@
 defmodule RemoteRetroWeb.AuthController do
   use RemoteRetroWeb, :controller
   alias RemoteRetro.OAuth.Google
-  alias RemoteRetro.User
+  alias RemoteRetroWeb.UserManagement
 
   def index(conn, _params) do
     redirect conn, external: authorize_url!()
@@ -10,7 +10,7 @@ defmodule RemoteRetroWeb.AuthController do
   def callback(conn, %{"code" => code}) do
     oauth_info = Google.get_user_info!(code)
 
-    {:ok, user} = User.upsert_record_from(oauth_info: oauth_info)
+    {:ok, user} = UserManagement.handle_google_oauth(oauth_info)
     conn = put_session(conn, :current_user, user)
 
     redirect conn, to: get_session(conn, "requested_endpoint") || "/"
