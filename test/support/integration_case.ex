@@ -37,7 +37,6 @@ defmodule RemoteRetro.IntegrationCase do
     end
 
     metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(Repo, self())
-    user = tags[:user]
 
     retro =
       case tags[:retro_stage] do
@@ -50,6 +49,6 @@ defmodule RemoteRetro.IntegrationCase do
 
     session = new_authenticated_browser_session(metadata)
 
-    {:ok, session: session, retro: retro, user: user}
+    {:ok, session: session, retro: retro}
   end
 end
