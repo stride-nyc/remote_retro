@@ -48,7 +48,7 @@ defmodule RemoteRetro.RetroManagementTest do
 
     test "not updating the completed retro counts of users *not* in the closed retro", ~M{retro} do
       just_another_guy = %{@test_user_template | "email" => "hey@you.com"}
-      {:ok, just_another_guy} = User.upsert_record_from(oauth_info: just_another_guy)
+      {:ok, just_another_guy, _} = User.upsert_record_from(oauth_info: just_another_guy)
 
       assert just_another_guy.completed_retros_count == 0
 

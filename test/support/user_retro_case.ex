@@ -14,8 +14,8 @@ defmodule RemoteRetro.UserRetroCase do
     # from each test so the data doesn't exist for each test.
     Ecto.Adapters.SQL.Sandbox.mode(Repo, :auto)
 
-    {:ok, facilitator} = User.upsert_record_from(oauth_info: @test_user_one)
-    {:ok, non_facilitator} = User.upsert_record_from(oauth_info: @test_user_two)
+    {:ok, facilitator, _} = User.upsert_record_from(oauth_info: @test_user_one)
+    {:ok, non_facilitator, _} = User.upsert_record_from(oauth_info: @test_user_two)
     retro = Repo.insert!(%Retro{facilitator_id: facilitator.id, stage: "idea-generation"})
     participation = Repo.insert!(%Participation{user_id: facilitator.id, retro_id: retro.id})
     participation_two = Repo.insert!(%Participation{user_id: non_facilitator.id, retro_id: retro.id})

@@ -51,13 +51,31 @@ defmodule RemoteRetro.UserTest do
     assert Repo.get_by(User, email: mock_google_info["email"]) !== nil
   end
 
+  test "user is persisted in the db and flagged as inserted user" do
+    mock_google_info = Application.get_env(:remote_retro, :test_user_one)
+
+    assert { :ok, _, :inserted } = User.upsert_record_from(oauth_info: mock_google_info)
+  end
+
   test "user is updated in the db" do
     mock_google_info = Application.get_env(:remote_retro, :test_user_one)
+    User.upsert_record_from(oauth_info: mock_google_info)
+
     updated_google_info = Map.merge(mock_google_info, %{"name" => "Named User"})
 
     User.upsert_record_from(oauth_info: updated_google_info)
     user = Repo.get_by(User, email: mock_google_info["email"])
 
     assert user.name == "Named User"
+  end
+
+  test "user is flagged as updated in the returned tuple" do
+    mock_google_info = Application.get_env(:remote_retro, :test_user_one)
+    User.upsert_record_from(oauth_info: mock_google_info)
+
+    updated_google_info = Map.merge(mock_google_info, %{"name" => "Named User"})
+
+    User.upsert_record_from(oauth_info: updated_google_info)
+    assert {:ok, _, :updated} = User.upsert_record_from(oauth_info: updated_google_info)
   end
 end

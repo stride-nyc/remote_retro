@@ -49,12 +49,19 @@ defmodule RemoteRetro.User do
   def upsert_record_from(oauth_info: oauth_info) do
     user_params = build_from_oauth_data(oauth_info)
 
-    case Repo.get_by(__MODULE__, email: user_params["email"]) do
-      nil -> %__MODULE__{}
-      user_from_db -> user_from_db
-    end
-    |> __MODULE__.changeset(user_params)
-    |> Repo.insert_or_update(returning: true)
+    {inserted_or_updated_atom, user_struct} =
+      case Repo.get_by(__MODULE__, email: user_params["email"]) do
+        nil ->
+          {:inserted, %__MODULE__{}}
+        user_from_db ->
+          {:updated, user_from_db}
+      end
+
+    {result_atom, result} = user_struct
+      |> __MODULE__.changeset(user_params)
+      |> Repo.insert_or_update(returning: true)
+
+    {result_atom, result, inserted_or_updated_atom}
   end
 
   defp build_from_oauth_data(user_info) do
