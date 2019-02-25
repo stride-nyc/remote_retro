@@ -42,4 +42,22 @@ defmodule RemoteRetro.UserTest do
     user = %User{email: "monsieur@misspellingsarefine.com"}
     assert %User{user | token: "abc987zyx"}
   end
+
+  test "user is persisted in the db" do
+    mock_google_info = Application.get_env(:remote_retro, :test_user_one)
+
+    User.upsert_record_from(oauth_info: mock_google_info)
+
+    assert Repo.get_by(User, email: mock_google_info["email"]) !== nil
+  end
+
+  test "user is updated in the db" do
+    mock_google_info = Application.get_env(:remote_retro, :test_user_one)
+    updated_google_info = Map.merge(mock_google_info, %{"name" => "Named User"})
+
+    User.upsert_record_from(oauth_info: updated_google_info)
+    user = Repo.get_by(User, email: mock_google_info["email"])
+
+    assert user.name == "Named User"
+  end
 end
