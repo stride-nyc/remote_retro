@@ -33,9 +33,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       facilitator_session = visit(facilitator_session, retro_path)
       participant_session = visit(participant_session, retro_path)
 
-      facilitator_session |> find(Query.css(".edit.icon")) |> Element.click
-      fill_in(facilitator_session, Query.text_field("editable_idea"), with: "No one uses the linter.")
-      facilitator_session |> find(Query.css(".idea-edit-form")) |> click(Query.option("confused"))
+      update_idea_to(facilitator_session, category: "confused", text: "No one uses the linter.")
 
       # assert other client sees immediate, unpersisted updates
       ideas_list_text = participant_session |> find(Query.css(".sad.ideas")) |> Element.text
