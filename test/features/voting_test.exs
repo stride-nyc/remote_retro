@@ -22,12 +22,16 @@ defmodule VotingTest do
 
       facilitator_session_one |> assert_vote_count_is(0)
 
-      facilitator_session_one |> find(Query.css(".#{@category}.column .plus.button")) |> Element.click
+      plus_button_selector = Query.css(".#{@category}.column .plus.button")
+      assert_has(facilitator_session_one, plus_button_selector)
+      facilitator_session_one |> find(plus_button_selector) |> Element.click
 
       facilitator_session_one |> assert_vote_count_is(1)
       facilitator_session_two |> assert_vote_count_is(1)
 
-      facilitator_session_one |> find(Query.css(".#{@category}.column .minus.button")) |> Element.click
+      minus_button_selector = Query.css(".#{@category}.column .minus.button")
+      assert_has(facilitator_session_one, minus_button_selector)
+      facilitator_session_one |> find(minus_button_selector) |> Element.click
 
       facilitator_session_one |> assert_vote_count_is(0)
       facilitator_session_two |> assert_vote_count_is(0)

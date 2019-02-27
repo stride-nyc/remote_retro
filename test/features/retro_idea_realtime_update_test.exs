@@ -16,8 +16,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
     submit_idea(session_two, %{category: "sad", body: "user stories lack clear business value" })
 
-    ideas_list_text = session_one |> find(Query.css(".sad.column")) |> Element.text
-    assert ideas_list_text =~ "user stories lack clear business value"
+    assert_has(session_one, Query.css(".sad.column", text: "user stories lack clear business value"))
   end
 
   describe "when an idea already exists in a retro" do
@@ -58,12 +57,11 @@ defmodule RetroIdeaRealtimeUpdateTest do
       facilitator_session = visit(facilitator_session, retro_path)
       participant_session = visit(participant_session, retro_path)
 
-      ideas_list_text = participant_session |> find(Query.css(".happy.ideas li")) |> Element.text
-      assert ideas_list_text =~ ~r/slack time/
+      assert_has participant_session, Query.css(".happy.ideas li", text: "slack time!")
 
       delete_idea(facilitator_session, %{category: "happy", body: "slack time!"})
 
-      assert find(participant_session, Query.css(".happy.ideas li", count: 0))
+      assert_has participant_session, Query.css(".happy.ideas li", count: 0)
     end
   end
 
@@ -91,8 +89,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       |> click(Query.option(non_facilitator.name))
       |> click(Query.button("Save"))
 
-      action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
-      assert action_items_list_text =~ "blurgh (#{non_facilitator.name})"
+      assert_has(facilitator_session, Query.css(".action-item.column", text: "blurgh (#{non_facilitator.name})"))
     end
   end
 end

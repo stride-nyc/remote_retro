@@ -32,7 +32,6 @@ defmodule RemoteRetro.UserRetroCase do
       user_ids = [facilitator.id, non_facilitator.id]
       from(u in User, where: u.id in ^user_ids) |> Repo.delete_all
 
-
       :ok
     end
 
