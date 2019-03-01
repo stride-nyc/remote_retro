@@ -6,10 +6,13 @@ defmodule RemoteRetro.Retro do
 
   @required_fields [:facilitator_id]
 
-  @derive {Poison.Encoder, except: [:__meta__, :participations]}
+  @derive {Poison.Encoder, except: [:__meta__, :participations, :action_items]}
   schema "retros" do
     has_many :participations, Participation
+
     has_many :ideas, Idea
+    has_many :action_items, Idea, where: [category: "action-item"]
+
     has_many :votes, through: [:ideas, :votes]
     has_many :users, through: [:participations, :user]
 

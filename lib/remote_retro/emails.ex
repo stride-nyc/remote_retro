@@ -1,7 +1,6 @@
 defmodule RemoteRetro.Emails do
   import Bamboo.Email, except: [from: 2]
-  import Ecto.Query
-  alias RemoteRetro.{Repo, User}
+  alias RemoteRetro.{Repo, Retro}
   alias RemoteRetroWeb.IdeaView
 
   def welcome_email(user) do
@@ -23,6 +22,23 @@ defmodule RemoteRetro.Emails do
     """
   end
 
+  def action_items_email(retro_id) do
+    retro =
+      Repo.get!(Retro, retro_id)
+      |> Repo.preload([:users, [action_items: :assignee]])
+
+    participant_emails = Enum.map(retro.users, &Map.get(&1, :email))
+    action_items = format_retro_action_items(retro)
+
+    new_email(
+      to: participant_emails,
+      from: {"RemoteRetro", "do-not-reply@remoteretro.org"},
+      subject: "Action items from Retro",
+      text_body: text_retro_action_items(action_items),
+      html_body: html_retro_action_items(action_items, retro_id)
+    )
+  end
+
   defp html_welcome_email_body(user) do
     """
     <div>
@@ -34,26 +50,6 @@ defmodule RemoteRetro.Emails do
       <p>The RemoteRetro Team</p>
     </div>
     """
-  end
-
-  def action_items_email(retro_id) do
-    action_items = retro_action_items(retro_id)
-
-    participant_emails = Repo.all(
-      from u in User,
-      distinct: u.email,
-      join: p in assoc(u, :participations),
-      where: p.retro_id == ^retro_id,
-      select: u.email
-    )
-
-    new_email(
-      to: participant_emails,
-      from: {"RemoteRetro", "do-not-reply@remoteretro.org"},
-      subject: "Action items from Retro",
-      text_body: text_retro_action_items(action_items),
-      html_body: html_retro_action_items(action_items, retro_id)
-    )
   end
 
   defp text_retro_action_items(action_items) do
@@ -83,13 +79,8 @@ defmodule RemoteRetro.Emails do
     "<ul>#{item_tags}</ul>"
   end
 
-  defp retro_action_items(retro_id) do
-    action_items = Repo.all from i in RemoteRetro.Idea,
-      join: a in assoc(i, :assignee),
-      where: [category: "action-item", retro_id: ^retro_id],
-      preload: [assignee: a]
-
-    action_items
+  defp format_retro_action_items(retro) do
+    retro.action_items
     |> Enum.map(&IdeaView.action_item_to_string/1)
   end
 end

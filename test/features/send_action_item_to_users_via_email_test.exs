@@ -19,6 +19,7 @@ defmodule SendActionItemToUsersViaEmailTest do
       click_and_confirm(facilitator_session, "Send Action Items")
 
       emails = Emails.action_items_email(retro.id)
+      assert emails.html_body =~ ~r/Get better \(Test User .*\)/
 
       emails |> assert_delivered_email
     end
