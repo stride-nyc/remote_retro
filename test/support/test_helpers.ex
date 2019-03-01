@@ -70,10 +70,19 @@ defmodule RemoteRetro.TestHelpers do
     authenticate(session, user)
   end
 
-  def update_idea_to(session, category: category, text: text) do
+  def update_idea_fields_to(session, category: category, text: text) do
     session |> find(Query.css(".edit.icon")) |> Element.click
     fill_in(session, Query.text_field("editable_idea"), with: text)
     session |> find(Query.css(".idea-edit-form")) |> click(Query.option(category))
+  end
+
+  def save_idea_updates(session) do
+    enabled_save_button_query = Query.css("button:not(:disabled)", text: "Save")
+
+    session
+    |> assert_has(enabled_save_button_query)
+    |> find(enabled_save_button_query)
+    |> Element.click
   end
 
   def click_and_confirm(facilitator_session, button_text) do

@@ -33,13 +33,13 @@ defmodule RetroIdeaRealtimeUpdateTest do
       facilitator_session = visit(facilitator_session, retro_path)
       participant_session = visit(participant_session, retro_path)
 
-      update_idea_to(facilitator_session, category: "confused", text: "No one uses the linter.")
+      facilitator_session |> update_idea_fields_to(category: "confused", text: "No one uses the linter.")
 
       # assert other client sees immediate, unpersisted updates
       ideas_list_text = participant_session |> find(Query.css(".sad.ideas")) |> Element.text
       assert ideas_list_text =~ ~r/No one uses the linter\.$/
 
-      facilitator_session |> find(Query.button("Save")) |> Element.click
+      facilitator_session |> save_idea_updates
 
       # assert other client sees persistence indicator
       assert_has(participant_session, Query.css(".confused.ideas", text: "No one uses the linter. (edited)"))
