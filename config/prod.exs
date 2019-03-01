@@ -32,6 +32,12 @@ config :logger, level: :info
 config :remote_retro, :oauth_client, OAuth2.Client
 config :remote_retro, :source_version, "${SOURCE_VERSION}"
 
+# DANGER: if someone tries to change this line, they're up to no good.
+config :remote_retro, :auth_controller, RemoteRetroWeb.AuthController
+
+# DANGER: if someone tries to change this line, they're up to no good.
+config :remote_retro, :allow_user_masquerade, false
+
 config :honeybadger,
   api_key: "${HONEYBADGER_API_KEY}",
   environment_name: :production

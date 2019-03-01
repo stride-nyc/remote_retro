@@ -2,6 +2,10 @@ defmodule RemoteRetroWeb.Router do
   use RemoteRetroWeb, :router
   use Honeybadger.Plug
 
+  alias RemoteRetroWeb.{PageController, AuthController}
+
+  @auth_controller Application.get_env(:remote_retro, :auth_controller)
+
   if Application.get_env(:remote_retro, :env) == :dev do
     forward "/sent_emails", Bamboo.EmailPreviewPlug
   end
@@ -19,13 +23,13 @@ defmodule RemoteRetroWeb.Router do
     plug SetCurrentUser
   end
 
-  scope "/", RemoteRetroWeb do
+  scope "/" do
     pipe_through :browser # Use the default browser stack
 
     get "/", PageController, :index
     get "/faq", PageController, :faq
     get "/auth/google", AuthController, :index
-    get "/auth/google/callback", AuthController, :callback
+    get "/auth/google/callback", @auth_controller, :callback
     get "/logout", AuthController, :logout
   end
 

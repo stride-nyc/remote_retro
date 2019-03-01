@@ -18,6 +18,9 @@ Application.put_env(:wallaby, :js_logger, file)
 # Print only warnings and errors during test
 config :logger, level: :warn
 
+# allow test users to authenticate
+config :remote_retro, :auth_controller, RemoteRetroWeb.MockAuthController
+
 config :honeybadger,
   environment_name: :test
 
@@ -44,4 +47,3 @@ config :remote_retro, :mock_google_user_info, %{
   "profile" => "https://plus.google.com/108658712426577966861",
   "sub" => "108658712426577966861"
 }
-
