@@ -28,7 +28,7 @@ const ClosedLowerThirdContent = () => (
           }}
         />
         <div className={`ui pointing below blue large label ${styles.callToAction}`}>
-          Star the repo!
+          Help us out!
         </div>
       </div>
     </span>
