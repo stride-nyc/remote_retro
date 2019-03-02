@@ -11,7 +11,7 @@
 
   <div class="ui header">
     Free. World-class. Retrospectives.
-    <p class="sub header">RemoteRetro takes teams full of cats and molds them into Agile sled dogs.</p>
+    <p class="sub header">RemoteRetro helps teams turn painpoints into progress.</p>
   </div>
 
   <a href="/auth/google" class="ui blue button">
@@ -30,18 +30,21 @@
             <i class="massive grey gift icon"></i>
             Free
           </h2>
+          <p>Save money by not spending any.</p>
         </div>
         <div class="column">
           <h2 class="ui icon header">
-            <i class="massive grey handshake icon"></i>
-            Constructive
+            <i class="massive grey users icon"></i>
+            Collaborative
           </h2>
+          <p>Interact with teammates in real time.</p>
         </div>
         <div class="column">
           <h2 class="ui icon header">
             <i class="massive grey train icon"></i>
             Focused
           </h2>
+          <p>Save time with automated setup and teardown.</p>
         </div>
       </div>
       <div class="ui divider computer tablet only grid"></div>
