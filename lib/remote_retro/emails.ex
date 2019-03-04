@@ -9,7 +9,7 @@ defmodule RemoteRetro.Emails do
       from: {"RemoteRetro", "do-not-reply@remoteretro.org"},
       subject: "#{user.given_name}! Welcome to RemoteRetro!",
       text_body: text_welcome_email_body(user),
-      html_body: html_welcome_email_body(user),
+      html_body: html_welcome_email_body(user)
     )
   end
 
