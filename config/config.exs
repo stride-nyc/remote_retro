@@ -18,7 +18,8 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
   pubsub: [name: RemoteRetro.PubSub, adapter: Phoenix.PubSub.PG2]
 
 # Configures Email API
-config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.SendgridAdapter, api_key: System.get_env("SENDGRID_API_KEY")
+config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.SendGridAdapter, api_key: System.get_env("SENDGRID_API_KEY")
+
 config :remote_retro, :auth_controller, RemoteRetroWeb.AuthController
 
 # Configures HoneyBadger error reporting API
