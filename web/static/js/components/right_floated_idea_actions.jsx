@@ -1,4 +1,5 @@
 import React from "react"
+import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/right_floated_idea_actions.css"
@@ -7,6 +8,9 @@ const RightFloatedIdeaActions = props => {
   const { idea, actions } = props
 
   const disabled = idea.inEditState || idea.deletionSubmitted
+  const classes = classNames(styles.wrapper, {
+    disabled,
+  })
 
   const handleDelete = () => {
     const confirmed = confirm("Are you sure you want to delete this idea?")
@@ -18,7 +22,7 @@ const RightFloatedIdeaActions = props => {
   const handleInitiateEdit = () => { actions.initiateIdeaEditState(idea.id) }
 
   return (
-    <span className={`${styles.wrapper} ${disabled ? "disabled" : ""}`}>
+    <span className={classes}>
       <i
         title="Edit Idea"
         className="edit icon"
