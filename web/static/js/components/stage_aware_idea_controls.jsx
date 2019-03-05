@@ -5,12 +5,13 @@ import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
 import VotingInterface from "./voting_interface"
+import GroupingControls from "./grouping_controls"
 import RightFloatedIdeaActions from "./right_floated_idea_actions"
 import { VOTE_LIMIT } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
 import { selectors, actions } from "../redux"
 
-const { IDEA_GENERATION, GROUPING, VOTING, CLOSED } = STAGES
+const { GROUPING, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
 export const StageAwareIdeaControls = props => {
   const {
@@ -29,14 +30,13 @@ export const StageAwareIdeaControls = props => {
 
   const userHasExhaustedVotes = cumulativeVoteCountForUser >= VOTE_LIMIT
 
-  const isVotingStage = stage === VOTING
-  if (stage !== IDEA_GENERATION && category !== "action-item") {
+  if ([VOTING, ACTION_ITEMS, CLOSED].includes(stage) && category !== "action-item") {
     return (
       <VotingInterface
         actions={actions}
         idea={idea}
         votesForIdea={votesForIdea}
-        isVotingStage={isVotingStage}
+        isVotingStage={stage === VOTING}
         userHasExhaustedVotes={userHasExhaustedVotes}
         currentUser={currentUser}
       />
