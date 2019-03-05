@@ -28,8 +28,6 @@ export const StageAwareIdeaControls = props => {
 
   const { category } = idea
 
-  const userHasExhaustedVotes = cumulativeVoteCountForUser >= VOTE_LIMIT
-
   if ([VOTING, ACTION_ITEMS, CLOSED].includes(stage) && category !== "action-item") {
     return (
       <VotingInterface
@@ -37,7 +35,7 @@ export const StageAwareIdeaControls = props => {
         idea={idea}
         votesForIdea={votesForIdea}
         isVotingStage={stage === VOTING}
-        userHasExhaustedVotes={userHasExhaustedVotes}
+        userHasExhaustedVotes={cumulativeVoteCountForUser >= VOTE_LIMIT}
         currentUser={currentUser}
       />
     )
