@@ -18,13 +18,13 @@ jobs:  # basic units of work in a run
 
       - restore_cache:  # restores saved mix cache
           keys:  # list of cache keys, in decreasing specificity
-            - v2-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-            - v2-mix-cache-{{ .Branch }}
-            - v2-mix-cache
+            - v3-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+            - v3-mix-cache-{{ .Branch }}
+            - v3-mix-cache
       - restore_cache:  # restores saved build cache
           keys:
-            - v2-build-cache-{{ .Branch }}
-            - v2-build-cache
+            - v3-build-cache-{{ .Branch }}
+            - v3-build-cache
       - run: mix do deps.get, compile  # get updated dependencies & compile them
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -42,19 +42,19 @@ jobs:  # basic units of work in a run
           paths:
             - node_modules/
       - save_cache:  # generate and store cache so `restore_cache` works
-          key: v2-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          key: v3-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
           paths: "deps"
       - save_cache:  # make another less specific cache
-          key: v2-mix-cache-{{ .Branch }}
+          key: v3-mix-cache-{{ .Branch }}
           paths: "deps"
       - save_cache:  # you should really save one more cache just in case
-          key: v2-mix-cache
+          key: v3-mix-cache
           paths: "deps"
       - save_cache: # don't forget to save a *build* cache, too
-          key: v2-build-cache-{{ .Branch }}
+          key: v3-build-cache-{{ .Branch }}
           paths: "_build"
       - save_cache: # and one more build cache for good measure
-          key: v2-build-cache
+          key: v3-build-cache
           paths: "_build"
 
       - run:  # special utility that stalls main process until DB is ready

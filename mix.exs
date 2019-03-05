@@ -53,7 +53,7 @@ defmodule RemoteRetro.Mixfile do
       {:shorter_maps, "~> 2.0"},
       {:slender_channel, "~> 0.2.0"},
       {:libcluster, "~> 2.5.0"},
-      {:bamboo, "~> 0.8"},
+      {:bamboo, "~> 1.2"},
       {:honeybadger, "~> 0.10.1"},
       {:credo, "~> 0.3", only: [:dev, :test]},
       {:apex, "~>1.2.0", only: [:dev, :test]},

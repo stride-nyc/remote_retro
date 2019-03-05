@@ -7,7 +7,7 @@ defmodule RemoteRetroWeb.Router do
   @auth_controller Application.get_env(:remote_retro, :auth_controller)
 
   if Application.get_env(:remote_retro, :env) == :dev do
-    forward("/sent_emails", Bamboo.EmailPreviewPlug)
+    forward("/sent_emails", Bamboo.SentEmailViewerPlug)
   end
 
   pipeline :authentication_required do

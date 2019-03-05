@@ -34,7 +34,7 @@ defmodule RemoteRetroWeb.UserManagementTest do
       with_mocks [mock_upsert_record_from(:inserted)] do
         {:ok, _user} = UserManagement.handle_google_oauth(@mock_google_user_info)
 
-        assert_delivered_with(%{to: [nil: "grant@me.com"]})
+        assert_email_delivered_with(%{to: [nil: "grant@me.com"]})
       end
     end
 
