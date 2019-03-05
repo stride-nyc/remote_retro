@@ -1,7 +1,7 @@
 import React from "react"
 
 import { StageAwareIdeaControls } from "../../web/static/js/components/stage_aware_idea_controls"
-import RightFloatedIdeaActions from "../../web/static/js/components/right_floated_idea_actions"
+import IdeaEditDeleteIcons from "../../web/static/js/components/idea_edit_delete_icons"
 import VotingInterface from "../../web/static/js/components/voting_interface"
 import STAGES from "../../web/static/js/configs/stages"
 
@@ -65,7 +65,7 @@ describe("<StageAwareIdeaControls />", () => {
   })
 
   context("when the user has edit permissions", () => {
-    it("renders <RightFloatedIdeaActions />", () => {
+    it("renders <IdeaEditDeleteIcons />", () => {
       const wrapper = mountWithConnectedSubcomponents(
         <StageAwareIdeaControls
           {...defaultProps}
@@ -73,12 +73,12 @@ describe("<StageAwareIdeaControls />", () => {
         />
       )
 
-      expect(wrapper.find(RightFloatedIdeaActions)).to.have.length(1)
+      expect(wrapper.find(IdeaEditDeleteIcons)).to.have.length(1)
     })
   })
 
   context("when the user lacks edit permissions", () => {
-    it("does not render <RightFloatedIdeaActions />", () => {
+    it("does not render <IdeaEditDeleteIcons />", () => {
       const wrapper = mountWithConnectedSubcomponents(
         <StageAwareIdeaControls
           {...defaultProps}
@@ -86,7 +86,7 @@ describe("<StageAwareIdeaControls />", () => {
         />
       )
 
-      expect(wrapper.find(RightFloatedIdeaActions)).to.have.length(0)
+      expect(wrapper.find(IdeaEditDeleteIcons)).to.have.length(0)
     })
   })
 

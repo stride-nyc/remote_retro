@@ -5,8 +5,7 @@ import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
 import VotingInterface from "./voting_interface"
-import GroupingControls from "./grouping_controls"
-import RightFloatedIdeaActions from "./right_floated_idea_actions"
+import IdeaEditDeleteIcons from "./idea_edit_delete_icons"
 import { VOTE_LIMIT } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
 import { selectors, actions } from "../redux"
@@ -44,7 +43,7 @@ export const StageAwareIdeaControls = props => {
   if (stage === CLOSED) return null
 
   if (canUserEditIdeaContents) {
-    return <RightFloatedIdeaActions {...props} />
+    return <IdeaEditDeleteIcons {...props} />
   }
 
   return null

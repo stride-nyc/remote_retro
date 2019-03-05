@@ -2,9 +2,9 @@ import React from "react"
 import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/right_floated_idea_actions.css"
+import styles from "./css_modules/idea_edit_delete_icons.css"
 
-const RightFloatedIdeaActions = props => {
+const IdeaEditDeleteIcons = props => {
   const { idea, actions } = props
 
   const disabled = idea.inEditState || idea.deletionSubmitted
@@ -39,10 +39,10 @@ const RightFloatedIdeaActions = props => {
   )
 }
 
-RightFloatedIdeaActions.propTypes = {
+IdeaEditDeleteIcons.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
 }
 
-export default RightFloatedIdeaActions
+export default IdeaEditDeleteIcons

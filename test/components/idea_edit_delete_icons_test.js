@@ -2,9 +2,9 @@ import React from "react"
 import { shallow } from "enzyme"
 import sinon from "sinon"
 
-import RightFloatedIdeaActions from "../../web/static/js/components/right_floated_idea_actions"
+import IdeaEditDeleteIcons from "../../web/static/js/components/idea_edit_delete_icons"
 
-describe("<RightFloatedIdeaActions />", () => {
+describe("<IdeaEditDeleteIcons />", () => {
   let idea = {}
   let actions = {}
   let defaultProps
@@ -23,7 +23,7 @@ describe("<RightFloatedIdeaActions />", () => {
       idea = { id: 666, body: "redundant tests", user_id: 1, inEditState: true }
 
       const wrapper = shallow(
-        <RightFloatedIdeaActions
+        <IdeaEditDeleteIcons
           {...defaultProps}
           idea={idea}
         />
@@ -39,7 +39,7 @@ describe("<RightFloatedIdeaActions />", () => {
       idea = { id: 666, body: "redundant tests", user_id: 1, deletionSubmitted: true }
 
       const wrapper = shallow(
-        <RightFloatedIdeaActions
+        <IdeaEditDeleteIcons
           {...defaultProps}
           idea={idea}
         />
@@ -55,7 +55,7 @@ describe("<RightFloatedIdeaActions />", () => {
       idea = { id: 666, body: "redundant tests", user_id: 1, inEditState: false, deletionSubmitted: false }
 
       const wrapper = shallow(
-        <RightFloatedIdeaActions
+        <IdeaEditDeleteIcons
           {...defaultProps}
           idea={idea}
         />
@@ -78,7 +78,7 @@ describe("<RightFloatedIdeaActions />", () => {
         idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
 
         const wrapper = shallow(
-          <RightFloatedIdeaActions
+          <IdeaEditDeleteIcons
             {...defaultProps}
             actions={actions}
             idea={idea}
@@ -111,7 +111,7 @@ describe("<RightFloatedIdeaActions />", () => {
         idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
 
         const wrapper = shallow(
-          <RightFloatedIdeaActions
+          <IdeaEditDeleteIcons
             {...defaultProps}
             actions={actions}
             idea={idea}
@@ -140,7 +140,7 @@ describe("<RightFloatedIdeaActions />", () => {
       idea = { id: 789, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
 
       const wrapper = shallow(
-        <RightFloatedIdeaActions
+        <IdeaEditDeleteIcons
           {...defaultProps}
           actions={actions}
           idea={idea}
