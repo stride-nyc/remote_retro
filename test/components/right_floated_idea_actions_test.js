@@ -6,7 +6,6 @@ import RightFloatedIdeaActions from "../../web/static/js/components/right_floate
 
 describe("<RightFloatedIdeaActions />", () => {
   let idea = {}
-  let retroChannel = {}
   let actions = {}
   let defaultProps
   const mockUser = { id: 1, token: "abc", is_facilitator: true }
@@ -14,7 +13,6 @@ describe("<RightFloatedIdeaActions />", () => {
   beforeEach(() => {
     defaultProps = {
       currentUser: mockUser,
-      retroChannel,
       idea,
       actions,
     }
@@ -154,88 +152,6 @@ describe("<RightFloatedIdeaActions />", () => {
 
       editIcon.simulate("click")
       expect(actions.initiateIdeaEditState).calledWith(789)
-    })
-  })
-
-
-  context("when the user *is* the facilitator", () => {
-    const facilitator = { id: 1, token: "abc", is_facilitator: true }
-
-    it("renders an announcment icon", () => {
-      const wrapper = shallow(
-        <RightFloatedIdeaActions
-          {...defaultProps}
-          currentUser={facilitator}
-        />
-      )
-
-      expect(wrapper.find(".announcement.icon")).to.have.length(1)
-    })
-
-    describe("on click of the announcement icon", () => {
-      it("pushes a `idea_highlight_toggled` event to the retro channel, passing the given idea's id and highlight state", () => {
-        retroChannel = { on: () => { }, push: sinon.spy() }
-        idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
-
-        const wrapper = shallow(
-          <RightFloatedIdeaActions
-            {...defaultProps}
-            idea={idea}
-            retroChannel={retroChannel}
-            currentUser={facilitator}
-          />
-        )
-
-        wrapper.find(".announcement.icon").simulate("click")
-        expect(retroChannel.push).calledWith("idea_highlight_toggled", { id: 666, isHighlighted: false })
-      })
-    })
-
-    describe("when the idea is highlighted", () => {
-      it("displays a ban icon", () => {
-        const highlightedIdea = Object.assign({}, idea, { isHighlighted: true })
-        const wrapper = shallow(
-          <RightFloatedIdeaActions
-            {...defaultProps}
-            idea={highlightedIdea}
-            currentUser={facilitator}
-          />
-        )
-
-        expect(wrapper.find(".ban.icon")).to.have.length(1)
-      })
-
-      describe("on click of the ban icon", () => {
-        it("pushes a `idea_highlight_toggled` event to the retro channel, passing the given idea's id and highlight state", () => {
-          retroChannel = { on: () => {}, push: sinon.spy() }
-
-          const wrapper = shallow(
-            <RightFloatedIdeaActions
-              {...defaultProps}
-              idea={{ id: 666, isHighlighted: true }}
-              retroChannel={retroChannel}
-              currentUser={facilitator}
-            />
-          )
-
-          wrapper.find(".ban.icon").simulate("click")
-          expect(retroChannel.push).calledWith("idea_highlight_toggled", { id: 666, isHighlighted: true })
-        })
-      })
-    })
-  })
-
-  context("when the user is *not* the facilitator", () => {
-    it("doesn't render an announcement icon", () => {
-      const wrapper = shallow(
-        <RightFloatedIdeaActions
-          {...defaultProps}
-          idea={{ ...idea, user_id: 3 }}
-          currentUser={{ ...mockUser, id: 2, is_facilitator: false }}
-        />
-      )
-
-      expect(wrapper.find(".announcment.icon")).to.have.length(0)
     })
   })
 })

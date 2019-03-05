@@ -1,6 +1,5 @@
 import React from "react"
 import PropTypes from "prop-types"
-import classNames from "classnames"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import values from "lodash/values"
@@ -18,9 +17,6 @@ import {
 
 export const Idea = props => {
   const { idea, currentUser, retroChannel, stage, users, actions } = props
-  const classes = classNames(styles.index, {
-    [styles.highlighted]: idea.isHighlighted,
-  })
 
   const userIsEditing = idea.inEditState && idea.isLocalEdit
 
@@ -43,7 +39,7 @@ export const Idea = props => {
   }
 
   return (
-    <li className={classes} title={idea.body} key={idea.id}>
+    <li className={styles.index} title={idea.body} key={idea.id}>
       {content}
     </li>
   )

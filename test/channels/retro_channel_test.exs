@@ -303,16 +303,6 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a `idea_highlight_toggled` event to the socket" do
-    setup [:join_the_retro_channel]
-
-    test "broadcasts the id with the highlighted state", ~M{socket} do
-      push(socket, "idea_highlight_toggled", %{"id" => 1, "isHighlighted" => false})
-
-      assert_broadcast("idea_highlight_toggled", %{"id" => 1, "isHighlighted" => false})
-    end
-  end
-
   describe "pushing a `vote_submitted` event with a *valid* idea_id and user_id" do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
