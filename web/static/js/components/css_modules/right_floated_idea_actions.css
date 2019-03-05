@@ -23,7 +23,7 @@
       / DOM real-estate that the element takes up by default, causing clicks/touches
       / that seemingly fall 'left' of the icon to end up causing the click
       / event handler to fire. here, we limit the width to keep the button
-      / from causing less unwanted idea deletions
+      / from causing unwanted idea deletions
       */
       width: fit-content;
     }
