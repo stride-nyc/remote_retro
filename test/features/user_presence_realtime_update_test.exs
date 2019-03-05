@@ -3,7 +3,8 @@ defmodule UserPresenceRealtimeUpdateTest do
 
   import ShorterMaps
 
-  test "the realtime updates of other users entering/leaving a retro", ~M{retro, session: session_one, non_facilitator} do
+  test "the realtime updates of other users entering/leaving a retro",
+       ~M{retro, session: session_one, non_facilitator} do
     retro_path = "/retros/" <> retro.id
     session_one = visit(session_one, retro_path)
 

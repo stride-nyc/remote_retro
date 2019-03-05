@@ -4,7 +4,7 @@ defmodule RemoteRetro.GoogleTest do
 
   describe "authorize_url!/1" do
     test "returns a google authorization url containing the given scope" do
-      result = Google.authorize_url!([scope: "email profile"])
+      result = Google.authorize_url!(scope: "email profile")
 
       assert result =~ "https://accounts.google.com/o/oauth2/auth?"
       assert result =~ "scope=email+profile"
@@ -15,7 +15,7 @@ defmodule RemoteRetro.GoogleTest do
     test "returns the test user's info" do
       _result = Google.get_user_info!(%{})
 
-      assert _result = %{ "email" => "mistertestuser@gmail.com" }
+      assert _result = %{"email" => "mistertestuser@gmail.com"}
     end
   end
 end

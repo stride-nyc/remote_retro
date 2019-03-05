@@ -19,7 +19,7 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
   cache_static_manifest: "priv/static/cache_manifest.json",
   secret_key_base: "${SECRET_KEY_BASE}",
   root: ".",
-  version: Keyword.get(Mix.Project.config, :version)
+  version: Keyword.get(Mix.Project.config(), :version)
 
 config :remote_retro, RemoteRetro.Repo,
   url: "${DATABASE_URL}",
@@ -48,7 +48,10 @@ config :libcluster,
       strategy: Cluster.Strategy.Kubernetes,
       config: [
         kubernetes_selector: "${LIBCLUSTER_KUBERNETES_SELECTOR}",
-        kubernetes_node_basename: "${LIBCLUSTER_KUBERNETES_NODE_BASENAME}"]]]
+        kubernetes_node_basename: "${LIBCLUSTER_KUBERNETES_NODE_BASENAME}"
+      ]
+    ]
+  ]
 
 # ## SSL Support
 #

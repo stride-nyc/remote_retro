@@ -7,7 +7,7 @@ defmodule RemoteRetroWeb.RetroManagement do
     retro = update_retro_record!(retro_id, new_attributes)
 
     if new_attributes["stage"] == "closed" do
-      Emails.action_items_email(retro_id) |> Mailer.deliver_now
+      Emails.action_items_email(retro_id) |> Mailer.deliver_now()
 
       increment_completed_retros_count_for_participants_in(retro)
     end
@@ -17,11 +17,11 @@ defmodule RemoteRetroWeb.RetroManagement do
     Repo.get(Retro, retro_id)
     |> Repo.preload([:participations])
     |> Retro.changeset(new_attributes)
-    |> Repo.update!
+    |> Repo.update!()
   end
 
   defp increment_completed_retros_count_for_participants_in(retro) do
-    user_ids = Enum.map(retro.participations, fn(participation) -> participation.user_id end)
+    user_ids = Enum.map(retro.participations, fn participation -> participation.user_id end)
 
     from(u in User, where: u.id in ^user_ids)
     |> Repo.update_all(inc: [completed_retros_count: 1])

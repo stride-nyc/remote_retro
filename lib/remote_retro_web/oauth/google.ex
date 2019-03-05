@@ -27,13 +27,13 @@ defmodule RemoteRetro.OAuth.Google do
   end
 
   defp client do
-    @oauth_client.new([
+    @oauth_client.new(
       client_id: System.get_env("REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID"),
       client_secret: System.get_env("REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET"),
       redirect_uri: System.get_env("REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI"),
       site: "https://accounts.google.com",
       authorize_url: "https://accounts.google.com/o/oauth2/auth",
       token_url: "https://accounts.google.com/o/oauth2/token"
-    ])
+    )
   end
 end

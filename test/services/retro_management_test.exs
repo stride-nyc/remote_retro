@@ -21,21 +21,24 @@ defmodule RemoteRetro.RetroManagementTest do
 
   describe "update!/2 when closing the retro" do
     setup do
-      on_exit fn ->
+      on_exit(fn ->
         # reset counts after tests to avoid contamination in subsequent tests
         Repo.update_all(User, set: [completed_retros_count: 0])
-      end
+      end)
     end
 
     test "closing the retro results in action items email being sent", ~M{retro} do
       RetroManagement.update!(retro.id, %{"stage" => "closed"})
       emails = Emails.action_items_email(retro.id)
-      assert_delivered_email emails
+      assert_delivered_email(emails)
     end
 
-    test "increments the completed retro count of participants in a retro advancing to closed", ~M{facilitator, non_facilitator, retro} do
-      [original_count_one, original_count_two] =
-        [facilitator.completed_retros_count, non_facilitator.completed_retros_count]
+    test "increments the completed retro count of participants in a retro advancing to closed",
+         ~M{facilitator, non_facilitator, retro} do
+      [original_count_one, original_count_two] = [
+        facilitator.completed_retros_count,
+        non_facilitator.completed_retros_count
+      ]
 
       RetroManagement.update!(retro.id, %{"stage" => "closed"})
 
@@ -64,13 +67,20 @@ defmodule RemoteRetro.RetroManagementTest do
     end
 
     test "not updating the completed retro counts of participants", ~M{facilitator, non_facilitator, retro} do
-      assert [original_count_one, original_count_two] = [facilitator.completed_retros_count, non_facilitator.completed_retros_count]
+      assert [original_count_one, original_count_two] = [
+               facilitator.completed_retros_count,
+               non_facilitator.completed_retros_count
+             ]
 
       RetroManagement.update!(retro.id, %{"stage" => "voting"})
 
       facilitator = Repo.get!(User, facilitator.id)
       non_facilitator = Repo.get!(User, non_facilitator.id)
-      assert [original_count_one, original_count_two] == [facilitator.completed_retros_count, non_facilitator.completed_retros_count]
+
+      assert [original_count_one, original_count_two] == [
+               facilitator.completed_retros_count,
+               non_facilitator.completed_retros_count
+             ]
     end
   end
 end

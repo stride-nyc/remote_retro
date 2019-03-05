@@ -18,22 +18,22 @@ defmodule RemoteRetro.User do
 
   @derive {Poison.Encoder, except: [:__meta__, :participations, :retros, :google_user_info]}
   schema "users" do
-    field :email, :string
-    field :google_user_info, :map
-    field :family_name, :string
-    field :given_name, :string
-    field :locale, :string
-    field :name, :string
-    field :picture, :string
-    field :profile, :string
-    field :last_login, :naive_datetime
-    field :completed_retros_count, :integer
+    field(:email, :string)
+    field(:google_user_info, :map)
+    field(:family_name, :string)
+    field(:given_name, :string)
+    field(:locale, :string)
+    field(:name, :string)
+    field(:picture, :string)
+    field(:profile, :string)
+    field(:last_login, :naive_datetime)
+    field(:completed_retros_count, :integer)
 
-    field :online_at, :integer, virtual: true
-    field :token, :string, virtual: true
+    field(:online_at, :integer, virtual: true)
+    field(:token, :string, virtual: true)
 
-    has_many :participations, Participation
-    has_many :retros, through: [:participations, :retro]
+    has_many(:participations, Participation)
+    has_many(:retros, through: [:participations, :retro])
 
     timestamps(type: :utc_datetime)
   end
@@ -53,11 +53,13 @@ defmodule RemoteRetro.User do
       case Repo.get_by(__MODULE__, email: user_params["email"]) do
         nil ->
           {:inserted, %__MODULE__{}}
+
         user_from_db ->
           {:updated, user_from_db}
       end
 
-    {result_atom, result} = user_struct
+    {result_atom, result} =
+      user_struct
       |> __MODULE__.changeset(user_params)
       |> Repo.insert_or_update(returning: true)
 
@@ -66,8 +68,8 @@ defmodule RemoteRetro.User do
 
   defp build_from_oauth_data(user_info) do
     user_params = %{
-      "google_user_info"=> user_info,
-      "last_login"=> DateTime.utc_now
+      "google_user_info" => user_info,
+      "last_login" => DateTime.utc_now(),
     }
 
     Map.merge(user_params, user_info)

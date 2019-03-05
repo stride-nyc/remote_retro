@@ -30,7 +30,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   defp atomic_insert_and_broadcast(idea_params, socket) do
     Repo.transaction(fn ->
       idea = insert_idea!(idea_params, socket)
-      broadcast! socket, "idea_committed", idea
+      broadcast!(socket, "idea_committed", idea)
     end)
   rescue
     _ -> {:error, %{}}
@@ -41,9 +41,9 @@ defmodule RemoteRetroWeb.IdeationHandlers do
       idea =
         Repo.get(Idea, id)
         |> Idea.changeset(~M{body, category, assignee_id})
-        |> Repo.update!
+        |> Repo.update!()
 
-      broadcast! socket, "idea_edited", idea
+      broadcast!(socket, "idea_edited", idea)
     end)
   rescue
     _ -> {:error, %{}}
@@ -52,7 +52,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   defp atomic_delete_and_broadcast(idea_id, socket) do
     Repo.transaction(fn ->
       idea = Repo.delete!(%Idea{id: idea_id})
-      broadcast! socket, "idea_deleted", idea
+      broadcast!(socket, "idea_deleted", idea)
     end)
   rescue
     _ -> {:error, %{}}
@@ -64,9 +64,9 @@ defmodule RemoteRetroWeb.IdeationHandlers do
       category: category,
       retro_id: socket.assigns.retro_id,
       user_id: userId,
-      assignee_id: assigneeId
+      assignee_id: assigneeId,
     }
-    |> Idea.changeset
-    |> Repo.insert!
+    |> Idea.changeset()
+    |> Repo.insert!()
   end
 end

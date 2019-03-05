@@ -9,8 +9,9 @@ defmodule RedirectUnauthenticated do
   def call(conn, _opts) do
     case get_session(conn, "current_user") do
       nil ->
-        conn = put_session conn, "requested_endpoint", conn.request_path
+        conn = put_session(conn, "requested_endpoint", conn.request_path)
         redirect(conn, to: "/auth/google") |> halt
+
       _user ->
         conn
     end

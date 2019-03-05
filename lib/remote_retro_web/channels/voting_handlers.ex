@@ -12,8 +12,8 @@ defmodule RemoteRetroWeb.VotingHandlers do
 
   def handle_in("vote_retracted", %{"id" => id}, socket) do
     Repo.transaction(fn ->
-      %Vote{id: id} |> Repo.delete!
-      broadcast! socket, "vote_retracted", %{"id" => id}
+      %Vote{id: id} |> Repo.delete!()
+      broadcast!(socket, "vote_retracted", %{"id" => id})
     end)
 
     {:reply, :ok, socket}
@@ -24,7 +24,7 @@ defmodule RemoteRetroWeb.VotingHandlers do
   defp atomic_insert_and_broadcast_to_other_clients(idea_id, user_id, socket) do
     Repo.transaction(fn ->
       vote = insert_vote!(idea_id, user_id)
-      broadcast_from! socket, "vote_submitted", vote
+      broadcast_from!(socket, "vote_submitted", vote)
       vote
     end)
   rescue
@@ -33,7 +33,7 @@ defmodule RemoteRetroWeb.VotingHandlers do
 
   defp insert_vote!(idea_id, user_id) do
     %Vote{idea_id: idea_id, user_id: user_id}
-    |> Vote.changeset
-    |> Repo.insert!
+    |> Vote.changeset()
+    |> Repo.insert!()
   end
 end

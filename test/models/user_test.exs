@@ -14,7 +14,7 @@ defmodule RemoteRetro.UserTest do
     name: "Test User",
     picture: "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
     profile: "https://plus.google.com/108658712426577966861",
-    last_login: ~N[2010-04-03 23:00:07]
+    last_login: ~N[2010-04-03 23:00:07],
   }
   @invalid_attrs %{}
 
@@ -37,7 +37,7 @@ defmodule RemoteRetro.UserTest do
 
   test "the valid inclusion of a virtual, unpersisted `online_at` attribute" do
     user = %User{email: "monsieur@misspellingsarefine.com"}
-    assert %User{user | online_at: 393939393939}
+    assert %User{user | online_at: 393_939_393_939}
   end
 
   test "the valid inclusion of a virtual, unpersisted `token` attribute" do
@@ -48,10 +48,10 @@ defmodule RemoteRetro.UserTest do
   describe "upsert_record_from/1" do
     test "persists a user in the db, flagging it as inserted" do
       assert {
-        :ok,
-        %User{id: _, last_login: _},
-        :inserted
-      } = User.upsert_record_from(oauth_info: @mock_google_user_info)
+               :ok,
+               %User{id: _, last_login: _},
+               :inserted
+             } = User.upsert_record_from(oauth_info: @mock_google_user_info)
     end
 
     test "existing users are updated in the db, and flagged as updated" do

@@ -13,7 +13,7 @@ defmodule RemoteRetroWeb.MockAuthController do
       user = Repo.get_by(User, email: test_user_email)
       conn = put_session(conn, :current_user, user)
 
-      redirect conn, to: get_session(conn, "requested_endpoint") || "/"
+      redirect(conn, to: get_session(conn, "requested_endpoint") || "/")
     else
       send_resp(conn, 401, "Nice try.")
     end

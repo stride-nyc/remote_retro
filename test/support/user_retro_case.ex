@@ -20,7 +20,7 @@ defmodule RemoteRetro.UserRetroCase do
     Repo.insert!(%Participation{user_id: facilitator.id, retro_id: retro.id})
     Repo.insert!(%Participation{user_id: non_facilitator.id, retro_id: retro.id})
 
-    on_exit fn ->
+    on_exit(fn ->
       # this callback needs to checkout its own connection since it
       # runs in its own process
       :ok = Ecto.Adapters.SQL.Sandbox.checkout(Repo)
@@ -30,10 +30,10 @@ defmodule RemoteRetro.UserRetroCase do
       Repo.delete(retro)
 
       user_ids = [facilitator.id, non_facilitator.id]
-      from(u in User, where: u.id in ^user_ids) |> Repo.delete_all
+      from(u in User, where: u.id in ^user_ids) |> Repo.delete_all()
 
       :ok
-    end
+    end)
 
     [facilitator: facilitator, retro: retro, non_facilitator: non_facilitator]
   end

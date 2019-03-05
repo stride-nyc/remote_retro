@@ -13,7 +13,8 @@ defmodule VotingTest do
       retro_stage: "voting",
       idea: %Idea{category: @category, body: "pacing well"},
     ]
-    test "incrementing/decrementing an idea's vote count across sessions", ~M{retro, session: facilitator_session_one, facilitator} do
+    test "incrementing/decrementing an idea's vote count across sessions",
+         ~M{retro, session: facilitator_session_one, facilitator} do
       facilitator_session_two = new_authenticated_browser_session(facilitator)
 
       retro_path = "/retros/" <> retro.id
@@ -24,14 +25,14 @@ defmodule VotingTest do
 
       plus_button_selector = Query.css(".#{@category}.column .plus.button")
       assert_has(facilitator_session_one, plus_button_selector)
-      facilitator_session_one |> find(plus_button_selector) |> Element.click
+      facilitator_session_one |> find(plus_button_selector) |> Element.click()
 
       facilitator_session_one |> assert_vote_count_is(1)
       facilitator_session_two |> assert_vote_count_is(1)
 
       minus_button_selector = Query.css(".#{@category}.column .minus.button")
       assert_has(facilitator_session_one, minus_button_selector)
-      facilitator_session_one |> find(minus_button_selector) |> Element.click
+      facilitator_session_one |> find(minus_button_selector) |> Element.click()
 
       facilitator_session_one |> assert_vote_count_is(0)
       facilitator_session_two |> assert_vote_count_is(0)

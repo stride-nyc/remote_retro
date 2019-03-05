@@ -11,9 +11,9 @@ defmodule RemoteRetroWeb.RetroManagementHandlers do
   end
 
   defp atomic_update_and_broadcast(message, payload, socket) do
-    Repo.transaction (fn ->
+    Repo.transaction(fn ->
       RetroManagement.update!(socket.assigns.retro_id, payload)
-      broadcast! socket, message, payload
+      broadcast!(socket, message, payload)
     end)
   rescue
     _ -> {:error, %{}}

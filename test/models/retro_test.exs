@@ -6,7 +6,7 @@ defmodule RemoteRetro.RetroTest do
   test "stage must be one of the retro stages" do
     retro = %Retro{facilitator_id: 1}
     changeset = Retro.changeset(retro, %{stage: "Total. Friggin. Mayhem."})
-    { stage_error, _ } = Keyword.fetch!(changeset.errors, :stage)
+    {stage_error, _} = Keyword.fetch!(changeset.errors, :stage)
     assert stage_error == "is invalid"
 
     changeset = Retro.changeset(retro, %{stage: "action-items"})
@@ -15,7 +15,7 @@ defmodule RemoteRetro.RetroTest do
 
   test "the required presence of a facilitator_id" do
     changeset = Retro.changeset(%Retro{}, %{stage: "closed"})
-    { facilitator_id_error, _ } = Keyword.fetch!(changeset.errors, :facilitator_id)
+    {facilitator_id_error, _} = Keyword.fetch!(changeset.errors, :facilitator_id)
 
     assert facilitator_id_error == "can't be blank"
   end
@@ -28,7 +28,7 @@ defmodule RemoteRetro.RetroTest do
         ideas: [],
         votes: [],
         users: [],
-        participations: []
+        participations: [],
       }
 
       encoded = Poison.encode!(retro)

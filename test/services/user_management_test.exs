@@ -12,10 +12,13 @@ defmodule RemoteRetroWeb.UserManagementTest do
   # The syntax for with_mocks gets very bracey/bracketey, so we break the mock declarations
   # out into private helper methods, allowing us to spy on the stubbed functions within the test
   defp mock_upsert_record_from(inserted_or_updated \\ :inserted) do
-    {User, [], [upsert_record_from: fn(oauth_info: _) ->
-      mock_user = %User{email: "grant@me.com", given_name: "John Dillinger"}
-      {:ok, mock_user, inserted_or_updated}
-    end]}
+    {User, [],
+     [
+       upsert_record_from: fn oauth_info: _ ->
+         mock_user = %User{email: "grant@me.com", given_name: "John Dillinger"}
+         {:ok, mock_user, inserted_or_updated}
+       end
+     ]}
   end
 
   describe ".handle_google_oauth" do
@@ -23,7 +26,7 @@ defmodule RemoteRetroWeb.UserManagementTest do
       with_mocks [mock_upsert_record_from()] do
         UserManagement.handle_google_oauth(@mock_google_user_info)
 
-        assert_called User.upsert_record_from(oauth_info: %{})
+        assert_called(User.upsert_record_from(oauth_info: %{}))
       end
     end
 

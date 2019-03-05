@@ -11,10 +11,11 @@ defmodule RemoteRetro.TestHelpers do
     email = "user-#{unique_integer}@stridenyc.com"
     name = "Test User #{unique_integer}"
 
-    oauth_info = Map.merge(@mock_google_user_info, %{
-      "email" => email,
-      "name" => name,
-    })
+    oauth_info =
+      Map.merge(@mock_google_user_info, %{
+        "email" => email,
+        "name" => name,
+      })
 
     {:ok, user, _} = User.upsert_record_from(oauth_info: oauth_info)
     user
@@ -26,8 +27,9 @@ defmodule RemoteRetro.TestHelpers do
       body: idea.body,
       category: idea.category,
       retro_id: retro.id,
-      user_id: user.id
-    } |> Repo.insert!
+      user_id: user.id,
+    }
+    |> Repo.insert!()
   end
 
   def persist_idea_for_retro(~M{idea, retro, facilitator} = context) do
@@ -58,8 +60,8 @@ defmodule RemoteRetro.TestHelpers do
   def persist_a_vote(%{idea: idea, non_facilitator: non_facilitator} = context) do
     vote =
       %Vote{idea_id: idea.id, user_id: non_facilitator.id}
-      |> Vote.changeset
-      |> Repo.insert!
+      |> Vote.changeset()
+      |> Repo.insert!()
 
     Map.put(context, :vote, vote)
   end
@@ -71,7 +73,7 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def update_idea_fields_to(session, category: category, text: text) do
-    session |> find(Query.css(".edit.icon")) |> Element.click
+    session |> find(Query.css(".edit.icon")) |> Element.click()
     fill_in(session, Query.text_field("editable_idea"), with: text)
     session |> find(Query.css(".idea-edit-form")) |> click(Query.option(category))
   end
@@ -82,14 +84,14 @@ defmodule RemoteRetro.TestHelpers do
     session
     |> assert_has(enabled_save_button_query)
     |> find(enabled_save_button_query)
-    |> Element.click
+    |> Element.click()
   end
 
   def click_and_confirm(facilitator_session, button_text) do
     assert_has(facilitator_session, Query.button(button_text))
 
-    facilitator_session |> find(Query.button(button_text)) |> Element.click
-    facilitator_session |> find(Query.button("Yes")) |> Element.click
+    facilitator_session |> find(Query.button(button_text)) |> Element.click()
+    facilitator_session |> find(Query.button("Yes")) |> Element.click()
   end
 
   def authenticate(session, user) do
@@ -97,7 +99,7 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def submit_idea(session, ~M{category, body}) do
-    assert_has session, Query.css("form")
+    assert_has(session, Query.css("form"))
 
     session
     |> find(Query.css("form"))

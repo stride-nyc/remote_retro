@@ -3,8 +3,8 @@ defmodule RemoteRetro.Vote do
 
   @derive {Poison.Encoder, except: [:__meta__, :user, :idea]}
   schema "votes" do
-    belongs_to :user, RemoteRetro.User
-    belongs_to :idea, RemoteRetro.Idea
+    belongs_to(:user, RemoteRetro.User)
+    belongs_to(:idea, RemoteRetro.Idea)
 
     timestamps(type: :utc_datetime)
   end

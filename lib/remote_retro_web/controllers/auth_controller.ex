@@ -4,7 +4,7 @@ defmodule RemoteRetroWeb.AuthController do
   alias RemoteRetroWeb.UserManagement
 
   def index(conn, _params) do
-    redirect conn, external: authorize_url!()
+    redirect(conn, external: authorize_url!())
   end
 
   def callback(conn, %{"code" => code}) do
@@ -14,7 +14,7 @@ defmodule RemoteRetroWeb.AuthController do
 
     conn = put_session(conn, :current_user, user)
 
-    redirect conn, to: get_session(conn, "requested_endpoint") || "/"
+    redirect(conn, to: get_session(conn, "requested_endpoint") || "/")
   end
 
   def logout(conn, _params) do

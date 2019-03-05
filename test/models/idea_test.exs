@@ -4,12 +4,12 @@ defmodule RemoteRetro.IdeaTest do
   alias RemoteRetro.Idea
 
   test "body, category, user_id, and retro_id are required" do
-    changeset = Idea.changeset(%Idea{ category: nil })
+    changeset = Idea.changeset(%Idea{category: nil})
 
-    { body_error, _ } = Keyword.fetch!(changeset.errors, :body)
-    { category_error, _ } = Keyword.fetch!(changeset.errors, :category)
-    { retro_id_error, _ } = Keyword.fetch!(changeset.errors, :retro_id)
-    { user_id_error, _ } = Keyword.fetch!(changeset.errors, :user_id)
+    {body_error, _} = Keyword.fetch!(changeset.errors, :body)
+    {category_error, _} = Keyword.fetch!(changeset.errors, :category)
+    {retro_id_error, _} = Keyword.fetch!(changeset.errors, :retro_id)
+    {user_id_error, _} = Keyword.fetch!(changeset.errors, :user_id)
 
     assert body_error == "can't be blank"
     assert category_error == "can't be blank"
@@ -28,5 +28,4 @@ defmodule RemoteRetro.IdeaTest do
       assert encoded =~ ~r/"id":5/i
     end
   end
-
 end

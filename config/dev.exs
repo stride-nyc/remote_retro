@@ -20,8 +20,8 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
       ~r{priv/static/.*(css|png|jpeg|jpg|gif|svg)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/remote_retro_web/views/.*(ex)$},
-      ~r{lib/remote_retro_web/templates/.*(eex)$}
-    ]
+      ~r{lib/remote_retro_web/templates/.*(eex)$},
+    ],
   ]
 
 # Do not include metadata nor timestamps in development logs
@@ -52,11 +52,12 @@ config :remote_retro, :mock_user, %{
   "email" => "kris@thedevioustenderloin.io",
   "email_verified" => "true",
   "gender" => "male",
-  "kind" => "plus#personOpenIdConnect", "locale" => "en",
+  "kind" => "plus#personOpenIdConnect",
+  "locale" => "en",
   "name" => "Dev User",
   "picture" => "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
   "profile" => "https://plus.google.com/108658712426577966861",
-  "sub" => "108658712426577966861"
+  "sub" => "108658712426577966861",
 }
 
 config :tzdata, :autoupdate, :disabled

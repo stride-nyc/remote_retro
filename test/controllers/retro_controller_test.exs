@@ -8,10 +8,11 @@ defmodule RemoteRetro.RetroControllerTest do
     setup :authenticate_connection
 
     test "POST requests to /retros result in the creation of a retro \
-      where the current user is the facilitator", ~M{conn} do
-      conn = post conn, "/retros"
+      where the current user is the facilitator",
+         ~M{conn} do
+      conn = post(conn, "/retros")
 
-      retro = Repo.one(from r in Retro, order_by: [desc: r.inserted_at], limit: 1)
+      retro = Repo.one(from(r in Retro, order_by: [desc: r.inserted_at], limit: 1))
 
       current_user = get_session(conn, "current_user")
 
@@ -19,7 +20,7 @@ defmodule RemoteRetro.RetroControllerTest do
     end
 
     test "POST requests to /retros redirect to a newly created retro", ~M{conn} do
-      conn = post conn, "/retros"
+      conn = post(conn, "/retros")
 
       assert redirected_to(conn) =~ ~r/\/retros\/.+$/
     end
@@ -40,8 +41,7 @@ defmodule RemoteRetro.RetroControllerTest do
       get(conn, "/retros/#{conn.params["id"]}")
       participation_count_after_second_join = Repo.aggregate(Participation, :count, :id)
 
-      participation_count_diff =
-        participation_count_after_second_join - participation_count_after_first_join
+      participation_count_diff = participation_count_after_second_join - participation_count_after_first_join
 
       assert participation_count_diff == 0
     end
@@ -52,19 +52,20 @@ defmodule RemoteRetro.RetroControllerTest do
       # extra chars break the changeset's UUID validation, causing Ecto to throw
       invalid_uuid_param = "#{conn.params["id"]}kdkdkdkdkdk"
 
-      assert_error_sent 500, fn ->
+      assert_error_sent(500, fn ->
         get(conn, "/retros/#{invalid_uuid_param}")
-      end
+      end)
     end
 
     test "GET requests to /retros welcomes users with no retro experience", ~M{conn} do
-      conn = get conn, "/retros"
+      conn = get(conn, "/retros")
       assert conn.resp_body =~ ~r/welcome/i
       refute conn.resp_body =~ ~r/my retros/i
     end
 
     test "GET requests to /retros lists all retros for a user with retro experience", ~M{conn} do
-      conn = conn
+      conn =
+        conn
         |> create_retro_and_follow_redirect
         |> get("/retros")
 
@@ -75,12 +76,12 @@ defmodule RemoteRetro.RetroControllerTest do
 
   describe "unauthenticated GET requests to /retros/some-uuid" do
     test "are redirected to the google account login", ~M{conn} do
-      conn = get conn, "/retros/d83838383ndnd9d9d"
+      conn = get(conn, "/retros/d83838383ndnd9d9d")
       assert redirected_to(conn) =~ "/auth/google"
     end
 
     test "store the desired endpoint in the session", ~M{conn} do
-      conn = get conn, "/retros/d83838383ndnd9d9d"
+      conn = get(conn, "/retros/d83838383ndnd9d9d")
       session = conn.private.plug_session
 
       assert session["requested_endpoint"] == "/retros/d83838383ndnd9d9d"
@@ -88,8 +89,8 @@ defmodule RemoteRetro.RetroControllerTest do
   end
 
   defp create_retro_and_follow_redirect(conn) do
-    conn = post conn, "/retros"
+    conn = post(conn, "/retros")
     location = get_resp_header(conn, "location")
-    get conn, "#{location}"
+    get(conn, "#{location}")
   end
 end

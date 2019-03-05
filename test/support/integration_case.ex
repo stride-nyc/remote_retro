@@ -40,10 +40,11 @@ defmodule RemoteRetro.IntegrationCase do
     facilitator = persist_test_user()
     non_facilitator = persist_test_user()
 
-    retro = Repo.insert!(%Retro{
-      stage: context[:retro_stage] || "idea-generation",
-      facilitator_id: facilitator.id
-    })
+    retro =
+      Repo.insert!(%Retro{
+        stage: context[:retro_stage] || "idea-generation",
+        facilitator_id: facilitator.id,
+      })
 
     session = new_authenticated_browser_session(facilitator, metadata)
 

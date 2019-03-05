@@ -6,13 +6,14 @@ defmodule RemoteRetroWeb.PageController do
 
     case current_user do
       nil ->
-        render conn, "index.html", %{is_landing_page: true, omit_header: true}
+        render(conn, "index.html", %{is_landing_page: true, omit_header: true})
+
       _user ->
-        redirect conn, to: "/retros"
+        redirect(conn, to: "/retros")
     end
   end
 
   def faq(conn, _params) do
-    render conn, "faq.html"
+    render(conn, "faq.html")
   end
 end

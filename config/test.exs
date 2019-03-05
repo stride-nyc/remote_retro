@@ -37,13 +37,17 @@ config :remote_retro, RemoteRetro.Repo,
 
 config :remote_retro, :oauth_client, RemoteRetro.OAuth.Client.InMemory
 config :remote_retro, :allow_user_masquerade, true
+
 config :remote_retro, :mock_google_user_info, %{
   "email" => "mrtestuser@one.com",
-  "email_verified" => "true", "family_name" => "User",
-  "gender" => "male", "given_name" => "Test",
-  "kind" => "plus#personOpenIdConnect", "locale" => "en",
+  "email_verified" => "true",
+  "family_name" => "User",
+  "gender" => "male",
+  "given_name" => "Test",
+  "kind" => "plus#personOpenIdConnect",
+  "locale" => "en",
   "name" => "Test User",
   "picture" => "/images/test_user.png",
   "profile" => "https://plus.google.com/108658712426577966861",
-  "sub" => "108658712426577966861"
+  "sub" => "108658712426577966861",
 }
