@@ -1,4 +1,6 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
+import { DropTarget } from "react-dnd"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 
@@ -10,49 +12,20 @@ import { actions as actionCreators } from "../redux"
 export class CategoryColumn extends Component {
   state = {}
 
-  handleDragOver = event => {
-    this.setState({ draggedOver: true })
-    event.preventDefault()
-  }
-
-  handleDragLeave = event => {
-    const { currentTarget, relatedTarget } = event
-    if (currentTarget.contains(relatedTarget)) { return }
-
-    this.setState({ draggedOver: false })
-  }
-
-  handleDrop = event => {
-    const ideaData = event.dataTransfer.getData("idea")
-    if (!ideaData) { return }
-
-    this.setState({ draggedOver: false })
-    event.preventDefault()
-    const { category, actions } = this.props
-
-    const idea = JSON.parse(ideaData)
-
-    actions.submitIdeaEditAsync({ ...idea, category })
-  }
-
   render() {
-    const { handleDragOver, handleDrop, handleDragLeave, props, state } = this
-    const { category, ideas } = props
+    const { category, ideas, connectDropTarget, draggedOver } = this.props
     const iconHeight = 45
 
-    return (
+    return connectDropTarget(
       <section
-        className={`${category} ${styles.index} ${state.draggedOver ? "dragged-over" : ""} column`}
-        onDragOver={handleDragOver}
-        onDragLeave={handleDragLeave}
-        onDrop={handleDrop}
+        className={`${category} ${styles.index} ${draggedOver ? "dragged-over" : ""} column`}
       >
         <div className={`${styles.columnHead} ui center aligned basic segment`}>
           <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} alt={category} />
           <p><strong>{category}</strong></p>
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
-        { !!ideas.length && <IdeaList {...props} /> }
+        { !!ideas.length && <IdeaList {...this.props} /> }
 
         <span className="overlay" />
       </section>
@@ -66,6 +39,13 @@ CategoryColumn.propTypes = {
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
   actions: AppPropTypes.actions.isRequired,
+  connectDropTarget: PropTypes.func,
+  draggedOver: PropTypes.bool,
+}
+
+CategoryColumn.defaultProps = {
+  connectDropTarget: node => node,
+  draggedOver: false,
 }
 
 export const mapStateToProps = ({ votes, ideas, alert }, props) => {
@@ -80,7 +60,25 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actionCreators, dispatch),
 })
 
+export const dropTargetSpec = {
+  drop: (props, monitor) => {
+    const { draggedIdea } = monitor.getItem()
+    const { actions, category } = props
+
+    if (draggedIdea.category === category) return
+
+    actions.submitIdeaEditAsync({ ...draggedIdea, category })
+  },
+}
+
+const collect = (connect, monitor) => ({
+  connectDropTarget: connect.dropTarget(),
+  draggedOver: monitor.isOver({ shallow: true }),
+})
+
+const CategoryColumnAsDropTarget = DropTarget("IDEA", dropTargetSpec, collect)(CategoryColumn)
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CategoryColumn)
+)(CategoryColumnAsDropTarget)

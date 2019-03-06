@@ -14,18 +14,12 @@ const IdeaContentBase = props => {
     stage,
     assignee,
     canUserEditIdeaContents,
-    draggable,
-    onDragStart,
   } = props
 
   const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 100
 
   return (
-    <div
-      className={styles.ideaWrapper}
-      draggable={draggable}
-      onDragStart={onDragStart}
-    >
+    <div className={styles.ideaWrapper}>
       <StageAwareIdeaControls
         idea={idea}
         retroChannel={retroChannel}
@@ -49,13 +43,10 @@ IdeaContentBase.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
-  draggable: PropTypes.bool.isRequired,
-  onDragStart: PropTypes.func,
 }
 
 IdeaContentBase.defaultProps = {
   assignee: null,
-  onDragStart: () => {},
 }
 
 export default IdeaContentBase

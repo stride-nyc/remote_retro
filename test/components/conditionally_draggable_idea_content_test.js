@@ -1,9 +1,9 @@
 import React from "react"
-import { spy } from "sinon"
 import { shallow } from "enzyme"
 
 import ConditionallyDraggableIdeaContent from "../../web/static/js/components/conditionally_draggable_idea_content"
 import IdeaContentBase from "../../web/static/js/components/idea_content_base"
+import DraggableIdeaContent from "../../web/static/js/components/draggable_idea_content"
 import STAGES from "../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION, GROUPING } = STAGES
@@ -36,8 +36,12 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
           )
         })
 
-        it("renders IdeaContentBase as draggable", () => {
-          expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(true)
+        it("renders DraggableIdeaContent", () => {
+          expect(wrapper.find(DraggableIdeaContent)).to.have.length(1)
+        })
+
+        it("doesn't render IdeaContentBase", () => {
+          expect(wrapper.find(IdeaContentBase)).to.have.length(0)
         })
       })
 
@@ -55,8 +59,12 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
           )
         })
 
-        it("renders IdeaContentBase as non-draggable", () => {
-          expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(false)
+        it("renders IdeaContentBase", () => {
+          expect(wrapper.find(IdeaContentBase)).to.have.length(1)
+        })
+
+        it("doesn't render DraggableIdeaContent", () => {
+          expect(wrapper.find(DraggableIdeaContent)).to.have.length(0)
         })
       })
     })
@@ -76,8 +84,12 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
           )
         })
 
-        it("renders IdeaContentBase as non-draggable", () => {
-          expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(false)
+        it("renders IdeaContentBase", () => {
+          expect(wrapper.find(IdeaContentBase)).to.have.length(1)
+        })
+
+        it("doesn't render DraggableIdeaContent", () => {
+          expect(wrapper.find(DraggableIdeaContent)).to.have.length(0)
         })
       })
     })
@@ -98,43 +110,14 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
             )
           })
 
-          it("renders IdeaContentBase as draggable", () => {
-            expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(true)
+          it("renders DraggableIdeaContent", () => {
+            expect(wrapper.find(DraggableIdeaContent)).to.have.length(1)
+          })
+
+          it("doesn't render IdeaContentBase", () => {
+            expect(wrapper.find(IdeaContentBase)).to.have.length(0)
           })
         })
-      })
-    })
-
-    context("when the idea is being dragged", () => {
-      const idea = { id: 1, body: "yo sup" }
-      const props = {
-        ...defaultProps,
-        stage: "idea-generation",
-        idea,
-      }
-
-      const mockDragEvent = {
-        preventDefault: () => {},
-        dataTransfer: { setData: spy(), dropEffect: null },
-      }
-
-      beforeEach(() => {
-        wrapper = shallow(
-          <ConditionallyDraggableIdeaContent {...props} />
-        )
-
-        wrapper.simulate("dragStart", mockDragEvent)
-      })
-
-      it("sets the drop effect on the event to 'move'", () => {
-        expect(mockDragEvent.dataTransfer.dropEffect).to.eql("move")
-      })
-
-      it("sets the idea id on the event data element", () => {
-        const stringifiedIdea = JSON.stringify(idea)
-        expect(
-          mockDragEvent.dataTransfer.setData
-        ).calledWith("idea", stringifiedIdea)
       })
     })
   })
@@ -154,8 +137,12 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
         )
       })
 
-      it("renders IdeaContentBase as non-draggable", () => {
-        expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(false)
+      it("does not render DraggableIdeaContent", () => {
+        expect(wrapper.find(DraggableIdeaContent)).to.have.length(0)
+      })
+
+      it("renders IdeaContentBase", () => {
+        expect(wrapper.find(IdeaContentBase)).to.have.length(1)
       })
     })
   })

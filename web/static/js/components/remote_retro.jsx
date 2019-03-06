@@ -1,10 +1,14 @@
 import React, { Component } from "react"
-import { bindActionCreators } from "redux"
+import HTML5Backend from "react-dnd-html5-backend"
+import { DragDropContext } from "react-dnd"
 import PropTypes from "prop-types"
+
+import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { actions, selectors } from "../redux"
 
 import * as AppPropTypes from "../prop_types"
+
 import Room from "./room"
 import Alert from "./alert"
 import Error from "./error"
@@ -97,7 +101,9 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch),
 })
 
+const RemoteRetroDragAndDropContext = DragDropContext(HTML5Backend)(RemoteRetro)
+
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RemoteRetro)
+)(RemoteRetroDragAndDropContext)

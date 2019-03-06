@@ -1,24 +1,8 @@
-import React from "react"
-import { shallow } from "enzyme"
-import { spy, stub } from "sinon"
+import { spy } from "sinon"
 
-import { CategoryColumn, mapStateToProps } from "../../web/static/js/components/category_column"
-import STAGES from "../../web/static/js/configs/stages"
-
-const { IDEA_GENERATION } = STAGES
+import { mapStateToProps, dropTargetSpec } from "../../web/static/js/components/category_column"
 
 describe("CategoryColumn", () => {
-  let wrapper
-  const mockActions = { submitIdeaEditAsync: () => {} }
-  const defaultProps = {
-    currentUser: { given_name: "daniel" },
-    actions: mockActions,
-    votes: [],
-    ideas: [],
-    stage: IDEA_GENERATION,
-    category: "confused",
-  }
-
   describe("mapStateToProps", () => {
     context("when every idea passed in the ideas prop matches the column's category", () => {
       it("returns all of those ideas in the props", () => {
@@ -59,152 +43,55 @@ describe("CategoryColumn", () => {
     })
   })
 
-  context("when an item is dragged over it", () => {
-    let mockEvent
-
-    before(() => {
-      mockEvent = { preventDefault: spy(), dataTransfer: { dropEffect: null } }
-
-      wrapper = shallow(
-        <CategoryColumn
-          {...defaultProps}
-        />
-      )
-
-      wrapper.simulate("dragOver", mockEvent)
-    })
-
-    it("prevents the default event behavior", () => {
-      expect(mockEvent.preventDefault).called
-    })
-
-    it("adds a 'dragged-over' class", () => {
-      expect(wrapper.find(".dragged-over").length).to.equal(1)
-    })
-
-    context("when a dragLeave event follows", () => {
-      const relatedTarget = {}
-
-      context("and the event's target element *does* contain the related (dragged) elemant", () => {
-        beforeEach(() => {
-          mockEvent = {
-            relatedTarget,
-            currentTarget: {
-              contains: stub().withArgs(relatedTarget).returns(true),
-            },
-          }
-
-          wrapper.simulate("dragLeave", mockEvent)
-        })
-
-        it("doesn't remove the dragged-over class", () => {
-          expect(wrapper.find(".dragged-over").length).to.equal(1)
-        })
-      })
-
-      context("and the event's target element *doesn't* contain the related (dragged) elemant", () => {
-        beforeEach(() => {
-          mockEvent = {
-            relatedTarget,
-            currentTarget: {
-              contains: stub().withArgs(relatedTarget).returns(false),
-            },
-          }
-          wrapper.simulate("dragLeave", mockEvent)
-        })
-
-        it("removes the dragged-over class", () => {
-          expect(wrapper.find(".dragged-over").length).to.equal(0)
-        })
-      })
-    })
-
-    context("and an item is dropped on it", () => {
+  describe("dropTargetSpec", () => {
+    describe("#drop", () => {
       let actions
+      let mockDragMonitor
+      let categoryColumnProps
 
       beforeEach(() => {
+        mockDragMonitor = {
+          getItem: () => ({
+            draggedIdea: {
+              id: 66,
+              category: "confused",
+            },
+          }),
+        }
+
         actions = {
           submitIdeaEditAsync: spy(),
         }
       })
 
-      context("and the data is a serialized idea with snake_cased attributes", () => {
-        const idea = {
-          id: 100,
-          body: "sup",
-          category: "sad",
-          assignee_id: null,
-        }
-
-        const serializedIdea = JSON.stringify(idea)
-
-        const mockEvent = {
-          preventDefault: spy(),
-          dataTransfer: {
-            getData: stub(),
-          },
-        }
-
-        mockEvent.dataTransfer.getData
-          .withArgs("idea").returns(serializedIdea)
-
-        const category = "sad"
-
+      context("when the columns category differ's from the draggedIdea's category", () => {
         beforeEach(() => {
-          wrapper = mountWithConnectedSubcomponents(
-            <CategoryColumn
-              {...defaultProps}
-              category={category}
-              actions={actions}
-            />
-          )
-
-          wrapper.simulate("dragEnter")
-          wrapper.simulate("drop", mockEvent)
+          categoryColumnProps = {
+            category: "sad",
+            actions,
+          }
         })
 
-        it("prevents the default event behavior", () => {
-          expect(mockEvent.preventDefault).called
-        })
-
-        it("pushes an idea_edited event w/ the idea's raw values, camelCased attributes, and its new category", () => {
-          expect(actions.submitIdeaEditAsync).calledWith({
-            id: idea.id,
-            body: idea.body,
-            assignee_id: idea.assignee_id,
-            category,
+        it("invokes submitIdeaEditAsync with the given idea but the column's category", () => {
+          dropTargetSpec.drop(categoryColumnProps, mockDragMonitor)
+          expect(actions.submitIdeaEditAsync).to.have.been.calledWith({
+            id: 66,
+            category: "sad",
           })
-        })
-
-        it("removes the dragged-over class", () => {
-          expect(wrapper.find(".dragged-over").length).to.equal(0)
         })
       })
 
-      context("and there is not serialized idea data assciated with the event", () => {
-        const mockEvent = {
-          preventDefault: () => {},
-          dataTransfer: {
-            getData: stub(),
-          },
-        }
-
-        mockEvent.dataTransfer.getData
-          .withArgs("idea").returns("")
-
-        before(() => {
-          wrapper = shallow(
-            <CategoryColumn
-              {...defaultProps}
-              actions={actions}
-            />
-          )
-
-          wrapper.simulate("drop", mockEvent)
+      context("when the draggedIdea belongs to the *same* category as the column", () => {
+        beforeEach(() => {
+          categoryColumnProps = {
+            category: "confused",
+            actions,
+          }
         })
 
-        it("does not invoke the submitIdeaEditAsync action", () => {
-          expect(actions.submitIdeaEditAsync).not.called
+        it("does *not* invoke submitIdeaEditAsync", () => {
+          dropTargetSpec.drop(categoryColumnProps, mockDragMonitor)
+          expect(actions.submitIdeaEditAsync).to.not.have.been.called
         })
       })
     })
