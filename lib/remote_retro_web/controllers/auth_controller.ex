@@ -23,6 +23,6 @@ defmodule RemoteRetroWeb.AuthController do
   end
 
   defp authorize_url! do
-    Google.authorize_url!(scope: "email profile")
+    Google.authorize_url!(scope: "https://www.googleapis.com/auth/userinfo.email https://www.googleapis.com/auth/userinfo.profile")
   end
 end
