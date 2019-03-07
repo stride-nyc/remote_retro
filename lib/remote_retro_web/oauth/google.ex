@@ -12,7 +12,7 @@ defmodule RemoteRetro.OAuth.Google do
   end
 
   def get_user_info!(code) do
-    user_info_endpoint = "https://www.googleapis.com/plus/v1/people/me/openIdConnect"
+    user_info_endpoint = "https://www.googleapis.com/oauth2/v3/userinfo"
 
     code
     |> retrieve_token!
