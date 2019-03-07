@@ -1,7 +1,9 @@
 import React from "react"
 import { spy } from "sinon"
+import { shallow } from "enzyme"
 
 import ConditionallyDraggableIdeaContent from "../../web/static/js/components/conditionally_draggable_idea_content"
+import IdeaContentBase from "../../web/static/js/components/idea_content_base"
 import STAGES from "../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION, GROUPING } = STAGES
@@ -18,76 +20,6 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
     canUserEditIdeaContents: true,
   }
 
-  it("renders the control icons before idea body text to ensure floating/text-wrapping", () => {
-    const wrapper = mountWithConnectedSubcomponents(
-      <ConditionallyDraggableIdeaContent {...defaultProps} />
-    )
-
-    expect(wrapper.html()).to.match(/<i.*><\/i>.*body text/)
-  })
-
-  context("when the idea's updated_at value is greater than its inserted_at value", () => {
-    beforeEach(() => {
-      const editedIdea = {
-        inserted_at: "2017-04-14T17:30:10",
-        updated_at: "2017-04-14T17:30:12",
-      }
-
-      wrapper = mountWithConnectedSubcomponents(
-        <ConditionallyDraggableIdeaContent
-          {...defaultProps}
-          idea={editedIdea}
-        />
-      )
-    })
-
-    it("informs the user that the idea has been edited", () => {
-      expect(wrapper.text()).to.match(/\(edited\)/i)
-    })
-  })
-
-  context("when the idea's updated_at value is equal to its inserted_at value", () => {
-    beforeEach(() => {
-      const nonEditedIdea = {
-        inserted_at: "2017-04-14T17:30:10",
-        updated_at: "2017-04-14T17:30:10",
-      }
-
-      wrapper = mountWithConnectedSubcomponents(
-        <ConditionallyDraggableIdeaContent
-          {...defaultProps}
-          idea={nonEditedIdea}
-        />
-      )
-    })
-
-    it("mentions nothing about the idea being edited", () => {
-      expect(wrapper.text()).not.to.match(/\(edited\)/i)
-    })
-  })
-
-  context("when idea is an action_item and has been assigned to a user", () => {
-    const assignee = {
-      name: "Betty White",
-    }
-
-    const idea = {
-      body: "Do the thing",
-    }
-
-    const wrapper = mountWithConnectedSubcomponents(
-      <ConditionallyDraggableIdeaContent
-        {...defaultProps}
-        assignee={assignee}
-        idea={idea}
-      />
-    )
-
-    it("contains the user's given_name next to the idea", () => {
-      expect(wrapper.text()).to.match(/Do the thing \(Betty White\)/)
-    })
-  })
-
   context("when the device is tablet or larger", () => {
     context("when the user has edit permissions", () => {
       context("when the stage is idea-generation", () => {
@@ -99,13 +31,13 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
             stage: "idea-generation",
           }
 
-          wrapper = mountWithConnectedSubcomponents(
+          wrapper = shallow(
             <ConditionallyDraggableIdeaContent {...props} />
           )
         })
 
-        it("sets draggable=true", () => {
-          expect(wrapper.html()).to.match(/draggable="true"/)
+        it("renders IdeaContentBase as draggable", () => {
+          expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(true)
         })
       })
 
@@ -118,13 +50,13 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
         }
 
         beforeEach(() => {
-          wrapper = mountWithConnectedSubcomponents(
+          wrapper = shallow(
             <ConditionallyDraggableIdeaContent {...props} />
           )
         })
 
-        it("sets draggable=false", () => {
-          expect(wrapper.html()).to.match(/draggable="false"/)
+        it("renders IdeaContentBase as non-draggable", () => {
+          expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(false)
         })
       })
     })
@@ -139,13 +71,13 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
         }
 
         beforeEach(() => {
-          wrapper = mountWithConnectedSubcomponents(
+          wrapper = shallow(
             <ConditionallyDraggableIdeaContent {...props} />
           )
         })
 
-        it("sets draggable=false", () => {
-          expect(wrapper.html()).to.match(/draggable="false"/)
+        it("renders IdeaContentBase as non-draggable", () => {
+          expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(false)
         })
       })
     })
@@ -154,7 +86,7 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
       context("and the user is neither the facilitator", () => {
         context("nor the author of the idea", () => {
           beforeEach(() => {
-            wrapper = mountWithConnectedSubcomponents(
+            wrapper = shallow(
               <ConditionallyDraggableIdeaContent
                 {...defaultProps}
                 currentUser={{
@@ -166,8 +98,8 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
             )
           })
 
-          it("sets draggable=true", () => {
-            expect(wrapper.html()).to.match(/draggable="true"/)
+          it("renders IdeaContentBase as draggable", () => {
+            expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(true)
           })
         })
       })
@@ -187,7 +119,7 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
       }
 
       beforeEach(() => {
-        wrapper = mountWithConnectedSubcomponents(
+        wrapper = shallow(
           <ConditionallyDraggableIdeaContent {...props} />
         )
 
@@ -217,13 +149,13 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
           stage: "idea-generation",
         }
 
-        wrapper = mountWithConnectedSubcomponents(
+        wrapper = shallow(
           <ConditionallyDraggableIdeaContent {...props} />
         )
       })
 
-      it("sets draggable=false", () => {
-        expect(wrapper.html()).to.match(/draggable="false"/)
+      it("renders IdeaContentBase as non-draggable", () => {
+        expect(wrapper.find(IdeaContentBase).prop("draggable")).to.eql(false)
       })
     })
   })
