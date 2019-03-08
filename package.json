@@ -57,6 +57,7 @@
     "babel-loader": "^8.0.5",
     "chai": "^3.5.0",
     "chai-uuid": "^1.0.6",
+    "cryptiles": "4.1.2",
     "copy-webpack-plugin": "^4.6.0",
     "css-hot-loader": "^1.4.3",
     "css-loader": "0.28.7",
