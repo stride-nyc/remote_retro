@@ -31,7 +31,7 @@ defmodule RemoteRetro.RetroTest do
         participations: [],
       }
 
-      encoded = Poison.encode!(retro)
+      encoded = Jason.encode!(retro)
 
       assert encoded =~ ~r/"id":5/i
       assert encoded =~ ~r/"stage":"idea-generation"/i

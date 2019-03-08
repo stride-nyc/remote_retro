@@ -25,7 +25,7 @@ defmodule RemoteRetroWeb.ConnCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import RemoteRetroWeb.Router.Helpers
+      alias RemoteRetroWeb.Router.Helpers, as: Routes
       import RemoteRetroWeb.ConnCase.Helpers
 
       # The default endpoint for testing

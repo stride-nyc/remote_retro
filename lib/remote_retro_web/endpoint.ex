@@ -1,7 +1,7 @@
 defmodule RemoteRetroWeb.Endpoint do
   use Phoenix.Endpoint, otp_app: :remote_retro
 
-  socket("/socket", RemoteRetroWeb.UserSocket)
+  socket("/socket", RemoteRetroWeb.UserSocket, websocket: [timeout: 45_000], longpoll: false)
 
   if Application.get_env(:remote_retro, :sql_sandbox) do
     plug(Phoenix.Ecto.SQL.Sandbox)
@@ -11,7 +11,13 @@ defmodule RemoteRetroWeb.Endpoint do
   #
   # You should set gzip to true if you are running phoenix.digest
   # when deploying your static files in production.
-  plug(Plug.Static, at: "/", from: :remote_retro, gzip: true, only: ~w(css fonts images js favicon.ico robots.txt))
+  plug(
+    Plug.Static,
+    at: "/",
+    from: :remote_retro,
+    gzip: true,
+    only: ~w(css fonts images js favicon.ico robots.txt)
+  )
 
   # Code reloading can be explicitly enabled under the
   # :code_reloader configuration of your endpoint.
@@ -28,7 +34,7 @@ defmodule RemoteRetroWeb.Endpoint do
     Plug.Parsers,
     parsers: [:urlencoded, :multipart, :json],
     pass: ["*/*"],
-    json_decoder: Poison
+    json_decoder: Phoenix.json_library()
   )
 
   plug(Plug.MethodOverride)

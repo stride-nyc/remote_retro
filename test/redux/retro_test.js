@@ -165,6 +165,7 @@ describe("action creators", () => {
 
         it("dispatches an error", () => {
           push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 

@@ -167,7 +167,7 @@ describe("usersById reducer", () => {
       describe("when presence state datastructure is empty", () => {
         const action = {
           type: "SET_PRESENCES",
-          users: [
+          presences: [
             { id: 6, name: "Kevin" },
             { id: 7, name: "Blurg Man" },
           ],
@@ -187,7 +187,7 @@ describe("usersById reducer", () => {
       describe("when presence state datastructure contains users already on state", () => {
         const action = {
           type: "SET_PRESENCES",
-          users: [
+          presences: [
             { id: 6, name: "Kevin" },
             { id: 7, name: "Blurg Man" },
           ],

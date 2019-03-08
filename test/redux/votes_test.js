@@ -213,6 +213,7 @@ describe("actions", () => {
 
         it("dispatches VOTE_SUBMISSION_ACCEPTED with the optimistic UUID and the persisted idea", () => {
           push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
@@ -238,6 +239,7 @@ describe("actions", () => {
 
         it("dispatches a VOTE_SUBMISSION_REJECTED with the optimistic UUID", () => {
           push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
@@ -286,6 +288,7 @@ describe("actions", () => {
       describe("when the push results in an error", () => {
         it("dispatches a VOTE_RETRACTION_REJECTED with the optimistic UUID", () => {
           push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 

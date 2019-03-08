@@ -50,7 +50,7 @@
         </div>
       </div>
     </div>
-    <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form content"], fn _f -> %>
+    <%= form_for @conn, Routes.retro_path(@conn, :create), [as: :retro, class: "ui form content"], fn _f -> %>
       <button type="submit" class="ui blue right labeled fluid icon button">
         Let's Create Your First Retrospective!
         <i class="arrow right icon"></i>
@@ -58,8 +58,8 @@
     <% end %>
   </div>
 
-  <script src="<%= static_path(@conn, "/js/jquery.min.js") %>"></script>
-  <script src="<%= static_path(@conn, "/js/semantic.min.js") %>"></script>
+  <script src="<%= Routes.static_path(@conn, "/js/jquery.min.js") %>"></script>
+  <script src="<%= Routes.static_path(@conn, "/js/semantic.min.js") %>"></script>
   <script>
     $(document).ready(function() {
       $(".longer.modal").modal({
@@ -78,7 +78,7 @@
     <ul class="retros-list">
       <%= for retro <- @retros do %>
         <li>
-          <a href="<%= retro_path @conn, :show, retro %>">
+          <a href="<%= Routes.retro_path @conn, :show, retro %>">
             created <%= Timex.format!(retro.inserted_at, "{relative}", :relative) %>
           </a>
           <%= if Enum.count(retro.ideas) > 0 do %>
@@ -98,7 +98,7 @@
       <% end %>
     </ul>
     <div class="ui hidden divider"></div>
-    <%= form_for @conn, retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
+    <%= form_for @conn, Routes.retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
       <button type="submit" class="ui blue right labeled icon button">
         Create a Retrospective!
         <i class="arrow right icon"></i>
@@ -115,6 +115,6 @@
 <% end %>
 
 <%# prefetch retro javascript for faster loading on retro creation :) %>
-<link rel="prefetch" href="<%= static_path(@conn, "/js/dll/dll.vendor.js")%>">
+<link rel="prefetch" href="<%= Routes.static_path(@conn, "/js/dll/dll.vendor.js")%>">
 <link rel="prefetch" href="<%= app_js(@conn) %>">
 

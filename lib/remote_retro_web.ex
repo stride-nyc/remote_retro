@@ -34,7 +34,7 @@ defmodule RemoteRetroWeb do
       import Ecto
       import Ecto.Query
 
-      alias RemoteRetroWeb.Router.Helpers
+      alias RemoteRetroWeb.Router.Helpers, as: Routes
       alias RemoteRetroWeb.Gettext
     end
   end
@@ -51,7 +51,7 @@ defmodule RemoteRetroWeb do
       # Use all HTML functionality (forms, tags, etc)
       use Phoenix.HTML
 
-      import RemoteRetroWeb.Router.Helpers
+      alias RemoteRetroWeb.Router.Helpers, as: Routes
       import RemoteRetroWeb.ErrorHelpers
       import RemoteRetroWeb.Gettext
     end

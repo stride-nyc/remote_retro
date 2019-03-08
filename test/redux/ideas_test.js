@@ -146,10 +146,11 @@ describe("actionCreators", () => {
 
         it("dispatches an error", () => {
           push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
-
           push.trigger("error", {})
+
 
           expect(dispatchSpy).calledWithMatch({ type: "IDEA_SUBMISSION_REJECTED" })
         })
@@ -216,6 +217,7 @@ describe("actionCreators", () => {
 
         it("dispatches an error", () => {
           push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
@@ -269,6 +271,7 @@ describe("actionCreators", () => {
 
         it("dispatches an error", () => {
           push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
+          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 

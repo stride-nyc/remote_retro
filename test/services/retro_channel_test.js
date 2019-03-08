@@ -48,7 +48,7 @@ describe("RetroChannel", () => {
 
       describe("the socket", () => {
         it("contains a params object containing the supplied userToken", () => {
-          const socketParams = result.socket.params
+          const socketParams = result.socket.params()
           expect(socketParams.userToken).to.equal("38ddm2")
         })
       })
@@ -67,6 +67,7 @@ describe("RetroChannel", () => {
       let updateRetroSpy
       let addVoteSpy
       let retractVoteSpy
+      let setPresencesSpy
       let clock
 
       beforeEach(() => {
@@ -77,6 +78,7 @@ describe("RetroChannel", () => {
         updateRetroSpy = spy()
         addVoteSpy = spy()
         retractVoteSpy = spy()
+        setPresencesSpy = spy()
         clock = useFakeTimers(Date.now())
 
         actions = {
@@ -85,6 +87,7 @@ describe("RetroChannel", () => {
           updateIdea: updateIdeaSpy,
           updatePresence: updatePresenceSpy,
           updateRetroSync: updateRetroSpy,
+          setPresences: setPresencesSpy,
           addVote: addVoteSpy,
           retractVote: retractVoteSpy,
         }
@@ -93,6 +96,13 @@ describe("RetroChannel", () => {
 
         retroChannel = RetroChannel.configure({ userToken: "38ddm2", retroUUID: "blurg" })
         retroChannel = applyListenersWithDispatch(retroChannel, store, actions)
+      })
+
+      describe("on `presence_state`", () => {
+        it("invokes the setPresences action", () => {
+          retroChannel.trigger("presence_state", {})
+          expect(setPresencesSpy.calledOnce).to.be.true
+        })
       })
 
       describe("on `idea_committed`", () => {

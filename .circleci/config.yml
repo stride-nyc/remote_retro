@@ -18,21 +18,21 @@ jobs:  # basic units of work in a run
 
       - restore_cache:  # restores saved mix cache
           keys:  # list of cache keys, in decreasing specificity
-            - v3-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-            - v3-mix-cache-{{ .Branch }}
-            - v3-mix-cache
+            - v4-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+            - v4-mix-cache-{{ .Branch }}
+            - v4-mix-cache
       - restore_cache:  # restores saved build cache
           keys:
-            - v3-build-cache-{{ .Branch }}
-            - v3-build-cache
+            - v4-build-cache-{{ .Branch }}
+            - v4-build-cache
       - run: mix do deps.get, compile  # get updated dependencies & compile them
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - yarn-packages-{{ .Branch }}
-            - yarn-packages-master
-            - yarn-packages-
+            - v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+            - v1-yarn-packages-{{ .Branch }}
+            - v1-yarn-packages-master
+            - v1-yarn-packages-
       - run: #STABLE
           name: Install Chromedriver latest version
           command: |
@@ -51,19 +51,19 @@ jobs:  # basic units of work in a run
           paths:
             - node_modules/
       - save_cache:  # generate and store cache so `restore_cache` works
-          key: v3-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          key: v4-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
           paths: "deps"
       - save_cache:  # make another less specific cache
-          key: v3-mix-cache-{{ .Branch }}
+          key: v4-mix-cache-{{ .Branch }}
           paths: "deps"
       - save_cache:  # you should really save one more cache just in case
-          key: v3-mix-cache
+          key: v4-mix-cache
           paths: "deps"
       - save_cache: # don't forget to save a *build* cache, too
-          key: v3-build-cache-{{ .Branch }}
+          key: v4-build-cache-{{ .Branch }}
           paths: "_build"
       - save_cache: # and one more build cache for good measure
-          key: v3-build-cache
+          key: v4-build-cache
           paths: "_build"
 
       - run:  # special utility that stalls main process until DB is ready

@@ -22,7 +22,7 @@ defmodule RemoteRetro.IntegrationCase do
       import Ecto.Changeset
       import Ecto.Query
 
-      import RemoteRetroWeb.Router.Helpers
+      alias RemoteRetroWeb.Router.Helpers, as: Routes
       import RemoteRetro.TestHelpers
       @moduletag :feature_test
     end
