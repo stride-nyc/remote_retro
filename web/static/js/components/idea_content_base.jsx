@@ -16,7 +16,7 @@ const IdeaContentBase = props => {
     canUserEditIdeaContents,
   } = props
 
-  const isEdited = (+new Date(idea.updated_at) - +new Date(idea.inserted_at)) > 100
+  const isEdited = (+new Date(idea.updated_at) > +new Date(idea.inserted_at))
 
   return (
     <div className={styles.ideaWrapper}>
