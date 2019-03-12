@@ -42,8 +42,8 @@ defmodule RetroIdeaRealtimeUpdateTest do
 
       facilitator_session |> save_idea_updates
 
-      # assert other client sees persistence indicator
-      assert_has(participant_session, Query.css(".confused.ideas", text: "No one uses the linter. (edited)"))
+      # assert other client sees update
+      assert_has(participant_session, Query.css(".confused.ideas", text: "No one uses the linter."))
     end
 
     @tag [
