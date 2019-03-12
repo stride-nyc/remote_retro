@@ -117,7 +117,79 @@ defmodule RemoteRetro.TestHelpers do
     |> click(Query.css(".remove.icon"))
   end
 
+  def drag_idea(session, idea_text, from: from, to: to) do
+    execute_script(session,
+      """
+      var allDraggableIdeas = Array.from(
+        document.querySelectorAll(".#{from}.column div[draggable='true']")
+      );
+
+      var dragSource = allDraggableIdeas.find(idea => idea.innerText === "#{idea_text}");
+
+      var dropTarget = document.querySelector(".#{to}.column");
+
+      #{define_simulate_drag_and_drop_convenience_method()}
+
+      simulateDragDrop(dragSource, dropTarget);
+      """
+    )
+  end
+
+
   defp stub_js_confirms(session) do
     execute_script(session, "window.confirm = function(){ return true; }")
+  end
+
+  defp define_simulate_drag_and_drop_convenience_method do
+    """
+    function simulateDragDrop(sourceNode, destinationNode) {
+        var EVENT_TYPES = {
+            DRAG_END: 'dragend',
+            DRAG_START: 'dragstart',
+            DROP: 'drop'
+        }
+
+        function createCustomEvent(type) {
+            var event = new CustomEvent("CustomEvent")
+            event.initCustomEvent(type, true, true, null)
+            event.dataTransfer = {
+                data: {
+                },
+                setData: function(type, val) {
+                    this.data[type] = val
+                },
+                getData: function(type) {
+                    return this.data[type]
+                },
+                dropEffect: 'move',
+                effectAllowed:'move',
+                types: [],
+                items:{},
+                files:{},
+            }
+            return event
+        }
+
+        function dispatchEvent(node, type, event) {
+            if (node.dispatchEvent) {
+                return node.dispatchEvent(event)
+            }
+            if (node.fireEvent) {
+                return node.fireEvent("on" + type, event)
+            }
+        }
+
+        var event = createCustomEvent(EVENT_TYPES.DRAG_START)
+        dispatchEvent(sourceNode, EVENT_TYPES.DRAG_START, event)
+
+        var dropEvent = createCustomEvent(EVENT_TYPES.DROP)
+        dropEvent.dataTransfer = event.dataTransfer
+        dispatchEvent(destinationNode, EVENT_TYPES.DROP, dropEvent)
+
+        var dragEndEvent = createCustomEvent(EVENT_TYPES.DRAG_END)
+        dragEndEvent.dataTransfer = event.dataTransfer
+        dispatchEvent(sourceNode, EVENT_TYPES.DRAG_END, dragEndEvent)
+    }
+    """
   end
 end
