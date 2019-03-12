@@ -128,9 +128,9 @@ defmodule RemoteRetro.TestHelpers do
 
       var dropTarget = document.querySelector(".#{to}.column");
 
-      #{define_simulate_drag_and_drop_convenience_method()}
+      #{simulate_drag_and_drop_convenience_method()}
 
-      simulateDragDrop(dragSource, dropTarget);
+      window.simulateDragDrop(dragSource, dropTarget);
       """
     )
   end
@@ -140,7 +140,7 @@ defmodule RemoteRetro.TestHelpers do
     execute_script(session, "window.confirm = function(){ return true; }")
   end
 
-  defp define_simulate_drag_and_drop_convenience_method do
+  defp simulate_drag_and_drop_convenience_method do
     """
     function simulateDragDrop(sourceNode, destinationNode) {
         var EVENT_TYPES = {
@@ -190,6 +190,8 @@ defmodule RemoteRetro.TestHelpers do
         dragEndEvent.dataTransfer = event.dataTransfer
         dispatchEvent(sourceNode, EVENT_TYPES.DRAG_END, dragEndEvent)
     }
+
+    window.simulateDragDrop = simulateDragDrop;
     """
   end
 end
