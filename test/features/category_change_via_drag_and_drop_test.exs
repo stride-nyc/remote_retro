@@ -18,7 +18,6 @@ defmodule CategoryChangeViaDragAndDrop do
 
       session |> drag_idea("no linter", from: "sad", to: "confused")
 
-      # assert other client sees persistence indicator
       assert_has(session, Query.css(".confused.column", text: "no linter"))
     end
   end
