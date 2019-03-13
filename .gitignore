@@ -47,5 +47,3 @@ package-lock.json
 npm-debug.log*
 .eslintcache
 browser_logs.log
-# Local secret env vars
-.env

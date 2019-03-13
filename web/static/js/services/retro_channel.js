@@ -11,15 +11,6 @@ class RetroChannel {
   }
 }
 
-export const handlePresence = (presence, setPresences) => {
-  const dispatchPresences = () => {
-    const users = presence.list((_token, presence) => (presence.user))
-    setPresences(users)
-  }
-
-  presence.onSync(dispatchPresences)
-}
-
 export const applyListenersWithDispatch = (retroChannel, store, actions) => {
   const { addIdea,
     updateRetroSync,
@@ -31,7 +22,11 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
     retractVote } = actions
 
   const presence = new Presence(retroChannel)
-  handlePresence(presence, setPresences)
+
+  presence.onSync(() => {
+    const users = presence.list((_token, presence) => (presence.user))
+    setPresences(users)
+  })
 
   retroChannel.on("idea_committed", addIdea)
 
