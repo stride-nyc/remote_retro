@@ -40,6 +40,8 @@ printGreenLine "Ensuring Erlang's 'rebar3' compilation tool is available and up 
 mix local.rebar --force
 
 printGreenLine "Cleaning dependencies, fetching fresh dependencies, and compiling for Elixir $elixir_version...";
+rm -rf _build/
 mix deps.clean --all
 mix deps.get
 mix deps.compile
+mix compile
