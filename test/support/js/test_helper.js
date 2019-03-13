@@ -59,24 +59,35 @@ global.mountWithConnectedSubcomponents = (component, options) => {
 }
 
 /*
-/  triggering websocket "receive"s in tests is highly laborious, so we extract it out to a helper
-/  that allows us to setup a mock channel, and trigger 'receive' messages on our pushes like so:
+/  triggering responses to a given websocket "push" in tests is highly laborious,
+/  as the push events aren't exposed outright, so here we setup a channel and
+/  expose a helper for triggering push replies, leveraged like so:
+/
 /    const mockRetroChannel = setupMockPhoenixChannel()
-/    const push = mockRetroChannel.push("some_event", some_payload)
-/    push.trigger("error", {})
+/
+/    // some code that triggers a push...
+/
+/    mockRetroChannel.__triggerReply("error", { some: "error body" })
 */
+
+const STUBBED_REF = 0
+const STUBBED_CHANNEL_REPLY_REF = `chan_reply_${STUBBED_REF}`
 
 // eslint-disable-next-line import/prefer-default-export
 export const setupMockPhoenixChannel = () => {
   const socket = new Socket("/socket", { timeout: 1 })
 
-  sinon.stub(socket, "makeRef", () => 0)
+  sinon.stub(socket, "makeRef", () => STUBBED_REF)
   sinon.stub(socket, "isConnected", () => true)
 
   sinon.stub(socket, "push")
 
   const mockPhoenixChannel = socket.channel("topic", { one: "two" })
   mockPhoenixChannel.join().trigger("ok", {})
+
+  mockPhoenixChannel.__triggerReply = (status, response) => {
+    mockPhoenixChannel.trigger(STUBBED_CHANNEL_REPLY_REF, { status, response })
+  }
 
   return mockPhoenixChannel
 }

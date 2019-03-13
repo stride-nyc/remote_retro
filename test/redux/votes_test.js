@@ -205,22 +205,18 @@ describe("actions", () => {
       })
 
       describe("when the push results in an 'ok' response", () => {
-        let push
-
         beforeEach(() => {
           mockRetroChannel = setupMockPhoenixChannel()
         })
 
         it("dispatches VOTE_SUBMISSION_ACCEPTED with the optimistic UUID and the persisted idea", () => {
-          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
-          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
           const invocationArguments = dispatchSpy.args[0]
           const optimisticallyAddedVote = invocationArguments[0].vote
 
-          push.trigger("ok", { id: 1001, user_id: 1, idea_id: 3 })
+          mockRetroChannel.__triggerReply("ok", { id: 1001, user_id: 1, idea_id: 3 })
 
           expect(dispatchSpy).calledWithMatch({
             type: "VOTE_SUBMISSION_ACCEPTED",
@@ -231,22 +227,18 @@ describe("actions", () => {
       })
 
       describe("when the push results in an error", () => {
-        let push
-
         beforeEach(() => {
           mockRetroChannel = setupMockPhoenixChannel()
         })
 
         it("dispatches a VOTE_SUBMISSION_REJECTED with the optimistic UUID", () => {
-          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
-          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
           const invocationArguments = dispatchSpy.args[0]
           const optimisticallyAddedVote = invocationArguments[0].vote
 
-          push.trigger("error", {})
+          mockRetroChannel.__triggerReply("error", {})
 
           expect(dispatchSpy).calledWithMatch({
             type: "VOTE_SUBMISSION_REJECTED",
@@ -268,7 +260,6 @@ describe("actions", () => {
       let dispatch
       let mockRetroChannel
       let vote
-      let push
       let pushSpy
 
       beforeEach(() => {
@@ -287,12 +278,10 @@ describe("actions", () => {
 
       describe("when the push results in an error", () => {
         it("dispatches a VOTE_RETRACTION_REJECTED with the optimistic UUID", () => {
-          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
-          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
-          push.trigger("error", {})
+          mockRetroChannel.__triggerReply("error", {})
 
           expect(dispatchSpy).calledWithMatch({
             type: "VOTE_RETRACTION_REJECTED",

@@ -161,15 +161,11 @@ describe("action creators", () => {
       })
 
       describe("when the push results in an error", () => {
-        let push
-
         it("dispatches an error", () => {
-          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
-          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
-          push.trigger("error", {})
+          mockRetroChannel.__triggerReply("error", {})
 
           expect(dispatchSpy).calledWithMatch({ type: "RETRO_UPDATE_REJECTED" })
         })

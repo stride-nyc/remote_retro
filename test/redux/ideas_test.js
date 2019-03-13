@@ -142,15 +142,11 @@ describe("actionCreators", () => {
       })
 
       describe("when the push results in an error", () => {
-        let push
-
         it("dispatches an error", () => {
-          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
-          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
-          push.trigger("error", {})
 
+          mockRetroChannel.__triggerReply("error", {})
 
           expect(dispatchSpy).calledWithMatch({ type: "IDEA_SUBMISSION_REJECTED" })
         })
@@ -213,15 +209,11 @@ describe("actionCreators", () => {
       })
 
       describe("when the push results in an error", () => {
-        let push
-
         it("dispatches an error", () => {
-          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
-          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
-          push.trigger("error", {})
+          mockRetroChannel.__triggerReply("error", {})
 
           expect(dispatchSpy).calledWithMatch({ type: "IDEA_UPDATE_REJECTED", ideaId: ideaParams.id })
         })
@@ -267,15 +259,11 @@ describe("actionCreators", () => {
       })
 
       describe("when the push results in an error", () => {
-        let push
-
         it("dispatches an error", () => {
-          push = mockRetroChannel.push("anyEventJustNeedThePushInstance", { foo: "bar" })
-          push.trigger("ok", {})
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
-          push.trigger("error", {})
+          mockRetroChannel.__triggerReply("error", {})
 
           expect(dispatchSpy).calledWith({ type: "IDEA_DELETION_REJECTED", ideaId: 999 })
         })
