@@ -13,7 +13,7 @@ const IdeaEditDeleteIcons = props => {
   })
 
   const handleDelete = () => {
-  // eslint-disable-next-line no-alert
+    // eslint-disable-next-line no-alert
     const confirmed = confirm("Are you sure you want to delete this idea?")
     if (confirmed) {
       actions.submitIdeaDeletionAsync(idea.id)
