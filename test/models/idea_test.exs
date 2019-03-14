@@ -33,7 +33,7 @@ defmodule RemoteRetro.IdeaTest do
     end
 
     test "assignee_id NOT required when idea category NOT action-item" do
-      changeset = Idea.changeset(%Idea{category: "happy", assignee_id: 1})
+      changeset = Idea.changeset(%Idea{category: "happy", assignee_id: nil})
 
       refute Keyword.has_key?(changeset.errors, :assignee_id)
     end
