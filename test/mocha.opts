@@ -4,6 +4,6 @@ test/**/*_test.js
 --require mock-local-storage
 --require @babel/register
 --require=env-test
---require jsdom-global/register
 --require test/support/js/test_helper.js
+--require jsdom-global/register
 --reporter dot

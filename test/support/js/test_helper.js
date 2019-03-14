@@ -5,7 +5,6 @@ import sinonChai from "sinon-chai"
 import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
 import sinon from "sinon"
-import { Socket } from "phoenix"
 import PropTypes from "prop-types"
 import noop from "lodash/noop"
 import STAGES from "../../../web/static/js/configs/stages"
@@ -75,6 +74,8 @@ const STUBBED_CHANNEL_REPLY_REF = `chan_reply_${STUBBED_REF}`
 
 // eslint-disable-next-line import/prefer-default-export
 export const setupMockPhoenixChannel = () => {
+  // eslint-disable-next-line global-require
+  const { Socket } = require("phoenix")
   const socket = new Socket("/socket", { timeout: 1 })
 
   sinon.stub(socket, "makeRef", () => STUBBED_REF)
