@@ -19,7 +19,8 @@ const ConditionallyDraggableIdeaContent = props => {
   const isGrouping = stage === GROUPING
   const isIdeaGeneration = stage === IDEA_GENERATION
 
-  const isIdeaDragEligible = isTabletOrAbove && (isGrouping || (isIdeaGeneration && canUserEditIdeaContents))
+  const isIdeaDragEligible = isTabletOrAbove
+                             && (isGrouping || (isIdeaGeneration && canUserEditIdeaContents))
 
   return isIdeaDragEligible ? (
     <DraggableIdeaContent {...props} />

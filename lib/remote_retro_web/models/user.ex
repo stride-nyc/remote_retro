@@ -16,7 +16,7 @@ defmodule RemoteRetro.User do
     :family_name,
   ]
 
-  @derive {Poison.Encoder, except: [:__meta__, :participations, :retros, :google_user_info]}
+  @derive {Jason.Encoder, except: [:__meta__, :participations, :retros, :google_user_info]}
   schema "users" do
     field(:email, :string)
     field(:google_user_info, :map)

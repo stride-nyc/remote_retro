@@ -13,7 +13,7 @@ config :remote_retro,
 # Configures the endpoint
 config :remote_retro, RemoteRetroWeb.Endpoint,
   url: [host: "localhost"],
-  secret_key_base: "6ui3X7f7bC31SgHyMUXXzRp1MjYOROvNkrpVrdBL/ZZdh97cS4iFIp9JXwfwmsIj",
+  secret_key_base: "btCOS+GDpTLovPJFR8hQ9LbXeshAFCS4DaRCSbwIgFyt2AcKwE9oUfP9i3AsBAGW",
   render_errors: [view: RemoteRetroWeb.ErrorView, accepts: ~w(html json)],
   pubsub: [name: RemoteRetro.PubSub, adapter: Phoenix.PubSub.PG2]
 
@@ -21,6 +21,11 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
 config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.SendGridAdapter, api_key: System.get_env("SENDGRID_API_KEY")
 
 config :remote_retro, :auth_controller, RemoteRetroWeb.AuthController
+
+config :oauth2,
+  serializers: %{
+    "application/json" => Jason,
+  }
 
 # Configures HoneyBadger error reporting API
 config :honeybadger,
@@ -32,6 +37,8 @@ config :logger, :console,
   metadata: [:request_id]
 
 config :remote_retro, ecto_repos: [RemoteRetro.Repo]
+
+config :phoenix, :json_library, Jason
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

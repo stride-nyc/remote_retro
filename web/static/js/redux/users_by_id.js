@@ -8,7 +8,7 @@ export const reducer = (state = {}, action) => {
     case "SET_INITIAL_STATE":
       return keyBy(action.initialState.users, USER_PRIMARY_KEY)
     case "SET_PRESENCES":
-      return { ...state, ...keyBy(action.users, USER_PRIMARY_KEY) }
+      return { ...state, ...keyBy(action.presences, USER_PRIMARY_KEY) }
     case "SYNC_PRESENCE_DIFF": {
       const presencesRepresentingJoins = values(action.presenceDiff.joins)
       const users = presencesRepresentingJoins.map(join => join.user)

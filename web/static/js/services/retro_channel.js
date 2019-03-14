@@ -12,26 +12,36 @@ class RetroChannel {
 }
 
 export const applyListenersWithDispatch = (retroChannel, store, actions) => {
-  retroChannel.on("presence_state", presences => {
-    const users = Presence.list(presences, (_username, presence) => (presence.user))
-    actions.setPresences(users)
+  const { addIdea,
+    updateRetroSync,
+    setPresences,
+    updateIdea,
+    deleteIdea,
+    addVote,
+    updatePresence,
+    retractVote } = actions
+
+  const presence = new Presence(retroChannel)
+
+  presence.onSync(() => {
+    const users = presence.list((_token, presence) => (presence.user))
+    setPresences(users)
   })
 
-  retroChannel.on("presence_diff", actions.syncPresenceDiff)
-  retroChannel.on("idea_committed", actions.addIdea)
+  retroChannel.on("idea_committed", addIdea)
 
-  retroChannel.on("retro_edited", actions.updateRetroSync)
+  retroChannel.on("retro_edited", updateRetroSync)
 
   retroChannel.on("idea_edit_state_enabled", ({ id }) => {
-    actions.updateIdea(id, { inEditState: true, isLocalEdit: false })
+    updateIdea(id, { inEditState: true, isLocalEdit: false })
   })
 
   retroChannel.on("idea_edit_state_disabled", disabledIdea => {
-    actions.updateIdea(disabledIdea.id, { inEditState: false, liveEditText: null })
+    updateIdea(disabledIdea.id, { inEditState: false, liveEditText: null })
   })
 
   retroChannel.on("idea_live_edit", editedIdea => {
-    actions.updateIdea(editedIdea.id, editedIdea)
+    updateIdea(editedIdea.id, editedIdea)
   })
 
   retroChannel.on("idea_edited", editedIdea => {
@@ -42,20 +52,20 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
       liveEditText: null,
     }
 
-    actions.updateIdea(editedIdea.id, updatedIdea)
+    updateIdea(editedIdea.id, updatedIdea)
   })
 
   retroChannel.on("idea_deleted", deletedIdea => {
-    actions.deleteIdea(deletedIdea.id)
+    deleteIdea(deletedIdea.id)
   })
 
-  retroChannel.on("vote_submitted", actions.addVote)
-  retroChannel.on("vote_retracted", actions.retractVote)
+  retroChannel.on("vote_submitted", addVote)
+  retroChannel.on("vote_retracted", retractVote)
 
   retroChannel.on("idea_typing_event", ({ userToken }) => {
-    actions.updatePresence(userToken, { is_typing: true, last_typed: Date.now() })
+    updatePresence(userToken, { is_typing: true, last_typed: Date.now() })
     UserActivity.checkIfDoneTyping(store, userToken, () => {
-      actions.updatePresence(userToken, { is_typing: false })
+      updatePresence(userToken, { is_typing: false })
     })
   })
 

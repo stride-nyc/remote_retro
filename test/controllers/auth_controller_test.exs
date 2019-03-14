@@ -53,7 +53,7 @@ defmodule RemoteRetro.AuthControllerTest do
 
       conn =
         conn
-        |> get(auth_path(conn, :logout))
+        |> get(Routes.auth_path(conn, :logout))
 
       refute get_session(conn, "current_user")
     end
@@ -61,7 +61,7 @@ defmodule RemoteRetro.AuthControllerTest do
     test "it redirects the user to /", ~M{conn} do
       conn =
         conn
-        |> get(auth_path(conn, :logout))
+        |> get(Routes.auth_path(conn, :logout))
 
       assert redirected_to(conn, 302) == "/"
     end

@@ -2,14 +2,14 @@ defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetroWeb.ChannelCase, async: false
 
   alias RemoteRetro.{Repo, Idea, Retro, Vote}
-  alias RemoteRetroWeb.{RetroChannel, Presence, RetroManagement}
+  alias RemoteRetroWeb.{RetroChannel, Presence, RetroManagement, UserSocket}
 
   import Mock
   import ShorterMaps
 
   defp join_the_retro_channel(~M{retro, facilitator} = context) do
     {:ok, join_response, socket} =
-      socket("", %{user_token: Phoenix.Token.sign(socket(), "user", facilitator)})
+      socket(UserSocket, "", %{user_token: Phoenix.Token.sign(socket(UserSocket), "user", facilitator)})
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
     Map.merge(context, ~M{socket, join_response})

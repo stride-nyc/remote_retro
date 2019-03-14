@@ -43,7 +43,7 @@ defmodule RemoteRetro.IdeaTest do
     test "is enabled" do
       idea = %Idea{category: "sad", body: "flaky e2e test", id: 5}
 
-      encoded = Poison.encode!(idea)
+      encoded = Jason.encode!(idea)
 
       assert encoded =~ ~r/"category":"sad"/i
       assert encoded =~ ~r/"body":"flaky e2e test"/i
