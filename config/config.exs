@@ -22,6 +22,11 @@ config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.SendGridAdapter, api_k
 
 config :remote_retro, :auth_controller, RemoteRetroWeb.AuthController
 
+config :oauth2,
+  serializers: %{
+    "application/json" => Jason,
+  }
+
 # Configures HoneyBadger error reporting API
 config :honeybadger,
   api_key: "stubDevValue"
