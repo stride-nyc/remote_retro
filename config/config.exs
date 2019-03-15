@@ -19,6 +19,7 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
 
 # Configures Email API
 config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.SendGridAdapter, api_key: System.get_env("SENDGRID_API_KEY")
+config :bamboo, :json_library, Jason
 
 config :remote_retro, :auth_controller, RemoteRetroWeb.AuthController
 
