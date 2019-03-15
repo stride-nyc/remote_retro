@@ -42,11 +42,11 @@
     <link rel="stylesheet" href="<%= app_css(@conn) %>">
     <link rel="apple-touch-icon" href="<%= Routes.static_path(@conn, "/images/apple-touch-icon.png") %>">
 
-    <!--
-      disable css animations in end-to-end tests;
-      results in faster, more deterministic builds
-    -->
     <%= if Application.get_env(:remote_retro, :env) == :test do %>
+      <!--
+        disable css animations in end-to-end tests;
+        results in faster, more deterministic builds
+      -->
       <style>
         * {
           transition: none !important;
