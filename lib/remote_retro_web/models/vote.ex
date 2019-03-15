@@ -6,7 +6,7 @@ defmodule RemoteRetro.Vote do
     belongs_to(:user, RemoteRetro.User)
     belongs_to(:idea, RemoteRetro.Idea)
 
-    timestamps(type: :utc_datetime)
+    timestamps(type: :utc_datetime_usec)
   end
 
   @allowed_fields [:user_id, :idea_id]

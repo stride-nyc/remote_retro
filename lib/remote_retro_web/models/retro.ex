@@ -19,7 +19,7 @@ defmodule RemoteRetro.Retro do
     field(:stage, :string, read_after_writes: true)
     field(:facilitator_id, :id, read_after_writes: true)
 
-    timestamps(type: :utc_datetime)
+    timestamps(type: :utc_datetime_usec)
   end
 
   def changeset(struct, params \\ %{}) do

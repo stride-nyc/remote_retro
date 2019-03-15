@@ -11,7 +11,7 @@ defmodule RemoteRetro.Idea do
     has_many(:votes, RemoteRetro.Vote)
     belongs_to(:assignee, RemoteRetro.User)
 
-    timestamps(type: :utc_datetime)
+    timestamps(type: :utc_datetime_usec)
   end
 
   def action_items do

@@ -26,7 +26,7 @@ defmodule RemoteRetro.User do
     field(:name, :string)
     field(:picture, :string)
     field(:profile, :string)
-    field(:last_login, :naive_datetime)
+    field(:last_login, :naive_datetime_usec)
     field(:completed_retros_count, :integer)
 
     field(:online_at, :integer, virtual: true)
@@ -35,7 +35,7 @@ defmodule RemoteRetro.User do
     has_many(:participations, Participation)
     has_many(:retros, through: [:participations, :retro])
 
-    timestamps(type: :utc_datetime)
+    timestamps(type: :utc_datetime_usec)
   end
 
   def changeset(struct, params \\ %{}) do
