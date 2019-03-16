@@ -25,4 +25,22 @@ defmodule RemoteRetro.PageControllerTest do
     conn = get(conn, "/faq")
     assert html_response(conn, 200) =~ "Frequently Asked Questions"
   end
+
+  describe "authenticated visits to /faq" do
+    setup [:authenticate_connection]
+
+    test "do not prompt the user to sign in", ~M{conn} do
+      conn = get(conn, "/faq")
+
+      refute html_response(conn, 200) =~ "Sign in"
+    end
+  end
+
+  describe "unauthenticated visits to /faq" do
+    test "prompt the user to sign in", ~M{conn} do
+      conn = get(conn, "/faq")
+
+      assert html_response(conn, 200) =~ "Sign in"
+    end
+  end
 end

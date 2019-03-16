@@ -14,11 +14,7 @@
     <p class="sub header">RemoteRetro helps teams turn painpoints into progress.</p>
   </div>
 
-  <a href="/auth/google" class="ui blue button">
-    <i class="google icon"></i>
-    Sign in with Google to Get Started
-    <i class="arrow right icon"></i>
-  </a>
+  <%= render("sign_in_with_google_to_get_started.html") %>
 </div>
 
 <div class="ui segments">
@@ -104,11 +100,7 @@
 <div class="ui center aligned grid polygons-background">
   <div class="row">
     <div class="ui basic segment cta-wrapper">
-      <a href="/auth/google" class="ui blue button sign-in">
-        <i class="google icon"></i>
-        Sign in with Google to Get Started
-        <i class="arrow right icon"></i>
-      </a>
+      <%= render("sign_in_with_google_to_get_started.html") %>
 
       <a href="/faq" class="ui teal fluid button">
         F.A.Q.
