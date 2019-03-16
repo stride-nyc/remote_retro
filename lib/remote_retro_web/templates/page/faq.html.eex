@@ -7,9 +7,6 @@
   <h2 class="ui medium header">How much does RemoteRetro cost?</h2>
   <p>Zero! Zilch! Nada! It's FREE.</p>
 
-  <h2 class="ui medium header">Will it always be free?</h2>
-  <p>We can't make any promises, but we certainly hope so!</p>
-
   <h2 class="ui medium header">Who can use RemoteRetro?</h2>
   <p>Anyone with a Google account of any kind can enter a retrospective!</p>
 
@@ -17,14 +14,13 @@
   <p>You certainly <i>could</i>, but we don't recommend it, as there's no substitute for face-to-face communication. Use a whiteboard!</p>
 
   <h2 class="ui medium header">Where can I learn about planned features and updates?</h2>
-  <p>Our backlog resides in <a href="https://github.com/stride-nyc/remote_retro/issues">GitHub issues</a>, which can be viewed in priority order via the wonderful <a href="http://zenhub.io/">ZenHub Chrome extension</span></a>.</p>
+  <p>Our backlog is public, and resides in <a href="https://github.com/stride-nyc/remote_retro/issues">GitHub issues</a>, which can be viewed in priority order via the wonderful <a href="http://zenhub.io/">ZenHub Chrome extension</span></a>.</p>
 
   <h2 class="ui medium header">How many people should participate in a retro?</h2>
-
   <p>Ideally, a retrospective will contain no more than 10 people. Exceed 10, and participants will check out because they feel they can go unnoticed. If you can, keep the numbers low!</p>
 
   <h2 class="ui medium header">How can I submit feedback on my experience?</h2>
-  <p>Users are presented with a survey at the close of their first retro. Additionally, bugs and feature requests can be filed via GitHub issues at <a href="https://github.com/stride-nyc/remote_retro/issues/new">https://github.com/stride-nyc/remote_retro/issues/new</a> or via email at <a href="mailto:remote_retro@stridenyc.com">remote_retro@stridenyc.com</a></p>
+  <p>Bugs and feature requests can be filed via GitHub issues at <a href="https://github.com/stride-nyc/remote_retro/issues/new">https://github.com/stride-nyc/remote_retro/issues/new</a> or via email at <a href="mailto:remote_retro@stridenyc.com">remote_retro@stridenyc.com</a></p>
 
   <%= if !@current_user do %>
     <br />
