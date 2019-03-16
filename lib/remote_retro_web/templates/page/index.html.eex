@@ -47,21 +47,9 @@
           <p>Save time with automated setup and teardown.</p>
         </div>
       </div>
-      <div class="ui divider computer tablet only grid"></div>
-      <div class="row">
-        <div class="ten wide column">
-          <h2 class="ui icon header">
-            <i class="icon">
-              <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro">
-                <img height="80" width="80" src="<%= Routes.static_path(@conn, "/images/stride_logo.png") %>" alt="Stride Logo">
-              </a>
-            </i>
-            An Open Source Project by <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro" class="stride-link">Stride Consulting</a>
-          </h2>
-        </div>
-      </div>
     </div>
   </div>
+
   <div class="ui padded secondary segment trusted-by">
     <div class="ui seven column stackable centered grid">
       <div class="row">
@@ -86,6 +74,18 @@
       </div>
     </div>
   </div>
+
+  <div class="ui very padded segment center aligned grid an-open-source-project-from-stride-consulting">
+    <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro">
+      <h2 class="ui icon header">
+        <i class="icon">
+          <img height="80" width="80" src="<%= Routes.static_path(@conn, "/images/stride_logo.png") %>" alt="Stride Logo">
+        </i>
+        An Open Source Project by Stride Consulting
+      </h2>
+    </a>
+  </div>
+
   <div class="ui very padded segment testimonials">
     <div class="ui two column stackable centered grid">
       <div class="column">
