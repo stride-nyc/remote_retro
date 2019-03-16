@@ -6,7 +6,7 @@
 <div class="welcome-wrapper polygons-background">
   <h1>
     Remote<br>
-    Retro
+    Retro <span class="by-stride-consulting">by Stride Consulting</span>
   </h1>
 
   <div class="ui header">
