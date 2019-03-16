@@ -6,16 +6,15 @@
     padding: var(--padding) 0 calc(1rem + var(--padding)) var(--padding);
   }
 
+  .stride-link {
+    color: inherit;
+  }
+
   .by-stride-consulting {
     /* exactly midway between header/subheader font-sizes in content below*/
     font-size: 16px;
 
     color: var(--semantic-sub-header-grey);
-
-    /* addition specificity to override default link styling */
-    a {
-      color: var(--semantic-sub-header-grey);
-    }
 
     font-weight: 100;
     margin-left: 0;

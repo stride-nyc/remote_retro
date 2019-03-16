@@ -6,7 +6,7 @@
 <div class="welcome-wrapper polygons-background">
   <h1>
     Remote<br>
-    Retro <span class="by-stride-consulting">by <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro">Stride Consulting</a></span>
+    Retro <span class="by-stride-consulting">by <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro" class="stride-link">Stride Consulting</a></span>
   </h1>
 
   <div class="ui header">
@@ -49,14 +49,15 @@
       </div>
       <div class="ui divider computer tablet only grid"></div>
       <div class="row">
-        <div class="column">
+        <div class="ten wide column">
           <h2 class="ui icon header">
-            <i class="massive grey code icon"></i>
-            Completely Open Source
+            <i class="icon">
+              <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro">
+                <img height="80" width="80" src="<%= Routes.static_path(@conn, "/images/stride_logo.png") %>" alt="Stride Logo">
+              </a>
+            </i>
+            An Open Source Project by <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro" class="stride-link">Stride Consulting</a>
           </h2>
-          <p>
-            <a href="https://github.com/stride-nyc/remote_retro" class="ui large button">GitHub</a>
-          </p>
         </div>
       </div>
     </div>
