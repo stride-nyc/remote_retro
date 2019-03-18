@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 
 import StageProgressionButton from "./stage_progression_button"
 import UserList from "./user_list"
-
 import styles from "./css_modules/centered_text_stage_wrapper.css"
 
 const CenteredTextStageWrapper = props => {
@@ -19,7 +18,7 @@ const CenteredTextStageWrapper = props => {
       </div>
       <div className="row">
         <h2 className="ui medium dividing header">Current Users</h2>
-        <UserList />
+        <UserList wrap />
       </div>
       <div className="row">
         <StageProgressionButton

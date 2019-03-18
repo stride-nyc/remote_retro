@@ -1,12 +1,15 @@
 import React from "react"
 import { connect } from "react-redux"
+import classNames from "classnames"
 
 import UserListItem from "./user_list_item"
+
 import * as AppPropTypes from "../prop_types"
+import PropTypes from "prop-types"
 import styles from "./css_modules/user_list.css"
 import { selectors } from "../redux/users_by_id"
 
-export const UserList = ({ presences }) => {
+export const UserList = ({ presences, wrap }) => {
   if (presences.length === 0) { return null }
 
   const sortedByArrival = presences.sort((a, b) => a.online_at - b.online_at)
@@ -27,9 +30,11 @@ export const UserList = ({ presences }) => {
     return <UserListItem key={presence.token} user={presence} />
   })
 
+  const userListClasses = classNames("ui tiny horizontal list", { wrap })
+
   return (
     <section className={`${styles.index} ui center aligned basic segment`}>
-      <ul id="user-list" className="ui tiny horizontal list">
+      <ul id="user-list" className={userListClasses}>
         {listItems}
       </ul>
     </section>
@@ -38,6 +43,7 @@ export const UserList = ({ presences }) => {
 
 UserList.propTypes = {
   presences: AppPropTypes.presences.isRequired,
+  wrap: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = state => {

@@ -1,14 +1,6 @@
 :global(.basic.segment).index {
   :global(.horizontal.list) {
     margin-left: 0;
-    display: inline-grid;
-    overflow-x: scroll;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-auto-flow: column;
-
-    :global(.item), :global(.item:first-child){
-      margin: 0rem 1rem;
-    }
   }
   margin-top: 0;
   margin-bottom: 0;
@@ -20,3 +12,17 @@
   white-space: nowrap;
   overflow-x: scroll;
 }
+
+:global(.basic.segment).index {
+  :global(.wrap) {
+    display: inline-grid;
+    overflow-x: scroll;
+    grid-template-rows: 1fr 1fr 1fr;
+    grid-auto-flow: column;
+
+    :global(.item), :global(.item:first-child){
+      margin: 0rem 1rem;
+    }
+  }
+}
+
