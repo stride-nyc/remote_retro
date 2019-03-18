@@ -29,13 +29,13 @@ describe("passed an array of users", () => {
   }]
 
   it("is renders a list item for each user presence", () => {
-    const wrapper = shallow(<UserList presences={presences} />)
+    const wrapper = shallow(<UserList wrap={false} presences={presences} />)
     expect(wrapper.find(UserListItem)).to.have.length(3)
   })
 
   it("sorts the presences such that the facilitator is first, followed by users by arrival ascending", () => {
     const wrapper = mountWithConnectedSubcomponents(
-      <UserList presences={presences} />
+      <UserList wrap={false} presences={presences} />
     )
     expect(wrapper.text()).to.match(/sarah.*zander.*treezy/i)
   })
@@ -48,7 +48,7 @@ describe("passed an array of users", () => {
 
     it("sorts the users solely by their arrival ascending ", () => {
       const wrapper = mountWithConnectedSubcomponents(
-        <UserList presences={nonFacilitatorPresences} />
+        <UserList wrap={false} presences={nonFacilitatorPresences} />
       )
 
       expect(wrapper.find(UserListItem)).to.have.length(3)
@@ -56,9 +56,16 @@ describe("passed an array of users", () => {
     })
   })
 
+  describe("when wrap is true", () => {
+    it("displays modified user list", () => {
+      const wrapper = shallow(<UserList wrap presences={presences} />)
+      expect(wrapper.find("ul").hasClass("wrap")).to.equal(true)
+    })
+  })
+
   describe("when the presences list is empty", () => {
     it("executes a null render", () => {
-      const wrapper = shallow(<UserList presences={[]} />)
+      const wrapper = shallow(<UserList wrap={false} presences={[]} />)
       expect(wrapper.html()).to.equal(null)
     })
   })

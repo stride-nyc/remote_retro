@@ -12,3 +12,18 @@
   white-space: nowrap;
   overflow-x: scroll;
 }
+
+:global(.basic.segment).index {
+  :global(.wrap) {
+    max-width: 28rem;
+    max-height: 24rem;
+    display: inline-block;
+    white-space: initial;
+    overflow-x: scroll;
+
+    :global(.item), :global(.item:first-child){
+      margin: 0rem 1rem;
+    }
+  }
+}
+
