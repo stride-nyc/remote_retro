@@ -8,6 +8,10 @@
 
   .stride-link {
     color: inherit;
+
+    &:hover {
+      text-decoration: underline;
+    }
   }
 
   .by-stride-consulting {
