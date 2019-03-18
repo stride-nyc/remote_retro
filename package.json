@@ -39,6 +39,8 @@
     "react-css-transition-replace": "^2.2.1",
     "react-dnd": "^7.0.2",
     "react-dnd-html5-backend": "^7.0.2",
+    "react-dnd-multi-backend": "^3.1.11",
+    "react-dnd-touch-backend": "^0.8.1",
     "react-dom": "^16.4.0",
     "react-flip-move": "^2.10.0",
     "react-hot-loader": "^3.1.3",
