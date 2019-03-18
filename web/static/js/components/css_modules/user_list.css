@@ -15,10 +15,11 @@
 
 :global(.basic.segment).index {
   :global(.wrap) {
-    display: inline-grid;
+    max-width: 28rem;
+    max-height: 24rem;
+    display: inline-block;
+    white-space: initial;
     overflow-x: scroll;
-    grid-template-rows: 1fr 1fr 1fr;
-    grid-auto-flow: column;
 
     :global(.item), :global(.item:first-child){
       margin: 0rem 1rem;

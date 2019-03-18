@@ -1,11 +1,11 @@
 import React from "react"
 import { connect } from "react-redux"
 import classNames from "classnames"
+import PropTypes from "prop-types"
 
 import UserListItem from "./user_list_item"
 
 import * as AppPropTypes from "../prop_types"
-import PropTypes from "prop-types"
 import styles from "./css_modules/user_list.css"
 import { selectors } from "../redux/users_by_id"
 
