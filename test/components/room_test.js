@@ -5,9 +5,10 @@ import Room from "../../web/static/js/components/room"
 import LobbyStage from "../../web/static/js/components/lobby_stage"
 import PrimeDirectiveStage from "../../web/static/js/components/prime_directive_stage"
 import IdeaGenerationStage from "../../web/static/js/components/idea_generation_stage"
+import GroupingStage from "../../web/static/js/components/grouping_stage"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION } = STAGES
+const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION, GROUPING } = STAGES
 
 describe("Room", () => {
   let room
@@ -17,6 +18,7 @@ describe("Room", () => {
       online_at: 803,
       picture: "http://herpderp.com",
     }],
+    ideas: [],
     facilitatorName: "Dirk",
     stageConfig: {},
     currentUser: { is_facilitator: false, token: "33ndk" },
@@ -47,6 +49,21 @@ describe("Room", () => {
       const primeDirectiveStage = room.find(PrimeDirectiveStage)
 
       expect(primeDirectiveStage).to.have.length(1)
+    })
+  })
+
+  describe("when the stage is grouping", () => {
+    it("renders the GroupingStage", () => {
+      room = shallow(
+        <Room
+          {...defaultProps}
+          stage={GROUPING}
+        />
+      )
+
+      const groupingStage = room.find(GroupingStage)
+
+      expect(groupingStage).to.have.length(1)
     })
   })
 
