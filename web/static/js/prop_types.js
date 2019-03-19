@@ -58,3 +58,11 @@ export const votes = PropTypes.arrayOf(PropTypes.object)
 export const ideas = PropTypes.arrayOf(idea)
 
 export const actions = PropTypes.object
+
+export const retro = PropTypes.shape({
+  facilitator_id: PropTypes.number,
+  id: PropTypes.string,
+  inserted_at: PropTypes.string,
+  stage,
+  updated_at: PropTypes.string,
+})

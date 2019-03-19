@@ -5,6 +5,7 @@ export const types = {
   RETRO_UPDATE_COMMITTED: "RETRO_UPDATE_COMMITTED",
   RETRO_UPDATE_REQUESTED: "RETRO_UPDATE_REQUESTED",
   RETRO_UPDATE_REJECTED: "RETRO_UPDATE_REJECTED",
+  SHOW_STAGE_HELP: "SHOW_STAGE_HELP",
 }
 
 export const actions = {
@@ -30,6 +31,12 @@ export const actions = {
   setInitialState: initialState => ({
     type: types.SET_INITIAL_STATE,
     initialState,
+  }),
+
+  showStageHelp: retro => ({
+    type: types.SHOW_STAGE_HELP,
+    retro,
+    stageConfigs,
   }),
 }
 

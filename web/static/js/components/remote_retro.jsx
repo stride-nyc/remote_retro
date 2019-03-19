@@ -13,6 +13,7 @@ import Room from "./room"
 import Alert from "./alert"
 import Error from "./error"
 import DoorChime from "./door_chime"
+import StageHelp from "./stage_help"
 
 export class RemoteRetro extends Component {
   // Trigger analytics events on page load and stage changes
@@ -53,6 +54,7 @@ export class RemoteRetro extends Component {
         <Alert config={alert} />
         <Error config={error} />
         <DoorChime presences={presences} />
+        <StageHelp />
       </div>
     )
   }
