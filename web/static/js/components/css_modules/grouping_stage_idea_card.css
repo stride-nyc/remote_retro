@@ -1,0 +1,12 @@
+@import '../../../css/colors.css';
+
+.wrapper {
+  display: inline-block;
+  padding: 5px 8px;
+
+  border: 1px solid var(--semantic-dark-grey);
+  border-radius: 3px;
+
+  color: var(--semantic-dark-grey);
+  background-color: white;
+}

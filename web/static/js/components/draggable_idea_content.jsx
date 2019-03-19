@@ -18,7 +18,7 @@ export const dragSourceSpec = {
 }
 
 // collects props as drag events begin and end
-const collect = (connect, monitor) => {
+export const collect = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
     isDragging: monitor.isDragging(),
