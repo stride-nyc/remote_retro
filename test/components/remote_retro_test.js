@@ -2,7 +2,7 @@ import React from "react"
 import { spy } from "sinon"
 import { shallow } from "enzyme"
 
-
+import ViewportMetaTag from "../../web/static/js/components/viewport_meta_tag"
 import { RemoteRetro } from "../../web/static/js/components/remote_retro"
 import STAGES from "../../web/static/js/configs/stages"
 
@@ -19,6 +19,7 @@ describe("RemoteRetro component", () => {
     retroChannel: mockRetroChannel,
     isTabletOrAbove: true,
     presences: [],
+    browser: { orientation: "landscape" },
     ideas: [],
     stage: IDEA_GENERATION,
     facilitatorName: "Daniel Handpan",
@@ -64,7 +65,7 @@ describe("RemoteRetro component", () => {
     })
   })
 
-  describe("when component updates without the current user's facilitatorship ", () => {
+  describe("when component updates without changing the current user's facilitatorship ", () => {
     const actions = {
       currentUserHasBecomeFacilitator: spy(),
     }
@@ -73,6 +74,25 @@ describe("RemoteRetro component", () => {
       const wrapper = shallow(<RemoteRetro {...defaultProps} actions={actions} />)
       wrapper.setProps({ stage: CLOSED, currentUser: stubUser })
       expect(actions.currentUserHasBecomeFacilitator).not.to.have.been.called
+    })
+  })
+
+  // we can't afford to have this integration break, as the grouping stage relies
+  // on viewport manipulation
+  it("renders a ViewportMetaTag, passing stage, alert, and browser orientation", () => {
+    const wrapper = shallow(
+      <RemoteRetro
+        {...defaultProps}
+        alert={{ derp: "herp" }}
+        browser={{ orientation: "portrait" }}
+        stage="lobby"
+      />
+    )
+
+    expect(wrapper.find(ViewportMetaTag).props()).to.eql({
+      alert: { derp: "herp" },
+      stage: "lobby",
+      browserOrientation: "portrait",
     })
   })
 })

@@ -10,6 +10,7 @@ import { actions, selectors } from "../redux"
 
 import * as AppPropTypes from "../prop_types"
 
+import ViewportMetaTag from "./viewport_meta_tag"
 import Room from "./room"
 import Alert from "./alert"
 import Error from "./error"
@@ -44,11 +45,17 @@ export class RemoteRetro extends Component {
       isTabletOrAbove,
       stageConfig,
       ideaGenerationCategories,
+      browser,
       actions,
     } = this.props
 
     return (
       <div className={stage}>
+        <ViewportMetaTag
+          stage={stage}
+          alert={alert}
+          browserOrientation={browser.orientation}
+        />
         <Room
           currentUser={currentUser}
           facilitatorName={facilitatorName}
@@ -58,6 +65,7 @@ export class RemoteRetro extends Component {
           stage={stage}
           stageConfig={stageConfig}
           actions={actions}
+          browser={browser}
           retroChannel={retroChannel}
           isTabletOrAbove={isTabletOrAbove}
         />
@@ -83,6 +91,8 @@ RemoteRetro.propTypes = {
   facilitatorName: PropTypes.string,
   isTabletOrAbove: PropTypes.bool.isRequired,
   stageConfig: AppPropTypes.stageConfig.isRequired,
+  retro: AppPropTypes.retro.isRequired,
+  browser: PropTypes.object.isRequired,
 }
 
 RemoteRetro.defaultProps = {
