@@ -1,5 +1,8 @@
-const types = {
+import { types as retroTypes } from "./retro"
+
+export const types = {
   CLEAR_ALERT: "CLEAR_ALERT",
+  SHOW_STAGE_HELP: "SHOW_STAGE_HELP",
 }
 
 export const actions = {
@@ -8,9 +11,13 @@ export const actions = {
 
 export const reducer = (state = null, action) => {
   switch (action.type) {
-    case "RETRO_UPDATE_COMMITTED": {
+    case retroTypes.RETRO_UPDATE_COMMITTED: {
       const { retro, stageConfigs } = action
-      return stageConfigs[retro.stage].alert
+      return stageConfigs[retro.stage].alert || null
+    }
+    case types.SHOW_STAGE_HELP: {
+      const { retro, stageConfigs } = action
+      return stageConfigs[retro.stage].help || null
     }
     case types.CLEAR_ALERT:
       return null

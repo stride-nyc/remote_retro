@@ -21,6 +21,10 @@ const baseIdeaGenerationConfig = {
     headerText: "Stage Change: Idea Generation!",
     BodyComponent: StageChangeInfoIdeaGeneration,
   },
+  help: {
+    headerText: "Idea Generation",
+    BodyComponent: StageChangeInfoIdeaGeneration,
+  },
 }
 const ideaGenerationConfig = localStorage.groupingDev ? {
   ...baseIdeaGenerationConfig,
@@ -43,6 +47,7 @@ const ideaGenerationConfig = localStorage.groupingDev ? {
 export default {
   [LOBBY]: {
     alert: null,
+    help: null,
     confirmationMessage: "Has your entire party arrived?",
     nextStage: PRIME_DIRECTIVE,
     progressionButton: {
@@ -53,6 +58,10 @@ export default {
   [PRIME_DIRECTIVE]: {
     alert: {
       headerText: "Stage Change: The Prime Directive!",
+      BodyComponent: StageChangeInfoPrimeDirective,
+    },
+    help: {
+      headerText: "The Prime Directive",
       BodyComponent: StageChangeInfoPrimeDirective,
     },
     confirmationMessage: "Is everyone ready to begin?",
@@ -68,6 +77,10 @@ export default {
       headerText: "Stage Change: Grouping!",
       BodyComponent: StageChangeInfoGrouping,
     },
+    help: {
+      headerText: "Grouping",
+      BodyComponent: StageChangeInfoGrouping,
+    },
     confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
     nextStage: VOTING,
     progressionButton: {
@@ -78,6 +91,10 @@ export default {
   [VOTING]: {
     alert: {
       headerText: "Stage Change: Voting!",
+      BodyComponent: StageChangeInfoVoting,
+    },
+    help: {
+      headerText: "Voting",
       BodyComponent: StageChangeInfoVoting,
     },
     confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
@@ -92,6 +109,10 @@ export default {
       headerText: "Stage Change: Action-Item Generation!",
       BodyComponent: StageChangeInfoActionItems,
     },
+    help: {
+      headerText: "Action-Item Generation",
+      BodyComponent: StageChangeInfoActionItems,
+    },
     confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
     nextStage: CLOSED,
     progressionButton: {
@@ -102,6 +123,10 @@ export default {
   [CLOSED]: {
     alert: {
       headerText: "Retro: Closed!",
+      BodyComponent: StageChangeInfoClosed,
+    },
+    help: {
+      headerText: "Retro is Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
     confirmationMessage: null,

@@ -1,4 +1,5 @@
 import stageConfigs from "../configs/stage_configs"
+import { types as alertTypes } from "./alert"
 
 export const types = {
   SET_INITIAL_STATE: "SET_INITIAL_STATE",
@@ -30,6 +31,12 @@ export const actions = {
   setInitialState: initialState => ({
     type: types.SET_INITIAL_STATE,
     initialState,
+  }),
+
+  showStageHelp: retro => ({
+    type: alertTypes.SHOW_STAGE_HELP,
+    retro,
+    stageConfigs,
   }),
 }
 
