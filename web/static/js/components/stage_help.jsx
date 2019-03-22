@@ -6,7 +6,7 @@ import { bindActionCreators } from "redux"
 import { actions } from "../redux/retro"
 
 import * as AppPropTypes from "../prop_types"
-import STAGES from "../configs/stages"
+import stageConfig from "../configs/stage_configs"
 
 export const StageHelp = props => {
   const handleClick = () => {
@@ -16,15 +16,7 @@ export const StageHelp = props => {
 
   const showIcon = () => {
     const { retro: { stage } } = props
-    const validHelpStages = [
-      STAGES.PRIME_DIRECTIVE,
-      STAGES.IDEA_GENERATION,
-      STAGES.GROUPING,
-      STAGES.VOTING,
-      STAGES.ACTION_ITEMS,
-      STAGES.CLOSED,
-    ]
-    return validHelpStages.includes(stage)
+    return (stageConfig[stage] && stageConfig[stage].help)
   }
 
   if (showIcon()) {
@@ -44,12 +36,6 @@ export const StageHelp = props => {
   return null
 }
 
-const mapStateToProps = state => {
-  return {
-    retro: state.retro,
-  }
-}
-
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch),
 })
@@ -59,4 +45,4 @@ StageHelp.propTypes = {
   actions: AppPropTypes.actions.isRequired,
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(StageHelp)
+export default connect(null, mapDispatchToProps)(StageHelp)

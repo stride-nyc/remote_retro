@@ -68,6 +68,9 @@ describe("alert", () => {
             bodyText: "Tell me what to do",
           },
         },
+        nightfall: {
+          no_help: {},
+        },
         stageLackingHelpConfig: {},
       }
 
@@ -88,6 +91,20 @@ describe("alert", () => {
             headerText: "I need help!",
             bodyText: "Tell me what to do",
           })
+        })
+      })
+
+      describe("when the given stage does NOT have a help in the given configuration map", () => {
+        const action = {
+          type: "SHOW_STAGE_HELP",
+          retro: {
+            stage: "nightfall",
+          },
+          stageConfigs,
+        }
+
+        it("returns the help for the given stage", () => {
+          expect(reducer(initialState, action)).to.deep.equal(null)
         })
       })
     })
