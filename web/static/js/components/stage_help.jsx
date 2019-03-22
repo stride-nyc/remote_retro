@@ -1,10 +1,6 @@
 import React from "react"
 import ReactDOM from "react-dom"
 
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import { actions } from "../redux/retro"
-
 import * as AppPropTypes from "../prop_types"
 import stageConfig from "../configs/stage_configs"
 
@@ -16,7 +12,7 @@ export const StageHelp = props => {
 
   const showIcon = () => {
     const { retro: { stage } } = props
-    return (stageConfig[stage] && stageConfig[stage].help)
+    return stageConfig[stage].help
   }
 
   if (showIcon()) {
@@ -36,13 +32,9 @@ export const StageHelp = props => {
   return null
 }
 
-const mapDispatchToProps = dispatch => ({
-  actions: bindActionCreators(actions, dispatch),
-})
-
 StageHelp.propTypes = {
   retro: AppPropTypes.retro.isRequired,
   actions: AppPropTypes.actions.isRequired,
 }
 
-export default connect(null, mapDispatchToProps)(StageHelp)
+export default StageHelp

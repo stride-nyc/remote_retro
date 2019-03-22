@@ -103,7 +103,7 @@ describe("alert", () => {
           stageConfigs,
         }
 
-        it("returns the help for the given stage", () => {
+        it("returns a null for the given stage", () => {
           expect(reducer(initialState, action)).to.deep.equal(null)
         })
       })

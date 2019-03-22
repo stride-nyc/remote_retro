@@ -3,6 +3,7 @@ import sinon from "sinon"
 import { shallow } from "enzyme"
 
 import { StageHelp } from "../../web/static/js/components/stage_help"
+import STAGES from "../../web/static/js/configs/stages"
 
 describe("<StageHelp />", () => {
   let wrapper
@@ -25,7 +26,7 @@ describe("<StageHelp />", () => {
 
   describe("when it is a stage with help to show", () => {
     beforeEach(() => {
-      retro = { stage: "idea-generation" }
+      retro = { stage: STAGES.IDEA_GENERATION }
       const newProps = { ...defaultProps, retro }
       wrapper = shallow(<StageHelp {...newProps} />)
     })
@@ -44,7 +45,7 @@ describe("<StageHelp />", () => {
 
   describe("when it is a stage with no help to show", () => {
     beforeEach(() => {
-      const retro = { stage: null }
+      const retro = { stage: STAGES.LOBBY }
       const newProps = { ...defaultProps, retro }
       wrapper = shallow(<StageHelp {...newProps} />)
     })

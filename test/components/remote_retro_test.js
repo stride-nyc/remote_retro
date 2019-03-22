@@ -18,7 +18,7 @@ describe("RemoteRetro component", () => {
     ideas: [],
     stage: IDEA_GENERATION,
     facilitatorName: "Daniel Handpan",
-    retro: {},
+    retro: { stage: IDEA_GENERATION },
   }
 
   context("when the component mounts", () => {

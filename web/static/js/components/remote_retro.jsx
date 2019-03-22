@@ -39,6 +39,7 @@ export class RemoteRetro extends Component {
       facilitatorName,
       isTabletOrAbove,
       retro,
+      actions,
     } = this.props
 
     return (
@@ -55,7 +56,7 @@ export class RemoteRetro extends Component {
         <Alert config={alert} />
         <Error config={error} />
         <DoorChime presences={presences} />
-        <StageHelp retro={retro} />
+        <StageHelp retro={retro} actions={actions} />
       </div>
     )
   }
