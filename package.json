@@ -43,7 +43,7 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui-offline": "github:vanderhoop/semantic-ui-offline#dbf68a08531a48aa5b2bdc123b92a3c3df112515",
     "uuid": "^3.3.2",
-    "webpack": "^4.29.3",
+    "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
     "write-file-webpack-plugin": "^4.2.0"
   },
