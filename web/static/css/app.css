@@ -200,6 +200,16 @@
     padding-right: 0.5rem;
     margin-right: 0;
 
+    .built-by-wrapper {
+      display: none;
+
+      @media(min-width: 768px) {
+        display: block;
+        border-right: 1px solid lightgray;
+        margin-right: 1rem;
+      }
+    }
+
     .logo-text {
       font-size: 12px;
       font-weight: 500;
@@ -207,9 +217,12 @@
       padding-right: 0.2rem;
       padding-top: 0.15rem;
     }
+    .question.circle.outline.icon {
+      margin-right: 1rem;
+    }
 
     .help-icon {
-      padding: 0.1rem 0rem 0rem 0rem;
+      padding: 0.15rem 0rem 0rem 0rem;
       cursor: pointer;
     }
 

@@ -20,7 +20,7 @@ export const StageHelp = props => {
       <div className="portal">
         <i
           title="Access Stage Information"
-          className="question circle icon"
+          className="question circle outline icon"
           onClick={handleClick}
           onKeyPress={handleClick}
         />
