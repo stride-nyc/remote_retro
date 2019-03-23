@@ -6,7 +6,7 @@ import IdeaContentBase from "../../web/static/js/components/idea_content_base"
 import DraggableIdeaContent from "../../web/static/js/components/draggable_idea_content"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, GROUPING } = STAGES
+const { IDEA_GENERATION } = STAGES
 
 describe("<ConditionallyDraggableIdeaContent />", () => {
   let wrapper
@@ -90,33 +90,6 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
 
         it("doesn't render DraggableIdeaContent", () => {
           expect(wrapper.find(DraggableIdeaContent)).to.have.length(0)
-        })
-      })
-    })
-
-    context("when the stage is grouping", () => {
-      context("and the user is neither the facilitator", () => {
-        context("nor the author of the idea", () => {
-          beforeEach(() => {
-            wrapper = shallow(
-              <ConditionallyDraggableIdeaContent
-                {...defaultProps}
-                currentUser={{
-                  is_facilitator: false,
-                  id: 393939393939,
-                }}
-                stage={GROUPING}
-              />
-            )
-          })
-
-          it("renders DraggableIdeaContent", () => {
-            expect(wrapper.find(DraggableIdeaContent)).to.have.length(1)
-          })
-
-          it("doesn't render IdeaContentBase", () => {
-            expect(wrapper.find(IdeaContentBase)).to.have.length(0)
-          })
         })
       })
     })

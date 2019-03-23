@@ -5,7 +5,7 @@ import IdeaEditDeleteIcons from "../../web/static/js/components/idea_edit_delete
 import VotingInterface from "../../web/static/js/components/voting_interface"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, VOTING, GROUPING, ACTION_ITEMS, CLOSED } = STAGES
+const { IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
 describe("<StageAwareIdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
@@ -20,19 +20,6 @@ describe("<StageAwareIdeaControls />", () => {
     retroChannel: { push: () => {}, on: () => {} },
     cumulativeVoteCountForUser: 0,
   }
-
-  context("when the stage is 'grouping'", () => {
-    const wrapper = mountWithConnectedSubcomponents(
-      <StageAwareIdeaControls
-        {...defaultProps}
-        stage={GROUPING}
-      />
-    )
-
-    it("renders no markup", () => {
-      expect(wrapper.html()).to.equal(null)
-    })
-  })
 
   context("when the stage is closed", () => {
     context("and idea represents an action-item", () => {

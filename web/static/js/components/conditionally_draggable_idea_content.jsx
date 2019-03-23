@@ -7,7 +7,7 @@ import IdeaContentBase from "./idea_content_base"
 import * as AppPropTypes from "../prop_types"
 import STAGES from "../configs/stages"
 
-const { IDEA_GENERATION, GROUPING } = STAGES
+const { IDEA_GENERATION } = STAGES
 
 const ConditionallyDraggableIdeaContent = props => {
   const {
@@ -16,11 +16,9 @@ const ConditionallyDraggableIdeaContent = props => {
     isTabletOrAbove,
   } = props
 
-  const isGrouping = stage === GROUPING
   const isIdeaGeneration = stage === IDEA_GENERATION
 
-  const isIdeaDragEligible = isTabletOrAbove
-                             && (isGrouping || (isIdeaGeneration && canUserEditIdeaContents))
+  const isIdeaDragEligible = isTabletOrAbove && isIdeaGeneration && canUserEditIdeaContents
 
   return isIdeaDragEligible ? (
     <DraggableIdeaContent {...props} />
