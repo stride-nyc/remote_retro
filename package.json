@@ -14,7 +14,7 @@
     "*.{js,jsx}": "eslint"
   },
   "dependencies": {
-    "@honeybadger-io/webpack": "^1.0.4",
+    "@honeybadger-io/webpack": "^1.1.4",
     "autoprefixer": "^9.4.7",
     "classnames": "^2.2.5",
     "hard-source-webpack-plugin": "^0.13.1",
