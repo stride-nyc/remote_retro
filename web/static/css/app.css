@@ -183,7 +183,7 @@
 :global .ui.branded-header-container {
   background: var(--lightest-grey);
   border: none;
-  padding: 0.5rem 0.5rem;
+  padding: 0.4rem 0.5rem;
   margin-bottom: 0;
 
   .left-branded-header {
@@ -215,15 +215,19 @@
       font-weight: 500;
       color: var(--semantic-dark-grey);
       padding-right: 0.2rem;
-      padding-top: 0.15rem;
+      transform: translateY(1px);
     }
     .question.circle.outline.icon {
       margin-right: 1rem;
     }
 
     .help-icon {
-      padding: 0.15rem 0rem 0rem 0rem;
+      padding: 0;
       cursor: pointer;
+      .question.icon:before {
+        display: inline-block;
+        transform: translateY(1px);
+      }
     }
 
     :global(.ui.tiny.image) {
@@ -232,14 +236,11 @@
        */
       height: 1.5rem;
       width: auto;
+      vertical-align: bottom;
 
       img {
         height: 100%;
       }
-    }
-
-    :global(.logout) {
-      transform: translateY(1px);
     }
   }
 }
