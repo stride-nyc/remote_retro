@@ -1,16 +1,10 @@
 import React from "react"
 import { DropTarget } from "react-dnd"
-import { Preview as TouchEventDragPreview } from "react-dnd-multi-backend"
 import PropTypes from "prop-types"
 
 import GroupingStageIdeaCard from "./grouping_stage_idea_card"
+import GroupingStageCustomDragLayer from "./grouping_stage_custom_drag_layer"
 import * as AppPropTypes from "../prop_types"
-
-// specification for rendering a drag preview on touch devices
-// https://github.com/LouisBrunner/dnd-multi-backend/tree/master/packages/react-dnd-multi-backend#preview
-const generateTouchEventDragPreview = (type, item, styles) => {
-  return <GroupingStageIdeaCard touchEventDragPreviewStyles={styles} idea={item.draggedIdea} />
-}
 
 export const GroupingBoard = props => {
   const { ideas, connectDropTarget } = props
@@ -19,7 +13,7 @@ export const GroupingBoard = props => {
     <div style={{ flex: 1 }}>
       {ideas.map(idea => <GroupingStageIdeaCard idea={idea} key={idea.id} />)}
 
-      <TouchEventDragPreview generator={generateTouchEventDragPreview} />
+      <GroupingStageCustomDragLayer />
     </div>
   )
 }

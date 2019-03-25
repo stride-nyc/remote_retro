@@ -1,4 +1,5 @@
-import { dragSourceSpec } from "../../web/static/js/components/draggable_idea_content"
+import sinon from "sinon"
+import { dragSourceSpec, collect } from "../../web/static/js/components/draggable_idea_content"
 
 describe("DraggableIdeaContent", () => {
   describe("dragSourceSpec", () => {
@@ -24,6 +25,50 @@ describe("DraggableIdeaContent", () => {
           },
         })
       })
+    })
+  })
+
+  describe("collect", () => {
+    let monitorMock
+    let connectMock
+    it("passes the 'is dragging' state to the idea", () => {
+      monitorMock = { isDragging: () => "stubResult" }
+      connectMock = {
+        dragPreview: sinon.stub(),
+        dragSource: sinon.stub(),
+      }
+
+      const result = collect(connectMock, monitorMock)
+
+      expect(result.isDragging).to.eql("stubResult")
+    })
+
+    it("passes a custom drag preview func needed for changing the dragged idea's appearance mid-drag", () => {
+      const dragPreviewStub = () => {}
+
+      monitorMock = { isDragging: sinon.stub() }
+      connectMock = {
+        dragPreview: () => (dragPreviewStub),
+        dragSource: sinon.stub(),
+      }
+
+      const result = collect(connectMock, monitorMock)
+
+      expect(Object.values(result)).to.contain(dragPreviewStub)
+    })
+
+    it("passes the dragSource function returned by connect.dragSource", () => {
+      const dragSourceStub = () => {}
+
+      monitorMock = { isDragging: sinon.stub() }
+      connectMock = {
+        dragPreview: sinon.stub(),
+        dragSource: () => (dragSourceStub),
+      }
+
+      const result = collect(connectMock, monitorMock)
+
+      expect(Object.values(result)).to.contain(dragSourceStub)
     })
   })
 })
