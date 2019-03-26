@@ -17,6 +17,14 @@
     margin: 0;
   }
 
+  .facilitator {
+    position: absolute;
+    right: 0;
+    border-radius: 1rem;
+    height: 2rem;
+    width: 2rem;
+  }
+
   .all-votes-in {
     color: var(--semantic-green);
     font-size: 0.7rem;
