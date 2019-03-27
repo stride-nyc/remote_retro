@@ -13,18 +13,15 @@ export const UserList = ({ presences, wrap }) => {
   if (presences.length === 0) { return null }
 
   const sortedByArrival = presences.sort((a, b) => a.online_at - b.online_at)
-  const indexOfFacilitator = sortedByArrival.findIndex(presence => presence.is_facilitator)
-
-  const nonFacilitators = [
-    ...sortedByArrival.slice(0, indexOfFacilitator),
-    ...sortedByArrival.slice(indexOfFacilitator + 1),
-  ]
+  const facilitator = sortedByArrival.find(presence => presence.is_facilitator)
+  const nonFacilitatorsSortedByArrival = sortedByArrival
+    .filter(presence => !presence.is_facilitator)
 
   // account for cases where the facilitator isn't present
   // (comp falls asleep, browser refresh, et cetera)
-  const presencesToRender = indexOfFacilitator === -1
-    ? sortedByArrival
-    : [presences[indexOfFacilitator], ...nonFacilitators]
+  const presencesToRender = facilitator
+    ? [facilitator, ...nonFacilitatorsSortedByArrival]
+    : sortedByArrival
 
   const listItems = presencesToRender.map(presence => {
     return <UserListItem key={presence.token} user={presence} />
