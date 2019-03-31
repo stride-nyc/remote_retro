@@ -99,8 +99,8 @@ jobs:  # basic units of work in a run
             git remote add gigalixir https://$GIGALIXIR_EMAIL:$GIGALIXIR_API_KEY@git.gigalixir.com/$GIGALIXIR_APP_NAME.git
             git fetch gigalixir
 
-            # avoid hot upgrades when elixir dependencies or configuration have changed since last master build
-            if git log $(git rev-parse gigalixir/master)..HEAD --name-only | grep "config.exs\|prod.exs\|mix.exs\|mix.lock"; then
+            # avoid hot upgrades when elixir deps, env config, or db migrations have changed since last master build
+            if git log $(git rev-parse gigalixir/master)..HEAD --name-only | grep "config.exs\|prod.exs\|mix.exs\|mix.lock\|priv/repo/migrations"; then
               git -c http.extraheader="GIGALIXIR-CLEAN: true" push gigalixir HEAD:refs/heads/master --force;
             else
               git -c http.extraheader="GIGALIXIR-HOT: true" push gigalixir HEAD:refs/heads/master --force;
