@@ -100,7 +100,7 @@ jobs:  # basic units of work in a run
             git fetch gigalixir
 
             # avoid hot upgrades when elixir deps, env config, or db migrations have changed since last master build
-            if git log $(git rev-parse gigalixir/master)..HEAD --name-only | grep "config.exs\|prod.exs\|mix.exs\|mix.lock\|priv/repo/migrations"; then
+            if git log $(git rev-parse gigalixir/master).. --name-status --pretty="format:" | grep "config.exs\|prod.exs\|mix.exs\|mix.lock\|priv/repo/migrations"; then
               git -c http.extraheader="GIGALIXIR-CLEAN: true" push gigalixir HEAD:refs/heads/master --force;
             else
               git -c http.extraheader="GIGALIXIR-HOT: true" push gigalixir HEAD:refs/heads/master --force;
