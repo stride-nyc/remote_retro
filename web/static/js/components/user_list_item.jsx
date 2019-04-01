@@ -1,6 +1,7 @@
 import React from "react"
+import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
-import { selectors } from "../redux"
+import { selectors, actions } from "../redux"
 import { VOTE_LIMIT } from "../configs/retro_configs"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list_item.css"
@@ -9,7 +10,7 @@ import STAGES from "../configs/stages"
 
 const { VOTING } = STAGES
 
-export const UserListItem = ({ user, votes, stage, currentUser }) => {
+export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
   const imgSrc = user.picture.replace("sz=50", "sz=200")
   const votesByUser = votes.filter(vote => vote.user_id === user.id).length
   const allVotesIn = votesByUser >= VOTE_LIMIT
@@ -20,8 +21,10 @@ export const UserListItem = ({ user, votes, stage, currentUser }) => {
     identifier += " (Facilitator)"
   }
 
-  function passFacilitator() {
-    console.log("foobar")
+  function passFacilitatorship(user) {
+    if (window.confirm(`Do you want ${identifier} to be Facilitator?`)) {
+      actions.updateRetroAsync({ facilitator_id: user.id })
+    }
   }
 
   return (
@@ -34,7 +37,7 @@ export const UserListItem = ({ user, votes, stage, currentUser }) => {
           data-inverted=""
           data-position="bottom right"
           className={`${styles.facilitator}`}
-          onClick={passFacilitator}
+          onClick={() => passFacilitatorship(user, currentUser)}
         >
           {currentUser.id !== user.id && <i className="ui magic icon" />}
         </button>
@@ -54,6 +57,7 @@ UserListItem.propTypes = {
   user: AppPropTypes.presence.isRequired,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
+  actions: AppPropTypes.action.isRequired,
 }
 
 const mapStateToProps = state => ({
@@ -62,6 +66,11 @@ const mapStateToProps = state => ({
   currentUser: selectors.getCurrentUserPresence(state),
 })
 
+const mapDispatchToProps = dispatch => ({
+  actions: bindActionCreators(actions, dispatch),
+})
+
 export default connect(
-  mapStateToProps
+  mapStateToProps,
+  mapDispatchToProps
 )(UserListItem)

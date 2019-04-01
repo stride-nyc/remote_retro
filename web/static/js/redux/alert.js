@@ -12,8 +12,8 @@ export const actions = {
 export const reducer = (state = null, action) => {
   switch (action.type) {
     case retroTypes.RETRO_UPDATE_COMMITTED: {
-      const { retro, stageConfigs } = action
-      return stageConfigs[retro.stage].alert || null
+      const { retroChanges, stageConfigs } = action
+      return retroChanges.stage ? stageConfigs[retroChanges.stage].alert : null
     }
     case types.SHOW_STAGE_HELP: {
       const { retro, stageConfigs } = action

@@ -1,4 +1,5 @@
 import deepFreeze from "deep-freeze"
+import NewFacilitator from "../../web/static/js/components/new_facilitator"
 
 import {
   reducer,
@@ -57,6 +58,20 @@ describe("alert", () => {
           })
         })
       })
+
+      describe("when the stage isn't included in the retroChanges", () => {
+        const action = {
+          type: "RETRO_UPDATE_COMMITTED",
+          retroChanges: {
+            facilitator_id: 42,
+          },
+          stageConfigs,
+        }
+
+        it("doesn't change the state", () => {
+          expect(reducer(initialState, action)).to.deep.equal(null)
+        })
+      })
     })
 
     describe("when the action is SHOW_STAGE_HELP", () => {
@@ -105,6 +120,18 @@ describe("alert", () => {
 
         it("returns a null for the given stage", () => {
           expect(reducer(initialState, action)).to.deep.equal(null)
+        })
+      })
+    })
+
+    describe("when the action is NEW_FACILITATOR", () => {
+      const action = { type: "NEW_FACILITATOR" }
+      const initialState = null
+
+      it("returns configs for the NewFacilitator alert", () => {
+        expect(reducer(initialState, action)).to.eql({
+          headerText: "New Facilitator",
+          BodyComponent: NewFacilitator,
         })
       })
     })

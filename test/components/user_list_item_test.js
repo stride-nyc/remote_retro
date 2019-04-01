@@ -1,5 +1,6 @@
 import React from "react"
 import { shallow, mount } from "enzyme"
+import sinon from "sinon"
 
 import { UserListItem } from "../../web/static/js/components/user_list_item"
 import STAGES from "../../web/static/js/configs/stages"
@@ -11,12 +12,25 @@ const defaultUserAttrs = {
   online_at: 803,
   is_typing: false,
   picture: "http://some/image.jpg?sz=200",
+  id: 4,
+}
+
+const secondaryrUserAttrs = {
+  given_name: "xion",
+  online_at: 805,
+  is_typing: false,
+  picture: "http://some/image.jpg?sz=200",
+  id: 5,
 }
 
 const defaultProps = {
   votes: [],
   stage: IDEA_GENERATION,
   user: defaultUserAttrs,
+  currentUser: defaultUserAttrs,
+  actions: {
+    updateRetroAsync: sinon.spy(),
+  },
 }
 
 describe("UserListItem", () => {
@@ -42,6 +56,57 @@ describe("UserListItem", () => {
         <UserListItem {...defaultProps} user={user} />
       )
       expect(wrapper.text()).not.to.match(/dylan \(facilitator\)/i)
+    })
+  })
+
+  describe("passed a non-facilitator as a facilitator", () => {
+    const user = { ...defaultUserAttrs, is_facilitator: true }
+    const user2 = { ...secondaryrUserAttrs, is_facilitator: false }
+
+    it("renders the magic icon", () => {
+      const wrapper = shallow(
+        <UserListItem {...defaultProps} user={user2} currentUser={user} />
+      )
+      expect(wrapper.find("i.magic.icon")).to.have.length(1)
+    })
+
+    it("renders facilitator button", () => {
+      const wrapper = shallow(
+        <UserListItem {...defaultProps} user={user2} currentUser={user} />
+      )
+      expect(wrapper.find("button.facilitator")).to.have.length(1)
+    })
+
+    describe("passing facilitatorship", () => {
+      beforeEach(() => {
+        window.confirm = sinon.stub().returns(true)
+      })
+
+      it("calls the action to change facilitator", () => {
+        const wrapper = shallow(
+          <UserListItem {...defaultProps} user={user2} currentUser={user} />
+        )
+        wrapper.find("button.facilitator").simulate("click")
+        expect(defaultProps.actions.updateRetroAsync.calledWith({ facilitator_id: user2.id }))
+      })
+    })
+  })
+
+  describe("facilitator is the user", () => {
+    const user = { ...defaultUserAttrs, is_facilitator: true }
+
+    it("does not render the magic icon", () => {
+      const wrapper = shallow(
+        <UserListItem {...defaultProps} user={user} currentUser={user} />
+      )
+      expect(wrapper.find("i.magic.icon")).to.have.length(0)
+    })
+
+    it("does not render the magic icon", () => {
+      const wrapper = shallow(
+        <UserListItem {...defaultProps} user={user} currentUser={user} />
+      )
+      expect(wrapper.find("button.facilitator")).to.have.length(0)
     })
   })
 

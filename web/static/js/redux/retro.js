@@ -9,11 +9,13 @@ export const types = {
 }
 
 export const actions = {
-  updateRetroSync: retro => ({
-    type: types.RETRO_UPDATE_COMMITTED,
-    retro,
-    stageConfigs,
-  }),
+  updateRetroSync: retroChanges => {
+    return ({
+      type: types.RETRO_UPDATE_COMMITTED,
+      retroChanges,
+      stageConfigs,
+    })
+  },
 
   updateRetroAsync: params => {
     return (dispatch, getState, retroChannel) => {
@@ -61,7 +63,7 @@ export const reducer = (state = null, action) => {
     case types.RETRO_UPDATE_REQUESTED:
       return { ...state, updateRequested: true }
     case types.RETRO_UPDATE_COMMITTED:
-      return { ...state, updateRequested: false, ...action.retro }
+      return { ...state, updateRequested: false, ...action.retroChanges }
     case types.RETRO_UPDATE_REJECTED:
       return { ...state, updateRequested: false }
     default:
