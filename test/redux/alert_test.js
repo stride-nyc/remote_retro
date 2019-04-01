@@ -45,7 +45,7 @@ describe("alert", () => {
       describe("when the given stage has an alert in the given configuration map", () => {
         const action = {
           type: "RETRO_UPDATE_COMMITTED",
-          retro: {
+          retroChanges: {
             stage: "daybreak",
           },
           stageConfigs,

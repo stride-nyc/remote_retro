@@ -57,7 +57,7 @@ UserListItem.propTypes = {
   user: AppPropTypes.presence.isRequired,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  actions: AppPropTypes.action.isRequired,
+  actions: AppPropTypes.actions.isRequired,
 }
 
 const mapStateToProps = state => ({

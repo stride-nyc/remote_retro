@@ -35,6 +35,10 @@ export const actions = {
     initialState,
   }),
 
+  newFacilitator: () => ({
+    type: alertTypes.NEW_FACILITATOR,
+  }),
+
   showStageHelp: retro => ({
     type: alertTypes.SHOW_STAGE_HELP,
     retro,
