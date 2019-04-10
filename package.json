@@ -55,6 +55,7 @@
     "uuid": "^3.3.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
+    "webpack-notifier": "^1.7.0",
     "write-file-webpack-plugin": "^4.2.0"
   },
   "devDependencies": {
@@ -82,7 +83,6 @@
     "react-test-renderer": "^16.1.1",
     "sinon": "^1.17.7",
     "sinon-chai": "^2.14.0",
-    "webpack-dev-server": "^3.1.5",
-    "webpack-notifier": "^1.7.0"
+    "webpack-dev-server": "^3.1.5"
   }
 }
