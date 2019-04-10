@@ -42,17 +42,38 @@ describe("VotingInterface", () => {
     })
 
     context("when the user has exhausted their votes", () => {
-      it("disables the add button", () => {
-        const votingInterface = shallow(
+      let votingInterface
+      let addVoteButton
+      let submitVoteSpy
+
+      beforeEach(() => {
+        submitVoteSpy = spy()
+
+        votingInterface = shallow(
           <VotingInterface
             {...defaultProps}
+            actions={{ submitVote: submitVoteSpy }}
             isVotingStage
             userHasExhaustedVotes
           />
         )
 
-        const plusButton = votingInterface.find(".icon.buttons .plus.button")
-        expect(plusButton.prop("disabled")).to.eql(true)
+        addVoteButton = votingInterface.find(".icon.buttons .plus.button")
+      })
+
+      it("disables the add button", () => {
+        expect(addVoteButton.prop("disabled")).to.eql(true)
+      })
+
+      context("when a bad actor removes the disabled attribute via dev tools", () => {
+        beforeEach(() => {
+          addVoteButton.prop("disabled", false)
+        })
+
+        it("does not submit a vote when they click the add vote button", () => {
+          addVoteButton.simulate("click")
+          expect(submitVoteSpy).not.to.have.been.called
+        })
       })
     })
 

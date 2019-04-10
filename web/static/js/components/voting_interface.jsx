@@ -8,7 +8,12 @@ import styles from "./css_modules/voting_interface.css"
 
 class VotingInterface extends React.Component {
   handleAddVoteClick = () => {
-    const { actions, idea, currentUser } = this.props
+    const { actions, idea, currentUser, userHasExhaustedVotes } = this.props
+
+    // we :disable the add vote button via this prop, but a bad actor
+    // could remove the disabled attribute via dev tools
+    if (userHasExhaustedVotes) { return }
+
     actions.submitVote(idea, currentUser)
   }
 

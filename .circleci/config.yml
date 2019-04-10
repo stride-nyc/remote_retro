@@ -97,7 +97,18 @@ jobs:  # basic units of work in a run
           name: Deploy to Gigalixir
           command: |
             git remote add gigalixir https://$GIGALIXIR_EMAIL:$GIGALIXIR_API_KEY@git.gigalixir.com/$GIGALIXIR_APP_NAME.git
-            git -c http.extraheader="GIGALIXIR-HOT: true" push -f gigalixir HEAD:refs/heads/master
+            git fetch gigalixir
+
+            # trigger full rebuilds when elixir deps or prod environment configs have changed
+            #   - also trigger full rebuilds when db migrations have been *added* since last push,
+            #     as these wouldn't be run when doing a hot upgrade, but are run on fresh builds
+
+            if git log $(git rev-parse gigalixir/master).. --name-status --pretty="format:" | grep "config.exs\|prod.exs\|mix.exs\|mix.lock\|A[[:space:]]priv/repo/migrations"; then
+              git -c http.extraheader="GIGALIXIR-CLEAN: true" push gigalixir HEAD:refs/heads/master --force;
+            else
+              git -c http.extraheader="GIGALIXIR-HOT: true" push gigalixir HEAD:refs/heads/master --force;
+            fi
+
       - run:
           name: Notify HoneyBadger of Deploy
           command: |

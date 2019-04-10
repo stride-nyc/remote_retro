@@ -47,7 +47,7 @@ defmodule RemoteRetro.Mixfile do
       {:plug_cowboy, "~> 2.0.1"},
       {:plug, "~> 1.7.2"},
       {:mix_test_watch, "~> 0.9", [runtime: false, only: :dev]},
-      {:mock, "~> 0.3.0", only: :test},
+      {:mock, "~> 0.3.3", only: :test},
       {:oauth2, "~> 0.9.4"},
       {:gettext, "~> 0.11"},
       {:wallaby, "~> 0.22.0", [runtime: false, only: :test]},
@@ -58,7 +58,7 @@ defmodule RemoteRetro.Mixfile do
       {:honeybadger, "~> 0.10.1"},
       {:credo, "~> 0.3", only: [:dev, :test]},
       {:apex, "~>1.2.0", only: [:dev, :test]},
-      {:timex, "~> 3.1"},
+      {:timex, "~> 3.5"},
       {:jason, "~> 1.1.2"},
     ]
   end
