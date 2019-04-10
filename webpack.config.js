@@ -57,7 +57,6 @@ const sourceMapPlugins =
   forDeployedProduction ? prodSourceMapPlugins : devSourceMapPlugins
 
 module.exports = {
-  ...productionOverrides,
   mode: "development", // default, which is overriden for prod by passing flag to CLI
   entry: [
     ...supplementalEntrypoints,
@@ -136,4 +135,5 @@ module.exports = {
     }]),
     new WriteFileWebpackPlugin([{ from: "./web/static/assets" }]),
   ],
+  ...productionOverrides,
 }
