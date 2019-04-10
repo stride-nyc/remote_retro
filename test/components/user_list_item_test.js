@@ -63,13 +63,6 @@ describe("UserListItem", () => {
     const facilitator = { ...defaultUserAttrs, is_facilitator: true }
     const nonFacilitator = { ...secondaryrUserAttrs, is_facilitator: false }
 
-    it("renders the magic icon", () => {
-      const wrapper = shallow(
-        <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
-      )
-      expect(wrapper.find("i.magic.icon")).to.have.length(1)
-    })
-
     it("renders facilitator button", () => {
       const wrapper = shallow(
         <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
@@ -118,13 +111,6 @@ describe("UserListItem", () => {
 
   describe("facilitator is the user", () => {
     const user = { ...defaultUserAttrs, is_facilitator: true }
-
-    it("does not render the magic icon", () => {
-      const wrapper = shallow(
-        <UserListItem {...defaultProps} user={user} currentUser={user} />
-      )
-      expect(wrapper.find("i.magic.icon")).to.have.length(0)
-    })
 
     it("does not render the magic button", () => {
       const wrapper = shallow(
