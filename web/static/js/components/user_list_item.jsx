@@ -29,14 +29,13 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
 
   return (
     <li className={`item ${styles.wrapper}`}>
-      {renderFacilitatorTransferButton
-      && (
+      {renderFacilitatorTransferButton && (
         <button
           type="button"
           data-tooltip="Transfer facilitatorship"
           data-inverted=""
           data-position="bottom right"
-          className={`${styles.facilitator}`}
+          className={styles.facilitator}
           onClick={() => passFacilitatorship(user, currentUser)}
         >
           <i className="ui magic icon" />
