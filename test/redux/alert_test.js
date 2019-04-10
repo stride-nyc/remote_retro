@@ -130,7 +130,7 @@ describe("alert", () => {
 
       it("returns configs for the NewFacilitator alert", () => {
         expect(reducer(initialState, action)).to.eql({
-          headerText: "New Facilitator",
+          headerText: "You've been granted the facilitatorship!",
           BodyComponent: NewFacilitator,
         })
       })

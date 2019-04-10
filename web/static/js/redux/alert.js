@@ -23,7 +23,7 @@ export const reducer = (state = null, action) => {
     }
     case types.NEW_FACILITATOR: {
       return {
-        headerText: "New Facilitator",
+        headerText: "You've been granted the facilitatorship!",
         BodyComponent: NewFacilitator,
       }
     }

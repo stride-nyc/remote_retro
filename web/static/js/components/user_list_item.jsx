@@ -22,7 +22,7 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
   }
 
   function passFacilitatorship(user) {
-    if (window.confirm(`Do you want ${identifier} to be Facilitator?`)) {
+    if (window.confirm(`Are you want sure you want to pass the facilitatorship to ${user.given_name}?`)) {
       actions.updateRetroAsync({ facilitator_id: user.id })
     }
   }
@@ -32,7 +32,7 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
       {renderFacilitatorTransferButton && (
         <button
           type="button"
-          data-tooltip="Transfer facilitatorship"
+          data-tooltip={`Transfer facilitatorship to ${user.given_name}`}
           data-inverted
           data-position="bottom right"
           className={styles.facilitator}
