@@ -61,12 +61,12 @@ describe("retro reducer", () => {
           facilitator_id: 67,
         })
 
-        const retro = {
+        const retroChanges = {
           stage: "new stage",
           facilitator_id: 70,
           someNewKey: "someNewVal",
         }
-        const action = { type: "RETRO_UPDATE_COMMITTED", retro }
+        const action = { type: "RETRO_UPDATE_COMMITTED", retroChanges }
         expect(reducer(initialState, action)).to.include({
           stage: "new stage",
           facilitator_id: 70,
@@ -120,7 +120,7 @@ describe("action creators", () => {
     it("creates an action to update the retro", () => {
       expect(actionCreators.updateRetroSync({ stage: "newSlang" })).to.deep.equal({
         type: "RETRO_UPDATE_COMMITTED",
-        retro: {
+        retroChanges: {
           stage: "newSlang",
         },
         stageConfigs,

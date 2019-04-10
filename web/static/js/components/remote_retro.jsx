@@ -15,6 +15,7 @@ import Error from "./error"
 import DoorChime from "./door_chime"
 import StageHelp from "./stage_help"
 
+
 export class RemoteRetro extends Component {
   // Trigger analytics events on page load and stage changes
   componentDidMount() {
@@ -23,8 +24,11 @@ export class RemoteRetro extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { stage } = this.props
+    const { stage, currentUser, actions } = this.props
     if (prevProps.stage !== stage) { hj("trigger", stage) }
+    if (!prevProps.currentUser.is_facilitator && currentUser.is_facilitator) {
+      actions.newFacilitator()
+    }
   }
 
   render() {
@@ -83,7 +87,7 @@ RemoteRetro.defaultProps = {
   / the channel is joined
   */
   currentUser: {
-    is_facilitator: false,
+    is_facilitator: true,
     token: window.userToken,
   },
   facilitatorName: "",

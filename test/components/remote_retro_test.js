@@ -1,5 +1,7 @@
 import React from "react"
 import { spy } from "sinon"
+import { shallow } from "enzyme"
+
 
 import { RemoteRetro } from "../../web/static/js/components/remote_retro"
 import STAGES from "../../web/static/js/configs/stages"
@@ -8,17 +10,22 @@ const { IDEA_GENERATION, CLOSED } = STAGES
 
 describe("RemoteRetro component", () => {
   const mockRetroChannel = {}
-  const stubUser = { given_name: "Mugatu" }
+  const stubUser = {
+    given_name: "Mugatu",
+    is_facilitator: false,
+  }
   const defaultProps = {
     currentUser: stubUser,
     retroChannel: mockRetroChannel,
     isTabletOrAbove: true,
     presences: [],
-    actions: {},
     ideas: [],
     stage: IDEA_GENERATION,
     facilitatorName: "Daniel Handpan",
     retro: { stage: IDEA_GENERATION },
+    actions: {
+      newFacilitator: () => {},
+    },
   }
 
   context("when the component mounts", () => {
@@ -30,6 +37,40 @@ describe("RemoteRetro component", () => {
       )
 
       expect(hotjarSpy).calledWith("trigger", CLOSED)
+    })
+  })
+
+  describe("when component updates with a new facilitator", () => {
+    let newFacilitator
+    let actions
+
+    beforeEach(() => {
+      newFacilitator = {
+        ...stubUser,
+        is_facilitator: true,
+      }
+
+      actions = {
+        newFacilitator: spy(),
+      }
+    })
+
+    it("calls the new facilitator action", () => {
+      const wrapper = shallow(<RemoteRetro {...defaultProps} actions={actions} />)
+      wrapper.setProps({ currentUser: newFacilitator })
+      expect(actions.newFacilitator).to.have.been.called
+    })
+  })
+
+  describe("when component updates without the current user's facilitatorship ", () => {
+    const actions = {
+      newFacilitator: spy(),
+    }
+
+    it("does not call the new facilitator action", () => {
+      const wrapper = shallow(<RemoteRetro {...defaultProps} actions={actions} />)
+      wrapper.setProps({ stage: CLOSED, currentUser: stubUser })
+      expect(actions.newFacilitator).not.to.have.been.called
     })
   })
 })

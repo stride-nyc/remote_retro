@@ -34,10 +34,9 @@ describe("passed an array of users", () => {
   })
 
   it("sorts the presences such that the facilitator is first, followed by users by arrival ascending", () => {
-    const wrapper = mountWithConnectedSubcomponents(
-      <UserList wrap={false} presences={presences} />
-    )
-    expect(wrapper.text()).to.match(/sarah.*zander.*treezy/i)
+    const wrapper = shallow(<UserList wrap={false} presences={presences} />)
+    const givenNames = wrapper.find(UserListItem).map(userListItem => userListItem.prop("user").given_name)
+    expect(givenNames).to.eql(["sarah", "zander", "treezy"])
   })
 
   describe("when none of the users passed is a facilitator", () => {
@@ -47,12 +46,9 @@ describe("passed an array of users", () => {
     }))
 
     it("sorts the users solely by their arrival ascending ", () => {
-      const wrapper = mountWithConnectedSubcomponents(
-        <UserList wrap={false} presences={nonFacilitatorPresences} />
-      )
-
-      expect(wrapper.find(UserListItem)).to.have.length(3)
-      expect(wrapper.html()).to.match(/zander.*treezy.*sarah/i)
+      const wrapper = shallow(<UserList wrap={false} presences={nonFacilitatorPresences} />)
+      const givenNames = wrapper.find(UserListItem).map(userListItem => userListItem.prop("user").given_name)
+      expect(givenNames).to.eql(["zander", "treezy", "sarah"])
     })
   })
 

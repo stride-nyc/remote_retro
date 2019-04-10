@@ -6,16 +6,15 @@ defmodule RemoteRetro.TestHelpers do
 
   @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
 
-  def persist_test_user do
+  def persist_test_user(attribute_overrides \\ %{}) do
     unique_integer = System.unique_integer()
     email = "user-#{unique_integer}@stridenyc.com"
     name = "Test User #{unique_integer}"
 
     oauth_info =
-      Map.merge(@mock_google_user_info, %{
-        "email" => email,
-        "name" => name,
-      })
+      @mock_google_user_info
+      |> Map.merge(%{"email" => email, "name" => name})
+      |> Map.merge(attribute_overrides)
 
     {:ok, user, _} = User.upsert_record_from(oauth_info: oauth_info)
     user

@@ -17,6 +17,28 @@
     margin: 0;
   }
 
+  .facilitator {
+    position: absolute;
+    right: 0;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+    transform: translate(0.2rem, -0.4rem);
+
+    /* the default inverted tooltip provided by semantic currently has an animation bug, so we handle coloration on our own */
+    &:before, &:after {
+      border-color: black;
+      background-color: black;
+
+      color: white;
+    }
+
+    i {
+      background-color: white;
+      margin-right: 0;
+    }
+  }
+
   .all-votes-in {
     color: var(--semantic-green);
     font-size: 0.7rem;

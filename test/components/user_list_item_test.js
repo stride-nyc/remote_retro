@@ -1,5 +1,6 @@
 import React from "react"
 import { shallow, mount } from "enzyme"
+import sinon from "sinon"
 
 import { UserListItem } from "../../web/static/js/components/user_list_item"
 import STAGES from "../../web/static/js/configs/stages"
@@ -11,12 +12,25 @@ const defaultUserAttrs = {
   online_at: 803,
   is_typing: false,
   picture: "http://some/image.jpg?sz=200",
+  id: 4,
+}
+
+const secondaryrUserAttrs = {
+  given_name: "xion",
+  online_at: 805,
+  is_typing: false,
+  picture: "http://some/image.jpg?sz=200",
+  id: 5,
 }
 
 const defaultProps = {
   votes: [],
   stage: IDEA_GENERATION,
   user: defaultUserAttrs,
+  currentUser: defaultUserAttrs,
+  actions: {
+    updateRetroAsync: sinon.spy(),
+  },
 }
 
 describe("UserListItem", () => {
@@ -42,6 +56,67 @@ describe("UserListItem", () => {
         <UserListItem {...defaultProps} user={user} />
       )
       expect(wrapper.text()).not.to.match(/dylan \(facilitator\)/i)
+    })
+  })
+
+  describe("passed a non-facilitator user", () => {
+    const facilitator = { ...defaultUserAttrs, is_facilitator: true }
+    const nonFacilitator = { ...secondaryrUserAttrs, is_facilitator: false }
+
+    it("renders facilitator button", () => {
+      const wrapper = shallow(
+        <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
+      )
+      expect(wrapper.find("button.facilitator")).to.have.length(1)
+    })
+
+    describe("passing facilitatorship", () => {
+      beforeEach(() => {
+        window.confirm = sinon.stub().returns(true)
+      })
+
+      it("calls the action to change facilitator", () => {
+        const wrapper = shallow(
+          <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
+        )
+        wrapper.find("button.facilitator").simulate("click")
+        expect(defaultProps.actions.updateRetroAsync.calledWith(
+          { facilitator_id: nonFacilitator.id }
+        )).to.eql(true)
+      })
+
+      afterEach(() => {
+        defaultProps.actions.updateRetroAsync.reset()
+      })
+    })
+
+    describe("declining the passing of facilitatorship", () => {
+      beforeEach(() => {
+        window.confirm = sinon.stub().returns(false)
+      })
+
+      it("does not call the action to change facilitator", () => {
+        const wrapper = shallow(
+          <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
+        )
+        wrapper.find("button.facilitator").simulate("click")
+        expect(defaultProps.actions.updateRetroAsync.notCalled).to.eql(true)
+      })
+    })
+
+    afterEach(() => {
+      defaultProps.actions.updateRetroAsync.reset()
+    })
+  })
+
+  describe("facilitator is the user", () => {
+    const user = { ...defaultUserAttrs, is_facilitator: true }
+
+    it("does not render the magic button", () => {
+      const wrapper = shallow(
+        <UserListItem {...defaultProps} user={user} currentUser={user} />
+      )
+      expect(wrapper.find("button.facilitator")).to.have.length(0)
     })
   })
 
