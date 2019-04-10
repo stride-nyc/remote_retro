@@ -24,7 +24,7 @@ describe("RemoteRetro component", () => {
     facilitatorName: "Daniel Handpan",
     retro: { stage: IDEA_GENERATION },
     actions: {
-      newFacilitator: spy(),
+      newFacilitator: () => {},
     },
   }
 
@@ -42,25 +42,35 @@ describe("RemoteRetro component", () => {
 
   describe("when component updates with a new facilitator", () => {
     let newFacilitator
+    let actions
+
     beforeEach(() => {
       newFacilitator = {
         ...stubUser,
         is_facilitator: true,
       }
+
+      actions = {
+        newFacilitator: spy(),
+      }
     })
 
     it("calls the new facilitator action", () => {
-      const wrapper = shallow(<RemoteRetro {...defaultProps} />)
-      wrapper.setProps({ user: newFacilitator })
-      expect(defaultProps.actions.newFacilitator.calledWith(defaultProps.retro))
+      const wrapper = shallow(<RemoteRetro {...defaultProps} actions={actions} />)
+      wrapper.setProps({ currentUser: newFacilitator })
+      expect(actions.newFacilitator).to.have.been.called
     })
   })
 
-  describe("when component updates without a new facilitator", () => {
+  describe("when component updates without the current user's facilitatorship ", () => {
+    const actions = {
+      newFacilitator: spy(),
+    }
+
     it("does not call the new facilitator action", () => {
-      const wrapper = shallow(<RemoteRetro {...defaultProps} />)
-      wrapper.setProps({ stage: CLOSED, user: stubUser })
-      expect(defaultProps.actions.newFacilitator.notCalled).to.eql(true)
+      const wrapper = shallow(<RemoteRetro {...defaultProps} actions={actions} />)
+      wrapper.setProps({ stage: CLOSED, currentUser: stubUser })
+      expect(actions.newFacilitator).not.to.have.been.called
     })
   })
 })
