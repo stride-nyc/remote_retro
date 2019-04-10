@@ -38,7 +38,7 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
           className={styles.facilitator}
           onClick={() => passFacilitatorship(user, currentUser)}
         >
-          <i className="ui magic icon" />
+          <i className="ui circular magic icon" />
         </button>
       )}
       <img className={styles.picture} src={imgSrc} alt={identifier} />

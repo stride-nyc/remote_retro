@@ -20,9 +20,14 @@
   .facilitator {
     position: absolute;
     right: 0;
-    border-radius: 1rem;
-    height: 2rem;
-    width: 2rem;
+    border: none;
+    background-color: transparent;
+    padding: 0;
+
+    i {
+      background-color: white;
+      margin-right: 0;
+    }
   }
 
   .all-votes-in {
