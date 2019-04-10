@@ -5,7 +5,11 @@
   margin-top: 0;
   margin-bottom: 0;
   padding-bottom: 0.5rem;
-  padding-top: 0;
+  padding-top: 0.5rem;
+
+  @media(min-width: 768px) {
+    padding-top: 1rem;
+  }
 
   /* user list scrolls horizontally */
   width: 100%;

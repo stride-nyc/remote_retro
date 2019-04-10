@@ -1,9 +1,11 @@
 @import '../../../css/colors.css';
 
-:global(section.column).index {
+:global(.ui.grid .column).index {
   --inner-column-padding: 0.75rem;
   &:first-of-type { padding-right: var(--inner-column-padding) !important; }
   &:last-of-type { padding-left: var(--inner-column-padding) !important; }
+
+  padding-bottom: 0;
 
   /* forgive me, father, but overriding semantic ui's specificity was beyond my powers. */
   display: flex !important;

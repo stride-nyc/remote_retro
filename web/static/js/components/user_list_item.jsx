@@ -33,7 +33,7 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
         <button
           type="button"
           data-tooltip={`Transfer facilitatorship to ${user.given_name}`}
-          data-position="bottom right"
+          data-position="right center"
           className={styles.facilitator}
           onClick={() => passFacilitatorship(user, currentUser)}
         >

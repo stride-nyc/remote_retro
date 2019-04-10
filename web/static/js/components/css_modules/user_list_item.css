@@ -23,6 +23,7 @@
     border: none;
     background-color: transparent;
     padding: 0;
+    transform: translate(0.2rem, -0.4rem);
 
     /* the default inverted tooltip provided by semantic currently has an animation bug, so we handle coloration on our own */
     &:before, &:after {
