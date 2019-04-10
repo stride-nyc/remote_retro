@@ -21,7 +21,7 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
     identifier += " (Facilitator)"
   }
 
-  function passFacilitatorship(user) {
+  function passFacilitatorshipTo(user) {
     if (window.confirm(`Are you want sure you want to pass the facilitatorship to ${user.given_name}?`)) {
       actions.updateRetroAsync({ facilitator_id: user.id })
     }
@@ -35,7 +35,7 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
           data-tooltip={`Transfer facilitatorship to ${user.given_name}`}
           data-position="right center"
           className={styles.facilitator}
-          onClick={() => passFacilitatorship(user, currentUser)}
+          onClick={() => passFacilitatorshipTo(user)}
         >
           <i className="ui circular magic icon" />
         </button>
