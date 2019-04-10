@@ -59,20 +59,20 @@ describe("UserListItem", () => {
     })
   })
 
-  describe("passed a non-facilitator as a facilitator", () => {
-    const user = { ...defaultUserAttrs, is_facilitator: true }
-    const user2 = { ...secondaryrUserAttrs, is_facilitator: false }
+  describe("passed a non-facilitator user", () => {
+    const facilitator = { ...defaultUserAttrs, is_facilitator: true }
+    const nonFacilitator = { ...secondaryrUserAttrs, is_facilitator: false }
 
     it("renders the magic icon", () => {
       const wrapper = shallow(
-        <UserListItem {...defaultProps} user={user2} currentUser={user} />
+        <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
       )
       expect(wrapper.find("i.magic.icon")).to.have.length(1)
     })
 
     it("renders facilitator button", () => {
       const wrapper = shallow(
-        <UserListItem {...defaultProps} user={user2} currentUser={user} />
+        <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
       )
       expect(wrapper.find("button.facilitator")).to.have.length(1)
     })
@@ -84,11 +84,35 @@ describe("UserListItem", () => {
 
       it("calls the action to change facilitator", () => {
         const wrapper = shallow(
-          <UserListItem {...defaultProps} user={user2} currentUser={user} />
+          <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
         )
         wrapper.find("button.facilitator").simulate("click")
-        expect(defaultProps.actions.updateRetroAsync.calledWith({ facilitator_id: user2.id }))
+        expect(defaultProps.actions.updateRetroAsync.calledWith(
+          { facilitator_id: nonFacilitator.id }
+        )).to.eql(true)
       })
+
+      afterEach(() => {
+        defaultProps.actions.updateRetroAsync.reset()
+      })
+    })
+
+    describe("declining the passing of facilitatorship", () => {
+      beforeEach(() => {
+        window.confirm = sinon.stub().returns(false)
+      })
+
+      it("does not call the action to change facilitator", () => {
+        const wrapper = shallow(
+          <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
+        )
+        wrapper.find("button.facilitator").simulate("click")
+        expect(defaultProps.actions.updateRetroAsync.notCalled).to.eql(true)
+      })
+    })
+
+    afterEach(() => {
+      defaultProps.actions.updateRetroAsync.reset()
     })
   })
 
@@ -102,7 +126,7 @@ describe("UserListItem", () => {
       expect(wrapper.find("i.magic.icon")).to.have.length(0)
     })
 
-    it("does not render the magic icon", () => {
+    it("does not render the magic button", () => {
       const wrapper = shallow(
         <UserListItem {...defaultProps} user={user} currentUser={user} />
       )

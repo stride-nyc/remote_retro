@@ -22,11 +22,10 @@ export const reducer = (state = null, action) => {
       return stageConfigs[retro.stage].help || null
     }
     case types.NEW_FACILITATOR: {
-      const configs = {
+      return {
         headerText: "New Facilitator",
         BodyComponent: NewFacilitator,
       }
-      return configs
     }
     case types.CLEAR_ALERT:
       return null

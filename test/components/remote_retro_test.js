@@ -56,11 +56,11 @@ describe("RemoteRetro component", () => {
     })
   })
 
-  describe("when component updates new stage", () => {
-    it("does not the new facilitator action", () => {
+  describe("when component updates without a new facilitator", () => {
+    it("does not call the new facilitator action", () => {
       const wrapper = shallow(<RemoteRetro {...defaultProps} />)
-      wrapper.setProps({ stage: CLOSED })
-      expect(defaultProps.actions.newFacilitator.notCalled)
+      wrapper.setProps({ stage: CLOSED, user: stubUser })
+      expect(defaultProps.actions.newFacilitator.notCalled).to.eql(true)
     })
   })
 })
