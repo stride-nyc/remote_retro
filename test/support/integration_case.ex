@@ -38,7 +38,7 @@ defmodule RemoteRetro.IntegrationCase do
     metadata = Phoenix.Ecto.SQL.Sandbox.metadata_for(Repo, self())
 
     facilitator = persist_test_user()
-    non_facilitator = persist_test_user()
+    non_facilitator = persist_test_user(%{"given_name" => "Monsieur"})
 
     retro =
       Repo.insert!(%Retro{
