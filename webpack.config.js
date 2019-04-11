@@ -4,6 +4,7 @@ const path = require("path")
 const webpack = require("webpack")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
+const TerserPlugin = require("terser-webpack-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
 const WriteFileWebpackPlugin = require("write-file-webpack-plugin")
 const WebpackNotifierPlugin = require("webpack-notifier")
@@ -31,6 +32,7 @@ const supplementalEntrypoints = inDev ? devEntrypoints : []
 const productionOverrides = forDeployedProduction ? {
   optimization: {
     minimizer: [
+      new TerserPlugin({ parallel: true }),
       new OptimizeCSSAssetsPlugin({}),
     ]
   },
