@@ -55,7 +55,7 @@ defmodule RemoteRetro.Mixfile do
       {:slender_channel, "~> 0.2.0"},
       {:libcluster, "~> 2.5.0"},
       {:bamboo, "~> 1.2"},
-      {:honeybadger, "~> 0.10.1"},
+      {:honeybadger, "~> 0.10.3"},
       {:apex, "~>1.2.1", only: [:dev, :test]},
       {:timex, "~> 3.5"},
       {:jason, "~> 1.1.2"},
