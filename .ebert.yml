@@ -1,7 +1,5 @@
 styleguide: stride-nyc/remote_retro
 engines:
-  credo:
-    enabled: true
   fixme:
     enabled: false
   eslint:
