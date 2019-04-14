@@ -23,7 +23,7 @@ defmodule TransferFacilitatorshipTest do
   defp initiate_and_confirm_transfer_of_facilitatorship(facilitator_session, to: non_facilitator) do
     accept_confirm(facilitator_session, fn(session) ->
       session
-      |> find(Query.css("li button[data-tooltip='Transfer facilitatorship to #{non_facilitator.given_name}']"))
+      |> find(Query.css("li button[title='Transfer facilitatorship to #{non_facilitator.given_name}']"))
       |> Element.click()
     end)
   end

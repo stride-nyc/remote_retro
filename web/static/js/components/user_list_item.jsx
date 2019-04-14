@@ -32,8 +32,7 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
       {renderFacilitatorTransferButton && (
         <button
           type="button"
-          data-tooltip={`Transfer facilitatorship to ${user.given_name}`}
-          data-position="right center"
+          title={`Transfer facilitatorship to ${user.given_name}`}
           className={styles.facilitator}
           onClick={() => passFacilitatorshipTo(user)}
         >
