@@ -3,7 +3,7 @@ defmodule Mix.Tasks.Lint do
 
   @shortdoc "Runs local eslint"
   def run(_) do
-    eslint_path = System.cwd() <> "/node_modules/.bin/eslint"
+    eslint_path = File.cwd!() <> "/node_modules/.bin/eslint"
     System.cmd(eslint_path, [".", "--cache", "--color", "--ext", "js", "--ext", "jsx"], into: IO.stream(:stdio, :line))
   end
 end

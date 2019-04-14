@@ -3,7 +3,7 @@ jobs:  # basic units of work in a run
   build:  # runs not using Workflows must have a `build` job as entry point
     parallelism: 1  # run only one instance of this job in parallel
     docker:  # run the steps with Docker
-      - image: circleci/elixir:1.6.5-node-browsers  # with node and browsers pre-installed
+      - image: circleci/elixir:1.8.1-node-browsers  # with node and browsers pre-installed
         environment:  # environment variables for primary container
           MIX_ENV: test
       - image: circleci/postgres:10.5-alpine-postgis-ram  # database image
@@ -33,15 +33,6 @@ jobs:  # basic units of work in a run
             - v1-yarn-packages-{{ .Branch }}
             - v1-yarn-packages-master
             - v1-yarn-packages-
-      - run: #STABLE
-          name: Install Chromedriver latest version
-          command: |
-            sudo apt-get update
-            sudo apt-get install lsb-release libappindicator3-1
-            curl -L -o google-chrome.deb https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
-            sudo dpkg -i google-chrome.deb
-            sudo sed -i 's|HERE/chrome"|HERE/chrome" --no-sandbox|g' /opt/google/chrome/google-chrome
-            rm google-chrome.deb
       - run:
           name: Install Node Dependencies
           command: yarn install
