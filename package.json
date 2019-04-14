@@ -21,7 +21,7 @@
     "@honeybadger-io/webpack": "^1.1.4",
     "autoprefixer": "^9.4.7",
     "babel-loader": "^8.0.5",
-    "classnames": "^2.2.5",
+    "classnames": "^2.2.6",
     "css-hot-loader": "^1.4.3",
     "css-loader": "0.28.7",
     "copy-webpack-plugin": "^4.6.0",
