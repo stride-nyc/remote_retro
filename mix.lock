@@ -1,5 +1,5 @@
 %{
-  "apex": {:hex, :apex, "1.2.0", "2da5035ef5fc59da2c24187a880b1b6d38b6b67c19b89a6265f5986ff0e85b1f", [:mix], [], "hexpm"},
+  "apex": {:hex, :apex, "1.2.1", "297f5dac23fa2a32648b890a0838fce2772114010e0b9ec975cae6021cc5a092", [:mix], [], "hexpm"},
   "artificery": {:hex, :artificery, "0.4.1", "90b1fcedb9034853b36dbea2174f9fc1172bd50b0686a723178103def5c9c1c8", [:mix], [], "hexpm"},
   "bamboo": {:hex, :bamboo, "1.2.0", "8aebd24f7c606c32d0163c398004a11608ca1028182a169b2e527793bfab7561", [:mix], [{:hackney, ">= 1.13.0", [hex: :hackney, repo: "hexpm", optional: false]}, {:plug, "~> 1.0", [hex: :plug, repo: "hexpm", optional: false]}, {:poison, ">= 1.5.0", [hex: :poison, repo: "hexpm", optional: true]}], "hexpm"},
   "bunt": {:hex, :bunt, "0.2.0", "951c6e801e8b1d2cbe58ebbd3e616a869061ddadcc4863d0a2182541acae9a38", [:mix], [], "hexpm"},
