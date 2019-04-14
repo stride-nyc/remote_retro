@@ -38,7 +38,7 @@ jobs:  # basic units of work in a run
           command: yarn install
       - save_cache:
           name: Save Yarn Package Cache
-          key: yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
       - save_cache:  # generate and store cache so `restore_cache` works
