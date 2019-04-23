@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import PropTypes from "prop-types"
+import includes from "lodash/includes"
 
 import * as AppPropTypes from "../prop_types"
 import VotingInterface from "./voting_interface"
@@ -25,7 +26,7 @@ export const StageAwareIdeaControls = props => {
 
   const { category } = idea
 
-  if ([VOTING, ACTION_ITEMS, CLOSED].includes(stage) && category !== "action-item") {
+  if (includes([VOTING, ACTION_ITEMS, CLOSED], stage) && category !== "action-item") {
     return (
       <VotingInterface
         actions={actions}
