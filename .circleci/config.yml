@@ -62,7 +62,7 @@ jobs:  # basic units of work in a run
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run: yarn test # run all js tests in project
-      - run: yarn run compile-production
+      - run: yarn run compile-test
       - run:
           command: |
             if [ "$COVERALLS_REPO_TOKEN" != "" ]; then

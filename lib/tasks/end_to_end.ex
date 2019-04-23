@@ -15,6 +15,6 @@ defmodule Mix.Tasks.EndToEnd do
   end
 
   defp compile_js do
-    System.cmd("npm", ["run", "compile-dev"], into: IO.stream(:stdio, :line))
+    System.cmd("npm", ["run", "compile-test"], into: IO.stream(:stdio, :line))
   end
 end
