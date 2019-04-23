@@ -10,7 +10,7 @@ const { HOST, HONEYBADGER_API_KEY, npm_package_gitHead: revision } = process.env
 
 const PRODUCTION_ASSETS_URL = `https://${HOST}`
 
-module.exports = webpackMerge.smart({
+module.exports = webpackMerge.smart(sharedConfig, {
   mode: "production",
   devtool: "source-map",
   optimization: {
@@ -26,4 +26,4 @@ module.exports = webpackMerge.smart({
       revision,
     }),
   ],
-}, sharedConfig)
+})
