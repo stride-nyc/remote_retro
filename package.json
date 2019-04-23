@@ -2,7 +2,7 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "compile-production": "webpack --mode production --config='webpack.dll.js' && webpack --mode production",
+    "compile-production": "webpack --mode production --config='webpack.dll.js' && webpack --config='webpack.prod.config.js'",
     "compile-dev": "webpack --config='webpack.dll.js' && webpack --config='webpack.shared.config.js'",
     "watch": "webpack --config='webpack.dll.js' && NODE_ENV=dev node webpack.devserver.js",
     "precommit": "lint-staged",
@@ -22,9 +22,8 @@
     "autoprefixer": "^9.4.7",
     "babel-loader": "^8.0.5",
     "classnames": "^2.2.6",
-    "css-hot-loader": "^1.4.3",
-    "css-loader": "0.28.7",
     "copy-webpack-plugin": "^4.6.0",
+    "css-loader": "0.28.7",
     "hard-source-webpack-plugin": "^0.13.1",
     "immutability-helper": "^2.1.2",
     "lodash": "^4.17.4",
@@ -52,10 +51,11 @@
     "redux-thunk": "^2.3.0",
     "semantic-ui-offline": "github:vanderhoop/semantic-ui-offline#dbf68a08531a48aa5b2bdc123b92a3c3df112515",
     "style-loader": "^0.13.1",
+    "terser-webpack-plugin": "^1.1.0",
     "uuid": "^3.3.2",
     "webpack": "^4.29.6",
     "webpack-cli": "^3.2.3",
-    "webpack-notifier": "^1.7.0",
+    "webpack-merge": "^4.2.1",
     "write-file-webpack-plugin": "^4.2.0"
   },
   "devDependencies": {
@@ -64,6 +64,7 @@
     "chai": "^3.5.0",
     "chai-uuid": "^1.0.6",
     "cryptiles": "4.1.2",
+    "css-hot-loader": "^1.4.3",
     "deep-freeze": "^0.0.1",
     "env-test": "^1.0.0",
     "enzyme": "^3.7.0",
@@ -83,6 +84,7 @@
     "react-test-renderer": "^16.1.1",
     "sinon": "^1.17.7",
     "sinon-chai": "^2.14.0",
-    "webpack-dev-server": "^3.1.5"
+    "webpack-dev-server": "^3.1.5",
+    "webpack-notifier": "^1.7.0"
   }
 }

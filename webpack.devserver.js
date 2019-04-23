@@ -1,7 +1,7 @@
 const webpack = require("webpack")
 // eslint-disable-next-line import/no-extraneous-dependencies
 const WebpackDevServer = require("webpack-dev-server")
-const config = require("./webpack.config")
+const config = require("./webpack.dev.config.js")
 
 const { port } = config.devServer
 
@@ -12,7 +12,7 @@ new WebpackDevServer(webpack(config), {
   clientLogLevel: "none",
   overlay: true,
   headers: { "Access-Control-Allow-Origin": "*" },
-  stats: { modules: false, entrypoints: false, children: false },
+  stats: config.stats,
 }).listen(port, "0.0.0.0", err => {
   if (err) console.error(err)
   console.log(`[info] Running webpack-dev-server using http://localhost:${port}`)

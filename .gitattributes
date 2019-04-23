@@ -4,7 +4,7 @@ web/static/js/configs/* linguist-documentation
 test/components/* linguist-documentation
 test/redux/* linguist-documentation
 test/support/js/* linguist-documentation
-webpack.config.js linguist-documentation
+webpack.*.config.js linguist-documentation
 webpack.devserver.js linguist-documentation
 webpack.dll.js linguist-documentation
 *.eex linguist-language=Elixir
