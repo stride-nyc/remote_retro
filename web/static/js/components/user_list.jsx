@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import classNames from "classnames"
 import PropTypes from "prop-types"
+import findIndex from "lodash/findIndex"
 
 import UserListItem from "./user_list_item"
 
@@ -13,7 +14,7 @@ export const UserList = ({ presences, wrap }) => {
   if (presences.length === 0) { return null }
 
   const sortedByArrival = presences.sort((a, b) => a.online_at - b.online_at)
-  const indexOfFacilitator = sortedByArrival.findIndex(presence => presence.is_facilitator)
+  const indexOfFacilitator = findIndex(sortedByArrival, presence => presence.is_facilitator)
 
   const nonFacilitators = [
     ...sortedByArrival.slice(0, indexOfFacilitator),
