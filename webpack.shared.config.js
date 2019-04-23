@@ -9,6 +9,7 @@ process.noDeprecation = true
 const OUTPUT_PATH = `${__dirname}/priv/static`
 
 module.exports = {
+  mode: "development",
   entry: [
     "./web/static/css/app.css",
     "./web/static/css/tiny_modal.css",
