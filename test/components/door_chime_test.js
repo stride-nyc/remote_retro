@@ -25,6 +25,16 @@ describe("DoorChime component", () => {
       expect(audioElement.muted).to.equal(false)
       clock.restore()
     })
+
+    it("does not throw an error if unmounted before timer function can execute", () => {
+      const doorChimeComponent = mountWithConnectedSubcomponents(<DoorChime presences={[]} />)
+
+      expect(() => {
+        doorChimeComponent.unmount()
+        clock.tick(1600)
+        clock.restore()
+      }).to.not.throw()
+    })
   })
 
   describe(".componentWillReceiveProps", () => {

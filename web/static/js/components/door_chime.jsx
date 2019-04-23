@@ -15,6 +15,9 @@ class DoorChime extends Component {
     this.audio.volume = 0.15
 
     const timeout = setTimeout(() => {
+      // handle case where chime has unmounted in interim
+      if (!this.audio) { return }
+
       this.audio.muted = false
       clearTimeout(timeout)
     }, 1500)
