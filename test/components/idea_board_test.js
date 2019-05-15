@@ -3,7 +3,7 @@ import React from "react"
 import IdeaBoard from "../../web/static/js/components/idea_board"
 import ColumnarBoardLayout from "../../web/static/js/components/columnar_board_layout"
 import STAGES from "../../web/static/js/configs/stages"
-import { CATEGORIES } from "../../web/static/js/configs/retro_configs"
+import { IDEA_GENERATION_CATEGORIES } from "../../web/static/js/configs/retro_configs"
 
 const { IDEA_GENERATION, ACTION_ITEMS, CLOSED } = STAGES
 
@@ -17,7 +17,7 @@ describe("IdeaBoard component", () => {
     ideas: [],
     stage: IDEA_GENERATION,
     isTabletOrAbove: true,
-    categories: CATEGORIES,
+    categories: IDEA_GENERATION_CATEGORIES,
   }
 
   describe("when the stage is 'idea-generation'", () => {

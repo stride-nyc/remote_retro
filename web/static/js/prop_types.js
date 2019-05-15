@@ -4,7 +4,7 @@
 import PropTypes from "prop-types"
 
 import STAGES from "./configs/stages"
-import { CATEGORIES as startingCategories } from "./configs/retro_configs"
+import { IDEA_GENERATION_CATEGORIES } from "./configs/retro_configs"
 
 const {
   LOBBY,
@@ -19,7 +19,7 @@ const {
 export const alert = PropTypes.object
 
 export const category = PropTypes.oneOf([
-  ...startingCategories,
+  ...IDEA_GENERATION_CATEGORIES,
   "action-item",
 ])
 
