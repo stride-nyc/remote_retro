@@ -8,6 +8,7 @@ import * as AppPropTypes from "../prop_types"
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 import styles from "./css_modules/idea_submission_form.css"
 import STAGES from "../configs/stages"
+import { IDEA_GENERATION_CATEGORIES } from "../configs/retro_configs"
 import SelectDropdown from "./select_dropdown"
 import { actions } from "../redux"
 
@@ -81,11 +82,9 @@ export class IdeaSubmissionForm extends Component {
     const { assigneeId, body, hasTypedChar, category, isMobileDevice } = this.state
     const disabled = !body.trim().length
     const assigneeOptions = users.map(({ id, name }) => <option key={id} value={id}>{name}</option>)
-    const defaultCategoryOptions = [
-      <option key="happy" value="happy">happy</option>,
-      <option key="sad" value="sad">sad</option>,
-      <option key="confused" value="confused">confused</option>,
-    ]
+    const defaultCategoryOptions = IDEA_GENERATION_CATEGORIES.map(category => (
+      <option key={category} value={category}>{category}</option>
+    ))
 
     let showSubmitIdeaPrompt = false
     let dropdownProps = {}
