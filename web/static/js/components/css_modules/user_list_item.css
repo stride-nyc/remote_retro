@@ -28,6 +28,11 @@
     i {
       background-color: white;
       margin-right: 0;
+
+      &:before {
+        top: 1px;
+        position: relative;
+      }
     }
   }
 
