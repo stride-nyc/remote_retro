@@ -1,3 +1,6 @@
+<script src="<%= Routes.static_path(@conn, "/js/jquery.min.js") %>"></script>
+<script src="<%= Routes.static_path(@conn, "/js/semantic.min.js") %>"></script>
+
 <%= if Enum.count(@retros) == 0 do %>
   <div class="ui centered welcome tiny longer modal">
     <div class="ui center aligned basic very padded segment no-margin-bottom">
@@ -58,8 +61,6 @@
     <% end %>
   </div>
 
-  <script src="<%= Routes.static_path(@conn, "/js/jquery.min.js") %>"></script>
-  <script src="<%= Routes.static_path(@conn, "/js/semantic.min.js") %>"></script>
   <script>
     $(document).ready(function() {
       $(".longer.modal").modal({
@@ -73,6 +74,51 @@
     })
   </script>
 <% else %>
+  <%= form_for @conn, Routes.retro_path(@conn, :create), [as: :retro, class: "ui tiny modal retro-format-modal"], fn _f -> %>
+    <div class="ui center aligned large header">Select format:</div>
+    <div class="ui unstackable items">
+      <input type="radio" class="visually-hidden" id="happy-sad-confused" name="format"  value="Happy/Sad/Confused" checked />
+      <label class="item" for="happy-sad-confused">
+        <div class="ui tiny image">
+          <img src="<%= Routes.static_path(@conn, "/images/happy.svg") %>" />
+        </div>
+        <div class="content">
+          <p class="header">Happy/Sad/Confused</p>
+          <div class="meta">
+            <span>
+              Standard iteration retrospective for teams new to retrospectives. Ideal for unearthing concerns within the team and addressing them with democratic discussion and generation of action items.
+            </span>
+          </div>
+          <div class="extra">
+            Suggested time allotment: 1 hour
+          </div>
+        </div>
+      </label>
+      <input type="radio" class="visually-hidden" id="start-stop-continue" name="format" value="Start/Stop/Continue" />
+      <label class="item" for="start-stop-continue">
+        <div class="ui tiny image">
+          <img src="<%= Routes.static_path(@conn, "/images/traffic_light.svg") %>" />
+        </div>
+        <div class="content">
+          <p class="header">Start/Stop/Continue</p>
+          <div class="meta">
+            <span>
+              A shorter format focused on quickly getting to action items. Best suited for teams who have established respectful working relationships and are short on time.
+            </span>
+          </div>
+          <div class="extra">
+            Suggested time allotment: 45 - 60 minutes
+          </div>
+        </div>
+      </label>
+    </div>
+    <div class="submit-button-wrapper">
+      <button type="submit" class="ui blue right labeled fluid icon button">
+        Let's do it!
+        <i class="arrow right icon"></i>
+      </button>
+    </div>
+  <% end %>
   <div class="ui very padded basic segment">
     <h1 class="ui dividing header">My Retros:</h1>
     <ul class="retros-list">
@@ -97,21 +143,29 @@
         </li>
       <% end %>
     </ul>
-    <div class="ui hidden divider"></div>
-    <%= form_for @conn, Routes.retro_path(@conn, :create), [as: :retro, class: "ui form"], fn _f -> %>
-      <button type="submit" class="ui blue right labeled icon button">
-        Create a Retrospective!
-        <i class="arrow right icon"></i>
-      </button>
-    <% end %>
 
-    <script>
-      function toggleItems(toggleIcon) {
-        var nestedActionItemsListEl = toggleIcon.closest(".nested-action-items-list");
-        nestedActionItemsListEl.classList.toggle("hidden");
-      }
-    </script>
+    <div class="ui hidden divider"></div>
+    <button type="submit" class="ui blue right labeled icon initiate-retro-creation button">
+      Create a Retrospective!
+      <i class="arrow right icon"></i>
+    </button>
   </div>
+
+  <script>
+    function toggleItems(toggleIcon) {
+      var nestedActionItemsListEl = toggleIcon.closest(".nested-action-items-list");
+      nestedActionItemsListEl.classList.toggle("hidden");
+    }
+
+    $(document).ready(function() {
+      $(".initiate-retro-creation.button").on("click", function() {
+        $(".retro-format-modal").modal({
+          observeChanges: true,
+          closable: true,
+        }).modal("show");
+      });
+    });
+  </script>
 <% end %>
 
 <%# prefetch retro javascript for faster loading on retro creation :) %>

@@ -8,7 +8,6 @@ import * as AppPropTypes from "../prop_types"
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 import styles from "./css_modules/idea_submission_form.css"
 import STAGES from "../configs/stages"
-import { IDEA_GENERATION_CATEGORIES } from "../configs/retro_configs"
 import SelectDropdown from "./select_dropdown"
 import { actions } from "../redux"
 
@@ -18,6 +17,9 @@ const PLACEHOLDER_TEXTS = {
   happy: "we have a linter!",
   sad: "no one uses the linter...",
   confused: "what is a linter?",
+  start: "start test-driving our production code",
+  stop: "stop chasing features that don't add clear business value",
+  continue: "continue high-fiving whenever a test goes green",
   "action-item": "automate the linting process",
 }
 
@@ -28,11 +30,11 @@ const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) =
 export class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
-    const { stage, users } = props
+    const { stage, users, ideaGenerationCategories } = props
     const isActionItemsStage = stage === ACTION_ITEMS
     this.state = {
       body: "",
-      category: isActionItemsStage ? "action-item" : "happy",
+      category: isActionItemsStage ? "action-item" : ideaGenerationCategories[0],
       assigneeId: isActionItemsStage ? users[0].id : null,
       hasTypedChar: false,
       isMobileDevice: navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i),
@@ -78,11 +80,11 @@ export class IdeaSubmissionForm extends Component {
   }
 
   render() {
-    const { users, stage } = this.props
+    const { users, stage, ideaGenerationCategories } = this.props
     const { assigneeId, body, hasTypedChar, category, isMobileDevice } = this.state
     const disabled = !body.trim().length
     const assigneeOptions = users.map(({ id, name }) => <option key={id} value={id}>{name}</option>)
-    const defaultCategoryOptions = IDEA_GENERATION_CATEGORIES.map(category => (
+    const defaultCategoryOptions = ideaGenerationCategories.map(category => (
       <option key={category} value={category}>{category}</option>
     ))
 
@@ -148,6 +150,7 @@ IdeaSubmissionForm.propTypes = {
   alert: AppPropTypes.alert,
   currentUser: AppPropTypes.presence.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
+  ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   users: AppPropTypes.presences.isRequired,
   stage: AppPropTypes.stage,
   actions: AppPropTypes.actions,
@@ -159,9 +162,10 @@ IdeaSubmissionForm.defaultProps = {
   actions: {},
 }
 
-const mapStateToProps = ({ alert, usersById }) => ({
+const mapStateToProps = ({ alert, usersById, ideaGenerationCategories }) => ({
   alert,
   users: values(usersById),
+  ideaGenerationCategories,
 })
 
 const mapDispatchToProps = dispatch => ({

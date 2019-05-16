@@ -16,7 +16,7 @@ describe("IdeaBoard component", () => {
     ideas: [],
     stage: IDEA_GENERATION,
     isTabletOrAbove: true,
-    categories: ["one", "two", "three"],
+    ideaGenerationCategories: ["one", "two", "three"],
   }
 
   describe("when the stage is 'idea-generation'", () => {
@@ -26,7 +26,7 @@ describe("IdeaBoard component", () => {
       )
     })
 
-    it("passes the given categories to its layout component", () => {
+    it("passes the given idea generation categories to its layout component", () => {
       expect(categoriesPassedToInnerLayout(ideaBoard)).to.eql(["one", "two", "three"])
     })
   })

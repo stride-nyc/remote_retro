@@ -24,6 +24,7 @@ describe("IdeaSubmissionForm component", () => {
   const defaultProps = {
     currentUser: stubUser,
     retroChannel: mockRetroChannel,
+    ideaGenerationCategories: ["happy", "sad", "confused"],
     stage: IDEA_GENERATION,
     users,
   }
@@ -75,7 +76,7 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("on submit", () => {
     describe("when in the IDEA_GENERATION stage", () => {
-      it("invokes the submitIdea action, passing a happy idea by default", () => {
+      it("invokes submitIdea, passing an idea w/ category of the first category by default", () => {
         const actions = { submitIdea: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
@@ -145,9 +146,8 @@ describe("IdeaSubmissionForm component", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
-            currentUser={stubUser}
+            {...defaultProps}
             retroChannel={retroChannel}
-            users={users}
           />
         )
         const ideaInput = wrapper.find("input[name='idea']")
@@ -164,11 +164,7 @@ describe("IdeaSubmissionForm component", () => {
       it("does *not* push a `idea_typing_event` event to the retro channel", () => {
         const retroChannel = { on: () => {}, push: sinon.spy() }
         wrapper = mountWithConnectedSubcomponents(
-          <IdeaSubmissionForm
-            currentUser={stubUser}
-            retroChannel={retroChannel}
-            users={users}
-          />
+          <IdeaSubmissionForm {...defaultProps} />
         )
         const ideaInput = wrapper.find("input[name='idea']")
         ideaInput.simulate("change", {
@@ -184,11 +180,7 @@ describe("IdeaSubmissionForm component", () => {
   describe("when the state's `category` value changes", () => {
     it("shifts focus to the idea input", () => {
       wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={mockRetroChannel}
-          users={users}
-        />
+        <IdeaSubmissionForm {...defaultProps} />
       )
 
       const ideaInput = wrapper.find("input[name='idea']")
@@ -206,9 +198,7 @@ describe("IdeaSubmissionForm component", () => {
     it("is enabled once the input receives a non-whitespace value", () => {
       wrapper = mountWithConnectedSubcomponents(
         <IdeaSubmissionForm
-          currentUser={stubUser}
-          retroChannel={mockRetroChannel}
-          users={users}
+          {...defaultProps}
           stage={IDEA_GENERATION}
         />
       )
@@ -238,6 +228,7 @@ describe("IdeaSubmissionForm component", () => {
       beforeEach(() => {
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
+            {...defaultProps}
             currentUser={stubUser}
             retroChannel={mockRetroChannel}
             alert={{ herp: "derp" }}

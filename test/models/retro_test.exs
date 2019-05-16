@@ -13,6 +13,19 @@ defmodule RemoteRetro.RetroTest do
     assert length(changeset.errors) == 0
   end
 
+  test "format must be a valid retro format" do
+    retro = %Retro{facilitator_id: 1}
+    changeset = Retro.changeset(retro, %{format: "Derps to action itemz!"})
+    {format_error, _} = Keyword.fetch!(changeset.errors, :format)
+    assert format_error == "is invalid"
+  end
+
+  test "fallback to the 'Happy/Sad/Confused' format when format not supplied" do
+    retro = %Retro{facilitator_id: 1}
+    %Ecto.Changeset{data: retro} = Retro.changeset(retro, %{format: nil})
+    assert retro.format == "Happy/Sad/Confused"
+  end
+
   test "the required presence of a facilitator_id" do
     changeset = Retro.changeset(%Retro{}, %{stage: "closed"})
     {facilitator_id_error, _} = Keyword.fetch!(changeset.errors, :facilitator_id)

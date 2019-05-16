@@ -8,15 +8,20 @@ defmodule RemoteRetro.RetroControllerTest do
     setup :authenticate_connection
 
     test "POST requests to /retros result in the creation of a retro \
-      where the current user is the facilitator",
+      of the given format where the current user is the facilitator",
          ~M{conn} do
-      conn = post(conn, "/retros")
+      conn = post(conn, "/retros", %{"format" => "Start/Stop/Continue"})
 
       retro = Repo.one(from(r in Retro, order_by: [desc: r.inserted_at], limit: 1))
 
       current_user = get_session(conn, "current_user")
 
-      assert retro.facilitator_id == current_user.id
+      current_user_id = current_user.id
+
+      assert %Retro{
+        facilitator_id: ^current_user_id,
+        format: "Start/Stop/Continue",
+      } = retro
     end
 
     test "POST requests to /retros redirect to a newly created retro", ~M{conn} do

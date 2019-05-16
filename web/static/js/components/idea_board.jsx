@@ -10,9 +10,9 @@ import STAGES from "../configs/stages"
 const { ACTION_ITEMS, CLOSED } = STAGES
 
 const IdeaBoard = props => {
-  const { stage, categories, isTabletOrAbove } = props
+  const { stage, ideaGenerationCategories, isTabletOrAbove } = props
   const showActionItem = includes([ACTION_ITEMS, CLOSED], stage)
-  const renderableColumnCategories = [...categories]
+  const renderableColumnCategories = [...ideaGenerationCategories]
   if (showActionItem) { renderableColumnCategories.push("action-item") }
 
   const Layout = isTabletOrAbove ? ColumnarBoardLayout : TabularBoardLayout
@@ -27,7 +27,7 @@ IdeaBoard.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  categories: AppPropTypes.categories.isRequired,
+  ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
 }
 

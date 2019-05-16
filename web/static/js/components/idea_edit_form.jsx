@@ -4,7 +4,6 @@ import classNames from "classnames"
 import * as AppPropTypes from "../prop_types"
 
 import SelectDropdown from "./select_dropdown"
-import { IDEA_GENERATION_CATEGORIES } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
 
 const { ACTION_ITEMS } = STAGES
@@ -66,9 +65,9 @@ class IdeaEditForm extends Component {
   }
 
   render() {
-    const { stage, users, idea } = this.props
+    const { stage, users, idea, ideaGenerationCategories } = this.props
     const { ideaCategory, ideaAssigneeId, ideaBody, ideaBodyError } = this.state
-    const categoryOptions = IDEA_GENERATION_CATEGORIES.map(category => (
+    const categoryOptions = ideaGenerationCategories.map(category => (
       <option key={category} value={category}>{category}</option>
     ))
     const assigneeOptions = users.map(user => (
@@ -140,6 +139,7 @@ IdeaEditForm.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
+  ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   stage: AppPropTypes.stage.isRequired,
   users: AppPropTypes.presences.isRequired,
   actions: AppPropTypes.actions.isRequired,

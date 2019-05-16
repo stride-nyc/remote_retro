@@ -1,6 +1,6 @@
 defmodule RemoteRetro.Retro do
   use RemoteRetroWeb, :model
-  alias RemoteRetro.{Idea, Participation}
+  alias RemoteRetro.{Idea, Participation, RetroFormats}
 
   @primary_key {:id, :binary_id, autogenerate: true}
 
@@ -16,6 +16,7 @@ defmodule RemoteRetro.Retro do
     has_many(:votes, through: [:ideas, :votes])
     has_many(:users, through: [:participations, :user])
 
+    field(:format, :string, read_after_writes: true, default: RetroFormats.happy_sad_confused)
     field(:stage, :string, read_after_writes: true)
     field(:facilitator_id, :id, read_after_writes: true)
 
@@ -24,8 +25,12 @@ defmodule RemoteRetro.Retro do
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:stage, :facilitator_id])
+    |> cast(params, [:stage, :facilitator_id, :format])
     |> validate_required(@required_fields)
+    |> validate_inclusion(:format, [
+      RetroFormats.happy_sad_confused,
+      RetroFormats.start_stop_continue,
+    ])
     |> validate_inclusion(:stage, [
       "lobby",
       "prime-directive",

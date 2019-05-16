@@ -15,7 +15,6 @@ import Error from "./error"
 import DoorChime from "./door_chime"
 import StageHelp from "./stage_help"
 
-
 export class RemoteRetro extends Component {
   // Trigger analytics events on page load and stage changes
   componentDidMount() {
@@ -43,6 +42,7 @@ export class RemoteRetro extends Component {
       facilitatorName,
       isTabletOrAbove,
       stageConfig,
+      ideaGenerationCategories,
       actions,
     } = this.props
 
@@ -52,6 +52,7 @@ export class RemoteRetro extends Component {
           currentUser={currentUser}
           facilitatorName={facilitatorName}
           presences={presences}
+          ideaGenerationCategories={ideaGenerationCategories}
           ideas={ideas}
           stage={stage}
           stageConfig={stageConfig}
@@ -75,6 +76,7 @@ RemoteRetro.propTypes = {
   alert: PropTypes.object,
   error: PropTypes.object,
   actions: AppPropTypes.actions.isRequired,
+  ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   currentUser: AppPropTypes.presence,
   facilitatorName: PropTypes.string,
   isTabletOrAbove: PropTypes.bool.isRequired,

@@ -16,7 +16,7 @@ import {
 } from "../redux"
 
 export const Idea = props => {
-  const { idea, currentUser, retroChannel, stage, users, actions } = props
+  const { idea, currentUser, retroChannel, stage, users, actions, ideaGenerationCategories } = props
 
   const userIsEditing = idea.inEditState && idea.isLocalEdit
 
@@ -30,6 +30,7 @@ export const Idea = props => {
         stage={stage}
         users={users}
         actions={actions}
+        ideaGenerationCategories={ideaGenerationCategories}
       />
     )
   } else if (idea.liveEditText) {
@@ -52,6 +53,7 @@ Idea.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,
   users: AppPropTypes.presences.isRequired,
+  ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   actions: AppPropTypes.actions,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,

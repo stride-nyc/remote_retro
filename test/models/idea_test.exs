@@ -37,6 +37,24 @@ defmodule RemoteRetro.IdeaTest do
     refute Map.has_key?(errors_map, :category)
   end
 
+  test "category can be start" do
+    changeset = Idea.changeset(@valid_idea, %{category: "start"})
+    errors_map = errors_on(changeset)
+    refute Map.has_key?(errors_map, :category)
+  end
+
+  test "category can be stop" do
+    changeset = Idea.changeset(@valid_idea, %{category: "stop"})
+    errors_map = errors_on(changeset)
+    refute Map.has_key?(errors_map, :category)
+  end
+
+  test "category can be continue" do
+    changeset = Idea.changeset(@valid_idea, %{category: "continue"})
+    errors_map = errors_on(changeset)
+    refute Map.has_key?(errors_map, :category)
+  end
+
   test "category can be action-item" do
     changeset = Idea.changeset(@valid_idea, %{category: "action-item"})
     errors_map = errors_on(changeset)

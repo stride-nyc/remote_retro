@@ -1,5 +1,5 @@
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
-import StageChangeInfoIdeaGeneration from "../components/stage_change_info_idea_generation"
+import stageChangeInfoIdeaGenerationBuilder from "../components/stage_change_info_idea_generation_builder"
 import StageChangeInfoGrouping from "../components/stage_change_info_grouping"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
@@ -16,33 +16,11 @@ const {
   CLOSED,
 } = STAGES
 
-const baseIdeaGenerationConfig = {
-  alert: {
-    headerText: "Stage Change: Idea Generation!",
-    BodyComponent: StageChangeInfoIdeaGeneration,
-  },
-  help: {
-    headerText: "Idea Generation",
-    BodyComponent: StageChangeInfoIdeaGeneration,
-  },
-}
-const ideaGenerationConfig = localStorage.groupingDev ? {
-  ...baseIdeaGenerationConfig,
-  nextStage: GROUPING,
-  progressionButton: {
-    copy: "Proceed to Grouping",
-    iconClass: "arrow right",
-    confirmationMessage: "Are you sure you would like to proceed to the grouping stage?",
-  },
-} : {
-  ...baseIdeaGenerationConfig,
-  nextStage: VOTING,
-  progressionButton: {
-    copy: "Proceed to Voting",
-    iconClass: "arrow right",
-    confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
-  },
-}
+const StageChangeInfoIdeaGeneration = stageChangeInfoIdeaGenerationBuilder([
+  "Reflect on the practices and habits of the team.",
+  "Suggest practices that the team could start, stop, or continue to make the team more effective.",
+  "Assume best intent; you're all here to improve.",
+])
 
 export default {
   [LOBBY]: {
@@ -71,7 +49,22 @@ export default {
       confirmationMessage: "Is everyone ready to begin?",
     },
   },
-  [IDEA_GENERATION]: ideaGenerationConfig,
+  [IDEA_GENERATION]: {
+    alert: {
+      headerText: "Stage Change: Idea Generation!",
+      BodyComponent: StageChangeInfoIdeaGeneration,
+    },
+    help: {
+      headerText: "Idea Generation",
+      BodyComponent: StageChangeInfoIdeaGeneration,
+    },
+    nextStage: VOTING,
+    progressionButton: {
+      copy: "Proceed to Voting",
+      iconClass: "arrow right",
+      confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
+    },
+  },
   [GROUPING]: {
     alert: {
       headerText: "Stage Change: Grouping!",

@@ -47,6 +47,10 @@ import {
   reducer as stageConfig,
 } from "./stage_config"
 
+import {
+  reducer as ideaGenerationCategories,
+} from "./idea_generation_categories"
+
 export const reducer = combineReducers({
   presences,
   usersById,
@@ -57,6 +61,7 @@ export const reducer = combineReducers({
   error,
   mobile,
   stageConfig,
+  ideaGenerationCategories,
   browser: responsiveStateReducer,
 })
 

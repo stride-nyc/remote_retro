@@ -253,6 +253,29 @@
   margin: -1px; padding: 0; border: 0;
 }
 
+:global .ui.modal.retro-format-modal {
+  top: 15%;
+
+  .items {
+    margin: 0;
+
+    .item {
+      margin: 0;
+      padding: 1.5rem;
+      cursor: pointer;
+    }
+  }
+
+  input:checked + label.item {
+    background-color: var(--semantic-secondary);
+  }
+
+  .submit-button-wrapper {
+    border-top: 1px solid var(--semantic-divider-border-top-color);
+    padding: 1.25rem;
+  }
+}
+
 :global(.bold) {
   font-weight: bold;
 }

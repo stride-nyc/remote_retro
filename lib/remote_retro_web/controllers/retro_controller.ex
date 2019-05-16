@@ -24,11 +24,11 @@ defmodule RemoteRetroWeb.RetroController do
     })
   end
 
-  def create(conn, _params) do
+  def create(conn, params) do
     user = get_session(conn, "current_user")
 
     {:ok, retro} =
-      %Retro{facilitator_id: user.id}
+      %Retro{facilitator_id: user.id, format: params["format"]}
       |> Retro.changeset()
       |> Repo.insert()
 

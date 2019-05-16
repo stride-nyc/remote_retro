@@ -35,6 +35,7 @@ describe("stageConfig reducer", () => {
         stub = sinon.stub(StageConfig, "retrieveFor").returns({ keyFromStub: "value", alert: {} })
         const actionInitialState = {
           stage: "prime-directive",
+          format: "Happy/Sad/Confused",
         }
         const action = { type: "SET_INITIAL_STATE", initialState: actionInitialState }
 
@@ -45,8 +46,8 @@ describe("stageConfig reducer", () => {
         stub.restore()
       })
 
-      it("invokes StageConfig.retrieveFor with the initial stage", () => {
-        expect(stub).calledWith("prime-directive")
+      it("invokes StageConfig.retrieveFor with the format and initial stage", () => {
+        expect(stub).calledWith({ format: "Happy/Sad/Confused", stage: "prime-directive" })
       })
 
       it("returns an object based on the config returned by StageConfig.retrieveFor", () => {
@@ -77,7 +78,7 @@ describe("stageConfig reducer", () => {
       })
 
       it("invokes StageConfig.retrieveFor with the new stage", () => {
-        expect(stub).calledWith("idea-generation")
+        expect(stub).calledWith({ stage: "idea-generation" })
       })
 
       it("returns a configuration object based on the return of the collaborator", () => {

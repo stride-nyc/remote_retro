@@ -39,6 +39,7 @@ const store = {
       selectedCategoryTab: "happy",
     },
     stageConfig: {},
+    ideaGenerationCategories: [],
     browser: {
       greaterThan: {
         small: true,

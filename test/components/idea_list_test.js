@@ -12,6 +12,7 @@ describe("IdeaList", () => {
     currentUser: { given_name: "daniel", is_facilitator: true },
     isTabletOrAbove: false,
     retroChannel: mockRetroChannel,
+    ideaGenerationCategories: [],
     votes: [],
     ideas: [],
     stage: IDEA_GENERATION,

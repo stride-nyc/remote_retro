@@ -19,6 +19,7 @@ describe("<IdeaEditForm />", () => {
     retroChannel: mockRetroChannel,
     actions: mockActions,
     stage,
+    ideaGenerationCategories: ["happy", "sad", "confused"],
     users: [{
       id: 7,
       name: "Helga Foggybottom",

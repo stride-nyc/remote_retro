@@ -50,7 +50,7 @@ describe("alert", () => {
       })
 
       it("invokes StageConfig.retrieveFor", () => {
-        expect(stub).calledWith("idea-generation")
+        expect(stub).calledWith({ stage: "idea-generation" })
       })
 
       it("returns the alert value from the result of StageConfig.retrieveFor", () => {

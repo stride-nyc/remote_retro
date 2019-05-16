@@ -21,7 +21,7 @@ defmodule RemoteRetro.Idea do
     )
   end
 
-  @valid_categories ["happy", "sad", "confused", "action-item"]
+  @valid_categories ["happy", "sad", "confused", "start", "stop", "continue", "action-item"]
   @required_fields [:category, :body, :retro_id, :user_id]
   @fields [:assignee_id | @required_fields]
 

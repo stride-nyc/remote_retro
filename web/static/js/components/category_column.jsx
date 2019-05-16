@@ -48,11 +48,12 @@ CategoryColumn.defaultProps = {
   draggedOver: false,
 }
 
-export const mapStateToProps = ({ votes, ideas, alert }, props) => {
+export const mapStateToProps = ({ votes, ideas, alert, ideaGenerationCategories }, props) => {
   return {
     votes,
     ideas: ideas.filter(idea => idea.category === props.category),
     alert,
+    ideaGenerationCategories,
   }
 }
 
