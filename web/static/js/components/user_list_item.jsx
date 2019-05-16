@@ -33,7 +33,7 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
         <button
           type="button"
           title={`Transfer facilitatorship to ${user.given_name}`}
-          className={styles.facilitator}
+          className={styles.transferFacilitatorship}
           onClick={() => passFacilitatorshipTo(user)}
         >
           <i className="ui circular magic icon" />

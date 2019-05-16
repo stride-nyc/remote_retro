@@ -63,11 +63,11 @@ describe("UserListItem", () => {
     const facilitator = { ...defaultUserAttrs, is_facilitator: true }
     const nonFacilitator = { ...secondaryrUserAttrs, is_facilitator: false }
 
-    it("renders facilitator button", () => {
+    it("renders a means of tranferring the facilitatorship to that user", () => {
       const wrapper = shallow(
         <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
       )
-      expect(wrapper.find("button.facilitator")).to.have.length(1)
+      expect(wrapper.find("button.transferFacilitatorship")).to.have.length(1)
     })
 
     describe("passing facilitatorship", () => {
@@ -79,7 +79,7 @@ describe("UserListItem", () => {
         const wrapper = shallow(
           <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
         )
-        wrapper.find("button.facilitator").simulate("click")
+        wrapper.find("button.transferFacilitatorship").simulate("click")
         expect(defaultProps.actions.updateRetroAsync.calledWith(
           { facilitator_id: nonFacilitator.id }
         )).to.eql(true)
@@ -99,7 +99,7 @@ describe("UserListItem", () => {
         const wrapper = shallow(
           <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
         )
-        wrapper.find("button.facilitator").simulate("click")
+        wrapper.find("button.transferFacilitatorship").simulate("click")
         expect(defaultProps.actions.updateRetroAsync.notCalled).to.eql(true)
       })
     })
@@ -109,14 +109,14 @@ describe("UserListItem", () => {
     })
   })
 
-  describe("facilitator is the user", () => {
+  describe("the user in question is the facilitator", () => {
     const user = { ...defaultUserAttrs, is_facilitator: true }
 
-    it("does not render the magic button", () => {
+    it("does not render a means of giving them the facilitatorship", () => {
       const wrapper = shallow(
         <UserListItem {...defaultProps} user={user} currentUser={user} />
       )
-      expect(wrapper.find("button.facilitator")).to.have.length(0)
+      expect(wrapper.find("button.transferFacilitatorship")).to.have.length(0)
     })
   })
 
