@@ -2,7 +2,7 @@ defmodule RemoteRetroWeb.RetroChannel do
   use RemoteRetroWeb, :channel
 
   alias RemoteRetroWeb.{Presence, PresenceUtils, VotingHandlers, IdeationHandlers, RetroManagementHandlers}
-  alias RemoteRetro.{Retro}
+  alias RemoteRetro.Data.{Retro}
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)

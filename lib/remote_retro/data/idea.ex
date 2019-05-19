@@ -1,15 +1,16 @@
-defmodule RemoteRetro.Idea do
+defmodule RemoteRetro.Data.Idea do
   use RemoteRetroWeb, :model
+  alias RemoteRetro.Data.{Retro, User, Vote}
 
   @derive {Jason.Encoder, except: [:__meta__, :retro, :user, :votes, :assignee]}
   schema "ideas" do
     field(:category, :string)
     field(:body, :string)
 
-    belongs_to(:retro, RemoteRetro.Retro, type: Ecto.UUID)
-    belongs_to(:user, RemoteRetro.User)
-    has_many(:votes, RemoteRetro.Vote)
-    belongs_to(:assignee, RemoteRetro.User)
+    belongs_to(:retro, Retro, type: Ecto.UUID)
+    belongs_to(:user, User)
+    has_many(:votes, Vote)
+    belongs_to(:assignee, User)
 
     timestamps(type: :utc_datetime_usec)
   end

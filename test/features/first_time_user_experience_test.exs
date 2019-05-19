@@ -1,6 +1,6 @@
 defmodule FirstTimeUserExperienceTest do
   use RemoteRetro.IntegrationCase, async: false
-  alias RemoteRetro.{Participation}
+  alias RemoteRetro.Data.{Participation}
 
   import ShorterMaps
 

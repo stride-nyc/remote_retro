@@ -3,7 +3,7 @@ defmodule RemoteRetroWeb.PresenceUtils do
   Helpers for retro user presence.
   """
   alias RemoteRetroWeb.Presence
-  alias RemoteRetro.User
+  alias RemoteRetro.Data.User
   alias Phoenix.Token
 
   def track_timestamped(%{assigns: assigns} = socket) do

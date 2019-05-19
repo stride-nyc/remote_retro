@@ -1,6 +1,7 @@
 defmodule RemoteRetro.RetroControllerTest do
   use RemoteRetroWeb.ConnCase, async: true
-  alias RemoteRetro.{Participation, Retro, Repo}
+  alias RemoteRetro.{Data, Repo}
+  alias Data.{Participation, Retro}
 
   import ShorterMaps
 

@@ -1,5 +1,5 @@
 defmodule RemoteRetroWeb.VotingHandlers do
-  alias RemoteRetro.{Repo, Vote}
+  alias RemoteRetro.{Repo, Data.Vote}
   import Phoenix.Channel
 
   import ShorterMaps

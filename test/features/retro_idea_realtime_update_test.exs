@@ -1,6 +1,6 @@
 defmodule RetroIdeaRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
-  alias RemoteRetro.Idea
+  alias RemoteRetro.Data.Idea
 
   import ShorterMaps
 

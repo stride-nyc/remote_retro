@@ -1,7 +1,7 @@
 defmodule RemoteRetro.VoteTest do
   use RemoteRetro.DataCase, async: true
 
-  alias RemoteRetro.Vote
+  alias RemoteRetro.Data.Vote
 
   test "user_id and idea_id are required" do
     changeset = Vote.changeset(%Vote{})

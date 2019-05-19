@@ -1,6 +1,6 @@
-defmodule RemoteRetro.Retro do
+defmodule RemoteRetro.Data.Retro do
   use RemoteRetroWeb, :model
-  alias RemoteRetro.{Idea, Participation}
+  alias RemoteRetro.Data.{Idea, Participation}
 
   @primary_key {:id, :binary_id, autogenerate: true}
 

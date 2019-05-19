@@ -1,10 +1,11 @@
-defmodule RemoteRetro.Participation do
+defmodule RemoteRetro.Data.Participation do
   use RemoteRetroWeb, :model
+  alias RemoteRetro.Data.{User, Retro}
 
   @derive {Jason.Encoder, except: [:__meta__, :user, :retro]}
   schema "participations" do
-    belongs_to(:user, RemoteRetro.User)
-    belongs_to(:retro, RemoteRetro.Retro, type: Ecto.UUID)
+    belongs_to(:user, User)
+    belongs_to(:retro, Retro, type: Ecto.UUID)
 
     timestamps(type: :utc_datetime_usec)
   end

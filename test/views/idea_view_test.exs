@@ -1,6 +1,6 @@
 defmodule RemoteRetro.IdeaViewTest do
   use RemoteRetroWeb.ConnCase, async: true
-  alias RemoteRetro.{Idea, User}
+  alias RemoteRetro.Data.{Idea, User}
   alias RemoteRetroWeb.IdeaView
 
   describe ".action_item_to_string" do

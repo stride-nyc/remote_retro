@@ -1,7 +1,7 @@
 defmodule RemoteRetro.ParticipationTest do
   use RemoteRetro.DataCase, async: true
 
-  alias RemoteRetro.Participation
+  alias RemoteRetro.Data.Participation
 
   test "user_id and retro_id are required" do
     changeset = Participation.changeset(%Participation{})

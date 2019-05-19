@@ -1,6 +1,7 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
-  alias RemoteRetro.{Repo, Idea, Vote, User}
+  alias RemoteRetro.{Repo, Data}
+  alias Data.{Idea, Vote, User}
 
   import ShorterMaps
 

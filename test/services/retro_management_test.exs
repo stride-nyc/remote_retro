@@ -2,7 +2,8 @@ defmodule RemoteRetro.RetroManagementTest do
   use RemoteRetro.UserRetroCase, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.{Repo, Retro, User, Emails, TestHelpers}
+  alias RemoteRetro.{Repo, Data, Emails, TestHelpers}
+  alias Data.{Retro, User}
   alias RemoteRetroWeb.RetroManagement
 
   import ShorterMaps
