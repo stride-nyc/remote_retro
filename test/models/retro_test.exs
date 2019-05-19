@@ -1,5 +1,5 @@
 defmodule RemoteRetro.RetroTest do
-  use RemoteRetro.ModelCase
+  use RemoteRetro.DataCase
 
   alias RemoteRetro.Retro
 

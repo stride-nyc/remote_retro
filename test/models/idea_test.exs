@@ -1,7 +1,9 @@
 defmodule RemoteRetro.IdeaTest do
-  use RemoteRetro.ModelCase, async: true
+  use RemoteRetro.DataCase, async: true
 
   alias RemoteRetro.Idea
+
+  @valid_idea %Idea{category: "sad", body: "Monday", retro_id: "derp", user_id: 1}
 
   test "body, category, user_id, and retro_id are required" do
     changeset = Idea.changeset(%Idea{category: nil})
@@ -15,6 +17,36 @@ defmodule RemoteRetro.IdeaTest do
     assert category_error == "can't be blank"
     assert retro_id_error == "can't be blank"
     assert user_id_error == "can't be blank"
+  end
+
+  test "category can be happy" do
+    changeset = Idea.changeset(@valid_idea, %{category: "happy"})
+    errors_map = errors_on(changeset)
+    refute Map.has_key?(errors_map, :category)
+  end
+
+  test "category can be sad" do
+    changeset = Idea.changeset(@valid_idea, %{category: "sad"})
+    errors_map = errors_on(changeset)
+    refute Map.has_key?(errors_map, :category)
+  end
+
+  test "category can be confused" do
+    changeset = Idea.changeset(@valid_idea, %{category: "confused"})
+    errors_map = errors_on(changeset)
+    refute Map.has_key?(errors_map, :category)
+  end
+
+  test "category can be action-item" do
+    changeset = Idea.changeset(@valid_idea, %{category: "action-item"})
+    errors_map = errors_on(changeset)
+    refute Map.has_key?(errors_map, :category)
+  end
+
+  test "invalid idea categories are caught" do
+    changeset = Idea.changeset(@valid_idea, %{category: "nonsensical seuss"})
+    errors_map = errors_on(changeset)
+    assert Map.has_key?(errors_map, :category)
   end
 
   describe "validating assignee_id presence" do

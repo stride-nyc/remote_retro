@@ -1,5 +1,5 @@
 defmodule RemoteRetro.ParticipationTest do
-  use RemoteRetro.ModelCase, async: true
+  use RemoteRetro.DataCase, async: true
 
   alias RemoteRetro.Participation
 

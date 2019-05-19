@@ -21,6 +21,7 @@ defmodule RemoteRetro.Idea do
     )
   end
 
+  @valid_categories ["happy", "sad", "confused", "action-item"]
   @required_fields [:category, :body, :retro_id, :user_id]
   @mutable_fields [:assignee_id | @required_fields]
 
@@ -28,6 +29,7 @@ defmodule RemoteRetro.Idea do
     struct
     |> cast(params, @mutable_fields)
     |> validate_required(@required_fields)
+    |> validate_inclusion(:category, @valid_categories)
     |> validate_assignee_required_for_action_items()
   end
 
