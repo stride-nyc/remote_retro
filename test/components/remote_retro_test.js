@@ -24,7 +24,7 @@ describe("RemoteRetro component", () => {
     facilitatorName: "Daniel Handpan",
     retro: { stage: IDEA_GENERATION },
     actions: {
-      newFacilitator: () => {},
+      currentUserHasBecomeFacilitator: () => {},
     },
   }
 
@@ -51,26 +51,26 @@ describe("RemoteRetro component", () => {
       }
 
       actions = {
-        newFacilitator: spy(),
+        currentUserHasBecomeFacilitator: spy(),
       }
     })
 
     it("calls the new facilitator action", () => {
       const wrapper = shallow(<RemoteRetro {...defaultProps} actions={actions} />)
       wrapper.setProps({ currentUser: newFacilitator })
-      expect(actions.newFacilitator).to.have.been.called
+      expect(actions.currentUserHasBecomeFacilitator).to.have.been.called
     })
   })
 
   describe("when component updates without the current user's facilitatorship ", () => {
     const actions = {
-      newFacilitator: spy(),
+      currentUserHasBecomeFacilitator: spy(),
     }
 
     it("does not call the new facilitator action", () => {
       const wrapper = shallow(<RemoteRetro {...defaultProps} actions={actions} />)
       wrapper.setProps({ stage: CLOSED, currentUser: stubUser })
-      expect(actions.newFacilitator).not.to.have.been.called
+      expect(actions.currentUserHasBecomeFacilitator).not.to.have.been.called
     })
   })
 })

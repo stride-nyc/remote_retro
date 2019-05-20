@@ -27,7 +27,7 @@ export class RemoteRetro extends Component {
     const { stage, currentUser, actions } = this.props
     if (prevProps.stage !== stage) { hj("trigger", stage) }
     if (!prevProps.currentUser.is_facilitator && currentUser.is_facilitator) {
-      actions.newFacilitator()
+      actions.currentUserHasBecomeFacilitator()
     }
   }
 

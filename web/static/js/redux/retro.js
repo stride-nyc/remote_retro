@@ -35,7 +35,7 @@ export const actions = {
     initialState,
   }),
 
-  newFacilitator: () => ({
+  currentUserHasBecomeFacilitator: () => ({
     type: alertTypes.NEW_FACILITATOR,
   }),
 
