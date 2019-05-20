@@ -1,6 +1,6 @@
 defmodule RemoteRetro.Emails do
   import Bamboo.Email, except: [from: 2]
-  alias RemoteRetro.{Repo, Data.Retro}
+  alias RemoteRetro.{Repo, Retro}
   alias RemoteRetroWeb.IdeaView
 
   def welcome_email(user) do

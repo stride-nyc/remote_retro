@@ -1,6 +1,6 @@
 defmodule VotingTest do
   use RemoteRetro.IntegrationCase, async: false
-  alias RemoteRetro.Data.Idea
+  alias RemoteRetro.Idea
 
   import ShorterMaps
 

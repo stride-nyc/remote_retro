@@ -1,6 +1,5 @@
 defmodule RemoteRetroWeb.RetroManagement do
-  alias RemoteRetro.{Repo, Data, Emails, Mailer}
-  alias Data.{Retro, User}
+  alias RemoteRetro.{Retro, User, Repo, Emails, Mailer}
 
   import Ecto.Query, only: [from: 2]
 

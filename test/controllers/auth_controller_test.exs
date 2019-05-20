@@ -1,6 +1,6 @@
 defmodule RemoteRetro.AuthControllerTest do
   use RemoteRetroWeb.ConnCase, async: true
-  alias RemoteRetro.Data.User
+  alias RemoteRetro.User
 
   import ShorterMaps
 

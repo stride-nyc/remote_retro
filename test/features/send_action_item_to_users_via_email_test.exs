@@ -1,5 +1,5 @@
 defmodule SendActionItemToUsersViaEmailTest do
-  alias RemoteRetro.{Emails, Data.Idea}
+  alias RemoteRetro.{Emails, Idea}
   use RemoteRetro.IntegrationCase, async: false
   use Bamboo.Test, shared: true
 

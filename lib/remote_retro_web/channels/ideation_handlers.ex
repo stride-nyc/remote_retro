@@ -4,8 +4,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
 
   use SlenderChannel
 
-  alias RemoteRetro.{Repo, Data}
-  alias Data.Idea
+  alias RemoteRetro.{Repo, Idea}
 
   def handle_in("idea_submitted", idea_params, socket) do
     {reply_atom, _} = atomic_insert_and_broadcast(idea_params, socket)

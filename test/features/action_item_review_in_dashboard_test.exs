@@ -1,5 +1,5 @@
 defmodule ActionItemReviewInDashboardTest do
-  alias RemoteRetro.Data.{Idea}
+  alias RemoteRetro.{Idea}
   use RemoteRetro.IntegrationCase, async: false
 
   import ShorterMaps

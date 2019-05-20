@@ -1,8 +1,6 @@
 defmodule RemoteRetro.UserRetroCase do
   use ExUnit.CaseTemplate
-  alias RemoteRetro.{Repo, Data, TestHelpers}
-  alias Data.{Retro, User, Participation}
-
+  alias RemoteRetro.{Repo, Retro, User, Participation, TestHelpers}
   import Ecto.Query, only: [from: 2]
   import TestHelpers
 

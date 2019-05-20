@@ -1,8 +1,7 @@
 defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetroWeb.ChannelCase, async: false
 
-  alias RemoteRetro.{Repo, Data}
-  alias Data.{Idea, Retro, Vote}
+  alias RemoteRetro.{Repo, Idea, Retro, Vote}
   alias RemoteRetroWeb.{RetroChannel, Presence, RetroManagement, UserSocket}
 
   import Mock

@@ -2,7 +2,7 @@ defmodule RemoteRetroWeb.UserManagementTest do
   use ExUnit.Case, async: false
   use Bamboo.Test, shared: true
 
-  alias RemoteRetro.Data.{User}
+  alias RemoteRetro.{User}
   alias RemoteRetroWeb.{UserManagement}
 
   import Mock

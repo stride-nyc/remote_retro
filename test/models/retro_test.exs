@@ -1,7 +1,7 @@
 defmodule RemoteRetro.RetroTest do
   use RemoteRetro.DataCase
 
-  alias RemoteRetro.Data.Retro
+  alias RemoteRetro.Retro
 
   test "stage must be one of the retro stages" do
     retro = %Retro{facilitator_id: 1}

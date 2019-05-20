@@ -1,7 +1,7 @@
 defmodule RemoteRetro.UserTest do
   use RemoteRetro.DataCase
 
-  alias RemoteRetro.Data.User
+  alias RemoteRetro.User
 
   @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
 

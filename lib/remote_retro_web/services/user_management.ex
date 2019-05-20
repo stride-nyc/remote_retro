@@ -1,5 +1,5 @@
 defmodule RemoteRetroWeb.UserManagement do
-  alias RemoteRetro.{Data.User, Mailer, Emails}
+  alias RemoteRetro.{User, Mailer, Emails}
 
   def handle_google_oauth(oauth_info) do
     case User.upsert_record_from(oauth_info: oauth_info) do

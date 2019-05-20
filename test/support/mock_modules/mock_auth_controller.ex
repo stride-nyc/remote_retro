@@ -4,7 +4,7 @@
 #         met with suspicion and possibly malice.
 defmodule RemoteRetroWeb.MockAuthController do
   use RemoteRetroWeb, :controller
-  alias RemoteRetro.Data.{User}
+  alias RemoteRetro.{User}
 
   @allow_user_masquerade Application.get_env(:remote_retro, :allow_user_masquerade)
 

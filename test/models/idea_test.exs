@@ -1,7 +1,7 @@
 defmodule RemoteRetro.IdeaTest do
   use RemoteRetro.DataCase, async: true
 
-  alias RemoteRetro.Data.Idea
+  alias RemoteRetro.Idea
 
   @valid_idea %Idea{category: "sad", body: "Monday", retro_id: "derp", user_id: 1}
 
