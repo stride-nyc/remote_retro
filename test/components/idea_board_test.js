@@ -3,7 +3,6 @@ import React from "react"
 import IdeaBoard from "../../web/static/js/components/idea_board"
 import ColumnarBoardLayout from "../../web/static/js/components/columnar_board_layout"
 import STAGES from "../../web/static/js/configs/stages"
-import { IDEA_GENERATION_CATEGORIES } from "../../web/static/js/configs/retro_configs"
 
 const { IDEA_GENERATION, ACTION_ITEMS, CLOSED } = STAGES
 
@@ -17,7 +16,7 @@ describe("IdeaBoard component", () => {
     ideas: [],
     stage: IDEA_GENERATION,
     isTabletOrAbove: true,
-    categories: IDEA_GENERATION_CATEGORIES,
+    categories: ["one", "two", "three"],
   }
 
   describe("when the stage is 'idea-generation'", () => {
@@ -27,8 +26,8 @@ describe("IdeaBoard component", () => {
       )
     })
 
-    it("passes categories of happy, sad, and confused", () => {
-      expect(categoriesPassedTo(ideaBoard)).to.eql(["happy", "sad", "confused"])
+    it("passes the given categories to its layout component", () => {
+      expect(categoriesPassedToInnerLayout(ideaBoard)).to.eql(["one", "two", "three"])
     })
   })
 
@@ -40,7 +39,7 @@ describe("IdeaBoard component", () => {
     })
 
     it("passes an additional fourth category of action-items", () => {
-      expect(categoriesPassedTo(ideaBoard)).to.eql(["happy", "sad", "confused", "action-item"])
+      expect(categoriesPassedToInnerLayout(ideaBoard)).to.eql(["one", "two", "three", "action-item"])
     })
   })
 
@@ -50,12 +49,12 @@ describe("IdeaBoard component", () => {
     })
 
     it("passes an additional fourth category of action-items", () => {
-      expect(categoriesPassedTo(ideaBoard)).to.eql(["happy", "sad", "confused", "action-item"])
+      expect(categoriesPassedToInnerLayout(ideaBoard)).to.eql(["one", "two", "three", "action-item"])
     })
   })
 })
 
-const categoriesPassedTo = ideaBoard => {
+const categoriesPassedToInnerLayout = ideaBoard => {
   const layout = ideaBoard.find(ColumnarBoardLayout)
   return layout.prop("categories")
 }
