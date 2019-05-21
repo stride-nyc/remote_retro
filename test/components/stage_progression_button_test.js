@@ -6,11 +6,11 @@ import { StageProgressionButton } from "../../web/static/js/components/stage_pro
 describe("StageProgressionButton", () => {
   const actions = { updateRetroAsync: () => {} }
   const mockStageConfig = {
-    confirmationMessage: "Are you sure?",
     nextStage: "stageDos",
     progressionButton: {
       copy: "Proceed to stage dos",
       iconClass: "arrow right",
+      confirmationMessage: "Are you sure?",
     },
   }
 

@@ -31,7 +31,7 @@ export class StageProgressionButton extends Component {
       className,
       currentUser,
       retroUpdateRequested,
-      stageConfig: { progressionButton, confirmationMessage },
+      stageConfig: { progressionButton },
     } = this.props
 
     const { modalOpen } = this.state
@@ -46,7 +46,7 @@ export class StageProgressionButton extends Component {
           className="ui tiny modal visible transition fade in active"
         >
           <div className="content">
-            <p>{confirmationMessage}</p>
+            <p>{progressionButton.confirmationMessage}</p>
           </div>
           <div className="actions" ref={ref => { this.modalActionsRef = ref }}>
             <button
