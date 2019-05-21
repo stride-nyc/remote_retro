@@ -51,6 +51,8 @@ export const stage = PropTypes.oneOf([
   CLOSED,
 ])
 
+export const stageConfig = PropTypes.object
+
 export const categories = PropTypes.arrayOf(PropTypes.string)
 
 export const votes = PropTypes.arrayOf(PropTypes.object)

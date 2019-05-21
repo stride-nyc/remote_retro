@@ -13,7 +13,7 @@ describe("LobbyStage component", () => {
     token: "herp",
   }
   const defaultProps = {
-    progressionConfig: {},
+    stageConfig: {},
     currentUser,
     presences: [currentUser],
     retroChannel: {},

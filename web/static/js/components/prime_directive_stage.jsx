@@ -32,7 +32,7 @@ const PrimeDirectiveStage = props => {
 }
 
 PrimeDirectiveStage.propTypes = {
-  progressionConfig: PropTypes.object.isRequired,
+  stageConfig: PropTypes.object.isRequired,
 }
 
 export default PrimeDirectiveStage

@@ -16,9 +16,9 @@ export class StageProgressionButton extends Component {
   }
 
   handleStageProgression = () => {
-    const { config, actions } = this.props
+    const { stageConfig, actions } = this.props
 
-    actions.updateRetroAsync({ stage: config.nextStage })
+    actions.updateRetroAsync({ stage: stageConfig.nextStage })
   }
 
   handleModalClose = () => {
@@ -31,7 +31,7 @@ export class StageProgressionButton extends Component {
       className,
       currentUser,
       retroUpdateRequested,
-      config: { progressionButton, confirmationMessage },
+      stageConfig: { progressionButton, confirmationMessage },
     } = this.props
 
     const { modalOpen } = this.state
@@ -86,7 +86,7 @@ StageProgressionButton.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   className: PropTypes.string,
-  config: PropTypes.object,
+  stageConfig: PropTypes.object,
   buttonDisabled: PropTypes.bool,
   retroUpdateRequested: PropTypes.bool,
 }
@@ -95,7 +95,7 @@ StageProgressionButton.defaultProps = {
   className: "",
   buttonDisabled: false,
   retroUpdateRequested: false,
-  config: null,
+  stageConfig: null,
 }
 
 const mapStateToProps = ({ retro }) => ({

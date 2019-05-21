@@ -18,7 +18,7 @@ const Room = props => {
     roomContents = (
       <LobbyStage
         {...props}
-        progressionConfig={stageConfig}
+        stageConfig={stageConfig}
         isFacilitator={isFacilitator}
       />
     )
@@ -26,12 +26,12 @@ const Room = props => {
     roomContents = (
       <PrimeDirectiveStage
         {...props}
-        progressionConfig={stageConfig}
+        stageConfig={stageConfig}
         isFacilitator={isFacilitator}
       />
     )
   } else {
-    roomContents = <IdeaGenerationStage {...props} />
+    roomContents = <IdeaGenerationStage {...props} stageConfig={stageConfig} />
   }
 
   return roomContents

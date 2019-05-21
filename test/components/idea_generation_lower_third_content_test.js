@@ -11,6 +11,7 @@ describe("<IdeaGenerationLowerThirdContent />", () => {
   const defaultProps = {
     retroChannel: {},
     currentUser: {},
+    stageConfig: {},
   }
 
   context("when it's the `idea-generation` stage", () => {

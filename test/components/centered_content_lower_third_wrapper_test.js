@@ -9,6 +9,7 @@ describe("CenteredContentLowerThirdWrapper", () => {
     currentUser: {},
     children: <p>Fart</p>,
     actions: {},
+    stageConfig: {},
   }
 
   it("renders the children passed", () => {

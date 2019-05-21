@@ -5,7 +5,7 @@ import { StageProgressionButton } from "../../web/static/js/components/stage_pro
 
 describe("StageProgressionButton", () => {
   const actions = { updateRetroAsync: () => {} }
-  const mockButtonConfig = {
+  const mockStageConfig = {
     confirmationMessage: "Are you sure?",
     nextStage: "stageDos",
     progressionButton: {
@@ -16,7 +16,7 @@ describe("StageProgressionButton", () => {
 
   const defaultProps = {
     actions,
-    config: mockButtonConfig,
+    stageConfig: mockStageConfig,
     buttonDisabled: false,
     currentUser: { is_facilitator: true },
   }
@@ -139,7 +139,7 @@ describe("StageProgressionButton", () => {
   describe("when it does not receive a progressionButton configuration object", () => {
     beforeEach(() => {
       stageProgressionButton = mountWithConnectedSubcomponents(
-        <StageProgressionButton {...defaultProps} config={{ progressionButton: null }} />
+        <StageProgressionButton {...defaultProps} stageConfig={{ progressionButton: null }} />
       )
     })
 

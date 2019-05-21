@@ -6,7 +6,7 @@ import UserList from "./user_list"
 import styles from "./css_modules/centered_text_stage_wrapper.css"
 
 const CenteredTextStageWrapper = props => {
-  const { progressionConfig, bodyMarkup, children, headerText } = props
+  const { bodyMarkup, children, headerText } = props
 
   return (
     <div className={`ui centered grid ${styles.index}`}>
@@ -24,7 +24,6 @@ const CenteredTextStageWrapper = props => {
         <StageProgressionButton
           {...props}
           className="thirteen wide mobile eight wide tablet four wide computer column"
-          config={progressionConfig}
         />
       </div>
       {children}
@@ -33,7 +32,7 @@ const CenteredTextStageWrapper = props => {
 }
 
 CenteredTextStageWrapper.propTypes = {
-  progressionConfig: PropTypes.object.isRequired,
+  stageConfig: PropTypes.object.isRequired,
   bodyMarkup: PropTypes.node.isRequired,
   headerText: PropTypes.string.isRequired,
   children: PropTypes.node,

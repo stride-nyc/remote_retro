@@ -7,6 +7,7 @@ import * as AppPropTypes from "../prop_types"
 
 const CenteredLowerThirdContentWrapper = props => {
   const { currentUser, children } = props
+
   return (
     <div className="ui stackable grid basic attached secondary center aligned segment">
       {currentUser.is_facilitator && <div className="three wide column ui computer tablet only" />}
@@ -26,6 +27,7 @@ const CenteredLowerThirdContentWrapper = props => {
 
 CenteredLowerThirdContentWrapper.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
+  stageConfig: AppPropTypes.stageConfig.isRequired,
   children: PropTypes.node.isRequired,
 }
 

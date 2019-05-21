@@ -20,6 +20,7 @@ describe("LowerThird component", () => {
     users: [],
     ideas: [],
     stage: IDEA_GENERATION,
+    stageConfig: {},
   }
 
   context("when the stage is `idea generation`", () => {

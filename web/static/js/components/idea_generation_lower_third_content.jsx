@@ -2,7 +2,6 @@ import React from "react"
 
 import IdeaSubmissionForm from "./idea_submission_form"
 import StageProgressionButton from "./stage_progression_button"
-import stageConfigs from "../configs/stage_configs"
 
 import * as AppPropTypes from "../prop_types"
 import STAGES from "../configs/stages"
@@ -11,8 +10,6 @@ const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 const IdeaGenerationLowerThirdContent = props => {
   const { stage, ideas, currentUser, retroChannel } = props
-
-  const stageConfig = stageConfigs[stage]
 
   function progressionDisabled() {
     const noIdeasCreated = stage === IDEA_GENERATION && !ideas.length
@@ -33,7 +30,6 @@ const IdeaGenerationLowerThirdContent = props => {
       <StageProgressionButton
         {...props}
         className="three wide right aligned column"
-        config={stageConfig}
         buttonDisabled={progressionDisabled()}
       />
     </div>
@@ -45,6 +41,7 @@ IdeaGenerationLowerThirdContent.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
+  stageConfig: AppPropTypes.stageConfig.isRequired,
 }
 
 export default IdeaGenerationLowerThirdContent
