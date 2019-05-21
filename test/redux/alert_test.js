@@ -124,8 +124,8 @@ describe("alert", () => {
       })
     })
 
-    describe("when the action is NEW_FACILITATOR", () => {
-      const action = { type: "NEW_FACILITATOR" }
+    describe("when the action is CURRENT_USER_HAS_BECOME_FACILITATOR", () => {
+      const action = { type: "CURRENT_USER_HAS_BECOME_FACILITATOR" }
       const initialState = null
 
       it("returns configs for the NewFacilitator alert", () => {

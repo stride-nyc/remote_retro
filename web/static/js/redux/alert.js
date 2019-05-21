@@ -4,7 +4,7 @@ import NewFacilitator from "../components/new_facilitator"
 export const types = {
   CLEAR_ALERT: "CLEAR_ALERT",
   SHOW_STAGE_HELP: "SHOW_STAGE_HELP",
-  NEW_FACILITATOR: "NEW_FACILITATOR",
+  CURRENT_USER_HAS_BECOME_FACILITATOR: "CURRENT_USER_HAS_BECOME_FACILITATOR",
 }
 
 export const actions = {
@@ -21,7 +21,7 @@ export const reducer = (state = null, action) => {
       const { retro, stageConfigs } = action
       return stageConfigs[retro.stage].help || null
     }
-    case types.NEW_FACILITATOR: {
+    case types.CURRENT_USER_HAS_BECOME_FACILITATOR: {
       return {
         headerText: "You've been granted the facilitatorship!",
         BodyComponent: NewFacilitator,

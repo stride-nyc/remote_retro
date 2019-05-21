@@ -36,7 +36,7 @@ export const actions = {
   }),
 
   currentUserHasBecomeFacilitator: () => ({
-    type: alertTypes.NEW_FACILITATOR,
+    type: alertTypes.CURRENT_USER_HAS_BECOME_FACILITATOR,
   }),
 
   showStageHelp: retro => ({
