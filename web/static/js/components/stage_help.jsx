@@ -2,20 +2,16 @@ import React from "react"
 import ReactDOM from "react-dom"
 
 import * as AppPropTypes from "../prop_types"
-import stageConfig from "../configs/stage_configs"
 
 export const StageHelp = props => {
+  const { stageConfig, actions } = props
+
   const handleClick = () => {
-    const { retro, actions: { showStageHelp } } = props
-    showStageHelp(retro)
+    const { showStageHelp } = actions
+    showStageHelp(stageConfig.help)
   }
 
-  const showIcon = () => {
-    const { retro: { stage } } = props
-    return stageConfig[stage].help
-  }
-
-  if (showIcon()) {
+  if (stageConfig.help) {
     return ReactDOM.createPortal(
       <div className="portal">
         <i
@@ -33,7 +29,7 @@ export const StageHelp = props => {
 }
 
 StageHelp.propTypes = {
-  retro: AppPropTypes.retro.isRequired,
+  stageConfig: AppPropTypes.stageConfig.isRequired,
   actions: AppPropTypes.actions.isRequired,
 }
 

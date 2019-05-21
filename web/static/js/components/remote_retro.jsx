@@ -42,7 +42,7 @@ export class RemoteRetro extends Component {
       currentUser,
       facilitatorName,
       isTabletOrAbove,
-      retro,
+      stageConfig,
       actions,
     } = this.props
 
@@ -60,7 +60,7 @@ export class RemoteRetro extends Component {
         <Alert config={alert} />
         <Error config={error} />
         <DoorChime presences={presences} />
-        <StageHelp retro={retro} actions={actions} />
+        <StageHelp stageConfig={stageConfig} actions={actions} />
       </div>
     )
   }
@@ -77,7 +77,7 @@ RemoteRetro.propTypes = {
   currentUser: AppPropTypes.presence,
   facilitatorName: PropTypes.string,
   isTabletOrAbove: PropTypes.bool.isRequired,
-  retro: AppPropTypes.retro.isRequired,
+  stageConfig: AppPropTypes.stageConfig.isRequired,
 }
 
 RemoteRetro.defaultProps = {

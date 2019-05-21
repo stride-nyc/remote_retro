@@ -76,50 +76,22 @@ describe("alert", () => {
 
     describe("when the action is SHOW_STAGE_HELP", () => {
       const initialState = { headerText: "Warning!", bodyText: "You're being watched." }
-      const stageConfigs = {
-        daybreak: {
-          help: {
-            headerText: "I need help!",
-            bodyText: "Tell me what to do",
-          },
-        },
-        nightfall: {
-          no_help: {},
-        },
-        stageLackingHelpConfig: {},
+      const help = {
+        headerText: "I need help!",
+        bodyText: "Tell me what to do",
       }
 
       deepFreeze(initialState)
-      deepFreeze(stageConfigs)
 
-      describe("when the given stage has a help in the given configuration map", () => {
-        const action = {
-          type: "SHOW_STAGE_HELP",
-          retro: {
-            stage: "daybreak",
-          },
-          stageConfigs,
-        }
+      const action = {
+        type: "SHOW_STAGE_HELP",
+        help,
+      }
 
-        it("returns the help for the given stage", () => {
-          expect(reducer(initialState, action)).to.deep.equal({
-            headerText: "I need help!",
-            bodyText: "Tell me what to do",
-          })
-        })
-      })
-
-      describe("when the given stage does NOT have a help in the given configuration map", () => {
-        const action = {
-          type: "SHOW_STAGE_HELP",
-          retro: {
-            stage: "nightfall",
-          },
-          stageConfigs,
-        }
-
-        it("returns a null for the given stage", () => {
-          expect(reducer(initialState, action)).to.deep.equal(null)
+      it("it replaces the state with the given configuration", () => {
+        expect(reducer(initialState, action)).to.deep.equal({
+          headerText: "I need help!",
+          bodyText: "Tell me what to do",
         })
       })
     })

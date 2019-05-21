@@ -38,6 +38,7 @@ const store = {
     mobile: {
       selectedCategoryTab: "happy",
     },
+    stageConfig: {},
     browser: {
       greaterThan: {
         small: true,

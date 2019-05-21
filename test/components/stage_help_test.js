@@ -3,11 +3,9 @@ import sinon from "sinon"
 import { shallow } from "enzyme"
 
 import { StageHelp } from "../../web/static/js/components/stage_help"
-import STAGES from "../../web/static/js/configs/stages"
 
 describe("<StageHelp />", () => {
   let wrapper
-  let retro
 
   // Setup JSDom so that react can inject a portal
   const iconRoot = global.document.createElement("div")
@@ -21,14 +19,16 @@ describe("<StageHelp />", () => {
 
   const defaultProps = {
     actions,
-    retro: {},
+    stageConfig: {
+      help: {
+        header: "Oh yeah, here's some help for ya",
+      },
+    },
   }
 
   describe("when it is a stage with help to show", () => {
     beforeEach(() => {
-      retro = { stage: STAGES.IDEA_GENERATION }
-      const newProps = { ...defaultProps, retro }
-      wrapper = shallow(<StageHelp {...newProps} />)
+      wrapper = shallow(<StageHelp {...defaultProps} />)
     })
 
     it("renders the question mark icon", () => {
@@ -36,17 +36,24 @@ describe("<StageHelp />", () => {
     })
 
     describe("when clicking the icon for help", () => {
-      it("dispatches showStageHelp with the retro object", () => {
+      it("dispatches showStageHelp with the stage's help config", () => {
         wrapper.find("i.question").simulate("click")
-        expect(actions.showStageHelp).to.have.been.calledWith(retro)
+        expect(actions.showStageHelp).to.have.been.calledWith({
+          header: "Oh yeah, here's some help for ya",
+        })
       })
     })
   })
 
   describe("when it is a stage with no help to show", () => {
     beforeEach(() => {
-      const retro = { stage: STAGES.LOBBY }
-      const newProps = { ...defaultProps, retro }
+      const newProps = {
+        ...defaultProps,
+        stageConfig: {
+          help: null,
+        },
+      }
+
       wrapper = shallow(<StageHelp {...newProps} />)
     })
 

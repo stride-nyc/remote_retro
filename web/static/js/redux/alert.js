@@ -17,10 +17,8 @@ export const reducer = (state = null, action) => {
       const { retroChanges, stageConfigs } = action
       return retroChanges.stage ? stageConfigs[retroChanges.stage].alert : null
     }
-    case types.SHOW_STAGE_HELP: {
-      const { retro, stageConfigs } = action
-      return stageConfigs[retro.stage].help || null
-    }
+    case types.SHOW_STAGE_HELP:
+      return action.help
     case types.CURRENT_USER_HAS_BECOME_FACILITATOR: {
       return {
         headerText: "You've been granted the facilitatorship!",
