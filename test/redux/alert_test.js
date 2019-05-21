@@ -1,5 +1,7 @@
 import deepFreeze from "deep-freeze"
+import sinon from "sinon"
 import NewFacilitator from "../../web/static/js/components/new_facilitator"
+import StageConfig from "../../web/static/js/services/stage_config"
 
 import {
   reducer,
@@ -27,50 +29,32 @@ describe("alert", () => {
       })
     })
 
-    describe("when the action is RETRO_UPDATE_COMMITTED", () => {
-      const initialState = { headerText: "Warning!", bodyText: "You're being watched." }
-      const stageConfigs = {
-        daybreak: {
-          alert: {
-            headerText: "Lovely Header Text",
-            bodyText: "Lovely Body Text",
-          },
-        },
-        stageLackingAlertConfig: {},
-      }
+    describe("when the retro is advanced to a new stage", () => {
+      let stub
+      let resultingConfig
 
-      deepFreeze(initialState)
-      deepFreeze(stageConfigs)
+      beforeEach(() => {
+        stub = sinon.stub(StageConfig, "retrieveFor")
+          .returns({ anotherKey: "value", alert: { one: "two" } })
 
-      describe("when the given stage has an alert in the given configuration map", () => {
-        const action = {
-          type: "RETRO_UPDATE_COMMITTED",
-          retroChanges: {
-            stage: "daybreak",
-          },
-          stageConfigs,
+        const retroChanges = {
+          stage: "idea-generation",
         }
+        const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", retroChanges }
 
-        it("returns the alert for the given stage", () => {
-          expect(reducer(initialState, action)).to.deep.equal({
-            headerText: "Lovely Header Text",
-            bodyText: "Lovely Body Text",
-          })
-        })
+        resultingConfig = reducer(undefined, action)
       })
 
-      describe("when the stage isn't included in the retroChanges", () => {
-        const action = {
-          type: "RETRO_UPDATE_COMMITTED",
-          retroChanges: {
-            facilitator_id: 42,
-          },
-          stageConfigs,
-        }
+      afterEach(() => {
+        stub.restore()
+      })
 
-        it("doesn't change the state", () => {
-          expect(reducer(initialState, action)).to.deep.equal(null)
-        })
+      it("invokes StageConfig.retrieveFor", () => {
+        expect(stub).calledWith("idea-generation")
+      })
+
+      it("returns the alert value from the result of StageConfig.retrieveFor", () => {
+        expect(resultingConfig).to.eql({ one: "two" })
       })
     })
 

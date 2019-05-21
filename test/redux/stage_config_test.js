@@ -58,7 +58,7 @@ describe("stageConfig reducer", () => {
       })
     })
 
-    describe("when invoked with a RETRO_UPDATE_COMMITTED action", () => {
+    describe("when the retro stage is advanced", () => {
       let stub
       let resultingConfig
 
@@ -67,7 +67,7 @@ describe("stageConfig reducer", () => {
         const retroChanges = {
           stage: "idea-generation",
         }
-        const action = { type: "RETRO_UPDATE_COMMITTED", retroChanges }
+        const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", retroChanges }
 
         resultingConfig = stageConfigReducer(undefined, action)
       })

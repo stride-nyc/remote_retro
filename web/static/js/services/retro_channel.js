@@ -13,7 +13,7 @@ class RetroChannel {
 
 export const applyListenersWithDispatch = (retroChannel, store, actions) => {
   const { addIdea,
-    updateRetroSync,
+    retroUpdateCommitted,
     setPresences,
     updateIdea,
     deleteIdea,
@@ -30,7 +30,7 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
 
   retroChannel.on("idea_committed", addIdea)
 
-  retroChannel.on("retro_edited", updateRetroSync)
+  retroChannel.on("retro_edited", retroUpdateCommitted)
 
   retroChannel.on("idea_edit_state_enabled", ({ id }) => {
     updateIdea(id, { inEditState: true, isLocalEdit: false })

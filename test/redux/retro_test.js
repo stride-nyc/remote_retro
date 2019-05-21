@@ -8,7 +8,6 @@ import {
   actions as actionCreators,
 } from "../../web/static/js/redux/retro"
 
-import stageConfigs from "../../web/static/js/configs/stage_configs"
 import STAGES from "../../web/static/js/configs/stages"
 
 const { PRIME_DIRECTIVE } = STAGES
@@ -54,34 +53,38 @@ describe("retro reducer", () => {
       })
     })
 
-    describe("when invoked with an RETRO_UPDATE_COMMITTED action", () => {
-      it("returns the transformed state augmented with updated attributes", () => {
-        const initialState = deepFreeze({
-          stage: "lobby",
-          facilitator_id: 67,
+    describe("when a retro stage progression happens or the facilitator changes", () => {
+      const updateCommittedActions = ["RETRO_STAGE_PROGRESSION_COMMITTED", "RETRO_FACILITATOR_CHANGE_COMMITTED"]
+
+      updateCommittedActions.forEach(actionType => {
+        it("returns the transformed state augmented with updated attributes", () => {
+          const initialState = deepFreeze({
+            stage: "lobby",
+            facilitator_id: 67,
+          })
+
+          const retroChanges = {
+            stage: "new stage",
+            facilitator_id: 70,
+            someNewKey: "someNewVal",
+          }
+          const action = { type: actionType, retroChanges }
+          expect(reducer(initialState, action)).to.include({
+            stage: "new stage",
+            facilitator_id: 70,
+            someNewKey: "someNewVal",
+          })
         })
 
-        const retroChanges = {
-          stage: "new stage",
-          facilitator_id: 70,
-          someNewKey: "someNewVal",
-        }
-        const action = { type: "RETRO_UPDATE_COMMITTED", retroChanges }
-        expect(reducer(initialState, action)).to.include({
-          stage: "new stage",
-          facilitator_id: 70,
-          someNewKey: "someNewVal",
-        })
-      })
+        it("sets the updateRequested key to false", () => {
+          const initialState = deepFreeze({
+            updateRequested: true,
+          })
 
-      it("sets the updateRequested key to false", () => {
-        const initialState = deepFreeze({
-          updateRequested: true,
-        })
-
-        const action = { type: "RETRO_UPDATE_COMMITTED", retro: {} }
-        expect(reducer(initialState, action)).to.eql({
-          updateRequested: false,
+          const action = { type: actionType, retro: {} }
+          expect(reducer(initialState, action)).to.eql({
+            updateRequested: false,
+          })
         })
       })
     })
@@ -116,14 +119,73 @@ describe("retro reducer", () => {
 })
 
 describe("action creators", () => {
-  describe("updateRetroSync", () => {
-    it("creates an action to update the retro", () => {
-      expect(actionCreators.updateRetroSync({ stage: "newSlang" })).to.deep.equal({
-        type: "RETRO_UPDATE_COMMITTED",
-        retroChanges: {
-          stage: "newSlang",
-        },
-        stageConfigs,
+  describe("retroUpdateCommitted", () => {
+    it("returns a thunk", () => {
+      const thunk = actionCreators.retroUpdateCommitted({ stage: "newSlang" })
+      expect(typeof thunk).to.equal("function")
+    })
+
+    describe("when the given changes contain a stage change", () => {
+      it("alerts the store that the stage has changed", () => {
+        const thunk = actionCreators.retroUpdateCommitted({ stage: "afterlife" })
+        const dispatchSpy = sinon.spy()
+
+        thunk(dispatchSpy, undefined, {})
+
+        expect(dispatchSpy).calledWithMatch({
+          type: "RETRO_STAGE_PROGRESSION_COMMITTED",
+          retroChanges: { stage: "afterlife" },
+        })
+      })
+    })
+
+    describe("when the given changes have nothing to do with the stage change", () => {
+      it("does *not* alert the store that there's been a stage change", () => {
+        const thunk = actionCreators.retroUpdateCommitted({ facilitator_id: 2 })
+        const dispatchSpy = sinon.spy()
+
+        thunk(dispatchSpy, undefined, {})
+
+        expect(dispatchSpy).not.calledWithMatch({
+          type: "RETRO_STAGE_PROGRESSION_COMMITTED",
+        })
+      })
+    })
+
+    describe("when the given changes represent a facilitator change", () => {
+      it("alerts the store that the facilitator has changed", () => {
+        const thunk = actionCreators.retroUpdateCommitted({ facilitator_id: 5 })
+        const dispatchSpy = sinon.spy()
+
+        thunk(dispatchSpy, undefined, {})
+
+        expect(dispatchSpy).calledWithMatch({
+          type: "RETRO_FACILITATOR_CHANGE_COMMITTED",
+          retroChanges: { facilitator_id: 5 },
+        })
+      })
+    })
+
+    describe("when the given changes lack a facilitator change", () => {
+      it("does *not* alert the store of a facilitator change", () => {
+        const thunk = actionCreators.retroUpdateCommitted({ stage: "closed" })
+        const dispatchSpy = sinon.spy()
+
+        thunk(dispatchSpy, undefined, {})
+
+        expect(dispatchSpy).not.calledWithMatch({
+          type: "RETRO_FACILITATOR_CHANGE_COMMITTED",
+        })
+      })
+    })
+
+    describe("when the given changes have nothing to do with either facilitator or stage", () => {
+      it("throws an error", () => {
+        const thunk = actionCreators.retroUpdateCommitted({ format: "Sailboat" })
+
+        expect(() => {
+          thunk(() => {}, undefined, {})
+        }).throw()
       })
     })
   })

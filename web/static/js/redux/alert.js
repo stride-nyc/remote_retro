@@ -1,5 +1,6 @@
 import { types as retroTypes } from "./retro"
 import NewFacilitator from "../components/new_facilitator"
+import StageConfig from "../services/stage_config"
 
 export const types = {
   CLEAR_ALERT: "CLEAR_ALERT",
@@ -13,9 +14,10 @@ export const actions = {
 
 export const reducer = (state = null, action) => {
   switch (action.type) {
-    case retroTypes.RETRO_UPDATE_COMMITTED: {
-      const { retroChanges, stageConfigs } = action
-      return retroChanges.stage ? stageConfigs[retroChanges.stage].alert : null
+    case retroTypes.RETRO_STAGE_PROGRESSION_COMMITTED: {
+      const { retroChanges } = action
+      const stageConfig = StageConfig.retrieveFor(retroChanges.stage)
+      return stageConfig.alert
     }
     case types.SHOW_STAGE_HELP:
       return action.help
