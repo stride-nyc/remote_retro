@@ -43,6 +43,10 @@ import {
   actions as mobileActions,
 } from "./mobile"
 
+import {
+  reducer as stageConfig,
+} from "./stage_config"
+
 export const reducer = combineReducers({
   presences,
   usersById,
@@ -52,6 +56,7 @@ export const reducer = combineReducers({
   retro,
   error,
   mobile,
+  stageConfig,
   browser: responsiveStateReducer,
 })
 
