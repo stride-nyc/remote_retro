@@ -22,9 +22,8 @@ defmodule RemoteRetro.TestHelpers do
 
   defp persist_idea(user, idea, retro, options \\ [assignee_id: nil]) do
     %Idea{
+      idea |
       assignee_id: options[:assignee_id],
-      body: idea.body,
-      category: idea.category,
       retro_id: retro.id,
       user_id: user.id,
     }

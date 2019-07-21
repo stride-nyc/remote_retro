@@ -43,9 +43,9 @@ export class GroupingStageIdeaCard extends Component {
     }
 
     return connectDragSource(
-      <div className={styles.wrapper} style={style}>
-        <p>{idea.body}</p>
-      </div>
+      <p className={styles.wrapper} style={style}>
+        {idea.body}
+      </p>
     )
   }
 }
