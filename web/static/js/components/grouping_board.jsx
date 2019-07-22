@@ -10,7 +10,7 @@ export const GroupingBoard = props => {
   const { ideas, connectDropTarget } = props
 
   return connectDropTarget(
-    <div style={{ flex: 1 }}>
+    <div style={{ flex: 1 }} className="grouping-board">
       {ideas.map(idea => <GroupingStageIdeaCard idea={idea} key={idea.id} />)}
 
       <GroupingStageCustomDragLayer />
@@ -35,7 +35,14 @@ export const dropTargetSpec = {
 
     const { x, y } = monitor.getSourceClientOffset()
 
-    actions.submitIdeaEditAsync({ id: draggedIdea.id, x: x + 1, y })
+    actions.submitIdeaEditAsync({ id: draggedIdea.id, x, y })
+  },
+  hover: ({ actions }, monitor) => {
+    const { draggedIdea } = monitor.getItem()
+
+    const { x, y } = monitor.getSourceClientOffset()
+
+    actions.ideaDraggedInGroupingStage({ id: draggedIdea.id, x, y })
   },
 }
 

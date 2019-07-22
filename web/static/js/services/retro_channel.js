@@ -44,6 +44,10 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
     updateIdea(editedIdea.id, editedIdea)
   })
 
+  retroChannel.on("idea_dragged_in_grouping_stage", ({ id, x, y }) => {
+    updateIdea(id, { x, y, inEditState: true })
+  })
+
   retroChannel.on("idea_edited", editedIdea => {
     const updatedIdea = {
       ...editedIdea,

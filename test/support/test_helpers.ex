@@ -119,20 +119,37 @@ defmodule RemoteRetro.TestHelpers do
     execute_script(session,
       """
       var allDraggableIdeas = Array.from(
-        document.querySelectorAll(".#{from}.column div[draggable='true']")
+        document.querySelectorAll("#{from} div[draggable=true]")
       );
 
-      var dragSource = allDraggableIdeas.find(idea => idea.innerText === "#{idea_text}");
+      var draggableIdea = allDraggableIdeas.find(idea => idea.innerText === "#{idea_text}");
 
-      var dropTarget = document.querySelector(".#{to}.column");
+      var droppable = document.querySelector("#{to}");
 
       #{define_simulate_drag_and_drop_convenience_method()}
 
-      simulateDragDrop(dragSource, dropTarget);
+      simulateDragAndDrop(draggableIdea, droppable);
       """
     )
   end
 
+  def drag_idea(session, idea_text, to_center_of: droppable_selector) do
+    execute_script(session,
+      """
+      #{define_simulate_drag_and_drop_convenience_method()}
+
+      var allDraggableIdeas = Array.from(
+        document.querySelectorAll(".idea-card[draggable=true]")
+      );
+
+      var draggableIdea = allDraggableIdeas.find(idea => idea.innerText === "#{idea_text}");
+
+      var droppable = document.querySelector("#{droppable_selector}");
+
+      simulateDragAndDrop(draggableIdea, droppable);
+      """
+    )
+  end
 
   defp stub_js_confirms(session) do
     execute_script(session, "window.confirm = function(){ return true; }")
@@ -140,54 +157,58 @@ defmodule RemoteRetro.TestHelpers do
 
   defp define_simulate_drag_and_drop_convenience_method do
     """
-    function simulateDragDrop(sourceNode, destinationNode) {
-        var EVENT_TYPES = {
-            DRAG_END: 'dragend',
-            DRAG_START: 'dragstart',
-            DROP: 'drop'
+    var simulateDragAndDrop = function (elemDrag, elemDrop) {
+      // function for triggering mouse events
+      var fireMouseEvent = function (type, elem, centerX, centerY) {
+
+        var evt
+        if (type.startsWith("drag")) {
+          evt = new DragEvent(type, { dataTransfer: new DataTransfer({types: []})})
+        } else {
+          evt = document.createEvent('MouseEvents');
         }
 
-        function createCustomEvent(type) {
-            var event = new CustomEvent("CustomEvent")
-            event.initCustomEvent(type, true, true, null)
-            event.dataTransfer = {
-                data: {
-                },
-                setData: function(type, val) {
-                    this.data[type] = val
-                },
-                getData: function(type) {
-                    return this.data[type]
-                },
-                dropEffect: 'move',
-                effectAllowed:'move',
-                types: [],
-                items:{},
-                files:{},
-            }
-            return event
-        }
+        evt.initMouseEvent(type, true, true, window, 1, 1, 1, centerX, centerY, false, false, false, false, 0, elem);
+        elem.dispatchEvent(evt);
+      };
 
-        function dispatchEvent(node, type, event) {
-            if (node.dispatchEvent) {
-                return node.dispatchEvent(event)
-            }
-            if (node.fireEvent) {
-                return node.fireEvent("on" + type, event)
-            }
-        }
+      if (!elemDrag || !elemDrop) return false;
 
-        var event = createCustomEvent(EVENT_TYPES.DRAG_START)
-        dispatchEvent(sourceNode, EVENT_TYPES.DRAG_START, event)
+      // calculate positions
+      var pos = elemDrag.getBoundingClientRect();
+      var center1X = Math.floor((pos.left + pos.right) / 2);
+      var center1Y = Math.floor((pos.top + pos.bottom) / 2);
+      pos = elemDrop.getBoundingClientRect();
+      var center2X = Math.floor((pos.left + pos.right) / 2);
+      var center2Y = Math.floor((pos.top + pos.bottom) / 2);
 
-        var dropEvent = createCustomEvent(EVENT_TYPES.DROP)
-        dropEvent.dataTransfer = event.dataTransfer
-        dispatchEvent(destinationNode, EVENT_TYPES.DROP, dropEvent)
+      // mouse over dragged element and mousedown
+      fireMouseEvent('mousemove', elemDrag, center1X, center1Y);
+      fireMouseEvent('mouseenter', elemDrag, center1X, center1Y);
+      fireMouseEvent('mouseover', elemDrag, center1X, center1Y);
+      fireMouseEvent('mousedown', elemDrag, center1X, center1Y);
 
-        var dragEndEvent = createCustomEvent(EVENT_TYPES.DRAG_END)
-        dragEndEvent.dataTransfer = event.dataTransfer
-        dispatchEvent(sourceNode, EVENT_TYPES.DRAG_END, dragEndEvent)
-    }
+
+      // start dragging process over to drop target
+      fireMouseEvent('dragstart', elemDrag, center1X, center1Y);
+      fireMouseEvent('drag', elemDrag, center1X, center1Y);
+      fireMouseEvent('mousemove', elemDrag, center1X, center1Y);
+      fireMouseEvent('drag', elemDrag, center2X, center2Y);
+      fireMouseEvent('mousemove', elemDrop, center2X, center2Y);
+
+      // trigger dragging process on top of drop target
+      fireMouseEvent('mouseenter', elemDrop, center2X, center2Y);
+      fireMouseEvent('dragenter', elemDrop, center2X, center2Y);
+      fireMouseEvent('mouseover', elemDrop, center2X, center2Y);
+      fireMouseEvent('dragover', elemDrop, center2X, center2Y);
+
+      // release dragged element on top of drop target
+      fireMouseEvent('drop', elemDrop, center2X, center2Y);
+      fireMouseEvent('dragend', elemDrag, center2X, center2Y);
+      fireMouseEvent('mouseup', elemDrag, center2X, center2Y);
+
+      return true;
+    };
     """
   end
 end

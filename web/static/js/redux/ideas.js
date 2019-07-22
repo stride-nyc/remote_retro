@@ -1,3 +1,5 @@
+import throttle from "lodash/throttle"
+
 export const types = {
   IDEA_SUBMISSION_COMMITTED: "IDEA_SUBMISSION_COMMITTED",
   IDEA_SUBMISSION_REJECTED: "IDEA_SUBMISSION_REJECTED",
@@ -24,6 +26,12 @@ export const actions = {
     type: types.IDEA_SUBMISSION_COMMITTED,
     idea,
   }),
+
+  ideaDraggedInGroupingStage: throttle(idea => {
+    return (dispatch, getState, retroChannel) => {
+      retroChannel.push("idea_dragged_in_grouping_stage", idea)
+    }
+  }, 100),
 
   submitIdeaEditAsync: ideaParams => {
     return (dispatch, getState, retroChannel) => {

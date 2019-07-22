@@ -16,7 +16,7 @@ defmodule CategoryChangeViaDragAndDrop do
 
       assert_has(session, Query.css(".sad.ideas", text: "no linter"))
 
-      session |> drag_idea("no linter", from: "sad", to: "confused")
+      session |> drag_idea("no linter", from: ".sad.column", to: ".confused.column")
 
       assert_has(session, Query.css(".confused.column", text: "no linter"))
     end

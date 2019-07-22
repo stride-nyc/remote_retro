@@ -138,6 +138,16 @@ describe("RetroChannel", () => {
         })
       })
 
+      describe("on `idea_dragged_in_grouping_stage`", () => {
+        beforeEach(() => {
+          retroChannel.trigger("idea_dragged_in_grouping_stage", { id: 3, x: 38.3, y: 91.2 })
+        })
+
+        it("invokes updateIdea with drag coordinates and indicator that it's being edited", () => {
+          expect(updateIdeaSpy).calledWith(3, { x: 38.3, y: 91.2, inEditState: true })
+        })
+      })
+
       describe("on `idea_typing_event`", () => {
         beforeEach(() => {
           store = createStore(() => ({

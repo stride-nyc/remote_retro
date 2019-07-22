@@ -43,4 +43,28 @@ describe("<GroupingStageIdeaCard />", () => {
       expect(styleProp).to.eql({})
     })
   })
+
+  describe("when the given idea is in an edit state", () => {
+    beforeEach(() => {
+      idea = { id: 9, inEditState: true }
+      wrapper = shallow(<GroupingStageIdeaCard idea={idea} />)
+      styleProp = wrapper.prop("style")
+    })
+
+    it("appears ghosted out", () => {
+      expect(styleProp.opacity).to.be.below(1)
+    })
+  })
+
+  describe("when the given idea is *not* in an edit state", () => {
+    beforeEach(() => {
+      idea = { id: 9, inEditState: false }
+      wrapper = shallow(<GroupingStageIdeaCard idea={idea} />)
+      styleProp = wrapper.prop("style")
+    })
+
+    it("makes no change to opacity", () => {
+      expect(styleProp.opacity).to.be.an("undefined")
+    })
+  })
 })

@@ -62,10 +62,47 @@ describe("GroupingBoard", () => {
         })
       })
 
-      // the 1px increment helps account for border
-      it("also includes the x/y client offsets from the drag, adding 1 to the x value", () => {
+      it("also includes the x/y client offsets from the drag", () => {
         expect(submitIdeaEditAsync).to.have.been.calledWithMatch({
-          x: 79,
+          x: 78,
+          y: 106,
+        })
+      })
+    })
+
+    describe("#hover", () => {
+      let ideaDraggedInGroupingStage
+
+      beforeEach(() => {
+        ideaDraggedInGroupingStage = sinon.spy()
+
+        const props = {
+          actions: {
+            ideaDraggedInGroupingStage,
+          },
+        }
+
+        const monitor = {
+          getSourceClientOffset: () => ({ x: 78, y: 106 }),
+          getItem: () => ({
+            draggedIdea: {
+              id: 54,
+            },
+          }),
+        }
+
+        dropTargetSpec.hover(props, monitor)
+      })
+
+      it("invokes the ideaDraggedInGroupingStage action with attrs of the idea from the drag", () => {
+        expect(ideaDraggedInGroupingStage).to.have.been.calledWithMatch({
+          id: 54,
+        })
+      })
+
+      it("also includes the x/y client offsets from the drag", () => {
+        expect(ideaDraggedInGroupingStage).to.have.been.calledWithMatch({
+          x: 78,
           y: 106,
         })
       })

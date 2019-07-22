@@ -15,6 +15,9 @@ export const dragSourceSpec = {
       draggedIdea: { id, category, body, assignee_id },
     }
   },
+  canDrag: ({ idea }) => {
+    return !idea.inEditState
+  },
 }
 
 // collects props as drag events begin and end

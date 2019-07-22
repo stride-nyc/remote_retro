@@ -26,6 +26,30 @@ describe("DraggableIdeaContent", () => {
         })
       })
     })
+
+    describe("#canDrag", () => {
+      it("returns false when the idea is in an edit state", () => {
+        const props = {
+          idea: {
+            id: 666,
+            inEditState: true,
+          },
+        }
+
+        expect(dragSourceSpec.canDrag(props)).to.eql(false)
+      })
+
+      it("returns true when the idea is not in an edit state", () => {
+        const props = {
+          idea: {
+            id: 666,
+            inEditState: false,
+          },
+        }
+
+        expect(dragSourceSpec.canDrag(props)).to.eql(true)
+      })
+    })
   })
 
   describe("collect", () => {

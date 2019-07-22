@@ -38,8 +38,15 @@ export class GroupingStageIdeaCard extends Component {
       }
     }
 
+    if (idea.inEditState) {
+      style = {
+        ...style,
+        opacity: 0.5,
+      }
+    }
+
     return connectDragSource(
-      <p className={styles.wrapper} style={style}>
+      <p className={`${styles.wrapper} idea-card`} style={style}>
         {idea.body}
       </p>
     )

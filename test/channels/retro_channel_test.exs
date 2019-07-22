@@ -219,6 +219,16 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "pushing an `idea_dragged_in_grouping_stage` event to the socket" do
+    setup [:join_the_retro_channel]
+
+    test "broadcasts the same event with the given payload", ~M{socket} do
+      push(socket, "idea_dragged_in_grouping_stage", %{id: 4, x: 39.5, y: 10.2})
+
+      assert_broadcast("idea_dragged_in_grouping_stage", %{"id" => 4, "x" => 39.5, "y" => 10.2})
+    end
+  end
+
   describe "pushing an `idea_live_edit` event to the socket" do
     setup [:join_the_retro_channel]
 

@@ -154,6 +154,32 @@ describe("actionCreators", () => {
     })
   })
 
+  describe("ideaDraggedInGroupingStage", () => {
+    const idea = { id: 5, x: 393.39, y: 3928.3 }
+
+    it("returns a thunk", () => {
+      const result = actionCreators.ideaDraggedInGroupingStage(idea)
+      expect(result).to.be.a("function")
+    })
+
+    describe("invoking the returned function", () => {
+      let thunk
+      const getStateStub = () => {}
+      const mockRetroChannel = { push: sinon.spy() }
+
+      beforeEach(() => {
+        thunk = actionCreators.ideaDraggedInGroupingStage(idea)
+      })
+
+      it("notifies the server, passing the idea", () => {
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, getStateStub, mockRetroChannel)
+
+        expect(mockRetroChannel.push).calledWith("idea_dragged_in_grouping_stage", idea)
+      })
+    })
+  })
+
   describe("updateIdea", () => {
     it("creates an action to update an idea with particular id with new attributes", () => {
       const ideaId = 999
