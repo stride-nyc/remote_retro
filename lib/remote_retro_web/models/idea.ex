@@ -5,6 +5,8 @@ defmodule RemoteRetro.Idea do
   schema "ideas" do
     field(:category, :string)
     field(:body, :string)
+    field(:x, :float)
+    field(:y, :float)
 
     belongs_to(:retro, RemoteRetro.Retro, type: Ecto.UUID)
     belongs_to(:user, RemoteRetro.User)
@@ -23,7 +25,7 @@ defmodule RemoteRetro.Idea do
 
   @valid_categories ["happy", "sad", "confused", "start", "stop", "continue", "action-item"]
   @required_fields [:category, :body, :retro_id, :user_id]
-  @fields [:assignee_id | @required_fields]
+  @fields [:assignee_id, :x, :y | @required_fields]
 
   def changeset(struct, params \\ %{}) do
     struct
