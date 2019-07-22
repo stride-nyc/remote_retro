@@ -25,21 +25,17 @@ export class GroupingStageIdeaCard extends Component {
   render() {
     const {
       idea,
-      touchEventDragPreviewStyles,
       connectDragSource,
     } = this.props
 
-    let style
+    let style = {}
     if (idea.x) {
       style = {
-        ...touchEventDragPreviewStyles,
         position: "fixed",
         top: 0,
         left: 0,
         transform: `translate(${idea.x}px,${idea.y}px)`,
       }
-    } else {
-      style = { ...touchEventDragPreviewStyles }
     }
 
     return connectDragSource(
@@ -52,13 +48,11 @@ export class GroupingStageIdeaCard extends Component {
 
 GroupingStageIdeaCard.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  touchEventDragPreviewStyles: PropTypes.object,
   connectDragSource: PropTypes.func,
   connectDragPreview: PropTypes.func,
 }
 
 GroupingStageIdeaCard.defaultProps = {
-  touchEventDragPreviewStyles: {},
   connectDragSource: node => node,
   connectDragPreview: null,
 }
