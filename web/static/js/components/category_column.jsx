@@ -14,7 +14,7 @@ export class CategoryColumn extends Component {
 
   render() {
     const { category, ideas, connectDropTarget, draggedOver } = this.props
-    const iconHeight = 45
+    const iconHeight = 23
 
     return connectDropTarget(
       <section
@@ -22,7 +22,7 @@ export class CategoryColumn extends Component {
       >
         <div className={`${styles.columnHead} ui center aligned basic segment`}>
           <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} alt={category} />
-          <p><strong>{category}</strong></p>
+          <p className="ui medium header">{category}</p>
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
         { !!ideas.length && <IdeaList {...this.props} /> }
