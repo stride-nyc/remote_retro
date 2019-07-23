@@ -5,6 +5,7 @@
   &:first-of-type { padding-right: var(--inner-column-padding) !important; }
   &:last-of-type { padding-left: var(--inner-column-padding) !important; }
 
+  padding-top: 0;
   padding-bottom: 0;
 
   /* forgive me, father, but overriding semantic ui's specificity was beyond my powers. */
@@ -32,8 +33,16 @@
   }
 
   .column-head {
-    margin-bottom: 0;
-    padding: 0.8rem 0;
+    padding: 1rem 0 0.4rem;
+    margin: 0;
+  }
+
+  p {
+    display: inline-block;
+    margin: 0 0 0 0.75rem;
+    vertical-align: top;
+    position: relative;
+    top: -1px;
   }
 
   .divider:not(.vertical) {
