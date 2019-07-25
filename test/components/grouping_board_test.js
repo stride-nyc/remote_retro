@@ -5,6 +5,12 @@ import { shallow } from "enzyme"
 import { dropTargetSpec, GroupingBoard } from "../../web/static/js/components/grouping_board"
 import GroupingStageIdeaCard from "../../web/static/js/components/grouping_stage_idea_card"
 
+const requireUncached = module => {
+  delete require.cache[require.resolve(module)]
+  // eslint-disable-next-line
+  return require(module)
+}
+
 describe("GroupingBoard", () => {
   const defaultProps = {
     ideas: [],
@@ -32,6 +38,13 @@ describe("GroupingBoard", () => {
   })
 
   describe("dropTargetSpec", () => {
+    let freshDropTargetSpec
+
+    // bring in fresh copy of module to avoid memoization of values contaminating tests
+    beforeEach(() => {
+      freshDropTargetSpec = requireUncached("../../web/static/js/components/grouping_board").dropTargetSpec
+    })
+
     describe("#drop", () => {
       let submitIdeaEditAsync
 
@@ -72,17 +85,19 @@ describe("GroupingBoard", () => {
 
     describe("#hover", () => {
       let ideaDraggedInGroupingStage
+      let props
+      let monitor
 
       beforeEach(() => {
         ideaDraggedInGroupingStage = sinon.spy()
 
-        const props = {
+        props = {
           actions: {
             ideaDraggedInGroupingStage,
           },
         }
 
-        const monitor = {
+        monitor = {
           getSourceClientOffset: () => ({ x: 78, y: 106 }),
           getItem: () => ({
             draggedIdea: {
@@ -91,7 +106,7 @@ describe("GroupingBoard", () => {
           }),
         }
 
-        dropTargetSpec.hover(props, monitor)
+        freshDropTargetSpec.hover(props, monitor)
       })
 
       it("invokes the ideaDraggedInGroupingStage action with attrs of the idea from the drag", () => {
@@ -105,6 +120,15 @@ describe("GroupingBoard", () => {
           x: 78,
           y: 106,
         })
+      })
+
+      // the browser's hover event fires constantly, even when no movement,
+      // so no need to slam the server for a non-change
+      it("doesn't *re*-invoke ideaDraggedInGroupingStage when triggered with identical coordinates", () => {
+        freshDropTargetSpec.hover(props, monitor)
+        freshDropTargetSpec.hover(props, monitor)
+        freshDropTargetSpec.hover(props, monitor)
+        expect(ideaDraggedInGroupingStage).to.have.been.calledOnce
       })
     })
   })

@@ -31,7 +31,7 @@ export const actions = {
     return (dispatch, getState, retroChannel) => {
       retroChannel.push("idea_dragged_in_grouping_stage", idea)
     }
-  }, 100),
+  }, 40),
 
   submitIdeaEditAsync: ideaParams => {
     return (dispatch, getState, retroChannel) => {

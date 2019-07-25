@@ -28,6 +28,8 @@ GroupingBoard.defaultProps = {
   connectDropTarget: node => node,
 }
 
+let memoizedPush = {}
+
 // http://react-dnd.github.io/react-dnd/docs/api/drop-target#drop-target-specification
 export const dropTargetSpec = {
   drop: (props, monitor) => {
@@ -43,7 +45,15 @@ export const dropTargetSpec = {
 
     const { x, y } = monitor.getSourceClientOffset()
 
-    actions.ideaDraggedInGroupingStage({ id: draggedIdea.id, x, y })
+    // eslint-disable-next-line
+    const duplicativeHoverCoordinates =
+      x === memoizedPush.x && y === memoizedPush.y && draggedIdea.id === memoizedPush.id
+
+    if (duplicativeHoverCoordinates) { return }
+
+    memoizedPush = { id: draggedIdea.id, x, y }
+
+    actions.ideaDraggedInGroupingStage(memoizedPush)
   },
 }
 
