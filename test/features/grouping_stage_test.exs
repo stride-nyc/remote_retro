@@ -15,11 +15,9 @@ defmodule GroupingStageTest do
       retro_path = "/retros/" <> retro.id
       session = visit(session, retro_path)
 
-      idea_inline_style =
-        find(session, Query.css("p", text: "splinters in the codebase"))
-        |> Wallaby.Element.attr("style")
+      idea_coordinates = parse_transform_coordinates_for_card(session, "splinters in the codebase")
 
-      assert idea_inline_style =~ "transform: translate(105.5px, 100.1px)"
+      assert %{"x" => "105.5", "y" => "100.1"} = idea_coordinates
     end
 
     @tag [
