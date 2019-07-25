@@ -61,6 +61,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actionCreators, dispatch),
 })
 
+// http://react-dnd.github.io/react-dnd/docs/api/drop-target#drop-target-specification
 export const dropTargetSpec = {
   drop: (props, monitor) => {
     const { draggedIdea } = monitor.getItem()

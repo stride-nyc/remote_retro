@@ -28,6 +28,7 @@ GroupingBoard.defaultProps = {
   connectDropTarget: node => node,
 }
 
+// http://react-dnd.github.io/react-dnd/docs/api/drop-target#drop-target-specification
 export const dropTargetSpec = {
   drop: (props, monitor) => {
     const { draggedIdea } = monitor.getItem()
@@ -46,6 +47,7 @@ export const dropTargetSpec = {
   },
 }
 
+// http://react-dnd.github.io/react-dnd/docs/api/drop-target#the-collecting-function
 const collect = connect => ({
   connectDropTarget: connect.dropTarget(),
 })

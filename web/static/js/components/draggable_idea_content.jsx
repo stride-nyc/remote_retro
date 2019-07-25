@@ -6,7 +6,7 @@ import IdeaContentBase from "./idea_content_base"
 
 import * as AppPropTypes from "../prop_types"
 
-// implement contract for react-dnd drag sources
+// http://react-dnd.github.io/react-dnd/docs/api/drag-source#drag-source-specification
 export const dragSourceSpec = {
   beginDrag: ({ idea }) => {
     const { id, category, body, assignee_id } = idea // eslint-disable-line camelcase
@@ -21,6 +21,7 @@ export const dragSourceSpec = {
 }
 
 // collects props as drag events begin and end
+// http://react-dnd.github.io/react-dnd/docs/api/drag-source#the-collecting-function
 export const collect = (connect, monitor) => {
   return {
     connectDragSource: connect.dragSource(),
