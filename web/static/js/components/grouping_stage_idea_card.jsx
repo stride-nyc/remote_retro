@@ -36,6 +36,7 @@ export class GroupingStageIdeaCard extends Component {
         top: 0,
         left: 0,
         transform: `translate(${idea.x}px,${idea.y}px)`,
+        WebkitTransform: `translate(${idea.x}px,${idea.y}px)`,
       }
     }
 

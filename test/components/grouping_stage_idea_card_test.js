@@ -30,6 +30,10 @@ describe("<GroupingStageIdeaCard />", () => {
     it("maps the x/y values to transform: translate", () => {
       expect(styleProp.transform).to.eql("translate(53px,109px)")
     })
+
+    it("maps the x/y values to WebkitTransform: translate", () => {
+      expect(styleProp.WebkitTransform).to.eql("translate(53px,109px)")
+    })
   })
 
   describe("when the given idea *lacks* x and y attributes", () => {
