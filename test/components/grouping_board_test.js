@@ -22,7 +22,7 @@ describe("GroupingBoard", () => {
   })
 
   context("when there are ideas to render", () => {
-    it("renders no idea cards", () => {
+    it("renders an idea for each card", () => {
       const wrapper = shallow(
         <GroupingBoard {...defaultProps} ideas={[{ body: "hey", id: 5 }, { body: "hey", id: 6 }]} />
       )
