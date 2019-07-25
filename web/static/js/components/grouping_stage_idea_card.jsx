@@ -7,6 +7,8 @@ import * as AppPropTypes from "../prop_types"
 import { dragSourceSpec, collect } from "./draggable_idea_content"
 import styles from "./css_modules/grouping_stage_idea_card.css"
 
+export const DRAGGED_CARD_OPACITY = 0.5
+
 // eslint-disable-next-line
 export class GroupingStageIdeaCard extends Component {
   componentDidMount() {

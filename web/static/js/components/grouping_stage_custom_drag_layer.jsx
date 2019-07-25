@@ -1,7 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 import { DragLayer } from "react-dnd"
-import { GroupingStageIdeaCard } from "./grouping_stage_idea_card"
+import { GroupingStageIdeaCard, DRAGGED_CARD_OPACITY } from "./grouping_stage_idea_card"
 import styles from "./css_modules/grouping_stage_custom_drag_layer.css"
 
 function getItemStyles(props) {
@@ -13,7 +13,7 @@ function getItemStyles(props) {
   return {
     transform,
     display: "inline-block",
-    opacity: 0.5,
+    opacity: DRAGGED_CARD_OPACITY,
     WebkitTransform: transform,
   }
 }
