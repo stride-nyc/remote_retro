@@ -30,13 +30,19 @@ export class GroupingStageIdeaCard extends Component {
     } = this.props
 
     let style = {}
-    if (idea.x) {
+
+    // handles floats, integers, and doesn't return true for nulls
+    const hasNumericCoordinates = Number.isFinite(idea.x)
+
+    if (hasNumericCoordinates) {
+      const transform = `translate(${idea.x}px,${idea.y}px)`
+
       style = {
         position: "fixed",
         top: 0,
         left: 0,
-        transform: `translate(${idea.x}px,${idea.y}px)`,
-        WebkitTransform: `translate(${idea.x}px,${idea.y}px)`,
+        transform,
+        WebkitTransform: transform,
       }
     }
 
