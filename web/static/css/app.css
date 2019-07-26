@@ -282,6 +282,11 @@
 :global .ui.modal.retro-format-modal {
   top: 15%;
 
+  @media (max-width: 767px) {
+    max-height: 90%;
+    overflow: scroll;
+  }
+
   .items {
     margin: 0;
 
