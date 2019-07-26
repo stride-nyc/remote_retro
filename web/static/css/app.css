@@ -289,6 +289,12 @@
       margin: 0;
       padding: 1.5rem;
       cursor: pointer;
+
+      .ui.tiny.image {
+        @media (max-width: 767px) {
+          width: 35px;
+        }
+      }
     }
   }
 
