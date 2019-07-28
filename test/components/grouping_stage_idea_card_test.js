@@ -1,5 +1,6 @@
 import React from "react"
-import { shallow } from "enzyme"
+import sinon from "sinon"
+import { shallow, mount } from "enzyme"
 
 import { GroupingStageIdeaCard } from "../../web/static/js/components/grouping_stage_idea_card"
 
@@ -11,7 +12,10 @@ describe("<GroupingStageIdeaCard />", () => {
   describe("when the given idea has coordinates", () => {
     before(() => {
       idea = { id: 5, body: "hello", x: 0, y: 109 }
-      wrapper = shallow(<GroupingStageIdeaCard idea={idea} />)
+      wrapper = shallow(
+        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        { disableLifecycleMethods: true }
+      )
       styleProp = wrapper.prop("style")
     })
 
@@ -39,7 +43,10 @@ describe("<GroupingStageIdeaCard />", () => {
   describe("when the given idea *lacks* x and y attributes", () => {
     beforeEach(() => {
       idea = { id: 9, body: "goodbye" }
-      wrapper = shallow(<GroupingStageIdeaCard idea={idea} />)
+      wrapper = shallow(
+        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        { disableLifecycleMethods: true }
+      )
       styleProp = wrapper.prop("style")
     })
 
@@ -51,7 +58,10 @@ describe("<GroupingStageIdeaCard />", () => {
   describe("when the given idea has explicit null values for x/y", () => {
     beforeEach(() => {
       idea = { id: 9, body: "goodbye", x: null, y: null }
-      wrapper = shallow(<GroupingStageIdeaCard idea={idea} />)
+      wrapper = shallow(
+        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        { disableLifecycleMethods: true }
+      )
       styleProp = wrapper.prop("style")
     })
 
@@ -63,7 +73,10 @@ describe("<GroupingStageIdeaCard />", () => {
   describe("when the given idea is in an edit state", () => {
     beforeEach(() => {
       idea = { id: 9, inEditState: true }
-      wrapper = shallow(<GroupingStageIdeaCard idea={idea} />)
+      wrapper = shallow(
+        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        { disableLifecycleMethods: true }
+      )
       styleProp = wrapper.prop("style")
     })
 
@@ -75,12 +88,87 @@ describe("<GroupingStageIdeaCard />", () => {
   describe("when the given idea is *not* in an edit state", () => {
     beforeEach(() => {
       idea = { id: 9, inEditState: false }
-      wrapper = shallow(<GroupingStageIdeaCard idea={idea} />)
+      wrapper = shallow(
+        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        { disableLifecycleMethods: true }
+      )
       styleProp = wrapper.prop("style")
     })
 
     it("makes no change to opacity", () => {
       expect(styleProp.opacity).to.be.an("undefined")
+    })
+  })
+
+  describe("when the given idea has a grouping id", () => {
+    beforeEach(() => {
+      idea = { id: 9, ephemeralGroupingId: 15 }
+      wrapper = shallow(
+        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        { disableLifecycleMethods: true }
+      )
+      styleProp = wrapper.prop("style")
+    })
+
+    it("adds a box shadow", () => {
+      expect(styleProp.boxShadow).to.exist
+    })
+  })
+
+  describe("when the given idea lacks a grouping id", () => {
+    beforeEach(() => {
+      idea = { id: 9 }
+      wrapper = shallow(
+        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        { disableLifecycleMethods: true }
+      )
+      styleProp = wrapper.prop("style")
+    })
+
+    it("no box shadow is applied", () => {
+      expect(styleProp.boxShadow).to.not.exist
+    })
+  })
+
+  describe("on mount", () => {
+    let actions
+
+    context("when the card is told to connect a drag preview", () => {
+      beforeEach(() => {
+        idea = { id: 54 }
+        actions = {
+          updateIdea: sinon.spy(),
+        }
+        wrapper = mount(
+          <GroupingStageIdeaCard
+            idea={idea}
+            actions={actions}
+            connectDragPreview={node => node}
+          />
+        )
+      })
+
+      it("dispatches an action to the store, updating the idea with height/width/x/y", () => {
+        expect(actions.updateIdea).to.have.been.calledWithMatch(idea.id, {
+          height: 0,
+          width: 0,
+          x: undefined,
+          y: undefined,
+        })
+      })
+    })
+
+    context("when the card is *not* declared as a drag preview instance", () => {
+      beforeEach(() => {
+        actions = {
+          updateIdea: sinon.spy(),
+        }
+        wrapper = mount(<GroupingStageIdeaCard idea={idea} actions={actions} />)
+      })
+
+      it("does *not* dispatch an idea update action to the store", () => {
+        expect(actions.updateIdea).to.not.have.been.called
+      })
     })
   })
 })

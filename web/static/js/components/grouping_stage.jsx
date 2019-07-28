@@ -5,6 +5,7 @@ import LowerThird from "./lower_third"
 import GroupingBoard from "./grouping_board"
 
 import * as AppPropTypes from "../prop_types"
+import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
 
 import styles from "./css_modules/idea_generation_stage.css"
 
@@ -13,9 +14,12 @@ const PORTRAIT = "portrait"
 const GroupingStage = props => {
   const { ideas, actions, browser } = props
 
+  const ideasWithEphemeralGroupingIds = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
+
   return (
     <div className={styles.wrapper}>
-      <GroupingBoard ideas={ideas} actions={actions} />
+      <GroupingBoard ideas={ideasWithEphemeralGroupingIds} actions={actions} />
+
       <LowerThird {...props} />
 
       {browser.orientation === PORTRAIT && (

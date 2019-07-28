@@ -30,6 +30,15 @@ defmodule RemoteRetro.TestHelpers do
     |> Repo.insert!()
   end
 
+  def persist_ideas_for_retro(~M{ideas} = context) do
+    Enum.each(ideas, fn idea ->
+      context = Map.put(context, :idea, idea)
+      persist_idea_for_retro(context)
+    end)
+
+    context
+  end
+
   def persist_idea_for_retro(~M{idea, retro, facilitator} = context) do
     idea_author = Map.get(context, context[:idea_author] || :facilitator)
 

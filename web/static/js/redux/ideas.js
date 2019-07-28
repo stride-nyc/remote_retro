@@ -20,6 +20,10 @@ const ideaDeletionRejected = ideaId => ({
   ideaId,
 })
 
+const throttledPushOfDragToServer = throttle((retroChannel, idea) => {
+  retroChannel.push("idea_dragged_in_grouping_stage", idea)
+}, 40)
+
 export const actions = {
   updateIdea,
   addIdea: idea => ({
@@ -27,11 +31,12 @@ export const actions = {
     idea,
   }),
 
-  ideaDraggedInGroupingStage: throttle(idea => {
+  ideaDraggedInGroupingStage: idea => {
     return (dispatch, getState, retroChannel) => {
-      retroChannel.push("idea_dragged_in_grouping_stage", idea)
+      dispatch(updateIdea(idea.id, { x: idea.x, y: idea.y }))
+      throttledPushOfDragToServer(retroChannel, idea)
     }
-  }, 40),
+  },
 
   submitIdeaEditAsync: ideaParams => {
     return (dispatch, getState, retroChannel) => {
