@@ -34,18 +34,18 @@ defmodule RemoteRetro.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.4.6"},
-      {:phoenix_pubsub, "~> 1.1.0"},
+      {:phoenix, "~> 1.4.9"},
+      {:phoenix_pubsub, "~> 1.1.2"},
       {:phoenix_ecto, "~> 4.0.0"},
-      {:ecto_sql, "~> 3.1.0"},
+      {:ecto_sql, "~> 3.1.6"},
       {:freedom_formatter, "~> 1.0.0", only: :dev},
       {:distillery, "~> 2.0.12", only: :prod},
       {:excoveralls, "~> 0.10.6", only: :test},
       {:postgrex, ">= 0.0.0"},
-      {:phoenix_html, "~> 2.6"},
-      {:phoenix_live_reload, "~> 1.2.0", only: :dev},
-      {:plug_cowboy, "~> 2.0.2"},
-      {:plug, "~> 1.8.0"},
+      {:phoenix_html, "~> 2.13"},
+      {:phoenix_live_reload, "~> 1.2.1", only: :dev},
+      {:plug_cowboy, "~> 2.1"},
+      {:plug, "~> 1.8.3"},
       {:mix_test_watch, "~> 0.9", [runtime: false, only: :dev]},
       {:mock, "~> 0.3.3", only: :test},
       {:oauth2, "~> 0.9.4"},
@@ -57,7 +57,7 @@ defmodule RemoteRetro.Mixfile do
       {:bamboo, "~> 1.2"},
       {:honeybadger, "~> 0.10.3"},
       {:apex, "~>1.2.1", only: [:dev, :test]},
-      {:timex, "~> 3.5"},
+      {:timex, "~> 3.6"},
       {:jason, "~> 1.1.2"},
     ]
   end
