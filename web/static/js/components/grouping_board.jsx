@@ -7,11 +7,11 @@ import GroupingStageCustomDragLayer from "./grouping_stage_custom_drag_layer"
 import * as AppPropTypes from "../prop_types"
 
 export const GroupingBoard = props => {
-  const { ideas, connectDropTarget } = props
+  const { ideas, actions, connectDropTarget } = props
 
   return connectDropTarget(
     <div style={{ flex: 1 }} className="grouping-board">
-      {ideas.map(idea => <GroupingStageIdeaCard idea={idea} key={idea.id} />)}
+      {ideas.map(idea => <GroupingStageIdeaCard idea={idea} key={idea.id} actions={actions} />)}
 
       <GroupingStageCustomDragLayer />
     </div>

@@ -171,9 +171,21 @@ describe("actionCreators", () => {
         thunk = actionCreators.ideaDraggedInGroupingStage(idea)
       })
 
-      it("notifies the server, passing the idea", () => {
+      it("updates the local store with the idea's x y coordinates", () => {
         const dispatchSpy = sinon.spy()
+
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
+
+        expect(dispatchSpy).calledWith({
+          type: "IDEA_UPDATE_COMMITTED",
+          ideaId: idea.id,
+          newAttributes: { x: idea.x, y: idea.y },
+        })
+      })
+
+      it("notifies the server, passing the idea", () => {
+        const dispatchStub = () => {}
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
 
         expect(mockRetroChannel.push).calledWith("idea_dragged_in_grouping_stage", idea)
       })

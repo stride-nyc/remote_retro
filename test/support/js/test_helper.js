@@ -18,6 +18,7 @@ Enzyme.configure({ adapter: new Adapter() })
 
 global.hj = noop
 global.expect = expect
+global.Image = function Image() {}
 
 global.requestAnimationFrame = callback => {
   setTimeout(callback, 0)

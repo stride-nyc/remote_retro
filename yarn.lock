@@ -7529,6 +7529,11 @@ randombytes@^2.0.0, randombytes@^2.0.1:
   dependencies:
     safe-buffer "^5.1.0"
 
+randomcolor@^0.5.4:
+  version "0.5.4"
+  resolved "https://registry.yarnpkg.com/randomcolor/-/randomcolor-0.5.4.tgz#df615b13f25b89ea58c5f8f72647f0a6f07adcc3"
+  integrity sha512-nYd4nmTuuwMFzHL6W+UWR5fNERGZeVauho8mrJDUSXdNDbao4rbrUwhuLgKC/j8VCS5+34Ria8CsTDuBjrIrQA==
+
 range-parser@^1.0.3, range-parser@~1.2.0:
   version "1.2.0"
   resolved "https://registry.yarnpkg.com/range-parser/-/range-parser-1.2.0.tgz#f49be6b487894ddc40dcc94a322f611092e00d5e"
@@ -8216,6 +8221,11 @@ samsam@1.1.2, samsam@~1.1:
   version "1.1.2"
   resolved "https://registry.yarnpkg.com/samsam/-/samsam-1.1.2.tgz#bec11fdc83a9fda063401210e40176c3024d1567"
   integrity sha1-vsEf3IOp/aBjQBIQ5AF2wwJNFWc=
+
+sat@^0.7.1:
+  version "0.7.1"
+  resolved "https://registry.yarnpkg.com/sat/-/sat-0.7.1.tgz#fe1806b2c677fc2eec9943649ad187871f18f9ea"
+  integrity sha512-YFkI+KMARdAxqIVSS79TaTdPLOWFWeWe/J+A7Rc4xBNn7lxuqWGJs9YmZURaipMjWAM9FLK3s4W1+yEdFu3/5w==
 
 sax@^1.2.1, sax@^1.2.4, sax@~1.2.1, sax@~1.2.4:
   version "1.2.4"

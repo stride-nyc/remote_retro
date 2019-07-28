@@ -4,11 +4,11 @@ defmodule GroupingStageTest do
 
   import ShorterMaps
   describe "ideas in the grouping stage" do
-    setup [:persist_idea_for_retro]
+    setup [:persist_ideas_for_retro]
 
     @tag [
       retro_stage: "grouping",
-      idea: %Idea{category: "sad", body: "splinters in the codebase", x: 105.5, y: 100.1},
+      ideas: [%Idea{category: "sad", body: "splinters in the codebase", x: 105.5, y: 100.1}],
     ]
 
     test "appear on the interface with coordinates mapped to transforms", ~M{retro, session} do
@@ -22,7 +22,7 @@ defmodule GroupingStageTest do
 
     @tag [
       retro_stage: "grouping",
-      idea: %Idea{category: "sad", body: "rampant sickness", x: 80.5, y: 300.3},
+      ideas: [%Idea{category: "sad", body: "rampant sickness", x: 80.5, y: 300.3}],
     ]
     test "can be drag-and-dropped on one client and have their position update across all clients", ~M{retro, session, non_facilitator} do
       retro_path = "/retros/" <> retro.id
@@ -43,6 +43,24 @@ defmodule GroupingStageTest do
 
       refute idea_coordinates_before == idea_coordinates_after
     end
+
+    @tag [
+      retro_stage: "grouping",
+      ideas: [
+        %Idea{category: "sad", body: "rampant sickness", x: 0.0, y: 200.0},
+        %Idea{category: "sad", body: "getting sickness", x: 10.0, y: 210.0},
+      ],
+    ]
+    test "ideas dynamically remove bolding when out of proximity", ~M{retro, session} do
+      retro_path = "/retros/" <> retro.id
+      session = visit(session, retro_path)
+
+      session |> assert_count_of_emboldened_ideas_to_be(2)
+
+      session |> drag_idea("rampant sickness", to_center_of: ".grouping-board")
+
+      session |> assert_count_of_emboldened_ideas_to_be(0)
+    end
   end
 
   defp parse_transform_coordinates_for_card(session, idea_text) do
@@ -52,5 +70,9 @@ defmodule GroupingStageTest do
 
     ~r/transform: translate\((?<x>.*)px,\s?(?<y>.*)px\)/
       |> Regex.named_captures(inline_style_string)
+  end
+
+  defp assert_count_of_emboldened_ideas_to_be(session, count) do
+    assert_has(session, Query.xpath("//p[contains(@style, 'box-shadow')]", count: count))
   end
 end
