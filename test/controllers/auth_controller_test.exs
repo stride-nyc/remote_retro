@@ -46,19 +46,24 @@ defmodule RemoteRetro.AuthControllerTest do
   end
 
   describe ".logout" do
-    setup :authenticate_connection
+    test "clears the session", ~M{conn} do
+      conn = Plug.Test.init_test_session(conn, %{
+        "current_user" => %{},
+        "some_other_key" => "some string"
+      })
 
-    test "it sets session current_user to nil", ~M{conn} do
-      assert get_session(conn, "current_user")
+      session_attributes_count_before = get_session_attribute_count(conn)
+      assert session_attributes_count_before == 2
 
       conn =
         conn
         |> get(Routes.auth_path(conn, :logout))
 
-      refute get_session(conn, "current_user")
+      session_attributes_count_after = get_session_attribute_count(conn)
+      assert session_attributes_count_after == 0
     end
 
-    test "it redirects the user to /", ~M{conn} do
+    test "redirects the user to /", ~M{conn} do
       conn =
         conn
         |> get(Routes.auth_path(conn, :logout))
@@ -69,5 +74,9 @@ defmodule RemoteRetro.AuthControllerTest do
 
   defp retrieve_session(conn) do
     conn.private.plug_session
+  end
+
+  defp get_session_attribute_count(conn) do
+    conn |> retrieve_session() |> Enum.count()
   end
 end

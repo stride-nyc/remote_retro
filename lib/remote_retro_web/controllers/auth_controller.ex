@@ -18,7 +18,7 @@ defmodule RemoteRetroWeb.AuthController do
   end
 
   def logout(conn, _params) do
-    conn = put_session(conn, :current_user, nil)
+    conn = clear_session(conn)
     redirect(conn, to: "/")
   end
 
