@@ -4,6 +4,7 @@
   display: inline-block;
   font-size: 10px;
   padding: 4px 6px;
+  vertical-align: top;
 
   border: 1px solid var(--semantic-dark-grey);
   border-radius: 3px;
