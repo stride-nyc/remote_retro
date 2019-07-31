@@ -77,11 +77,10 @@ describe("<GroupingStageIdeaCard />", () => {
         <GroupingStageIdeaCard idea={idea} actions={{}} />,
         { disableLifecycleMethods: true }
       )
-      styleProp = wrapper.prop("style")
     })
 
-    it("appears ghosted out", () => {
-      expect(styleProp.opacity).to.be.below(1)
+    it("applies a class for styling the edit state", () => {
+      expect(wrapper.find(".in-edit-state")).to.have.length(1)
     })
   })
 
@@ -92,11 +91,10 @@ describe("<GroupingStageIdeaCard />", () => {
         <GroupingStageIdeaCard idea={idea} actions={{}} />,
         { disableLifecycleMethods: true }
       )
-      styleProp = wrapper.prop("style")
     })
 
-    it("makes no change to opacity", () => {
-      expect(styleProp.opacity).to.be.an("undefined")
+    it("does *not* apply a class for styling the edit state", () => {
+      expect(wrapper.find(".in-edit-state")).to.have.length(0)
     })
   })
 

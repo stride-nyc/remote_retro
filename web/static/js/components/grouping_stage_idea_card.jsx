@@ -3,13 +3,12 @@ import PropTypes from "prop-types"
 import { DragSource } from "react-dnd"
 import { getEmptyImage } from "react-dnd-html5-backend"
 import randomColor from "randomcolor"
+import cx from "classnames"
 
 import * as AppPropTypes from "../prop_types"
 
 import { dragSourceSpec, collect } from "./draggable_idea_content"
 import styles from "./css_modules/grouping_stage_idea_card.css"
-
-export const DRAGGED_CARD_OPACITY = 0.5
 
 export class GroupingStageIdeaCard extends Component {
   componentDidMount() {
@@ -52,13 +51,6 @@ export class GroupingStageIdeaCard extends Component {
       }
     }
 
-    if (idea.inEditState) {
-      style = {
-        ...style,
-        opacity: DRAGGED_CARD_OPACITY,
-      }
-    }
-
     if (idea.ephemeralGroupingId) {
       const color = randomColor({ seed: idea.ephemeralGroupingId })
       style = {
@@ -68,8 +60,12 @@ export class GroupingStageIdeaCard extends Component {
       }
     }
 
+    const classes = cx("idea-card", styles.wrapper, {
+      "in-edit-state": idea.inEditState,
+    })
+
     return connectDragSource(
-      <p className={`${styles.wrapper} idea-card`} style={style} ref={cardNode => { this.cardNode = cardNode }}>
+      <p className={classes} style={style} ref={cardNode => { this.cardNode = cardNode }}>
         {idea.body}
       </p>
     )

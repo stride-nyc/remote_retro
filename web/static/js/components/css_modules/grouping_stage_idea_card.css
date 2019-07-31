@@ -13,4 +13,8 @@
   background-color: white;
 
   max-width: 250px;
+
+  &:global(.in-edit-state) {
+    opacity: 0.5;
+  }
 }
