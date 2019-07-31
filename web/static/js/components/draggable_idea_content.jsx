@@ -22,11 +22,10 @@ export const dragSourceSpec = {
 
 // collects props as drag events begin and end
 // http://react-dnd.github.io/react-dnd/docs/api/drag-source#the-collecting-function
-export const collect = (connect, monitor) => {
+export const collect = connect => {
   return {
     connectDragSource: connect.dragSource(),
     connectDragPreview: connect.dragPreview(),
-    isDragging: monitor.isDragging(),
   }
 }
 

@@ -133,41 +133,26 @@ describe("<GroupingStageIdeaCard />", () => {
   describe("on mount", () => {
     let actions
 
-    context("when the card is told to connect a drag preview", () => {
-      beforeEach(() => {
-        idea = { id: 54 }
-        actions = {
-          updateIdea: sinon.spy(),
-        }
-        wrapper = mount(
-          <GroupingStageIdeaCard
-            idea={idea}
-            actions={actions}
-            connectDragPreview={node => node}
-          />
-        )
-      })
-
-      it("dispatches an action to the store, updating the idea with height/width/x/y", () => {
-        expect(actions.updateIdea).to.have.been.calledWithMatch(idea.id, {
-          height: 0,
-          width: 0,
-          x: undefined,
-          y: undefined,
-        })
-      })
+    beforeEach(() => {
+      idea = { id: 54 }
+      actions = {
+        updateIdea: sinon.spy(),
+      }
+      wrapper = mount(
+        <GroupingStageIdeaCard
+          idea={idea}
+          actions={actions}
+          connectDragPreview={node => node}
+        />
+      )
     })
 
-    context("when the card is *not* declared as a drag preview instance", () => {
-      beforeEach(() => {
-        actions = {
-          updateIdea: sinon.spy(),
-        }
-        wrapper = mount(<GroupingStageIdeaCard idea={idea} actions={actions} />)
-      })
-
-      it("does *not* dispatch an idea update action to the store", () => {
-        expect(actions.updateIdea).to.not.have.been.called
+    it("dispatches an action to the store, updating the idea with height/width/x/y", () => {
+      expect(actions.updateIdea).to.have.been.calledWithMatch(idea.id, {
+        height: 0,
+        width: 0,
+        x: undefined,
+        y: undefined,
       })
     })
   })

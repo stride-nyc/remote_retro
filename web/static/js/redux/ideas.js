@@ -40,7 +40,7 @@ export const actions = {
 
   ideaDraggedInGroupingStage: idea => {
     return (dispatch, getState, retroChannel) => {
-      dispatch(updateIdea(idea.id, { x: idea.x, y: idea.y }))
+      dispatch(updateIdea(idea.id, { x: idea.x, y: idea.y, inEditState: true }))
       throttledPushOfDragToServer(retroChannel, idea)
     }
   },
