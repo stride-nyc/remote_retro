@@ -211,6 +211,7 @@
   border: none;
   padding: 0.4rem 0.5rem;
   margin-bottom: 0;
+  z-index: 1;
 
   .left-branded-header {
     margin-bottom: 0;
