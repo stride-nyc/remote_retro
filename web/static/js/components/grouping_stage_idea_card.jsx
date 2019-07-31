@@ -15,18 +15,18 @@ export class GroupingStageIdeaCard extends Component {
   componentDidMount() {
     const { connectDragPreview, actions, idea } = this.props
 
-    if (connectDragPreview) {
-      const { height, width, x, y } = this.cardNode.getBoundingClientRect()
+    const { height, width, x, y } = this.cardNode.getBoundingClientRect()
 
-      actions.updateIdea(idea.id, { height, width, x, y })
-      // Use empty image as a drag preview so browsers don't draw it
-      // and we can draw whatever we want on the custom drag layer instead.
-      connectDragPreview(getEmptyImage(), {
-        // IE fallback: specify that we'd rather screenshot the node
-        // when it already knows it's being dragged so we can hide it with CSS.
-        captureDraggingState: true,
-      })
-    }
+    actions.updateIdea(idea.id, { height, width, x, y })
+
+    // Use empty image as a drag preview so browsers don't draw it.
+    // Instead, we shift the actual DOM node being dragged, so that we can dynamically update its
+    // shadow colors when idea comes in contact with other ideas
+    connectDragPreview(getEmptyImage(), {
+      // IE fallback: specify that we'd rather screenshot the node
+      // when it already knows it's being dragged so we can hide it with CSS.
+      captureDraggingState: true,
+    })
   }
 
   render() {
@@ -55,7 +55,7 @@ export class GroupingStageIdeaCard extends Component {
     if (idea.inEditState) {
       style = {
         ...style,
-        opacity: 0.5,
+        opacity: DRAGGED_CARD_OPACITY,
       }
     }
 

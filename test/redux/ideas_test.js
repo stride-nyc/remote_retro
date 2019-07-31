@@ -179,7 +179,7 @@ describe("actionCreators", () => {
         expect(dispatchSpy).calledWith({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId: idea.id,
-          newAttributes: { x: idea.x, y: idea.y },
+          newAttributes: { x: idea.x, y: idea.y, inEditState: true },
         })
       })
 

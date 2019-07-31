@@ -55,17 +55,6 @@ describe("DraggableIdeaContent", () => {
   describe("collect", () => {
     let monitorMock
     let connectMock
-    it("passes the 'is dragging' state to the idea", () => {
-      monitorMock = { isDragging: () => "stubResult" }
-      connectMock = {
-        dragPreview: sinon.stub(),
-        dragSource: sinon.stub(),
-      }
-
-      const result = collect(connectMock, monitorMock)
-
-      expect(result.isDragging).to.eql("stubResult")
-    })
 
     it("passes a custom drag preview func needed for changing the dragged idea's appearance mid-drag", () => {
       const dragPreviewStub = () => {}

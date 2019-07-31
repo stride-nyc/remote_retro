@@ -3,7 +3,6 @@ import { DropTarget } from "react-dnd"
 import PropTypes from "prop-types"
 
 import GroupingStageIdeaCard from "./grouping_stage_idea_card"
-import GroupingStageCustomDragLayer from "./grouping_stage_custom_drag_layer"
 import * as AppPropTypes from "../prop_types"
 
 export const GroupingBoard = props => {
@@ -12,8 +11,6 @@ export const GroupingBoard = props => {
   return connectDropTarget(
     <div style={{ flex: 1 }} className="grouping-board">
       {ideas.map(idea => <GroupingStageIdeaCard idea={idea} key={idea.id} actions={actions} />)}
-
-      <GroupingStageCustomDragLayer />
     </div>
   )
 }
