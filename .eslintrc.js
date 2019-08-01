@@ -63,6 +63,7 @@ module.exports = {
     "no-shadow": "off",
     "no-console": "off",
     "no-use-before-define": "off",
+    "no-restricted-syntax": "off",
     "react/no-unescaped-entities": "off",
     "react/no-unused-prop-types": "off",
     "react/forbid-prop-types": "off",
