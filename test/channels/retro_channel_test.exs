@@ -7,14 +7,6 @@ defmodule RemoteRetro.RetroChannelTest do
   import Mock
   import ShorterMaps
 
-  # this assertion helper requires a macro so that we can pass a pattern
-  defmacro assert_broadcast_to_other_clients_only(message, match) do
-    quote do
-      assert_broadcast(unquote(message), unquote(match))
-      refute_push(unquote(message), unquote(match))
-    end
-  end
-
   defp join_the_retro_channel(~M{retro, facilitator} = context) do
     {:ok, join_response, socket} =
       socket(UserSocket, "", %{user_token: Phoenix.Token.sign(socket(UserSocket), "user", facilitator)})
@@ -376,20 +368,12 @@ defmodule RemoteRetro.RetroChannelTest do
       refute Repo.get(Vote, vote.id)
     end
 
-    test "broadcasts the same event to connected clients, along with retracted vote", ~M{socket, vote} do
+    test "broadcasts the same event to *all* connected clients, along with retracted vote", ~M{socket, vote} do
       vote_id = vote.id
       ref = push(socket, "vote_retracted", %{id: vote_id})
       assert_reply(ref, :ok)
 
-      assert_broadcast("vote_retracted", %{"id" => ^vote_id})
-    end
-
-    test "broadcasts the same event to the initiator client", ~M{socket, vote} do
-      vote_id = vote.id
-      ref = push(socket, "vote_retracted", %{id: vote_id})
-      assert_reply(ref, :ok)
-
-      assert_push("vote_retracted", %{"id" => ^vote_id})
+      assert_broadcast_to_all_clients_including_initiator("vote_retracted", %{"id" => ^vote_id})
     end
 
     test "rolls back the vote retraction if broadcast fails, responding :error", ~M{socket, vote} do

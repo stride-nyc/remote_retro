@@ -31,6 +31,21 @@ defmodule RemoteRetroWeb.ChannelCase do
 
       # The default endpoint for testing
       @endpoint RemoteRetroWeb.Endpoint
+
+      # these assertions require macros so that we can pass a pattern to match
+      defmacro assert_broadcast_to_other_clients_only(message, match) do
+        quote do
+          assert_broadcast(unquote(message), unquote(match))
+          refute_push(unquote(message), unquote(match))
+        end
+      end
+
+      defmacro assert_broadcast_to_all_clients_including_initiator(message, match) do
+        quote do
+          assert_broadcast(unquote(message), unquote(match))
+          assert_push(unquote(message), unquote(match))
+        end
+      end
     end
   end
 
