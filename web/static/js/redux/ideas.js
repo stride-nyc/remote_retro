@@ -20,6 +20,13 @@ const ideaDeletionRejected = ideaId => ({
   ideaId,
 })
 
+export const ideaEditStateNullificationAttributes = {
+  inEditState: false,
+  liveEditText: null,
+  isLocalEdit: null,
+  editSubmitted: false,
+}
+
 export const actions = {
   updateIdea,
   addIdea: idea => ({
@@ -39,6 +46,17 @@ export const actions = {
 
       const updateIdeaAction = updateIdea(ideaParams.id, { editSubmitted: true })
       dispatch(updateIdeaAction)
+
+      push.receive("ok", updatedIdea => {
+        dispatch({
+          type: types.IDEA_UPDATE_COMMITTED,
+          ideaId: updatedIdea.id,
+          newAttributes: {
+            ...updatedIdea,
+            ...ideaEditStateNullificationAttributes,
+          },
+        })
+      })
 
       push.receive("error", () => {
         dispatch({ type: types.IDEA_UPDATE_REJECTED, ideaId: ideaParams.id })
@@ -73,8 +91,7 @@ export const actions = {
     return (dispatch, getState, retroChannel) => {
       retroChannel.push("idea_edit_state_disabled", { id: ideaId })
 
-      const updateAttributes = { inEditState: false, liveEditText: null, isLocalEdit: null }
-      const updateIdeaAction = updateIdea(ideaId, updateAttributes)
+      const updateIdeaAction = updateIdea(ideaId, ideaEditStateNullificationAttributes)
       dispatch(updateIdeaAction)
     }
   },

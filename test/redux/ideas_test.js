@@ -234,6 +234,21 @@ describe("actionCreators", () => {
         })
       })
 
+      describe("when the push results in an ok response", () => {
+        it("tells the store to update the idea with new attributes, and nulling edit state", () => {
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          mockRetroChannel.__triggerReply("ok", { id: 589, derp: "herp" })
+
+          expect(dispatchSpy).calledWithMatch({
+            type: "IDEA_UPDATE_COMMITTED",
+            ideaId: 589,
+            newAttributes: { derp: "herp", inEditState: false, isLocalEdit: null, editSubmitted: false },
+          })
+        })
+      })
+
       describe("when the push results in an error", () => {
         it("dispatches an error", () => {
           const dispatchSpy = sinon.spy()
@@ -378,7 +393,12 @@ describe("actionCreators", () => {
         expect(dispatchSpy).calledWith({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId,
-          newAttributes: { inEditState: false, liveEditText: null, isLocalEdit: null },
+          newAttributes: {
+            inEditState: false,
+            liveEditText: null,
+            isLocalEdit: null,
+            editSubmitted: false,
+          },
         })
       })
     })

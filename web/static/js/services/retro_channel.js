@@ -2,6 +2,8 @@ import { Socket, Presence } from "phoenix"
 
 import UserActivity from "./user_activity"
 
+import { ideaEditStateNullificationAttributes } from "../redux/ideas"
+
 class RetroChannel {
   static configure({ userToken, retroUUID }) {
     const socket = new Socket("/socket", { params: { userToken } })
@@ -51,9 +53,7 @@ export const applyListenersWithDispatch = (retroChannel, store, actions) => {
   retroChannel.on("idea_edited", editedIdea => {
     const updatedIdea = {
       ...editedIdea,
-      inEditState: false,
-      editSubmitted: false,
-      liveEditText: null,
+      ...ideaEditStateNullificationAttributes,
     }
 
     updateIdea(editedIdea.id, updatedIdea)

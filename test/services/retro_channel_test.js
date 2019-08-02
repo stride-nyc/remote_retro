@@ -233,11 +233,11 @@ describe("RetroChannel", () => {
 
         it("invokes updateIdea action, passing idea id & nulling the editing attributes", () => {
           expect(updateIdeaSpy).calledWith(2, {
-            id:
-            2,
+            id: 2,
             body: "i like TEENAGE MUTANT NINJA TURTLES",
-            liveEditText: null,
             inEditState: false,
+            liveEditText: null,
+            isLocalEdit: null,
             editSubmitted: false,
           })
         })
