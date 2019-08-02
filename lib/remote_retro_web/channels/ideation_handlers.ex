@@ -43,7 +43,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
         |> Idea.changeset(idea_params)
         |> Repo.update!()
 
-      broadcast!(socket, "idea_edited", idea)
+      broadcast_from!(socket, "idea_edited", idea)
     end)
   rescue
     _ -> {:error, %{}}

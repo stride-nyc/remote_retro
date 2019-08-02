@@ -243,12 +243,13 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "results in the broadcast of the edited idea to all connected clients", ~M{socket, idea} do
+    test "results in the broadcast of the edited idea to *other* connected clients", ~M{socket, idea} do
       idea_id = idea.id
       ref = push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assignee_id: nil})
       assert_reply(ref, :ok)
 
       assert_broadcast("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
+      refute_push("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
     end
 
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
