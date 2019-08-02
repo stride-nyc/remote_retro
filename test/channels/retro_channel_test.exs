@@ -7,6 +7,14 @@ defmodule RemoteRetro.RetroChannelTest do
   import Mock
   import ShorterMaps
 
+  # this assertion helper requires a macro so that we can pass a pattern
+  defmacro assert_broadcast_to_other_clients_only(message, match) do
+    quote do
+      assert_broadcast(unquote(message), unquote(match))
+      refute_push(unquote(message), unquote(match))
+    end
+  end
+
   defp join_the_retro_channel(~M{retro, facilitator} = context) do
     {:ok, join_response, socket} =
       socket(UserSocket, "", %{user_token: Phoenix.Token.sign(socket(UserSocket), "user", facilitator)})
@@ -245,11 +253,9 @@ defmodule RemoteRetro.RetroChannelTest do
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
     test "results in the broadcast of the edited idea to *other* connected clients", ~M{socket, idea} do
       idea_id = idea.id
-      ref = push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assignee_id: nil})
-      assert_reply(ref, :ok)
+      push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assignee_id: nil})
 
-      assert_broadcast("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
-      refute_push("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
+      assert_broadcast_to_other_clients_only("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
     end
 
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
