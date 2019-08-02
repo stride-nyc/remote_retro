@@ -250,6 +250,15 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_broadcast_to_other_clients_only("idea_edited", %{body: "hell's bells", category: "happy", id: ^idea_id})
     end
 
+    @tag idea: %Idea{category: "sad", body: "we met our heroes, and they failed us"}
+    test "responds with the updated idea", ~M{socket, idea} do
+      idea_id = idea.id
+
+      ref = push(socket, "idea_edited", %{id: idea_id, body: "infatuation", category: "happy", assignee_id: nil})
+
+      assert_reply(ref, :ok, %{id: ^idea_id, body: "infatuation", category: "happy"})
+    end
+
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
     test "results in the idea being updated in the database", ~M{socket, idea} do
       idea_id = idea.id

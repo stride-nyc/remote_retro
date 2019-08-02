@@ -12,8 +12,8 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   end
 
   def handle_in("idea_edited", idea_params, socket) do
-    {reply_atom, _} = atomic_update_and_broadcast(idea_params, socket)
-    {:reply, reply_atom, socket}
+    {reply_atom, response} = atomic_update_and_broadcast_from(idea_params, socket)
+    {:reply, {reply_atom, response}, socket}
   end
 
   def handle_in("idea_deleted", idea_id, socket) do
@@ -36,7 +36,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     _ -> {:error, %{}}
   end
 
-  defp atomic_update_and_broadcast(idea_params, socket) do
+  defp atomic_update_and_broadcast_from(idea_params, socket) do
     Repo.transaction(fn ->
       idea =
         Repo.get(Idea, idea_params["id"])
@@ -44,6 +44,8 @@ defmodule RemoteRetroWeb.IdeationHandlers do
         |> Repo.update!()
 
       broadcast_from!(socket, "idea_edited", idea)
+
+      idea
     end)
   rescue
     _ -> {:error, %{}}
