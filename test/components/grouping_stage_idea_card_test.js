@@ -98,6 +98,34 @@ describe("<GroupingStageIdeaCard />", () => {
     })
   })
 
+  describe("when an idea database update is in flight", () => {
+    beforeEach(() => {
+      idea = { id: 9, editSubmitted: true }
+      wrapper = shallow(
+        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        { disableLifecycleMethods: true }
+      )
+    })
+
+    it("displays a loader", () => {
+      expect(wrapper.find(".loader")).to.have.length(1)
+    })
+  })
+
+  describe("when an idea database update is *not* in flight", () => {
+    beforeEach(() => {
+      idea = { id: 9, editSubmitted: false }
+      wrapper = shallow(
+        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        { disableLifecycleMethods: true }
+      )
+    })
+
+    it("does not display a loader", () => {
+      expect(wrapper.find(".loader")).to.have.length(0)
+    })
+  })
+
   describe("when the given idea has a grouping id", () => {
     beforeEach(() => {
       idea = { id: 9, ephemeralGroupingId: 15 }

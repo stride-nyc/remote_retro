@@ -67,6 +67,12 @@ export class GroupingStageIdeaCard extends Component {
     return connectDragSource(
       <p className={classes} style={style} ref={cardNode => { this.cardNode = cardNode }}>
         {idea.body}
+
+        {idea.editSubmitted && (
+          <span className={styles.loadingWrapper}>
+            <span className="ui active mini loader" />
+          </span>
+        )}
       </p>
     )
   }
