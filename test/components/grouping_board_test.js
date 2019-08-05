@@ -4,6 +4,7 @@ import { shallow } from "enzyme"
 
 import { dropTargetSpec, GroupingBoard } from "../../web/static/js/components/grouping_board"
 import GroupingStageIdeaCard from "../../web/static/js/components/grouping_stage_idea_card"
+import DragCoordinates from "../../web/static/js/services/drag_coordinates"
 
 const requireUncached = module => {
   delete require.cache[require.resolve(module)]
@@ -39,6 +40,7 @@ describe("GroupingBoard", () => {
 
   describe("dropTargetSpec", () => {
     let freshDropTargetSpec
+    let reconcileMobileZoomOffsetsStub
 
     // bring in fresh copy of module to avoid memoization of values contaminating tests
     beforeEach(() => {
@@ -57,8 +59,11 @@ describe("GroupingBoard", () => {
           },
         }
 
+        reconcileMobileZoomOffsetsStub = sinon
+          .stub(DragCoordinates, "reconcileMobileZoomOffsets", () => ({ x: 11, y: 22 }))
+
         const monitor = {
-          getSourceClientOffset: () => ({ x: 78, y: 106 }),
+          getSourceClientOffset: sinon.stub(),
           getItem: () => ({
             draggedIdea: {
               id: 54,
@@ -69,16 +74,20 @@ describe("GroupingBoard", () => {
         dropTargetSpec.drop(props, monitor)
       })
 
+      afterEach(() => {
+        reconcileMobileZoomOffsetsStub.restore()
+      })
+
       it("invokes the submitIdeaEditAsync action with attrs of the idea from the drag", () => {
         expect(submitIdeaEditAsync).to.have.been.calledWithMatch({
           id: 54,
         })
       })
 
-      it("also includes the x/y client offsets from the drag", () => {
+      it("also includes the reconciled x/y coordinates from the DragCoordinates service", () => {
         expect(submitIdeaEditAsync).to.have.been.calledWithMatch({
-          x: 78,
-          y: 106,
+          x: 11,
+          y: 22,
         })
       })
     })
@@ -97,8 +106,11 @@ describe("GroupingBoard", () => {
           },
         }
 
+        reconcileMobileZoomOffsetsStub = sinon
+          .stub(DragCoordinates, "reconcileMobileZoomOffsets", () => ({ x: 39, y: 31 }))
+
         monitor = {
-          getSourceClientOffset: () => ({ x: 78, y: 106 }),
+          getSourceClientOffset: sinon.stub(),
           getItem: () => ({
             draggedIdea: {
               id: 54,
@@ -109,16 +121,20 @@ describe("GroupingBoard", () => {
         freshDropTargetSpec.hover(props, monitor)
       })
 
+      afterEach(() => {
+        reconcileMobileZoomOffsetsStub.restore()
+      })
+
       it("invokes the ideaDraggedInGroupingStage action with attrs of the idea from the drag", () => {
         expect(ideaDraggedInGroupingStage).to.have.been.calledWithMatch({
           id: 54,
         })
       })
 
-      it("also includes the x/y client offsets from the drag", () => {
+      it("also includes the reconciled x/y coordinates from the DragCoordinates service", () => {
         expect(ideaDraggedInGroupingStage).to.have.been.calledWithMatch({
-          x: 78,
-          y: 106,
+          x: 39,
+          y: 31,
         })
       })
 

@@ -3,6 +3,7 @@ import { DropTarget } from "react-dnd"
 import PropTypes from "prop-types"
 
 import GroupingStageIdeaCard from "./grouping_stage_idea_card"
+import DragCoordinates from "../services/drag_coordinates"
 import * as AppPropTypes from "../prop_types"
 
 export const GroupingBoard = props => {
@@ -33,14 +34,14 @@ export const dropTargetSpec = {
     const { draggedIdea } = monitor.getItem()
     const { actions } = props
 
-    const { x, y } = monitor.getSourceClientOffset()
+    const { x, y } = DragCoordinates.reconcileMobileZoomOffsets(monitor)
 
     actions.submitIdeaEditAsync({ id: draggedIdea.id, x, y })
   },
   hover: ({ actions }, monitor) => {
     const { draggedIdea } = monitor.getItem()
 
-    const { x, y } = monitor.getSourceClientOffset()
+    const { x, y } = DragCoordinates.reconcileMobileZoomOffsets(monitor)
 
     // eslint-disable-next-line
     const duplicativeHoverCoordinates =
