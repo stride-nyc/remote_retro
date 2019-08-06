@@ -15,6 +15,10 @@
   color: var(--semantic-dark-grey);
   background-color: white;
 
+  /* disable text selection on mobile drags */
+  -webkit-touch-callout: none; /* iOS Safari */
+  user-select: none;
+
   &:global(.in-edit-state) {
     opacity: 0.5;
   }
