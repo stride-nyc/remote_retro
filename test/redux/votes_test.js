@@ -1,6 +1,6 @@
 import deepFreeze from "deep-freeze"
 import sinon from "sinon"
-import { setupMockPhoenixChannel } from "../support/js/test_helper"
+import { setupMockRetroChannel } from "../support/js/test_helper"
 
 import {
   reducer as votesReducer,
@@ -173,7 +173,7 @@ describe("actions", () => {
 
       beforeEach(() => {
         thunk = actions.submitVote(idea, user)
-        mockRetroChannel = setupMockPhoenixChannel()
+        mockRetroChannel = setupMockRetroChannel()
         dispatch = () => {}
       })
 
@@ -206,7 +206,7 @@ describe("actions", () => {
 
       describe("when the push results in an 'ok' response", () => {
         beforeEach(() => {
-          mockRetroChannel = setupMockPhoenixChannel()
+          mockRetroChannel = setupMockRetroChannel()
         })
 
         it("dispatches VOTE_SUBMISSION_ACCEPTED with the optimistic UUID and the persisted idea", () => {
@@ -228,7 +228,7 @@ describe("actions", () => {
 
       describe("when the push results in an error", () => {
         beforeEach(() => {
-          mockRetroChannel = setupMockPhoenixChannel()
+          mockRetroChannel = setupMockRetroChannel()
         })
 
         it("dispatches a VOTE_SUBMISSION_REJECTED with the optimistic UUID", () => {
@@ -264,7 +264,7 @@ describe("actions", () => {
 
       beforeEach(() => {
         vote = { id: 21 }
-        mockRetroChannel = setupMockPhoenixChannel()
+        mockRetroChannel = setupMockRetroChannel()
         thunk = actions.submitVoteRetraction(vote)
       })
 

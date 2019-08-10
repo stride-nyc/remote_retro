@@ -65,7 +65,7 @@ global.mountWithConnectedSubcomponents = (component, options) => {
 /  as the push events aren't exposed outright, so here we setup a channel and
 /  expose a helper for triggering push replies, leveraged like so:
 /
-/    const mockRetroChannel = setupMockPhoenixChannel()
+/    const mockRetroChannel = setupMockRetroChannel()
 /
 /    // some code that triggers a push...
 /
@@ -76,22 +76,38 @@ const STUBBED_REF = 0
 const STUBBED_CHANNEL_REPLY_REF = `chan_reply_${STUBBED_REF}`
 
 // eslint-disable-next-line import/prefer-default-export
-export const setupMockPhoenixChannel = () => {
-  // eslint-disable-next-line global-require
+export const setupMockRetroChannel = () => {
+  /* eslint-disable global-require */
   const { Socket } = require("phoenix")
-  const socket = new Socket("/socket", { timeout: 1 })
+  const RetroChannel = require("../../../web/static/js/services/retro_channel").default
+  /* eslint-enable global-require */
 
+  // Build out a fake that mostly inherits from the real RetroChannel, but overrides
+  // the constructor to avoid problematic WebSocket code from executing.
+  // In this constructor override, we uphold the contract of setting a channel client, but
+  // we assign a fake so that we can trigger messages on the client in our tests
+  class MockRetroChannel {
+    constructor(mockClient) {
+      this.client = mockClient
+    }
+  }
+  // https://stackoverflow.com/questions/44288164/cannot-assign-to-read-only-property-name-of-object-object-object#answer-44288358
+  MockRetroChannel.prototype = Object.create(RetroChannel.prototype)
+  MockRetroChannel.prototype.constructor = MockRetroChannel
+
+  const socket = new Socket("/socket", { timeout: 1 })
   sinon.stub(socket, "makeRef", () => STUBBED_REF)
   sinon.stub(socket, "isConnected", () => true)
-
   sinon.stub(socket, "push")
 
   const mockPhoenixChannel = socket.channel("topic", { one: "two" })
   mockPhoenixChannel.join().trigger("ok", {})
 
-  mockPhoenixChannel.__triggerReply = (status, response) => {
-    mockPhoenixChannel.trigger(STUBBED_CHANNEL_REPLY_REF, { status, response })
+  const retroChannel = new MockRetroChannel(mockPhoenixChannel)
+
+  retroChannel.__triggerReply = (status, response) => {
+    retroChannel.client.trigger(STUBBED_CHANNEL_REPLY_REF, { status, response })
   }
 
-  return mockPhoenixChannel
+  return retroChannel
 }

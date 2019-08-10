@@ -5,75 +5,85 @@ import UserActivity from "./user_activity"
 import { ideaEditStateNullificationAttributes } from "../redux/ideas"
 
 class RetroChannel {
-  static configure({ userToken, retroUUID }) {
+  constructor({ userToken, retroUUID }) {
     const socket = new Socket("/socket", { params: { userToken } })
     socket.connect()
 
-    return socket.channel(`retro:${retroUUID}`)
+    this.client = socket.channel(`retro:${retroUUID}`)
   }
-}
 
-export const applyListenersWithDispatch = (retroChannel, store, actions) => {
-  const { addIdea,
-    retroUpdateCommitted,
-    setPresences,
-    updateIdea,
-    deleteIdea,
-    addVote,
-    updatePresence,
-    retractVote } = actions
+  applyListenersWithDispatch(store, actions) {
+    const {
+      addIdea,
+      retroUpdateCommitted,
+      setPresences,
+      updateIdea,
+      deleteIdea,
+      addVote,
+      updatePresence,
+      retractVote,
+    } = actions
 
-  const presence = new Presence(retroChannel)
+    const { client } = this
 
-  presence.onSync(() => {
-    const users = presence.list((_token, presence) => (presence.user))
-    setPresences(users)
-  })
+    const presence = new Presence(client)
 
-  retroChannel.on("idea_committed", addIdea)
-
-  retroChannel.on("retro_edited", retroUpdateCommitted)
-
-  retroChannel.on("idea_edit_state_enabled", ({ id }) => {
-    updateIdea(id, { inEditState: true, isLocalEdit: false })
-  })
-
-  retroChannel.on("idea_edit_state_disabled", disabledIdea => {
-    updateIdea(disabledIdea.id, { inEditState: false, liveEditText: null })
-  })
-
-  retroChannel.on("idea_live_edit", editedIdea => {
-    updateIdea(editedIdea.id, editedIdea)
-  })
-
-  retroChannel.on("idea_dragged_in_grouping_stage", ({ id, x, y }) => {
-    updateIdea(id, { x, y, inEditState: true })
-  })
-
-  retroChannel.on("idea_edited", editedIdea => {
-    const updatedIdea = {
-      ...editedIdea,
-      ...ideaEditStateNullificationAttributes,
-    }
-
-    updateIdea(editedIdea.id, updatedIdea)
-  })
-
-  retroChannel.on("idea_deleted", deletedIdea => {
-    deleteIdea(deletedIdea.id)
-  })
-
-  retroChannel.on("vote_submitted", addVote)
-  retroChannel.on("vote_retracted", retractVote)
-
-  retroChannel.on("idea_typing_event", ({ userToken }) => {
-    updatePresence(userToken, { is_typing: true, last_typed: Date.now() })
-    UserActivity.checkIfDoneTyping(store, userToken, () => {
-      updatePresence(userToken, { is_typing: false })
+    presence.onSync(() => {
+      const users = presence.list((_token, presence) => (presence.user))
+      setPresences(users)
     })
-  })
 
-  return retroChannel
+    client.on("idea_committed", addIdea)
+
+    client.on("retro_edited", retroUpdateCommitted)
+
+    client.on("idea_edit_state_enabled", ({ id }) => {
+      updateIdea(id, { inEditState: true, isLocalEdit: false })
+    })
+
+    client.on("idea_edit_state_disabled", disabledIdea => {
+      updateIdea(disabledIdea.id, { inEditState: false, liveEditText: null })
+    })
+
+    client.on("idea_live_edit", editedIdea => {
+      updateIdea(editedIdea.id, editedIdea)
+    })
+
+    client.on("idea_dragged_in_grouping_stage", ({ id, x, y }) => {
+      updateIdea(id, { x, y, inEditState: true })
+    })
+
+    client.on("idea_edited", editedIdea => {
+      const updatedIdea = {
+        ...editedIdea,
+        ...ideaEditStateNullificationAttributes,
+      }
+
+      updateIdea(editedIdea.id, updatedIdea)
+    })
+
+    client.on("idea_deleted", deletedIdea => {
+      deleteIdea(deletedIdea.id)
+    })
+
+    client.on("vote_submitted", addVote)
+    client.on("vote_retracted", retractVote)
+
+    client.on("idea_typing_event", ({ userToken }) => {
+      updatePresence(userToken, { is_typing: true, last_typed: Date.now() })
+      UserActivity.checkIfDoneTyping(store, userToken, () => {
+        updatePresence(userToken, { is_typing: false })
+      })
+    })
+  }
+
+  join() {
+    return this.client.join()
+  }
+
+  push(...args) {
+    return this.client.push(...args)
+  }
 }
 
 export default RetroChannel

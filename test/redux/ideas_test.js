@@ -1,7 +1,7 @@
 import deepFreeze from "deep-freeze"
 import sinon from "sinon"
 
-import { setupMockPhoenixChannel } from "../support/js/test_helper"
+import { setupMockRetroChannel } from "../support/js/test_helper"
 import {
   actions as actionCreators,
   reducer as ideasReducer
@@ -128,7 +128,7 @@ describe("actionCreators", () => {
 
       beforeEach(() => {
         thunk = actionCreators.submitIdea(idea)
-        mockRetroChannel = setupMockPhoenixChannel()
+        mockRetroChannel = setupMockRetroChannel()
         sinon.spy(mockRetroChannel, "push")
       })
 
@@ -214,7 +214,7 @@ describe("actionCreators", () => {
 
     beforeEach(() => {
       thunk = actionCreators.submitIdeaEditAsync(ideaParams)
-      mockRetroChannel = setupMockPhoenixChannel()
+      mockRetroChannel = setupMockRetroChannel()
     })
 
     it("returns a thunk", () => {
@@ -290,7 +290,7 @@ describe("actionCreators", () => {
 
     beforeEach(() => {
       thunk = actionCreators.submitIdeaDeletionAsync(ideaId)
-      mockRetroChannel = setupMockPhoenixChannel()
+      mockRetroChannel = setupMockRetroChannel()
     })
 
     it("returns a thunk", () => {
@@ -340,7 +340,7 @@ describe("actionCreators", () => {
 
     beforeEach(() => {
       thunk = actionCreators.initiateIdeaEditState(ideaId)
-      mockRetroChannel = setupMockPhoenixChannel()
+      mockRetroChannel = setupMockRetroChannel()
     })
 
     it("returns a thunk", () => {
@@ -378,7 +378,7 @@ describe("actionCreators", () => {
 
     beforeEach(() => {
       thunk = actionCreators.cancelIdeaEditState(ideaId)
-      mockRetroChannel = setupMockPhoenixChannel()
+      mockRetroChannel = setupMockRetroChannel()
     })
 
     it("returns a thunk", () => {

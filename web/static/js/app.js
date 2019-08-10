@@ -6,18 +6,18 @@ import { bindActionCreators } from "redux"
 import { Provider } from "react-redux"
 import { AppContainer } from "react-hot-loader"
 
-import RetroChannel, { applyListenersWithDispatch } from "./services/retro_channel"
+import RetroChannel from "./services/retro_channel"
 import configureStore from "./configure_store"
 import { actions } from "./redux"
 
 const { userToken, retroUUID } = window
 
-let retroChannel = RetroChannel.configure({ userToken, retroUUID })
+let retroChannel = new RetroChannel({ userToken, retroUUID })
 const store = configureStore(retroChannel)
 
 const actionz = bindActionCreators({ ...actions }, store.dispatch)
 
-retroChannel = applyListenersWithDispatch(retroChannel, store, actionz)
+retroChannel.applyListenersWithDispatch(store, actionz)
 
 retroChannel.join()
   .receive("error", error => console.error(error))

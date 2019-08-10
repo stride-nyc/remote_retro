@@ -1,7 +1,7 @@
 import deepFreeze from "deep-freeze"
 import sinon from "sinon"
 
-import { setupMockPhoenixChannel } from "../support/js/test_helper"
+import { setupMockRetroChannel } from "../support/js/test_helper"
 
 import {
   reducer,
@@ -202,7 +202,7 @@ describe("action creators", () => {
 
       beforeEach(() => {
         thunk = actionCreators.updateRetroAsync({ stage: "newSlang" })
-        mockRetroChannel = setupMockPhoenixChannel()
+        mockRetroChannel = setupMockRetroChannel()
         sinon.spy(mockRetroChannel, "push")
       })
 
