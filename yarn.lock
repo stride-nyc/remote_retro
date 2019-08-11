@@ -1672,6 +1672,11 @@ caseless@~0.12.0:
   resolved "https://registry.yarnpkg.com/caseless/-/caseless-0.12.0.tgz#1b681c21ff84033c826543090689420d187151dc"
   integrity sha1-G2gcIf+EAzyCZUMJBolCDRhxUdw=
 
+chai-change@^2.1.2:
+  version "2.1.2"
+  resolved "https://registry.yarnpkg.com/chai-change/-/chai-change-2.1.2.tgz#1231cdf8bf5930eea1fab72b5cc4864e5bcae7f6"
+  integrity sha1-EjHN+L9ZMO6h+rcrXMSGTlvK5/Y=
+
 chai-uuid@^1.0.6:
   version "1.0.6"
   resolved "https://registry.yarnpkg.com/chai-uuid/-/chai-uuid-1.0.6.tgz#353a3b817dd66aa2608a0660faf68593fb918c8b"

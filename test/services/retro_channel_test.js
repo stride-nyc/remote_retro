@@ -1,9 +1,10 @@
 import { Socket, Channel } from "phoenix"
-import { spy, useFakeTimers } from "sinon"
+import { spy, stub, useFakeTimers } from "sinon"
 import { createStore } from "redux"
 
 import RetroChannel from "../../web/static/js/services/retro_channel"
 import STAGES from "../../web/static/js/configs/stages"
+import { setupMockRetroChannel } from "../support/js/test_helper"
 
 const { CLOSED } = STAGES
 
@@ -306,4 +307,133 @@ describe("RetroChannel", () => {
       expect(retroChannel.client.push).to.have.been.calledWith("bizarreStringToPush")
     })
   })
+
+  describe.only("#pushWithRetries", () => {
+    let pushSpy
+    let mockCallbacks
+
+    beforeEach(() => {
+      // use mock channel, as we need to trigger receives on the channel to verify callbacks
+      retroChannel = setupMockRetroChannel()
+      mockCallbacks = { onOk: spy(), onErr: spy() }
+      pushSpy = spy(retroChannel, "push")
+      retroChannel.pushWithRetries("derp", { some: "values" }, mockCallbacks)
+    })
+
+    afterEach(() => {
+      pushSpy.restore()
+    })
+
+    it("calls push with the given message and payload", () => {
+      expect(pushSpy).to.have.been.calledWithMatch("derp", { some: "values" })
+    })
+
+    describe("when the push results in a success response", () => {
+      let okSpy
+
+      beforeEach(() => {
+        okSpy = spy()
+        retroChannel = setupMockRetroChannel()
+        retroChannel.pushWithRetries("derp", { some: "values" }, { onOk: okSpy, onErr: () => {} })
+
+        retroChannel.__triggerReply("ok", { id: 101 })
+      })
+
+      it("invokes the onOk callback with the given payload", () => {
+        expect(okSpy).to.have.been.calledWithMatch({ id: 101 })
+      })
+    })
+
+    describe("when the push results in an error response", () => {
+      let clock
+      let spyHook
+
+      beforeEach(() => {
+        clock = useFakeTimers()
+        retroChannel = setupMockRetroChannel()
+
+        spyHook = {}
+        addRetrySpyToPushResult(retroChannel, spyHook)
+
+        retroChannel.pushWithRetries("what", { some: "gives" }, mockCallbacks)
+
+        retroChannel.__triggerReply("error", { one: "five" })
+      })
+
+      afterEach(() => {
+        retroChannel.push.restore()
+        clock.restore()
+      })
+
+      it("retries the push only after a brief timeout", () => {
+        expect(() => {
+          clock.tick(1000)
+        }).to.alter(() => (spyHook.retrySpy.called), {
+          from: false,
+          to: true,
+        })
+      })
+
+      describe("when the retry results in an error response", () => {
+        it("triggers a *second* retry after a longer timeout", () => {
+          clock.tick(1000)
+
+          expect(() => {
+            retroChannel.__triggerReply("error", { one: "two" })
+            clock.tick(3000)
+          }).to.alter(() => (spyHook.retrySpy.callCount), {
+            from: 1,
+            to: 2,
+          })
+        })
+      })
+
+      describe("when the second retry results in an error response", () => {
+        it("triggers a *third* retry after a longer timeout", () => {
+          clock.tick(1000)
+          retroChannel.__triggerReply("error", {})
+          clock.tick(3000)
+
+          expect(() => {
+            retroChannel.__triggerReply("error", {})
+            clock.tick(5000)
+          }).to.alter(() => (spyHook.retrySpy.callCount), {
+            from: 2,
+            to: 3,
+          })
+        })
+      })
+
+      describe("when the third retry results in an error response", () => {
+        it("invokes the onErr callback with error payload", () => {
+          clock.tick(1000)
+          retroChannel.__triggerReply("error", {})
+          clock.tick(3000)
+          retroChannel.__triggerReply("error", {})
+          clock.tick(5000)
+
+          expect(() => {
+            retroChannel.__triggerReply("error", { fart: "store" })
+          }).to.alter(() => (
+            mockCallbacks.onErr.calledWithMatch({ fart: "store" })
+          ), {
+            from: false,
+            to: true,
+          })
+        })
+      })
+    })
+  })
 })
+
+const addRetrySpyToPushResult = (retroChannel, hook) => {
+  const originalPushImplementation = retroChannel.push.bind(retroChannel)
+
+  stub(retroChannel, "push", (...args) => {
+    const push = originalPushImplementation(...args)
+
+    hook.retrySpy = spy(push, "send")
+
+    return push
+  })
+}

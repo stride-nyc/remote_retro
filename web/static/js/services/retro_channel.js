@@ -84,6 +84,24 @@ class RetroChannel {
   push(...args) {
     return this.client.push(...args)
   }
+
+  pushWithRetries(message, payload, callbacks) {
+    const push = this.push(message, payload)
+
+    push.receive("ok", callbacks.onOk)
+
+    const retryTimeouts = [1000, 2000, 2500]
+
+    push.receive("error", error => {
+      if (retryTimeouts.length) {
+        const retryTimeout = retryTimeouts.shift()
+        const retry = push.send.bind(push)
+        setTimeout(retry, retryTimeout)
+      } else {
+        callbacks.onErr(error)
+      }
+    })
+  }
 }
 
 export default RetroChannel

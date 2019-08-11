@@ -66,6 +66,7 @@
     "@babel/register": "^7.0.0",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
+    "chai-change": "^2.1.2",
     "chai-uuid": "^1.0.6",
     "cryptiles": "4.1.2",
     "css-hot-loader": "^1.4.3",

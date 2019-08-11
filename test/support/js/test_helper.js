@@ -1,5 +1,6 @@
 import chai, { expect } from "chai"
 import chaiUUID from "chai-uuid"
+import chaiChange from "chai-change"
 import sinonChai from "sinon-chai"
 
 import Enzyme from "enzyme"
@@ -10,6 +11,7 @@ import noop from "lodash/noop"
 import STAGES from "../../../web/static/js/configs/stages"
 
 chai.use(chaiUUID)
+chai.use(chaiChange)
 chai.use(sinonChai)
 
 const { IDEA_GENERATION } = STAGES
@@ -72,9 +74,6 @@ global.mountWithConnectedSubcomponents = (component, options) => {
 /    mockRetroChannel.__triggerReply("error", { some: "error body" })
 */
 
-const STUBBED_REF = 0
-const STUBBED_CHANNEL_REPLY_REF = `chan_reply_${STUBBED_REF}`
-
 // eslint-disable-next-line import/prefer-default-export
 export const setupMockRetroChannel = () => {
   /* eslint-disable global-require */
@@ -95,8 +94,14 @@ export const setupMockRetroChannel = () => {
   MockRetroChannel.prototype = Object.create(RetroChannel.prototype)
   MockRetroChannel.prototype.constructor = MockRetroChannel
 
-  const socket = new Socket("/socket", { timeout: 1 })
-  sinon.stub(socket, "makeRef", () => STUBBED_REF)
+  const socket = new Socket("/socket", { timeout: 10000 })
+
+  const originalMakeRef = socket.makeRef.bind(socket)
+
+  // ensure we have access to the ref created for socket pushes,
+  // so we can trigger replies for specific pushes in the __triggerReply helper
+  let ref
+  sinon.stub(socket, "makeRef", () => { ref = originalMakeRef(); return ref })
   sinon.stub(socket, "isConnected", () => true)
   sinon.stub(socket, "push")
 
@@ -106,6 +111,7 @@ export const setupMockRetroChannel = () => {
   const retroChannel = new MockRetroChannel(mockPhoenixChannel)
 
   retroChannel.__triggerReply = (status, response) => {
+    const STUBBED_CHANNEL_REPLY_REF = `chan_reply_${ref}`
     retroChannel.client.trigger(STUBBED_CHANNEL_REPLY_REF, { status, response })
   }
 
