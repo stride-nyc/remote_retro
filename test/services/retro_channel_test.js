@@ -12,6 +12,7 @@ describe("RetroChannel", () => {
   // ensure socket#connect is a no-op in tests
 
   before(() => {
+    initialConnectMethod = Socket.prototype.connect
     Socket.prototype.connect = () => {}
   })
 
