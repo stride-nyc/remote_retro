@@ -225,14 +225,43 @@ describe("actionCreators", () => {
       const dispatchStub = () => {}
       const getStateStub = () => {}
 
-      it("pushes an idea_edited event to the retro channel, along with the idea params", () => {
-        sinon.spy(mockRetroChannel, "push")
+      it("pushes—with retries—an idea_edited event, along with the idea params", () => {
+        sinon.spy(mockRetroChannel, "pushWithRetries")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
-        expect(mockRetroChannel.push).calledWith("idea_edited", ideaParams)
+        expect(mockRetroChannel.pushWithRetries).calledWith("idea_edited", ideaParams)
 
-        mockRetroChannel.push.restore()
+        mockRetroChannel.pushWithRetries.restore()
+      })
+
+      it("tells the retro channel to dispatch an IDEA_UPDATE_COMMITTED action on success", () => {
+        sinon.spy(mockRetroChannel, "pushWithRetries")
+
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, getStateStub, mockRetroChannel)
+
+        const onOkCallback = mockRetroChannel.pushWithRetries.getCall(0).args[2].onOk
+
+        onOkCallback({ id: 589, derp: "herp" })
+
+        expect(dispatchSpy).calledWithMatch({
+          type: "IDEA_UPDATE_COMMITTED",
+          ideaId: 589,
+          newAttributes: { derp: "herp", inEditState: false, isLocalEdit: null, editSubmitted: false },
+        })
+      })
+
+      it("tells the retro channel to dispatch an IDEA_UPDATE_REJECTED an error", () => {
+        sinon.spy(mockRetroChannel, "pushWithRetries")
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, undefined, mockRetroChannel)
+
+        const onErrCallback = mockRetroChannel.pushWithRetries.getCall(0).args[2].onErr
+
+        onErrCallback()
+
+        expect(dispatchSpy).calledWithMatch({ type: "IDEA_UPDATE_REJECTED", ideaId: ideaParams.id })
       })
 
       it("lets the store know that an idea edit submission is in flight", () => {
@@ -243,32 +272,6 @@ describe("actionCreators", () => {
           type: "IDEA_UPDATE_COMMITTED",
           ideaId: ideaParams.id,
           newAttributes: { editSubmitted: true },
-        })
-      })
-
-      describe("when the push results in an ok response", () => {
-        it("tells the store to update the idea with new attributes, and nulling edit state", () => {
-          const dispatchSpy = sinon.spy()
-          thunk(dispatchSpy, undefined, mockRetroChannel)
-
-          mockRetroChannel.__triggerReply("ok", { id: 589, derp: "herp" })
-
-          expect(dispatchSpy).calledWithMatch({
-            type: "IDEA_UPDATE_COMMITTED",
-            ideaId: 589,
-            newAttributes: { derp: "herp", inEditState: false, isLocalEdit: null, editSubmitted: false },
-          })
-        })
-      })
-
-      describe("when the push results in an error", () => {
-        it("dispatches an error", () => {
-          const dispatchSpy = sinon.spy()
-          thunk(dispatchSpy, undefined, mockRetroChannel)
-
-          mockRetroChannel.__triggerReply("error", {})
-
-          expect(dispatchSpy).calledWithMatch({ type: "IDEA_UPDATE_REJECTED", ideaId: ideaParams.id })
         })
       })
     })

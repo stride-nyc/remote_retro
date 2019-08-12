@@ -90,7 +90,7 @@ class RetroChannel {
 
     push.receive("ok", callbacks.onOk)
 
-    const retryTimeouts = [1000, 2000, 2500]
+    const retryTimeouts = [750, 1500, 3000]
 
     push.receive("error", error => {
       if (retryTimeouts.length) {

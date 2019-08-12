@@ -47,24 +47,23 @@ export const actions = {
 
   submitIdeaEditAsync: ideaParams => {
     return (dispatch, getState, retroChannel) => {
-      const push = retroChannel.push("idea_edited", ideaParams)
-
       const updateIdeaAction = updateIdea(ideaParams.id, { editSubmitted: true })
       dispatch(updateIdeaAction)
 
-      push.receive("ok", updatedIdea => {
-        dispatch({
-          type: types.IDEA_UPDATE_COMMITTED,
-          ideaId: updatedIdea.id,
-          newAttributes: {
-            ...updatedIdea,
-            ...ideaEditStateNullificationAttributes,
-          },
-        })
-      })
-
-      push.receive("error", () => {
-        dispatch({ type: types.IDEA_UPDATE_REJECTED, ideaId: ideaParams.id })
+      retroChannel.pushWithRetries("idea_edited", ideaParams, {
+        onOk: updatedIdea => {
+          dispatch({
+            type: types.IDEA_UPDATE_COMMITTED,
+            ideaId: updatedIdea.id,
+            newAttributes: {
+              ...updatedIdea,
+              ...ideaEditStateNullificationAttributes,
+            },
+          })
+        },
+        onErr: () => {
+          dispatch({ type: types.IDEA_UPDATE_REJECTED, ideaId: ideaParams.id })
+        },
       })
     }
   },

@@ -308,7 +308,7 @@ describe("RetroChannel", () => {
     })
   })
 
-  describe.only("#pushWithRetries", () => {
+  describe("#pushWithRetries", () => {
     let pushSpy
     let mockCallbacks
 
