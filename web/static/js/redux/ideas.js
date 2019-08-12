@@ -20,7 +20,7 @@ const ideaDeletionRejected = ideaId => ({
   ideaId,
 })
 
-export const ideaEditStateNullificationAttributes = {
+export const comprehensiveIdeaEditStateNullifications = {
   inEditState: false,
   liveEditText: null,
   isLocalEdit: null,
@@ -57,12 +57,12 @@ export const actions = {
             ideaId: updatedIdea.id,
             newAttributes: {
               ...updatedIdea,
-              ...ideaEditStateNullificationAttributes,
+              ...comprehensiveIdeaEditStateNullifications,
             },
           })
         },
         onErr: () => {
-          dispatch({ type: types.IDEA_UPDATE_REJECTED, ideaId: ideaParams.id })
+          dispatch({ type: types.IDEA_UPDATE_REJECTED, ideaId: ideaParams.id, params: ideaParams })
         },
       })
     }
@@ -95,7 +95,7 @@ export const actions = {
     return (dispatch, getState, retroChannel) => {
       retroChannel.push("idea_edit_state_disabled", { id: ideaId })
 
-      const updateIdeaAction = updateIdea(ideaId, ideaEditStateNullificationAttributes)
+      const updateIdeaAction = updateIdea(ideaId, comprehensiveIdeaEditStateNullifications)
       dispatch(updateIdeaAction)
     }
   },
@@ -126,10 +126,16 @@ export const reducer = (state = [], action) => {
       return state.map(idea => (
         (idea.id === action.ideaId) ? { ...idea, ...action.newAttributes } : idea
       ))
-    case types.IDEA_UPDATE_REJECTED:
+    case types.IDEA_UPDATE_REJECTED: {
+      const { ideaId, params } = action
+      const nullifications = params.hasOwnProperty("x")
+        ? comprehensiveIdeaEditStateNullifications
+        : { editSubmitted: false }
+
       return state.map(idea => {
-        return idea.id === action.ideaId ? { ...idea, editSubmitted: false } : idea
+        return idea.id === ideaId ? { ...idea, ...nullifications } : idea
       })
+    }
     case types.IDEA_DELETION_COMMITTED:
       return state.filter(idea => idea.id !== action.ideaId)
     case types.IDEA_DELETION_REJECTED:

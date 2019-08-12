@@ -63,12 +63,32 @@ describe("idea reducer", () => {
 
       deepFreeze(initialIdeas)
 
-      it("returns updated set of ideas, where the idea with matching id is no longer in an edit submitted state", () => {
-        const action = { type: "IDEA_UPDATE_REJECTED", ideaId: 666 }
-        expect(ideasReducer(initialIdeas, action)).to.deep.equal([
-          { id: 666, editSubmitted: false },
-          { id: 22 },
-        ])
+      describe("when the idea params for the failed update contain x/y coordinates", () => {
+        const action = { type: "IDEA_UPDATE_REJECTED", ideaId: 666, params: { x: 67, y: 101 } }
+
+        it("nullifies all edit attributes", () => {
+          expect(ideasReducer(initialIdeas, action)).to.deep.equal([
+            {
+              id: 666,
+              editSubmitted: false,
+              inEditState: false,
+              isLocalEdit: null,
+              liveEditText: null,
+            },
+            { id: 22 },
+          ])
+        })
+      })
+
+      describe("when the idea params for the failed update *lack* x/y coordinates", () => {
+        const action = { type: "IDEA_UPDATE_REJECTED", ideaId: 666, params: { body: "so tired" } }
+
+        it("returns updated set of ideas, where the idea with matching id is no longer in an edit submitted state", () => {
+          expect(ideasReducer(initialIdeas, action)).to.deep.equal([
+            { id: 666, editSubmitted: false },
+            { id: 22 },
+          ])
+        })
       })
     })
 
@@ -261,7 +281,11 @@ describe("actionCreators", () => {
 
         onErrCallback()
 
-        expect(dispatchSpy).calledWithMatch({ type: "IDEA_UPDATE_REJECTED", ideaId: ideaParams.id })
+        expect(dispatchSpy).calledWithMatch({
+          type: "IDEA_UPDATE_REJECTED",
+          ideaId: ideaParams.id,
+          params: ideaParams,
+        })
       })
 
       it("lets the store know that an idea edit submission is in flight", () => {

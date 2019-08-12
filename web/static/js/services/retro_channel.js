@@ -2,7 +2,7 @@ import { Socket, Presence } from "phoenix"
 
 import UserActivity from "./user_activity"
 
-import { ideaEditStateNullificationAttributes } from "../redux/ideas"
+import { comprehensiveIdeaEditStateNullifications } from "../redux/ideas"
 
 class RetroChannel {
   constructor({ userToken, retroUUID }) {
@@ -56,7 +56,7 @@ class RetroChannel {
     client.on("idea_edited", editedIdea => {
       const updatedIdea = {
         ...editedIdea,
-        ...ideaEditStateNullificationAttributes,
+        ...comprehensiveIdeaEditStateNullifications,
       }
 
       updateIdea(editedIdea.id, updatedIdea)
