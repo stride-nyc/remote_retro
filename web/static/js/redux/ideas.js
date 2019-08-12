@@ -63,6 +63,7 @@ export const actions = {
         },
         onErr: () => {
           dispatch({ type: types.IDEA_UPDATE_REJECTED, ideaId: ideaParams.id, params: ideaParams })
+          Honeybadger.notify(`'idea_edited' push retries failed with params: ${JSON.stringify(ideaParams)}`)
         },
       })
     }
