@@ -74,6 +74,69 @@ describe("Collisions", () => {
       })
     })
 
+    describe("when two ideas are within 3 pixels of colliding on the y axis", () => {
+      const ideas = [{
+        id: 2,
+        x: 20,
+        y: 20,
+        height: 20,
+        width: 20,
+      }, {
+        id: 3,
+        x: 20,
+        y: 43,
+        height: 20,
+        width: 20,
+      }]
+
+      it("registers the collision due to their being within the 3px collision buffer", () => {
+        const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
+        expect(result.values()).to.include(new Set([2, 3]))
+      })
+    })
+
+    describe("when two ideas are within 3 pixels of colliding on the x axis", () => {
+      const ideas = [{
+        id: 4,
+        x: 20,
+        y: 20,
+        height: 20,
+        width: 20,
+      }, {
+        id: 5,
+        x: 43,
+        y: 20,
+        height: 20,
+        width: 20,
+      }]
+
+      it("registers the collision due to their being within the 3px collision buffer", () => {
+        const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
+        expect(result.values()).to.include(new Set([4, 5]))
+      })
+    })
+
+    describe("when two ideas' *corners* are within 3 pixels of colliding", () => {
+      const ideas = [{
+        id: 8,
+        x: 20,
+        y: 20,
+        height: 20,
+        width: 20,
+      }, {
+        id: 9,
+        x: 43,
+        y: 43,
+        height: 20,
+        width: 20,
+      }]
+
+      it("registers the collision due to their being within the 3px collision buffer", () => {
+        const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
+        expect(result.values()).to.include(new Set([8, 9]))
+      })
+    })
+
     describe("when one idea's dimensions overlap with multiple other ideas' dimensions", () => {
       const ideas = [{
         id: 1,

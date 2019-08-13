@@ -71,7 +71,7 @@ export class GroupingStageIdeaCard extends Component {
       const color = randomColor({ seed: idea.ephemeralGroupingId })
       style = {
         ...style,
-        boxShadow: `0 0 1px 1px ${color}`,
+        boxShadow: `0 0 0px 2px ${color}`,
         borderColor: color,
       }
     }
