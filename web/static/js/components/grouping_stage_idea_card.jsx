@@ -12,20 +12,36 @@ import styles from "./css_modules/grouping_stage_idea_card.css"
 
 export class GroupingStageIdeaCard extends Component {
   componentDidMount() {
-    const { connectDragPreview, actions, idea } = this.props
-
-    const { height, width, x, y } = this.cardNode.getBoundingClientRect()
-
-    actions.updateIdea(idea.id, { height, width, x, y })
+    this._updateStoreWithBoundingClientRectangleAttributes()
 
     // Use empty image as a drag preview so browsers don't draw it.
     // Instead, we shift the actual DOM node being dragged, so that we can dynamically update its
     // shadow colors when idea comes in contact with other ideas
+    const { connectDragPreview } = this.props
     connectDragPreview(getEmptyImage(), {
       // IE fallback: specify that we'd rather screenshot the node
       // when it already knows it's being dragged so we can hide it with CSS.
       captureDraggingState: true,
     })
+  }
+
+  componentDidUpdate() {
+    const { idea } = this.props
+
+    // store data is replaced wholesale when the js client rejoins the channel,
+    // (for example, after a laptop awakes from sleep), so we re-add the height
+    // and width on updates where the idea dimensions have been stripped
+    const storeDataHasBeenClearedOfDomNodeAttrs = !Number.isFinite(idea.height)
+    if (storeDataHasBeenClearedOfDomNodeAttrs) {
+      this._updateStoreWithBoundingClientRectangleAttributes()
+    }
+  }
+
+  _updateStoreWithBoundingClientRectangleAttributes() {
+    const { actions, idea } = this.props
+    const { height, width, x, y } = this.cardNode.getBoundingClientRect()
+
+    actions.updateIdea(idea.id, { height, width, x, y })
   }
 
   render() {

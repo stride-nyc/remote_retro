@@ -182,4 +182,76 @@ describe("<GroupingStageIdeaCard />", () => {
       })
     })
   })
+
+  describe("when updated", () => {
+    let actions
+    let updatedProps
+
+    describe("and the given idea explicitly *lacks* a height and width", () => {
+      beforeEach(() => {
+        idea = { id: 54, height: undefined, width: undefined }
+
+        actions = {
+          updateIdea: () => {},
+        }
+
+        wrapper = mount(
+          <GroupingStageIdeaCard
+            idea={idea}
+            actions={actions}
+            connectDragPreview={node => node}
+          />
+        )
+
+        // ensure spy is fresh so that it doesn't get triggered on mount call
+        updatedProps = {
+          actions: { updateIdea: sinon.spy() },
+          idea,
+        }
+
+        wrapper.setProps(updatedProps)
+      })
+
+      it("dispatches an action to the store, updating the idea with height & width", () => {
+        const { updateIdea } = updatedProps.actions
+        expect(updateIdea).to.have.been.calledWithMatch(idea.id, {
+          height: 0,
+          width: 0,
+          x: undefined,
+          y: undefined,
+        })
+      })
+    })
+
+    describe("and the new idea explicitly has numeric height + width", () => {
+      beforeEach(() => {
+        idea = { id: 54, height: 2, width: 2 }
+
+        actions = {
+          updateIdea: () => {},
+        }
+
+        wrapper = mount(
+          <GroupingStageIdeaCard
+            idea={idea}
+            actions={actions}
+            connectDragPreview={node => node}
+          />
+        )
+
+        // ensure spy is fresh so that it doesn't get triggered on mount call
+        updatedProps = {
+          actions: { updateIdea: sinon.spy() },
+          idea,
+        }
+
+        wrapper.setProps(updatedProps)
+      })
+
+      it("does not dispatch an update idea action to the store", () => {
+        const { updateIdea } = updatedProps.actions
+        expect(updateIdea).to.not.have.been.called
+      })
+    })
+  })
 })
