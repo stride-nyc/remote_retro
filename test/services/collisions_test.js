@@ -6,6 +6,27 @@ describe("Collisions", () => {
       expect(Collisions.identifyAllIdeaCollisionsSortedByIdAscending([])).to.deep.equal(new Map())
     })
 
+    describe("when two ideas' dimensions do not overlap", () => {
+      const ideas = [{
+        id: 1,
+        x: 0,
+        y: 0,
+        height: 20,
+        width: 20,
+      }, {
+        id: 2,
+        x: 30,
+        y: 30,
+        height: 20,
+        width: 20,
+      }]
+
+      it("does not identify any collisions", () => {
+        const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
+        expect(result).to.deep.equal(new Map([]))
+      })
+    })
+
     describe("when two ideas have dimensions that overlap", () => {
       const ideas = [{
         id: 1,
