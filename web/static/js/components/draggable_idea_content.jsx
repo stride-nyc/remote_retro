@@ -18,6 +18,14 @@ export const dragSourceSpec = {
   canDrag: ({ idea }) => {
     return !idea.inEditState
   },
+  endDrag: ({ idea, actions }) => {
+    const { id, x, y } = idea
+
+    const dragOccursBetweenIdeaColumns = !Number.isFinite(x)
+    if (dragOccursBetweenIdeaColumns) { return }
+
+    actions.submitIdeaEditAsync({ id, x, y })
+  },
 }
 
 // collects props as drag events begin and end

@@ -50,6 +50,52 @@ describe("DraggableIdeaContent", () => {
         expect(dragSourceSpec.canDrag(props)).to.eql(true)
       })
     })
+
+    describe("#endDrag", () => {
+      let submitIdeaEditAsyncSpy
+
+      beforeEach(() => {
+        submitIdeaEditAsyncSpy = sinon.spy()
+      })
+
+      describe("when the given idea has numeric x/y coordinates", () => {
+        it("tells the server to persist the most up to date coordinates", () => {
+          const props = {
+            idea: {
+              id: 666,
+              x: 0,
+              y: 100,
+            },
+            actions: {
+              submitIdeaEditAsync: submitIdeaEditAsyncSpy,
+            },
+          }
+
+          dragSourceSpec.endDrag(props)
+
+          expect(submitIdeaEditAsyncSpy).to.have.been.calledWith({ id: 666, x: 0, y: 100 })
+        })
+      })
+
+      describe("when the given idea *lacks* numeric x/y coordinates", () => {
+        it("doesn't instruct the server to persist the most up to date coordinates", () => {
+          const props = {
+            idea: {
+              id: 666,
+              x: undefined,
+              y: undefined,
+            },
+            actions: {
+              submitIdeaEditAsync: submitIdeaEditAsyncSpy,
+            },
+          }
+
+          dragSourceSpec.endDrag(props)
+
+          expect(submitIdeaEditAsyncSpy).to.not.have.been.called
+        })
+      })
+    })
   })
 
   describe("collect", () => {

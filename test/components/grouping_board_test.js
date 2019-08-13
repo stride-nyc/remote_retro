@@ -2,7 +2,7 @@ import React from "react"
 import sinon from "sinon"
 import { shallow } from "enzyme"
 
-import { dropTargetSpec, GroupingBoard } from "../../web/static/js/components/grouping_board"
+import { GroupingBoard } from "../../web/static/js/components/grouping_board"
 import GroupingStageIdeaCard from "../../web/static/js/components/grouping_stage_idea_card"
 import DragCoordinates from "../../web/static/js/services/drag_coordinates"
 
@@ -45,51 +45,6 @@ describe("GroupingBoard", () => {
     // bring in fresh copy of module to avoid memoization of values contaminating tests
     beforeEach(() => {
       freshDropTargetSpec = requireUncached("../../web/static/js/components/grouping_board").dropTargetSpec
-    })
-
-    describe("#drop", () => {
-      let submitIdeaEditAsync
-
-      beforeEach(() => {
-        submitIdeaEditAsync = sinon.spy()
-
-        const props = {
-          actions: {
-            submitIdeaEditAsync,
-          },
-        }
-
-        reconcileMobileZoomOffsetsStub = sinon
-          .stub(DragCoordinates, "reconcileMobileZoomOffsets", () => ({ x: 11, y: 22 }))
-
-        const monitor = {
-          getSourceClientOffset: sinon.stub(),
-          getItem: () => ({
-            draggedIdea: {
-              id: 54,
-            },
-          }),
-        }
-
-        dropTargetSpec.drop(props, monitor)
-      })
-
-      afterEach(() => {
-        reconcileMobileZoomOffsetsStub.restore()
-      })
-
-      it("invokes the submitIdeaEditAsync action with attrs of the idea from the drag", () => {
-        expect(submitIdeaEditAsync).to.have.been.calledWithMatch({
-          id: 54,
-        })
-      })
-
-      it("also includes the reconciled x/y coordinates from the DragCoordinates service", () => {
-        expect(submitIdeaEditAsync).to.have.been.calledWithMatch({
-          x: 11,
-          y: 22,
-        })
-      })
     })
 
     describe("#hover", () => {

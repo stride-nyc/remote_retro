@@ -30,14 +30,6 @@ let memoizedPush = {}
 
 // http://react-dnd.github.io/react-dnd/docs/api/drop-target#drop-target-specification
 export const dropTargetSpec = {
-  drop: (props, monitor) => {
-    const { draggedIdea } = monitor.getItem()
-    const { actions } = props
-
-    const { x, y } = DragCoordinates.reconcileMobileZoomOffsets(monitor)
-
-    actions.submitIdeaEditAsync({ id: draggedIdea.id, x, y })
-  },
   hover: ({ actions }, monitor) => {
     const { draggedIdea } = monitor.getItem()
 
