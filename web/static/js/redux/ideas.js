@@ -27,9 +27,12 @@ export const comprehensiveIdeaEditStateNullifications = {
   editSubmitted: false,
 }
 
-const throttledPushOfDragToServer = throttle((retroChannel, idea) => {
+// protects against drags potentially firing *after* drops that follow
+const throttleOptions = { trailing: false }
+
+export const _throttledPushOfDragToServer = throttle((retroChannel, idea) => {
   retroChannel.push("idea_dragged_in_grouping_stage", idea)
-}, 40)
+}, 40, throttleOptions)
 
 export const actions = {
   updateIdea,
@@ -41,7 +44,7 @@ export const actions = {
   ideaDraggedInGroupingStage: idea => {
     return (dispatch, getState, retroChannel) => {
       dispatch(updateIdea(idea.id, { x: idea.x, y: idea.y, inEditState: true }))
-      throttledPushOfDragToServer(retroChannel, idea)
+      _throttledPushOfDragToServer(retroChannel, idea)
     }
   },
 

@@ -4,7 +4,8 @@ import sinon from "sinon"
 import { setupMockRetroChannel } from "../support/js/test_helper"
 import {
   actions as actionCreators,
-  reducer as ideasReducer
+  reducer as ideasReducer,
+  _throttledPushOfDragToServer,
 } from "../../web/static/js/redux/ideas"
 
 describe("idea reducer", () => {
@@ -184,18 +185,24 @@ describe("actionCreators", () => {
 
     describe("invoking the returned function", () => {
       let thunk
+      let mockRetroChannel
+      let dispatchSpy
+
       const getStateStub = () => {}
-      const mockRetroChannel = { push: sinon.spy() }
 
       beforeEach(() => {
+        mockRetroChannel = { push: sinon.spy() }
+
         thunk = actionCreators.ideaDraggedInGroupingStage(idea)
+        dispatchSpy = sinon.spy()
+
+        // ensure we cancel any throttled pushes to avoid test contamination
+        _throttledPushOfDragToServer.cancel()
+
+        thunk(dispatchSpy, getStateStub, mockRetroChannel)
       })
 
       it("updates the local store with the idea's x y coordinates", () => {
-        const dispatchSpy = sinon.spy()
-
-        thunk(dispatchSpy, getStateStub, mockRetroChannel)
-
         expect(dispatchSpy).calledWith({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId: idea.id,
@@ -204,10 +211,37 @@ describe("actionCreators", () => {
       })
 
       it("notifies the server, passing the idea", () => {
-        const dispatchStub = () => {}
-        thunk(dispatchStub, getStateStub, mockRetroChannel)
-
         expect(mockRetroChannel.push).calledWith("idea_dragged_in_grouping_stage", idea)
+      })
+
+      describe("invoking it again within 40ms", () => {
+        it("does not renotify the server", () => {
+          expect(() => {
+            thunk(dispatchSpy, getStateStub, mockRetroChannel)
+          }).to.not.alter(() => {
+            return mockRetroChannel.push.callCount
+          })
+        })
+      })
+
+      describe("when invoked multiple times in an interval", () => {
+        it("doesn't save up throttled pushes to fire off in the *next* timeout", () => {
+          const clock = sinon.useFakeTimers()
+
+          // ensure throttle timeout has elapsed
+          clock.tick(41)
+
+          expect(() => {
+            thunk(dispatchSpy, getStateStub, mockRetroChannel)
+            thunk(dispatchSpy, getStateStub, mockRetroChannel)
+
+            clock.tick(41)
+          }).to.alter(() => {
+            return mockRetroChannel.push.callCount
+          }, { from: 1, to: 2 })
+
+          clock.restore()
+        })
       })
     })
   })
