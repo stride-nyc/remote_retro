@@ -139,6 +139,28 @@ describe("<GroupingStageIdeaCard />", () => {
     it("adds a box shadow", () => {
       expect(styleProp.boxShadow).to.exist
     })
+
+    describe("the box shadow color", () => {
+      it("changes when given a different ephmeral grouping id", () => {
+        const boxShadowBefore = styleProp.boxShadow
+
+        wrapper.setProps({ idea: { id: 9, ephemeralGroupingId: 11 } })
+        const boxShadowAfter = wrapper.prop("style").boxShadow
+
+
+        expect(boxShadowBefore).to.not.eql(boxShadowAfter)
+      })
+
+      it("does not change when given the same ephmeral grouping id", () => {
+        const boxShadowBefore = styleProp.boxShadow
+
+        wrapper.setProps({ idea: { id: 9, ephemeralGroupingId: 15 } })
+        const boxShadowAfter = wrapper.prop("style").boxShadow
+
+
+        expect(boxShadowBefore).to.eql(boxShadowAfter)
+      })
+    })
   })
 
   describe("when the given idea lacks a grouping id", () => {
