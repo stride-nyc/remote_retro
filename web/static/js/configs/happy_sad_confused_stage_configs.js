@@ -23,7 +23,7 @@ const StageChangeInfoIdeaGeneration = stageChangeInfoIdeaGenerationBuilder([
 ])
 
 const baseIdeaGenerationConfig = {
-  alert: {
+  arrivalAlert: {
     headerText: "Stage Change: Idea Generation!",
     BodyComponent: StageChangeInfoIdeaGeneration,
   },
@@ -52,7 +52,7 @@ const ideaGenerationConfig = localStorage.groupingDev ? {
 
 export default {
   [LOBBY]: {
-    alert: null,
+    arrivalAlert: null,
     help: null,
     nextStage: PRIME_DIRECTIVE,
     progressionButton: {
@@ -62,7 +62,7 @@ export default {
     },
   },
   [PRIME_DIRECTIVE]: {
-    alert: {
+    arrivalAlert: {
       headerText: "Stage Change: The Prime Directive!",
       BodyComponent: StageChangeInfoPrimeDirective,
     },
@@ -79,7 +79,7 @@ export default {
   },
   [IDEA_GENERATION]: ideaGenerationConfig,
   [GROUPING]: {
-    alert: {
+    arrivalAlert: {
       headerText: "Stage Change: Grouping!",
       BodyComponent: StageChangeInfoGrouping,
     },
@@ -95,7 +95,7 @@ export default {
     },
   },
   [VOTING]: {
-    alert: {
+    arrivalAlert: {
       headerText: "Stage Change: Voting!",
       BodyComponent: StageChangeInfoVoting,
     },
@@ -111,7 +111,7 @@ export default {
     },
   },
   [ACTION_ITEMS]: {
-    alert: {
+    arrivalAlert: {
       headerText: "Stage Change: Action-Item Generation!",
       BodyComponent: StageChangeInfoActionItems,
     },
@@ -127,7 +127,7 @@ export default {
     },
   },
   [CLOSED]: {
-    alert: {
+    arrivalAlert: {
       headerText: "Retro: Closed!",
       BodyComponent: StageChangeInfoClosed,
     },

@@ -17,7 +17,7 @@ export const reducer = (state = null, action) => {
     case retroTypes.RETRO_STAGE_PROGRESSION_COMMITTED: {
       const { retroChanges } = action
       const stageConfig = StageConfig.retrieveFor(retroChanges)
-      return stageConfig.alert
+      return stageConfig.arrivalAlert
     }
     case types.SHOW_STAGE_HELP:
       return action.help

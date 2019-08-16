@@ -35,7 +35,7 @@ describe("alert", () => {
 
       beforeEach(() => {
         stub = sinon.stub(StageConfig, "retrieveFor")
-          .returns({ anotherKey: "value", alert: { one: "two" } })
+          .returns({ anotherKey: "value", arrivalAlert: { one: "two" } })
 
         const retroChanges = {
           stage: "idea-generation",
