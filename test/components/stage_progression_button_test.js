@@ -101,7 +101,28 @@ describe("StageProgressionButton", () => {
         })
 
         it("invokes the `updateRetroAsync` action, passing the next stage", () => {
-          expect(actions.updateRetroAsync).calledWith({ stage: "stageDos" })
+          expect(actions.updateRetroAsync).calledWithMatch({ stage: "stageDos" })
+        })
+
+        context("when the config has a progression param augmentation function", () => {
+          beforeEach(() => {
+            const configWithParamAugmenterFunc = { ...config, optionalParamsAugmenter: () => ({ some: "values" }) }
+
+            stageProgressionButton = mountWithConnectedSubcomponents(
+              <StageProgressionButton
+                {...defaultProps}
+                actions={actions}
+                config={configWithParamAugmenterFunc}
+              />
+            )
+
+            stageProgressionButton.find("button.fluid.right.button").simulate("click")
+            stageProgressionButton.find("#yes").simulate("click")
+          })
+
+          it("includes the key-values returned when updating the retro", () => {
+            expect(actions.updateRetroAsync).calledWithMatch({ some: "values" })
+          })
         })
       })
 

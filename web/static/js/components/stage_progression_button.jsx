@@ -16,9 +16,12 @@ export class StageProgressionButton extends Component {
   }
 
   handleStageProgression = () => {
-    const { config, actions } = this.props
+    const { config, actions, reduxState } = this.props
+    const { nextStage, optionalParamsAugmenter } = config
 
-    actions.updateRetroAsync({ stage: config.nextStage })
+    const additionalParams = optionalParamsAugmenter ? optionalParamsAugmenter(reduxState) : {}
+
+    actions.updateRetroAsync({ stage: nextStage, ...additionalParams })
   }
 
   handleModalClose = () => {
@@ -87,6 +90,7 @@ StageProgressionButton.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   className: PropTypes.string,
   config: PropTypes.object,
+  reduxState: PropTypes.object,
   buttonDisabled: PropTypes.bool,
   retroUpdateRequested: PropTypes.bool,
 }
@@ -95,11 +99,13 @@ StageProgressionButton.defaultProps = {
   className: "",
   buttonDisabled: false,
   retroUpdateRequested: false,
+  reduxState: {},
   config: null,
 }
 
-const mapStateToProps = ({ retro }) => ({
-  retroUpdateRequested: retro.updateRequested,
+const mapStateToProps = reduxState => ({
+  reduxState,
+  retroUpdateRequested: reduxState.retro.updateRequested,
 })
 
 const mapDispatchToProps = dispatch => ({
