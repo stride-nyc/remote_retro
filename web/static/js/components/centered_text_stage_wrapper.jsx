@@ -1,12 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
+import * as AppPropTypes from "../prop_types"
 
 import StageProgressionButton from "./stage_progression_button"
 import UserList from "./user_list"
 import styles from "./css_modules/centered_text_stage_wrapper.css"
 
 const CenteredTextStageWrapper = props => {
-  const { bodyMarkup, children, headerText } = props
+  const { bodyMarkup, stageConfig, currentUser, children, headerText } = props
 
   return (
     <div className={`ui centered grid ${styles.index}`}>
@@ -22,7 +23,8 @@ const CenteredTextStageWrapper = props => {
       </div>
       <div className="row">
         <StageProgressionButton
-          {...props}
+          currentUser={currentUser}
+          config={stageConfig.progressionButton}
           className="thirteen wide mobile eight wide tablet four wide computer column"
         />
       </div>
@@ -32,6 +34,7 @@ const CenteredTextStageWrapper = props => {
 }
 
 CenteredTextStageWrapper.propTypes = {
+  currentUser: AppPropTypes.presence.isRequired,
   stageConfig: PropTypes.object.isRequired,
   bodyMarkup: PropTypes.node.isRequired,
   headerText: PropTypes.string.isRequired,

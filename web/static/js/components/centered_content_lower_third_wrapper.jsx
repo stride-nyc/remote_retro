@@ -6,7 +6,7 @@ import StageProgressionButton from "./stage_progression_button"
 import * as AppPropTypes from "../prop_types"
 
 const CenteredLowerThirdContentWrapper = props => {
-  const { currentUser, children } = props
+  const { currentUser, children, stageConfig } = props
 
   return (
     <div className="ui stackable grid basic attached secondary center aligned segment">
@@ -17,7 +17,8 @@ const CenteredLowerThirdContentWrapper = props => {
 
       {currentUser.is_facilitator && (
         <StageProgressionButton
-          {...props}
+          currentUser={currentUser}
+          config={stageConfig.progressionButton}
           className="three wide column"
         />
       )}

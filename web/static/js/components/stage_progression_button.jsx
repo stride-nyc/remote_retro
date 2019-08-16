@@ -16,9 +16,9 @@ export class StageProgressionButton extends Component {
   }
 
   handleStageProgression = () => {
-    const { stageConfig, actions } = this.props
+    const { config, actions } = this.props
 
-    actions.updateRetroAsync({ stage: stageConfig.nextStage })
+    actions.updateRetroAsync({ stage: config.nextStage })
   }
 
   handleModalClose = () => {
@@ -31,12 +31,12 @@ export class StageProgressionButton extends Component {
       className,
       currentUser,
       retroUpdateRequested,
-      stageConfig: { progressionButton },
+      config,
     } = this.props
 
     const { modalOpen } = this.state
 
-    if (!progressionButton || !currentUser.is_facilitator) return null
+    if (!config || !currentUser.is_facilitator) return null
 
     return (
       <div className={`${className} ${styles.index}`}>
@@ -46,7 +46,7 @@ export class StageProgressionButton extends Component {
           className="ui tiny modal visible transition fade in active"
         >
           <div className="content">
-            <p>{progressionButton.confirmationMessage}</p>
+            <p>{config.confirmationMessage}</p>
           </div>
           <div className="actions" ref={ref => { this.modalActionsRef = ref }}>
             <button
@@ -74,8 +74,8 @@ export class StageProgressionButton extends Component {
           disabled={buttonDisabled}
           type="button"
         >
-          { progressionButton.copy }
-          <i className={`${progressionButton.iconClass} icon`} />
+          { config.copy }
+          <i className={`${config.iconClass} icon`} />
         </button>
       </div>
     )
@@ -86,7 +86,7 @@ StageProgressionButton.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   className: PropTypes.string,
-  stageConfig: PropTypes.object,
+  config: PropTypes.object,
   buttonDisabled: PropTypes.bool,
   retroUpdateRequested: PropTypes.bool,
 }
@@ -95,7 +95,7 @@ StageProgressionButton.defaultProps = {
   className: "",
   buttonDisabled: false,
   retroUpdateRequested: false,
-  stageConfig: null,
+  config: null,
 }
 
 const mapStateToProps = ({ retro }) => ({

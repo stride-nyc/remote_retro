@@ -9,7 +9,7 @@ describe("CenteredContentLowerThirdWrapper", () => {
     currentUser: {},
     children: <p>Fart</p>,
     actions: {},
-    stageConfig: {},
+    stageConfig: { progressionButton: {} },
   }
 
   it("renders the children passed", () => {
@@ -35,7 +35,7 @@ describe("CenteredContentLowerThirdWrapper", () => {
       )
     })
 
-    it("renders the 'Proceed to Action Items button", () => {
+    it("renders the a means of progressing the stage", () => {
       expect(wrapper.find(StageProgressionButton)).to.have.length(1)
     })
 
@@ -59,7 +59,7 @@ describe("CenteredContentLowerThirdWrapper", () => {
       )
     })
 
-    it("does not render the 'Proceed to [STAGE]' button", () => {
+    it("does not render a means of progressing the stage button", () => {
       expect(wrapper.find(StageProgressionButton)).to.have.length(0)
     })
 

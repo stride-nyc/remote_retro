@@ -34,16 +34,16 @@ const baseIdeaGenerationConfig = {
 }
 const ideaGenerationConfig = localStorage.groupingDev ? {
   ...baseIdeaGenerationConfig,
-  nextStage: GROUPING,
   progressionButton: {
+    nextStage: GROUPING,
     copy: "Proceed to Grouping",
     iconClass: "arrow right",
     confirmationMessage: "Are you sure you would like to proceed to the grouping stage?",
   },
 } : {
   ...baseIdeaGenerationConfig,
-  nextStage: VOTING,
   progressionButton: {
+    nextStage: VOTING,
     copy: "Proceed to Voting",
     iconClass: "arrow right",
     confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
@@ -54,8 +54,8 @@ export default {
   [LOBBY]: {
     arrivalAlert: null,
     help: null,
-    nextStage: PRIME_DIRECTIVE,
     progressionButton: {
+      nextStage: PRIME_DIRECTIVE,
       copy: "Begin Retro",
       iconClass: "arrow right",
       confirmationMessage: "Has your entire party arrived?",
@@ -70,8 +70,8 @@ export default {
       headerText: "The Prime Directive",
       BodyComponent: StageChangeInfoPrimeDirective,
     },
-    nextStage: IDEA_GENERATION,
     progressionButton: {
+      nextStage: IDEA_GENERATION,
       copy: "Proceed to Idea Generation",
       iconClass: "arrow right",
       confirmationMessage: "Is everyone ready to begin?",
@@ -87,8 +87,8 @@ export default {
       headerText: "Grouping",
       BodyComponent: StageChangeInfoGrouping,
     },
-    nextStage: VOTING,
     progressionButton: {
+      nextStage: VOTING,
       copy: "Proceed to Voting",
       iconClass: "arrow right",
       confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
@@ -103,8 +103,8 @@ export default {
       headerText: "Voting",
       BodyComponent: StageChangeInfoVoting,
     },
-    nextStage: ACTION_ITEMS,
     progressionButton: {
+      nextStage: ACTION_ITEMS,
       copy: "Proceed to Action Items",
       iconClass: "arrow right",
       confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
@@ -119,8 +119,8 @@ export default {
       headerText: "Action-Item Generation",
       BodyComponent: StageChangeInfoActionItems,
     },
-    nextStage: CLOSED,
     progressionButton: {
+      nextStage: CLOSED,
       copy: "Send Action Items",
       iconClass: "send",
       confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
@@ -135,7 +135,6 @@ export default {
       headerText: "Retro is Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
-    nextStage: null,
     progressionButton: null,
   },
 }

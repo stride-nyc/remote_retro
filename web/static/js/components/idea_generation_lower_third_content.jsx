@@ -9,7 +9,7 @@ import STAGES from "../configs/stages"
 const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 const IdeaGenerationLowerThirdContent = props => {
-  const { stage, ideas, currentUser, retroChannel } = props
+  const { stage, stageConfig, ideas, currentUser, retroChannel } = props
 
   function progressionDisabled() {
     const noIdeasCreated = stage === IDEA_GENERATION && !ideas.length
@@ -28,7 +28,8 @@ const IdeaGenerationLowerThirdContent = props => {
         />
       </div>
       <StageProgressionButton
-        {...props}
+        currentUser={currentUser}
+        config={stageConfig.progressionButton}
         className="three wide right aligned column"
         buttonDisabled={progressionDisabled()}
       />
