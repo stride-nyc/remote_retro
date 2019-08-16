@@ -1,4 +1,5 @@
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
+import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
 import stageChangeInfoIdeaGenerationBuilder from "../components/stage_change_info_idea_generation_builder"
 import StageChangeInfoGrouping from "../components/stage_change_info_grouping"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
@@ -89,6 +90,9 @@ export default {
     },
     progressionButton: {
       nextStage: VOTING,
+      optionalParamsAugmenter: (reduxState) => ({
+        ideasWithEphemeralGroupingIds: IdeasWithEphemeralGroupingIds.buildFrom(reduxState.ideas),
+      }),
       copy: "Proceed to Voting",
       iconClass: "arrow right",
       confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
