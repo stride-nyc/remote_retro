@@ -20,13 +20,6 @@ defmodule RemoteRetro.RetroManagementTest do
   end
 
   describe "update!/2 when closing the retro" do
-    setup do
-      on_exit(fn ->
-        # reset counts after tests to avoid contamination in subsequent tests
-        Repo.update_all(User, set: [completed_retros_count: 0])
-      end)
-    end
-
     test "closing the retro results in action items email being sent", ~M{retro} do
       RetroManagement.update!(retro.id, %{"stage" => "closed"})
       emails = Emails.action_items_email(retro.id)
