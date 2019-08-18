@@ -41,6 +41,7 @@ defmodule RemoteRetro.RetroTest do
         ideas: [],
         votes: [],
         users: [],
+        groups: [],
         participations: [],
       }
 

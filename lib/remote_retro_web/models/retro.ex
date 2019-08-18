@@ -14,6 +14,7 @@ defmodule RemoteRetro.Retro do
     has_many(:action_items, Idea, where: [category: "action-item"])
 
     has_many(:votes, through: [:ideas, :votes])
+    has_many(:groups, through: [:ideas, :group])
     has_many(:users, through: [:participations, :user])
 
     field(:format, :string, read_after_writes: true, default: RetroFormats.happy_sad_confused)
