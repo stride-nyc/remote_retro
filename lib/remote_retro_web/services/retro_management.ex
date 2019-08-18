@@ -9,13 +9,14 @@ defmodule RemoteRetroWeb.RetroManagement do
     if new_attributes["stage"] == "closed" do
       Emails.action_items_email(retro_id) |> Mailer.deliver_now()
 
-      increment_completed_retros_count_for_participants_in(retro)
+      retro
+      |> Repo.preload([:participations])
+      |> increment_completed_retros_count_for_participants_in()
     end
   end
 
   defp update_retro_record!(retro_id, new_attributes) do
     Repo.get(Retro, retro_id)
-    |> Repo.preload([:participations])
     |> Retro.changeset(new_attributes)
     |> Repo.update!()
   end
