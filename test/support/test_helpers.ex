@@ -21,12 +21,13 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def persist_ideas_for_retro(~M{ideas} = context) do
-    Enum.each(ideas, fn idea ->
+    ideas = Enum.map(ideas, fn idea ->
       context = Map.put(context, :idea, idea)
-      persist_idea_for_retro(context)
+      context = persist_idea_for_retro(context)
+      context[:idea]
     end)
 
-    context
+    Map.put(context, :ideas, ideas)
   end
 
   def persist_idea_for_retro(~M{idea, retro, facilitator} = context) do

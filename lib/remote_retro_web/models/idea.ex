@@ -1,7 +1,7 @@
 defmodule RemoteRetro.Idea do
   use RemoteRetroWeb, :model
 
-  @derive {Jason.Encoder, except: [:__meta__, :retro, :user, :votes, :assignee]}
+  @derive {Jason.Encoder, except: [:__meta__, :retro, :user, :votes, :assignee, :group]}
   schema "ideas" do
     field(:category, :string)
     field(:body, :string)
@@ -10,8 +10,10 @@ defmodule RemoteRetro.Idea do
 
     belongs_to(:retro, RemoteRetro.Retro, type: Ecto.UUID)
     belongs_to(:user, RemoteRetro.User)
-    has_many(:votes, RemoteRetro.Vote)
     belongs_to(:assignee, RemoteRetro.User)
+    belongs_to(:group, RemoteRetro.Group)
+
+    has_many(:votes, RemoteRetro.Vote)
 
     timestamps(type: :utc_datetime_usec)
   end
