@@ -20,16 +20,6 @@ defmodule RemoteRetro.TestHelpers do
     user
   end
 
-  defp persist_idea(user, idea, retro, options \\ [assignee_id: nil]) do
-    %Idea{
-      idea |
-      assignee_id: options[:assignee_id],
-      retro_id: retro.id,
-      user_id: user.id,
-    }
-    |> Repo.insert!()
-  end
-
   def persist_ideas_for_retro(~M{ideas} = context) do
     Enum.each(ideas, fn idea ->
       context = Map.put(context, :idea, idea)
@@ -62,6 +52,16 @@ defmodule RemoteRetro.TestHelpers do
       )
 
     Map.put(context, :idea, idea)
+  end
+
+  defp persist_idea(user, idea, retro, options \\ [assignee_id: nil]) do
+    %Idea{
+      idea |
+      assignee_id: options[:assignee_id],
+      retro_id: retro.id,
+      user_id: user.id,
+    }
+    |> Repo.insert!()
   end
 
   def persist_a_vote(%{idea: idea, non_facilitator: non_facilitator} = context) do
