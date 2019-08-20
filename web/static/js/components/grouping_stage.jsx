@@ -7,7 +7,7 @@ import GroupingBoard from "./grouping_board"
 import * as AppPropTypes from "../prop_types"
 import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
 
-import styles from "./css_modules/idea_generation_stage.css"
+import styles from "./css_modules/grouping_stage.css"
 
 const PORTRAIT = "portrait"
 
@@ -25,10 +25,16 @@ const GroupingStage = props => {
       {browser.orientation === PORTRAIT && (
         <div className="ui dimmer visible transition visible active">
           <div className="content">
-            <h3 className="ui inverted icon header">
-              You're in portrait mode.
-              <p className="sub header">This stage requires landscape; rotate your device!</p>
+            <h3 className="ui inverted icon header device">
+              Rotate your device!
+              <p className="sub header">You're in portrait mode; this stage requires landscape!</p>
               <i className="mobile alternate icon" />
+            </h3>
+
+            <h3 className="ui inverted icon header non-device">
+              <i className="expand arrows alternate icon" />
+              Expand this window!
+              <p className="sub header">This stage requires a rather large viewport :)</p>
             </h3>
           </div>
         </div>

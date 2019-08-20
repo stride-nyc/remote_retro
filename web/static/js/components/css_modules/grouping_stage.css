@@ -1,0 +1,51 @@
+@keyframes deviceRotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  30% {
+    transform: rotate(0deg);
+  }
+  45% {
+    transform: rotate(90deg);
+  }
+  100% {
+    transform: rotate(90deg);
+  }
+}
+
+.wrapper {
+  --height: 95.5vh;
+  display: flex;
+  /* height declaration, seemingly redundant, is neededto ensure IE 10 & 11 render columns with
+  *  proper height. Otherwise they're collapsed in IE. */
+  height: var(--height);
+  min-height: var(--height);
+  flex-direction: column;
+
+  :global(.content .ui.header) {
+    display: none;
+
+    &:global(.device) {
+      @media only screen and (max-device-width: 768px) {
+        display: table-cell;
+      }
+
+      :global(.mobile.alternate.icon) {
+        animation: deviceRotate 4s infinite;
+        animation-timing-function: ease-in-out;
+        animation-fill-mode: both;
+        animation-delay: 2s;
+      }
+    }
+
+    &:global(.non-device) {
+      @media only screen and (max-width: 948px) and (hover: hover) {
+        display: table-cell;
+      }
+    }
+  }
+
+  :global .ui.dimmer {
+    background-color: rgba(0, 0, 0, 0.9);
+  }
+}
