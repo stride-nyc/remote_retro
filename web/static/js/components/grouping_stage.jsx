@@ -34,7 +34,7 @@ const GroupingStage = props => {
             <h3 className="ui inverted icon header non-device">
               <i className="expand arrows alternate icon" />
               Expand this window!
-              <p className="sub header">This stage requires a rather large viewport :)</p>
+              <p className="sub header">This stage requires a wide viewport!</p>
             </h3>
           </div>
         </div>
