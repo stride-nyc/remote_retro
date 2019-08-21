@@ -1,4 +1,5 @@
 import deepFreeze from "deep-freeze"
+import uniqBy from "lodash/uniqBy"
 
 import IdeasWithEphemeralGroupingIds from "../../web/static/js/services/ideas_with_ephemeral_grouping_ids"
 
@@ -83,7 +84,7 @@ describe("IdeasWithEphemeralGroupingIds", () => {
         }]
       })
 
-      it("assigns a grouping id of the lowest existing id between the two ideas", () => {
+      it("assigns a 1-indexed grouping id to the two ideas", () => {
         const result = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
 
         expect(result).to.eql([{
@@ -92,14 +93,14 @@ describe("IdeasWithEphemeralGroupingIds", () => {
           y: 0,
           height: 10,
           width: 10,
-          ephemeralGroupingId: 5,
+          ephemeralGroupingId: 1,
         }, {
           id: 9,
           x: 1,
           y: 1,
           height: 10,
           width: 10,
-          ephemeralGroupingId: 5,
+          ephemeralGroupingId: 1,
         }])
       })
 
@@ -142,84 +143,77 @@ describe("IdeasWithEphemeralGroupingIds", () => {
           y: 200,
           height: 200,
           width: 200,
-          ephemeralGroupingId: 5,
+          ephemeralGroupingId: 1,
         }, {
           id: 9,
           x: 250,
           y: 250,
           height: 200,
           width: 200,
-          ephemeralGroupingId: 5,
+          ephemeralGroupingId: 1,
         }, {
           id: 14,
           x: 400,
           y: 400,
           height: 200,
           width: 200,
-          ephemeralGroupingId: 5,
+          ephemeralGroupingId: 1,
         }])
       })
     })
 
     describe("given a list containing two distinct clusters in different areas of the grid", () => {
-      it("assigns separate grouping ids to the different groups, using the lowest id that appears in each group", () => {
-        const ideas = [{
-          id: 2,
-          x: 0,
-          y: 0,
-          height: 200,
-          width: 200,
-        }, {
-          id: 7,
-          x: 50,
-          y: 50,
-          height: 200,
-          width: 200,
-        }, {
-          id: 11,
-          x: 600,
-          y: 600,
-          height: 200,
-          width: 200,
-        }, {
-          id: 13,
-          x: 650,
-          y: 650,
-          height: 200,
-          width: 200,
-        }]
+      const ideas = [{
+        id: 2,
+        x: 0,
+        y: 0,
+        height: 200,
+        width: 200,
+      }, {
+        id: 7,
+        x: 50,
+        y: 50,
+        height: 200,
+        width: 200,
+      }, {
+        id: 11,
+        x: 600,
+        y: 600,
+        height: 200,
+        width: 200,
+      }, {
+        id: 13,
+        x: 650,
+        y: 650,
+        height: 200,
+        width: 200,
+      }]
 
+      it("identifies two distinct groupings", () => {
         const result = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
 
-        expect(result).to.eql([{
-          id: 2,
-          ephemeralGroupingId: 2,
-          x: 0,
-          y: 0,
-          height: 200,
-          width: 200,
-        }, {
-          id: 7,
-          ephemeralGroupingId: 2,
-          x: 50,
-          y: 50,
-          height: 200,
-          width: 200,
-        }, {
-          id: 11,
-          ephemeralGroupingId: 11,
-          x: 600,
-          y: 600,
-          height: 200,
-          width: 200,
-        }, {
-          id: 13,
-          ephemeralGroupingId: 11,
-          x: 650,
-          y: 650,
-          height: 200,
-          width: 200,
-        }])
+        expect(uniqBy(result, "ephemeralGroupingId")).to.have.length(2)
+      })
+
+      describe("ephemeral grouping id", () => {
+        it("is derived by taking the lowest idea id in each group, and using that idea id's sort ranking", () => {
+          const result = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
+          const ideaIdsWithGroupingIdsOnly = result.map(({ id, ephemeralGroupingId }) => ({ id, ephemeralGroupingId }))
+
+          expect(ideaIdsWithGroupingIdsOnly).to.eql([{
+            id: 2,
+            ephemeralGroupingId: 1,
+          }, {
+            id: 7,
+            ephemeralGroupingId: 1,
+          }, {
+            id: 11,
+            ephemeralGroupingId: 3,
+          }, {
+            id: 13,
+            ephemeralGroupingId: 3,
+          }])
+        })
       })
     })
   })

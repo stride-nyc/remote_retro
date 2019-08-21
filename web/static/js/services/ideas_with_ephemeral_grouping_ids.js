@@ -4,6 +4,11 @@ import Collisions from "./collisions"
 
 export default {
   buildFrom: ideas => {
+    const ideaIdsToEphemeralGroupingIdsMap = ideas.reduce((accumulator, idea, index) => {
+      accumulator[idea.id] = index + 1
+      return accumulator
+    }, {})
+
     const collisions = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
     const collisionsDeduped = Collisions.merge(collisions)
 
@@ -12,7 +17,8 @@ export default {
 
     for (const [groupLeaderId, collisionsForIdea] of collisionsDeduped) {
       collisionsForIdea.forEach(relatedIdeaId => {
-        ideasById[relatedIdeaId].ephemeralGroupingId = groupLeaderId
+        const ephemeralGroupingId = ideaIdsToEphemeralGroupingIdsMap[groupLeaderId]
+        ideasById[relatedIdeaId].ephemeralGroupingId = ephemeralGroupingId
       })
     }
 
