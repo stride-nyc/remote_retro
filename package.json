@@ -35,7 +35,6 @@
     "postcss-loader": "^2.0.8",
     "postcss-nested": "^2.1.0",
     "prop-types": "^15.5.10",
-    "randomcolor": "^0.5.4",
     "react": "^16.4.0",
     "react-css-transition-replace": "^2.2.1",
     "react-dnd": "^7.0.2",

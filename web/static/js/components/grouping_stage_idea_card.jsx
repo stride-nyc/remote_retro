@@ -2,12 +2,12 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { DragSource } from "react-dnd"
 import { getEmptyImage } from "react-dnd-html5-backend"
-import randomColor from "randomcolor"
 import cx from "classnames"
 
 import * as AppPropTypes from "../prop_types"
 
 import { dragSourceSpec, collect } from "./draggable_idea_content"
+import ColorPicker from "../services/color_picker"
 import styles from "./css_modules/grouping_stage_idea_card.css"
 
 export class GroupingStageIdeaCard extends Component {
@@ -68,7 +68,7 @@ export class GroupingStageIdeaCard extends Component {
     }
 
     if (idea.ephemeralGroupingId) {
-      const color = randomColor({ seed: idea.ephemeralGroupingId })
+      const color = ColorPicker.fromSeed(idea.ephemeralGroupingId)
       style = {
         ...style,
         boxShadow: `0 0 0px 2px ${color}`,
