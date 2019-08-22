@@ -10,6 +10,7 @@ describe("CenteredContentLowerThirdWrapper", () => {
     children: <p>Fart</p>,
     actions: {},
     stageConfig: { progressionButton: {} },
+    userOptions: { highContrastOn: false },
   }
 
   it("renders the children passed", () => {
@@ -20,6 +21,30 @@ describe("CenteredContentLowerThirdWrapper", () => {
     )
 
     expect(wrapper.find("p").prop("children")).to.eql("Hey")
+  })
+
+  context("when high contrast is On", () => {
+    it("renders Turn High Contrast Off", () => {
+      const wrapper = shallow(
+        <CenteredContentLowerThirdWrapper
+          {...defaultProps}
+          userOptions={{ highContrastOn: true }}
+        />
+      )
+      expect(wrapper.find("button").text()).to.contain("Off")
+    })
+  })
+
+  context("when high contrast is Off", () => {
+    it("renders Turn High Contrast On", () => {
+      const wrapper = shallow(
+        <CenteredContentLowerThirdWrapper
+          {...defaultProps}
+          userOptions={{ highContrastOn: false }}
+        />
+      )
+      expect(wrapper.find("button").text()).to.contain("On")
+    })
   })
 
   context("when the user is the facilitator", () => {

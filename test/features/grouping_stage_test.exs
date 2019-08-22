@@ -68,6 +68,10 @@ defmodule GroupingStageTest do
       session = visit(session, retro_path)
 
       assert_has(session, Query.css("button", text: "Turn High Contrast On"))
+
+      click(session, Query.css("button", text: "Turn High Contrast On"))
+
+      assert_has(session, Query.css("button", text: "Turn High Contrast Off"))
     end
   end
 

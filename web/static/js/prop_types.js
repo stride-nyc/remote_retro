@@ -74,3 +74,7 @@ export const retro = PropTypes.shape({
   stage,
   updated_at: PropTypes.string,
 })
+
+export const userOptions = PropTypes.shape({
+  highContrastOn: PropTypes.bool,
+})
