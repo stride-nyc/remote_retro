@@ -12,8 +12,10 @@ export default {
 
     for (const [groupLeaderId, collisionsForIdea] of collisionsDeduped) {
       collisionsForIdea.forEach(relatedIdeaId => {
-        const groupLeaderEphemeralGroupingId = ideasByIdWithEphemeralGroupingIdCandidate[groupLeaderId].ephemeralGroupingIdCandidate
-        ideasByIdWithEphemeralGroupingIdCandidate[relatedIdeaId].ephemeralGroupingId = groupLeaderEphemeralGroupingId
+        const groupLeaderIdea = ideasByIdWithEphemeralGroupingIdCandidate[groupLeaderId]
+        const relatedIdea = ideasByIdWithEphemeralGroupingIdCandidate[relatedIdeaId]
+
+        relatedIdea.ephemeralGroupingId = groupLeaderIdea.ephemeralGroupingIdCandidate
       })
     }
 
