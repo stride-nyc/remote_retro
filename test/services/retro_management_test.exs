@@ -13,10 +13,9 @@ defmodule RemoteRetro.RetroManagementTest do
     test "updates the retro with the given id with the given params", ~M{retro} do
       assert retro.stage == "idea-generation"
 
-      RetroManagement.update!(retro.id, %{stage: "voting"})
+      %{retro: retro} = RetroManagement.update!(retro.id, %{stage: "voting"})
 
-      persisted_stage = Repo.get(Retro, retro.id).stage
-      assert persisted_stage == "voting"
+      assert %Retro{stage: "voting"} = retro
     end
   end
 

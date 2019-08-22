@@ -22,6 +22,8 @@ defmodule RemoteRetroWeb.RetroManagement do
       |> Repo.preload([:participations])
       |> increment_completed_retros_count_for_participants_in()
     end
+
+    %{retro: retro}
   end
 
   defp persist_groups_with_associations(retro_id, ideasWithEphemeralGroupingIds) do
