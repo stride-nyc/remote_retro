@@ -5,14 +5,14 @@ defmodule RemoteRetroWeb.RetroManagement do
   import ShorterMaps
 
   def update!(retro_id, ~m{ideasWithEphemeralGroupingIds} = context) do
-    persist_groups_with_associations(retro_id, ideasWithEphemeralGroupingIds)
+    groups = persist_groups_with_associations(retro_id, ideasWithEphemeralGroupingIds)
 
     context = Map.delete(context, "ideasWithEphemeralGroupingIds")
 
-    update!(retro_id, context)
+    update!(retro_id, context, %{groups: groups})
   end
 
-  def update!(retro_id, new_attributes) do
+  def update!(retro_id, new_attributes, aggregate_updates \\ %{}) do
     retro = update_retro_record!(retro_id, new_attributes)
 
     if new_attributes["stage"] == "closed" do
@@ -23,7 +23,7 @@ defmodule RemoteRetroWeb.RetroManagement do
       |> increment_completed_retros_count_for_participants_in()
     end
 
-    %{retro: retro}
+    Map.merge(%{retro: retro}, aggregate_updates)
   end
 
   defp persist_groups_with_associations(retro_id, ideasWithEphemeralGroupingIds) do
@@ -43,6 +43,8 @@ defmodule RemoteRetroWeb.RetroManagement do
           |> Repo.insert!(returning: true)
         end)
       end)
+
+    groups
   end
 
   defp update_retro_record!(retro_id, new_attributes) do

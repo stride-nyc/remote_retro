@@ -124,9 +124,7 @@ defmodule RemoteRetro.RetroManagementTest do
         "ideasWithEphemeralGroupingIds" => ideas_lacking_ephemeral_grouping_ids,
       })
 
-      count = Repo.aggregate(Group, :count, :id)
-
-      assert count == 1
+      assert Repo.aggregate(Group, :count, :id) == 1
     end
 
     @tag [
@@ -140,16 +138,16 @@ defmodule RemoteRetro.RetroManagementTest do
         "ephemeralGroupingId" => idea_one.id,
       }]
 
-      RetroManagement.update!(retro.id, %{
+      %{groups: groups} = RetroManagement.update!(retro.id, %{
         "stage" => "voting",
         "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids,
       })
 
-      idea_one = Repo.get!(Idea, idea_one.id)
+      [group] = groups
 
-      group = Repo.preload(idea_one, [:group]).group
+      idea = Repo.get!(Idea, idea_one.id)
 
-      assert %Group{id: _, } = group
+      assert group.id == idea.group_id
     end
 
     @tag [
