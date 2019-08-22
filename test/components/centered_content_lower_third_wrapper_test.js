@@ -64,10 +64,10 @@ describe("CenteredContentLowerThirdWrapper", () => {
       expect(wrapper.find(StageProgressionButton)).to.have.length(1)
     })
 
-    it("renders an extraneous div used for centering desktop content", () => {
+    it("does not render an extraneous div used for centering desktop content", () => {
       expect(wrapper.findWhere(n => {
         return n.type() === "div" && !n.prop("children")
-      })).to.have.length(1)
+      })).to.have.length(0)
     })
   })
 
@@ -88,10 +88,10 @@ describe("CenteredContentLowerThirdWrapper", () => {
       expect(wrapper.find(StageProgressionButton)).to.have.length(0)
     })
 
-    it("does not render an extraneous div used for centering desktop content", () => {
+    it("renders an extraneous div used for centering desktop content", () => {
       expect(wrapper.findWhere(n => {
         return n.type() === "div" && !n.prop("children")
-      })).to.have.length(0)
+      })).to.have.length(1)
     })
   })
 })

@@ -10,13 +10,13 @@ const CenteredLowerThirdContentWrapper = props => {
 
   return (
     <div className="ui stackable grid basic attached secondary center aligned segment">
-      {currentUser.is_facilitator && <div className="three wide column ui computer tablet only" />}
       <div className="three wide column">
         <button className="fluid ui left button" type="button">{`Turn High Contrast ${userOptions.highContrastOn ? "Off" : "On"}`}</button>
       </div>
       <div className="ten wide column">
         {children}
       </div>
+      {!currentUser.is_facilitator && <div className="three wide column ui computer tablet only" />}
       {currentUser.is_facilitator && (
         <StageProgressionButton
           currentUser={currentUser}
