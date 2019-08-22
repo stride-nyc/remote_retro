@@ -61,6 +61,14 @@ defmodule GroupingStageTest do
 
       session |> assert_count_of_emboldened_ideas_to_be(0)
     end
+
+    @tag [ retro_stage: "grouping", ideas: [] ]
+    test "ideas can be visible in contrast mode", ~M{retro, session} do
+      retro_path = "/retros/" <> retro.id
+      session = visit(session, retro_path)
+
+      assert_has(session, Query.css("button", text: "Turn High Contrast On"))
+    end
   end
 
   defp parse_transform_coordinates_for_card(session, idea_text) do
