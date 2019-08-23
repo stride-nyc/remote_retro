@@ -6,12 +6,18 @@ import StageProgressionButton from "./stage_progression_button"
 import * as AppPropTypes from "../prop_types"
 
 const CenteredLowerThirdContentWrapper = props => {
-  const { currentUser, children, stageConfig, userOptions } = props
+  const { currentUser, children, stageConfig, userOptions, actions } = props
 
   return (
     <div className="ui stackable grid basic attached secondary center aligned segment">
       <div className="three wide column">
-        <button className="fluid ui left button" type="button">{`Turn High Contrast ${userOptions.highContrastOn ? "Off" : "On"}`}</button>
+        <button
+          className="fluid ui left button"
+          onClick={actions.toggleHighContrastOn}
+          type="button"
+        >
+          {`Turn High Contrast ${userOptions.highContrastOn ? "Off" : "On"}`}
+        </button>
       </div>
       <div className="ten wide column">
         {children}
@@ -29,6 +35,7 @@ const CenteredLowerThirdContentWrapper = props => {
 }
 
 CenteredLowerThirdContentWrapper.propTypes = {
+  actions: PropTypes.object.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stageConfig: AppPropTypes.stageConfig.isRequired,
   children: PropTypes.node.isRequired,

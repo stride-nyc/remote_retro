@@ -52,6 +52,7 @@ import {
 } from "./idea_generation_categories"
 
 import {
+  actions as userOptionsActions,
   reducer as userOptions,
 } from "./user_options"
 
@@ -78,6 +79,7 @@ export const actions = {
   ...retroActions,
   ...mobileActions,
   ...voteActions,
+  ...userOptionsActions,
 }
 
 export const selectors = {

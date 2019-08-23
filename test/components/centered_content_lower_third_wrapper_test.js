@@ -1,5 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
+import sinon from "sinon"
 
 import CenteredContentLowerThirdWrapper from "../../web/static/js/components/centered_content_lower_third_wrapper"
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
@@ -44,6 +45,23 @@ describe("CenteredContentLowerThirdWrapper", () => {
         />
       )
       expect(wrapper.find("button").text()).to.contain("On")
+    })
+  })
+
+  describe("clicking high contrast button", () => {
+    let actions
+
+    beforeEach(() => {
+      actions = { toggleHighContrastOn: sinon.spy() }
+
+      const wrapper = shallow(
+        <CenteredContentLowerThirdWrapper {...defaultProps} actions={actions} />
+      )
+      wrapper.find("button").simulate("click")
+    })
+
+    it("invokes the toggleHighContrastOn action", () => {
+      expect(actions.toggleHighContrastOn).called
     })
   })
 
