@@ -2,10 +2,19 @@ const INITIAL_STATE = {
   highContrastOn: false,
 }
 
-export const reducer = (state = INITIAL_STATE) => {
-  return state
+export const types = {
+  TOGGLE_HIGH_CONTRAST_ON: "TOGGLE_HIGH_CONTRAST_ON",
+}
+
+export const reducer = (state = INITIAL_STATE, action) => {
+  switch (action.type) {
+    case types.TOGGLE_HIGH_CONTRAST_ON:
+      return { highContrastOn: !state.highContrastOn }
+    default:
+      return state
+  }
 }
 
 export const actions = {
-  toggleHighContrastOn: () => ({ type: "NOT_DEFINED_YET" }),
+  toggleHighContrastOn: () => ({ type: types.TOGGLE_HIGH_CONTRAST_ON }),
 }
