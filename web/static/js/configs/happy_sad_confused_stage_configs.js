@@ -90,7 +90,7 @@ export default {
     },
     progressionButton: {
       nextStage: VOTING,
-      optionalParamsAugmenter: (reduxState) => ({
+      optionalParamsAugmenter: reduxState => ({
         ideasWithEphemeralGroupingIds: IdeasWithEphemeralGroupingIds.buildFrom(reduxState.ideas),
       }),
       copy: "Proceed to Voting",

@@ -59,6 +59,7 @@ module.exports = {
         "exports": "ignore",
       }
     ],
+    "no-alert": "off",
     "no-underscore-dangle": "off",
     "arrow-body-style": "off",
     "no-shadow": "off",

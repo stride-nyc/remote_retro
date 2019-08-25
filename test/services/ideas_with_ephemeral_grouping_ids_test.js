@@ -198,7 +198,10 @@ describe("IdeasWithEphemeralGroupingIds", () => {
       describe("ephemeral grouping id", () => {
         it("is derived by taking the lowest idea id in each group, and using that idea id's sort ranking", () => {
           const result = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
-          const ideaIdsWithGroupingIdsOnly = result.map(({ id, ephemeralGroupingId }) => ({ id, ephemeralGroupingId }))
+          const ideaIdsWithGroupingIdsOnly = result.map(({ id, ephemeralGroupingId }) => ({
+            id,
+            ephemeralGroupingId,
+          }))
 
           expect(ideaIdsWithGroupingIdsOnly).to.eql([{
             id: 2,

@@ -12,7 +12,7 @@ import { actions } from "./redux"
 
 const { userToken, retroUUID } = window
 
-let retroChannel = new RetroChannel({ userToken, retroUUID })
+const retroChannel = new RetroChannel({ userToken, retroUUID })
 const store = configureStore(retroChannel)
 
 const actionz = bindActionCreators({ ...actions }, store.dispatch)
