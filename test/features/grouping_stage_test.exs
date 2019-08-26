@@ -75,11 +75,11 @@ defmodule GroupingStageTest do
 
       click(session, Query.css("button", text: "Turn High Contrast On"))
 
-      assert_has(session, Query.xpath("//p[contains(@style, 'box-shadow: rgb(0, 0, 0)')]", count: 2))
+      assert_count_of_high_contrast_color_borders_is(session, 2)
 
       click(session, Query.css("button", text: "Turn High Contrast Off"))
 
-      assert_has(session, Query.xpath("//p[contains(@style, 'box-shadow: rgb(0, 0, 0)')]", count: 0))
+      assert_count_of_high_contrast_color_borders_is(session, 0)
     end
   end
 
@@ -94,5 +94,9 @@ defmodule GroupingStageTest do
 
   defp assert_count_of_emboldened_ideas_to_be(session, count) do
     assert_has(session, Query.xpath("//p[contains(@style, 'box-shadow')]", count: count))
+  end
+
+  def assert_count_of_high_contrast_color_borders_is(session, count) do
+    assert_has(session, Query.xpath("//p[contains(@style, 'box-shadow: rgb(0, 0, 0)')]", count: count))
   end
 end
