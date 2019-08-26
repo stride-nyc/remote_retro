@@ -2,6 +2,7 @@ import React from "react"
 import PropTypes from "prop-types"
 
 import StageProgressionButton from "./stage_progression_button"
+import HighContrastButton from "./high_contrast_button"
 
 import * as AppPropTypes from "../prop_types"
 
@@ -10,15 +11,11 @@ const CenteredLowerThirdContentWrapper = props => {
 
   return (
     <div className="ui stackable grid basic attached secondary center aligned segment">
-      <div className="three wide column">
-        <button
-          className="fluid ui left button"
-          onClick={actions.toggleHighContrastOn}
-          type="button"
-        >
-          {`Turn High Contrast ${userOptions.highContrastOn ? "Off" : "On"}`}
-        </button>
-      </div>
+      <HighContrastButton 
+        userOptions={userOptions} 
+        actions={actions}
+        className="three wide column ui"
+      />
       <div className="ten wide column">
         {children}
       </div>
