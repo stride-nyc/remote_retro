@@ -24,6 +24,7 @@ describe("RemoteRetro component", () => {
     stage: IDEA_GENERATION,
     facilitatorName: "Daniel Handpan",
     ideaGenerationCategories: ["happy", "sad", "confused"],
+    userOptions: {},
     stageConfig: {},
     retro: { stage: IDEA_GENERATION },
     actions: {

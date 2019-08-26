@@ -61,6 +61,26 @@ defmodule GroupingStageTest do
 
       session |> assert_count_of_emboldened_ideas_to_be(0)
     end
+
+    @tag [
+      retro_stage: "grouping",
+      ideas: [
+        %Idea{category: "sad", body: "rampant sickness", x: 0.0, y: 200.0},
+        %Idea{category: "sad", body: "getting sickness", x: 10.0, y: 210.0},
+      ],
+    ]
+    test "ideas can be visible in contrast mode", ~M{retro, session} do
+      retro_path = "/retros/" <> retro.id
+      session = visit(session, retro_path)
+
+      click(session, Query.css("button", text: "Turn High Contrast On"))
+
+      assert_count_of_high_contrast_color_borders_is(session, 2)
+
+      click(session, Query.css("button", text: "Turn High Contrast Off"))
+
+      assert_count_of_high_contrast_color_borders_is(session, 0)
+    end
   end
 
   defp parse_transform_coordinates_for_card(session, idea_text) do
@@ -74,5 +94,9 @@ defmodule GroupingStageTest do
 
   defp assert_count_of_emboldened_ideas_to_be(session, count) do
     assert_has(session, Query.xpath("//p[contains(@style, 'box-shadow')]", count: count))
+  end
+
+  def assert_count_of_high_contrast_color_borders_is(session, count) do
+    assert_has(session, Query.xpath("//p[contains(@style, 'box-shadow: rgb(0, 0, 0)')]", count: count))
   end
 end

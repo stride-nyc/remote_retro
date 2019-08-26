@@ -1,8 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-
 import StageProgressionButton from "./stage_progression_button"
-
 import * as AppPropTypes from "../prop_types"
 
 const CenteredLowerThirdContentWrapper = props => {
@@ -14,7 +12,6 @@ const CenteredLowerThirdContentWrapper = props => {
       <div className="ten wide column">
         {children}
       </div>
-
       {currentUser.is_facilitator && (
         <StageProgressionButton
           currentUser={currentUser}

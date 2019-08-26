@@ -8,12 +8,17 @@ describe("<GroupingStageIdeaCard />", () => {
   let wrapper
   let idea
   let styleProp
+  const defaultProps = {
+    idea: {},
+    actions: {},
+    userOptions: {},
+  }
 
   describe("when the given idea has coordinates", () => {
     before(() => {
       idea = { id: 5, body: "hello", x: 0, y: 109 }
       wrapper = shallow(
-        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
       styleProp = wrapper.prop("style")
@@ -44,7 +49,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, body: "goodbye" }
       wrapper = shallow(
-        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
       styleProp = wrapper.prop("style")
@@ -59,7 +64,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, body: "goodbye", x: null, y: null }
       wrapper = shallow(
-        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
       styleProp = wrapper.prop("style")
@@ -74,7 +79,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, inEditState: true }
       wrapper = shallow(
-        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
     })
@@ -88,7 +93,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, inEditState: false }
       wrapper = shallow(
-        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
     })
@@ -102,7 +107,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, editSubmitted: true }
       wrapper = shallow(
-        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
     })
@@ -116,7 +121,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, editSubmitted: false }
       wrapper = shallow(
-        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
     })
@@ -130,7 +135,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, ephemeralGroupingId: 15 }
       wrapper = shallow(
-        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
       styleProp = wrapper.prop("style")
@@ -141,6 +146,20 @@ describe("<GroupingStageIdeaCard />", () => {
     })
 
     describe("the box shadow color", () => {
+      it("gets set to black(#000000) when highContrastOn is true", () => {
+        wrapper.setProps({ userOptions: { highContrastOn: true } })
+        const { boxShadow } = wrapper.prop("style")
+
+        expect(boxShadow).to.contain("#000000")
+      })
+
+      it("does not get set to black(#000000) when highContrastOn is false", () => {
+        wrapper.setProps({ userOptions: { highContrastOn: false } })
+        const { boxShadow } = wrapper.prop("style")
+
+        expect(boxShadow).to.not.contain("#000000")
+      })
+
       it("changes when given a different ephmeral grouping id", () => {
         const boxShadowBefore = styleProp.boxShadow
 
@@ -167,7 +186,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9 }
       wrapper = shallow(
-        <GroupingStageIdeaCard idea={idea} actions={{}} />,
+        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
       styleProp = wrapper.prop("style")
@@ -188,6 +207,7 @@ describe("<GroupingStageIdeaCard />", () => {
       }
       wrapper = mount(
         <GroupingStageIdeaCard
+          {...defaultProps}
           idea={idea}
           actions={actions}
           connectDragPreview={node => node}
@@ -219,6 +239,7 @@ describe("<GroupingStageIdeaCard />", () => {
 
         wrapper = mount(
           <GroupingStageIdeaCard
+            {...defaultProps}
             idea={idea}
             actions={actions}
             connectDragPreview={node => node}
@@ -255,6 +276,7 @@ describe("<GroupingStageIdeaCard />", () => {
 
         wrapper = mount(
           <GroupingStageIdeaCard
+            {...defaultProps}
             idea={idea}
             actions={actions}
             connectDragPreview={node => node}

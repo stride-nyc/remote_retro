@@ -51,6 +51,11 @@ import {
   reducer as ideaGenerationCategories,
 } from "./idea_generation_categories"
 
+import {
+  actions as userOptionsActions,
+  reducer as userOptions,
+} from "./user_options"
+
 export const reducer = combineReducers({
   presences,
   usersById,
@@ -62,6 +67,7 @@ export const reducer = combineReducers({
   mobile,
   stageConfig,
   ideaGenerationCategories,
+  userOptions,
   browser: responsiveStateReducer,
 })
 
@@ -73,6 +79,7 @@ export const actions = {
   ...retroActions,
   ...mobileActions,
   ...voteActions,
+  ...userOptionsActions,
 }
 
 export const selectors = {

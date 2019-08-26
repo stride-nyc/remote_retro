@@ -7,11 +7,18 @@ import DragCoordinates from "../services/drag_coordinates"
 import * as AppPropTypes from "../prop_types"
 
 export const GroupingBoard = props => {
-  const { ideas, actions, connectDropTarget } = props
+  const { ideas, actions, connectDropTarget, userOptions } = props
 
   return connectDropTarget(
     <div style={{ flex: 1 }} className="grouping-board">
-      {ideas.map(idea => <GroupingStageIdeaCard idea={idea} key={idea.id} actions={actions} />)}
+      {ideas.map(idea => (
+        <GroupingStageIdeaCard
+          idea={idea}
+          key={idea.id}
+          actions={actions}
+          userOptions={userOptions}
+        />
+      ))}
     </div>
   )
 }

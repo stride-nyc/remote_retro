@@ -10,6 +10,8 @@ import { dragSourceSpec, collect } from "./draggable_idea_content"
 import ColorPicker from "../services/color_picker"
 import styles from "./css_modules/grouping_stage_idea_card.css"
 
+const COLOR_BLACK = "#000000"
+
 export class GroupingStageIdeaCard extends Component {
   componentDidMount() {
     this._updateStoreWithBoundingClientRectangleAttributes()
@@ -48,6 +50,7 @@ export class GroupingStageIdeaCard extends Component {
     const {
       idea,
       connectDragSource,
+      userOptions: { highContrastOn },
     } = this.props
 
     let style = {}
@@ -68,7 +71,7 @@ export class GroupingStageIdeaCard extends Component {
     }
 
     if (idea.ephemeralGroupingId) {
-      const color = ColorPicker.fromSeed(idea.ephemeralGroupingId)
+      const color = highContrastOn ? COLOR_BLACK : ColorPicker.fromSeed(idea.ephemeralGroupingId)
       style = {
         ...style,
         boxShadow: `0 0 0px 2px ${color}`,
@@ -99,6 +102,7 @@ GroupingStageIdeaCard.propTypes = {
   actions: AppPropTypes.actions,
   connectDragSource: PropTypes.func,
   connectDragPreview: PropTypes.func,
+  userOptions: AppPropTypes.userOptions.isRequired,
 }
 
 GroupingStageIdeaCard.defaultProps = {
