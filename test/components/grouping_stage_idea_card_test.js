@@ -146,6 +146,20 @@ describe("<GroupingStageIdeaCard />", () => {
     })
 
     describe("the box shadow color", () => {
+      it("gets set to black(#000000) when highContrastOn is true", () => {
+        wrapper.setProps({ userOptions: { highContrastOn: true } })
+        const { boxShadow } = wrapper.prop("style")
+
+        expect(boxShadow).to.contain("#000000")
+      })
+
+      it("does not get set to black(#000000) when highContrastOn is false", () => {
+        wrapper.setProps({ userOptions: { highContrastOn: false } })
+        const { boxShadow } = wrapper.prop("style")
+
+        expect(boxShadow).to.not.contain("#000000")
+      })
+
       it("changes when given a different ephmeral grouping id", () => {
         const boxShadowBefore = styleProp.boxShadow
 
