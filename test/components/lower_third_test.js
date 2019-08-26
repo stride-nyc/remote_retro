@@ -15,6 +15,8 @@ describe("LowerThird component", () => {
   const mockRetroChannel = { push: spy(), on: () => {} }
   const stubUser = { given_name: "Mugatu" }
   const defaultProps = {
+    actions: {},
+    userOptions: {},
     currentUser: stubUser,
     retroChannel: mockRetroChannel,
     users: [],
