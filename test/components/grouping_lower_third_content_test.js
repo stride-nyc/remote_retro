@@ -13,11 +13,6 @@ describe("GroupingLowerThirdContent", () => {
     userOptions: { highContrastOn: false },
   }
 
-  it("renders 'Group Related Items' header", () => {
-    const wrapper = shallow(<GroupingLowerThirdContent {...defaultProps} />)
-    expect(wrapper.find(".ui.header").text()).to.contains("Group Related Items")
-  })
-
   it("renders a means of toggling high contrast", () => {
     const wrapper = shallow(
       <GroupingLowerThirdContent {...defaultProps} />
