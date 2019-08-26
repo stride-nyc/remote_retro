@@ -63,12 +63,14 @@ describe("retro reducer", () => {
             facilitator_id: 67,
           })
 
-          const retroChanges = {
-            stage: "new stage",
-            facilitator_id: 70,
-            someNewKey: "someNewVal",
+          const payload = {
+            retro: {
+              stage: "new stage",
+              facilitator_id: 70,
+              someNewKey: "someNewVal",
+            },
           }
-          const action = { type: actionType, retroChanges }
+          const action = { type: actionType, payload }
           expect(reducer(initialState, action)).to.include({
             stage: "new stage",
             facilitator_id: 70,
@@ -81,7 +83,7 @@ describe("retro reducer", () => {
             updateRequested: true,
           })
 
-          const action = { type: actionType, retro: {} }
+          const action = { type: actionType, payload: { retro: {} } }
           expect(reducer(initialState, action)).to.eql({
             updateRequested: false,
           })
@@ -125,67 +127,43 @@ describe("action creators", () => {
       expect(typeof thunk).to.equal("function")
     })
 
-    describe("when the given changes contain a stage change", () => {
+    describe("when the given changes contain a stage different than the current stage", () => {
       it("alerts the store that the stage has changed", () => {
-        const thunk = actionCreators.retroUpdateCommitted({ stage: "afterlife" })
+        const getState = () => ({ retro: { stage: "living" } })
+
+        const payload = {
+          retro: { stage: "afterlife" },
+        }
+
+        const thunk = actionCreators.retroUpdateCommitted(payload)
         const dispatchSpy = sinon.spy()
 
-        thunk(dispatchSpy, undefined, {})
+        thunk(dispatchSpy, getState, {})
 
         expect(dispatchSpy).calledWithMatch({
           type: "RETRO_STAGE_PROGRESSION_COMMITTED",
-          retroChanges: { stage: "afterlife" },
+          payload: { retro: { stage: "afterlife" } },
         })
       })
     })
 
-    describe("when the given changes have nothing to do with the stage change", () => {
-      it("does *not* alert the store that there's been a stage change", () => {
-        const thunk = actionCreators.retroUpdateCommitted({ facilitator_id: 2 })
-        const dispatchSpy = sinon.spy()
-
-        thunk(dispatchSpy, undefined, {})
-
-        expect(dispatchSpy).not.calledWithMatch({
-          type: "RETRO_STAGE_PROGRESSION_COMMITTED",
-        })
-      })
-    })
-
-    describe("when the given changes represent a facilitator change", () => {
+    describe("when the given changes contain a facilitator id different than the current facilitator", () => {
       it("alerts the store that the facilitator has changed", () => {
-        const thunk = actionCreators.retroUpdateCommitted({ facilitator_id: 5 })
+        const getState = () => ({ retro: { facilitator_id: 51 } })
+
+        const payload = {
+          retro: { facilitator_id: 53 },
+        }
+
+        const thunk = actionCreators.retroUpdateCommitted(payload)
         const dispatchSpy = sinon.spy()
 
-        thunk(dispatchSpy, undefined, {})
+        thunk(dispatchSpy, getState, {})
 
         expect(dispatchSpy).calledWithMatch({
           type: "RETRO_FACILITATOR_CHANGE_COMMITTED",
-          retroChanges: { facilitator_id: 5 },
+          payload: { retro: { facilitator_id: 53 } },
         })
-      })
-    })
-
-    describe("when the given changes lack a facilitator change", () => {
-      it("does *not* alert the store of a facilitator change", () => {
-        const thunk = actionCreators.retroUpdateCommitted({ stage: "closed" })
-        const dispatchSpy = sinon.spy()
-
-        thunk(dispatchSpy, undefined, {})
-
-        expect(dispatchSpy).not.calledWithMatch({
-          type: "RETRO_FACILITATOR_CHANGE_COMMITTED",
-        })
-      })
-    })
-
-    describe("when the given changes have nothing to do with either facilitator or stage", () => {
-      it("throws an error", () => {
-        const thunk = actionCreators.retroUpdateCommitted({ format: "Sailboat" })
-
-        expect(() => {
-          thunk(() => {}, undefined, {})
-        }).throw()
       })
     })
   })

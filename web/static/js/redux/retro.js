@@ -9,20 +9,20 @@ export const types = {
 }
 
 export const actions = {
-  retroUpdateCommitted: retroChanges => {
-    return dispatch => {
+  retroUpdateCommitted: payload => {
+    const { retro: updatedRetro } = payload
+
+    return (dispatch, getState) => {
+      const { retro: { stage } } = getState()
+
       let type
-      if (retroChanges.stage) {
+      if (updatedRetro.stage !== stage) {
         type = types.RETRO_STAGE_PROGRESSION_COMMITTED
-      } else if (retroChanges.facilitator_id) {
+      } else {
         type = types.RETRO_FACILITATOR_CHANGE_COMMITTED
       }
 
-      if (!type) {
-        throw new Error("Unhandled retro attribute update. Ensure new case is handled with an appropriate action type.")
-      }
-
-      dispatch({ type, retroChanges })
+      dispatch({ type, payload })
     }
   },
 
@@ -76,7 +76,7 @@ export const reducer = (state = null, action) => {
       return { ...state, updateRequested: true }
     case types.RETRO_FACILITATOR_CHANGE_COMMITTED:
     case types.RETRO_STAGE_PROGRESSION_COMMITTED:
-      return { ...state, updateRequested: false, ...action.retroChanges }
+      return { ...state, updateRequested: false, ...action.payload.retro }
     case types.RETRO_UPDATE_REJECTED:
       return { ...state, updateRequested: false }
     default:
