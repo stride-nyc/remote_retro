@@ -16,6 +16,7 @@ describe("GroupingBoard", () => {
   const defaultProps = {
     ideas: [],
     actions: {},
+    userOptions: {},
   }
 
   context("when there are no ideas to render", () => {

@@ -12,6 +12,7 @@ describe("GroupingStage component", () => {
     stage: "idea-generation",
     stageConfig: {},
     browser: {},
+    userOptions: {},
   }
 
   context("when the browser is in portrait mode", () => {

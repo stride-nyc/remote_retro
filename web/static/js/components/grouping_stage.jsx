@@ -12,13 +12,17 @@ import styles from "./css_modules/grouping_stage.css"
 const PORTRAIT = "portrait"
 
 const GroupingStage = props => {
-  const { ideas, actions, browser } = props
+  const { ideas, actions, browser, userOptions } = props
 
   const ideasWithEphemeralGroupingIds = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
 
   return (
     <div className={styles.wrapper}>
-      <GroupingBoard ideas={ideasWithEphemeralGroupingIds} actions={actions} />
+      <GroupingBoard
+        ideas={ideasWithEphemeralGroupingIds}
+        actions={actions}
+        userOptions={userOptions}
+      />
 
       <LowerThird {...props} />
 
@@ -47,6 +51,7 @@ GroupingStage.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   actions: PropTypes.object.isRequired,
   browser: PropTypes.object.isRequired,
+  userOptions: AppPropTypes.userOptions.isRequired,
 }
 
 export default GroupingStage

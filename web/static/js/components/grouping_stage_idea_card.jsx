@@ -99,6 +99,7 @@ GroupingStageIdeaCard.propTypes = {
   actions: AppPropTypes.actions,
   connectDragSource: PropTypes.func,
   connectDragPreview: PropTypes.func,
+  userOptions: AppPropTypes.userOptions.isRequired,
 }
 
 GroupingStageIdeaCard.defaultProps = {
