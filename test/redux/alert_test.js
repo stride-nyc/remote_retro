@@ -37,10 +37,12 @@ describe("alert", () => {
         stub = sinon.stub(StageConfig, "retrieveFor")
           .returns({ anotherKey: "value", arrivalAlert: { one: "two" } })
 
-        const retroChanges = {
-          stage: "idea-generation",
+        const payload = {
+          retro: {
+            stage: "idea-generation",
+          },
         }
-        const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", retroChanges }
+        const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload }
 
         resultingConfig = reducer(undefined, action)
       })

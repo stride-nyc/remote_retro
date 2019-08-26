@@ -127,12 +127,13 @@ describe("action creators", () => {
       expect(typeof thunk).to.equal("function")
     })
 
-    describe("when the given changes contain a stage different than the current stage", () => {
-      it("alerts the store that the stage has changed", () => {
+    describe("when the given payload contains a stage different than the current stage", () => {
+      it("alerts the store that the stage has changed, passing full payload", () => {
         const getState = () => ({ retro: { stage: "living" } })
 
         const payload = {
           retro: { stage: "afterlife" },
+          anyOtherKey: { arbitrary: "values" },
         }
 
         const thunk = actionCreators.retroUpdateCommitted(payload)
@@ -142,17 +143,18 @@ describe("action creators", () => {
 
         expect(dispatchSpy).calledWithMatch({
           type: "RETRO_STAGE_PROGRESSION_COMMITTED",
-          payload: { retro: { stage: "afterlife" } },
+          payload,
         })
       })
     })
 
-    describe("when the given changes contain a facilitator id different than the current facilitator", () => {
-      it("alerts the store that the facilitator has changed", () => {
+    describe("when the given payload contains a facilitator id different than the current facilitator", () => {
+      it("alerts the store that the facilitator has changed, passing full payload", () => {
         const getState = () => ({ retro: { facilitator_id: 51 } })
 
         const payload = {
           retro: { facilitator_id: 53 },
+          anyOtherKey: {},
         }
 
         const thunk = actionCreators.retroUpdateCommitted(payload)
@@ -162,7 +164,7 @@ describe("action creators", () => {
 
         expect(dispatchSpy).calledWithMatch({
           type: "RETRO_FACILITATOR_CHANGE_COMMITTED",
-          payload: { retro: { facilitator_id: 53 } },
+          payload,
         })
       })
     })

@@ -13,8 +13,8 @@ export const reducer = (state = null, action) => {
       return _alertOmittedFromStageConfigFor(initialState)
     }
     case retroTypes.RETRO_STAGE_PROGRESSION_COMMITTED: {
-      const { retroChanges } = action
-      return _alertOmittedFromStageConfigFor(retroChanges)
+      const { payload } = action
+      return _alertOmittedFromStageConfigFor(payload.retro)
     }
     default:
       return state
