@@ -57,7 +57,7 @@ defmodule RemoteRetro.RetroChannelTest do
       ref = push(socket, "retro_edited", %{stage: "action-items"})
       assert_reply(ref, :ok)
 
-      assert_broadcast("retro_edited", %{"stage" => "action-items"})
+      assert_broadcast("retro_edited", %{retro: %{stage: "action-items"}})
     end
 
     test "updates the retro stage to the value from the pushed event", ~M{socket, retro} do
