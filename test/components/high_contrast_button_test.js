@@ -13,24 +13,24 @@ describe("HighContrastButton", () => {
     const wrapper = shallow(
       <HighContrastButton {...defaultProps} className="sample-class" />
     )
-    expect(wrapper.find("div").prop("className")).to.match(/sample-class/)
+    expect(wrapper.first().prop("className")).to.match(/sample-class/)
   })
 
-  context("when high contrast is On", () => {
-    it("renders Turn High Contrast Off", () => {
+  context("when in high contrast mode", () => {
+    it("renders its checkbox input in the checked state", () => {
       const wrapper = shallow(
         <HighContrastButton {...defaultProps} userOptions={{ highContrastOn: true }} />
       )
-      expect(wrapper.find("button").text()).to.contain("Off")
+      expect(wrapper.find("input[type='checkbox']").prop("checked")).to.eql(true)
     })
   })
 
-  context("when high contrast is Off", () => {
+  context("when high contrast mode is off", () => {
     it("renders Turn High Contrast On", () => {
       const wrapper = shallow(
         <HighContrastButton {...defaultProps} userOptions={{ highContrastOn: false }} />
       )
-      expect(wrapper.find("button").text()).to.contain("On")
+      expect(wrapper.find("input[type='checkbox']").prop("checked")).to.eql(false)
     })
   })
 

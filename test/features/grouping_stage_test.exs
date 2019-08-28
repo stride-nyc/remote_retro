@@ -73,11 +73,11 @@ defmodule GroupingStageTest do
       retro_path = "/retros/" <> retro.id
       session = visit(session, retro_path)
 
-      click(session, Query.css("button", text: "Turn High Contrast On"))
+      click(session, Query.css("button", text: "High Contrast"))
 
       assert_count_of_high_contrast_color_borders_is(session, 2)
 
-      click(session, Query.css("button", text: "Turn High Contrast Off"))
+      click(session, Query.css("button", text: "High Contrast"))
 
       assert_count_of_high_contrast_color_borders_is(session, 0)
     end
