@@ -13,7 +13,7 @@ describe("HighContrastButton", () => {
     const wrapper = shallow(
       <HighContrastButton {...defaultProps} className="sample-class" />
     )
-    expect(wrapper.find("div").prop("className")).to.eq("sample-class")
+    expect(wrapper.find("div").prop("className")).to.match(/sample-class/)
   })
 
   context("when high contrast is On", () => {

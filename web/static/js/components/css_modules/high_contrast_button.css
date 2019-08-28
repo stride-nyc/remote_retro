@@ -1,0 +1,5 @@
+.wrapper {
+  :global(.ui.black.basic.button) {
+    background-color: white;
+  }
+}
