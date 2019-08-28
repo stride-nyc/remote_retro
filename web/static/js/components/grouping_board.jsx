@@ -1,19 +1,27 @@
 import React from "react"
 import { DropTarget } from "react-dnd"
 import PropTypes from "prop-types"
+import cx from "classnames"
 
 import GroupingStageIdeaCard from "./grouping_stage_idea_card"
 import DragCoordinates from "../services/drag_coordinates"
 import * as AppPropTypes from "../prop_types"
 
+const IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION = 35
+
 export const GroupingBoard = props => {
   const { ideas, actions, connectDropTarget, userOptions } = props
+
+  const cardClassName = cx({
+    minimized: ideas.length > IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION,
+  })
 
   return connectDropTarget(
     <div style={{ flex: 1 }} className="grouping-board">
       {ideas.map(idea => (
         <GroupingStageIdeaCard
           idea={idea}
+          className={cardClassName}
           key={idea.id}
           actions={actions}
           userOptions={userOptions}

@@ -49,6 +49,7 @@ export class GroupingStageIdeaCard extends Component {
   render() {
     const {
       idea,
+      className,
       connectDragSource,
       userOptions: { highContrastOn },
     } = this.props
@@ -79,7 +80,7 @@ export class GroupingStageIdeaCard extends Component {
       }
     }
 
-    const classes = cx("idea-card", styles.wrapper, {
+    const classes = cx("idea-card", styles.wrapper, className, {
       "in-edit-state": idea.inEditState,
     })
 
@@ -100,12 +101,14 @@ export class GroupingStageIdeaCard extends Component {
 GroupingStageIdeaCard.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   actions: AppPropTypes.actions,
+  className: PropTypes.string,
   connectDragSource: PropTypes.func,
   connectDragPreview: PropTypes.func,
   userOptions: AppPropTypes.userOptions.isRequired,
 }
 
 GroupingStageIdeaCard.defaultProps = {
+  className: "",
   connectDragSource: node => node,
   connectDragPreview: null,
   actions: null,

@@ -1,6 +1,7 @@
 import React from "react"
 import sinon from "sinon"
 import { shallow } from "enzyme"
+import _ from "lodash"
 
 import { GroupingBoard } from "../../web/static/js/components/grouping_board"
 import GroupingStageIdeaCard from "../../web/static/js/components/grouping_stage_idea_card"
@@ -36,6 +37,40 @@ describe("GroupingBoard", () => {
       )
 
       expect(wrapper.find(GroupingStageIdeaCard)).to.have.length(2)
+    })
+
+    context("when there are more than 35 ideas", () => {
+      let wrapper
+      const ideas = []
+
+      beforeEach(() => {
+        _.times(36, n => {
+          ideas.push({ id: n, body: "fart" })
+        })
+
+        wrapper = shallow(<GroupingBoard {...defaultProps} ideas={ideas} />)
+      })
+
+      it("ensures the cards are in their minimized variant to save grouping real estate", () => {
+        const { className } = wrapper.find(GroupingStageIdeaCard).at(0).props()
+        expect(className).to.match(/minimized/)
+      })
+    })
+
+    context("when there are 35 ideas", () => {
+      let wrapper
+      const ideas = []
+
+      beforeEach(() => {
+        _.times(35, n => { ideas.push({ id: n, body: "fart" }) })
+
+        wrapper = shallow(<GroupingBoard {...defaultProps} ideas={ideas} />)
+      })
+
+      it("does *not* minimize the cards within, as there is enough real estate to group comfortably", () => {
+        const { className } = wrapper.find(GroupingStageIdeaCard).at(0).props()
+        expect(className).to.not.match(/minimized/)
+      })
     })
   })
 
