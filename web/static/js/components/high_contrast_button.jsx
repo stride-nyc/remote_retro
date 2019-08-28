@@ -8,11 +8,12 @@ const HighContrastButton = props => {
   return (
     <div className={className}>
       <button
-        className="fluid ui left button"
+        className="ui right labeled icon button"
         onClick={actions.toggleHighContrastOn}
         type="button"
       >
-          {`Turn High Contrast ${userOptions.highContrastOn ? "Off" : "On"}`}
+        {`Turn High Contrast ${userOptions.highContrastOn ? "Off" : "On"}`}
+        <i className="ui low vision icon" />
       </button>
     </div>
   )
