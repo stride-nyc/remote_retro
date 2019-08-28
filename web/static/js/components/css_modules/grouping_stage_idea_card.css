@@ -7,7 +7,7 @@
   max-width: 250px;
 
   font-size: 12px;
-  padding: 6px 8px;
+  padding: 4px 8px;
 
   &:global(.minimized) {
     font-size: 10px;
