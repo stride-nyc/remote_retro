@@ -9,7 +9,7 @@ const GroupingLowerThirdContent = props => {
 
   return (
     <div className="ui stackable grid basic attached secondary center aligned segment">
-      <HighContrastButton userOptions={userOptions} actions={actions} className="three wide column ui" />
+      <HighContrastButton userOptions={userOptions} actions={actions} className="ui three wide column left aligned" />
       <div className="ten wide column">
         <div className="ui header">
           Grouping

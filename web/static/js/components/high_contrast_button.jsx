@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 
 const HighContrastButton = props => {
-  const {actions, userOptions, className} = props
+  const { actions, userOptions, className } = props
 
   return (
     <div className={className}>
@@ -22,7 +22,11 @@ const HighContrastButton = props => {
 HighContrastButton.propTypes = {
   actions: PropTypes.object.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
-  className: PropTypes.string
+  className: PropTypes.string,
+}
+
+HighContrastButton.defaultProps = {
+  className: "",
 }
 
 export default HighContrastButton
