@@ -9,6 +9,8 @@
   font-size: 12px;
   padding: 4px 8px;
 
+  transition: border 0.15s, box-shadow 0.15s;
+
   &:global(.minimized) {
     font-size: 10px;
     padding: 4px 6px;
