@@ -68,7 +68,7 @@ const _getExistingCollisions = (collisionsMap, key) => {
   return collisionsMap.get(key) || new Set()
 }
 
-const COLLISION_BUFFER = 3
+export const COLLISION_BUFFER = 3
 const _buildIdeaBoxWithIdentifier = ({ id, x, y, height, width }) => {
   const { Box, Vector } = SeparatingAxisTheorum
   const ideaBox = new Box(

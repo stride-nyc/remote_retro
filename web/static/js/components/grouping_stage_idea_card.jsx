@@ -8,6 +8,7 @@ import * as AppPropTypes from "../prop_types"
 
 import { dragSourceSpec, collect } from "./draggable_idea_content"
 import ColorPicker from "../services/color_picker"
+import { COLLISION_BUFFER } from "../services/collisions"
 import styles from "./css_modules/grouping_stage_idea_card.css"
 
 const COLOR_BLACK = "#000000"
@@ -54,7 +55,7 @@ export class GroupingStageIdeaCard extends Component {
       userOptions: { highContrastOn },
     } = this.props
 
-    let style = {}
+    let style = { margin: `${COLLISION_BUFFER + 2}px ${COLLISION_BUFFER + 1}px 0 0` }
 
     // handles floats, integers, and doesn't return true for nulls
     const hasNumericCoordinates = Number.isFinite(idea.x)

@@ -29,8 +29,6 @@
     (var(--border-width))
   );
 
-  margin-bottom: 0;
-
   border: 1px solid var(--semantic-dark-grey);
   border-radius: 3px;
 

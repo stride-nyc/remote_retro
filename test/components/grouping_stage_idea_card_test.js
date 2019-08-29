@@ -3,6 +3,7 @@ import sinon from "sinon"
 import { shallow, mount } from "enzyme"
 
 import { GroupingStageIdeaCard } from "../../web/static/js/components/grouping_stage_idea_card"
+import { COLLISION_BUFFER } from "../../web/static/js/services/collisions"
 
 describe("<GroupingStageIdeaCard />", () => {
   let wrapper
@@ -43,24 +44,14 @@ describe("<GroupingStageIdeaCard />", () => {
     it("maps the x/y values to WebkitTransform: translate", () => {
       expect(styleProp.WebkitTransform).to.eql("translate(0px,109px)")
     })
+
+    it("applies no margin", () => {
+      const marginDeclarations = Object.keys(styleProp).filter(style => (style.match(/margin/i)))
+      expect(marginDeclarations).to.be.empty
+    })
   })
 
   describe("when the given idea *lacks* x and y attributes", () => {
-    beforeEach(() => {
-      idea = { id: 9, body: "goodbye" }
-      wrapper = shallow(
-        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
-        { disableLifecycleMethods: true }
-      )
-      styleProp = wrapper.prop("style")
-    })
-
-    it("applies no inline styling", () => {
-      expect(styleProp).to.eql({})
-    })
-  })
-
-  describe("when the given idea has explicit null values for x/y", () => {
     beforeEach(() => {
       idea = { id: 9, body: "goodbye", x: null, y: null }
       wrapper = shallow(
@@ -70,8 +61,20 @@ describe("<GroupingStageIdeaCard />", () => {
       styleProp = wrapper.prop("style")
     })
 
-    it("applies no inline styling", () => {
-      expect(styleProp).to.eql({})
+    it("adds margins to the top and right, but not the left or the bottom", () => {
+      const marginDeclaration = styleProp.margin
+
+      expect(marginDeclaration).to.match(/\d+px \d+px 0 0/i)
+    })
+
+    it("applies a top and right margin greater than the collision buffer to avoid collisions registering on load", () => {
+      const marginDeclaration = styleProp.margin
+
+      const topAndRightMargins = marginDeclaration.match(/\d+/g).map(Number).slice(0, 2)
+
+      expect(topAndRightMargins).to.satisfy(marginsArray => {
+        return marginsArray.every(margin => margin > COLLISION_BUFFER)
+      })
     })
   })
 
