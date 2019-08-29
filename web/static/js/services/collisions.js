@@ -8,6 +8,8 @@ export default {
     const ideasSortedByIdAscending = sortBy(ideas, "id")
 
     ideasSortedByIdAscending.forEach((idea, index) => {
+      if (!Number.isFinite(idea.height)) { return }
+
       const ideaBox1 = _buildIdeaBoxWithIdentifier(idea)
 
       const subset = ideasSortedByIdAscending.slice(index + 1)

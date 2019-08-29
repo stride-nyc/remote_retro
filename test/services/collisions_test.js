@@ -74,6 +74,27 @@ describe("Collisions", () => {
       })
     })
 
+    describe("when ideas lack height/width", () => {
+      const ideas = [{
+        id: 1,
+        x: 0,
+        y: 0,
+        height: undefined,
+        width: undefined,
+      }, {
+        id: 2,
+        x: 0,
+        y: 0,
+        height: undefined,
+        width: undefined,
+      }]
+
+      it("does not register them as collisions", () => {
+        const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
+        expect(result).to.deep.equal(new Map())
+      })
+    })
+
     describe("when two ideas are within 3 pixels of colliding on the y axis", () => {
       const ideas = [{
         id: 2,
