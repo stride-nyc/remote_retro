@@ -13,7 +13,7 @@ const HighContrastButton = props => {
     <div className={wrapperClasses}>
       <button className="ui basic compact icon button" type="button" onClick={actions.toggleHighContrastOn}>
         <div className="ui toggle checkbox">
-          <input type="checkbox" name="public" checked={userOptions.highContrastOn} />
+          <input type="checkbox" name="public" checked={userOptions.highContrastOn} readOnly />
           <label><i className="ui low vision icon" /> High Contrast</label>
         </div>
       </button>
