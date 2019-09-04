@@ -1,8 +1,14 @@
 @import '../../../css/colors.css';
 
+:root {
+  /* also leveraged in grouping_board.css to ensure cards can never travel over gutters */
+  --grouping-card-z-index: 1;
+}
+
 .wrapper {
   display: inline-block;
   vertical-align: top;
+  z-index: var(--grouping-card-z-index);
 
   max-width: 250px;
 

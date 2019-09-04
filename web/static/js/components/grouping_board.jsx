@@ -6,28 +6,49 @@ import cx from "classnames"
 import GroupingStageIdeaCard from "./grouping_stage_idea_card"
 import DragCoordinates from "../services/drag_coordinates"
 import * as AppPropTypes from "../prop_types"
+import styles from "./css_modules/grouping_board.css"
 
 const IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION = 35
 
 export const GroupingBoard = props => {
   const { ideas, actions, connectDropTarget, userOptions } = props
 
+  const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
+  const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
+  const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
+
   const cardClassName = cx({
     minimized: ideas.length > IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION,
   })
 
-  return connectDropTarget(
-    <div style={{ flex: 1 }} className="grouping-board">
-      {ideas.map(idea => (
-        <GroupingStageIdeaCard
-          idea={idea}
-          className={cardClassName}
-          key={idea.id}
-          actions={actions}
-          userOptions={userOptions}
-        />
-      ))}
-    </div>
+  return (
+    <React.Fragment>
+      <div className={styles.boardAndSideGutterWrapper}>
+        {
+          connectDropTarget(
+            <div className={eligibleDragAreaClassname}>
+              {ideas.map(idea => (
+                <GroupingStageIdeaCard
+                  idea={idea}
+                  className={cardClassName}
+                  key={idea.id}
+                  actions={actions}
+                  userOptions={userOptions}
+                />
+              ))}
+            </div>
+          )
+        }
+        <div className={sideGutterClassname}>
+          <h2 className="ui inverted header">
+            <div className="content">
+              <div className="sub header">To ensure a consistent experience across devices, this space is non-draggable.</div>
+            </div>
+          </h2>
+        </div>
+      </div>
+      <div className={bottomGutterClassname} />
+    </React.Fragment>
   )
 }
 

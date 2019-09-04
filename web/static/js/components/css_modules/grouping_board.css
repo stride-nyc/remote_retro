@@ -1,0 +1,57 @@
+@import './grouping_stage_idea_card.css';
+
+:root {
+  --max-width-of-board: 1440px;
+  --min-height-of-board: 665px;
+}
+
+.board-and-side-gutter-wrapper {
+  flex: 1;
+  display: flex;
+  min-height: var(--min-height-of-board);
+}
+
+.eligible-drag-area {
+  flex: 1 0 auto;
+  flex-grow: 100;
+  max-width: var(--max-width-of-board);
+}
+
+.gutter {
+  z-index: calc(var(--grouping-card-z-index) + 1);
+
+  display: none; /* only display gutters when relevant breakpoints are surpassed */
+
+  text-align: center;
+  align-items: center;
+
+  &:global(.ui.segment) {
+    margin: 0;
+  }
+}
+
+.side-gutter {
+  composes: gutter;
+  flex-grow: 0;
+
+  /*
+    we can't use css variables within media queries, but the breakpoints at
+    which we display the gutters are meant to be larger than the dimensions
+    of the grouping board, as that's the only time they're relevant.
+      - see https://stackoverflow.com/questions/40722882/css-native-variables-not-working-in-media-queries
+  */
+  @media (min-width: 1540px) {
+    flex: 1 0 0;
+    display: flex;
+  }
+}
+
+.bottom-gutter {
+  composes: gutter;
+  flex-grow: 100;
+
+  /* see comment above regarding relationship between breakpoints and grouping board dimensions */
+  @media (min-height: 805px) {
+    display: flex;
+  }
+}
