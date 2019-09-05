@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { DragSource } from "react-dnd"
 import { getEmptyImage } from "react-dnd-html5-backend"
+import isFinite from "lodash/isFinite"
 import cx from "classnames"
 
 import * as AppPropTypes from "../prop_types"
@@ -34,7 +35,7 @@ export class GroupingStageIdeaCard extends Component {
     // store data is replaced wholesale when the js client rejoins the channel,
     // (for example, after a laptop awakes from sleep), so we re-add the height
     // and width on updates where the idea dimensions have been stripped
-    const storeDataHasBeenClearedOfDomNodeAttrs = !Number.isFinite(idea.height)
+    const storeDataHasBeenClearedOfDomNodeAttrs = !isFinite(idea.height)
     if (storeDataHasBeenClearedOfDomNodeAttrs) {
       this._updateStoreWithBoundingClientRectangleAttributes()
     }
@@ -58,7 +59,7 @@ export class GroupingStageIdeaCard extends Component {
     let style = { margin: `${COLLISION_BUFFER + 2}px ${COLLISION_BUFFER + 1}px 0 0` }
 
     // handles floats, integers, and doesn't return true for nulls
-    const hasNumericCoordinates = Number.isFinite(idea.x)
+    const hasNumericCoordinates = isFinite(idea.x)
 
     if (hasNumericCoordinates) {
       const transform = `translate(${idea.x}px,${idea.y}px)`

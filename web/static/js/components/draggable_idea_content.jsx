@@ -1,5 +1,6 @@
 import React from "react"
 import { DragSource } from "react-dnd"
+import isFinite from "lodash/isFinite"
 import PropTypes from "prop-types"
 
 import IdeaContentBase from "./idea_content_base"
@@ -21,7 +22,7 @@ export const dragSourceSpec = {
   endDrag: ({ idea, actions }) => {
     const { id, x, y } = idea
 
-    const dragOccursBetweenIdeaColumns = !Number.isFinite(x)
+    const dragOccursBetweenIdeaColumns = !isFinite(x)
     if (dragOccursBetweenIdeaColumns) { return }
 
     actions.submitIdeaEditAsync({ id, x, y })

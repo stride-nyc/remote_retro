@@ -1,4 +1,5 @@
 import sortBy from "lodash/sortBy"
+import isFinite from "lodash/isFinite"
 import SeparatingAxisTheorum from "sat"
 
 export default {
@@ -8,7 +9,7 @@ export default {
     const ideasSortedByIdAscending = sortBy(ideas, "id")
 
     ideasSortedByIdAscending.forEach((idea, index) => {
-      if (!Number.isFinite(idea.height)) { return }
+      if (!isFinite(idea.height)) { return }
 
       const ideaBox1 = _buildIdeaBoxWithIdentifier(idea)
 
