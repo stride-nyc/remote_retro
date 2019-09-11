@@ -69,6 +69,21 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+
+  describe "pushing a `retro_edited` event with a `ideasWithEphemeralGroupingIds` collection" do
+    setup [:join_the_retro_channel]
+
+    test "broadcasts the model without blowing up", ~M{socket} do
+      ref = push(socket, "retro_edited", %{stage: "action-items", ideasWithEphemeralGroupingIds: []})
+
+      assert_reply(ref, :ok)
+
+      assert_receive %Phoenix.Socket.Broadcast{event: "retro_edited", payload: raw_payload}
+
+      assert Jason.encode!(raw_payload)
+    end
+  end
+
   describe "when broadcast of the update fails" do
     setup [:join_the_retro_channel]
 
