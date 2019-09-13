@@ -38,5 +38,30 @@ describe("groups reducer", () => {
         expect(groupsReducer(initialState, action)).to.deep.equal([...groups])
       })
     })
+
+    describe("when the action is RETRO_STAGE_PROGRESSION_COMMITTED", () => {
+      context("when the payload contains data for groups", () => {
+        it("should replace the state with the groups passed in the action's payload", () => {
+          const initialState = []
+          deepFreeze(initialState)
+
+          const groups = [{ id: 7, name: "the build" }]
+          const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload: { groups } }
+
+          expect(groupsReducer(initialState, action)).to.deep.equal([...groups])
+        })
+      })
+
+      context("when the payload *lacks* groups data", () => {
+        it("leaves the state unchanged", () => {
+          const initialState = []
+          deepFreeze(initialState)
+
+          const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload: {} }
+
+          expect(groupsReducer(initialState, action)).to.deep.equal(initialState)
+        })
+      })
+    })
   })
 })
