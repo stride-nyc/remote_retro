@@ -1,11 +1,13 @@
 import keyBy from "lodash/keyBy"
 import values from "lodash/values"
 
+import { types as retroTypes } from "./retro"
+
 const USER_PRIMARY_KEY = "id"
 
 export const reducer = (state = {}, action) => {
   switch (action.type) {
-    case "SET_INITIAL_STATE":
+    case retroTypes.SET_INITIAL_STATE:
       return keyBy(action.initialState.users, USER_PRIMARY_KEY)
     case "SET_PRESENCES":
       return { ...state, ...keyBy(action.presences, USER_PRIMARY_KEY) }

@@ -13,6 +13,10 @@ import {
 } from "./ideas"
 
 import {
+  reducer as groups,
+} from "./groups"
+
+import {
   actions as retroActions,
   reducer as retro,
 } from "./retro"
@@ -60,6 +64,7 @@ export const reducer = combineReducers({
   presences,
   usersById,
   ideas,
+  groups,
   votes,
   alert,
   retro,

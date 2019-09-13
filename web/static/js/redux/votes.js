@@ -1,5 +1,7 @@
 import uuidv4 from "uuid/v4"
 
+import { types as retroTypes } from "./retro"
+
 export const types = {
   ADD_VOTE: "ADD_VOTE",
   RETRACT_VOTE: "RETRACT_VOTE",
@@ -75,7 +77,7 @@ export const actions = {
 
 export const reducer = (state = [], action) => {
   switch (action.type) {
-    case "SET_INITIAL_STATE":
+    case retroTypes.SET_INITIAL_STATE:
       return action.initialState.votes
     case types.ADD_VOTE:
       return [...state, action.vote]

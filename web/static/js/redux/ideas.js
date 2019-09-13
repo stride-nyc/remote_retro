@@ -1,4 +1,5 @@
 import throttle from "lodash/throttle"
+import { types as retroTypes } from "./retro"
 
 export const types = {
   IDEA_SUBMISSION_COMMITTED: "IDEA_SUBMISSION_COMMITTED",
@@ -122,7 +123,7 @@ export const actions = {
 
 export const reducer = (state = [], action) => {
   switch (action.type) {
-    case "SET_INITIAL_STATE":
+    case retroTypes.SET_INITIAL_STATE:
       return action.initialState.ideas
     case types.IDEA_SUBMISSION_COMMITTED:
       return [...state, action.idea]
