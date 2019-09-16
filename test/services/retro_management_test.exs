@@ -138,16 +138,12 @@ defmodule RemoteRetro.RetroManagementTest do
         "ephemeralGroupingId" => idea_one.id,
       }]
 
-      %{groups: groups} = RetroManagement.update!(retro.id, %{
+      %{groups: [persisted_group], ideas: [updated_idea]} = RetroManagement.update!(retro.id, %{
         "stage" => "voting",
         "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids,
       })
 
-      [group] = groups
-
-      idea = Repo.get!(Idea, idea_one.id)
-
-      assert group.id == idea.group_id
+      assert persisted_group.id == updated_idea.group_id
     end
 
     @tag [

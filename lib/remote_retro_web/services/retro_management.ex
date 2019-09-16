@@ -5,11 +5,11 @@ defmodule RemoteRetroWeb.RetroManagement do
   import ShorterMaps
 
   def update!(retro_id, ~m{ideasWithEphemeralGroupingIds} = context) do
-    groups = persist_groups_with_associations(retro_id, ideasWithEphemeralGroupingIds)
+    updates_map = persist_groups_with_associated_ideas(retro_id, ideasWithEphemeralGroupingIds)
 
     context = Map.delete(context, "ideasWithEphemeralGroupingIds")
 
-    update!(retro_id, context, %{groups: groups})
+    update!(retro_id, context, updates_map)
   end
 
   def update!(retro_id, new_attributes, aggregate_updates \\ %{}) do
@@ -26,7 +26,7 @@ defmodule RemoteRetroWeb.RetroManagement do
     Map.merge(%{retro: retro}, aggregate_updates)
   end
 
-  defp persist_groups_with_associations(retro_id, ideasWithEphemeralGroupingIds) do
+  defp persist_groups_with_associated_ideas(retro_id, ideasWithEphemeralGroupingIds) do
     all_persisted_ideas = Repo.all(from i in Idea, where: i.retro_id == ^retro_id)
     all_persisted_ideas_by_id = Enum.reduce(all_persisted_ideas, %{}, fn idea, acc -> Map.put(acc, idea.id, idea) end)
 
@@ -44,7 +44,13 @@ defmodule RemoteRetroWeb.RetroManagement do
         end)
       end)
 
-    groups
+    normalize_groups_and_ideas(groups)
+  end
+
+  defp normalize_groups_and_ideas(groups) do
+    Enum.reduce(groups, %{groups: [], ideas: []}, fn(group, ~M{groups, ideas} = acc) ->
+      Map.merge(acc, %{groups: [group | groups], ideas: group.ideas ++ ideas})
+    end)
   end
 
   defp update_retro_record!(retro_id, new_attributes) do
