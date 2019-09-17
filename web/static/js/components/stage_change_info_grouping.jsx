@@ -5,7 +5,7 @@ export default () => (
     The skinny on Grouping:
     <div className="ui basic segment">
       <ul className="ui list">
-        <li>Grouping related items via drag and drop</li>
+        <li>Group related items by bringing them into contact with one another</li>
       </ul>
     </div>
   </React.Fragment>
