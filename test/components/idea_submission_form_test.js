@@ -93,7 +93,6 @@ describe("IdeaSubmissionForm component", () => {
           body: "",
           userId: 1,
           assigneeId: null,
-          hasTypedChar: false,
         })
       })
     })
@@ -118,7 +117,6 @@ describe("IdeaSubmissionForm component", () => {
           body: "Some issue",
           userId: 1,
           assigneeId: 1,
-          hasTypedChar: true,
           category: "action-item",
         })
       })
