@@ -149,6 +149,27 @@ defmodule RemoteRetro.RetroManagementTest do
     @tag [
       ideas: @ideas,
     ]
+
+    test "updates the idea records with the given coordinates, casting integers to floats", ~M{retro, ideas} do
+      [idea_one | _tail] = ideas
+      ideas_with_ephemeral_grouping_ids = [%{
+        "id" => idea_one.id,
+        "ephemeralGroupingId" => idea_one.id,
+        "x" => 54,
+        "y" => 104.98,
+      }]
+
+      %{ideas: [updated_idea]} = RetroManagement.update!(retro.id, %{
+        "stage" => "voting",
+        "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids,
+      })
+
+      assert %{x: 54.0, y: 104.98} = updated_idea
+    end
+
+    @tag [
+      ideas: @ideas,
+    ]
     test "updates the retro record's attributes", ~M{retro, ideas} do
       [idea_one | _tail] = ideas
       ideas_with_ephemeral_grouping_ids = [%{

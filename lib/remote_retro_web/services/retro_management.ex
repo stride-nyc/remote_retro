@@ -36,15 +36,25 @@ defmodule RemoteRetroWeb.RetroManagement do
     {:ok, groups} =
       Repo.transaction(fn ->
         Enum.map(grouped_by_leader_id, fn ({_leader_id, ideas_in_group}) ->
-          ideas_in_group = Enum.map(ideas_in_group, &(all_persisted_ideas_by_id[&1["id"]]))
+          ideas_in_group_as_changesets = ensure_ideas_in_group_have_latest_ephemeral_coordinates(
+            ideas_in_group,
+            all_persisted_ideas_by_id
+          )
 
           %Group{}
-          |> Ecto.Changeset.change(%{ ideas: ideas_in_group })
+          |> Ecto.Changeset.change(%{ ideas: ideas_in_group_as_changesets })
           |> Repo.insert!(returning: true)
         end)
       end)
 
     normalize_groups_and_ideas(groups)
+  end
+
+  defp ensure_ideas_in_group_have_latest_ephemeral_coordinates(ideas_in_group, all_persisted_ideas_by_id) do
+    Enum.map(ideas_in_group, fn idea ->
+      persisted_idea = all_persisted_ideas_by_id[idea["id"]]
+      Idea.changeset(persisted_idea, %{x: idea["x"], y: idea["y"]})
+    end)
   end
 
   defp normalize_groups_and_ideas(groups) do
