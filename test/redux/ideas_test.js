@@ -120,6 +120,31 @@ describe("idea reducer", () => {
         ])
       })
     })
+
+    describe("when the action is RETRO_STAGE_PROGRESSION_COMMITTED", () => {
+      context("when the payload contains data for ideas", () => {
+        it("should replace the state with the ideas passed in the action's payload", () => {
+          const initialState = []
+          deepFreeze(initialState)
+
+          const ideas = [{ id: 7, category: "sad", body: "no cookies", x: 104.4, y: 100 }]
+          const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload: { ideas } }
+
+          expect(ideasReducer(initialState, action)).to.deep.equal([...ideas])
+        })
+      })
+
+      context("when the payload *lacks* ideas data", () => {
+        it("leaves the state unchanged", () => {
+          const initialState = []
+          deepFreeze(initialState)
+
+          const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload: {} }
+
+          expect(ideasReducer(initialState, action)).to.deep.equal(initialState)
+        })
+      })
+    })
   })
 })
 

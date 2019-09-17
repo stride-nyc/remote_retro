@@ -147,6 +147,8 @@ export const reducer = (state = [], action) => {
       return state.map(idea => {
         return idea.id === action.ideaId ? { ...idea, deletionSubmitted: false } : idea
       })
+    case retroTypes.RETRO_STAGE_PROGRESSION_COMMITTED:
+      return action.payload.ideas ? action.payload.ideas : state
     default:
       return state
   }
