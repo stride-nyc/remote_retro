@@ -40,7 +40,7 @@
     <meta name="description" content="A real-time application for conducting Agile retrospectives">
     <meta name="google-site-verification" content="T5W8sjrjt-BmTK5SYTjPM-FQZD8oGNatTNAJSyRex7o" />
     <meta name="author" content="">
-    <title>RemoteRetro | Free. World-class. Retrospectives.</title>
+    <title>RemoteRetro | Free. World-class. Agile retrospectives.</title>
 
     <link rel="preload" href="<%= Routes.static_path(@conn, "/css/semantic-ui/font/lato-v14-latin-regular.woff2") %>" as="font" crossorigin="anonymous" />
     <link rel="preload" href="<%= Routes.static_path(@conn, "/css/semantic-ui/themes/default/assets/fonts/icons.woff2") %>" as="font" crossorigin="anonymous" />
