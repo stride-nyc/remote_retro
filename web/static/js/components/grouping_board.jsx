@@ -54,6 +54,7 @@ export const GroupingBoard = props => {
 
 GroupingBoard.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
+  userOptions: AppPropTypes.userOptions.isRequired,
   connectDropTarget: PropTypes.func,
   actions: PropTypes.object.isRequired,
 }
