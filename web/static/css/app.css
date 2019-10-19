@@ -1,5 +1,5 @@
 @import './colors.css';
-@import '../js/components/css_modules/grouping_stage_idea_card.css';
+@import '../js/components/css_modules/grouping_idea_card.css';
 
 :global .landing-page {
   --padding: 5.5rem;

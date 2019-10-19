@@ -4,7 +4,7 @@ import { shallow } from "enzyme"
 import _ from "lodash"
 
 import { GroupingBoard } from "../../web/static/js/components/grouping_board"
-import GroupingStageIdeaCard from "../../web/static/js/components/grouping_stage_idea_card"
+import GroupingIdeaCard from "../../web/static/js/components/grouping_idea_card"
 import DragCoordinates from "../../web/static/js/services/drag_coordinates"
 
 const requireUncached = module => {
@@ -26,7 +26,7 @@ describe("GroupingBoard", () => {
         <GroupingBoard {...defaultProps} ideas={[]} />
       )
 
-      expect(wrapper.find(GroupingStageIdeaCard)).to.have.length(0)
+      expect(wrapper.find(GroupingIdeaCard)).to.have.length(0)
     })
   })
 
@@ -36,7 +36,7 @@ describe("GroupingBoard", () => {
         <GroupingBoard {...defaultProps} ideas={[{ body: "hey", id: 5 }, { body: "hey", id: 6 }]} />
       )
 
-      expect(wrapper.find(GroupingStageIdeaCard)).to.have.length(2)
+      expect(wrapper.find(GroupingIdeaCard)).to.have.length(2)
     })
 
     context("when there are more than 35 ideas", () => {
@@ -52,7 +52,7 @@ describe("GroupingBoard", () => {
       })
 
       it("ensures the cards are in their minimized variant to save grouping real estate", () => {
-        const { className } = wrapper.find(GroupingStageIdeaCard).at(0).props()
+        const { className } = wrapper.find(GroupingIdeaCard).at(0).props()
         expect(className).to.match(/minimized/)
       })
     })
@@ -68,7 +68,7 @@ describe("GroupingBoard", () => {
       })
 
       it("does *not* minimize the cards within, as there is enough real estate to group comfortably", () => {
-        const { className } = wrapper.find(GroupingStageIdeaCard).at(0).props()
+        const { className } = wrapper.find(GroupingIdeaCard).at(0).props()
         expect(className).to.not.match(/minimized/)
       })
     })

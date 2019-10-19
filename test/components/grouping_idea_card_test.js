@@ -2,10 +2,10 @@ import React from "react"
 import sinon from "sinon"
 import { shallow, mount } from "enzyme"
 
-import { GroupingStageIdeaCard } from "../../web/static/js/components/grouping_stage_idea_card"
+import { GroupingIdeaCard } from "../../web/static/js/components/grouping_idea_card"
 import { COLLISION_BUFFER } from "../../web/static/js/services/collisions"
 
-describe("<GroupingStageIdeaCard />", () => {
+describe("<GroupingIdeaCard />", () => {
   let wrapper
   let idea
   let styleProp
@@ -19,7 +19,7 @@ describe("<GroupingStageIdeaCard />", () => {
     before(() => {
       idea = { id: 5, body: "hello", x: 0, y: 109 }
       wrapper = shallow(
-        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
+        <GroupingIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
       styleProp = wrapper.prop("style")
@@ -55,7 +55,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, body: "goodbye", x: null, y: null }
       wrapper = shallow(
-        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
+        <GroupingIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
       styleProp = wrapper.prop("style")
@@ -82,7 +82,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, inEditState: true }
       wrapper = shallow(
-        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
+        <GroupingIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
     })
@@ -96,7 +96,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, inEditState: false }
       wrapper = shallow(
-        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
+        <GroupingIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
     })
@@ -110,7 +110,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, editSubmitted: true }
       wrapper = shallow(
-        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
+        <GroupingIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
     })
@@ -124,7 +124,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, editSubmitted: false }
       wrapper = shallow(
-        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
+        <GroupingIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
     })
@@ -138,7 +138,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9, ephemeralGroupingId: 15 }
       wrapper = shallow(
-        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
+        <GroupingIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
       styleProp = wrapper.prop("style")
@@ -189,7 +189,7 @@ describe("<GroupingStageIdeaCard />", () => {
     beforeEach(() => {
       idea = { id: 9 }
       wrapper = shallow(
-        <GroupingStageIdeaCard {...defaultProps} idea={idea} />,
+        <GroupingIdeaCard {...defaultProps} idea={idea} />,
         { disableLifecycleMethods: true }
       )
       styleProp = wrapper.prop("style")
@@ -209,7 +209,7 @@ describe("<GroupingStageIdeaCard />", () => {
         updateIdea: sinon.spy(),
       }
       wrapper = mount(
-        <GroupingStageIdeaCard
+        <GroupingIdeaCard
           {...defaultProps}
           idea={idea}
           actions={actions}
@@ -241,7 +241,7 @@ describe("<GroupingStageIdeaCard />", () => {
         }
 
         wrapper = mount(
-          <GroupingStageIdeaCard
+          <GroupingIdeaCard
             {...defaultProps}
             idea={idea}
             actions={actions}
@@ -278,7 +278,7 @@ describe("<GroupingStageIdeaCard />", () => {
         }
 
         wrapper = mount(
-          <GroupingStageIdeaCard
+          <GroupingIdeaCard
             {...defaultProps}
             idea={idea}
             actions={actions}

@@ -10,11 +10,11 @@ import * as AppPropTypes from "../prop_types"
 import { dragSourceSpec, collect } from "./draggable_idea_content"
 import ColorPicker from "../services/color_picker"
 import { COLLISION_BUFFER } from "../services/collisions"
-import styles from "./css_modules/grouping_stage_idea_card.css"
+import styles from "./css_modules/grouping_idea_card.css"
 
 const COLOR_BLACK = "#000000"
 
-export class GroupingStageIdeaCard extends Component {
+export class GroupingIdeaCard extends Component {
   componentDidMount() {
     this._updateStoreWithBoundingClientRectangleAttributes()
 
@@ -100,7 +100,7 @@ export class GroupingStageIdeaCard extends Component {
   }
 }
 
-GroupingStageIdeaCard.propTypes = {
+GroupingIdeaCard.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   actions: AppPropTypes.actions,
   className: PropTypes.string,
@@ -109,7 +109,7 @@ GroupingStageIdeaCard.propTypes = {
   userOptions: AppPropTypes.userOptions.isRequired,
 }
 
-GroupingStageIdeaCard.defaultProps = {
+GroupingIdeaCard.defaultProps = {
   className: "",
   connectDragSource: node => node,
   connectDragPreview: null,
@@ -120,4 +120,4 @@ export default DragSource(
   "GROUPING_STAGE_IDEA_CARD",
   dragSourceSpec,
   collect
-)(GroupingStageIdeaCard)
+)(GroupingIdeaCard)

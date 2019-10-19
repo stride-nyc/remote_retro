@@ -3,7 +3,7 @@ import { DropTarget } from "react-dnd"
 import PropTypes from "prop-types"
 import cx from "classnames"
 
-import GroupingStageIdeaCard from "./grouping_stage_idea_card"
+import GroupingIdeaCard from "./grouping_idea_card"
 import DragCoordinates from "../services/drag_coordinates"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/grouping_board.css"
@@ -28,7 +28,7 @@ export const GroupingBoard = props => {
           connectDropTarget(
             <div className={eligibleDragAreaClassname}>
               {ideas.map(idea => (
-                <GroupingStageIdeaCard
+                <GroupingIdeaCard
                   idea={idea}
                   className={cardClassName}
                   key={idea.id}
