@@ -2,6 +2,7 @@ import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
 import stageChangeInfoIdeaGenerationBuilder from "../components/stage_change_info_idea_generation_builder"
 import StageChangeInfoGrouping from "../components/stage_change_info_grouping"
+import StageChangeInfoGroupLabeling from "../components/stage_change_info_group_labeling"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
 import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
@@ -13,6 +14,7 @@ const {
   PRIME_DIRECTIVE,
   IDEA_GENERATION,
   GROUPING,
+  GROUP_LABELING,
   VOTING,
   ACTION_ITEMS,
   CLOSED,
@@ -90,10 +92,26 @@ export default {
       BodyComponent: StageChangeInfoGrouping,
     },
     progressionButton: {
-      nextStage: VOTING,
+      nextStage: GROUP_LABELING,
       optionalParamsAugmenter: reduxState => ({
         ideasWithEphemeralGroupingIds: IdeasWithEphemeralGroupingIds.buildFrom(reduxState.ideas),
       }),
+      copy: "Proceed to Labeling",
+      iconClass: "arrow right",
+      confirmationMessage: "Are you sure you would like to proceed to the labeling stage?",
+    },
+  },
+  [GROUP_LABELING]: {
+    arrivalAlert: {
+      headerText: "Stage Change: Labeling!",
+      BodyComponent: StageChangeInfoGroupLabeling,
+    },
+    help: {
+      headerText: "Labeling",
+      BodyComponent: StageChangeInfoGroupLabeling,
+    },
+    progressionButton: {
+      nextStage: VOTING,
       copy: "Proceed to Voting",
       iconClass: "arrow right",
       confirmationMessage: "Are you sure you would like to proceed to the voting stage?",

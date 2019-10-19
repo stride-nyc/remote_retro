@@ -37,6 +37,7 @@ defmodule RemoteRetro.Retro do
       "prime-directive",
       "idea-generation",
       "grouping",
+      "group-labeling",
       "voting",
       "action-items",
       "closed"
