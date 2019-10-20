@@ -6,9 +6,10 @@ import LobbyStage from "../../web/static/js/components/lobby_stage"
 import PrimeDirectiveStage from "../../web/static/js/components/prime_directive_stage"
 import IdeaGenerationStage from "../../web/static/js/components/idea_generation_stage"
 import GroupingStage from "../../web/static/js/components/grouping_stage"
+import GroupLabelingStage from "../../web/static/js/components/group_labeling_stage"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION, GROUPING } = STAGES
+const { LOBBY, PRIME_DIRECTIVE, IDEA_GENERATION, GROUPING, GROUP_LABELING } = STAGES
 
 describe("Room", () => {
   let room
@@ -67,6 +68,21 @@ describe("Room", () => {
       const groupingStage = room.find(GroupingStage)
 
       expect(groupingStage).to.have.length(1)
+    })
+  })
+
+  describe("when the stage is group labeling", () => {
+    it("renders the GroupLabelingStage", () => {
+      room = shallow(
+        <Room
+          {...defaultProps}
+          stage={GROUP_LABELING}
+        />
+      )
+
+      const groupLabelingStage = room.find(GroupLabelingStage)
+
+      expect(groupLabelingStage).to.have.length(1)
     })
   })
 

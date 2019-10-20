@@ -4,11 +4,12 @@ import PrimeDirectiveStage from "./prime_directive_stage"
 import LobbyStage from "./lobby_stage"
 import IdeaGenerationStage from "./idea_generation_stage"
 import GroupingStage from "./grouping_stage"
+import GroupLabelingStage from "./group_labeling_stage"
 import STAGES from "../configs/stages"
 
 import * as AppPropTypes from "../prop_types"
 
-const { LOBBY, PRIME_DIRECTIVE, GROUPING } = STAGES
+const { LOBBY, PRIME_DIRECTIVE, GROUPING, GROUP_LABELING } = STAGES
 
 const Room = props => {
   let roomContents
@@ -31,6 +32,13 @@ const Room = props => {
   } else if (stage === GROUPING) {
     roomContents = (
       <GroupingStage
+        {...props}
+        isFacilitator={isFacilitator}
+      />
+    )
+  } else if (stage === GROUP_LABELING) {
+    roomContents = (
+      <GroupLabelingStage
         {...props}
         isFacilitator={isFacilitator}
       />
