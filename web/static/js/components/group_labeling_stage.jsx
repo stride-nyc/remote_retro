@@ -15,9 +15,12 @@ export const GroupLabelingStage = props => {
   return (
     <div className={groupingStageStyles.wrapper}>
       <div style={{ flex: 1 }}>
-        {groupsWithAssociatedIdeas.map(group => {
-          return <IdeaGroup key={group.id} />
-        })}
+        {groupsWithAssociatedIdeas.map(groupWithAssociatedIdeas => (
+          <IdeaGroup
+            key={groupWithAssociatedIdeas.id}
+            groupWithAssociatedIdeas={groupWithAssociatedIdeas}
+          />
+        ))}
       </div>
 
       <LowerThird {...props} />

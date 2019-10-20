@@ -69,6 +69,11 @@ export const groups = PropTypes.arrayOf(PropTypes.object)
 
 export const ideas = PropTypes.arrayOf(idea)
 
+export const groupWithAssociatedIdeas = PropTypes.shape({
+  id: PropTypes.number,
+  ideas,
+})
+
 export const actions = PropTypes.object
 
 export const retro = PropTypes.shape({
