@@ -65,6 +65,8 @@ export const categories = PropTypes.arrayOf(PropTypes.string)
 
 export const votes = PropTypes.arrayOf(PropTypes.object)
 
+export const groups = PropTypes.arrayOf(PropTypes.object)
+
 export const ideas = PropTypes.arrayOf(idea)
 
 export const actions = PropTypes.object

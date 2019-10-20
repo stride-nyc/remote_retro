@@ -20,6 +20,7 @@ describe("Room", () => {
       picture: "http://herpderp.com",
     }],
     ideas: [],
+    groups: [],
     facilitatorName: "Dirk",
     stageConfig: {},
     currentUser: { is_facilitator: false, token: "33ndk" },

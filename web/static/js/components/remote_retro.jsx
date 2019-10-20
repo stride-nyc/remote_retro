@@ -33,6 +33,7 @@ export class RemoteRetro extends Component {
     const {
       presences,
       ideas,
+      groups,
       retroChannel,
       stage,
       alert,
@@ -61,6 +62,7 @@ export class RemoteRetro extends Component {
           ideaGenerationCategories={ideaGenerationCategories}
           userOptions={userOptions}
           ideas={ideas}
+          groups={groups}
           stage={stage}
           stageConfig={stageConfig}
           actions={actions}
@@ -81,6 +83,7 @@ RemoteRetro.propTypes = {
   retroChannel: AppPropTypes.retroChannel.isRequired,
   presences: AppPropTypes.presences.isRequired,
   ideas: AppPropTypes.ideas.isRequired,
+  groups: AppPropTypes.groups.isRequired,
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
   error: PropTypes.object,

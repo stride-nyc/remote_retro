@@ -19,6 +19,7 @@ describe("RemoteRetro component", () => {
     retroChannel: mockRetroChannel,
     isTabletOrAbove: true,
     presences: [],
+    groups: [],
     browser: { orientation: "landscape" },
     ideas: [],
     stage: IDEA_GENERATION,
