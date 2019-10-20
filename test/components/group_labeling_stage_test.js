@@ -1,12 +1,12 @@
 import React from "react"
 import { shallow } from "enzyme"
 
-import GroupLabelingStage from "../../web/static/js/components/group_labeling_stage"
+import { GroupLabelingStage } from "../../web/static/js/components/group_labeling_stage"
 import IdeaGroup from "../../web/static/js/components/idea_group"
 
 describe("GroupLabelingStage component", () => {
   const defaultProps = {
-    groups: [{
+    groupsWithAssociatedIdeas: [{
       id: 5,
     }, {
       id: 6,

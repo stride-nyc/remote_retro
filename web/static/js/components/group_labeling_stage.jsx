@@ -1,4 +1,6 @@
 import React from "react"
+import { connect } from "react-redux"
+import { selectors } from "../redux/index"
 
 import LowerThird from "./lower_third"
 import IdeaGroup from "./idea_group"
@@ -7,13 +9,13 @@ import * as AppPropTypes from "../prop_types"
 
 import groupingStageStyles from "./css_modules/grouping_stage.css"
 
-const GroupLabelingStage = props => {
-  const { groups } = props
+export const GroupLabelingStage = props => {
+  const { groupsWithAssociatedIdeas } = props
 
   return (
     <div className={groupingStageStyles.wrapper}>
       <div style={{ flex: 1 }}>
-        {groups.map(group => {
+        {groupsWithAssociatedIdeas.map(group => {
           return <IdeaGroup key={group.id} />
         })}
       </div>
@@ -24,7 +26,11 @@ const GroupLabelingStage = props => {
 }
 
 GroupLabelingStage.propTypes = {
-  groups: AppPropTypes.groups.isRequired,
+  groupsWithAssociatedIdeas: AppPropTypes.groups.isRequired,
 }
 
-export default GroupLabelingStage
+const mapStateToProps = state => ({
+  groupsWithAssociatedIdeas: selectors.groupsWithAssociatedIdeas(state),
+})
+
+export default connect(mapStateToProps)(GroupLabelingStage)

@@ -14,6 +14,7 @@ import {
 
 import {
   reducer as groups,
+  selectors as groupSelectors,
 } from "./groups"
 
 import {
@@ -90,6 +91,7 @@ export const actions = {
 export const selectors = {
   ...presenceSelectors,
   ...usersByIdSelectors,
+  ...groupSelectors,
   ...voteSelectors,
   isTabletOrAbove: ({ browser }) => {
     return browser.greaterThan.small
