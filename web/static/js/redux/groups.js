@@ -1,6 +1,7 @@
+import groupBy from "lodash/groupBy"
+
 import { types as retroTypes } from "./retro"
 
-// eslint-disable-next-line import/prefer-default-export
 export const reducer = (state = [], action) => {
   switch (action.type) {
     case retroTypes.SET_INITIAL_STATE:
@@ -10,4 +11,15 @@ export const reducer = (state = [], action) => {
     default:
       return state
   }
+}
+
+export const selectors = {
+  groupsWithAssociatedIdeas: ({ groups, ideas }) => {
+    const ideasByGroupId = groupBy(ideas, "group_id")
+
+    return groups.map(group => {
+      const ideasForGroup = ideasByGroupId[group.id] || []
+      return { ...group, ideas: ideasForGroup }
+    })
+  },
 }
