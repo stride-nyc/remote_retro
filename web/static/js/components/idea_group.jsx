@@ -1,8 +1,13 @@
 import React from "react"
 import * as AppPropTypes from "../prop_types"
 
-const IdeaGroup = ({ groupWithAssociatedIdeas }) => (
+const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser }) => (
   <div>
+    {currentUser.is_facilitator && (
+      <div className="ui transparent input">
+        <input type="text" placeholder="Add a group title" />
+      </div>
+    )}
     <ul>
       {groupWithAssociatedIdeas.ideas.map(idea => {
         return <li key={idea.id}>{idea.body}</li>
@@ -12,6 +17,7 @@ const IdeaGroup = ({ groupWithAssociatedIdeas }) => (
 )
 
 IdeaGroup.propTypes = {
+  currentUser: AppPropTypes.user.isRequired,
   groupWithAssociatedIdeas: AppPropTypes.groupWithAssociatedIdeas.isRequired,
 }
 

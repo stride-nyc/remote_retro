@@ -10,13 +10,14 @@ import * as AppPropTypes from "../prop_types"
 import groupingStageStyles from "./css_modules/grouping_stage.css"
 
 export const GroupLabelingStage = props => {
-  const { groupsWithAssociatedIdeas } = props
+  const { groupsWithAssociatedIdeas, currentUser } = props
 
   return (
     <div className={groupingStageStyles.wrapper}>
       <div style={{ flex: 1 }}>
         {groupsWithAssociatedIdeas.map(groupWithAssociatedIdeas => (
           <IdeaGroup
+            currentUser={currentUser}
             key={groupWithAssociatedIdeas.id}
             groupWithAssociatedIdeas={groupWithAssociatedIdeas}
           />
@@ -29,6 +30,7 @@ export const GroupLabelingStage = props => {
 }
 
 GroupLabelingStage.propTypes = {
+  currentUser: AppPropTypes.user.isRequired,
   groupsWithAssociatedIdeas: AppPropTypes.groups.isRequired,
 }
 

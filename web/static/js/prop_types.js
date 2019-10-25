@@ -84,6 +84,10 @@ export const retro = PropTypes.shape({
   updated_at: PropTypes.string,
 })
 
+export const user = PropTypes.shape({
+  is_facilitator: PropTypes.bool,
+})
+
 export const userOptions = PropTypes.shape({
   highContrastOn: PropTypes.bool,
 })
