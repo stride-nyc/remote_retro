@@ -1,10 +1,12 @@
 import React from "react"
 import { shallow } from "enzyme"
+import sinon from "sinon"
 
 import IdeaGroup from "../../web/static/js/components/idea_group"
 
 describe("IdeaGroup component", () => {
   const defaultProps = {
+    actions: {},
     currentUser: {},
     groupWithAssociatedIdeas: {
       id: 5,
@@ -31,23 +33,43 @@ describe("IdeaGroup component", () => {
     ])
   })
 
-  it("renders an input field when the user is a facilitator", () => {
-    const wrapper = shallow(
-      <IdeaGroup {...defaultProps} currentUser={{ is_facilitator: true }} />
-    )
+  context("when the user is a facilitator", () => {
+    it("renders an input field", () => {
+      const wrapper = shallow(
+        <IdeaGroup {...defaultProps} currentUser={{ is_facilitator: true }} />
+      )
 
-    const input = wrapper.find("input")
+      const input = wrapper.find("input")
 
-    expect(input.length).to.eql(1)
+      expect(input.length).to.eql(1)
+    })
+
+    it("invokes submitGroupTitle with the input value on input blur", () => {
+      const submitGroupTitleSpy = sinon.spy()
+      const wrapper = shallow(
+        <IdeaGroup
+          {...defaultProps}
+          currentUser={{ is_facilitator: true }}
+          actions={{ submitGroupTitle: submitGroupTitleSpy }}
+        />
+      )
+
+      const input = wrapper.find("input")
+      input.simulate("blur", { target: { value: "Turtles" } })
+
+      expect(submitGroupTitleSpy).to.have.been.calledWith("Turtles")
+    })
   })
 
-  it("renders an input field when the user is a facilitator", () => {
-    const wrapper = shallow(
-      <IdeaGroup {...defaultProps} currentUser={{ is_facilitator: false }} />
-    )
+  context("when the user is not a facilitator", () => {
+    it("does not render an input field", () => {
+      const wrapper = shallow(
+        <IdeaGroup {...defaultProps} currentUser={{ is_facilitator: false }} />
+      )
 
-    const input = wrapper.find("input")
+      const input = wrapper.find("input")
 
-    expect(input.length).to.eql(0)
+      expect(input.length).to.eql(0)
+    })
   })
 })

@@ -1,11 +1,15 @@
 import React from "react"
 import * as AppPropTypes from "../prop_types"
 
-const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser }) => (
+const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
   <div>
     {currentUser.is_facilitator && (
       <div className="ui transparent input">
-        <input type="text" placeholder="Add a group title" />
+        <input
+          type="text"
+          placeholder="Add a group title"
+          onBlur={e => actions.submitGroupTitle(e.target.value)}
+        />
       </div>
     )}
     <ul>
@@ -17,6 +21,7 @@ const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser }) => (
 )
 
 IdeaGroup.propTypes = {
+  actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.user.isRequired,
   groupWithAssociatedIdeas: AppPropTypes.groupWithAssociatedIdeas.isRequired,
 }

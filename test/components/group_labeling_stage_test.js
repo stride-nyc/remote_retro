@@ -11,6 +11,7 @@ describe("GroupLabelingStage component", () => {
     }, {
       id: 6,
     }],
+    actions: {},
     currentUser: {},
     retroChannel: {},
     stage: "idea-generation",
