@@ -1,7 +1,4 @@
 import React, { Component } from "react"
-import MultiBackend from "react-dnd-multi-backend"
-import HTML5toTouch from "react-dnd-multi-backend/lib/HTML5toTouch"
-import { DragDropContext } from "react-dnd"
 import PropTypes from "prop-types"
 
 import { bindActionCreators } from "redux"
@@ -128,9 +125,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actions, dispatch),
 })
 
-const RemoteRetroDragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))(RemoteRetro)
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(RemoteRetroDragAndDropContext)
+)(RemoteRetro)

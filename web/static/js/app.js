@@ -6,9 +6,15 @@ import { bindActionCreators } from "redux"
 import { Provider } from "react-redux"
 import { AppContainer } from "react-hot-loader"
 
+import MultiBackend from "react-dnd-multi-backend"
+import HTML5toTouch from "react-dnd-multi-backend/lib/HTML5toTouch"
+import { DragDropContext } from "react-dnd"
+
 import RetroChannel from "./services/retro_channel"
 import configureStore from "./configure_store"
 import { actions } from "./redux"
+
+const dragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))
 
 const { userToken, retroUUID } = window
 
@@ -25,7 +31,9 @@ retroChannel.join()
     actionz.setInitialState(initialState)
 
     const renderWithHotReload = () => {
-      const RemoteRetro = require("./components/remote_retro").default
+      const RemoteRetro = dragAndDropContext(
+        require("./components/remote_retro").default
+      )
 
       render(
         <AppContainer>
