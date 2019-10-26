@@ -27,6 +27,6 @@ defmodule FirstTimeUserExperienceTest do
     # the blue retro creation button isn't visible on page load due to javascript-managed delay
     session
     |> click(Query.css("form .blue.button[type='submit']", visible: false))
-    |> assert_has(Query.css("body", text: "Share the retro link below with teammates!"))
+    |> assert_has(Query.css(".center.aligned.header", text: "Share the retro link below with teammates!"))
   end
 end
