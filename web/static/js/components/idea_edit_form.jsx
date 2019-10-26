@@ -113,22 +113,26 @@ class IdeaEditForm extends Component {
             <p>{ideaBodyError}</p>
           </div>
         )}
-        <div className="ui buttons">
-          <button
-            onClick={this.onCancel}
-            className={cancelButtonClasses}
-            type="button"
-          >
-            Cancel
-          </button>
-          <div className="or" />
-          <button
-            type="submit"
-            disabled={!!ideaBodyError}
-            className={saveButtonClasses}
-          >
-            Save
-          </button>
+        <div className="ui right aligned grid">
+          <div className="column">
+            <div className="ui buttons">
+              <button
+                onClick={this.onCancel}
+                className={cancelButtonClasses}
+                type="button"
+              >
+                Cancel
+              </button>
+              <div className="or" />
+              <button
+                type="submit"
+                disabled={!!ideaBodyError}
+                className={saveButtonClasses}
+              >
+                Save
+              </button>
+            </div>
+          </div>
         </div>
       </form>
     )
