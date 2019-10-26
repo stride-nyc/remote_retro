@@ -66,6 +66,7 @@
       $(".longer.modal").modal({
         observeChanges: true,
         closable: false,
+        duration: <%= if Application.get_env(:remote_retro, :env) == :test, do: "0", else: "250" %>,
       }).modal("show");
 
       $(".final.step").on("animationstart", function(){
