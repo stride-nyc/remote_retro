@@ -35,14 +35,14 @@
   .column-head {
     padding: 1rem 0 0.4rem;
     margin: 0;
-  }
 
-  p {
-    display: inline-block;
-    margin: 0 0 0 0.75rem;
-    vertical-align: top;
-    position: relative;
-    top: -1px;
+    p {
+      display: inline-block;
+      margin: 0 0 0 0.75rem;
+      vertical-align: top;
+      position: relative;
+      top: -1px;
+    }
   }
 
   .divider:not(.vertical) {
