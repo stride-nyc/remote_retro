@@ -1,8 +1,10 @@
 import React from "react"
 import * as AppPropTypes from "../prop_types"
 
+import styles from "./css_modules/idea_group.css"
+
 const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
-  <div>
+  <div className={styles.wrapper}>
     {currentUser.is_facilitator && (
       <div className="ui transparent input">
         <input
@@ -12,7 +14,7 @@ const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
         />
       </div>
     )}
-    <ul>
+    <ul className={styles.list}>
       {groupWithAssociatedIdeas.ideas.map(idea => {
         return <li key={idea.id}>{idea.body}</li>
       })}

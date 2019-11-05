@@ -1,0 +1,14 @@
+@import '../../../css/colors.css';
+
+.wrapper {
+  padding: 1rem;
+  border: 1px solid var(--semantic-divider-border-top-color);
+  border-radius: 3px;
+  margin-bottom: 1rem;
+
+  .list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+}
