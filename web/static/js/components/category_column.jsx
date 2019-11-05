@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import { DropTarget } from "react-dnd"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
+import cx from "classnames"
 
 import IdeaList from "./idea_list"
 import * as AppPropTypes from "../prop_types"
@@ -15,13 +16,19 @@ export class CategoryColumn extends Component {
   render() {
     const { category, ideas, connectDropTarget, draggedOver } = this.props
     const iconHeight = 23
+    const wrapperClasses = cx(category, "column", styles.index, {
+      "dragged-over": draggedOver,
+    })
 
     return connectDropTarget(
-      <section
-        className={`${category} ${styles.index} ${draggedOver ? "dragged-over" : ""} column`}
-      >
+      <section className={wrapperClasses}>
         <div className={`${styles.columnHead} ui center aligned basic segment`}>
-          <img src={`/images/${category}.svg`} height={iconHeight} width={iconHeight} alt={category} />
+          <img
+            src={`/images/${category}.svg`}
+            height={iconHeight}
+            width={iconHeight}
+            alt={category}
+          />
           <p className="ui medium header">{category}</p>
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
