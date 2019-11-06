@@ -7,7 +7,7 @@ import ideaStyles from "./css_modules/idea.css"
 const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
   <div className={styles.wrapper}>
     {currentUser.is_facilitator && (
-      <div className="ui transparent input">
+      <div className={`ui transparent input ${styles.labelInputWrapper}`}>
         <input
           type="text"
           placeholder="Add a group title"

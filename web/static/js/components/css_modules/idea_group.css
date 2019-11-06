@@ -6,6 +6,17 @@
   border-radius: 3px;
   margin-bottom: 1rem;
 
+  display: flex;
+  flex-direction: column;
+
+  .label-input-wrapper {
+    align-self: center;
+
+    input {
+      text-align: center;
+    }
+  }
+
   .list {
     list-style: none;
     margin: 0;
