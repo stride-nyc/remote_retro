@@ -13,6 +13,7 @@
     align-self: center;
 
     input {
+      font-weight: bold;
       text-align: center;
     }
   }
