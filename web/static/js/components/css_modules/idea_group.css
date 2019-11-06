@@ -9,8 +9,11 @@
 
   display: flex;
   flex-direction: column;
-  flex-shrink: 1;
-  flex-basis: 20rem;
+
+  @media(min-width: 1040px) {
+    flex-shrink: 1;
+    flex-basis: 11rem;
+  }
 
   .label-input-wrapper {
     align-self: center;

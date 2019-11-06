@@ -9,7 +9,10 @@
 
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
+
+    @media(min-width: 1040px) {
+      flex-wrap: wrap;
+    }
 
     overflow: scroll;
   }
