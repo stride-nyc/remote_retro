@@ -2,6 +2,7 @@ import React from "react"
 import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/idea_group.css"
+import ideaStyles from "./css_modules/idea.css"
 
 const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
   <div className={styles.wrapper}>
@@ -16,7 +17,7 @@ const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
     )}
     <ul className={styles.list}>
       {groupWithAssociatedIdeas.ideas.map(idea => {
-        return <li key={idea.id}>{idea.body}</li>
+        return <li key={idea.id} className={ideaStyles.index}>{idea.body}</li>
       })}
     </ul>
   </div>
