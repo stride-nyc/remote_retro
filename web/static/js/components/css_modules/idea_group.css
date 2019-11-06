@@ -2,7 +2,7 @@
 
 .wrapper {
   padding: 1rem;
-  margin-bottom: 1rem;
+  margin: 1px;
 
   border: 1px solid var(--semantic-dark-grey);
   border-radius: 5px;
