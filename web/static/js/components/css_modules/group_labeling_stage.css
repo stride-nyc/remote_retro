@@ -1,13 +1,7 @@
 .wrapper {
-  --height: 95.5vh;
-  display: flex;
-  /* height declaration, seemingly redundant, is neededto ensure IE 10 & 11 render columns with
-  *  proper height. Otherwise they're collapsed in IE. */
-  height: var(--height);
-  min-height: var(--height);
-  flex-direction: column;
+  composes: wrapper from "./shared/full_height_stage.css";
 
   .groups-wrapper {
-    height: var(--height);
+    height: 95.5vh;
   }
 }
