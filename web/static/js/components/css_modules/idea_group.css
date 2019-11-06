@@ -24,7 +24,7 @@
   .list {
     border-top: 1px solid var(--semantic-divider-border-top-color);
     list-style: none;
-    margin: 0;
+    margin: 1rem 0 0 0;
     padding: 0;
   }
 }
