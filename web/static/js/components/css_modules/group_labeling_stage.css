@@ -12,6 +12,7 @@
 
     @media(min-width: 1040px) {
       flex-wrap: wrap;
+      justify-content: space-evenly;
     }
 
     overflow: scroll;
