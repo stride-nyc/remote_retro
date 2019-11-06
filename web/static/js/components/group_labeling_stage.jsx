@@ -7,14 +7,14 @@ import IdeaGroup from "./idea_group"
 
 import * as AppPropTypes from "../prop_types"
 
-import groupingStageStyles from "./css_modules/grouping_stage.css"
+import styles from "./css_modules/group_labeling_stage.css"
 
 export const GroupLabelingStage = props => {
   const { groupsWithAssociatedIdeas, currentUser, actions } = props
 
   return (
-    <div className={groupingStageStyles.wrapper}>
-      <div style={{ flex: 1 }}>
+    <div className={styles.wrapper}>
+      <div className={styles.groupsWrapper}>
         {groupsWithAssociatedIdeas.map(groupWithAssociatedIdeas => (
           <IdeaGroup
             actions={actions}
