@@ -41,12 +41,6 @@ defmodule RemoteRetro.User do
     struct
     |> cast(params, @required_fields ++ @optional_fields)
     |> validate_required(@required_fields)
-    |> update_change(:email, &String.trim/1)
-    |> update_change(:name, &String.trim/1)
-    |> update_change(:given_name, &String.trim/1)
-    |> update_change(:family_name, &String.trim/1)
-    |> update_change(:locale, &String.trim/1)
-    |> update_change(:picture, &String.trim/1)
     |> unique_constraint(:email)
     |> validate_format(:email, ~r/@/)
   end
