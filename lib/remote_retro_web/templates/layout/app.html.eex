@@ -84,7 +84,7 @@
           </a>
           <div class="help-icon" id="stage-help-icon"></div>
 
-          <%= if @current_user do %>
+          <%= if assigns[:current_user] do %>
             <a href="/logout" class="ui mini compact logout button">
               Log Out
             </a>

@@ -22,7 +22,7 @@
   <h2 class="ui medium header">How can I submit feedback on my experience?</h2>
   <p>Bugs and feature requests can be filed via GitHub issues at <a href="https://github.com/stride-nyc/remote_retro/issues/new">https://github.com/stride-nyc/remote_retro/issues/new</a> or via email at <a href="mailto:remote_retro@stridenyc.com">remote_retro@stridenyc.com</a></p>
 
-  <%= if !@current_user do %>
+  <%= if !assigns[:current_user] do %>
     <br />
     <%= render("sign_in_with_google_to_get_started.html") %>
   <% end %>
