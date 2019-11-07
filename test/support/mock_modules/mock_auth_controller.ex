@@ -11,7 +11,7 @@ defmodule RemoteRetroWeb.MockAuthController do
   def callback(conn, %{"code" => test_user_email, "test_override" => "true"}) do
     if @allow_user_masquerade do
       user = Repo.get_by(User, email: test_user_email)
-      conn = put_session(conn, :current_user, user)
+      conn = put_session(conn, :current_user_id, user.id)
 
       redirect(conn, to: get_session(conn, "requested_endpoint") || "/")
     else

@@ -1,47 +1,49 @@
 defmodule RemoteRetroWeb.RetroController do
   use RemoteRetroWeb, :controller
-  alias RemoteRetro.{Retro, Participation, Idea}
+  alias RemoteRetro.{Retro, Participation, Idea, User}
   alias Phoenix.Token
 
   def index(conn, _params) do
-    user = get_session(conn, "current_user")
+    current_user_id = get_session(conn, "current_user_id")
+    current_user = Repo.get!(User, current_user_id)
 
     render(conn, "index.html", %{
-      current_user: user,
-      retros: recent_retros_with_action_items_preloaded(user),
+      current_user: current_user,
+      retros: recent_retros_with_action_items_preloaded(current_user),
     })
   end
 
   def show(conn, params) do
-    user = get_session(conn, "current_user")
+    current_user_id = get_session(conn, "current_user_id")
+    current_user = Repo.get!(User, current_user_id)
 
-    soft_insert_participation_record!(user, params["id"])
+    soft_insert_participation_record!(current_user.id, params["id"])
 
     render(conn, "show.html", %{
-      user_token: Token.sign(conn, "user", user),
+      user_token: Token.sign(conn, "user", current_user),
       retro_uuid: params["id"],
       include_js: true,
     })
   end
 
   def create(conn, params) do
-    user = get_session(conn, "current_user")
+    current_user_id = get_session(conn, "current_user_id")
 
     {:ok, retro} =
-      %Retro{facilitator_id: user.id, format: params["format"]}
+      %Retro{facilitator_id: current_user_id, format: params["format"]}
       |> Retro.changeset()
       |> Repo.insert()
 
     redirect(conn, to: "/retros/" <> retro.id)
   end
 
-  defp soft_insert_participation_record!(user, retro_id) do
-    %Participation{user_id: user.id, retro_id: retro_id}
+  defp soft_insert_participation_record!(current_user_id, retro_id) do
+    %Participation{user_id: current_user_id, retro_id: retro_id}
     |> Participation.changeset()
     |> Repo.insert!(on_conflict: :nothing)
   end
 
-  defp recent_retros_with_action_items_preloaded(user) do
+  defp recent_retros_with_action_items_preloaded(current_user) do
     action_items_with_assignee =
       from(
         ai in Idea.action_items(),
@@ -51,7 +53,7 @@ defmodule RemoteRetroWeb.RetroController do
 
     query =
       from(
-        r in assoc(user, :retros),
+        r in assoc(current_user, :retros),
         limit: 10,
         preload: [ideas: ^action_items_with_assignee],
         order_by: [desc: r.inserted_at]

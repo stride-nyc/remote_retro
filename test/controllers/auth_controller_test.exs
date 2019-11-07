@@ -1,6 +1,5 @@
 defmodule RemoteRetro.AuthControllerTest do
   use RemoteRetroWeb.ConnCase, async: true
-  alias RemoteRetro.User
 
   import ShorterMaps
 
@@ -37,11 +36,11 @@ defmodule RemoteRetro.AuthControllerTest do
       assert Map.has_key?(conn.private, :plug_session)
     end
 
-    test "sets a persisted user on the session", ~M{conn} do
+    test "sets the current user's id on the session", ~M{conn} do
       conn = get(conn, "/auth/google/callback?code=schlarpdarp")
       session = retrieve_session(conn)
 
-      assert %User{email: _, id: _} = session["current_user"]
+      assert is_integer(session["current_user_id"])
     end
   end
 

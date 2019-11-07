@@ -12,7 +12,7 @@ defmodule RemoteRetroWeb.AuthController do
 
     {:ok, user} = UserManagement.handle_google_oauth(oauth_info)
 
-    conn = put_session(conn, :current_user, user)
+    conn = put_session(conn, :current_user_id, user.id)
 
     redirect(conn, to: get_session(conn, "requested_endpoint") || "/")
   end
