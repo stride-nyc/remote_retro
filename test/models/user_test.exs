@@ -6,14 +6,14 @@ defmodule RemoteRetro.UserTest do
   @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
 
   @valid_attrs %{
-    email: "mistertestuser@gmail.com",
-    google_user_info: %{test: "one two"},
-    family_name: "Vander Hoop",
-    given_name: "Travis",
-    locale: "en",
-    name: "Test User",
-    picture: "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
-    last_login: ~N[2010-04-03 23:00:07],
+    "email" => "mistertestuser@gmail.com",
+    "google_user_info" => %{test: "one two"},
+    "family_name" => "Vander Hoop",
+    "given_name" => "Travis",
+    "locale" => "en",
+    "name" => "Test User",
+    "picture" => "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
+    "last_login" => ~N[2010-04-03 23:00:07],
   }
   @invalid_attrs %{}
 
