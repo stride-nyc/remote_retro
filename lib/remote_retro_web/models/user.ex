@@ -25,7 +25,6 @@ defmodule RemoteRetro.User do
     field(:locale, :string)
     field(:name, :string)
     field(:picture, :string)
-    field(:profile, :string)
     field(:last_login, :naive_datetime_usec)
     field(:completed_retros_count, :integer)
 
