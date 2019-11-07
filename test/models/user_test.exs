@@ -34,6 +34,28 @@ defmodule RemoteRetro.UserTest do
     refute changeset.valid?
   end
 
+  test "changeset trimming whitespace from otherwise valid string attrs" do
+    map_with_untrimmed_strings = Map.merge(@valid_attrs, %{
+      "email" => "   mistertestuser@gmail.com   ",
+      "family_name" => "   Vander Hoop   ",
+      "given_name" => "   Travis       ",
+      "locale" => "   en    ",
+      "name" => "   Travis Vander Hoop   ",
+      "picture" => "   https://example.com/pic.jpg    ",
+    })
+
+    changeset = User.changeset(%User{}, map_with_untrimmed_strings)
+
+    assert %{
+      email: "mistertestuser@gmail.com",
+      family_name: "Vander Hoop",
+      given_name: "Travis",
+      locale: "en",
+      name: "Travis Vander Hoop",
+      picture: "https://example.com/pic.jpg",
+    } = changeset.changes
+  end
+
   test "the valid inclusion of a virtual, unpersisted `online_at` attribute" do
     user = %User{email: "monsieur@misspellingsarefine.com"}
     assert %User{user | online_at: 393_939_393_939}
