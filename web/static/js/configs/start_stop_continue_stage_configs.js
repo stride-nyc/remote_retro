@@ -19,7 +19,7 @@ const {
 const StageChangeInfoIdeaGeneration = stageChangeInfoIdeaGenerationBuilder([
   "Reflect on the practices and habits of the team.",
   "Suggest practices that the team could start, stop, or continue to make the team more effective.",
-  "Be thoughful with your language. We're here to improve the team.",
+  "Be thoughtful with your language. We're here to improve the team.",
 ])
 
 export default {
