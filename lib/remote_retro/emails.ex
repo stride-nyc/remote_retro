@@ -45,9 +45,10 @@ defmodule RemoteRetro.Emails do
       <p>#{user.given_name}!</p>
       <p>We're thrilled that you've chosen <a href="https://remoteretro.org">RemoteRetro</a> to aid your team on a path of continuous improvement. You can now visit your user dashboard at https://remoteretro.org/retros, and we encourage you to forward this email to your team(s) with encouragement to check us out!</p>
 
-      <br>
-      <p>Looking forward,</p>
-      <p>The RemoteRetro Team</p>
+      <p>
+        Looking forward,<br>
+        The RemoteRetro Team
+      </p>
     </div>
     """
   end
