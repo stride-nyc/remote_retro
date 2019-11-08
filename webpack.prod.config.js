@@ -6,7 +6,7 @@ const HoneybadgerSourceMapPlugin = require("@honeybadger-io/webpack")
 
 const sharedConfig = require("./webpack.shared.config.js")
 
-const { HOST, HONEYBADGER_API_KEY, npm_package_gitHead: revision } = process.env
+const { HOST, HONEYBADGER_API_KEY, npm_package_gitHead, revision } = process.env
 
 const PRODUCTION_ASSETS_URL = `https://${HOST}`
 
