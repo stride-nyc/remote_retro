@@ -28,6 +28,9 @@ config :oauth2,
     "application/json" => Jason,
   }
 
+config :libcluster,
+  topologies: []
+
 # Configures HoneyBadger error reporting API
 config :honeybadger,
   api_key: "stubDevValue"

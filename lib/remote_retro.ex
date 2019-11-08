@@ -16,6 +16,8 @@ defmodule RemoteRetro do
       supervisor(RemoteRetroWeb.Endpoint, []),
       supervisor(RemoteRetroWeb.Presence, []),
 
+      {Cluster.Supervisor, [Application.get_env(:libcluster, :topologies), [name: RemoteRetro.ClusterSupervisor]]},
+
       # Start your own worker by calling: RemoteRetro.Worker.start_link(arg1, arg2, arg3)
       # worker(RemoteRetro.Worker, [arg1, arg2, arg3]),
     ]
