@@ -41,7 +41,8 @@ config :remote_retro, :allow_user_masquerade, false
 config :honeybadger,
   api_key: "${HONEYBADGER_API_KEY}",
   hostname: "${HOST}",
-  environment_name: :production
+  environment_name: :production,
+  revision: "${SOURCE_VERSION}"
 
 config :libcluster,
   topologies: [
