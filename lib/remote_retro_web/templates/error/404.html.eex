@@ -12,8 +12,9 @@
   </head>
 
   <body>
-    <h1 class="ui centered header" style="position: relative; top: 33.3%;">
-      <div class="content">
+    <h1 class="ui center aligned header" style="position: relative; top: 30%;">
+      <img src="<%= Routes.static_path(RemoteRetroWeb.Endpoint, "/images/confused.svg") %>" alt="confused face" height="40" width="40" style="display: block; margin: 0.25rem auto;">
+      <div class="content" style="padding-left: 0;">
         404
         <div class="sub header"><%= assigns[:message] || "Page not found" %></div>
       </div>
