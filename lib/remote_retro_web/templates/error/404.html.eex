@@ -15,7 +15,7 @@
     <h1 class="ui centered header" style="position: relative; top: 33.3%;">
       <div class="content">
         404
-        <div class="sub header">Page not found</div>
+        <div class="sub header"><%= assigns[:message] || "Page not found" %></div>
       </div>
     </h1>
   </body>

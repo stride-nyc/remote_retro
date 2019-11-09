@@ -1,7 +1,10 @@
 defmodule RemoteRetroWeb.RetroController do
   use RemoteRetroWeb, :controller
   alias RemoteRetro.{Retro, Participation, Idea, User}
+  alias RemoteRetroWeb.ErrorView
   alias Phoenix.Token
+
+  plug :verify_retro_id_param_is_uuid when action in [:show]
 
   def index(conn, _params) do
     current_user_id = get_session(conn, "current_user_id")
@@ -35,6 +38,23 @@ defmodule RemoteRetroWeb.RetroController do
       |> Repo.insert()
 
     redirect(conn, to: "/retros/" <> retro.id)
+  end
+
+  def verify_retro_id_param_is_uuid(conn, _options) do
+    %{"id" => id } = conn.path_params
+
+    case Ecto.UUID.cast(id) do
+      {:ok, _} ->
+        conn
+      _ ->
+        conn
+        |> put_status(:not_found)
+        |> put_view(ErrorView)
+        |> put_layout(false)
+        |> render("404.html", [
+          message: "There's no retro here. Make sure you have the correct url!",
+        ])
+    end
   end
 
   defp soft_insert_participation_record!(current_user_id, retro_id) do
