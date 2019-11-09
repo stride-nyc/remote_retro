@@ -54,6 +54,7 @@ defmodule RemoteRetroWeb.RetroController do
         |> render("404.html", [
           message: "There's no retro here. Make sure you have the correct url!",
         ])
+        |> halt()
     end
   end
 

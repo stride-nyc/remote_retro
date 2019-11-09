@@ -49,16 +49,14 @@ defmodule RemoteRetro.RetroControllerTest do
       assert participation_count_diff == 0
     end
 
-    test "invalid uuids passed to the show page results in an informative 404", ~M{conn} do
+    test "invalid uuids passed to the show page result in an informative 404", ~M{conn} do
       conn = create_retro_and_follow_redirect(conn)
 
       invalid_uuid_param = "#{conn.params["id"]}kdkdkdkdkdk"
 
-      {_, _, body}  = assert_error_sent(404, fn ->
-        get(conn, "/retros/#{invalid_uuid_param}")
-      end)
+      conn = get(conn, "/retros/#{invalid_uuid_param}")
 
-      assert body =~ "no retro here"
+      assert html_response(conn, 404) =~ ~r/no retro here/i
     end
 
     test "GET requests to /retros welcomes users with no retro experience", ~M{conn} do
