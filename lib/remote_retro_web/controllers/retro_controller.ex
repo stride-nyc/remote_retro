@@ -52,7 +52,7 @@ defmodule RemoteRetroWeb.RetroController do
         |> put_view(ErrorView)
         |> put_layout(false)
         |> render("404.html", [
-          message: "There's no retro here. Make sure you have the correct url!",
+          message: "There's no retro here. Make sure you have the correct URL!",
         ])
         |> halt()
     end
