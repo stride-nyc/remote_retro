@@ -1,15 +1,18 @@
 import React, { Component } from "react"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
+import isEmpty from "lodash/isEmpty"
 
 import PropTypes from "prop-types"
 import Modal from "react-modal"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/stage_progression_button.css"
 import { actions as actionCreators } from "../redux"
+import { VOTE_LIMIT } from "../configs/retro_configs"
+
 
 export class StageProgressionButton extends Component {
-  state = { modalOpen: false, showSubmitIdeaPrompt: true }
+  state = { modalOpen: false }
 
   handleStageProgressionButtonClick = () => {
     this.setState({ modalOpen: true })
@@ -33,11 +36,15 @@ export class StageProgressionButton extends Component {
       buttonDisabled,
       className,
       currentUser,
+      presences,
       retroUpdateRequested,
       config,
+      votes,
     } = this.props
 
-    const { modalOpen, showSubmitIdeaPrompt } = this.state
+    const { modalOpen } = this.state
+    const showAllVotesInPrompt = !isEmpty(presences)
+      && (votes.length >= VOTE_LIMIT * presences.length)
 
     if (!config || !currentUser.is_facilitator) return null
 
@@ -71,7 +78,7 @@ export class StageProgressionButton extends Component {
             </button>
           </div>
         </Modal>
-        { showSubmitIdeaPrompt && (
+        { showAllVotesInPrompt && (
           <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
             All votes in!
           </div>
@@ -97,12 +104,15 @@ StageProgressionButton.propTypes = {
   config: PropTypes.object,
   reduxState: PropTypes.object,
   buttonDisabled: PropTypes.bool,
+  presences: AppPropTypes.presences,
   retroUpdateRequested: PropTypes.bool,
+  votes: AppPropTypes.votes.isRequired,
 }
 
 StageProgressionButton.defaultProps = {
   className: "",
   buttonDisabled: false,
+  presences: [],
   retroUpdateRequested: false,
   reduxState: {},
   config: null,
@@ -111,6 +121,7 @@ StageProgressionButton.defaultProps = {
 const mapStateToProps = reduxState => ({
   reduxState,
   retroUpdateRequested: reduxState.retro.updateRequested,
+  votes: reduxState.votes,
 })
 
 const mapDispatchToProps = dispatch => ({

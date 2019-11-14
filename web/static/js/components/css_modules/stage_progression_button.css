@@ -17,6 +17,6 @@
 
 :global(.ui.stackable.grid>.column:not(.row)).index .pointing-label {
   z-index: 0;
-  top: -2em;
+  top: -3em;
   left: 33%;
 }
