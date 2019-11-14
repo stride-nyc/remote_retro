@@ -9,7 +9,7 @@ import styles from "./css_modules/stage_progression_button.css"
 import { actions as actionCreators } from "../redux"
 
 export class StageProgressionButton extends Component {
-  state = { modalOpen: false }
+  state = { modalOpen: false, showSubmitIdeaPrompt: true }
 
   handleStageProgressionButtonClick = () => {
     this.setState({ modalOpen: true })
@@ -37,7 +37,7 @@ export class StageProgressionButton extends Component {
       config,
     } = this.props
 
-    const { modalOpen } = this.state
+    const { modalOpen, showSubmitIdeaPrompt } = this.state
 
     if (!config || !currentUser.is_facilitator) return null
 
@@ -71,6 +71,11 @@ export class StageProgressionButton extends Component {
             </button>
           </div>
         </Modal>
+        { showSubmitIdeaPrompt && (
+          <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
+            All votes in!
+          </div>
+        )}
         <button
           className="fluid ui right labeled blue icon button"
           onClick={this.handleStageProgressionButtonClick}

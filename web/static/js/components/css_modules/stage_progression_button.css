@@ -14,3 +14,9 @@
     }
   }
 }
+
+:global(.ui.stackable.grid>.column:not(.row)).index .pointing-label {
+  z-index: 0;
+  top: -2em;
+  left: 33%;
+}
