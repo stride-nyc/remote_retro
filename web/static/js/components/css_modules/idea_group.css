@@ -1,8 +1,9 @@
 @import '../../../css/colors.css';
 
 .wrapper {
+  --margin: 1px;
   padding: 1rem;
-  margin: 1px;
+  margin: var(--margin);
 
   border: 1px solid var(--semantic-dark-grey);
   border-radius: 5px;
@@ -13,7 +14,7 @@
   height: 15rem;
 
   @media(min-width: 1040px) {
-    width: 24.7%;
+    width: calc(25% - calc(var(--margin) * 2));
   }
 
   .label-input-wrapper {
