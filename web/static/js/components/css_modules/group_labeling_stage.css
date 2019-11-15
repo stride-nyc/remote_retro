@@ -1,19 +1,13 @@
 .wrapper {
   composes: wrapper from "./shared/full_height_stage.css";
 
-  /* these values need to be set for idea groups to wrap to the next row */
-  /* but the actual values may need to be static */
-  height: 90.5vh;
-  max-height: 90.5vh;
-
   .groups-wrapper {
-    display: inline-flex;
+    flex: 1;
+    display: flex;
     flex-direction: column;
 
     @media(min-width: 1040px) {
-      justify-content: space-around;
-      flex-direction: row;
-      flex-wrap: wrap;
+      display: block;
     }
 
     overflow: scroll;
