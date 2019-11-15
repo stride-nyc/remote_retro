@@ -32,5 +32,9 @@
     padding: 0;
 
     overflow: scroll;
+
+    li {
+      padding-left: 0.25rem;
+    }
   }
 }
