@@ -57,7 +57,7 @@ describe("mobile", () => {
 
   describe("when the application bootstraps", () => {
     describe("when the retro is a Happy/Sad/Confused retro", () => {
-      it("provides a list of lower-cased categories", () => {
+      it("sets the default active tab to 'happy' because start positive", () => {
         const initialState = deepFreeze([])
         const unhandledAction = { type: "SET_INITIAL_STATE", initialState: { format: "Happy/Sad/Confused" } }
 
@@ -66,7 +66,7 @@ describe("mobile", () => {
     })
 
     describe("when the retro is a Start/Stop/Continue retro", () => {
-      it("provides a list of lower-cased categories", () => {
+      it("sets the default active tab to 'start' because ideation", () => {
         const initialState = deepFreeze([])
         const unhandledAction = { type: "SET_INITIAL_STATE", initialState: { format: "Start/Stop/Continue" } }
 
