@@ -3,6 +3,11 @@
 :global(.ui.stackable.grid>.column:not(.row)).index {
   @media only screen and (max-width: 767px) {
     padding-top: 0rem;
+
+    .pointing-label {
+      top: -3em;
+      left: 20%;
+    }
   }
 
   @media only screen and (min-width: 768px) {
@@ -12,11 +17,10 @@
       padding-top: 12px;
       padding-bottom: 12px;
     }
-  }
-}
 
-:global(.ui.stackable.grid>.column:not(.row)).index .pointing-label {
-  z-index: 0;
-  top: -3em;
-  left: 33%;
+    .pointing-label {
+      top: -1.6em;
+      left: 40%;
+    }
+  }
 }
