@@ -98,7 +98,9 @@ export default {
       confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
       stateDependentTooltip: reduxState => {
         const { votes, presences } = reduxState
-        if (votes.length >= VOTE_LIMIT * presences.length) {
+        const TOTAL_VOTE_LIMIT_FOR_RETRO = VOTE_LIMIT * presences.length
+
+        if (votes.length >= TOTAL_VOTE_LIMIT_FOR_RETRO) {
           return "All Votes in!"
         }
         return null
