@@ -33,6 +33,7 @@ export class StageProgressionButton extends Component {
       buttonDisabled,
       className,
       currentUser,
+      reduxState,
       retroUpdateRequested,
       config,
     } = this.props
@@ -40,6 +41,9 @@ export class StageProgressionButton extends Component {
     const { modalOpen } = this.state
 
     if (!config || !currentUser.is_facilitator) return null
+
+    const { stateDependentTooltip } = config
+    const tooltipText = stateDependentTooltip ? stateDependentTooltip(reduxState) : null
 
     return (
       <div className={`${className} ${styles.index}`}>
@@ -71,6 +75,11 @@ export class StageProgressionButton extends Component {
             </button>
           </div>
         </Modal>
+        { tooltipText && (
+          <div className={`${styles.pointingLabel} floating ui pointing below teal label tooltip`}>
+            {tooltipText}
+          </div>
+        )}
         <button
           className="fluid ui right labeled blue icon button"
           onClick={this.handleStageProgressionButtonClick}

@@ -153,6 +153,53 @@ describe("StageProgressionButton", () => {
         expect(stageProgressionButton.find("div")).to.have.length(0)
       })
     })
+
+    context("when stateDependentTooltip returns a value", () => {
+      beforeEach(() => {
+        const props = {
+          ...defaultProps,
+          config: { ...config, stateDependentTooltip: () => "All in!" },
+        }
+        stageProgressionButton = mountWithConnectedSubcomponents(
+          <StageProgressionButton {...props} />
+        )
+      })
+
+      it("renders tooltip", () => {
+        expect(stageProgressionButton.find(".tooltip").text()).to.equal("All in!")
+      })
+    })
+
+    context("when stateDependentTooltip does not return a value", () => {
+      beforeEach(() => {
+        const props = {
+          ...defaultProps,
+          config: { ...config, stateDependentTooltip: () => null },
+        }
+        stageProgressionButton = mountWithConnectedSubcomponents(
+          <StageProgressionButton {...props} />
+        )
+      })
+
+      it("does not render tooltip", () => {
+        expect(stageProgressionButton.find(".tooltip")).to.have.length(0)
+      })
+    })
+
+    context("when stateDependentTooltip does not exisit", () => {
+      beforeEach(() => {
+        const props = {
+          ...defaultProps,
+        }
+        stageProgressionButton = mountWithConnectedSubcomponents(
+          <StageProgressionButton {...props} />
+        )
+      })
+
+      it("does not render tooltip", () => {
+        expect(stageProgressionButton.find(".tooltip")).to.have.length(0)
+      })
+    })
   })
 
   describe("when it does not receive a progressionButton configuration object", () => {
