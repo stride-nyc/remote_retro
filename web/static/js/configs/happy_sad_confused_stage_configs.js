@@ -6,6 +6,7 @@ import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
 import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
 import STAGES from "./stages"
+import { VOTE_LIMIT } from "./retro_configs"
 
 const {
   LOBBY,
@@ -112,6 +113,13 @@ export default {
       copy: "Proceed to Action Items",
       iconClass: "arrow right",
       confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
+      stateDependentTooltip: reduxState => {
+        const { votes, presences } = reduxState
+        if (votes.length >= VOTE_LIMIT * presences.length) {
+          return "All Votes in!"
+        }
+        return null
+      },
     },
   },
   [ACTION_ITEMS]: {
