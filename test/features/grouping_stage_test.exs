@@ -81,6 +81,25 @@ defmodule GroupingStageTest do
 
       assert_count_of_high_contrast_color_borders_is(session, 0)
     end
+
+    @tag [
+      retro_stage: "grouping",
+      ideas: [
+        %Idea{category: "sad", body: "rampant sickness", x: 0.0, y: 200.0},
+        %Idea{category: "sad", body: "getting sickness", x: 10.0, y: 210.0},
+        %Idea{category: "sad", body: "lazy commit messages", x: 500.0, y: 400.0}
+      ]
+    ]
+    test "progressing to the group labeling stage creates groups by proximity, isolating lone ideas as their own group",
+         ~M{retro, session} do
+      retro_path = "/retros/" <> retro.id
+      session = visit(session, retro_path)
+
+      click_and_confirm(session, "Proceed to Labeling")
+
+      assert_has(session, Query.css(".idea-group", text: "rampant sickness\ngetting sickness", count: 1))
+      assert_has(session, Query.css(".idea-group", text: "lazy commit messages", count: 1))
+    end
   end
 
   defp parse_transform_coordinates_for_card(session, idea_text) do

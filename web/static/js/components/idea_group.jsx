@@ -5,7 +5,7 @@ import styles from "./css_modules/idea_group.css"
 import ideaStyles from "./css_modules/idea.css"
 
 const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
-  <div className={styles.wrapper}>
+  <div className={`idea-group ${styles.wrapper}`}>
     {currentUser.is_facilitator && (
       <div className={`ui transparent input ${styles.labelInputWrapper}`}>
         <input
