@@ -24,19 +24,19 @@
 }
 
 :global(.ui.labeled.button).wrapper {
-  --fontSize: 0.85rem;
   cursor: default;
 
   &:global(.static) {
     pointer-events: none;
 
     .vote-button {
-      font-size: 0.95rem;
+      font-size: 1rem;
     }
   }
 
   .vote-button {
     line-height: 1.1rem;
+    font-size: 0.85rem;
     padding: 0.45rem 0.9rem 0.4rem;
 
     /* allow wrapping element's disabled styling to handle dimming for consistency */
@@ -46,14 +46,11 @@
   }
 
   .vote-count {
-    padding: 0.475rem;
+    padding: 0.475rem 0.5rem 0.375rem;
+    font-size: 1rem;
     cursor: default;
     position: relative;
     overflow: hidden;
-  }
-
-  .vote-button, .vote-count {
-    font-size: var(--fontSize);
   }
 
   /* override hyper specific semantic UI styling */
