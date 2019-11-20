@@ -61,9 +61,9 @@
     height: unset;
     border-top-right-radius: 0px;
     border-bottom-right-radius: 0px;
+    line-height: 1rem;
 
     .vote-button {
-      line-height: 1rem;
       padding: 0.45rem 0.8rem;
 
       &:focus {
