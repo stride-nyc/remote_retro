@@ -35,6 +35,23 @@
     }
   }
 
+  .vote-button {
+    line-height: 1.1rem;
+    padding: 0.45rem 0.9rem 0.4rem;
+
+    /* allow wrapping element's disabled styling to handle dimming for consistency */
+    &:disabled {
+      opacity: 1;
+    }
+  }
+
+  .vote-count {
+    padding: 0.475rem;
+    cursor: default;
+    position: relative;
+    overflow: hidden;
+  }
+
   .vote-button, .vote-count {
     font-size: var(--fontSize);
   }
@@ -70,22 +87,5 @@
         top: 1px;
       }
     }
-  }
-
-  .vote-button {
-    line-height: 1.1rem;
-    padding: 0.45rem 0.9rem 0.4rem;
-
-    /* allow wrapping element's disabled styling to handle dimming for consistency */
-    &:disabled {
-      opacity: 1;
-    }
-  }
-
-  .vote-count {
-    padding: 0.475rem;
-    cursor: default;
-    position: relative;
-    overflow: hidden;
   }
 }
