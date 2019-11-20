@@ -5,6 +5,8 @@ defmodule RemoteRetro.Group do
   schema "groups" do
     has_many :ideas, RemoteRetro.Idea
 
+    field(:name, :string)
+
     timestamps(type: :utc_datetime_usec)
   end
 end
