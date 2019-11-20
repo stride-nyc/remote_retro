@@ -3,7 +3,7 @@ export default {
   PRIME_DIRECTIVE: "prime-directive",
   IDEA_GENERATION: "idea-generation",
   GROUPING: "grouping",
-  GROUP_LABELING: "group-labeling",
+  GROUP_NAMING: "group-naming",
   VOTING: "voting",
   ACTION_ITEMS: "action-items",
   CLOSED: "closed",

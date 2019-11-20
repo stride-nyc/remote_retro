@@ -3,23 +3,23 @@ import React from "react"
 import CenteredContentLowerThirdWrapper from "./centered_content_lower_third_wrapper"
 import * as AppPropTypes from "../prop_types"
 
-const GroupLabelingLowerThirdContent = props => {
+const GroupNamingLowerThirdContent = props => {
   return (
     <CenteredContentLowerThirdWrapper {...props}>
       <div className="ui header">
-        Labeling
+        Naming
 
         <div className="sub header">
-          Give a label to the shaped groups
+          Give a name to each of the groups
         </div>
       </div>
     </CenteredContentLowerThirdWrapper>
   )
 }
 
-GroupLabelingLowerThirdContent.propTypes = {
+GroupNamingLowerThirdContent.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   stageConfig: AppPropTypes.stageConfig.isRequired,
 }
 
-export default GroupLabelingLowerThirdContent
+export default GroupNamingLowerThirdContent

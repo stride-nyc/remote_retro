@@ -4,18 +4,18 @@ import IdeaGenerationLowerThirdContent from "./idea_generation_lower_third_conte
 import VotingLowerThirdContent from "./voting_lower_third_content"
 import ClosedLowerThirdContent from "./closed_lower_third_content"
 import GroupingLowerThirdContent from "./grouping_lower_third_content"
-import GroupLabelingLowerThirdContent from "./group_labeling_lower_third_content"
+import GroupNamingLowerThirdContent from "./group_naming_lower_third_content"
 import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
 
 import * as AppPropTypes from "../prop_types"
 import STAGES from "../configs/stages"
 
-const { VOTING, CLOSED, GROUPING, GROUP_LABELING, IDEA_GENERATION, ACTION_ITEMS } = STAGES
+const { VOTING, CLOSED, GROUPING, GROUP_NAMING, IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 const stageToComponentMap = {
   [IDEA_GENERATION]: IdeaGenerationLowerThirdContent,
   [GROUPING]: GroupingLowerThirdContent,
-  [GROUP_LABELING]: GroupLabelingLowerThirdContent,
+  [GROUP_NAMING]: GroupNamingLowerThirdContent,
   [VOTING]: VotingLowerThirdContent,
   [ACTION_ITEMS]: IdeaGenerationLowerThirdContent,
   [CLOSED]: ClosedLowerThirdContent,
