@@ -43,10 +43,7 @@ class IdeaList extends Component {
     const actionItemsStageChangeAlertCleared = stage === ACTION_ITEMS && alert && !nextProps.alert
 
     if (actionItemsStageChangeAlertCleared) {
-      const timeout = setTimeout(() => {
-        this.setState({ sortByVotes: true })
-        clearTimeout(timeout)
-      }, 500)
+      this.setState({ sortByVotes: true })
     }
   }
 
@@ -84,6 +81,7 @@ class IdeaList extends Component {
         className={classes}
       >
         <FlipMove
+          delay={500}
           duration={750}
           staggerDelayBy={100}
           disableAllAnimations={!state.sortByVotes}

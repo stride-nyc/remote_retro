@@ -1,5 +1,4 @@
 import React from "react"
-import sinon from "sinon"
 
 import IdeaList from "../../web/static/js/components/idea_list"
 import STAGES from "../../web/static/js/configs/stages"
@@ -195,19 +194,9 @@ describe("IdeaList", () => {
 
   context("when the stage is transitioned from voting to action-items", () => {
     context("and the alert is cleared", () => {
-      let clock
-
-      beforeEach(() => {
-        clock = sinon.useFakeTimers()
-      })
-
-      afterEach(() => {
-        clock.restore()
-      })
-
       const ideas = [{
         id: 5,
-        body: "should be first after brief delay",
+        body: "should be first after stage change alert removed",
         category: "confused",
         vote_count: 16,
       }, {
@@ -219,7 +208,7 @@ describe("IdeaList", () => {
 
       const votes = [{ idea_id: 5 }]
 
-      it("alters the sort order to most votes DESC after a delay", () => {
+      it("alters the sort order to most votes DESC", () => {
         const wrapper = mountWithConnectedSubcomponents(
           <IdeaList
             {...defaultProps}
@@ -235,10 +224,8 @@ describe("IdeaList", () => {
         expect(listItems.first().text()).to.match(/should be first at outset/)
         wrapper.setProps({ alert: null })
 
-        clock.tick(2250)
-        wrapper.update()
         listItems = wrapper.find("li")
-        expect(listItems.first().text()).to.match(/should be first after brief delay/)
+        expect(listItems.first().text()).to.match(/should be first after stage change alert removed/)
       })
     })
   })
