@@ -4,7 +4,8 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_group.css"
 import ideaStyles from "./css_modules/idea.css"
 
-// This max length is more presentational than it is thoughtful/necessary
+// This max length is presentational more than anything, ensuring it doesn't
+// exceed the 1/4th column width on desktop, even with the widest possible characters
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
 const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
