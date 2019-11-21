@@ -44,20 +44,20 @@ describe("IdeaGroup component", () => {
       expect(input.length).to.eql(1)
     })
 
-    it("invokes submitGroupTitle with the input value on input blur", () => {
-      const submitGroupTitleSpy = sinon.spy()
+    it("invokes submitGroupName with the input value on input blur", () => {
+      const submitGroupNameSpy = sinon.spy()
       const wrapper = shallow(
         <IdeaGroup
           {...defaultProps}
           currentUser={{ is_facilitator: true }}
-          actions={{ submitGroupTitle: submitGroupTitleSpy }}
+          actions={{ submitGroupName: submitGroupNameSpy }}
         />
       )
 
       const input = wrapper.find("input")
       input.simulate("blur", { target: { value: "Turtles" } })
 
-      expect(submitGroupTitleSpy).to.have.been.calledWith("Turtles")
+      expect(submitGroupNameSpy).to.have.been.calledWith("Turtles")
     })
   })
 

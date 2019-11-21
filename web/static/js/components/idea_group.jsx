@@ -10,8 +10,8 @@ const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
       <div className={`ui transparent input ${styles.labelInputWrapper}`}>
         <input
           type="text"
-          placeholder="Add a group title"
-          onBlur={e => actions.submitGroupTitle(e.target.value)}
+          placeholder="Add a group name"
+          onBlur={e => actions.submitGroupName(e.target.value)}
         />
       </div>
     )}
