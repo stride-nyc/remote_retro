@@ -4,6 +4,9 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_group.css"
 import ideaStyles from "./css_modules/idea.css"
 
+// This max length is more presentational than it is thoughtful/necessary
+const MAX_LENGTH_OF_GROUP_NAME = 20
+
 const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
   <div className={`idea-group ${styles.wrapper}`}>
     {currentUser.is_facilitator && (
@@ -11,6 +14,7 @@ const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
         <input
           type="text"
           placeholder="Add a group name"
+          maxLength={MAX_LENGTH_OF_GROUP_NAME}
           onBlur={e => actions.submitGroupName(e.target.value)}
         />
       </div>
