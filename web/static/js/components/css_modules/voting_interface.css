@@ -61,7 +61,7 @@
     border-bottom-right-radius: 0px;
     line-height: 1rem;
 
-    .vote-button {
+    .alter-count-button {
       padding: 0.3rem 0.75rem;
 
       &:focus {
