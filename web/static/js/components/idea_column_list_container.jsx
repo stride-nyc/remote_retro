@@ -43,17 +43,17 @@ class IdeaColumnListContainer extends Component {
     const { props, state } = this
     const { ideas, votes } = props
 
-    let sortedIdeas
+    let ideasSorted
     if (state.sortByVotes) {
-      sortedIdeas = sortByVoteCountWithSecondarySortOnIdASC(votes, ideas)
+      ideasSorted = sortByVoteCountWithSecondarySortOnIdASC(votes, ideas)
     } else {
-      sortedIdeas = ideas.sort((a, b) => a.id - b.id)
+      ideasSorted = ideas.sort((a, b) => a.id - b.id)
     }
 
     return (
       <IdeaList
         {...props}
-        ideas={sortedIdeas}
+        ideasSorted={ideasSorted}
       />
     )
   }

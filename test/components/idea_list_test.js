@@ -13,13 +13,13 @@ describe("IdeaList", () => {
     isTabletOrAbove: false,
     ideaGenerationCategories: [],
     votes: [],
-    ideas: [],
+    ideasSorted: [],
     stage: IDEA_GENERATION,
     alert: null,
   }
 
   it("renders an idea component for each idea given", () => {
-    const ideas = [{
+    const ideasSorted = [{
       id: 5,
       body: "should be first after stage change alert removed",
       category: "confused",
@@ -34,7 +34,7 @@ describe("IdeaList", () => {
     const wrapper = shallow(
       <IdeaList
         {...defaultProps}
-        ideas={ideas}
+        ideasSorted={ideasSorted}
       />, { disableLifecycleMethods: true }
     )
 

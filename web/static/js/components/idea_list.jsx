@@ -29,7 +29,7 @@ class IdeaList extends Component {
 
   render() {
     const { props, state } = this
-    const { ideas } = props
+    const { ideasSorted } = props
     const classes = classNames("ideas", styles.list, {
       overflowed: state.overflowed,
     })
@@ -48,7 +48,7 @@ class IdeaList extends Component {
           leaveAnimation="none"
           typeName={null}
         >
-          {ideas.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
+          {ideasSorted.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
         </FlipMove>
       </ul>
     )
@@ -56,7 +56,7 @@ class IdeaList extends Component {
 }
 
 IdeaList.propTypes = {
-  ideas: AppPropTypes.ideas.isRequired,
+  ideasSorted: AppPropTypes.ideas.isRequired,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }
