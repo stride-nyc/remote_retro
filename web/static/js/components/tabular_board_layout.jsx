@@ -4,7 +4,7 @@ import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import { actions as actionCreators } from "../redux"
 
-import IdeaList from "./idea_list"
+import IdeaColumnListContainer from "./idea_column_list_container"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/tabular_board_layout.css"
@@ -38,7 +38,7 @@ export const TabularBoardLayout = props => {
       </div>
 
       <div className={styles.ideaListWrapper}>
-        <IdeaList category={selectedCategoryTab} votes={votes} {...props} />
+        <IdeaColumnListContainer category={selectedCategoryTab} votes={votes} {...props} />
       </div>
     </React.Fragment>
   )

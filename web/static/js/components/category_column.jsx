@@ -5,7 +5,7 @@ import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import cx from "classnames"
 
-import IdeaList from "./idea_list"
+import IdeaColumnListContainer from "./idea_column_list_container"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 import { actions as actionCreators } from "../redux"
@@ -32,7 +32,7 @@ export class CategoryColumn extends Component {
           <p className="ui medium header">{category}</p>
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
-        { !!ideas.length && <IdeaList {...this.props} /> }
+        { !!ideas.length && <IdeaColumnListContainer {...this.props} /> }
 
         <span className="overlay" />
       </section>
