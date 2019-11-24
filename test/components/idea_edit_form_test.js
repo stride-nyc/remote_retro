@@ -11,12 +11,10 @@ describe("<IdeaEditForm />", () => {
   const idea = { id: 999, body: "  redundant tests   ", userId: 1 }
   const stage = IDEA_GENERATION
   const currentUser = { id: 7, name: "Helga Foggybottom", is_facilitator: true }
-  const mockRetroChannel = { on: () => {}, push: () => {} }
-  const mockActions = { submitIdeaEditAsync: () => {} }
+  const mockActions = { submitIdeaEditAsync: () => {}, broadcastIdeaLiveEdit: () => {} }
   const defaultProps = {
     idea,
     currentUser,
-    retroChannel: mockRetroChannel,
     actions: mockActions,
     stage,
     ideaGenerationCategories: ["happy", "sad", "confused"],
@@ -63,14 +61,12 @@ describe("<IdeaEditForm />", () => {
   })
 
   describe("on change of the textarea", () => {
-    let retroChannel
     let textarea
     let wrapper
 
     beforeEach(() => {
-      retroChannel = { on: () => {}, push: sinon.spy() }
       wrapper = mountWithConnectedSubcomponents(
-        <IdeaEditForm {...defaultProps} retroChannel={retroChannel} />
+        <IdeaEditForm {...defaultProps} />
       )
       textarea = wrapper.find("textarea")
     })
@@ -114,7 +110,7 @@ describe("<IdeaEditForm />", () => {
 
     describe("when the entered value is a string < 255 chars with non-whitespace chars", () => {
       beforeEach(() => {
-        textarea.simulate("change", { target: { name: "editable_idea", value: "some value" } })
+        textarea.simulate("change", { target: { name: "editable_idea", value: "hey there" } })
       })
 
       it("the form submission button is *not* disabled", () => {
@@ -128,40 +124,54 @@ describe("<IdeaEditForm />", () => {
 
       context("when the currentUser is the facilitator", () => {
         context("when ideas are *not* authored by the facilitator", () => {
-          it("pushes a `idea_live_edit` event to the retroChannel, passing current input value", () => {
-            expect(
-              retroChannel.push
-            ).calledWith("idea_live_edit", { id: idea.id, liveEditText: "some value" })
+          it("invokes the broadcastIdeaLiveEdit action, passing id and current input value", () => {
+            const actions = { broadcastIdeaLiveEdit: sinon.spy() }
+
+            const wrapper = mountWithConnectedSubcomponents(
+              <IdeaEditForm {...defaultProps} actions={actions} />
+            )
+
+            const textarea = wrapper.find("textarea")
+
+            textarea.simulate("change", { target: { name: "editable_idea", value: "some value" } })
+
+            expect(actions.broadcastIdeaLiveEdit).calledWith({ id: idea.id, liveEditText: "some value" })
           })
         })
 
-        context("when ideas are authored by the facilitator", () => {
-          it("does not push a `idea_live_edit` event to the retroChannel", () => {
+        context("when the idea is authored by the facilitator", () => {
+          it("does not invoke the broadcastIdeaLiveEdit action", () => {
             const testProps = {
               ...defaultProps,
               idea: { id: 1000, body: "do the thing", user_id: currentUser.id, assignee_id: 9 },
             }
-            retroChannel = { on: () => {}, push: sinon.spy() }
+
+            const actions = { broadcastIdeaLiveEdit: sinon.spy() }
+
             wrapper = mountWithConnectedSubcomponents(
-              <IdeaEditForm {...testProps} retroChannel={retroChannel} />
+              <IdeaEditForm {...testProps} actions={actions} />
             )
+
             textarea = wrapper.find("textarea")
             textarea.simulate("change", { target: { name: "editable_idea", value: "some value" } })
 
             expect(
-              retroChannel.push
+              actions.broadcastIdeaLiveEdit
             ).not.called
           })
         })
       })
 
       context("when the currentUser is *not* the facilitator", () => {
+        let actions
+
         beforeEach(() => {
-          retroChannel = { on: () => {}, push: sinon.spy() }
+          actions = { broadcastIdeaLiveEdit: sinon.spy() }
+
           wrapper = mountWithConnectedSubcomponents(
             <IdeaEditForm
               {...defaultProps}
-              retroChannel={retroChannel}
+              actions={actions}
               currentUser={{ is_facilitator: false }}
             />
           )
@@ -169,9 +179,9 @@ describe("<IdeaEditForm />", () => {
           textarea.simulate("change", { target: { value: "some value" } })
         })
 
-        it("does not push an `idea_live_edit` event to the retroChannel", () => {
+        it("does not invoke the broadcastIdeaLiveEdit action", () => {
           expect(
-            retroChannel.push
+            actions.broadcastIdeaLiveEdit
           ).not.called
         })
       })
@@ -179,15 +189,13 @@ describe("<IdeaEditForm />", () => {
   })
 
   describe("on change of the category", () => {
-    let retroChannel
     let categoryDropdown
     let wrapper
 
     context("when the stage is 'action-items'", () => {
       beforeEach(() => {
-        retroChannel = { on: () => { }, push: sinon.spy() }
         wrapper = mountWithConnectedSubcomponents(
-          <IdeaEditForm {...defaultProps} stage="action-items" retroChannel={retroChannel} />
+          <IdeaEditForm {...defaultProps} stage="action-items" />
         )
       })
 
@@ -198,9 +206,8 @@ describe("<IdeaEditForm />", () => {
 
     context("when the stage is not 'action-items'", () => {
       beforeEach(() => {
-        retroChannel = { on: () => { }, push: sinon.spy() }
         wrapper = mountWithConnectedSubcomponents(
-          <IdeaEditForm {...defaultProps} stage="voting" retroChannel={retroChannel} />
+          <IdeaEditForm {...defaultProps} stage="voting" />
         )
         categoryDropdown = wrapper.find("select")
         categoryDropdown.simulate("change", { target: { name: "editable_category", value: "confused" } })
@@ -214,7 +221,7 @@ describe("<IdeaEditForm />", () => {
 
   describe("on submitting the form", () => {
     it("invokes the submitIdeaEditAsync action with input body trimmed", () => {
-      const actions = { on: () => {}, submitIdeaEditAsync: sinon.spy() }
+      const actions = { submitIdeaEditAsync: sinon.spy() }
 
       const wrapper = mountWithConnectedSubcomponents(
         <IdeaEditForm {...defaultProps} actions={actions} />
@@ -234,7 +241,7 @@ describe("<IdeaEditForm />", () => {
 
   describe("on cancelling out of the edit form", () => {
     it("invokes the cancelIdeaEditState action", () => {
-      const actions = { on: () => {}, cancelIdeaEditState: sinon.spy() }
+      const actions = { cancelIdeaEditState: sinon.spy() }
 
       const wrapper = mountWithConnectedSubcomponents(
         <IdeaEditForm {...defaultProps} actions={actions} />

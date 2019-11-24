@@ -16,7 +16,7 @@ import {
 } from "../redux"
 
 export const Idea = props => {
-  const { idea, currentUser, retroChannel, stage, users, actions, ideaGenerationCategories } = props
+  const { idea, currentUser, stage, users, actions, ideaGenerationCategories } = props
 
   const userIsEditing = idea.inEditState && idea.isLocalEdit
 
@@ -25,7 +25,6 @@ export const Idea = props => {
     content = (
       <IdeaEditForm
         idea={idea}
-        retroChannel={retroChannel}
         currentUser={currentUser}
         stage={stage}
         users={users}
@@ -48,7 +47,6 @@ export const Idea = props => {
 
 Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,

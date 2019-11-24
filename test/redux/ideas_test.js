@@ -200,6 +200,37 @@ describe("actionCreators", () => {
     })
   })
 
+  describe("broadcastIdeaLiveEdit", () => {
+    const idea = { id: 5, x: 393.39, y: 3928.3 }
+
+    it("returns a thunk", () => {
+      const result = actionCreators.broadcastIdeaLiveEdit(idea)
+      expect(result).to.be.a("function")
+    })
+
+    describe("invoking the returned function", () => {
+      let thunk
+      let mockRetroChannel
+      let params
+
+      const dispatchStub = () => {}
+      const getStateStub = () => {}
+
+      beforeEach(() => {
+        params = { id: 5, liveEditText: "some value" }
+        mockRetroChannel = { push: sinon.spy() }
+
+        thunk = actionCreators.broadcastIdeaLiveEdit(params)
+
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
+      })
+
+      it("notifies the server, passing the params", () => {
+        expect(mockRetroChannel.push).calledWith("idea_live_edit", params)
+      })
+    })
+  })
+
   describe("ideaDraggedInGroupingStage", () => {
     const idea = { id: 5, x: 393.39, y: 3928.3 }
 

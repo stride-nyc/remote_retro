@@ -29,7 +29,6 @@ const ConditionallyDraggableIdeaContent = props => {
 
 ConditionallyDraggableIdeaContent.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,

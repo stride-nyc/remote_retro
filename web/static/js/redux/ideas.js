@@ -105,6 +105,12 @@ export const actions = {
     }
   },
 
+  broadcastIdeaLiveEdit: params => {
+    return (dispatch, getState, retroChannel) => {
+      retroChannel.push("idea_live_edit", params)
+    }
+  },
+
   submitIdea: idea => {
     return (dispatch, getState, retroChannel) => {
       const push = retroChannel.push("idea_submitted", idea)

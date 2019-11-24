@@ -8,11 +8,9 @@ const { IDEA_GENERATION, ACTION_ITEMS, CLOSED } = STAGES
 
 describe("IdeaBoard component", () => {
   let ideaBoard
-  const mockRetroChannel = { push: () => {}, on: () => {} }
   const stubUser = { given_name: "Mugatu" }
   const defaultProps = {
     currentUser: stubUser,
-    retroChannel: mockRetroChannel,
     ideas: [],
     stage: IDEA_GENERATION,
     isTabletOrAbove: true,

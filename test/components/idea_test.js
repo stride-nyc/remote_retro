@@ -16,12 +16,9 @@ describe("Idea component", () => {
     user_id: 1,
   }
 
-  const mockRetroChannel = { on: () => {}, push: () => {} }
-
   const defaultProps = {
     currentUser: {},
     users: [],
-    retroChannel: mockRetroChannel,
     stage: IDEA_GENERATION,
     canUserEditIdeaContents: true,
     ideaGenerationCategories: [],

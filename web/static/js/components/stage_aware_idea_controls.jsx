@@ -52,7 +52,6 @@ StageAwareIdeaControls.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   actions: AppPropTypes.actions.isRequired,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   votesForIdea: AppPropTypes.votes.isRequired,

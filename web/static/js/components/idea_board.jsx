@@ -25,7 +25,6 @@ const IdeaBoard = props => {
 IdeaBoard.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   ideas: AppPropTypes.ideas.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,

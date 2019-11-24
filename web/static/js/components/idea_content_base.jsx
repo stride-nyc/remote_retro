@@ -10,7 +10,6 @@ const IdeaContentBase = props => {
   const {
     idea,
     currentUser,
-    retroChannel,
     stage,
     assignee,
     canUserEditIdeaContents,
@@ -22,7 +21,6 @@ const IdeaContentBase = props => {
     <div className={styles.ideaWrapper}>
       <StageAwareIdeaControls
         idea={idea}
-        retroChannel={retroChannel}
         currentUser={currentUser}
         stage={stage}
         canUserEditIdeaContents={canUserEditIdeaContents}
@@ -38,7 +36,6 @@ const IdeaContentBase = props => {
 
 IdeaContentBase.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,

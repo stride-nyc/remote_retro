@@ -17,7 +17,6 @@ describe("TabularBoardLayout component", () => {
     ideas: [],
     votes: [],
     selectedCategoryTab: "happy",
-    retroChannel: {},
     stage: "idea-generation",
     currentUser: {},
   }

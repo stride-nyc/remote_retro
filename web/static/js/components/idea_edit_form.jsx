@@ -21,10 +21,10 @@ class IdeaEditForm extends Component {
 
   onChangeIdeaBody = ({ target }) => {
     let newIdeaBodyError
-    const { retroChannel, idea, currentUser } = this.props
+    const { actions, idea, currentUser } = this.props
 
     if (currentUser.is_facilitator && currentUser.id !== idea.user_id) {
-      retroChannel.push("idea_live_edit", { id: idea.id, liveEditText: target.value })
+      actions.broadcastIdeaLiveEdit({ id: idea.id, liveEditText: target.value })
     }
 
     const trimmedValue = target.value.trim()
@@ -141,7 +141,6 @@ class IdeaEditForm extends Component {
 
 IdeaEditForm.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   stage: AppPropTypes.stage.isRequired,

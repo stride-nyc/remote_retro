@@ -8,11 +8,9 @@ import STAGES from "../../web/static/js/configs/stages"
 const { IDEA_GENERATION } = STAGES
 
 describe("IdeaList", () => {
-  const mockRetroChannel = { on: () => {}, push: () => {} }
   const defaultProps = {
     currentUser: { given_name: "daniel", is_facilitator: true },
     isTabletOrAbove: false,
-    retroChannel: mockRetroChannel,
     ideaGenerationCategories: [],
     votes: [],
     ideas: [],

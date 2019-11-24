@@ -14,7 +14,6 @@ describe("<ConditionallyDraggableIdeaContent />", () => {
   const defaultProps = {
     idea: { body: "body text" },
     currentUser: {},
-    retroChannel: {},
     isTabletOrAbove: true,
     stage: IDEA_GENERATION,
     canUserEditIdeaContents: true,

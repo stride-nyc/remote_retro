@@ -58,7 +58,6 @@ const mapDispatchToProps = dispatch => ({
 TabularBoardLayout.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   ideas: AppPropTypes.ideas.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
   categories: AppPropTypes.categories.isRequired,
   selectedCategoryTab: AppPropTypes.category.isRequired,
