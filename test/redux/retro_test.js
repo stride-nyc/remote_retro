@@ -129,7 +129,18 @@ describe("action creators", () => {
 
     describe("when the given payload contains a stage different than the current stage", () => {
       it("alerts the store that the stage has changed, passing full payload", () => {
-        const getState = () => ({ retro: { stage: "living" } })
+        const getState = () => ({
+          retro: { stage: "living", facilitator_id: 53 },
+          usersById: {
+            53: {
+              id: 53,
+            },
+          },
+          presences: [{
+            user_id: 53,
+            token: "zyb",
+          }],
+        })
 
         const payload = {
           retro: { stage: "afterlife" },
@@ -149,8 +160,23 @@ describe("action creators", () => {
     })
 
     describe("when the given payload contains a facilitator id different than the current facilitator", () => {
+      beforeEach(() => {
+        window.userToken = "currentUserToken"
+      })
+
       it("alerts the store that the facilitator has changed, passing full payload", () => {
-        const getState = () => ({ retro: { facilitator_id: 51 } })
+        const getState = () => ({
+          retro: { facilitator_id: 51 },
+          usersById: {
+            53: {
+              id: 53,
+            },
+          },
+          presences: [{
+            user_id: 53,
+            token: "currentUserToken",
+          }],
+        })
 
         const payload = {
           retro: { facilitator_id: 53 },
@@ -165,6 +191,86 @@ describe("action creators", () => {
         expect(dispatchSpy).calledWithMatch({
           type: "RETRO_FACILITATOR_CHANGE_COMMITTED",
           payload,
+        })
+      })
+
+      context("when the new facilitator id is the current user's id", () => {
+        beforeEach(() => {
+          window.userToken = "currentUserToken"
+        })
+
+        it("alerts the current user that they've become the facilitator", () => {
+          const getState = () => ({
+            retro: { facilitator_id: 51 },
+            usersById: {
+              53: { id: 53 },
+              51: { id: 51 },
+            },
+            presences: [{
+              user_id: 53,
+              token: "currentUserToken",
+            }, {
+              user_id: 51,
+              token: "someNoneCurrentUserToken",
+            }],
+          })
+
+          const payload = {
+            retro: { facilitator_id: 53 },
+          }
+
+          const thunk = actionCreators.retroUpdateCommitted(payload)
+          const dispatchSpy = sinon.spy()
+
+          thunk(dispatchSpy, getState, {})
+
+          expect(dispatchSpy).calledWithMatch({
+            type: "CURRENT_USER_HAS_BECOME_FACILITATOR",
+          })
+        })
+
+        afterEach(() => {
+          window.userToken = null
+        })
+      })
+
+      context("when the new facilitator id is *not* the current user's id", () => {
+        beforeEach(() => {
+          window.userToken = "tokenForCurrentUser!"
+        })
+
+        it("does not alert the user that they've been made facilitator", () => {
+          const getState = () => ({
+            retro: { facilitator_id: 51 },
+            usersById: {
+              53: { id: 53 },
+              51: { id: 51 },
+            },
+            presences: [{
+              user_id: 53,
+              token: "tokenForSomeoneWhoIsntTheCurrentUser!",
+            }, {
+              user_id: 51,
+              token: "tokenForCurrentUser!",
+            }],
+          })
+
+          const payload = {
+            retro: { facilitator_id: 53 },
+          }
+
+          const thunk = actionCreators.retroUpdateCommitted(payload)
+          const dispatchSpy = sinon.spy()
+
+          thunk(dispatchSpy, getState, {})
+
+          expect(dispatchSpy).not.calledWithMatch({
+            type: "CURRENT_USER_HAS_BECOME_FACILITATOR",
+          })
+        })
+
+        afterEach(() => {
+          window.userToken = null
         })
       })
     })

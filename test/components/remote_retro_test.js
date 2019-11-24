@@ -43,40 +43,6 @@ describe("RemoteRetro component", () => {
     })
   })
 
-  describe("when component updates with a new facilitator", () => {
-    let newFacilitator
-    let actions
-
-    beforeEach(() => {
-      newFacilitator = {
-        ...stubUser,
-        is_facilitator: true,
-      }
-
-      actions = {
-        currentUserHasBecomeFacilitator: spy(),
-      }
-    })
-
-    it("calls the new facilitator action", () => {
-      const wrapper = shallow(<RemoteRetro {...defaultProps} actions={actions} />)
-      wrapper.setProps({ currentUser: newFacilitator })
-      expect(actions.currentUserHasBecomeFacilitator).to.have.been.called
-    })
-  })
-
-  describe("when component updates without changing the current user's facilitatorship ", () => {
-    const actions = {
-      currentUserHasBecomeFacilitator: spy(),
-    }
-
-    it("does not call the new facilitator action", () => {
-      const wrapper = shallow(<RemoteRetro {...defaultProps} actions={actions} />)
-      wrapper.setProps({ stage: CLOSED, currentUser: stubUser })
-      expect(actions.currentUserHasBecomeFacilitator).not.to.have.been.called
-    })
-  })
-
   // we can't afford to have this integration break, as the grouping stage relies
   // on viewport manipulation
   it("renders a ViewportMetaTag, passing stage, alert, and browser orientation", () => {

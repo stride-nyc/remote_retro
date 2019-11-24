@@ -22,11 +22,8 @@ export class RemoteRetro extends Component {
   }
 
   componentDidUpdate(prevProps) {
-    const { stage, currentUser, actions } = this.props
+    const { stage } = this.props
     if (prevProps.stage !== stage) { hj("trigger", stage) }
-    if (!prevProps.currentUser.is_facilitator && currentUser.is_facilitator) {
-      actions.currentUserHasBecomeFacilitator()
-    }
   }
 
   render() {
@@ -96,15 +93,7 @@ RemoteRetro.propTypes = {
 }
 
 RemoteRetro.defaultProps = {
-  /*
-  / account for initial render occurring before ephemeral 'presence' state
-  / is sent by server, as that event necessarily arrives *after*
-  / the channel is joined
-  */
-  currentUser: {
-    is_facilitator: true,
-    token: window.userToken,
-  },
+  currentUser: null,
   facilitatorName: "",
   alert: null,
   error: null,

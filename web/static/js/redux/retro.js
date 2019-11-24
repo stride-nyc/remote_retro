@@ -1,4 +1,5 @@
 import { types as alertTypes } from "./alert"
+import { selectors as userSelectors } from "./users_by_id"
 
 export const types = {
   SET_INITIAL_STATE: "SET_INITIAL_STATE",
@@ -8,21 +9,34 @@ export const types = {
   RETRO_FACILITATOR_CHANGE_COMMITTED: "RETRO_FACILITATOR_CHANGE_COMMITTED",
 }
 
+const currentUserHasBecomeFacilitator = () => ({
+  type: alertTypes.CURRENT_USER_HAS_BECOME_FACILITATOR,
+})
+
 export const actions = {
   retroUpdateCommitted: payload => {
     const { retro: updatedRetro } = payload
 
     return (dispatch, getState) => {
-      const { retro: { stage } } = getState()
+      const state = getState()
+      const currentUser = userSelectors.getCurrentUserPresence(state)
 
-      let type
-      if (updatedRetro.stage !== stage) {
-        type = types.RETRO_STAGE_PROGRESSION_COMMITTED
-      } else {
-        type = types.RETRO_FACILITATOR_CHANGE_COMMITTED
-      }
+      const { retro: { stage } } = state
+
+      const stageProgressionsCommitted = updatedRetro.stage !== stage
+
+      const type = stageProgressionsCommitted
+        ? types.RETRO_STAGE_PROGRESSION_COMMITTED
+        : types.RETRO_FACILITATOR_CHANGE_COMMITTED
 
       dispatch({ type, payload })
+
+      const currentUserIsNewFacilitator = type === types.RETRO_FACILITATOR_CHANGE_COMMITTED
+        && currentUser.id === updatedRetro.facilitator_id
+
+      if (currentUserIsNewFacilitator) {
+        dispatch(currentUserHasBecomeFacilitator())
+      }
     }
   },
 
@@ -44,9 +58,7 @@ export const actions = {
     initialState,
   }),
 
-  currentUserHasBecomeFacilitator: () => ({
-    type: alertTypes.CURRENT_USER_HAS_BECOME_FACILITATOR,
-  }),
+  currentUserHasBecomeFacilitator,
 
   showStageHelp: help => ({
     type: alertTypes.SHOW_STAGE_HELP,
