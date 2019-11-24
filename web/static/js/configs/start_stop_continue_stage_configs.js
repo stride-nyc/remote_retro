@@ -101,7 +101,7 @@ export default {
         const TOTAL_VOTE_LIMIT_FOR_RETRO = VOTE_LIMIT * presences.length
 
         if (votes.length >= TOTAL_VOTE_LIMIT_FOR_RETRO) {
-          return "All Votes in!"
+          return "All votes in!"
         }
         return null
       },
