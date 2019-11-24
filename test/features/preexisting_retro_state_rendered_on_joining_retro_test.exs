@@ -10,7 +10,7 @@ defmodule PreExistingRetroStateRenderedOnJoiningRetroTest do
     retro_path = "/retros/" <> retro.id
     session = visit(session, retro_path)
 
-    rendered_idea_text = session |> find(Query.css(".happy.ideas li")) |> Element.text()
+    rendered_idea_text = session |> find(Query.css(".happy .ideas li")) |> Element.text()
 
     assert rendered_idea_text =~ "continuous delivery!"
   end

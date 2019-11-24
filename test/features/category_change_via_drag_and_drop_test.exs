@@ -14,7 +14,7 @@ defmodule CategoryChangeViaDragAndDrop do
       retro_path = "/retros/" <> retro.id
       session = visit(session, retro_path)
 
-      assert_has(session, Query.css(".sad.ideas", text: "no linter"))
+      assert_has(session, Query.css(".sad .ideas", text: "no linter"))
 
       session |> drag_idea("no linter", from: ".sad.column", to: ".confused.column")
 

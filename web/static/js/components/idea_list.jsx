@@ -29,8 +29,8 @@ class IdeaList extends Component {
 
   render() {
     const { props, state } = this
-    const { category, ideas } = props
-    const classes = classNames("ideas", category, styles.list, {
+    const { ideas } = props
+    const classes = classNames("ideas", styles.list, {
       overflowed: state.overflowed,
     })
 
@@ -57,7 +57,6 @@ class IdeaList extends Component {
 
 IdeaList.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
-  category: AppPropTypes.category.isRequired,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }

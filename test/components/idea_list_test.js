@@ -15,7 +15,6 @@ describe("IdeaList", () => {
     votes: [],
     ideas: [],
     stage: IDEA_GENERATION,
-    category: "confused",
     alert: null,
   }
 
