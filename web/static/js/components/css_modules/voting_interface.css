@@ -28,18 +28,18 @@
 
   &:global(.static) {
     pointer-events: none;
-
-    .vote-button {
-      font-size: 1rem;
-    }
   }
 
-  .vote-button {
+  .votes-label {
+    font-size: 1rem;
     line-height: 1.1rem;
-    font-size: 0.8rem;
     padding: 0.3rem 0.9rem 0.2rem;
 
-    /* allow wrapping element's disabled styling to handle dimming for consistency */
+    /*
+    override semantic ui's disabled styling here to allow wrapping element's
+    disabled styling to handle dimming, otherwise the opacity changes 'stack',
+    causing different opacity levels in the various elements
+    */
     &:disabled {
       opacity: 1;
     }

@@ -62,7 +62,7 @@ class VotingInterface extends React.Component {
             </button>
           </div>
         ) : (
-          <div className={`ui basic button ${styles.voteButton}`}>
+          <div className={`ui basic button ${styles.votesLabel}`}>
             Votes
           </div>
         )}
