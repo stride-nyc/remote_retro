@@ -13,7 +13,6 @@ describe("<IdeaContentBase />", () => {
   const defaultProps = {
     idea: { body: "body text" },
     currentUser: {},
-    retroChannel: {},
     stage: IDEA_GENERATION,
     canUserEditIdeaContents: true,
     draggable: false,

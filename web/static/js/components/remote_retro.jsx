@@ -34,7 +34,6 @@ export class RemoteRetro extends Component {
       presences,
       ideas,
       groups,
-      retroChannel,
       stage,
       alert,
       error,
@@ -67,7 +66,6 @@ export class RemoteRetro extends Component {
           stageConfig={stageConfig}
           actions={actions}
           browser={browser}
-          retroChannel={retroChannel}
           isTabletOrAbove={isTabletOrAbove}
         />
         <Alert config={alert} />
@@ -80,7 +78,6 @@ export class RemoteRetro extends Component {
 }
 
 RemoteRetro.propTypes = {
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   presences: AppPropTypes.presences.isRequired,
   ideas: AppPropTypes.ideas.isRequired,
   groups: AppPropTypes.groups.isRequired,

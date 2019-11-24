@@ -36,7 +36,6 @@ const LowerThird = props => {
 LowerThird.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   ideas: AppPropTypes.ideas.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   stage: AppPropTypes.stage.isRequired,
   stageConfig: AppPropTypes.stageConfig.isRequired,
 }

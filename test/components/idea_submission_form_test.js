@@ -10,7 +10,7 @@ describe("IdeaSubmissionForm component", () => {
   let wrapper
 
   const stubUser = { given_name: "Mugatu", token: "xyz", id: 1 }
-  const mockRetroChannel = { on: () => {}, push: () => {} }
+  const mockActions = { broadcastIdeaTypingEvent: () => {} }
   const fakeEvent = {
     stopPropagation: () => undefined,
     preventDefault: () => undefined,
@@ -23,7 +23,7 @@ describe("IdeaSubmissionForm component", () => {
 
   const defaultProps = {
     currentUser: stubUser,
-    retroChannel: mockRetroChannel,
+    actions: mockActions,
     ideaGenerationCategories: ["happy", "sad", "confused"],
     stage: IDEA_GENERATION,
     users,
@@ -140,12 +140,13 @@ describe("IdeaSubmissionForm component", () => {
     })
 
     describe("when the event isTrusted", () => {
-      it("pushes a `idea_typing_event` event to the retro channel, along with the user token", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
+      it("invokes the broadcastIdeaTypingEvent action, passing the user token", () => {
+        const actions = { broadcastIdeaTypingEvent: sinon.spy() }
+
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             {...defaultProps}
-            retroChannel={retroChannel}
+            actions={actions}
           />
         )
         const ideaInput = wrapper.find("input[name='idea']")
@@ -154,15 +155,19 @@ describe("IdeaSubmissionForm component", () => {
           target: { value: "new value" },
         })
 
-        expect(retroChannel.push).calledWith("idea_typing_event", { userToken: "xyz" })
+        expect(actions.broadcastIdeaTypingEvent).calledWith({ userToken: "xyz" })
       })
     })
 
     describe("when the event's isTrusted value is false", () => {
-      it("does *not* push a `idea_typing_event` event to the retro channel", () => {
-        const retroChannel = { on: () => {}, push: sinon.spy() }
+      it("does *not* invoke the broadcastIdeaTypingEvent action", () => {
+        const actions = { broadcastIdeaTypingEvent: sinon.spy() }
+
         wrapper = mountWithConnectedSubcomponents(
-          <IdeaSubmissionForm {...defaultProps} />
+          <IdeaSubmissionForm
+            {...defaultProps}
+            actions={actions}
+          />
         )
         const ideaInput = wrapper.find("input[name='idea']")
         ideaInput.simulate("change", {
@@ -170,7 +175,7 @@ describe("IdeaSubmissionForm component", () => {
           target: { value: "new value" },
         })
 
-        expect(retroChannel.push).not.called
+        expect(actions.broadcastIdeaTypingEvent).not.called
       })
     })
   })
@@ -228,7 +233,6 @@ describe("IdeaSubmissionForm component", () => {
           <IdeaSubmissionForm
             {...defaultProps}
             currentUser={stubUser}
-            retroChannel={mockRetroChannel}
             alert={{ herp: "derp" }}
             users={users}
           />

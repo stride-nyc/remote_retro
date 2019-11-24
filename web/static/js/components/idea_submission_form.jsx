@@ -23,8 +23,8 @@ const PLACEHOLDER_TEXTS = {
   "action-item": "automate the linting process",
 }
 
-const pushUserTypingEventThrottled = throttle((retroChannel, currentUserToken) => {
-  retroChannel.push("idea_typing_event", { userToken: currentUserToken })
+const pushUserTypingEventThrottled = throttle((actions, currentUserToken) => {
+  actions.broadcastIdeaTypingEvent({ userToken: currentUserToken })
 }, USER_TYPING_ANIMATION_DURATION - 100)
 
 export class IdeaSubmissionForm extends Component {
@@ -67,8 +67,8 @@ export class IdeaSubmissionForm extends Component {
   handleBodyChange = event => {
     if (!event.isTrusted) { return } // ignore events triggered by extensions/scripts
 
-    const { retroChannel, currentUser } = this.props
-    pushUserTypingEventThrottled(retroChannel, currentUser.token)
+    const { actions, currentUser } = this.props
+    pushUserTypingEventThrottled(actions, currentUser.token)
     this.setState({ body: event.target.value, hasTypedChar: true })
   }
 
@@ -150,7 +150,6 @@ export class IdeaSubmissionForm extends Component {
 IdeaSubmissionForm.propTypes = {
   alert: AppPropTypes.alert,
   currentUser: AppPropTypes.presence.isRequired,
-  retroChannel: AppPropTypes.retroChannel.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   users: AppPropTypes.presences.isRequired,
   stage: AppPropTypes.stage,

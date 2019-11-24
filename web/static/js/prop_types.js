@@ -37,11 +37,6 @@ export const presence = PropTypes.shape({
 
 export const presences = PropTypes.arrayOf(presence)
 
-export const retroChannel = PropTypes.shape({
-  on: PropTypes.func,
-  push: PropTypes.func,
-})
-
 export const idea = PropTypes.shape({
   id: PropTypes.number,
   body: PropTypes.string,

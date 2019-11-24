@@ -231,6 +231,37 @@ describe("actionCreators", () => {
     })
   })
 
+  describe("broadcastIdeaTypingEvent", () => {
+    const dumbParams = {}
+
+    it("returns a thunk", () => {
+      const result = actionCreators.broadcastIdeaTypingEvent(dumbParams)
+      expect(result).to.be.a("function")
+    })
+
+    describe("invoking the returned function", () => {
+      let thunk
+      let mockRetroChannel
+      let params
+
+      const dispatchStub = () => {}
+      const getStateStub = () => {}
+
+      beforeEach(() => {
+        params = { userToken: "azby" }
+        mockRetroChannel = { push: sinon.spy() }
+
+        thunk = actionCreators.broadcastIdeaTypingEvent(params)
+
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
+      })
+
+      it("notifies the server, passing the params", () => {
+        expect(mockRetroChannel.push).calledWith("idea_typing_event", params)
+      })
+    })
+  })
+
   describe("ideaDraggedInGroupingStage", () => {
     const idea = { id: 5, x: 393.39, y: 3928.3 }
 

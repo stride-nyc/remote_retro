@@ -38,7 +38,7 @@ retroChannel.join()
       render(
         <AppContainer>
           <Provider store={store}>
-            <RemoteRetro retroChannel={retroChannel} />
+            <RemoteRetro />
           </Provider>
         </AppContainer>,
         document.querySelector(".react-root")

@@ -9,14 +9,12 @@ import STAGES from "../../web/static/js/configs/stages"
 const { IDEA_GENERATION, CLOSED } = STAGES
 
 describe("RemoteRetro component", () => {
-  const mockRetroChannel = {}
   const stubUser = {
     given_name: "Mugatu",
     is_facilitator: false,
   }
   const defaultProps = {
     currentUser: stubUser,
-    retroChannel: mockRetroChannel,
     isTabletOrAbove: true,
     presences: [],
     groups: [],

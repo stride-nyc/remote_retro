@@ -8,7 +8,6 @@ describe("GroupingStage component", () => {
     ideas: [],
     actions: {},
     currentUser: {},
-    retroChannel: {},
     stage: "idea-generation",
     stageConfig: {},
     browser: {},

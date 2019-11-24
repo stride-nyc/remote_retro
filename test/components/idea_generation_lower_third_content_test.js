@@ -9,7 +9,6 @@ const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 describe("<IdeaGenerationLowerThirdContent />", () => {
   const defaultProps = {
-    retroChannel: {},
     currentUser: {},
     stageConfig: {},
   }

@@ -1,6 +1,5 @@
 import React from "react"
 import { shallow } from "enzyme"
-import { spy } from "sinon"
 
 import LowerThird from "../../web/static/js/components/lower_third"
 import IdeaGenerationLowerThirdContent from "../../web/static/js/components/idea_generation_lower_third_content" // eslint-disable-line line-length
@@ -12,13 +11,11 @@ import STAGES from "../../web/static/js/configs/stages"
 const { IDEA_GENERATION, VOTING, CLOSED, GROUPING } = STAGES
 
 describe("LowerThird component", () => {
-  const mockRetroChannel = { push: spy(), on: () => {} }
   const stubUser = { given_name: "Mugatu" }
   const defaultProps = {
     actions: {},
     userOptions: {},
     currentUser: stubUser,
-    retroChannel: mockRetroChannel,
     users: [],
     ideas: [],
     stage: IDEA_GENERATION,

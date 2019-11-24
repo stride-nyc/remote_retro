@@ -121,6 +121,12 @@ export const actions = {
     }
   },
 
+  broadcastIdeaTypingEvent: params => {
+    return (dispatch, getState, retroChannel) => {
+      retroChannel.push("idea_typing_event", params)
+    }
+  },
+
   deleteIdea: ideaId => ({
     type: types.IDEA_DELETION_COMMITTED,
     ideaId,
