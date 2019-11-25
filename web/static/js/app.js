@@ -30,26 +30,35 @@ retroChannel.join()
   .receive("ok", initialState => {
     actionz.setInitialState(initialState)
 
-    const renderWithHotReload = () => {
-      const RemoteRetro = dragAndDropContext(
-        require("./components/remote_retro").default
-      )
+    awaitPresencesBeforeMountingApp()
+  })
 
-      render(
-        <AppContainer>
-          <Provider store={store}>
-            <RemoteRetro />
-          </Provider>
-        </AppContainer>,
-        document.querySelector(".react-root")
-      )
-    }
+const awaitPresencesBeforeMountingApp = () => {
+  const interval = setInterval(() => {
+    const { presences } = store.getState()
 
-    // initial render
+    if (!presences.length) { return }
+
     renderWithHotReload()
+    clearInterval(interval)
 
     if (module.hot) {
-      // ensure rerenders on module updates
       module.hot.accept(() => { renderWithHotReload() })
     }
-  })
+  }, 200)
+}
+
+const renderWithHotReload = () => {
+  const RemoteRetro = dragAndDropContext(
+    require("./components/remote_retro").default
+  )
+
+  render(
+    <AppContainer>
+      <Provider store={store}>
+        <RemoteRetro />
+      </Provider>
+    </AppContainer>,
+    document.querySelector(".react-root")
+  )
+}
