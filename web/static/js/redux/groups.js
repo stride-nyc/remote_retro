@@ -23,3 +23,11 @@ export const selectors = {
     })
   },
 }
+
+export const actionCreators = {
+  submitGroupName: groupArguments => {
+    return (dispatch, getState, retroChannel) => {
+      retroChannel.push("update_group_name", groupArguments)
+    }
+  },
+}

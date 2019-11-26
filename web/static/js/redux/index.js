@@ -15,6 +15,7 @@ import {
 import {
   reducer as groups,
   selectors as groupSelectors,
+  actionCreators as groupActionCreators,
 } from "./groups"
 
 import {
@@ -86,6 +87,7 @@ export const actions = {
   ...mobileActions,
   ...voteActions,
   ...userOptionsActions,
+  ...groupActionCreators,
 }
 
 export const selectors = {

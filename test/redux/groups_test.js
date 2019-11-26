@@ -1,8 +1,10 @@
 import deepFreeze from "deep-freeze"
+import { spy } from "sinon"
 
 import {
   reducer as groupsReducer,
   selectors,
+  actionCreators,
 } from "../../web/static/js/redux/groups"
 
 describe("groups reducer", () => {
@@ -152,6 +154,23 @@ describe("selectors", () => {
           })
         })
       })
+    })
+  })
+})
+
+describe("action creators", () => {
+  describe("submitGroupName", () => {
+    it("pushes an 'update_group_name' event to the server, passing the args", () => {
+      const mockRetroChannel = { push: spy() }
+      const dispatchStub = () => {}
+      const getStateStub = () => {}
+
+      const groupArguments = { id: 666, name: "steven's domain" }
+      const thunk = actionCreators.submitGroupName(groupArguments)
+
+      thunk(dispatchStub, getStateStub, mockRetroChannel)
+
+      expect(mockRetroChannel.push).to.have.been.calledWith("update_group_name", groupArguments)
     })
   })
 })
