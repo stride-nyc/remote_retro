@@ -12,9 +12,9 @@ const GroupingLowerThirdContent = props => {
       <HighContrastButton userOptions={userOptions} actions={actions} className="ui three wide column left aligned" />
       <div className="ten wide column">
         <div className="ui header">
-          Grouping
+          Idea Grouping
           <div className="sub header">
-            Group Related Items
+            Group Related Ideas
           </div>
         </div>
       </div>

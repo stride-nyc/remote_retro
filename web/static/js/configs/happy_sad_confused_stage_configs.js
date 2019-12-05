@@ -40,9 +40,9 @@ const ideaGenerationConfig = localStorage.groupingDev ? {
   ...baseIdeaGenerationConfig,
   progressionButton: {
     nextStage: GROUPING,
-    copy: "Proceed to Grouping",
+    copy: "Proceed to Idea Grouping",
     iconClass: "arrow right",
-    confirmationMessage: "Are you sure you would like to proceed to the grouping stage?",
+    confirmationMessage: "Are you sure you would like to proceed to the idea grouping stage?",
   },
 } : {
   ...baseIdeaGenerationConfig,
@@ -84,11 +84,11 @@ export default {
   [IDEA_GENERATION]: ideaGenerationConfig,
   [GROUPING]: {
     arrivalAlert: {
-      headerText: "Stage Change: Grouping!",
+      headerText: "Stage Change: Idea Grouping!",
       BodyComponent: StageChangeInfoGrouping,
     },
     help: {
-      headerText: "Grouping",
+      headerText: "Idea Grouping",
       BodyComponent: StageChangeInfoGrouping,
     },
     progressionButton: {
