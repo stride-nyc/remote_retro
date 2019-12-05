@@ -7,7 +7,7 @@ const GroupNamingLowerThirdContent = props => {
   return (
     <CenteredContentLowerThirdWrapper {...props}>
       <div className="ui header">
-        Naming
+        Group Naming
 
         <div className="sub header">
           Give a name to each of the groups
