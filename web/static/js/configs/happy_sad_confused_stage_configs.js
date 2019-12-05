@@ -98,7 +98,7 @@ export default {
       }),
       copy: "Proceed to Group Naming",
       iconClass: "arrow right",
-      confirmationMessage: "Is your team finished grouping the ideas?",
+      confirmationMessage: "Has your team finished grouping the ideas?",
     },
   },
   [GROUP_NAMING]: {
