@@ -2,7 +2,7 @@ import React from "react"
 
 export default () => (
   <React.Fragment>
-    The skinny on voting:
+    The skinny on Voting:
     <div className="ui basic segment">
       <ul className="ui list">
         <li>You have <strong>3</strong> votes.</li>
