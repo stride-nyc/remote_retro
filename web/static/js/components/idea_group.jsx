@@ -15,6 +15,7 @@ const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
         <input
           type="text"
           placeholder="Add a group name"
+          defaultValue={groupWithAssociatedIdeas.name}
           maxLength={MAX_LENGTH_OF_GROUP_NAME}
           onBlur={e => actions.submitGroupName(e.target.value)}
         />
