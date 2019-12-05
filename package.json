@@ -51,7 +51,7 @@
     "redux": "^3.6.0",
     "redux-responsive": "^3.2.2",
     "redux-thunk": "^2.3.0",
-    "sat": "^0.7.1",
+    "sat": "^0.8",
     "semantic-ui-offline": "github:vanderhoop/semantic-ui-offline#dbf68a08531a48aa5b2bdc123b92a3c3df112515",
     "style-loader": "^0.13.1",
     "terser-webpack-plugin": "^1.1.0",
