@@ -10,17 +10,17 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/group_naming_stage.css"
 
 export const GroupNamingStage = props => {
-  const { groupsWithAssociatedIdeas, currentUser, actions } = props
+  const { groupsWithAssociatedIdeasAndVotes, currentUser, actions } = props
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.groupsWrapper}>
-        {groupsWithAssociatedIdeas.map(groupWithAssociatedIdeas => (
+        {groupsWithAssociatedIdeasAndVotes.map(groupWithAssociatedIdeasAndVotes => (
           <IdeaGroup
             actions={actions}
             currentUser={currentUser}
-            key={groupWithAssociatedIdeas.id}
-            groupWithAssociatedIdeas={groupWithAssociatedIdeas}
+            key={groupWithAssociatedIdeasAndVotes.id}
+            groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
           />
         ))}
       </div>
@@ -33,11 +33,11 @@ export const GroupNamingStage = props => {
 GroupNamingStage.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.user.isRequired,
-  groupsWithAssociatedIdeas: AppPropTypes.groups.isRequired,
+  groupsWithAssociatedIdeasAndVotes: AppPropTypes.groups.isRequired,
 }
 
 const mapStateToProps = state => ({
-  groupsWithAssociatedIdeas: selectors.groupsWithAssociatedIdeas(state),
+  groupsWithAssociatedIdeasAndVotes: selectors.groupsWithAssociatedIdeasAndVotes(state),
 })
 
 export default connect(mapStateToProps)(GroupNamingStage)

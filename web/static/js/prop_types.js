@@ -64,7 +64,7 @@ export const groups = PropTypes.arrayOf(PropTypes.object)
 
 export const ideas = PropTypes.arrayOf(idea)
 
-export const groupWithAssociatedIdeas = PropTypes.shape({
+export const groupWithAssociatedIdeasAndVotes = PropTypes.shape({
   id: PropTypes.number,
   ideas,
 })

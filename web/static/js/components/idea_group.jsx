@@ -8,21 +8,21 @@ import ideaStyles from "./css_modules/idea.css"
 // exceed the 1/4th column width on desktop, even with the widest possible characters
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
-const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
+const IdeaGroup = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions }) => (
   <div className={`idea-group ${styles.wrapper}`}>
     {currentUser.is_facilitator && (
       <div className={`ui transparent input ${styles.labelInputWrapper}`}>
         <input
           type="text"
           placeholder="Add a group name"
-          defaultValue={groupWithAssociatedIdeas.name}
+          defaultValue={groupWithAssociatedIdeasAndVotes.name}
           maxLength={MAX_LENGTH_OF_GROUP_NAME}
           onBlur={e => actions.submitGroupName(e.target.value)}
         />
       </div>
     )}
     <ul className={styles.list}>
-      {groupWithAssociatedIdeas.ideas.map(idea => {
+      {groupWithAssociatedIdeasAndVotes.ideas.map(idea => {
         return <li key={idea.id} className={ideaStyles.index}>{idea.body}</li>
       })}
     </ul>
@@ -32,7 +32,7 @@ const IdeaGroup = ({ groupWithAssociatedIdeas, currentUser, actions }) => (
 IdeaGroup.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.user.isRequired,
-  groupWithAssociatedIdeas: AppPropTypes.groupWithAssociatedIdeas.isRequired,
+  groupWithAssociatedIdeasAndVotes: AppPropTypes.groupWithAssociatedIdeasAndVotes.isRequired,
 }
 
 export default IdeaGroup

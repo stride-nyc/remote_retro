@@ -70,14 +70,16 @@ describe("groups reducer", () => {
 })
 
 describe("selectors", () => {
-  describe("groupsWithAssociatedIdeas", () => {
+  describe("groupsWithAssociatedIdeasAndVotes", () => {
     describe("when there are no groups on state", () => {
       it("returns an empty list", () => {
         const state = {
           groups: [],
+          ideas: [],
+          votes: [],
         }
 
-        const result = selectors.groupsWithAssociatedIdeas(state)
+        const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
 
         expect(result).to.eql([])
       })
@@ -91,9 +93,10 @@ describe("selectors", () => {
             { id: 19 },
           ],
           ideas: [],
+          votes: [],
         }
 
-        const result = selectors.groupsWithAssociatedIdeas(state)
+        const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
         const ids = result.map(group => group.id)
 
         expect(ids).to.eql([11, 19])
@@ -112,20 +115,83 @@ describe("selectors", () => {
               id: 2,
               group_id: 11,
             }],
+            votes: [],
           }
 
-          const result = selectors.groupsWithAssociatedIdeas(state)
+          const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
           const group = result[0]
 
-          expect(group).to.eql({
-            id: 11,
-            ideas: [{
-              id: 1,
-              group_id: 11,
-            }, {
-              id: 2,
-              group_id: 11,
-            }],
+          expect(group.ideas).to.eql([{
+            id: 1,
+            group_id: 11,
+          }, {
+            id: 2,
+            group_id: 11,
+          }])
+        })
+
+        describe("when there are no votes on state", () => {
+          it("adds an empty votes association", () => {
+            const state = {
+              groups: [
+                { id: 20 },
+              ],
+              ideas: [{
+                id: 1,
+                group_id: 20,
+              }],
+              votes: [],
+            }
+
+            const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
+            const group = result[0]
+
+            expect(group.votes).to.eql([])
+          })
+        })
+
+        describe("when there *are* votes on state", () => {
+          describe("when none of the votes are associated with group's associated ideas", () => {
+            it("does not add any of the votes to the given group", () => {
+              const state = {
+                groups: [
+                  { id: 20 },
+                ],
+                ideas: [{
+                  id: 1,
+                  group_id: 20,
+                }],
+                votes: [{ id: 5, idea_id: 99 }],
+              }
+
+              const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
+              const group = result[0]
+
+              expect(group.votes).to.eql([])
+            })
+          })
+        })
+
+        describe("when there are votes associated with the given ideas", () => {
+          it("includes those votes in the group's 'votes' association", () => {
+            const state = {
+              groups: [
+                { id: 20 },
+              ],
+              ideas: [{
+                id: 1,
+                group_id: 20,
+              }],
+              votes: [{ id: 5, idea_id: 1 }],
+            }
+
+            const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
+            const group = result[0]
+
+            expect(group.votes).to.eql([{
+              id: 5,
+              idea_id: 1,
+            }])
           })
         })
       })
@@ -143,15 +209,13 @@ describe("selectors", () => {
               id: 2,
               group_id: 99,
             }],
+            votes: [],
           }
 
-          const result = selectors.groupsWithAssociatedIdeas(state)
+          const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
           const group = result[0]
 
-          expect(group).to.eql({
-            id: 11,
-            ideas: [],
-          })
+          expect(group.ideas).to.eql([])
         })
       })
     })

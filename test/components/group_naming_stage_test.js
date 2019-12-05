@@ -6,7 +6,7 @@ import IdeaGroup from "../../web/static/js/components/idea_group"
 
 describe("GroupNamingStage component", () => {
   const defaultProps = {
-    groupsWithAssociatedIdeas: [{
+    groupsWithAssociatedIdeasAndVotes: [{
       id: 5,
     }, {
       id: 6,

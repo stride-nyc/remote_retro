@@ -8,7 +8,7 @@ describe("IdeaGroup component", () => {
   const defaultProps = {
     actions: {},
     currentUser: {},
-    groupWithAssociatedIdeas: {
+    groupWithAssociatedIdeasAndVotes: {
       id: 5,
       ideas: [{
         id: 1,

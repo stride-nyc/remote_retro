@@ -14,12 +14,19 @@ export const reducer = (state = [], action) => {
 }
 
 export const selectors = {
-  groupsWithAssociatedIdeas: ({ groups, ideas }) => {
+  groupsWithAssociatedIdeasAndVotes: ({ groups, ideas, votes }) => {
     const ideasByGroupId = groupBy(ideas, "group_id")
+
 
     return groups.map(group => {
       const ideasForGroup = ideasByGroupId[group.id] || []
-      return { ...group, ideas: ideasForGroup }
+      const ideaIdsForGroup = new Set(ideasForGroup.map(idea => idea.id))
+
+      const votesForGroup = votes.reduce((acc, vote) => {
+        return ideaIdsForGroup.has(vote.idea_id) ? [...acc, vote] : acc
+      }, [])
+
+      return { ...group, ideas: ideasForGroup, votes: votesForGroup }
     })
   },
 }
