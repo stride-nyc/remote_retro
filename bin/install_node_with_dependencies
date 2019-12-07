@@ -18,6 +18,9 @@ if asdf plugin-list | grep nodejs >/dev/null; then
 else
   printGreenLine "asdf: installing Node version-management plugin...";
   asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git;
+
+  printGreenLine "asdf: importing the Node.js release team's OpenPGP keys to main keyring\n\n\t- see https://github.com/asdf-vm/asdf-nodejs#install"
+  bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
 fi
 
 node_version=$(awk '/nodejs/ { print $2 }' .tool-versions)
