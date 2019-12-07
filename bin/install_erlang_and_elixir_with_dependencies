@@ -20,7 +20,7 @@ else
   asdf plugin-add erlang https://github.com/HashNuke/asdf-erlang.git;
 fi
 
-printGreenLine "asdf: installing Erlang version declared in \`.tool-versions\` BUILDING ERLANG TAKES AWHILE. SERIOUSLY. AND YOU MIGHT SEE A WARNING ABOUT PDFs/DOCS. THAT'S FINE. SIT TIGHT.";
+printGreenLine "asdf: installing Erlang version declared in \`.tool-versions\`\n\n\tNOTE: Building erlang takes 5-10 minutes. Be patient.";
 erlang_version=$(awk '/erlang/ { print $2 }' .tool-versions) && asdf install erlang ${erlang_version}
 
 if asdf plugin-list | grep elixir >/dev/null; then
