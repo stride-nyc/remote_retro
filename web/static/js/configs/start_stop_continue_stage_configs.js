@@ -1,15 +1,13 @@
+import sharedStageConfigs from "./shared_stage_configs"
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import stageChangeInfoIdeaGenerationBuilder from "../components/stage_change_info_idea_generation_builder"
 import StageChangeInfoGrouping from "../components/stage_change_info_grouping"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
-import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
 import STAGES from "./stages"
 import { VOTE_LIMIT } from "./retro_configs"
 
 const {
-  LOBBY,
-  PRIME_DIRECTIVE,
   IDEA_GENERATION,
   GROUPING,
   VOTING,
@@ -24,32 +22,7 @@ const StageChangeInfoIdeaGeneration = stageChangeInfoIdeaGenerationBuilder([
 ])
 
 export default {
-  [LOBBY]: {
-    arrivalAlert: null,
-    help: null,
-    progressionButton: {
-      nextStage: PRIME_DIRECTIVE,
-      copy: "Begin Retro",
-      iconClass: "arrow right",
-      confirmationMessage: "Has your entire party arrived?",
-    },
-  },
-  [PRIME_DIRECTIVE]: {
-    arrivalAlert: {
-      headerText: "Stage Change: The Prime Directive!",
-      BodyComponent: StageChangeInfoPrimeDirective,
-    },
-    help: {
-      headerText: "The Prime Directive",
-      BodyComponent: StageChangeInfoPrimeDirective,
-    },
-    progressionButton: {
-      nextStage: IDEA_GENERATION,
-      copy: "Proceed to Idea Generation",
-      iconClass: "arrow right",
-      confirmationMessage: "Is everyone ready to begin?",
-    },
-  },
+  ...sharedStageConfigs,
   [IDEA_GENERATION]: {
     arrivalAlert: {
       headerText: "Stage Change: Idea Generation!",
