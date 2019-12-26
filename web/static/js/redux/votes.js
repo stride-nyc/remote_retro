@@ -69,7 +69,7 @@ export const actions = {
 
 export const reducer = (state = [], action) => {
   switch (action.type) {
-    case "SET_INITIAL_STATE":
+    case actionTypes.SET_INITIAL_STATE:
       return action.initialState.votes
     case actionTypes.ADD_VOTE:
       return [...state, action.vote]
