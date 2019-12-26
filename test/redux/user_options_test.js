@@ -26,8 +26,8 @@ describe("user options", () => {
       })
     })
 
-    describe("when the action is TOGGLE_HIGH_CONTRAST_ON", () => {
-      const action = { type: "TOGGLE_HIGH_CONTRAST_ON" }
+    describe("when the action is TOGGLE_HIGH_CONTRAST", () => {
+      const action = { type: "TOGGLE_HIGH_CONTRAST" }
 
       describe("and highContrastOn is true", () => {
         it("returns highContrastOn as false", () => {
@@ -46,7 +46,7 @@ describe("user options", () => {
   describe("actions", () => {
     describe("toggleHighContrastOn", () => {
       it("creates an action to toggle the value of highContrastOn", () => {
-        expect(actions.toggleHighContrastOn()).to.deep.equal({ type: "TOGGLE_HIGH_CONTRAST_ON" })
+        expect(actions.toggleHighContrastOn()).to.deep.equal({ type: "TOGGLE_HIGH_CONTRAST" })
       })
     })
   })

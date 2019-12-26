@@ -6,7 +6,7 @@ const INITIAL_STATE = {
 
 export const reducer = (state = INITIAL_STATE, action) => {
   switch (action.type) {
-    case actionTypes.TOGGLE_HIGH_CONTRAST_ON:
+    case actionTypes.TOGGLE_HIGH_CONTRAST:
       return { highContrastOn: !state.highContrastOn }
     default:
       return state
@@ -14,5 +14,5 @@ export const reducer = (state = INITIAL_STATE, action) => {
 }
 
 export const actions = {
-  toggleHighContrastOn: () => ({ type: actionTypes.TOGGLE_HIGH_CONTRAST_ON }),
+  toggleHighContrastOn: () => ({ type: actionTypes.TOGGLE_HIGH_CONTRAST }),
 }
