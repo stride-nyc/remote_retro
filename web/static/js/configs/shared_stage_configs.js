@@ -1,3 +1,8 @@
+import LobbyStage from "../components/lobby_stage"
+import PrimeDirectiveStage from "../components/prime_directive_stage"
+import GroupingStage from "../components/grouping_stage"
+import GroupNamingStage from "../components/group_naming_stage"
+import IdeaGenerationStage from "../components/idea_generation_stage"
 import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import StageChangeInfoGrouping from "../components/stage_change_info_grouping"
@@ -24,6 +29,7 @@ export default {
   [LOBBY]: {
     arrivalAlert: null,
     help: null,
+    uiComponent: LobbyStage,
     progressionButton: {
       nextStage: PRIME_DIRECTIVE,
       copy: "Begin Retro",
@@ -40,6 +46,7 @@ export default {
       headerText: "The Prime Directive",
       BodyComponent: StageChangeInfoPrimeDirective,
     },
+    uiComponent: PrimeDirectiveStage,
     progressionButton: {
       nextStage: IDEA_GENERATION,
       copy: "Proceed to Idea Generation",
@@ -56,6 +63,7 @@ export default {
       headerText: "Idea Grouping",
       BodyComponent: StageChangeInfoGrouping,
     },
+    uiComponent: GroupingStage,
     progressionButton: {
       nextStage: GROUP_NAMING,
       optionalParamsAugmenter: reduxState => ({
@@ -75,6 +83,7 @@ export default {
       headerText: "Group Naming",
       BodyComponent: StageChangeInfoGroupNaming,
     },
+    uiComponent: GroupNamingStage,
     progressionButton: {
       nextStage: VOTING,
       copy: "Proceed to Voting",
@@ -91,6 +100,7 @@ export default {
       headerText: "Voting",
       BodyComponent: StageChangeInfoVoting,
     },
+    uiComponent: IdeaGenerationStage,
     progressionButton: {
       nextStage: ACTION_ITEMS,
       copy: "Proceed to Action Items",
@@ -116,6 +126,7 @@ export default {
       headerText: "Action-Item Generation",
       BodyComponent: StageChangeInfoActionItems,
     },
+    uiComponent: IdeaGenerationStage,
     progressionButton: {
       nextStage: CLOSED,
       copy: "Send Action Items",
@@ -132,6 +143,7 @@ export default {
       headerText: "Retro is Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
+    uiComponent: IdeaGenerationStage,
     progressionButton: null,
   },
 }

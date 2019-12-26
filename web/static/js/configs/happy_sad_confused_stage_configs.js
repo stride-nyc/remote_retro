@@ -1,4 +1,5 @@
 import sharedStageConfigs from "./shared_stage_configs"
+import IdeaGenerationStage from "../components/idea_generation_stage"
 import stageChangeInfoIdeaGenerationBuilder from "../components/stage_change_info_idea_generation_builder"
 import STAGES from "./stages"
 
@@ -23,7 +24,9 @@ const baseIdeaGenerationConfig = {
     headerText: "Idea Generation",
     BodyComponent: StageChangeInfoIdeaGeneration,
   },
+  uiComponent: IdeaGenerationStage,
 }
+
 const ideaGenerationConfig = localStorage.groupingDev ? {
   ...baseIdeaGenerationConfig,
   progressionButton: {

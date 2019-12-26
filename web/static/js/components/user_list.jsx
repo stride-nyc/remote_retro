@@ -8,7 +8,7 @@ import UserListItem from "./user_list_item"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list.css"
-import { selectors } from "../redux/users_by_id"
+import { selectors } from "../redux"
 
 export const UserList = ({ presences, wrap }) => {
   if (presences.length === 0) { return null }

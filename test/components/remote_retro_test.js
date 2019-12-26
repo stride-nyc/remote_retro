@@ -35,7 +35,7 @@ describe("RemoteRetro component", () => {
     it("triggers a hotjar event, passing the stage", () => {
       const hotjarSpy = spy(global, "hj")
 
-      mountWithConnectedSubcomponents(
+      shallow(
         <RemoteRetro {...defaultProps} stage={CLOSED} />
       )
 
