@@ -73,8 +73,8 @@ describe("RetroChannel", () => {
       let updateIdeaSpy
       let updatePresenceSpy
       let updateRetroSpy
-      let addVoteSpy
-      let retractVoteSpy
+      let voteSubmissionSpy
+      let voteRetractionSpy
       let setPresencesSpy
       let clock
 
@@ -84,8 +84,8 @@ describe("RetroChannel", () => {
         updateIdeaSpy = spy()
         updatePresenceSpy = spy()
         updateRetroSpy = spy()
-        addVoteSpy = spy()
-        retractVoteSpy = spy()
+        voteSubmissionSpy = spy()
+        voteRetractionSpy = spy()
         setPresencesSpy = spy()
         clock = useFakeTimers(Date.now())
 
@@ -96,8 +96,8 @@ describe("RetroChannel", () => {
           updatePresence: updatePresenceSpy,
           retroUpdateCommitted: updateRetroSpy,
           setPresences: setPresencesSpy,
-          addVote: addVoteSpy,
-          retractVote: retractVoteSpy,
+          voteSubmission: voteSubmissionSpy,
+          voteRetraction: voteRetractionSpy,
         }
 
         store = { getState: () => {} }
@@ -262,8 +262,8 @@ describe("RetroChannel", () => {
           })
         })
 
-        it("invokes the addVote action, passing the vote", () => {
-          expect(addVoteSpy).calledWith({
+        it("invokes the voteSubmission action, passing the vote", () => {
+          expect(voteSubmissionSpy).calledWith({
             idea_id: 50,
             user_id: 99,
           })
@@ -275,8 +275,8 @@ describe("RetroChannel", () => {
           retroChannelClient.trigger("vote_retracted", { id: 21 })
         })
 
-        it("invokes the retractVote action, passing the vote", () => {
-          expect(retractVoteSpy).calledWith({ id: 21 })
+        it("invokes the voteRetraction action, passing the vote", () => {
+          expect(voteRetractionSpy).calledWith({ id: 21 })
         })
       })
     })

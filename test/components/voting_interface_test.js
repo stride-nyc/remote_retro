@@ -43,7 +43,7 @@ describe("VotingInterface", () => {
 
     context("when the user has exhausted their votes", () => {
       let votingInterface
-      let addVoteButton
+      let voteSubmissionButton
       let submitVoteSpy
 
       beforeEach(() => {
@@ -58,20 +58,20 @@ describe("VotingInterface", () => {
           />
         )
 
-        addVoteButton = votingInterface.find(".icon.buttons .plus.button")
+        voteSubmissionButton = votingInterface.find(".icon.buttons .plus.button")
       })
 
       it("disables the add button", () => {
-        expect(addVoteButton.prop("disabled")).to.eql(true)
+        expect(voteSubmissionButton.prop("disabled")).to.eql(true)
       })
 
       context("when a bad actor removes the disabled attribute via dev tools", () => {
         beforeEach(() => {
-          addVoteButton.prop("disabled", false)
+          voteSubmissionButton.prop("disabled", false)
         })
 
         it("does not submit a vote when they click the add vote button", () => {
-          addVoteButton.simulate("click")
+          voteSubmissionButton.simulate("click")
           expect(submitVoteSpy).not.to.have.been.called
         })
       })

@@ -17,22 +17,22 @@ describe("votes reducer", () => {
     })
   })
 
-  describe("when the action is ADD_VOTE", () => {
+  describe("when the action is VOTE_SUBMISSION", () => {
     it("adds the vote to state", () => {
-      const addVoteAction = { type: "ADD_VOTE", vote: { idea_id: 12, user_id: 33 } }
+      const voteSubmissionAction = { type: "VOTE_SUBMISSION", vote: { idea_id: 12, user_id: 33 } }
       const initialState = []
       deepFreeze(initialState)
-      const result = votesReducer(initialState, addVoteAction)
+      const result = votesReducer(initialState, voteSubmissionAction)
       expect(result).to.eql([{ idea_id: 12, user_id: 33 }])
     })
   })
 
-  describe("when the action is RETRACT_VOTE", () => {
+  describe("when the action is VOTE_RETRACTION", () => {
     it("removes the vote from the state", () => {
-      const retractVoteAction = { type: "RETRACT_VOTE", vote: { id: 17 } }
+      const voteRetraction = { type: "VOTE_RETRACTION", vote: { id: 17 } }
       const initialState = [{ id: 17 }]
       deepFreeze(initialState)
-      const result = votesReducer(initialState, retractVoteAction)
+      const result = votesReducer(initialState, voteRetraction)
       expect(result).to.eql([])
     })
   })
@@ -177,11 +177,11 @@ describe("actions", () => {
         dispatch = () => {}
       })
 
-      it("dispatches the addVote action optimistically", () => {
+      it("dispatches the voteSubmission action optimistically", () => {
         const dispatchSpy = sinon.spy()
         thunk(dispatchSpy, undefined, mockRetroChannel)
 
-        expect(dispatchSpy).calledWithMatch({ type: "ADD_VOTE" })
+        expect(dispatchSpy).calledWithMatch({ type: "VOTE_SUBMISSION" })
       })
 
       it("assigns a UUID to the optimistically added vote", () => {
@@ -249,7 +249,7 @@ describe("actions", () => {
     })
   })
 
-  describe("retractVote", () => {
+  describe("voteRetraction", () => {
     it("is a thunk", () => {
       const result = actions.submitVoteRetraction()
       expect(typeof result).to.equal("function")

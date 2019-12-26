@@ -19,9 +19,9 @@ class RetroChannel {
       setPresences,
       updateIdea,
       deleteIdea,
-      addVote,
+      voteSubmission,
       updatePresence,
-      retractVote,
+      voteRetraction,
     } = actions
 
     const { client } = this
@@ -66,8 +66,8 @@ class RetroChannel {
       deleteIdea(deletedIdea.id)
     })
 
-    client.on("vote_submitted", addVote)
-    client.on("vote_retracted", retractVote)
+    client.on("vote_submitted", voteSubmission)
+    client.on("vote_retracted", voteRetraction)
 
     client.on("idea_typing_event", ({ userToken }) => {
       updatePresence(userToken, { is_typing: true, last_typed: Date.now() })

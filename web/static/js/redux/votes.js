@@ -2,13 +2,13 @@ import uuidv4 from "uuid/v4"
 
 import actionTypes from "./action_types"
 
-const addVote = vote => ({
-  type: actionTypes.ADD_VOTE,
+const voteSubmission = vote => ({
+  type: actionTypes.VOTE_SUBMISSION,
   vote,
 })
 
-const retractVote = vote => ({
-  type: actionTypes.RETRACT_VOTE,
+const voteRetraction = vote => ({
+  type: actionTypes.VOTE_RETRACTION,
   vote,
 })
 
@@ -32,7 +32,7 @@ const submitVote = (idea, user) => {
     const push = retroChannel.push("vote_submitted", snakeCaseVoteAttributes)
 
     const optimisticUiVote = buildOptimisticUiVote(snakeCaseVoteAttributes)
-    const addOptimisticUiVoteAction = addVote(optimisticUiVote)
+    const addOptimisticUiVoteAction = voteSubmission(optimisticUiVote)
     dispatch(addOptimisticUiVoteAction)
 
     push.receive("ok", vote => {
@@ -61,8 +61,8 @@ const submitVoteRetraction = vote => {
 }
 
 export const actions = {
-  addVote,
-  retractVote,
+  voteSubmission,
+  voteRetraction,
   submitVote,
   submitVoteRetraction,
 }
@@ -71,7 +71,7 @@ export const reducer = (state = [], action) => {
   switch (action.type) {
     case actionTypes.SET_INITIAL_STATE:
       return action.initialState.votes
-    case actionTypes.ADD_VOTE:
+    case actionTypes.VOTE_SUBMISSION:
       return [...state, action.vote]
     case actionTypes.VOTE_SUBMISSION_ACCEPTED:
       return state.map(vote => {
@@ -79,7 +79,7 @@ export const reducer = (state = [], action) => {
       })
     case actionTypes.VOTE_SUBMISSION_REJECTED:
       return state.filter(vote => vote.optimisticUUID !== action.optimisticUUID)
-    case actionTypes.RETRACT_VOTE:
+    case actionTypes.VOTE_RETRACTION:
       return state.filter(vote => vote.id !== action.vote.id)
     default:
       return state
