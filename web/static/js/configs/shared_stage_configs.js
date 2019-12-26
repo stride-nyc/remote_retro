@@ -2,7 +2,7 @@ import LobbyStage from "../components/lobby_stage"
 import PrimeDirectiveStage from "../components/prime_directive_stage"
 import GroupingStage from "../components/grouping_stage"
 import GroupNamingStage from "../components/group_naming_stage"
-import IdeaGenerationStage from "../components/idea_generation_stage"
+import IdeationInterface from "../components/ideation_interface"
 import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import StageChangeInfoGrouping from "../components/stage_change_info_grouping"
@@ -100,7 +100,7 @@ export default {
       headerText: "Voting",
       BodyComponent: StageChangeInfoVoting,
     },
-    uiComponent: IdeaGenerationStage,
+    uiComponent: IdeationInterface,
     progressionButton: {
       nextStage: ACTION_ITEMS,
       copy: "Proceed to Action Items",
@@ -126,7 +126,7 @@ export default {
       headerText: "Action-Item Generation",
       BodyComponent: StageChangeInfoActionItems,
     },
-    uiComponent: IdeaGenerationStage,
+    uiComponent: IdeationInterface,
     progressionButton: {
       nextStage: CLOSED,
       copy: "Send Action Items",
@@ -143,7 +143,7 @@ export default {
       headerText: "Retro is Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
-    uiComponent: IdeaGenerationStage,
+    uiComponent: IdeationInterface,
     progressionButton: null,
   },
 }
