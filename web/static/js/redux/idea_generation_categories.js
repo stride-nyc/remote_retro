@@ -1,4 +1,4 @@
-import { types as retroTypes } from "./retro"
+import actionTypes from "./action_types"
 
 const formatToCategoriesMap = {
   "Happy/Sad/Confused": ["happy", "sad", "confused"],
@@ -8,7 +8,7 @@ const formatToCategoriesMap = {
 // eslint-disable-next-line import/prefer-default-export
 export const reducer = (state = [], action) => {
   switch (action.type) {
-    case retroTypes.SET_INITIAL_STATE: {
+    case actionTypes.SET_INITIAL_STATE: {
       const { initialState } = action
       return formatToCategoriesMap[initialState.format]
     }

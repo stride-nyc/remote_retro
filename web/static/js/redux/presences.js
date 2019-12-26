@@ -2,20 +2,22 @@ import values from "lodash/values"
 import reject from "lodash/reject"
 import includes from "lodash/includes"
 
+import actionTypes from "./action_types"
+
 export const actions = {
   setPresences: presences => ({
-    type: "SET_PRESENCES",
+    type: actionTypes.SET_PRESENCES,
     presences,
   }),
 
   updatePresence: (presenceToken, newAttributes) => ({
-    type: "UPDATE_PRESENCE",
+    type: actionTypes.UPDATE_PRESENCE,
     presenceToken,
     newAttributes,
   }),
 
   syncPresenceDiff: presenceDiff => ({
-    type: "SYNC_PRESENCE_DIFF",
+    type: actionTypes.SYNC_PRESENCE_DIFF,
     presenceDiff,
   }),
 }
@@ -45,15 +47,15 @@ const normalizePresencesWithForeignKeyForUsers = presences => {
 
 export const reducer = (state = [], action) => {
   switch (action.type) {
-    case "SET_PRESENCES": {
+    case actionTypes.SET_PRESENCES: {
       return normalizePresencesWithForeignKeyForUsers(action.presences)
     }
-    case "SYNC_PRESENCE_DIFF": {
+    case actionTypes.SYNC_PRESENCE_DIFF: {
       const { presenceDiff: { joins, leaves } } = action
       const withArrivalsAdded = addArrivals(state, joins)
       return removeDepartures(withArrivalsAdded, leaves)
     }
-    case "UPDATE_PRESENCE": {
+    case actionTypes.UPDATE_PRESENCE: {
       const { presenceToken, newAttributes } = action
       return state.map(presence => {
         const isTarget = presence.token === presenceToken

@@ -1,11 +1,7 @@
-import { types as retroTypes } from "./retro"
-
-const types = {
-  CATEGORY_TAB_SELECTED: "CATEGORY_TAB_SELECTED",
-}
+import actionTypes from "./action_types"
 
 export const actions = {
-  categoryTabSelected: category => ({ type: types.CATEGORY_TAB_SELECTED, category }),
+  categoryTabSelected: category => ({ type: actionTypes.CATEGORY_TAB_SELECTED, category }),
 }
 
 const formatToSelectedCategory = {
@@ -15,11 +11,11 @@ const formatToSelectedCategory = {
 
 export const reducer = (state = {}, action) => {
   switch (action.type) {
-    case retroTypes.SET_INITIAL_STATE: {
+    case actionTypes.SET_INITIAL_STATE: {
       const { initialState } = action
       return { selectedCategoryTab: formatToSelectedCategory[initialState.format] }
     }
-    case types.CATEGORY_TAB_SELECTED:
+    case actionTypes.CATEGORY_TAB_SELECTED:
       return { ...state, selectedCategoryTab: action.category }
     default:
       return state

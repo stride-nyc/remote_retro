@@ -1,23 +1,15 @@
 import throttle from "lodash/throttle"
-import { types as retroTypes } from "./retro"
 
-export const types = {
-  IDEA_SUBMISSION_COMMITTED: "IDEA_SUBMISSION_COMMITTED",
-  IDEA_SUBMISSION_REJECTED: "IDEA_SUBMISSION_REJECTED",
-  IDEA_UPDATE_COMMITTED: "IDEA_UPDATE_COMMITTED",
-  IDEA_UPDATE_REJECTED: "IDEA_UPDATE_REJECTED",
-  IDEA_DELETION_COMMITTED: "IDEA_DELETION_COMMITTED",
-  IDEA_DELETION_REJECTED: "IDEA_DELETION_REJECTED",
-}
+import actionTypes from "./action_types"
 
 const updateIdea = (ideaId, newAttributes) => ({
-  type: types.IDEA_UPDATE_COMMITTED,
+  type: actionTypes.IDEA_UPDATE_COMMITTED,
   ideaId,
   newAttributes,
 })
 
 const ideaDeletionRejected = ideaId => ({
-  type: types.IDEA_DELETION_REJECTED,
+  type: actionTypes.IDEA_DELETION_REJECTED,
   ideaId,
 })
 
@@ -38,7 +30,7 @@ export const _throttledPushOfDragToServer = throttle((retroChannel, idea) => {
 export const actions = {
   updateIdea,
   addIdea: idea => ({
-    type: types.IDEA_SUBMISSION_COMMITTED,
+    type: actionTypes.IDEA_SUBMISSION_COMMITTED,
     idea,
   }),
 
@@ -57,7 +49,7 @@ export const actions = {
       retroChannel.pushWithRetries("idea_edited", ideaParams, {
         onOk: updatedIdea => {
           dispatch({
-            type: types.IDEA_UPDATE_COMMITTED,
+            type: actionTypes.IDEA_UPDATE_COMMITTED,
             ideaId: updatedIdea.id,
             newAttributes: {
               ...updatedIdea,
@@ -66,7 +58,11 @@ export const actions = {
           })
         },
         onErr: () => {
-          dispatch({ type: types.IDEA_UPDATE_REJECTED, ideaId: ideaParams.id, params: ideaParams })
+          dispatch({
+            type: actionTypes.IDEA_UPDATE_REJECTED,
+            ideaId: ideaParams.id,
+            params: ideaParams,
+          })
           Honeybadger.notify(`'idea_edited' push retries failed with params: ${JSON.stringify(ideaParams)}`)
         },
       })
@@ -116,7 +112,7 @@ export const actions = {
       const push = retroChannel.push("idea_submitted", idea)
 
       push.receive("error", () => {
-        dispatch({ type: types.IDEA_SUBMISSION_REJECTED })
+        dispatch({ type: actionTypes.IDEA_SUBMISSION_REJECTED })
       })
     }
   },
@@ -128,22 +124,22 @@ export const actions = {
   },
 
   deleteIdea: ideaId => ({
-    type: types.IDEA_DELETION_COMMITTED,
+    type: actionTypes.IDEA_DELETION_COMMITTED,
     ideaId,
   }),
 }
 
 export const reducer = (state = [], action) => {
   switch (action.type) {
-    case retroTypes.SET_INITIAL_STATE:
+    case actionTypes.SET_INITIAL_STATE:
       return action.initialState.ideas
-    case types.IDEA_SUBMISSION_COMMITTED:
+    case actionTypes.IDEA_SUBMISSION_COMMITTED:
       return [...state, action.idea]
-    case types.IDEA_UPDATE_COMMITTED:
+    case actionTypes.IDEA_UPDATE_COMMITTED:
       return state.map(idea => (
         (idea.id === action.ideaId) ? { ...idea, ...action.newAttributes } : idea
       ))
-    case types.IDEA_UPDATE_REJECTED: {
+    case actionTypes.IDEA_UPDATE_REJECTED: {
       const { ideaId, params } = action
       const nullifications = params.hasOwnProperty("x")
         ? comprehensiveIdeaEditStateNullifications
@@ -153,13 +149,13 @@ export const reducer = (state = [], action) => {
         return idea.id === ideaId ? { ...idea, ...nullifications } : idea
       })
     }
-    case types.IDEA_DELETION_COMMITTED:
+    case actionTypes.IDEA_DELETION_COMMITTED:
       return state.filter(idea => idea.id !== action.ideaId)
-    case types.IDEA_DELETION_REJECTED:
+    case actionTypes.IDEA_DELETION_REJECTED:
       return state.map(idea => {
         return idea.id === action.ideaId ? { ...idea, deletionSubmitted: false } : idea
       })
-    case retroTypes.RETRO_STAGE_PROGRESSION_COMMITTED:
+    case actionTypes.RETRO_STAGE_PROGRESSION_COMMITTED:
       return action.payload.ideas ? action.payload.ideas : state
     default:
       return state

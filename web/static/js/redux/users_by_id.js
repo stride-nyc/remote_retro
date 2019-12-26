@@ -1,17 +1,17 @@
 import keyBy from "lodash/keyBy"
 import values from "lodash/values"
 
-import { types as retroTypes } from "./retro"
+import actionTypes from "./action_types"
 
 const USER_PRIMARY_KEY = "id"
 
 export const reducer = (state = {}, action) => {
   switch (action.type) {
-    case retroTypes.SET_INITIAL_STATE:
+    case actionTypes.SET_INITIAL_STATE:
       return keyBy(action.initialState.users, USER_PRIMARY_KEY)
-    case "SET_PRESENCES":
+    case actionTypes.SET_PRESENCES:
       return { ...state, ...keyBy(action.presences, USER_PRIMARY_KEY) }
-    case "SYNC_PRESENCE_DIFF": {
+    case actionTypes.SYNC_PRESENCE_DIFF: {
       const presencesRepresentingJoins = values(action.presenceDiff.joins)
       const users = presencesRepresentingJoins.map(join => join.user)
       return { ...state, ...keyBy(users, USER_PRIMARY_KEY) }

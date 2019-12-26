@@ -1,12 +1,12 @@
 import groupBy from "lodash/groupBy"
 
-import { types as retroTypes } from "./retro"
+import actionTypes from "./action_types"
 
 export const reducer = (state = [], action) => {
   switch (action.type) {
-    case retroTypes.SET_INITIAL_STATE:
+    case actionTypes.SET_INITIAL_STATE:
       return action.initialState.groups
-    case retroTypes.RETRO_STAGE_PROGRESSION_COMMITTED:
+    case actionTypes.RETRO_STAGE_PROGRESSION_COMMITTED:
       return action.payload.groups ? action.payload.groups : state
     default:
       return state
