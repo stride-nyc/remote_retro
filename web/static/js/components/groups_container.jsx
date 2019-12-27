@@ -1,5 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
+import sortBy from "lodash/sortBy"
+
 import { selectors } from "../redux/index"
 
 import LowerThird from "./lower_third"
@@ -11,11 +13,12 @@ import styles from "./css_modules/groups_container.css"
 
 export const GroupsContainer = props => {
   const { groupsWithAssociatedIdeasAndVotes, currentUser, actions } = props
+  const groupsSorted = sortBy(groupsWithAssociatedIdeasAndVotes, "id")
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.groupsWrapper}>
-        {groupsWithAssociatedIdeasAndVotes.map(groupWithAssociatedIdeasAndVotes => (
+        {groupsSorted.map(groupWithAssociatedIdeasAndVotes => (
           <IdeaGroup
             actions={actions}
             currentUser={currentUser}

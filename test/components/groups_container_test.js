@@ -25,4 +25,32 @@ describe("GroupsContainer component", () => {
 
     expect(wrapper.find(IdeaGroup)).to.have.length(2)
   })
+
+  describe("when the groups are given in an unsorted order", () => {
+    it("renders them by id ascending", () => {
+      const props = {
+        ...defaultProps,
+        groupsWithAssociatedIdeasAndVotes: [{
+          id: 102,
+        }, {
+          id: 100,
+        }, {
+          id: 101,
+        }],
+      }
+
+      const wrapper = shallow(
+        <GroupsContainer {...props} />
+      )
+
+      const ideaGroups = wrapper.find(IdeaGroup)
+      const ideaGroupIds = ideaGroups.map(ideaGroup => (
+        ideaGroup.prop("groupWithAssociatedIdeasAndVotes").id
+      ))
+
+      expect(ideaGroupIds).to.eql([
+        100, 101, 102,
+      ])
+    })
+  })
 })
