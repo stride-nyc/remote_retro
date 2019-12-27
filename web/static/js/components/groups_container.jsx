@@ -7,9 +7,9 @@ import IdeaGroup from "./idea_group"
 
 import * as AppPropTypes from "../prop_types"
 
-import styles from "./css_modules/group_naming_stage.css"
+import styles from "./css_modules/groups_container.css"
 
-export const GroupNamingStage = props => {
+export const GroupsContainer = props => {
   const { groupsWithAssociatedIdeasAndVotes, currentUser, actions } = props
 
   return (
@@ -30,7 +30,7 @@ export const GroupNamingStage = props => {
   )
 }
 
-GroupNamingStage.propTypes = {
+GroupsContainer.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.user.isRequired,
   groupsWithAssociatedIdeasAndVotes: AppPropTypes.groups.isRequired,
@@ -40,4 +40,4 @@ const mapStateToProps = state => ({
   groupsWithAssociatedIdeasAndVotes: selectors.groupsWithAssociatedIdeasAndVotes(state),
 })
 
-export default connect(mapStateToProps)(GroupNamingStage)
+export default connect(mapStateToProps)(GroupsContainer)

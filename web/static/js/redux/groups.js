@@ -17,7 +17,6 @@ export const selectors = {
   groupsWithAssociatedIdeasAndVotes: ({ groups, ideas, votes }) => {
     const ideasByGroupId = groupBy(ideas, "group_id")
 
-
     return groups.map(group => {
       const ideasForGroup = ideasByGroupId[group.id] || []
       const ideaIdsForGroup = new Set(ideasForGroup.map(idea => idea.id))

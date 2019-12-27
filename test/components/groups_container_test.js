@@ -1,10 +1,10 @@
 import React from "react"
 import { shallow } from "enzyme"
 
-import { GroupNamingStage } from "../../web/static/js/components/group_naming_stage"
+import { GroupsContainer } from "../../web/static/js/components/groups_container"
 import IdeaGroup from "../../web/static/js/components/idea_group"
 
-describe("GroupNamingStage component", () => {
+describe("GroupsContainer component", () => {
   const defaultProps = {
     groupsWithAssociatedIdeasAndVotes: [{
       id: 5,
@@ -20,7 +20,7 @@ describe("GroupNamingStage component", () => {
 
   it("renders a IdeaGroup component for every group given", () => {
     const wrapper = shallow(
-      <GroupNamingStage {...defaultProps} />
+      <GroupsContainer {...defaultProps} />
     )
 
     expect(wrapper.find(IdeaGroup)).to.have.length(2)

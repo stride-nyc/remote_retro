@@ -1,7 +1,7 @@
 import LobbyStage from "../components/lobby_stage"
 import PrimeDirectiveStage from "../components/prime_directive_stage"
 import GroupingStage from "../components/grouping_stage"
-import GroupNamingStage from "../components/group_naming_stage"
+import GroupsContainer from "../components/groups_container"
 import IdeationInterface from "../components/ideation_interface"
 import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
@@ -83,7 +83,7 @@ export default {
       headerText: "Group Naming",
       BodyComponent: StageChangeInfoGroupNaming,
     },
-    uiComponent: GroupNamingStage,
+    uiComponent: GroupsContainer,
     progressionButton: {
       nextStage: VOTING,
       copy: "Proceed to Voting",
