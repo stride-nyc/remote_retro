@@ -20,7 +20,7 @@ const IdeaGroup = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions }) =
           onBlur={e => actions.submitGroupName(e.target.value)}
         />
         <div className="instruction">
-          <span className="tab">tab</span> to submit
+          <span className="keyboard-key">tab</span> to submit
         </div>
       </div>
     )}

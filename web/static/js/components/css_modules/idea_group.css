@@ -40,7 +40,7 @@
 
         transition: top 100ms ease-in-out;
 
-        :global(.tab) {
+        :global(.keyboard-key) {
           background-color: var(--semantic-secondary);
           border: 1px solid var(--semantic-dark-grey);
           border-radius: 3px;
