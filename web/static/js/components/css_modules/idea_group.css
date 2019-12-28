@@ -49,7 +49,9 @@
       }
 
       &:focus + :global(.instruction) {
-        top: 1.25rem;
+        @media(min-width: 1040px) {
+          top: 1.25rem;
+        }
       }
     }
   }
