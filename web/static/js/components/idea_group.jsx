@@ -19,6 +19,9 @@ const IdeaGroup = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions }) =
           maxLength={MAX_LENGTH_OF_GROUP_NAME}
           onBlur={e => actions.submitGroupName(e.target.value)}
         />
+        <div className="instruction">
+          <span className="tab">tab</span> to submit
+        </div>
       </div>
     )}
     <ul className={styles.list}>
