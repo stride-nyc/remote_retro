@@ -17,7 +17,9 @@ const IdeaGroup = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions }) =
           placeholder="Add a group name"
           defaultValue={groupWithAssociatedIdeasAndVotes.name}
           maxLength={MAX_LENGTH_OF_GROUP_NAME}
-          onBlur={e => actions.submitGroupName(e.target.value)}
+          onBlur={e => {
+            actions.submitGroupNameChanges(groupWithAssociatedIdeasAndVotes, e.target.value)
+          }}
         />
         <div className="instruction">
           <span className="keyboard-key">tab</span> to submit

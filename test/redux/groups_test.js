@@ -223,18 +223,37 @@ describe("selectors", () => {
 })
 
 describe("action creators", () => {
-  describe("submitGroupName", () => {
-    it("pushes an 'update_group_name' event to the server, passing the args", () => {
-      const mockRetroChannel = { push: spy() }
-      const dispatchStub = () => {}
-      const getStateStub = () => {}
+  describe("submitGroupNameChanges", () => {
+    let dispatchStub
+    let getStateStub
+    let mockRetroChannel
 
-      const groupArguments = { id: 666, name: "steven's domain" }
-      const thunk = actionCreators.submitGroupName(groupArguments)
+    beforeEach(() => {
+      dispatchStub = () => {}
+      getStateStub = () => {}
+      mockRetroChannel = { push: spy() }
+    })
 
-      thunk(dispatchStub, getStateStub, mockRetroChannel)
+    describe("when the given string is *different* than the existing group name", () => {
+      it("pushes an 'update_group_name' event to the server, passing the id and updated value", () => {
+        const groupArguments = { id: 666, name: "steven's domain" }
+        const thunk = actionCreators.submitGroupNameChanges(groupArguments, "steven's NEW domain")
 
-      expect(mockRetroChannel.push).to.have.been.calledWith("update_group_name", groupArguments)
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
+
+        expect(mockRetroChannel.push).to.have.been.calledWith("update_group_name", { id: 666, name: "steven's NEW domain" })
+      })
+    })
+
+    describe("when the given string is identical to the existing group name", () => {
+      it("pushes nothing to the server", () => {
+        const groupArguments = { id: 555, name: "travis" }
+        const thunk = actionCreators.submitGroupNameChanges(groupArguments, "travis")
+
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
+
+        expect(mockRetroChannel.push).not.to.have.been.called
+      })
     })
   })
 })

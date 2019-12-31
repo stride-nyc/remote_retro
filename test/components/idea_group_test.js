@@ -44,20 +44,28 @@ describe("IdeaGroup component", () => {
       expect(input.length).to.eql(1)
     })
 
-    it("invokes submitGroupName with the input value on input blur", () => {
-      const submitGroupNameSpy = sinon.spy()
+    it("invokes submitGroupNameChanges with the group attributes and the input value on blur", () => {
+      const groupWithAssociatedIdeasAndVotes = {
+        id: 777,
+        name: "some previous name",
+        ideas: [],
+        votes: [],
+      }
+
+      const submitGroupNameChangesSpy = sinon.spy()
       const wrapper = shallow(
         <IdeaGroup
           {...defaultProps}
           currentUser={{ is_facilitator: true }}
-          actions={{ submitGroupName: submitGroupNameSpy }}
+          groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
+          actions={{ submitGroupNameChanges: submitGroupNameChangesSpy }}
         />
       )
 
       const input = wrapper.find("input")
       input.simulate("blur", { target: { value: "Turtles" } })
 
-      expect(submitGroupNameSpy).to.have.been.calledWith("Turtles")
+      expect(submitGroupNameChangesSpy).to.have.been.calledWith(groupWithAssociatedIdeasAndVotes, "Turtles")
     })
   })
 

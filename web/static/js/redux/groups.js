@@ -31,9 +31,11 @@ export const selectors = {
 }
 
 export const actionCreators = {
-  submitGroupName: groupArguments => {
+  submitGroupNameChanges: (existingGroup, groupNameInputValue) => {
     return (dispatch, getState, retroChannel) => {
-      retroChannel.push("update_group_name", groupArguments)
+      if (existingGroup.name === groupNameInputValue) return
+
+      retroChannel.push("update_group_name", { ...existingGroup, name: groupNameInputValue })
     }
   },
 }
