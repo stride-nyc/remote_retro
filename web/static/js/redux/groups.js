@@ -35,7 +35,7 @@ export const actionCreators = {
     return (dispatch, getState, retroChannel) => {
       if (existingGroup.name === groupNameInputValue) return
 
-      retroChannel.push("update_group_name", { ...existingGroup, name: groupNameInputValue })
+      retroChannel.push("update_group_name", { id: existingGroup.id, name: groupNameInputValue })
     }
   },
 }
