@@ -1,4 +1,4 @@
-import sortBy from "lodash/sortBy"
+import orderBy from "lodash/orderBy"
 import isFinite from "lodash/isFinite"
 import SeparatingAxisTheorum from "sat"
 
@@ -6,7 +6,7 @@ export default {
   identifyAllIdeaCollisionsSortedByIdAscending: ideas => {
     let collisions = new Map()
 
-    const ideasSortedByIdAscending = sortBy(ideas, "id")
+    const ideasSortedByIdAscending = orderBy(ideas, "id")
 
     ideasSortedByIdAscending.forEach((idea, index) => {
       if (!isFinite(idea.height)) { return }
