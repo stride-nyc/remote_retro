@@ -12,7 +12,7 @@ defmodule RemoteRetroWeb.GroupHandlers do
         |> Group.changeset(~M{name})
         |> Repo.update!()
 
-      broadcast_from!(socket, "update_group_name", group)
+      broadcast!(socket, "update_group_name", group)
     end
     {:reply, :ok, socket}
   rescue

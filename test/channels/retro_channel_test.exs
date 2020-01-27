@@ -101,11 +101,13 @@ defmodule RemoteRetro.RetroChannelTest do
       assert "travis' domain" == updated_name
     end
 
-    test "broadcasts the updated group", ~M{socket, group} do
-      push(socket, "update_group_name", %{id: group.id, name: "mike's domain"})
+    test "broadcasts the updated group to all connected clients", ~M{socket, group} do
+      ref = push(socket, "update_group_name", %{id: group.id, name: "mike's domain"})
+
+      assert_reply(ref, :ok)
 
       group_id = group.id
-      assert_broadcast_to_other_clients_only("update_group_name", %{id: ^group_id, name: "mike's domain"})
+      assert_broadcast_to_all_clients_including_initiator("update_group_name", %{id: ^group_id, name: "mike's domain"})
     end
   end
 
