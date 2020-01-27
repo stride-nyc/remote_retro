@@ -10,7 +10,7 @@ const MAX_LENGTH_OF_GROUP_NAME = 20
 
 const IdeaGroup = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions }) => (
   <div className={`idea-group ${styles.wrapper}`}>
-    {currentUser.is_facilitator && (
+    {currentUser.is_facilitator ? (
       <div className={`ui transparent input ${styles.labelInputWrapper}`}>
         <input
           type="text"
@@ -25,6 +25,8 @@ const IdeaGroup = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions }) =
           <span className="keyboard-key">tab</span> to submit
         </div>
       </div>
+    ) : (
+      <p className="readonly-group-name">{groupWithAssociatedIdeasAndVotes.name}</p>
     )}
     <ul className={styles.list}>
       {groupWithAssociatedIdeasAndVotes.ideas.map(idea => {
