@@ -1,7 +1,15 @@
 defmodule RemoteRetroWeb.RetroChannel do
   use RemoteRetroWeb, :channel
 
-  alias RemoteRetroWeb.{Presence, PresenceUtils, VotingHandlers, IdeationHandlers, RetroManagementHandlers}
+  alias RemoteRetroWeb.{
+    Presence,
+    PresenceUtils,
+    VotingHandlers,
+    IdeationHandlers,
+    RetroManagementHandlers,
+    GroupHandlers
+  }
+
   alias RemoteRetro.{Retro}
 
   def join("retro:" <> retro_id, _, socket) do
@@ -30,6 +38,10 @@ defmodule RemoteRetroWeb.RetroChannel do
 
   def handle_in("retro_" <> _ = message_type, retro_params, socket) do
     RetroManagementHandlers.handle_in(message_type, retro_params, socket)
+  end
+
+  def handle_in("update_group_name" = message_type, group_params, socket) do
+    GroupHandlers.handle_in(message_type, group_params, socket)
   end
 
   def handle_in(unhandled_message, payload, socket) do

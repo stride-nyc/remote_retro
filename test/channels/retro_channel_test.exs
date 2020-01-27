@@ -1,7 +1,7 @@
 defmodule RemoteRetro.RetroChannelTest do
   use RemoteRetroWeb.ChannelCase, async: false
 
-  alias RemoteRetro.{Repo, Idea, Retro, Vote}
+  alias RemoteRetro.{Repo, Idea, Retro, Vote, Group}
   alias RemoteRetroWeb.{RetroChannel, Presence, RetroManagement, UserSocket}
 
   import Mock
@@ -13,6 +13,12 @@ defmodule RemoteRetro.RetroChannelTest do
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
     Map.merge(context, ~M{socket, join_response})
+  end
+
+  def persist_group_for_retro(context) do
+    {:ok, group} = %Group{} |> RemoteRetro.Repo.insert()
+
+    Map.merge(context, ~M{group})
   end
 
   describe "joining a RetroChannel" do
@@ -69,7 +75,6 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-
   describe "pushing a `retro_edited` event with a `ideasWithEphemeralGroupingIds` collection" do
     setup [:join_the_retro_channel]
 
@@ -81,6 +86,36 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_receive %Phoenix.Socket.Broadcast{event: "retro_edited", payload: raw_payload}
 
       assert Jason.encode!(raw_payload)
+    end
+  end
+
+  describe "pushing a `update_group_name` event with valid params" do
+    setup [:persist_group_for_retro, :join_the_retro_channel]
+
+    test "updates the group_name", ~M{socket, group} do
+      ref = push(socket, "update_group_name", %{id: group.id, name: "travis' domain"})
+
+      assert_reply(ref, :ok)
+
+      updated_name = Repo.get(Group, group.id).name
+      assert "travis' domain" == updated_name
+    end
+
+    test "broadcasts the updated group", ~M{socket, group} do
+      push(socket, "update_group_name", %{id: group.id, name: "mike's domain"})
+
+      group_id = group.id
+      assert_broadcast_to_other_clients_only("update_group_name", %{id: ^group_id, name: "mike's domain"})
+    end
+  end
+
+  describe "pushing a `update_group_name` event with invalid params" do
+    setup [:persist_group_for_retro, :join_the_retro_channel]
+
+    test "replies to the client with an error", ~M{socket} do
+      ref = push(socket, "update_group_name", %{id: "nonsense", name: ""})
+
+      assert_reply(ref, :error)
     end
   end
 
