@@ -39,7 +39,43 @@ defmodule VotingTest do
     end
   end
 
+  describe "providing a 'name' to a group" do
+    setup [:persist_group_for_retro, :persist_idea_for_retro, :add_idea_to_group]
+
+    @tag [
+      skip: true,
+      retro_stage: "group-naming",
+      idea: %Idea{category: @category, body: "Frequent Pairing"},
+    ]
+    test "facilitator broadcasting group 'name' changes to other clients",
+         ~M{retro, session: facilitator_session, non_facilitator} do
+      non_facilitator_session = new_authenticated_browser_session(non_facilitator)
+
+      retro_path = "/retros/" <> retro.id
+      facilitator_session = visit(facilitator_session, retro_path)
+
+      fill_in_group_name_input(facilitator_session, with: "Communication")
+
+      assert_has(non_facilitator_session, Query.css(".readonly-group-name", text: "Communication"))
+    end
+  end
+
   defp assert_vote_count_is(session, vote_count) do
     assert_has(session, Query.css(".#{@category}.column", text: "#{vote_count}"))
+  end
+
+  defp add_idea_to_group(~M{idea, group} = context) do
+    idea =
+      Idea
+      |> Repo.get!(idea.id)
+      |> Idea.changeset(%{ group_id: group.id })
+      |> Repo.update!(returning: true)
+
+    Map.put(context, :idea, idea)
+  end
+
+  defp fill_in_group_name_input(session, [with: text]) do
+    group_input = Query.css(".idea-group input[type='text']")
+    session |> fill_in(group_input, with: text)
   end
 end

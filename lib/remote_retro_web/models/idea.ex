@@ -27,7 +27,7 @@ defmodule RemoteRetro.Idea do
 
   @valid_categories ["happy", "sad", "confused", "start", "stop", "continue", "action-item"]
   @required_fields [:category, :body, :retro_id, :user_id]
-  @fields [:assignee_id, :x, :y | @required_fields]
+  @fields [:assignee_id, :x, :y, :group_id | @required_fields]
 
   def changeset(struct, params \\ %{}) do
     struct
