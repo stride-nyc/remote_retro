@@ -4,7 +4,7 @@ defmodule RemoteRetroWeb.GroupHandlers do
   import Phoenix.Channel
   import ShorterMaps
 
-  def handle_in("update_group_name", ~m{id,name}, socket) do
+  def handle_in("group_edited", ~m{id,name}, socket) do
     Repo.transaction fn ->
       group =
         Group
@@ -12,7 +12,7 @@ defmodule RemoteRetroWeb.GroupHandlers do
         |> Group.changeset(~M{name})
         |> Repo.update!()
 
-      broadcast!(socket, "update_group_name", group)
+      broadcast!(socket, "group_edited", group)
     end
     {:reply, :ok, socket}
   rescue

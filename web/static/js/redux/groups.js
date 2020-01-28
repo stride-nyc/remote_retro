@@ -8,6 +8,12 @@ export const reducer = (state = [], action) => {
       return action.initialState.groups
     case actionTypes.RETRO_STAGE_PROGRESSION_COMMITTED:
       return action.payload.groups ? action.payload.groups : state
+    case actionTypes.GROUP_UPDATE_COMMITTED:
+      return state.map(group => {
+        return group.id === action.updatedGroup.id
+          ? { ...group, ...action.updatedGroup }
+          : group
+      })
     default:
       return state
   }
@@ -35,7 +41,13 @@ export const actionCreators = {
     return (dispatch, getState, retroChannel) => {
       if (existingGroup.name === groupNameInputValue) return
 
-      retroChannel.push("update_group_name", { id: existingGroup.id, name: groupNameInputValue })
+      retroChannel.push("group_edited", { id: existingGroup.id, name: groupNameInputValue })
+    }
+  },
+  updateGroup: updatedGroup => {
+    return {
+      type: actionTypes.GROUP_UPDATE_COMMITTED,
+      updatedGroup,
     }
   },
 }

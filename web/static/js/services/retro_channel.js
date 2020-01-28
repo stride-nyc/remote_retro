@@ -19,6 +19,7 @@ class RetroChannel {
       setPresences,
       updateIdea,
       deleteIdea,
+      updateGroup,
       voteSubmission,
       updatePresence,
       voteRetraction,
@@ -34,6 +35,8 @@ class RetroChannel {
     })
 
     client.on("idea_committed", addIdea)
+
+    client.on("group_edited", updateGroup)
 
     client.on("retro_edited", retroUpdateCommitted)
 

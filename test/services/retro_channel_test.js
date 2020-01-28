@@ -71,6 +71,7 @@ describe("RetroChannel", () => {
       let addIdeaSpy
       let deleteIdeaSpy
       let updateIdeaSpy
+      let updateGroupSpy
       let updatePresenceSpy
       let updateRetroSpy
       let voteSubmissionSpy
@@ -83,6 +84,7 @@ describe("RetroChannel", () => {
         deleteIdeaSpy = spy()
         updateIdeaSpy = spy()
         updatePresenceSpy = spy()
+        updateGroupSpy = spy()
         updateRetroSpy = spy()
         voteSubmissionSpy = spy()
         voteRetractionSpy = spy()
@@ -93,6 +95,7 @@ describe("RetroChannel", () => {
           addIdea: addIdeaSpy,
           deleteIdea: deleteIdeaSpy,
           updateIdea: updateIdeaSpy,
+          updateGroup: updateGroupSpy,
           updatePresence: updatePresenceSpy,
           retroUpdateCommitted: updateRetroSpy,
           setPresences: setPresencesSpy,
@@ -126,6 +129,14 @@ describe("RetroChannel", () => {
           const payload = { stage: "dummy value" }
           retroChannelClient.trigger("retro_edited", payload)
           expect(updateRetroSpy).calledWith(payload)
+        })
+      })
+
+      describe("on `group_edited`", () => {
+        it("invokes the updateGroup action, passing the payload", () => {
+          const payload = { id: 5, name: "Tooling" }
+          retroChannelClient.trigger("group_edited", payload)
+          expect(updateGroupSpy).calledWith(payload)
         })
       })
 

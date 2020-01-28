@@ -66,6 +66,39 @@ describe("groups reducer", () => {
         })
       })
     })
+
+    describe("when the action is GROUP_UPDATE_COMMITTED", () => {
+      let initialState
+
+      beforeEach(() => {
+        initialState = [{
+          id: 1,
+          name: "Commnication",
+        }, {
+          id: 2,
+          name: "Style Regressions",
+        }]
+
+        deepFreeze(initialState)
+      })
+
+      it("updates the given group on state with the attributes passed", () => {
+        const updatedGroup = {
+          id: 2,
+          name: "Regressions",
+        }
+
+        const action = { type: "GROUP_UPDATE_COMMITTED", updatedGroup }
+
+        expect(groupsReducer(initialState, action)).to.deep.equal([{
+          id: 1,
+          name: "Commnication",
+        }, {
+          id: 2,
+          name: "Regressions",
+        }])
+      })
+    })
   })
 })
 
@@ -235,13 +268,13 @@ describe("action creators", () => {
     })
 
     describe("when the given string is *different* than the existing group name", () => {
-      it("pushes an 'update_group_name' event to the server, passing the id and updated value", () => {
+      it("pushes an 'group_edited' event to the server, passing the id and updated value", () => {
         const groupArguments = { id: 666, name: "steven's domain" }
         const thunk = actionCreators.submitGroupNameChanges(groupArguments, "steven's NEW domain")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
-        expect(mockRetroChannel.push).to.have.been.calledWith("update_group_name", { id: 666, name: "steven's NEW domain" })
+        expect(mockRetroChannel.push).to.have.been.calledWith("group_edited", { id: 666, name: "steven's NEW domain" })
       })
     })
 
@@ -253,6 +286,19 @@ describe("action creators", () => {
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
         expect(mockRetroChannel.push).not.to.have.been.called
+      })
+    })
+  })
+
+  describe("updateGroup", () => {
+    it("creates an action to update the group", () => {
+      const result = actionCreators.updateGroup({ id: 6, name: "Disfunction" })
+      expect(result).to.deep.equal({
+        type: "GROUP_UPDATE_COMMITTED",
+        updatedGroup: {
+          id: 6,
+          name: "Disfunction",
+        },
       })
     })
   })

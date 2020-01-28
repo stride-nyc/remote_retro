@@ -83,11 +83,11 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
-  describe "pushing a `update_group_name` event with valid params" do
+  describe "pushing a `group_edited` event with valid params" do
     setup [:persist_group_for_retro, :join_the_retro_channel]
 
     test "updates the group_name", ~M{socket, group} do
-      ref = push(socket, "update_group_name", %{id: group.id, name: "travis' domain"})
+      ref = push(socket, "group_edited", %{id: group.id, name: "travis' domain"})
 
       assert_reply(ref, :ok)
 
@@ -96,20 +96,20 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     test "broadcasts the updated group to all connected clients", ~M{socket, group} do
-      ref = push(socket, "update_group_name", %{id: group.id, name: "mike's domain"})
+      ref = push(socket, "group_edited", %{id: group.id, name: "mike's domain"})
 
       assert_reply(ref, :ok)
 
       group_id = group.id
-      assert_broadcast_to_all_clients_including_initiator("update_group_name", %{id: ^group_id, name: "mike's domain"})
+      assert_broadcast_to_all_clients_including_initiator("group_edited", %{id: ^group_id, name: "mike's domain"})
     end
   end
 
-  describe "pushing a `update_group_name` event with invalid params" do
+  describe "pushing a `group_edited` event with invalid params" do
     setup [:persist_group_for_retro, :join_the_retro_channel]
 
     test "replies to the client with an error", ~M{socket} do
-      ref = push(socket, "update_group_name", %{id: "nonsense", name: ""})
+      ref = push(socket, "group_edited", %{id: "nonsense", name: ""})
 
       assert_reply(ref, :error)
     end

@@ -40,7 +40,7 @@ defmodule RemoteRetroWeb.RetroChannel do
     RetroManagementHandlers.handle_in(message_type, retro_params, socket)
   end
 
-  def handle_in("update_group_name" = message_type, group_params, socket) do
+  def handle_in("group_edited" = message_type, group_params, socket) do
     GroupHandlers.handle_in(message_type, group_params, socket)
   end
 

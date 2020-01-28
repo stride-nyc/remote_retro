@@ -43,7 +43,6 @@ defmodule VotingTest do
     setup [:persist_group_for_retro, :persist_idea_for_retro, :add_idea_to_group]
 
     @tag [
-      skip: true,
       retro_stage: "group-naming",
       idea: %Idea{category: @category, body: "Frequent Pairing"},
     ]
@@ -53,8 +52,9 @@ defmodule VotingTest do
 
       retro_path = "/retros/" <> retro.id
       facilitator_session = visit(facilitator_session, retro_path)
+      non_facilitator_session = visit(non_facilitator_session, retro_path)
 
-      fill_in_group_name_input(facilitator_session, with: "Communication")
+      submit_group_name_change(facilitator_session, with: "Communication")
 
       assert_has(non_facilitator_session, Query.css(".readonly-group-name", text: "Communication"))
     end
@@ -74,8 +74,11 @@ defmodule VotingTest do
     Map.put(context, :idea, idea)
   end
 
-  defp fill_in_group_name_input(session, [with: text]) do
+  defp submit_group_name_change(session, [with: text]) do
     group_input = Query.css(".idea-group input[type='text']")
     session |> fill_in(group_input, with: text)
+
+    # group.name input values are submitted upon a 'blur' event, so we trigger with a click
+    session |> click(Query.css("body"))
   end
 end
