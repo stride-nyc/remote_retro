@@ -1,6 +1,6 @@
 defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
-  alias RemoteRetro.{Repo, Idea, Vote, User}
+  alias RemoteRetro.{Repo, Idea, Vote, User, Group}
 
   import ShorterMaps
 
@@ -63,6 +63,12 @@ defmodule RemoteRetro.TestHelpers do
       user_id: user.id,
     }
     |> Repo.insert!()
+  end
+
+  def persist_group_for_retro(context) do
+    {:ok, group} = %Group{} |> RemoteRetro.Repo.insert()
+
+    Map.merge(context, ~M{group})
   end
 
   def persist_a_vote(%{idea: idea, non_facilitator: non_facilitator} = context) do

@@ -15,12 +15,6 @@ defmodule RemoteRetro.RetroChannelTest do
     Map.merge(context, ~M{socket, join_response})
   end
 
-  def persist_group_for_retro(context) do
-    {:ok, group} = %Group{} |> RemoteRetro.Repo.insert()
-
-    Map.merge(context, ~M{group})
-  end
-
   describe "joining a RetroChannel" do
     setup [:join_the_retro_channel]
 
