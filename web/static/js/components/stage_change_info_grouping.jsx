@@ -2,7 +2,7 @@ import React from "react"
 
 export default () => (
   <React.Fragment>
-    The skinny on Idea Grouping:
+    The skinny on Grouping:
     <div className="ui basic segment">
       <ul className="ui list">
         <li>

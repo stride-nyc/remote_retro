@@ -19,10 +19,10 @@ defmodule ExistingUserChoosesRetroFormatTest do
 
       dismiss_share_retro_link_modal(session)
 
-      click_and_confirm(session, "Begin Retro")
+      click_and_confirm_progression_to(session, "Begin Retro")
       click(session, Query.css("button", text: "Got it!"))
 
-      click_and_confirm(session, "Proceed to Idea Generation")
+      click_and_confirm_progression_to(session, "Idea Generation")
 
       assert_has(session, Query.css(".ui.modal", text: "Suggest practices that the team could start, stop, or continue"))
       click(session, Query.css("button", text: "Got it!"))

@@ -90,12 +90,11 @@ defmodule GroupingStageTest do
         %Idea{category: "sad", body: "lazy commit messages", x: 500.0, y: 400.0}
       ]
     ]
-    test "progressing to the group naming stage creates groups by proximity, isolating lone ideas as their own group",
+    test "progressing to the voting stage creates groups by proximity, isolating lone ideas as their own group",
          ~M{retro, session} do
-      retro_path = "/retros/" <> retro.id
-      session = visit(session, retro_path)
+      session = visit_retro_with_grouping_feature_enabled(session, retro)
 
-      click_and_confirm(session, "Proceed to Group Naming")
+      click_and_confirm_progression_to(session, "Voting")
 
       assert_has(session, Query.css(".idea-group", text: "rampant sickness\ngetting sickness", count: 1))
       assert_has(session, Query.css(".idea-group", text: "lazy commit messages", count: 1))

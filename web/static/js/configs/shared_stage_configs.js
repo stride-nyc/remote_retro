@@ -6,7 +6,6 @@ import IdeationInterface from "../components/ideation_interface"
 import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import StageChangeInfoGrouping from "../components/stage_change_info_grouping"
-import StageChangeInfoGroupNaming from "../components/stage_change_info_group_naming"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
 import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
@@ -19,11 +18,52 @@ const {
   PRIME_DIRECTIVE,
   IDEA_GENERATION,
   GROUPING,
-  GROUP_NAMING,
   VOTING,
   ACTION_ITEMS,
   CLOSED,
 } = STAGES
+
+const baseVotingConfig = {
+  arrivalAlert: {
+    headerText: "Stage Change: Voting!",
+    BodyComponent: StageChangeInfoVoting,
+  },
+  help: {
+    headerText: "Voting!",
+    BodyComponent: StageChangeInfoVoting,
+  },
+  uiComponent: IdeationInterface,
+  progressionButton: {
+    nextStage: ACTION_ITEMS,
+    copy: "Action Items",
+    iconClass: "arrow right",
+    confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
+    stateDependentTooltip: reduxState => {
+      const { votes, presences } = reduxState
+      const TOTAL_VOTE_LIMIT_FOR_RETRO = VOTE_LIMIT * presences.length
+
+      if (votes.length >= TOTAL_VOTE_LIMIT_FOR_RETRO) {
+        return "All votes in!"
+      }
+      return null
+    },
+  },
+}
+
+const votingConfig = localStorage.getItem("groupingDev")
+  ? {
+    ...baseVotingConfig,
+    arrivalAlert: {
+      headerText: "Stage Change: Labeling + Voting!",
+      BodyComponent: StageChangeInfoVoting,
+    },
+    help: {
+      headerText: "Labeling + Voting!",
+      BodyComponent: StageChangeInfoVoting,
+    },
+    uiComponent: GroupsContainer,
+  }
+  : baseVotingConfig
 
 export default {
   [LOBBY]: {
@@ -49,74 +89,32 @@ export default {
     uiComponent: PrimeDirectiveStage,
     progressionButton: {
       nextStage: IDEA_GENERATION,
-      copy: "Proceed to Idea Generation",
+      copy: "Idea Generation",
       iconClass: "arrow right",
       confirmationMessage: "Is everyone ready to begin?",
     },
   },
   [GROUPING]: {
     arrivalAlert: {
-      headerText: "Stage Change: Idea Grouping!",
+      headerText: "Stage Change: Grouping!",
       BodyComponent: StageChangeInfoGrouping,
     },
     help: {
-      headerText: "Idea Grouping",
+      headerText: "Grouping",
       BodyComponent: StageChangeInfoGrouping,
     },
     uiComponent: GroupingStage,
     progressionButton: {
-      nextStage: GROUP_NAMING,
+      nextStage: VOTING,
       optionalParamsAugmenter: reduxState => ({
         ideasWithEphemeralGroupingIds: IdeasWithEphemeralGroupingIds.buildFrom(reduxState.ideas),
       }),
-      copy: "Proceed to Group Naming",
+      copy: "Labeling + Voting",
       iconClass: "arrow right",
       confirmationMessage: "Has your team finished grouping the ideas?",
     },
   },
-  [GROUP_NAMING]: {
-    arrivalAlert: {
-      headerText: "Stage Change: Group Naming!",
-      BodyComponent: StageChangeInfoGroupNaming,
-    },
-    help: {
-      headerText: "Group Naming",
-      BodyComponent: StageChangeInfoGroupNaming,
-    },
-    uiComponent: GroupsContainer,
-    progressionButton: {
-      nextStage: VOTING,
-      copy: "Proceed to Voting",
-      iconClass: "arrow right",
-      confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
-    },
-  },
-  [VOTING]: {
-    arrivalAlert: {
-      headerText: "Stage Change: Voting!",
-      BodyComponent: StageChangeInfoVoting,
-    },
-    help: {
-      headerText: "Voting",
-      BodyComponent: StageChangeInfoVoting,
-    },
-    uiComponent: IdeationInterface,
-    progressionButton: {
-      nextStage: ACTION_ITEMS,
-      copy: "Proceed to Action Items",
-      iconClass: "arrow right",
-      confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
-      stateDependentTooltip: reduxState => {
-        const { votes, presences } = reduxState
-        const TOTAL_VOTE_LIMIT_FOR_RETRO = VOTE_LIMIT * presences.length
-
-        if (votes.length >= TOTAL_VOTE_LIMIT_FOR_RETRO) {
-          return "All votes in!"
-        }
-        return null
-      },
-    },
-  },
+  [VOTING]: votingConfig,
   [ACTION_ITEMS]: {
     arrivalAlert: {
       headerText: "Stage Change: Action-Item Generation!",

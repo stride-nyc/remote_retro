@@ -12,7 +12,7 @@ defmodule StageProgressionRealtimeUpdateTest do
     facilitator_session = visit(facilitator_session, retro_path)
     participant_session = visit(participant_session, retro_path)
 
-    click_and_confirm(facilitator_session, "Proceed to Idea Generation")
+    click_and_confirm_progression_to(facilitator_session, "Idea Generation")
 
     assert_has(facilitator_session, Query.css(".ui.header", text: "Stage Change: Idea Generation!", count: 1))
     assert_has(participant_session, Query.css(".ui.header", text: "Stage Change: Idea Generation!", count: 1))

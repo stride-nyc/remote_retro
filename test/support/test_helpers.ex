@@ -86,6 +86,13 @@ defmodule RemoteRetro.TestHelpers do
     authenticate(session, user)
   end
 
+  def visit_retro_with_grouping_feature_enabled(session, retro) do
+    execute_script(session, "localStorage.setItem('groupingDev', true)")
+
+    retro_path = "/retros/" <> retro.id
+    visit(session, retro_path)
+  end
+
   def update_idea_fields_to(session, category: category, text: text) do
     session |> find(Query.css(".edit.icon")) |> Element.click()
     fill_in(session, Query.text_field("editable_idea"), with: text)
@@ -101,7 +108,7 @@ defmodule RemoteRetro.TestHelpers do
     |> Element.click()
   end
 
-  def click_and_confirm(facilitator_session, button_text) do
+  def click_and_confirm_progression_to(facilitator_session, button_text) do
     assert_has(facilitator_session, Query.button(button_text))
 
     facilitator_session |> find(Query.button(button_text)) |> Element.click()

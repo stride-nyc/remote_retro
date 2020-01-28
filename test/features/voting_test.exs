@@ -43,16 +43,15 @@ defmodule VotingTest do
     setup [:persist_group_for_retro, :persist_idea_for_retro, :add_idea_to_group]
 
     @tag [
-      retro_stage: "group-naming",
+      retro_stage: "voting",
       idea: %Idea{category: @category, body: "Frequent Pairing"},
     ]
     test "facilitator broadcasting group 'name' changes to other clients",
          ~M{retro, session: facilitator_session, non_facilitator} do
       non_facilitator_session = new_authenticated_browser_session(non_facilitator)
 
-      retro_path = "/retros/" <> retro.id
-      facilitator_session = visit(facilitator_session, retro_path)
-      non_facilitator_session = visit(non_facilitator_session, retro_path)
+      facilitator_session = visit_retro_with_grouping_feature_enabled(facilitator_session, retro)
+      non_facilitator_session = visit_retro_with_grouping_feature_enabled(non_facilitator_session, retro)
 
       submit_group_name_change(facilitator_session, with: "Communication")
 

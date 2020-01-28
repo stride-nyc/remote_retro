@@ -31,7 +31,7 @@ const ideaGenerationConfig = localStorage.groupingDev ? {
   ...baseIdeaGenerationConfig,
   progressionButton: {
     nextStage: GROUPING,
-    copy: "Proceed to Idea Grouping",
+    copy: "Grouping",
     iconClass: "arrow right",
     confirmationMessage: "Are you sure you would like to proceed to the idea grouping stage?",
   },
@@ -39,7 +39,7 @@ const ideaGenerationConfig = localStorage.groupingDev ? {
   ...baseIdeaGenerationConfig,
   progressionButton: {
     nextStage: VOTING,
-    copy: "Proceed to Voting",
+    copy: "Voting",
     iconClass: "arrow right",
     confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
   },

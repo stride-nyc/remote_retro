@@ -16,7 +16,7 @@ defmodule SendActionItemToUsersViaEmailTest do
       retro_path = "/retros/" <> retro.id
       facilitator_session = visit(facilitator_session, retro_path)
 
-      click_and_confirm(facilitator_session, "Send Action Items")
+      click_and_confirm_progression_to(facilitator_session, "Send Action Items")
 
       emails = Emails.action_items_email(retro.id)
       assert emails.html_body =~ ~r/Get better \(Test User .*\)/
