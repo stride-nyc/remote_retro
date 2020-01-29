@@ -1,0 +1,40 @@
+@import '../../../css/colors.css';
+
+:global(.ui.transparent.input).label-input-wrapper {
+  align-self: center;
+  position: relative;
+
+  input[type='text'] {
+    font-weight: bold;
+    text-align: center;
+    width: 15rem;
+    background-color: white;
+    z-index: 1;
+
+    + :global(.instruction) {
+      font-size: 10px;
+      color: var(--semantic-sub-header-grey);
+      text-align: center;
+
+      display: block;
+      position: absolute;
+      width: 100%;
+      top: 0;
+
+      transition: top 100ms ease-in-out;
+
+      :global(.keyboard-key) {
+        background-color: var(--semantic-secondary);
+        border: 1px solid var(--semantic-dark-grey);
+        border-radius: 3px;
+        padding: 0 2px;
+      }
+    }
+
+    &:focus + :global(.instruction) {
+      @media(min-width: 1040px) {
+        top: 1.25rem;
+      }
+    }
+  }
+}
