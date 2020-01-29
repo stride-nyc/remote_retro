@@ -10,7 +10,7 @@ describe("IdeaGroup component", () => {
     currentUser: {},
     groupWithAssociatedIdeasAndVotes: {
       id: 5,
-      name: "Internet Culture",
+      label: "Internet Culture",
       ideas: [{
         id: 1,
         body: "I like turtles",
@@ -50,35 +50,35 @@ describe("IdeaGroup component", () => {
     })
 
     describe("upon blurring the input field", () => {
-      it("invokes submitGroupNameChanges with the group attributes", () => {
+      it("invokes submitGroupLabelChanges with the group attributes", () => {
         const groupWithAssociatedIdeasAndVotes = {
           id: 777,
-          name: "some previous name",
+          label: "some previous label",
           ideas: [],
           votes: [],
         }
 
-        const submitGroupNameChangesSpy = sinon.spy()
+        const submitGroupLabelChangesSpy = sinon.spy()
         const wrapper = shallow(
           <IdeaGroup
             {...defaultProps}
             currentUser={{ is_facilitator: true }}
             groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
-            actions={{ submitGroupNameChanges: submitGroupNameChangesSpy }}
+            actions={{ submitGroupLabelChanges: submitGroupLabelChangesSpy }}
           />
         )
 
         const input = wrapper.find("input")
         input.simulate("blur", { target: { value: "Turtles" } })
 
-        expect(submitGroupNameChangesSpy).to.have.been.calledWith(groupWithAssociatedIdeasAndVotes, "Turtles")
+        expect(submitGroupLabelChangesSpy).to.have.been.calledWith(groupWithAssociatedIdeasAndVotes, "Turtles")
       })
     })
 
-    it("does *not* render the group name in a paragraph tag", () => {
-      const namePTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
+    it("does *not* render the group label in a paragraph tag", () => {
+      const labelParagraphTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
 
-      expect(namePTag.exists()).to.equal(false)
+      expect(labelParagraphTag.exists()).to.equal(false)
     })
   })
 
@@ -96,10 +96,10 @@ describe("IdeaGroup component", () => {
       expect(input.length).to.eql(0)
     })
 
-    it("renders the group name as text", () => {
-      const namePTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
+    it("renders the group label as text", () => {
+      const labelParagraphTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
 
-      expect(namePTag.exists()).to.equal(true)
+      expect(labelParagraphTag.exists()).to.equal(true)
     })
   })
 })

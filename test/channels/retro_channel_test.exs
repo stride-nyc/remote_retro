@@ -86,22 +86,22 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `group_edited` event with valid params" do
     setup [:persist_group_for_retro, :join_the_retro_channel]
 
-    test "updates the group_name", ~M{socket, group} do
-      ref = push(socket, "group_edited", %{id: group.id, name: "travis' domain"})
+    test "updates the group_label", ~M{socket, group} do
+      ref = push(socket, "group_edited", %{id: group.id, label: "travis' domain"})
 
       assert_reply(ref, :ok)
 
-      updated_name = Repo.get(Group, group.id).name
-      assert "travis' domain" == updated_name
+      updated_label = Repo.get(Group, group.id).label
+      assert "travis' domain" == updated_label
     end
 
     test "broadcasts the updated group to all connected clients", ~M{socket, group} do
-      ref = push(socket, "group_edited", %{id: group.id, name: "mike's domain"})
+      ref = push(socket, "group_edited", %{id: group.id, label: "mike's domain"})
 
       assert_reply(ref, :ok)
 
       group_id = group.id
-      assert_broadcast_to_all_clients_including_initiator("group_edited", %{id: ^group_id, name: "mike's domain"})
+      assert_broadcast_to_all_clients_including_initiator("group_edited", %{id: ^group_id, label: "mike's domain"})
     end
   end
 
@@ -109,7 +109,7 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:persist_group_for_retro, :join_the_retro_channel]
 
     test "replies to the client with an error", ~M{socket} do
-      ref = push(socket, "group_edited", %{id: "nonsense", name: ""})
+      ref = push(socket, "group_edited", %{id: "nonsense", label: ""})
 
       assert_reply(ref, :error)
     end

@@ -37,11 +37,11 @@ export const selectors = {
 }
 
 export const actionCreators = {
-  submitGroupNameChanges: (existingGroup, groupNameInputValue) => {
+  submitGroupLabelChanges: (existingGroup, groupLabelInputValue) => {
     return (dispatch, getState, retroChannel) => {
-      if (existingGroup.name === groupNameInputValue) return
+      if (existingGroup.label === groupLabelInputValue) return
 
-      retroChannel.push("group_edited", { id: existingGroup.id, name: groupNameInputValue })
+      retroChannel.push("group_edited", { id: existingGroup.id, label: groupLabelInputValue })
     }
   },
   updateGroup: updatedGroup => {

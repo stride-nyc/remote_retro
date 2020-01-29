@@ -39,23 +39,23 @@ defmodule VotingTest do
     end
   end
 
-  describe "providing a 'name' to a group" do
+  describe "providing a 'label' to a group" do
     setup [:persist_group_for_retro, :persist_idea_for_retro, :add_idea_to_group]
 
     @tag [
       retro_stage: "voting",
       idea: %Idea{category: @category, body: "Frequent Pairing"},
     ]
-    test "facilitator broadcasting group 'name' changes to other clients",
+    test "facilitator broadcasting group 'label' changes to other clients",
          ~M{retro, session: facilitator_session, non_facilitator} do
       non_facilitator_session = new_authenticated_browser_session(non_facilitator)
 
       facilitator_session = visit_retro_with_grouping_feature_enabled(facilitator_session, retro)
       non_facilitator_session = visit_retro_with_grouping_feature_enabled(non_facilitator_session, retro)
 
-      submit_group_name_change(facilitator_session, with: "Communication")
+      submit_group_label_change(facilitator_session, with: "Communication")
 
-      assert_has(non_facilitator_session, Query.css(".readonly-group-name", text: "Communication"))
+      assert_has(non_facilitator_session, Query.css(".readonly-group-label", text: "Communication"))
     end
   end
 
@@ -73,11 +73,11 @@ defmodule VotingTest do
     Map.put(context, :idea, idea)
   end
 
-  defp submit_group_name_change(session, [with: text]) do
+  defp submit_group_label_change(session, [with: text]) do
     group_input = Query.css(".idea-group input[type='text']")
     session |> fill_in(group_input, with: text)
 
-    # group.name input values are submitted upon a 'blur' event, so we trigger with a click
+    # group.label input values are submitted upon a 'blur' event, so we trigger with a click
     session |> click(Query.css("body"))
   end
 end

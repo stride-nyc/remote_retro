@@ -134,7 +134,7 @@ describe("RetroChannel", () => {
 
       describe("on `group_edited`", () => {
         it("invokes the updateGroup action, passing the payload", () => {
-          const payload = { id: 5, name: "Tooling" }
+          const payload = { id: 5, label: "Tooling" }
           retroChannelClient.trigger("group_edited", payload)
           expect(updateGroupSpy).calledWith(payload)
         })

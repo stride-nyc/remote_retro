@@ -14,11 +14,11 @@ const IdeaGroup = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions }) =
       <div className={`ui transparent input ${styles.labelInputWrapper}`}>
         <input
           type="text"
-          placeholder="Add a group name"
-          defaultValue={groupWithAssociatedIdeasAndVotes.name}
+          placeholder="Add a group label"
+          defaultValue={groupWithAssociatedIdeasAndVotes.label}
           maxLength={MAX_LENGTH_OF_GROUP_NAME}
           onBlur={e => {
-            actions.submitGroupNameChanges(groupWithAssociatedIdeasAndVotes, e.target.value)
+            actions.submitGroupLabelChanges(groupWithAssociatedIdeasAndVotes, e.target.value)
           }}
         />
         <div className="instruction">
@@ -26,7 +26,7 @@ const IdeaGroup = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions }) =
         </div>
       </div>
     ) : (
-      <p className="readonly-group-name">{groupWithAssociatedIdeasAndVotes.name}</p>
+      <p className="readonly-group-label">{groupWithAssociatedIdeasAndVotes.label}</p>
     )}
     <ul className={styles.list}>
       {groupWithAssociatedIdeasAndVotes.ideas.map(idea => {

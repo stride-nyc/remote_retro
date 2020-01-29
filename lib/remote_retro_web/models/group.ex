@@ -5,13 +5,13 @@ defmodule RemoteRetro.Group do
   schema "groups" do
     has_many(:ideas, RemoteRetro.Idea)
 
-    field(:name, :string)
+    field(:label, :string)
 
     timestamps(type: :utc_datetime_usec)
   end
 
   def changeset(struct, params \\ %{}) do
     struct
-    |> cast(params, [:name])
+    |> cast(params, [:label])
   end
 end

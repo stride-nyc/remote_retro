@@ -20,7 +20,7 @@ describe("groups reducer", () => {
 
     describe("and there is initial state", () => {
       it("should return that initial state", () => {
-        const initialState = [{ id: 5, name: "communication" }]
+        const initialState = [{ id: 5, label: "communication" }]
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
         expect(groupsReducer(initialState, {})).to.deep.equal(initialState)
@@ -35,7 +35,7 @@ describe("groups reducer", () => {
         const initialState = []
         deepFreeze(initialState)
 
-        const groups = [{ id: 5, name: "ceremonies" }]
+        const groups = [{ id: 5, label: "ceremonies" }]
         const action = { type: "SET_INITIAL_STATE", initialState: { groups } }
 
         expect(groupsReducer(initialState, action)).to.deep.equal([...groups])
@@ -48,7 +48,7 @@ describe("groups reducer", () => {
           const initialState = []
           deepFreeze(initialState)
 
-          const groups = [{ id: 7, name: "the build" }]
+          const groups = [{ id: 7, label: "the build" }]
           const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload: { groups } }
 
           expect(groupsReducer(initialState, action)).to.deep.equal([...groups])
@@ -73,10 +73,10 @@ describe("groups reducer", () => {
       beforeEach(() => {
         initialState = [{
           id: 1,
-          name: "Commnication",
+          label: "Commnication",
         }, {
           id: 2,
-          name: "Style Regressions",
+          label: "Style Regressions",
         }]
 
         deepFreeze(initialState)
@@ -85,17 +85,17 @@ describe("groups reducer", () => {
       it("updates the given group on state with the attributes passed", () => {
         const updatedGroup = {
           id: 2,
-          name: "Regressions",
+          label: "Regressions",
         }
 
         const action = { type: "GROUP_UPDATE_COMMITTED", updatedGroup }
 
         expect(groupsReducer(initialState, action)).to.deep.equal([{
           id: 1,
-          name: "Commnication",
+          label: "Commnication",
         }, {
           id: 2,
-          name: "Regressions",
+          label: "Regressions",
         }])
       })
     })
@@ -256,7 +256,7 @@ describe("selectors", () => {
 })
 
 describe("action creators", () => {
-  describe("submitGroupNameChanges", () => {
+  describe("submitGroupLabelChanges", () => {
     let dispatchStub
     let getStateStub
     let mockRetroChannel
@@ -267,21 +267,21 @@ describe("action creators", () => {
       mockRetroChannel = { push: spy() }
     })
 
-    describe("when the given string is *different* than the existing group name", () => {
+    describe("when the given string is *different* than the existing group label", () => {
       it("pushes an 'group_edited' event to the server, passing the id and updated value", () => {
-        const groupArguments = { id: 666, name: "steven's domain" }
-        const thunk = actionCreators.submitGroupNameChanges(groupArguments, "steven's NEW domain")
+        const groupArguments = { id: 666, label: "steven's domain" }
+        const thunk = actionCreators.submitGroupLabelChanges(groupArguments, "steven's NEW domain")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
-        expect(mockRetroChannel.push).to.have.been.calledWith("group_edited", { id: 666, name: "steven's NEW domain" })
+        expect(mockRetroChannel.push).to.have.been.calledWith("group_edited", { id: 666, label: "steven's NEW domain" })
       })
     })
 
-    describe("when the given string is identical to the existing group name", () => {
+    describe("when the given string is identical to the existing group label", () => {
       it("pushes nothing to the server", () => {
-        const groupArguments = { id: 555, name: "travis" }
-        const thunk = actionCreators.submitGroupNameChanges(groupArguments, "travis")
+        const groupArguments = { id: 555, label: "travis" }
+        const thunk = actionCreators.submitGroupLabelChanges(groupArguments, "travis")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
@@ -292,12 +292,12 @@ describe("action creators", () => {
 
   describe("updateGroup", () => {
     it("creates an action to update the group", () => {
-      const result = actionCreators.updateGroup({ id: 6, name: "Disfunction" })
+      const result = actionCreators.updateGroup({ id: 6, label: "Disfunction" })
       expect(result).to.deep.equal({
         type: "GROUP_UPDATE_COMMITTED",
         updatedGroup: {
           id: 6,
-          name: "Disfunction",
+          label: "Disfunction",
         },
       })
     })
