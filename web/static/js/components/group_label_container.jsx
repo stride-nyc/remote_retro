@@ -2,9 +2,10 @@ import React from "react"
 import * as AppPropTypes from "../prop_types"
 
 import GroupLabelInput from "./group_label_input"
+import styles from "./css_modules/group_label_container.css"
 
 const GroupLabelContainer = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions }) => (
-  <React.Fragment>
+  <div className={styles.wrapper}>
     {currentUser.is_facilitator ? (
       <GroupLabelInput
         actions={actions}
@@ -13,7 +14,7 @@ const GroupLabelContainer = ({ groupWithAssociatedIdeasAndVotes, currentUser, ac
     ) : (
       <p className="readonly-group-label">{groupWithAssociatedIdeasAndVotes.label}</p>
     )}
-  </React.Fragment>
+  </div>
 )
 
 GroupLabelContainer.propTypes = {

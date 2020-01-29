@@ -1,40 +1,32 @@
 @import '../../../css/colors.css';
 
-:global(.ui.transparent.input).label-input-wrapper {
-  align-self: center;
-  position: relative;
+.text-input {
+  background-color: white;
+  z-index: 1;
 
-  input[type='text'] {
-    font-weight: bold;
+  + :global(.instruction) {
+    font-size: 10px;
+    color: var(--semantic-sub-header-grey);
     text-align: center;
-    width: 15rem;
-    background-color: white;
-    z-index: 1;
 
-    + :global(.instruction) {
-      font-size: 10px;
-      color: var(--semantic-sub-header-grey);
-      text-align: center;
+    display: block;
+    position: absolute;
+    width: 100%;
+    bottom: 0;
 
-      display: block;
-      position: absolute;
-      width: 100%;
-      bottom: 0;
+    transition: bottom 100ms ease-in-out;
 
-      transition: bottom 100ms ease-in-out;
-
-      :global(.keyboard-key) {
-        background-color: var(--semantic-secondary);
-        border: 1px solid var(--semantic-dark-grey);
-        border-radius: 3px;
-        padding: 0 2px;
-      }
+    :global(.keyboard-key) {
+      background-color: var(--semantic-secondary);
+      border: 1px solid var(--semantic-dark-grey);
+      border-radius: 3px;
+      padding: 0 2px;
     }
+  }
 
-    &:focus + :global(.instruction) {
-      @media(min-width: 1040px) {
-        bottom: 1.15rem;
-      }
+  &:focus + :global(.instruction) {
+    @media(min-width: 1040px) {
+      bottom: 1.15rem;
     }
   }
 }

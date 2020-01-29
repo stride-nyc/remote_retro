@@ -8,9 +8,10 @@ import styles from "./css_modules/group_label_input.css"
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
 const GroupLabelInput = ({ groupWithAssociatedIdeasAndVotes, actions }) => (
-  <div className={`ui transparent input ${styles.labelInputWrapper}`}>
+  <div className="ui mini input">
     <input
       type="text"
+      className={styles.textInput}
       placeholder="Add a group label"
       defaultValue={groupWithAssociatedIdeasAndVotes.label}
       maxLength={MAX_LENGTH_OF_GROUP_NAME}
