@@ -19,9 +19,9 @@
       display: block;
       position: absolute;
       width: 100%;
-      top: 0;
+      bottom: 0;
 
-      transition: top 100ms ease-in-out;
+      transition: bottom 100ms ease-in-out;
 
       :global(.keyboard-key) {
         background-color: var(--semantic-secondary);
@@ -33,7 +33,7 @@
 
     &:focus + :global(.instruction) {
       @media(min-width: 1040px) {
-        top: 1.25rem;
+        bottom: 1.15rem;
       }
     }
   }
