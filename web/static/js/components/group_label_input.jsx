@@ -8,7 +8,7 @@ import styles from "./css_modules/group_label_input.css"
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
 const GroupLabelInput = ({ groupWithAssociatedIdeasAndVotes, actions }) => (
-  <div className="ui mini input">
+  <div className="ui fluid input">
     <input
       type="text"
       className={styles.textInput}

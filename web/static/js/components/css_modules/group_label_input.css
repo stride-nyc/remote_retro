@@ -1,8 +1,10 @@
 @import '../../../css/colors.css';
+@import './shared/group_label_text.css';
 
 .text-input {
-  background-color: white;
-  z-index: 1;
+  composes: group-label-text;
+  z-index: 1; /* required to ensure absolute positioning of child is honored */
+  height: 2rem;
 
   + :global(.instruction) {
     font-size: 10px;
@@ -24,9 +26,15 @@
     }
   }
 
-  &:focus + :global(.instruction) {
+  &:focus :global(+ .instruction) {
     @media(min-width: 1040px) {
-      bottom: 1.15rem;
+      bottom: 1.8rem;
     }
   }
+}
+
+/* due to our use of 'composes' above to leverage shared styles, we cannot nest selectors */
+/* but we need the specificity provided here to override semantic ui styles */
+input[type='text'].text-input {
+  padding: 0 2px;
 }

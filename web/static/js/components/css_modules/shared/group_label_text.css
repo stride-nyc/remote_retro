@@ -1,0 +1,10 @@
+.group-label-text {
+  font-size: 1rem;
+
+  /*
+  forgive me for the !important below; we have to override a framework specificity
+  that I simply can't bring myself to override.
+  The selector would read like a novel.
+  */
+  text-align: center !important;
+}
