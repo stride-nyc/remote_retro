@@ -29,11 +29,11 @@ describe("GroupsContainer component", () => {
   })
 
   describe("when the groups are given in an unsorted order", () => {
-    describe("when in the voting stage", () => {
+    describe("when in the labeling-plus-voting stage", () => {
       it("renders them by id ascending", () => {
         const props = {
           ...defaultProps,
-          stage: "voting",
+          stage: "labeling-plus-voting",
           groupsWithAssociatedIdeasAndVotes: [{
             id: 102,
             votes: [],

@@ -12,11 +12,11 @@ import styles from "./css_modules/groups_container.css"
 
 import STAGES from "../configs/stages"
 
-const { VOTING } = STAGES
+const { LABELING_PLUS_VOTING } = STAGES
 
 
 const sortGroups = (groupsWithAssociatedIdeasAndVotes, stage) => {
-  return stage === VOTING
+  return stage === LABELING_PLUS_VOTING
     ? orderBy(groupsWithAssociatedIdeasAndVotes, "id", "asc")
     : orderBy(groupsWithAssociatedIdeasAndVotes, ["votes.length", "id"], ["desc", "asc"])
 }

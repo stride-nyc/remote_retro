@@ -19,6 +19,7 @@ const {
   IDEA_GENERATION,
   GROUPING,
   VOTING,
+  LABELING_PLUS_VOTING,
   ACTION_ITEMS,
   CLOSED,
 } = STAGES
@@ -49,21 +50,6 @@ const baseVotingConfig = {
     },
   },
 }
-
-const votingConfig = localStorage.getItem("groupingDev")
-  ? {
-    ...baseVotingConfig,
-    arrivalAlert: {
-      headerText: "Stage Change: Labeling + Voting!",
-      BodyComponent: StageChangeInfoVoting,
-    },
-    help: {
-      headerText: "Labeling + Voting!",
-      BodyComponent: StageChangeInfoVoting,
-    },
-    uiComponent: GroupsContainer,
-  }
-  : baseVotingConfig
 
 export default {
   [LOBBY]: {
@@ -105,7 +91,7 @@ export default {
     },
     uiComponent: GroupingStage,
     progressionButton: {
-      nextStage: VOTING,
+      nextStage: LABELING_PLUS_VOTING,
       optionalParamsAugmenter: reduxState => ({
         ideasWithEphemeralGroupingIds: IdeasWithEphemeralGroupingIds.buildFrom(reduxState.ideas),
       }),
@@ -114,7 +100,19 @@ export default {
       confirmationMessage: "Has your team finished grouping the ideas?",
     },
   },
-  [VOTING]: votingConfig,
+  [VOTING]: baseVotingConfig,
+  [LABELING_PLUS_VOTING]: {
+    ...baseVotingConfig,
+    arrivalAlert: {
+      headerText: "Stage Change: Labeling + Voting!",
+      BodyComponent: StageChangeInfoVoting,
+    },
+    help: {
+      headerText: "Labeling + Voting!",
+      BodyComponent: StageChangeInfoVoting,
+    },
+    uiComponent: GroupsContainer,
+  },
   [ACTION_ITEMS]: {
     arrivalAlert: {
       headerText: "Stage Change: Action-Item Generation!",

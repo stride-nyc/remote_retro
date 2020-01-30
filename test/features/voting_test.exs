@@ -43,7 +43,7 @@ defmodule VotingTest do
     setup [:persist_group_for_retro, :persist_idea_for_retro, :add_idea_to_group]
 
     @tag [
-      retro_stage: "voting",
+      retro_stage: "labeling-plus-voting",
       idea: %Idea{category: @category, body: "Frequent Pairing"},
     ]
     test "facilitator broadcasting group 'label' changes to other clients",

@@ -38,6 +38,7 @@ defmodule RemoteRetro.Retro do
       "idea-generation",
       "grouping",
       "voting",
+      "labeling-plus-voting",
       "action-items",
       "closed"
     ])
