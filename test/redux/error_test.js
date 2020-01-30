@@ -24,6 +24,15 @@ describe("error", () => {
       })
     })
 
+    describe("when the action type is GROUP_UPDATE_REJECTED", () => {
+      const initialState = null
+      const action = { type: "GROUP_UPDATE_REJECTED" }
+
+      it("sets a descriptive error message", () => {
+        expect(reducer(initialState, action).message).to.match(/group update failed\. please try again\./i)
+      })
+    })
+
     describe("when the action type is IDEA_DELETION_REJECTED", () => {
       const initialState = null
       const action = { type: "IDEA_DELETION_REJECTED" }

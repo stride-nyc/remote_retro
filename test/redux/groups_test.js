@@ -1,6 +1,8 @@
 import deepFreeze from "deep-freeze"
 import { spy } from "sinon"
 
+import { setupMockRetroChannel } from "../support/js/test_helper"
+
 import {
   reducer as groupsReducer,
   selectors,
@@ -264,7 +266,12 @@ describe("action creators", () => {
     beforeEach(() => {
       dispatchStub = () => {}
       getStateStub = () => {}
-      mockRetroChannel = { push: spy() }
+      mockRetroChannel = setupMockRetroChannel()
+      spy(mockRetroChannel, "push")
+    })
+
+    afterEach(() => {
+      mockRetroChannel.push.restore()
     })
 
     describe("when the given string is *different* than the existing group label", () => {
@@ -275,6 +282,20 @@ describe("action creators", () => {
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
         expect(mockRetroChannel.push).to.have.been.calledWith("group_edited", { id: 666, label: "steven's NEW domain" })
+      })
+
+      describe("when the push results in an error", () => {
+        it("dispatches an error to the store", () => {
+          const groupArgumentsStub = {}
+          const thunk = actionCreators.submitGroupLabelChanges(groupArgumentsStub, "someNewLabel!")
+
+          const dispatchSpy = spy()
+          thunk(dispatchSpy, getStateStub, mockRetroChannel)
+
+          mockRetroChannel.__triggerReply("error", {})
+
+          expect(dispatchSpy).calledWithMatch({ type: "GROUP_UPDATE_REJECTED" })
+        })
       })
     })
 

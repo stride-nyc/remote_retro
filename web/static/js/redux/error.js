@@ -6,6 +6,8 @@ export const actions = {
 
 export const reducer = (state = null, action) => {
   switch (action.type) {
+    case actionTypes.GROUP_UPDATE_REJECTED:
+      return { message: "Group update failed. Please try again." }
     case actionTypes.IDEA_SUBMISSION_REJECTED:
       return { message: "Idea submission failed. Please try again." }
     case actionTypes.IDEA_UPDATE_REJECTED:

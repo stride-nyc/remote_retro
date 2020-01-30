@@ -41,7 +41,14 @@ export const actionCreators = {
     return (dispatch, getState, retroChannel) => {
       if (existingGroup.label === groupLabelInputValue) return
 
-      retroChannel.push("group_edited", { id: existingGroup.id, label: groupLabelInputValue })
+      const push = retroChannel.push("group_edited", {
+        id: existingGroup.id,
+        label: groupLabelInputValue,
+      })
+
+      push.receive("error", () => {
+        dispatch({ type: actionTypes.GROUP_UPDATE_REJECTED })
+      })
     }
   },
   updateGroup: updatedGroup => {
