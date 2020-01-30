@@ -52,12 +52,8 @@ To see the project's current feature pipeline, simply install the wonderful [Zen
 ```
 brew install postgresql
 
-# start postgresql at login
-ln -sfv /usr/local/opt/postgresql/*.plist ~/Library/LaunchAgents
-# load postgresql now
-launchctl load -w ~/Library/LaunchAgents/homebrew.mxcl.postgresql.plist
+  # (follow directions supplied by brew output upon successful installation)
 
-initdb /usr/local/var/postgres -E utf8
 createdb
 
 # depending on how you installed postgres, this user may already exist
