@@ -64,14 +64,14 @@ psql -h localhost
 ```
 
 #### Elixir/Phoenix Dependencies
-  - [Install the asdf version manager](https://github.com/asdf-vm/asdf)
+  - [Install the asdf version manager](https://asdf-vm.com/#/core-manage-asdf-vm)
   - Install Erlang, Elixir, and their dependencies by running `bin/install_erlang_and_elixir_with_dependencies`
   - Compile the project and custom mix tasks via `mix compile`
   - Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
   - Create the "remote_retro_test" database and migrate via `MIX_ENV=test mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
-  - [Ensure you have the asdf version manager installed](https://github.com/asdf-vm/asdf)
+  - [Ensure you have the asdf version manager installed](https://asdf-vm.com/#/core-manage-asdf-vm)
   - Install the `asdf-nodejs` plugin per the instructions at https://github.com/asdf-vm/asdf-nodejs
   - Install the project's Node version and Node dependencies by running `bin/install_node_with_dependencies`
 
