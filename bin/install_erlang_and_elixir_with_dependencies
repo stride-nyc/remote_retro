@@ -5,10 +5,18 @@ DIR="${BASH_SOURCE%/*}"
 if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 . "$DIR/utils/io.sh" --source-only
 
+if command -v brew >/dev/null; then
+  printGreenLine "Brew operational. Proceeding with installation."
+else
+  printRedLine "Error: this installation script is opinionated, and assumes the brew package manager is installed."
+  echo -e "\tPlease ensure brew has been installed, following the directions for your current OS at https://brew.sh/"
+  exit 1
+fi
+
 if command -v asdf >/dev/null; then
   printGreenLine "asdf: operational. Proceeding with installation..."
 else
-  printRedLine "Error: The asdf version manager cannot be found."
+  printRedLine "Error: the asdf version manager cannot be found."
   echo -e "\tPlease ensure asdf has been installed and added to your PATH, following the directions at https://github.com/asdf-vm/asdf#setup"
   exit 1
 fi
@@ -20,6 +28,12 @@ else
   printGreenLine "asdf: installing Erlang version-management plugin...";
   asdf plugin-add erlang https://github.com/HashNuke/asdf-erlang.git;
 fi
+
+printGreenLine "asdf: configuring KERL options...";
+
+# see https://github.com/asdf-vm/asdf-erlang/issues/82#issuecomment-535868497 for configuring KERL
+brew_open_ssl_path=$(brew info openssl | egrep -o -m 1 '/[^\S]* \(' | awk '{print $1}')
+export KERL_CONFIGURE_OPTIONS="--with-ssl=$brew_open_ssl_path"
 
 printGreenLine "asdf: installing Erlang version declared in \`.tool-versions\`\n\n\tNOTE: Building erlang takes 5-10 minutes. Be patient.";
 erlang_version=$(awk '/erlang/ { print $2 }' .tool-versions) && asdf install erlang ${erlang_version}
