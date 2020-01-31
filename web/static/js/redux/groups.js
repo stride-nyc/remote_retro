@@ -11,7 +11,7 @@ export const reducer = (state = [], action) => {
     case actionTypes.GROUP_UPDATE_COMMITTED:
       return state.map(group => {
         return group.id === action.updatedGroup.id
-          ? { ...group, ...action.updatedGroup, updatedGroupLabelId: action.updatedGroup.id }
+          ? { ...group, ...action.updatedGroup }
           : group
       })
     default:

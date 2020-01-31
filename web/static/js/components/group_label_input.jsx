@@ -7,9 +7,17 @@ import styles from "./css_modules/group_label_input.css"
 // exceed the 1/4th column width on desktop, even with the widest possible characters
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
+let labelChanged = false
+
 class GroupLabelInput extends Component {
-  componentDidMount() {
-    console.log("DELETE ME; only added to enable the pre-commit hook to permit checkin")
+
+  componentDidUpdate(prevProps) {
+    const oldLabel = prevProps.groupWithAssociatedIdeasAndVotes.label
+    const newLabel = this.props.groupWithAssociatedIdeasAndVotes.label
+    if (oldLabel !== newLabel) {
+      console.log("[GroupLabelInput]: label changed")
+      labelChanged = true
+    }
   }
 
   render() {
@@ -18,6 +26,7 @@ class GroupLabelInput extends Component {
     return (
       <div className="ui fluid input">
         <input
+          key={groupWithAssociatedIdeasAndVotes.id}
           type="text"
           className={styles.textInput}
           placeholder="Add a group label"
@@ -30,7 +39,7 @@ class GroupLabelInput extends Component {
         <div className="instruction">
           <span className="keyboard-key">tab</span> to submit
         </div>
-        <i className="check icon" />
+        {labelChanged ? <i className="check icon" /> : null}
       </div>
     )
   }
