@@ -10,7 +10,7 @@ const MAX_LENGTH_OF_GROUP_NAME = 20
 let labelChanged = false
 
 class GroupLabelInput extends Component {
-  componentDidUpdate(prevProps) {
+  componentWillUpdate(prevProps) {
     const { groupWithAssociatedIdeasAndVotes } = this.props
     const oldLabel = prevProps.groupWithAssociatedIdeasAndVotes.label
     const newLabel = groupWithAssociatedIdeasAndVotes.label
