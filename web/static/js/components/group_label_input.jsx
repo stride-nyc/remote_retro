@@ -8,11 +8,8 @@ import styles from "./css_modules/group_label_input.css"
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
 class GroupLabelInput extends Component {
-  constructor(props) {
-    super(props)
-    this.state = {
-      showCheckMarkForLabelId: null,
-    }
+  state = {
+    showCheckMarkForLabelId: null,
   }
 
   componentWillReceiveProps(nextProps) {
