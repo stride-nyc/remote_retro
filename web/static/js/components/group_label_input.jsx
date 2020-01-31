@@ -7,21 +7,37 @@ import styles from "./css_modules/group_label_input.css"
 // exceed the 1/4th column width on desktop, even with the widest possible characters
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
-let labelChangedId = null
-
 class GroupLabelInput extends Component {
-  componentWillUpdate(prevProps) {
-    const { groupWithAssociatedIdeasAndVotes } = this.props
-    const oldLabel = prevProps.groupWithAssociatedIdeasAndVotes.label
-    const newLabel = groupWithAssociatedIdeasAndVotes.label
-    if (oldLabel !== newLabel) {
-      console.log("[GroupLabelInput]: label changed")
-      labelChangedId = groupWithAssociatedIdeasAndVotes.id
+  constructor(props) {
+    super(props)
+    this.state = {
+      showCheckMarkForLabelId: null,
     }
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { groupWithAssociatedIdeasAndVotes } = this.props
+    const oldLabel = groupWithAssociatedIdeasAndVotes.label
+    const newLabel = nextProps.groupWithAssociatedIdeasAndVotes.label
+    if (oldLabel !== newLabel) {
+      this.setState({
+        showCheckMarkForLabelId: groupWithAssociatedIdeasAndVotes.id,
+      })
+      setTimeout(() => {
+        this.setState({ showCheckMarkForLabelId: null })
+      }, 2000)
+    }
+  }
+
+  labelUpdatedCheckmark = () => {
+    const classes = ["check icon"]
+    classes.push(styles.fadeout)
+    return <i className={classes.join(" ")} />
   }
 
   render() {
     const { groupWithAssociatedIdeasAndVotes, actions } = this.props
+    const { showCheckMarkForLabelId } = this.state
 
     return (
       <div className="ui fluid input">
@@ -38,7 +54,9 @@ class GroupLabelInput extends Component {
         <div className="instruction">
           <span className="keyboard-key">tab</span> to submit
         </div>
-        {labelChangedId === groupWithAssociatedIdeasAndVotes.id ? <i className="check icon" /> : null}
+        {showCheckMarkForLabelId === groupWithAssociatedIdeasAndVotes.id
+          ? this.labelUpdatedCheckmark() : null
+        }
       </div>
     )
   }
