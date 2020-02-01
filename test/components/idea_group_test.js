@@ -20,6 +20,16 @@ describe("IdeaGroup component", () => {
     },
   }
 
+  it("renders a group label container", () => {
+    const wrapper = shallow(
+      <IdeaGroup {...defaultProps} />
+    )
+
+    const groupNameContainer = wrapper.find("GroupLabelContainer")
+
+    expect(groupNameContainer.exists()).to.eql(true)
+  })
+
   it("renders an item for every idea associated with the given group", () => {
     const wrapper = shallow(
       <IdeaGroup {...defaultProps} />
@@ -31,15 +41,5 @@ describe("IdeaGroup component", () => {
       "I like turtles",
       "Memetown",
     ])
-  })
-
-  it("renders a group label container", () => {
-    const wrapper = shallow(
-      <IdeaGroup {...defaultProps} />
-    )
-
-    const groupNameContainer = wrapper.find("GroupLabelContainer")
-
-    expect(groupNameContainer.exists()).to.eql(true)
   })
 })
