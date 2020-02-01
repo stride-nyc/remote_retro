@@ -14,7 +14,6 @@ import STAGES from "../configs/stages"
 
 const { LABELING_PLUS_VOTING } = STAGES
 
-
 const sortGroups = (groupsWithAssociatedIdeasAndVotes, stage) => {
   return stage === LABELING_PLUS_VOTING
     ? orderBy(groupsWithAssociatedIdeasAndVotes, "id", "asc")
