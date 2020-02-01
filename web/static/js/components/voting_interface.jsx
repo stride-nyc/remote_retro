@@ -8,33 +8,34 @@ import styles from "./css_modules/voting_interface.css"
 
 class VotingInterface extends React.Component {
   handleAddVoteClick = () => {
-    const { actions, idea, currentUser, userHasExhaustedVotes } = this.props
+    const { actions, ideaToCastVoteFor, currentUser, userHasExhaustedVotes } = this.props
 
     // we :disable the add vote button via this prop, but a bad actor
     // could remove the disabled attribute via dev tools
     if (userHasExhaustedVotes) { return }
 
-    actions.submitVote(idea, currentUser)
+    actions.submitVote(ideaToCastVoteFor, currentUser)
   }
 
   handleSubtractVoteClick = () => {
-    const { actions, votesForIdea, currentUser } = this.props
-    const voteToRetract = votesForIdea.find(vote => vote.user_id === currentUser.id)
+    const { actions, votesForEntity, currentUser } = this.props
+    const voteToRetract = votesForEntity.find(vote => vote.user_id === currentUser.id)
     actions.submitVoteRetraction(voteToRetract)
   }
 
   render() {
     const {
-      votesForIdea,
+      votesForEntity,
       isVotingStage,
       currentUser,
       userHasExhaustedVotes,
     } = this.props
 
-    const userVoteCountForIdea = votesForIdea.filter(vote => vote.user_id === currentUser.id).length
+    const userVoteCountForIdea = votesForEntity
+      .filter(vote => vote.user_id === currentUser.id).length
 
     // voting is blind. totals revealed after stage progression.
-    const displayableVoteCount = isVotingStage ? userVoteCountForIdea : votesForIdea.length
+    const displayableVoteCount = isVotingStage ? userVoteCountForIdea : votesForEntity.length
 
     const wrapperClasses = classNames("ui labeled right floated button", styles.wrapper, {
       static: !isVotingStage,
@@ -89,8 +90,8 @@ VotingInterface.defaultProps = {
 }
 
 VotingInterface.propTypes = {
-  idea: AppPropTypes.idea.isRequired,
-  votesForIdea: AppPropTypes.votes.isRequired,
+  ideaToCastVoteFor: AppPropTypes.idea.isRequired,
+  votesForEntity: AppPropTypes.votes.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   isVotingStage: PropTypes.bool,
   userHasExhaustedVotes: PropTypes.bool,

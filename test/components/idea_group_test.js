@@ -17,7 +17,9 @@ describe("IdeaGroup component", () => {
         id: 2,
         body: "Memetown",
       }],
+      votes: [],
     },
+    stage: "action-items",
   }
 
   it("renders a group label container", () => {
@@ -28,6 +30,51 @@ describe("IdeaGroup component", () => {
     const groupNameContainer = wrapper.find("GroupLabelContainer")
 
     expect(groupNameContainer.exists()).to.eql(true)
+  })
+
+  it("passes the first idea of the provided group to the voting interface as ideaToCastVoteFor", () => {
+    const wrapper = shallow(
+      <IdeaGroup
+        {...defaultProps}
+      />
+    )
+
+    const votingInterface = wrapper.find("VotingInterface")
+
+    expect(votingInterface.prop("ideaToCastVoteFor")).to.eql({
+      id: 1,
+      body: "I like turtles",
+    })
+  })
+
+  describe("when in the labeling-plus-voting stage", () => {
+    it("renders a voting interface with isVotingStage true", () => {
+      const wrapper = shallow(
+        <IdeaGroup
+          {...defaultProps}
+          stage="labeling-plus-voting"
+        />
+      )
+
+      const votingInterface = wrapper.find("VotingInterface")
+
+      expect(votingInterface.prop("isVotingStage")).to.eql(true)
+    })
+  })
+
+  describe("when in a stage other than labeling-plus-voting", () => {
+    it("renders a voting interface with isVotingStage false", () => {
+      const wrapper = shallow(
+        <IdeaGroup
+          {...defaultProps}
+          stage="action-items"
+        />
+      )
+
+      const votingInterface = wrapper.find("VotingInterface")
+
+      expect(votingInterface.prop("isVotingStage")).to.eql(false)
+    })
   })
 
   it("renders an item for every idea associated with the given group", () => {

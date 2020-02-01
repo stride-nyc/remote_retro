@@ -32,6 +32,7 @@ export const GroupsContainer = props => {
             actions={actions}
             currentUser={currentUser}
             key={groupWithAssociatedIdeasAndVotes.id}
+            stage={stage}
             groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
           />
         ))}

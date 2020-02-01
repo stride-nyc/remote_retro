@@ -30,8 +30,8 @@ export const StageAwareIdeaControls = props => {
     return (
       <VotingInterface
         actions={actions}
-        idea={idea}
-        votesForIdea={votesForIdea}
+        ideaToCastVoteFor={idea}
+        votesForEntity={votesForIdea}
         isVotingStage={stage === VOTING}
         userHasExhaustedVotes={cumulativeVoteCountForUser >= VOTE_LIMIT}
         currentUser={currentUser}

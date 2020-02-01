@@ -5,7 +5,7 @@ import { spy } from "sinon"
 import VotingInterface from "../../web/static/js/components/voting_interface"
 
 describe("VotingInterface", () => {
-  const idea = {
+  const ideaToCastVoteFor = {
     id: 23,
     category: "sad",
     body: "redundant tests",
@@ -18,9 +18,9 @@ describe("VotingInterface", () => {
   const mockUser = { id: 55 }
 
   const defaultProps = {
-    idea,
+    ideaToCastVoteFor,
     actions: {},
-    votesForIdea: [],
+    votesForEntity: [],
     currentUser: mockUser,
     isVotingStage: true,
     userHasExhaustedVotes: true,
@@ -107,13 +107,13 @@ describe("VotingInterface", () => {
 
           votingInterface.find(".plus.button").simulate("click")
 
-          expect(actions.submitVote).calledWith(idea, mockUser)
+          expect(actions.submitVote).calledWith(ideaToCastVoteFor, mockUser)
         })
       })
     })
 
     context("when at least one of the user's votes has been applied to the idea", () => {
-      const idea = { id: 53 }
+      const ideaToCastVoteFor = { id: 53 }
       const currentUser = { id: 1987 }
 
       it("allows the user to detract the vote", () => {
@@ -121,9 +121,9 @@ describe("VotingInterface", () => {
           <VotingInterface
             {...defaultProps}
             isVotingStage
-            idea={idea}
+            ideaToCastVoteFor={ideaToCastVoteFor}
             currentUser={currentUser}
-            votesForIdea={[{ idea_id: idea.id, user_id: currentUser.id }]}
+            votesForEntity={[{ idea_id: ideaToCastVoteFor.id, user_id: currentUser.id }]}
             userHasExhaustedVotes={false}
           />
         )
@@ -143,10 +143,10 @@ describe("VotingInterface", () => {
             <VotingInterface
               {...defaultProps}
               actions={actions}
-              idea={idea}
+              ideaToCastVoteFor={ideaToCastVoteFor}
               currentUser={currentUser}
               isVotingStage
-              votesForIdea={[{
+              votesForEntity={[{
                 id: 1,
                 user_id: someOtherUserId,
               }, {
@@ -168,7 +168,7 @@ describe("VotingInterface", () => {
     })
 
     context("when none of the user's votes have been applied to the idea", () => {
-      const idea = { id: 53 }
+      const ideaToCastVoteFor = { id: 53 }
       const currentUser = { id: 1987 }
 
       it("disallows retraction of votes", () => {
@@ -176,9 +176,9 @@ describe("VotingInterface", () => {
           <VotingInterface
             {...defaultProps}
             isVotingStage
-            idea={idea}
+            ideaToCastVoteFor={ideaToCastVoteFor}
             currentUser={currentUser}
-            votesForIdea={[{ idea_id: idea.id, user_id: 2002 }]}
+            votesForEntity={[{ idea_id: ideaToCastVoteFor.id, user_id: 2002 }]}
             userHasExhaustedVotes={false}
           />
         )
@@ -191,7 +191,7 @@ describe("VotingInterface", () => {
     it("renders a tag that contains the vote count for the current user", () => {
       const voteForIdea = { idea_id: 23, user_id: 55 }
       const voteForIdeaForOtherUser = { idea_id: 23, user_id: 77 }
-      const votesForIdea = [
+      const votesForEntity = [
         voteForIdea,
         voteForIdea,
         voteForIdeaForOtherUser,
@@ -200,7 +200,7 @@ describe("VotingInterface", () => {
       const votingInterface = mountWithConnectedSubcomponents(
         <VotingInterface
           {...defaultProps}
-          votesForIdea={votesForIdea}
+          votesForEntity={votesForEntity}
           isVotingStage
         />
       )
@@ -228,7 +228,7 @@ describe("VotingInterface", () => {
     it("renders a tag containing the vote count of the given idea for all users", () => {
       const voteForIdea = { idea_id: 23, user_id: 55 }
       const voteForIdeaForOtherUser = { idea_id: 23, user_id: 77 }
-      const votesForIdea = [
+      const votesForEntity = [
         voteForIdea,
         voteForIdea,
         voteForIdeaForOtherUser,
@@ -238,7 +238,7 @@ describe("VotingInterface", () => {
         <VotingInterface
           {...defaultProps}
           isVotingStage={false}
-          votesForIdea={votesForIdea}
+          votesForEntity={votesForEntity}
         />
       )
 

@@ -21,25 +21,25 @@ defmodule VotingTest do
       facilitator_session_one = visit(facilitator_session_one, retro_path)
       facilitator_session_two = visit(facilitator_session_two, retro_path)
 
-      facilitator_session_one |> assert_vote_count_is(0)
+      facilitator_session_one |> assert_vote_count_for_idea_is(0)
 
       plus_button_selector = Query.css(".#{@category}.column .plus.button")
       assert_has(facilitator_session_one, plus_button_selector)
       facilitator_session_one |> find(plus_button_selector) |> Element.click()
 
-      facilitator_session_one |> assert_vote_count_is(1)
-      facilitator_session_two |> assert_vote_count_is(1)
+      facilitator_session_one |> assert_vote_count_for_idea_is(1)
+      facilitator_session_two |> assert_vote_count_for_idea_is(1)
 
       minus_button_selector = Query.css(".#{@category}.column .minus.button")
       assert_has(facilitator_session_one, minus_button_selector)
       facilitator_session_one |> find(minus_button_selector) |> Element.click()
 
-      facilitator_session_one |> assert_vote_count_is(0)
-      facilitator_session_two |> assert_vote_count_is(0)
+      facilitator_session_one |> assert_vote_count_for_idea_is(0)
+      facilitator_session_two |> assert_vote_count_for_idea_is(0)
     end
   end
 
-  describe "providing a 'label' to a group" do
+  describe "group voting" do
     setup [:persist_group_for_retro, :persist_idea_for_retro, :add_idea_to_group]
 
     @tag [
@@ -57,10 +57,35 @@ defmodule VotingTest do
 
       assert_has(non_facilitator_session, Query.css(".readonly-group-label", text: "Communication"))
     end
+
+    @tag [
+      retro_stage: "labeling-plus-voting",
+      idea: %Idea{category: @category, body: "Frequent Pairing"},
+    ]
+    test "incrementing a group's vote count across sessions",
+         ~M{retro, session: facilitator_session_one, facilitator} do
+      facilitator_session_two = new_authenticated_browser_session(facilitator)
+
+      facilitator_session_one = visit_retro_with_grouping_feature_enabled(facilitator_session_one, retro)
+      facilitator_session_two = visit_retro_with_grouping_feature_enabled(facilitator_session_two, retro)
+
+      facilitator_session_one |> assert_vote_count_for_group_is(0)
+
+      plus_button_selector = Query.css(".idea-group .plus.button")
+      assert_has(facilitator_session_one, plus_button_selector)
+      facilitator_session_one |> find(plus_button_selector) |> Element.click()
+
+      facilitator_session_one |> assert_vote_count_for_group_is(1)
+      facilitator_session_two |> assert_vote_count_for_group_is(1)
+    end
   end
 
-  defp assert_vote_count_is(session, vote_count) do
+  defp assert_vote_count_for_idea_is(session, vote_count) do
     assert_has(session, Query.css(".#{@category}.column", text: "#{vote_count}"))
+  end
+
+  defp assert_vote_count_for_group_is(session, vote_count) do
+    assert_has(session, Query.css(".idea-group", text: "#{vote_count}"))
   end
 
   defp add_idea_to_group(~M{idea, group} = context) do
