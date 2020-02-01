@@ -1,5 +1,5 @@
 .group-label-text {
-  font-size: 1rem;
+  font-size: 1.25rem;
 
   /*
   forgive me for the !important below; we have to override a framework specificity
