@@ -33,7 +33,7 @@
   .votes-label {
     font-size: 1rem;
     line-height: 1.1rem;
-    padding: 0.3rem 0.9rem 0.2rem;
+    padding: 0.3rem 0.9rem;
 
     /*
     override semantic ui's disabled styling here to allow wrapping element's
