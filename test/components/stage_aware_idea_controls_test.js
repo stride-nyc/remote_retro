@@ -22,29 +22,29 @@ describe("<StageAwareIdeaControls />", () => {
 
   context("when the stage is closed", () => {
     context("and idea represents an action-item", () => {
-      const wrapper = mountWithConnectedSubcomponents(
-        <StageAwareIdeaControls
-          {...defaultProps}
-          stage={CLOSED}
-          idea={{ ...idea, category: "action-item" }}
-        />
-      )
-
       it("renders no markup", () => {
+        const wrapper = mountWithConnectedSubcomponents(
+          <StageAwareIdeaControls
+            {...defaultProps}
+            stage={CLOSED}
+            idea={{ ...idea, category: "action-item" }}
+          />
+        )
+
         expect(wrapper.html()).to.equal(null)
       })
     })
 
     context("and idea does *not* represent an action item", () => {
-      const wrapper = mountWithConnectedSubcomponents(
-        <StageAwareIdeaControls
-          {...defaultProps}
-          stage={CLOSED}
-          idea={{ ...idea, category: "sad" }}
-        />
-      )
-
       it("renders the voting interface", () => {
+        const wrapper = mountWithConnectedSubcomponents(
+          <StageAwareIdeaControls
+            {...defaultProps}
+            stage={CLOSED}
+            idea={{ ...idea, category: "sad" }}
+          />
+        )
+
         expect(wrapper.html()).to.match(/<div .*>Votes<\/div/)
       })
     })
