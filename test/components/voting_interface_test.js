@@ -23,7 +23,7 @@ describe("VotingInterface", () => {
     votesForEntity: [],
     currentUser: mockUser,
     isVotingStage: true,
-    userHasExhaustedVotes: true,
+    currentUserHasExhaustedVotes: true,
   }
 
   context("during the voting stage", () => {
@@ -54,7 +54,7 @@ describe("VotingInterface", () => {
             {...defaultProps}
             actions={{ submitVote: submitVoteSpy }}
             isVotingStage
-            userHasExhaustedVotes
+            currentUserHasExhaustedVotes
           />
         )
 
@@ -83,7 +83,7 @@ describe("VotingInterface", () => {
           <VotingInterface
             {...defaultProps}
             isVotingStage
-            userHasExhaustedVotes={false}
+            currentUserHasExhaustedVotes={false}
           />
         )
 
@@ -101,7 +101,7 @@ describe("VotingInterface", () => {
               {...defaultProps}
               actions={actions}
               isVotingStage
-              userHasExhaustedVotes={false}
+              currentUserHasExhaustedVotes={false}
             />
           )
 
@@ -124,7 +124,7 @@ describe("VotingInterface", () => {
             ideaToCastVoteFor={ideaToCastVoteFor}
             currentUser={currentUser}
             votesForEntity={[{ idea_id: ideaToCastVoteFor.id, user_id: currentUser.id }]}
-            userHasExhaustedVotes={false}
+            currentUserHasExhaustedVotes={false}
           />
         )
 
@@ -156,7 +156,7 @@ describe("VotingInterface", () => {
                 id: 3,
                 user_id: currentUser.id,
               }]}
-              userHasExhaustedVotes={false}
+              currentUserHasExhaustedVotes={false}
             />
           )
 
@@ -179,7 +179,7 @@ describe("VotingInterface", () => {
             ideaToCastVoteFor={ideaToCastVoteFor}
             currentUser={currentUser}
             votesForEntity={[{ idea_id: ideaToCastVoteFor.id, user_id: 2002 }]}
-            userHasExhaustedVotes={false}
+            currentUserHasExhaustedVotes={false}
           />
         )
 

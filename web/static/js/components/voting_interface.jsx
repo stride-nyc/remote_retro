@@ -8,11 +8,11 @@ import styles from "./css_modules/voting_interface.css"
 
 class VotingInterface extends React.Component {
   handleAddVoteClick = () => {
-    const { actions, ideaToCastVoteFor, currentUser, userHasExhaustedVotes } = this.props
+    const { actions, ideaToCastVoteFor, currentUser, currentUserHasExhaustedVotes } = this.props
 
     // we :disable the add vote button via this prop, but a bad actor
     // could remove the disabled attribute via dev tools
-    if (userHasExhaustedVotes) { return }
+    if (currentUserHasExhaustedVotes) { return }
 
     actions.submitVote(ideaToCastVoteFor, currentUser)
   }
@@ -28,7 +28,7 @@ class VotingInterface extends React.Component {
       votesForEntity,
       isVotingStage,
       currentUser,
-      userHasExhaustedVotes,
+      currentUserHasExhaustedVotes,
     } = this.props
 
     const userVoteCountForIdea = votesForEntity
@@ -55,7 +55,7 @@ class VotingInterface extends React.Component {
             </button>
             <button
               type="submit"
-              disabled={userHasExhaustedVotes}
+              disabled={currentUserHasExhaustedVotes}
               className={`ui plus button ${styles.alterCountButton}`}
               onClick={this.handleAddVoteClick}
             >
@@ -86,7 +86,7 @@ class VotingInterface extends React.Component {
 
 VotingInterface.defaultProps = {
   isVotingStage: false,
-  userHasExhaustedVotes: false,
+  currentUserHasExhaustedVotes: false,
 }
 
 VotingInterface.propTypes = {
@@ -94,7 +94,7 @@ VotingInterface.propTypes = {
   votesForEntity: AppPropTypes.votes.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   isVotingStage: PropTypes.bool,
-  userHasExhaustedVotes: PropTypes.bool,
+  currentUserHasExhaustedVotes: PropTypes.bool,
   actions: AppPropTypes.actions.isRequired,
 }
 
