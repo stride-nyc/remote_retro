@@ -86,7 +86,6 @@ class VotingInterface extends React.Component {
 
 VotingInterface.defaultProps = {
   isVotingStage: false,
-  currentUserHasExhaustedVotes: false,
 }
 
 VotingInterface.propTypes = {
@@ -94,7 +93,7 @@ VotingInterface.propTypes = {
   votesForEntity: AppPropTypes.votes.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   isVotingStage: PropTypes.bool,
-  currentUserHasExhaustedVotes: PropTypes.bool,
+  currentUserHasExhaustedVotes: PropTypes.bool.isRequired,
   actions: AppPropTypes.actions.isRequired,
 }
 

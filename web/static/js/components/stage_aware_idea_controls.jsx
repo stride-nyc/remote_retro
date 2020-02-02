@@ -7,7 +7,6 @@ import includes from "lodash/includes"
 import * as AppPropTypes from "../prop_types"
 import VotingInterface from "./voting_interface"
 import IdeaEditDeleteIcons from "./idea_edit_delete_icons"
-import { VOTE_LIMIT } from "../configs/retro_configs"
 import STAGES from "../configs/stages"
 import { selectors, actions } from "../redux"
 
@@ -20,7 +19,7 @@ export const StageAwareIdeaControls = props => {
     actions,
     currentUser,
     votesForIdea,
-    cumulativeVoteCountForUser,
+    currentUserHasExhaustedVotes,
     canUserEditIdeaContents,
   } = props
 
@@ -33,7 +32,7 @@ export const StageAwareIdeaControls = props => {
         ideaToCastVoteFor={idea}
         votesForEntity={votesForIdea}
         isVotingStage={stage === VOTING}
-        userHasExhaustedVotes={cumulativeVoteCountForUser >= VOTE_LIMIT}
+        currentUserHasExhaustedVotes={currentUserHasExhaustedVotes}
         currentUser={currentUser}
       />
     )
@@ -55,12 +54,12 @@ StageAwareIdeaControls.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   votesForIdea: AppPropTypes.votes.isRequired,
-  cumulativeVoteCountForUser: PropTypes.number.isRequired,
+  currentUserHasExhaustedVotes: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = (state, { currentUser, idea }) => {
   return {
-    cumulativeVoteCountForUser: selectors.cumulativeVoteCountForUser(state, currentUser),
+    currentUserHasExhaustedVotes: selectors.currentUserHasExhaustedVotes(state, currentUser),
     votesForIdea: selectors.votesForIdea(state, idea),
   }
 }

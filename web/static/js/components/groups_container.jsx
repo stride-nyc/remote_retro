@@ -1,6 +1,7 @@
 import React from "react"
 import { connect } from "react-redux"
 import orderBy from "lodash/orderBy"
+import PropTypes from "prop-types"
 
 import { selectors } from "../redux/index"
 
@@ -21,7 +22,14 @@ const sortGroups = (groupsWithAssociatedIdeasAndVotes, stage) => {
 }
 
 export const GroupsContainer = props => {
-  const { groupsWithAssociatedIdeasAndVotes, currentUser, actions, stage } = props
+  const {
+    groupsWithAssociatedIdeasAndVotes,
+    currentUser,
+    actions,
+    stage,
+    currentUserHasExhaustedVotes,
+  } = props
+
   const groupsSorted = sortGroups(groupsWithAssociatedIdeasAndVotes, stage)
 
   return (
@@ -31,6 +39,7 @@ export const GroupsContainer = props => {
           <IdeaGroup
             actions={actions}
             currentUser={currentUser}
+            currentUserHasExhaustedVotes={currentUserHasExhaustedVotes}
             key={groupWithAssociatedIdeasAndVotes.id}
             stage={stage}
             groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
@@ -46,12 +55,14 @@ export const GroupsContainer = props => {
 GroupsContainer.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.user.isRequired,
+  currentUserHasExhaustedVotes: PropTypes.bool.isRequired,
   groupsWithAssociatedIdeasAndVotes: AppPropTypes.groups.isRequired,
   stage: AppPropTypes.stage.isRequired,
 }
 
-const mapStateToProps = state => ({
+const mapStateToProps = (state, { currentUser }) => ({
   groupsWithAssociatedIdeasAndVotes: selectors.groupsWithAssociatedIdeasAndVotes(state),
+  currentUserHasExhaustedVotes: selectors.currentUserHasExhaustedVotes(state, currentUser),
 })
 
 export default connect(mapStateToProps)(GroupsContainer)

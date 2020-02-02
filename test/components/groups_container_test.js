@@ -15,6 +15,7 @@ describe("GroupsContainer component", () => {
     }],
     actions: {},
     currentUser: {},
+    currentUserHasExhaustedVotes: false,
     stage: "idea-generation",
     stageConfig: {},
     ideas: [],

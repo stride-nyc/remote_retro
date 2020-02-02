@@ -133,6 +133,19 @@ describe("selectors", () => {
   })
 
   describe("currentUserHasExhaustedVotes", () => {
+    describe("when the currentUser presence has yet to be derived by the server in the milliseconds after persisted state is set clientside", () => {
+      it("returns true to disabled voting for the interim", () => {
+        const state = {
+          votes: [],
+        }
+
+        const currentUser = null
+
+        const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
+        expect(result).to.equal(true)
+      })
+    })
+
     describe("when the current user hasn't voted", () => {
       it("they haven't exhausted their votes", () => {
         const state = {
@@ -150,9 +163,9 @@ describe("selectors", () => {
       it("they haven't exhausted their votes", () => {
         const state = {
           votes: [{
-            user_id: 6
+            user_id: 6,
           }, {
-            user_id: 6
+            user_id: 6,
           }],
         }
 
@@ -185,7 +198,7 @@ describe("selectors", () => {
     // we should be protected against this case upstream, due to instantaneous disablement of the
     // voting interface on vote *submission* of a third vote, but we protect ourselves nonetheless,
     // as this test drives the behavior that vote count must be *less* than three votes for a user
-     // to vote, rather than having a vote count that isn't *equal* to three
+    // to vote, rather than having a vote count that isn't *equal* to three
     describe("in a scenario where the current user has somehow voted more than three times", () => {
       const state = {
         votes: [{

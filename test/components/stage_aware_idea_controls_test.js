@@ -17,7 +17,7 @@ describe("<StageAwareIdeaControls />", () => {
     votesForIdea: [],
     currentUser: {},
     stage: IDEA_GENERATION,
-    cumulativeVoteCountForUser: 0,
+    currentUserHasExhaustedVotes: true,
   }
 
   context("when the stage is closed", () => {
@@ -79,16 +79,18 @@ describe("<StageAwareIdeaControls />", () => {
   describe("the vote button", () => {
     context("when the stage is not idea-generation", () => {
       context("and the category is not action-item", () => {
-        it("renders", () => {
+        it("renders, passing the currentUserHasExhaustedVotes prop through", () => {
           const wrapper = mountWithConnectedSubcomponents(
             <StageAwareIdeaControls
               {...defaultProps}
               idea={{ ...idea, category: "sad" }}
               stage={VOTING}
+              currentUserHasExhaustedVotes={false}
             />
           )
 
-          expect(wrapper.find(VotingInterface)).to.have.length(1)
+          const votingInterface = wrapper.find(VotingInterface)
+          expect(votingInterface.prop("currentUserHasExhaustedVotes")).to.eql(false)
         })
       })
 

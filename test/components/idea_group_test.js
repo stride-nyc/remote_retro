@@ -7,6 +7,7 @@ describe("IdeaGroup component", () => {
   const defaultProps = {
     actions: {},
     currentUser: {},
+    currentUserHasExhaustedVotes: false,
     groupWithAssociatedIdeasAndVotes: {
       id: 5,
       label: "Internet Culture",
@@ -45,6 +46,19 @@ describe("IdeaGroup component", () => {
       id: 1,
       body: "I like turtles",
     })
+  })
+
+  it("passes the currentUserHasExhaustedVotes value down to the voting interface", () => {
+    const wrapper = shallow(
+      <IdeaGroup
+        {...defaultProps}
+        currentUserHasExhaustedVotes
+      />
+    )
+
+    const votingInterface = wrapper.find("VotingInterface")
+
+    expect(votingInterface.prop("currentUserHasExhaustedVotes")).to.eql(true)
   })
 
   describe("when in the labeling-plus-voting stage", () => {

@@ -95,6 +95,8 @@ const cumulativeVoteCountForUser = ({ votes }, user) => {
 export const selectors = {
   cumulativeVoteCountForUser,
   currentUserHasExhaustedVotes: (state, currentUser) => {
+    if (!currentUser) return true
+
     const cumulativeVoteCountForCurrentUser = cumulativeVoteCountForUser(state, currentUser)
     return cumulativeVoteCountForCurrentUser >= VOTE_LIMIT
   },
