@@ -20,7 +20,7 @@ const GroupLabelContainer = ({ groupWithAssociatedIdeasAndVotes, currentUser, ac
         />
       ) : (
         <p
-          className={`readonly-group-label ${sharedGroupLabelTextStyles.index}`}
+          className={`readonly-group-label ${sharedGroupLabelTextStyles.groupLabelText}`}
         >
           {groupWithAssociatedIdeasAndVotes.label}
         </p>
