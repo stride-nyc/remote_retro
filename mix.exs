@@ -41,7 +41,7 @@ defmodule RemoteRetro.Mixfile do
       {:freedom_formatter, "~> 1.0.0", only: :dev},
       {:distillery, "~> 2.0.12", only: :prod},
       {:excoveralls, "~> 0.10.6", only: :test},
-      {:postgrex, ">= 0.0.0"},
+      {:postgrex, "~> 0.15.3"},
       {:phoenix_html, "~> 2.13"},
       {:phoenix_live_reload, "~> 1.2.1", only: :dev},
       {:plug_cowboy, "~> 2.1"},
