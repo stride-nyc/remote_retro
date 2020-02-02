@@ -122,7 +122,7 @@ export default {
       headerText: "Action-Item Generation",
       BodyComponent: StageChangeInfoActionItems,
     },
-    uiComponent: IdeationInterface,
+    uiComponent: localStorage.getItem("groupingDev") ? GroupsContainer : IdeationInterface,
     progressionButton: {
       nextStage: CLOSED,
       copy: "Send Action Items",
