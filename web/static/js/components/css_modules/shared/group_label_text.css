@@ -8,3 +8,10 @@
   */
   text-align: center !important;
 }
+
+.group-label-text {
+  &:global(.readonly-group-label) {
+    line-height: unset;
+    text-decoration: underline;
+  }
+}
