@@ -132,6 +132,82 @@ describe("selectors", () => {
     })
   })
 
+  describe("currentUserHasExhaustedVotes", () => {
+    describe("when the current user hasn't voted", () => {
+      it("they haven't exhausted their votes", () => {
+        const state = {
+          votes: [],
+        }
+
+        const currentUser = { id: 5 }
+
+        const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
+        expect(result).to.equal(false)
+      })
+    })
+
+    describe("when the current user has voted twice", () => {
+      it("they haven't exhausted their votes", () => {
+        const state = {
+          votes: [{
+            user_id: 6
+          }, {
+            user_id: 6
+          }],
+        }
+
+        const currentUser = { id: 6 }
+
+        const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
+        expect(result).to.equal(false)
+      })
+    })
+
+    describe("when the current user has voted three times", () => {
+      const state = {
+        votes: [{
+          user_id: 11,
+        }, {
+          user_id: 11,
+        }, {
+          user_id: 11,
+        }],
+      }
+
+      const currentUser = { id: 11 }
+
+      it("the currentUser has exhausted their votes", () => {
+        const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
+        expect(result).to.equal(true)
+      })
+    })
+
+    // we should be protected against this case upstream, due to instantaneous disablement of the
+    // voting interface on vote *submission* of a third vote, but we protect ourselves nonetheless,
+    // as this test drives the behavior that vote count must be *less* than three votes for a user
+     // to vote, rather than having a vote count that isn't *equal* to three
+    describe("in a scenario where the current user has somehow voted more than three times", () => {
+      const state = {
+        votes: [{
+          user_id: 13,
+        }, {
+          user_id: 13,
+        }, {
+          user_id: 13,
+        }, {
+          user_id: 13,
+        }],
+      }
+
+      const currentUser = { id: 13 }
+
+      it("the currentUser has exhausted their votes", () => {
+        const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
+        expect(result).to.equal(true)
+      })
+    })
+  })
+
   describe("votesForIdea", () => {
     const state = {
       votes: [{

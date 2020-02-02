@@ -1,6 +1,7 @@
 import uuidv4 from "uuid/v4"
 
 import actionTypes from "./action_types"
+import { VOTE_LIMIT } from "../configs/retro_configs"
 
 const voteSubmission = vote => ({
   type: actionTypes.VOTE_SUBMISSION,
@@ -86,12 +87,17 @@ export const reducer = (state = [], action) => {
   }
 }
 
-export const selectors = {
-  cumulativeVoteCountForUser: ({ votes }, user) => {
-    const votesForUser = votes.filter(vote => vote.user_id === user.id)
-    return votesForUser.length
-  },
+const cumulativeVoteCountForUser = ({ votes }, user) => {
+  const votesForUser = votes.filter(vote => vote.user_id === user.id)
+  return votesForUser.length
+}
 
+export const selectors = {
+  cumulativeVoteCountForUser,
+  currentUserHasExhaustedVotes: (state, currentUser) => {
+    const cumulativeVoteCountForCurrentUser = cumulativeVoteCountForUser(state, currentUser)
+    return cumulativeVoteCountForCurrentUser >= VOTE_LIMIT
+  },
   votesForIdea: ({ votes }, idea) => {
     return votes.filter(vote => vote.idea_id === idea.id)
   },
