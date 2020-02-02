@@ -1,3 +1,5 @@
+@import '../../../css/colors.css';
+
 .wrapper {
   composes: wrapper from "./shared/full_height_stage.css";
 
@@ -11,5 +13,20 @@
     }
 
     overflow: scroll;
+  }
+
+  .flex-container-for-groups-and-optionally-action-items {
+    flex: 1;
+    display: flex;
+
+    :global(.action-item) {
+      width: 50%;
+
+      @media (min-width: 1040px) {
+        width: 25%;
+      }
+      padding: 0 0.75rem;
+      border-left: 1px solid var(--semantic-light-grey);
+    }
   }
 }

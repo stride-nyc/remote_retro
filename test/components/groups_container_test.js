@@ -3,6 +3,7 @@ import { shallow } from "enzyme"
 
 import { GroupsContainer } from "../../web/static/js/components/groups_container"
 import IdeaGroup from "../../web/static/js/components/idea_group"
+import CategoryColumn from "../../web/static/js/components/category_column"
 
 describe("GroupsContainer component", () => {
   const defaultProps = {
@@ -30,6 +31,15 @@ describe("GroupsContainer component", () => {
   })
 
   describe("when in the labeling-plus-voting stage", () => {
+    it("does *not* render a category column", () => {
+      const wrapper = shallow(
+        <GroupsContainer {...defaultProps} stage="labeling-plus-voting" />
+      )
+
+      const categoryColumn = wrapper.find(CategoryColumn)
+      expect(categoryColumn.exists()).to.eql(false)
+    })
+
     describe("when the groups are given in an unsorted order", () => {
       it("renders them by id ascending", () => {
         const props = {
@@ -63,7 +73,16 @@ describe("GroupsContainer component", () => {
     })
   })
 
-  describe("when in a stage *other than* voting", () => {
+  describe("when in a stage *other than* labeling-plus-voting", () => {
+    it("renders a category column for action items", () => {
+      const wrapper = shallow(
+        <GroupsContainer {...defaultProps} stage="closed" />
+      )
+
+      const categoryColumn = wrapper.find(CategoryColumn)
+      expect(categoryColumn.prop("category")).to.eql("action-item")
+    })
+
     describe("when the groups are given in an unsorted order", () => {
       describe("when one group has more votes than another", () => {
         it("renders them by vote count descending", () => {
