@@ -27,6 +27,7 @@ const IdeaGroup = ({
         actions={actions}
         currentUser={currentUser}
         groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
+        stage={stage}
       />
 
       <VotingInterface

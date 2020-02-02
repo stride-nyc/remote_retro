@@ -7,6 +7,7 @@ describe("GroupLabelContainer component", () => {
   const defaultProps = {
     actions: {},
     currentUser: {},
+    stage: "closed",
     groupWithAssociatedIdeasAndVotes: {
       id: 5,
       label: "Internet Culture",
@@ -17,22 +18,52 @@ describe("GroupLabelContainer component", () => {
   context("when the user is a facilitator", () => {
     let wrapper
 
-    before(() => {
-      wrapper = shallow(
-        <GroupLabelContainer {...defaultProps} currentUser={{ is_facilitator: true }} />
-      )
+    context("when the stage is 'labeling-plus-voting'", () => {
+      beforeEach(() => {
+        wrapper = shallow(
+          <GroupLabelContainer
+            {...defaultProps}
+            currentUser={{ is_facilitator: true }}
+            stage="labeling-plus-voting"
+          />
+        )
+      })
+
+      it("renders an input for the group label", () => {
+        const input = wrapper.find("GroupLabelInput")
+
+        expect(input.length).to.eql(1)
+      })
+
+      it("does *not* render the group label in a paragraph tag", () => {
+        const labelParagraphTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
+
+        expect(labelParagraphTag.exists()).to.equal(false)
+      })
     })
 
-    it("renders an input for the group label", () => {
-      const input = wrapper.find("GroupLabelInput")
+    context("when the stage is something other than 'labeling-plus-voting'", () => {
+      beforeEach(() => {
+        wrapper = shallow(
+          <GroupLabelContainer
+            {...defaultProps}
+            currentUser={{ is_facilitator: true }}
+            stage="closed"
+          />
+        )
+      })
 
-      expect(input.length).to.eql(1)
-    })
+      it("does *not* render an input for the group label", () => {
+        const input = wrapper.find("GroupLabelInput")
 
-    it("does *not* render the group label in a paragraph tag", () => {
-      const labelParagraphTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
+        expect(input.length).to.eql(0)
+      })
 
-      expect(labelParagraphTag.exists()).to.equal(false)
+      it("renders the group label in a paragraph tag", () => {
+        const labelParagraphTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
+
+        expect(labelParagraphTag.exists()).to.equal(true)
+      })
     })
   })
 
