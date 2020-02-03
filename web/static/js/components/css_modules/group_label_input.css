@@ -33,13 +33,15 @@
   }
 }
 
-.fadeout {
+.checkbox {
   animation: fadeOut ease 2s;
   -webkit-animation: fadeOut ease 2s;
   -moz-animation: fadeOut ease 2s;
   -o-animation: fadeOut ease 2s;
   -ms-animation: fadeOut ease 2s;
+  position: absolute;
 }
+
 @keyframes fadeOut {
   0% {
     opacity:1;

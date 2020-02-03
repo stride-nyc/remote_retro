@@ -7,7 +7,7 @@ import styles from "./css_modules/group_label_input.css"
 // exceed the 1/4th column width on desktop, even with the widest possible characters
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
-let showCheckMarkForLabelId = null
+let showCheckboxForLabelId = null
 
 class GroupLabelInput extends Component {
   componentWillUpdate(nextProps) {
@@ -15,17 +15,17 @@ class GroupLabelInput extends Component {
     const oldLabel = groupWithAssociatedIdeasAndVotes.label
     const newLabel = nextProps.groupWithAssociatedIdeasAndVotes.label
     if (oldLabel !== newLabel) {
-      showCheckMarkForLabelId = groupWithAssociatedIdeasAndVotes.id
+      showCheckboxForLabelId = groupWithAssociatedIdeasAndVotes.id
     }
   }
 
   labelUpdatedCheckbox = () => {
     setTimeout(() => {
-      showCheckMarkForLabelId = null
+      showCheckboxForLabelId = null
       this.forceUpdate()
     }, 2000)
     const classes = ["check icon"]
-    classes.push(styles.fadeout)
+    classes.push(styles.checkbox)
     return <i className={classes.join(" ")} />
   }
 
@@ -48,7 +48,7 @@ class GroupLabelInput extends Component {
           <span className="keyboard-key">tab</span> to submit
         </div>
         <div className="ui">
-          {showCheckMarkForLabelId === groupWithAssociatedIdeasAndVotes.id
+          {showCheckboxForLabelId === groupWithAssociatedIdeasAndVotes.id
             ? this.labelUpdatedCheckbox() : null
           }
         </div>
