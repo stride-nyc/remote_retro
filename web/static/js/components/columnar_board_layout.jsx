@@ -9,7 +9,7 @@ const ColumnarBoardLayout = props => {
   const { categories } = props
 
   return (
-    <div className={`ui equal width padded grid ${styles.categoryColumnsWrapper}`}>
+    <div className={styles.categoryColumnsWrapper}>
       {categories.map(category => (
         <CategoryColumn {...props} category={category} key={category} />
       ))}

@@ -20,6 +20,7 @@
     display: flex;
 
     :global(.action-item) {
+      flex-grow: 0;
       width: 50%;
 
       @media (min-width: 1040px) {
