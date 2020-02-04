@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 
@@ -11,41 +11,47 @@ import STAGES from "../configs/stages"
 
 const { LABELING_PLUS_VOTING } = STAGES
 
-const IdeaGroup = ({
-  groupWithAssociatedIdeasAndVotes,
-  currentUser,
-  actions,
-  stage,
-  currentUserHasExhaustedVotes,
-}) => {
-  const ideaToCastVoteFor = groupWithAssociatedIdeasAndVotes.ideas[0]
-  const isVotingStage = stage === LABELING_PLUS_VOTING
+// The component below must be a class component so that its parent (react-flip-move) can pass refs
+/* eslint-disable-next-line react/prefer-stateless-function */
+class IdeaGroup extends Component {
+  render() {
+    const {
+      groupWithAssociatedIdeasAndVotes,
+      currentUser,
+      actions,
+      stage,
+      currentUserHasExhaustedVotes,
+    } = this.props
 
-  return (
-    <div className={`idea-group ${styles.wrapper}`}>
-      <GroupLabelContainer
-        actions={actions}
-        currentUser={currentUser}
-        groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
-        stage={stage}
-      />
+    const ideaToCastVoteFor = groupWithAssociatedIdeasAndVotes.ideas[0]
+    const isVotingStage = stage === LABELING_PLUS_VOTING
 
-      <VotingInterface
-        actions={actions}
-        currentUser={currentUser}
-        currentUserHasExhaustedVotes={currentUserHasExhaustedVotes}
-        isVotingStage={isVotingStage}
-        ideaToCastVoteFor={ideaToCastVoteFor}
-        votesForEntity={groupWithAssociatedIdeasAndVotes.votes}
-      />
+    return (
+      <div className={`idea-group ${styles.wrapper}`}>
+        <GroupLabelContainer
+          actions={actions}
+          currentUser={currentUser}
+          groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
+          stage={stage}
+        />
 
-      <ul className={styles.list}>
-        {groupWithAssociatedIdeasAndVotes.ideas.map(idea => {
-          return <li key={idea.id} className={ideaStyles.index}>{idea.body}</li>
-        })}
-      </ul>
-    </div>
-  )
+        <VotingInterface
+          actions={actions}
+          currentUser={currentUser}
+          currentUserHasExhaustedVotes={currentUserHasExhaustedVotes}
+          isVotingStage={isVotingStage}
+          ideaToCastVoteFor={ideaToCastVoteFor}
+          votesForEntity={groupWithAssociatedIdeasAndVotes.votes}
+        />
+
+        <ul className={styles.list}>
+          {groupWithAssociatedIdeasAndVotes.ideas.map(idea => {
+            return <li key={idea.id} className={ideaStyles.index}>{idea.body}</li>
+          })}
+        </ul>
+      </div>
+    )
+  }
 }
 
 IdeaGroup.propTypes = {

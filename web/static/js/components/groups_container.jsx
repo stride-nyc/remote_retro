@@ -2,6 +2,7 @@ import React from "react"
 import { connect } from "react-redux"
 import orderBy from "lodash/orderBy"
 import PropTypes from "prop-types"
+import FlipMove from "react-flip-move"
 
 import { selectors } from "../redux/index"
 
@@ -37,7 +38,15 @@ export const GroupsContainer = props => {
   return (
     <div className={styles.wrapper}>
       <div className={styles.flexContainerForGroupsAndOptionallyActionItems}>
-        <div className={styles.groupsWrapper}>
+        <FlipMove
+          delay={500}
+          duration={750}
+          staggerDelayBy={100}
+          easing="ease"
+          enterAnimation="none"
+          leaveAnimation="none"
+          className={styles.groupsWrapper}
+        >
           {groupsSorted.map(groupWithAssociatedIdeasAndVotes => (
             <IdeaGroup
               actions={actions}
@@ -48,7 +57,7 @@ export const GroupsContainer = props => {
               groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
             />
           ))}
-        </div>
+        </FlipMove>
 
         {!isLabelingPlusVotingStage && (
           <CategoryColumn
