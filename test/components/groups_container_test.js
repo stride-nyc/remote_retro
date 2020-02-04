@@ -29,8 +29,8 @@ describe("GroupsContainer component", () => {
     expect(wrapper.find(IdeaGroup)).to.have.length(2)
   })
 
-  describe("when the groups are given in an unsorted order", () => {
-    describe("when in the labeling-plus-voting stage", () => {
+  describe("when in the labeling-plus-voting stage", () => {
+    describe("when the groups are given in an unsorted order", () => {
       it("renders them by id ascending", () => {
         const props = {
           ...defaultProps,
@@ -61,14 +61,19 @@ describe("GroupsContainer component", () => {
         ])
       })
     })
+  })
 
-    describe("when in a stage *other than* voting", () => {
+  describe("when in a stage *other than* voting", () => {
+    describe("when the groups are given in an unsorted order", () => {
       describe("when one group has more votes than another", () => {
         it("renders them by vote count descending", () => {
           const props = {
             ...defaultProps,
             stage: "action-items",
             groupsWithAssociatedIdeasAndVotes: [{
+              id: 4,
+              votes: [{ id: 102 }],
+            }, {
               id: 2,
               votes: [],
             }, {
@@ -86,7 +91,7 @@ describe("GroupsContainer component", () => {
             ideaGroup.prop("groupWithAssociatedIdeasAndVotes").id
           ))
 
-          expect(ideaGroupIds).to.eql([3, 2])
+          expect(ideaGroupIds).to.eql([3, 4, 2])
         })
       })
 
