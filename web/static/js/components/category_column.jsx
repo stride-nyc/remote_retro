@@ -14,7 +14,14 @@ export class CategoryColumn extends Component {
   state = {}
 
   render() {
-    const { category, ideas, connectDropTarget, draggedOver } = this.props
+    const {
+      category,
+      categoryDisplayStringOverride,
+      ideas,
+      connectDropTarget,
+      draggedOver,
+    } = this.props
+
     const iconHeight = 23
     const wrapperClasses = cx(category, "column", styles.index, {
       "dragged-over": draggedOver,
@@ -29,7 +36,7 @@ export class CategoryColumn extends Component {
             width={iconHeight}
             alt={category}
           />
-          <p className="ui medium header">{category}</p>
+          <p className="ui medium header">{categoryDisplayStringOverride || category}</p>
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
         { !!ideas.length && <IdeaColumnListContainer {...this.props} /> }
@@ -43,6 +50,7 @@ export class CategoryColumn extends Component {
 CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   category: AppPropTypes.category.isRequired,
+  categoryDisplayStringOverride: PropTypes.string,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
   actions: AppPropTypes.actions.isRequired,
@@ -51,6 +59,7 @@ CategoryColumn.propTypes = {
 }
 
 CategoryColumn.defaultProps = {
+  categoryDisplayStringOverride: null,
   connectDropTarget: node => node,
   draggedOver: false,
 }

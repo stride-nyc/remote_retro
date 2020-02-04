@@ -1,8 +1,45 @@
+import React from "react"
 import { spy } from "sinon"
+import { shallow } from "enzyme"
 
-import { mapStateToProps, dropTargetSpec } from "../../web/static/js/components/category_column"
+import {
+  CategoryColumn,
+  mapStateToProps,
+  dropTargetSpec
+} from "../../web/static/js/components/category_column"
 
 describe("CategoryColumn", () => {
+  describe("component", () => {
+    const defaultProps = {
+      ideas: [],
+      category: "action-item",
+      votes: [],
+      stage: "idea-generation",
+      actions: {},
+    }
+
+    describe("when no categoryDisplayStringOverride is passed", () => {
+      it("renders the raw category string in the column header", () => {
+        const wrapper = shallow(<CategoryColumn {...defaultProps} />)
+
+        expect(wrapper.find(".ui.header").text()).to.eql("action-item")
+      })
+    })
+
+    describe("when a categoryDisplayStringOverride *is* passed", () => {
+      it("renders the override string in the column header", () => {
+        const wrapper = shallow(
+          <CategoryColumn
+            {...defaultProps}
+            categoryDisplayStringOverride="gobbledygook"
+          />
+        )
+
+        expect(wrapper.find(".ui.header").text()).to.eql("gobbledygook")
+      })
+    })
+  })
+
   describe("mapStateToProps", () => {
     context("when every idea passed in the ideas prop matches the column's category", () => {
       it("returns all of those ideas in the props", () => {

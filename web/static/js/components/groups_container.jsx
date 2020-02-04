@@ -53,6 +53,7 @@ export const GroupsContainer = props => {
         {!isLabelingPlusVotingStage && (
           <CategoryColumn
             category="action-item"
+            categoryDisplayStringOverride="Action Items"
             currentUser={currentUser}
             stage={stage}
           />
