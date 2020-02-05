@@ -1,5 +1,5 @@
 import React from "react"
-import { shallow } from "enzyme"
+import { mount, shallow } from "enzyme"
 import sinon from "sinon"
 
 import GroupLabelInput from "../../web/static/js/components/group_label_input"
@@ -46,7 +46,7 @@ describe("GroupLabelInput component", () => {
         ideas: [],
         votes: [],
       }
-      wrapper = shallow(
+      wrapper = mount(
         <GroupLabelInput
           groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
           actions={{}}
