@@ -9,6 +9,7 @@ import { selectors } from "../redux/index"
 import LowerThird from "./lower_third"
 import IdeaGroup from "./idea_group"
 import CategoryColumn from "./category_column"
+import UserList from "./user_list"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/groups_container.css"
@@ -68,6 +69,8 @@ export const GroupsContainer = props => {
           />
         )}
       </div>
+
+      <UserList wrap={false} />
 
       <LowerThird {...props} />
     </div>
