@@ -8,28 +8,34 @@ import styles from "./css_modules/group_label_input.css"
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
 class GroupLabelInput extends Component {
-  state = {
-    showCheckmarkForLabelId: null,
-  }
-
-  componentWillReceiveProps(nextProps) {
+  state = (() => {
     const { groupWithAssociatedIdeasAndVotes } = this.props
-    const oldLabel = groupWithAssociatedIdeasAndVotes.label
-    const newLabel = nextProps.groupWithAssociatedIdeasAndVotes.label
-    if (oldLabel !== newLabel) {
-      this.setState({
-        showCheckmarkForLabelId: groupWithAssociatedIdeasAndVotes.id,
-      })
-      setTimeout(() => {
-        this.setState({ showCheckmarkForLabelId: null })
-      }, 2000)
+    const { label } = groupWithAssociatedIdeasAndVotes
+    return {
+      oldLabel: label,
+      showCheckmarkForLabelId: null,
     }
+  })();
+
+  static getDerivedStateFromProps(props, state) {
+    const { oldLabel } = state
+    const { groupWithAssociatedIdeasAndVotes } = props
+    const newLabel = groupWithAssociatedIdeasAndVotes.label
+    if (oldLabel !== newLabel) {
+      return ({
+        oldLabel: newLabel,
+        showCheckmarkForLabelId: groupWithAssociatedIdeasAndVotes.id })
+    }
+    return null
   }
 
   labelUpdatedCheckmark = () => {
     const classes = ["check icon"]
     classes.push(styles.updateSucceededCheckmark)
-    return <i className={classes.join(" ")} />
+    setTimeout(() => {
+      this.setState({ showCheckmarkForLabelId: null })
+    }, 2000)
+    return <div className="ui"><i className={classes.join(" ")} /></div>
   }
 
   render() {
