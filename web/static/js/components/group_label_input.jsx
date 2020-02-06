@@ -8,14 +8,14 @@ import styles from "./css_modules/group_label_input.css"
 const MAX_LENGTH_OF_GROUP_NAME = 20
 
 class GroupLabelInput extends Component {
-  state = (() => {
-    const { groupWithAssociatedIdeasAndVotes } = this.props
-    const { label } = groupWithAssociatedIdeasAndVotes
-    return {
+  constructor(props) {
+    super(props)
+    const { groupWithAssociatedIdeasAndVotes: { label } } = props
+    this.state = {
       oldLabel: label,
       showCheckmark: false,
     }
-  })();
+  }
 
   static getDerivedStateFromProps(props, state) {
     const { oldLabel } = state
