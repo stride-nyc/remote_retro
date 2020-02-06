@@ -13,7 +13,7 @@ class GroupLabelInput extends Component {
     const { label } = groupWithAssociatedIdeasAndVotes
     return {
       oldLabel: label,
-      showCheckmarkForLabelId: null,
+      showCheckmark: false,
     }
   })();
 
@@ -24,7 +24,7 @@ class GroupLabelInput extends Component {
     if (oldLabel !== newLabel) {
       return ({
         oldLabel: newLabel,
-        showCheckmarkForLabelId: groupWithAssociatedIdeasAndVotes.id })
+        showCheckmark: true })
     }
     return null
   }
@@ -32,14 +32,14 @@ class GroupLabelInput extends Component {
   labelUpdatedCheckmark = () => {
     const classes = ["check", "icon", styles.updateSucceededCheckmark]
     setTimeout(() => {
-      this.setState({ showCheckmarkForLabelId: null })
+      this.setState({ showCheckmark: false })
     }, 2000)
     return <div className="ui"><i className={classes.join(" ")} /></div>
   }
 
   render() {
     const { groupWithAssociatedIdeasAndVotes, actions } = this.props
-    const { showCheckmarkForLabelId } = this.state
+    const { showCheckmark } = this.state
 
     return (
       <div className="ui fluid input">
@@ -56,9 +56,7 @@ class GroupLabelInput extends Component {
         <div className="instruction">
           <span className="keyboard-key">tab</span> to submit
         </div>
-        {showCheckmarkForLabelId === groupWithAssociatedIdeasAndVotes.id
-          ? this.labelUpdatedCheckmark() : null
-        }
+        {showCheckmark && this.labelUpdatedCheckmark() }
       </div>
     )
   }
