@@ -30,8 +30,7 @@ class GroupLabelInput extends Component {
   }
 
   labelUpdatedCheckmark = () => {
-    const classes = ["check icon"]
-    classes.push(styles.updateSucceededCheckmark)
+    const classes = ["check", "icon", styles.updateSucceededCheckmark]
     setTimeout(() => {
       this.setState({ showCheckmarkForLabelId: null })
     }, 2000)
