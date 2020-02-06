@@ -63,5 +63,35 @@ describe("GroupLabelInput component", () => {
       wrapper.setProps({ groupWithAssociatedIdeasAndVotes: newGroupWithAssociatedIdeasAndVotes })
       expect(wrapper.find(".check")).to.have.lengthOf(1)
     })
+
+    it("removes the checkmark after a timeout", () => {
+      groupWithAssociatedIdeasAndVotes = {
+        id: 777,
+        label: "some previous label",
+        ideas: [],
+        votes: [],
+      }
+      const clock = sinon.useFakeTimers()
+      wrapper = mount(
+        <GroupLabelInput
+          groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
+          actions={{}}
+        />
+      )
+      const newGroupWithAssociatedIdeasAndVotes = {
+        id: 777,
+        label: "a better label",
+        ideas: [],
+        votes: [],
+      }
+
+      wrapper.setProps({ groupWithAssociatedIdeasAndVotes: newGroupWithAssociatedIdeasAndVotes })
+      clock.tick(1999)
+      expect(wrapper.find(".check")).to.have.lengthOf(1)
+      clock.tick(1)
+      wrapper.update()
+      expect(wrapper.find(".check")).to.have.lengthOf(0)
+      clock.restore()
+    })
   })
 })
