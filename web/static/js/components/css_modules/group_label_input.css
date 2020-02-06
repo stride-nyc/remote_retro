@@ -33,6 +33,20 @@
   }
 }
 
+.update-succeeded-checkmark {
+  animation: fadeOut ease 2s;
+  position: absolute;
+}
+
+@keyframes fadeOut {
+  0% {
+    opacity:1;
+  }
+  100% {
+    opacity:0;
+  }
+}
+
 /* due to our use of 'composes' above to leverage shared styles, we cannot nest selectors */
 /* but we need the specificity provided here to override semantic ui styles */
 input[type='text'].text-input {
