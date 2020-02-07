@@ -82,8 +82,9 @@ defmodule RemoteRetro.Mixfile do
   # version is required by distillery for hot-upgrade deploys
   defp app_version do
     if Mix.env() == :prod do
-      {commit_count, 0} = System.cmd("git", ~w[rev-list --count refs/heads/master], stderr_to_stdout: true)
-      "1.0." <> String.trim(commit_count)
+      sha = System.get_env("SOURCE_VERSION")
+      truncated_sha = String.slice(sha, 0, 7)
+      "1.0.1-" <> truncated_sha
     else
       "1.0.1"
     end
