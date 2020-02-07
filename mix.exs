@@ -82,7 +82,7 @@ defmodule RemoteRetro.Mixfile do
   # version is required by distillery for hot-upgrade deploys
   defp app_version do
     if Mix.env() == :prod do
-      {commit_count, 0} = System.cmd("git", ~w[rev-list --count HEAD], stderr_to_stdout: true)
+      {commit_count, 0} = System.cmd("git", ~w[rev-list --count refs/heads/master], stderr_to_stdout: true)
       "1.0." <> String.trim(commit_count)
     else
       "1.0.1"
