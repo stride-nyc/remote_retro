@@ -36,10 +36,20 @@
 .update-succeeded-checkmark {
   animation: fadeOut ease 2s;
   position: absolute;
+  right: -1.75rem;
+
+  &:global(.ui.check) {
+    height: 100%;
+    display: flex;
+    align-items: center;
+  }
 }
 
 @keyframes fadeOut {
   0% {
+    opacity:1;
+  }
+  80% {
     opacity:1;
   }
   100% {
