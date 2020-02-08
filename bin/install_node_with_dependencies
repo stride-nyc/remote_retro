@@ -45,4 +45,8 @@ if npm install -g yarn phantomjs-prebuilt chromedriver >/dev/null; then
   printGreenLine "asdf: Node $node_version installation complete!"
   printGreenLine "asdf: installing local Node dependencies...";
   yarn
+
+  printGreenLine "\n!!!!!!!!!\nIMPORTANT\n!!!!!!!!!";
+  printGreenLine "We've installed a chromedriver binary which assumes you have the latest version of Google Chrome. Please ensure your Google Chrome is up to date, as this is required for your end-to-end tests to run locally.";
+  printGreenLine "Thanks!";
 fi
