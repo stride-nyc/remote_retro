@@ -13,19 +13,21 @@ class GroupLabelInput extends Component {
     super(props)
     const { groupWithAssociatedIdeasAndVotes: { label } } = props
     this.state = {
-      oldLabel: label,
+      memoizedLabel: label,
       showCheckmark: false,
     }
   }
 
   static getDerivedStateFromProps(props, state) {
-    const { oldLabel } = state
+    const { memoizedLabel } = state
     const { groupWithAssociatedIdeasAndVotes } = props
     const newLabel = groupWithAssociatedIdeasAndVotes.label
-    if (oldLabel !== newLabel) {
+
+    if (memoizedLabel !== newLabel) {
       return ({
-        oldLabel: newLabel,
-        showCheckmark: true })
+        memoizedLabel: newLabel,
+        showCheckmark: true,
+      })
     }
     return null
   }
