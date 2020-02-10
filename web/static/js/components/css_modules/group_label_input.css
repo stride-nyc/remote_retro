@@ -3,38 +3,10 @@
 
 .text-input {
   composes: group-label-text;
-  z-index: 1; /* required to ensure absolute positioning of child is honored */
   height: 2rem;
-
-  + :global(.instruction) {
-    font-size: 10px;
-    color: var(--semantic-sub-header-grey);
-    text-align: center;
-
-    display: block;
-    position: absolute;
-    width: 100%;
-    bottom: 0;
-
-    transition: bottom 100ms ease-in-out;
-
-    :global(.keyboard-key) {
-      background-color: var(--semantic-secondary);
-      border: 1px solid var(--semantic-dark-grey);
-      border-radius: 3px;
-      padding: 0 2px;
-    }
-  }
-
-  &:focus :global(+ .instruction) {
-    @media(min-width: 1040px) {
-      bottom: 1.8rem;
-    }
-  }
 }
 
 .update-succeeded-checkmark {
-  animation: fadeOut ease 2s;
   position: absolute;
   right: -1.75rem;
 
@@ -42,18 +14,6 @@
     height: 100%;
     display: flex;
     align-items: center;
-  }
-}
-
-@keyframes fadeOut {
-  0% {
-    opacity:1;
-  }
-  80% {
-    opacity:1;
-  }
-  100% {
-    opacity:0;
   }
 }
 

@@ -12,9 +12,11 @@ class GroupLabelInput extends Component {
   constructor(props) {
     super(props)
     const { groupWithAssociatedIdeasAndVotes: { label } } = props
+
     this.state = {
       memoizedLabel: label,
-      showCheckmark: false,
+      groupLabelInputValue: label,
+      persistedLabelHasChanged: false,
     }
   }
 
@@ -26,21 +28,35 @@ class GroupLabelInput extends Component {
     if (memoizedLabel !== newLabel) {
       return ({
         memoizedLabel: newLabel,
-        showCheckmark: true,
+        persistedLabelHasChanged: true,
       })
     }
+
     return null
   }
 
-  handleSuccessCheckmarkMounting = () => {
-    setTimeout(() => {
-      this.setState({ showCheckmark: false })
-    }, 2000)
+  handleChange = ({ target }) => {
+    const { actions, groupWithAssociatedIdeasAndVotes } = this.props
+
+    this.setState({ groupLabelInputValue: target.value }, () => {
+      const { groupLabelInputValue } = this.state
+
+      actions.submitGroupLabelChanges(groupWithAssociatedIdeasAndVotes, groupLabelInputValue)
+    })
+  }
+
+  shouldShowCheckmark = () => {
+    const { groupWithAssociatedIdeasAndVotes } = this.props
+    const { persistedLabelHasChanged, groupLabelInputValue } = this.state
+    const persistedLabelValue = groupWithAssociatedIdeasAndVotes.label
+
+    const inputValueMatchesPersistedValue = groupLabelInputValue === persistedLabelValue
+
+    return persistedLabelHasChanged && inputValueMatchesPersistedValue
   }
 
   render() {
-    const { groupWithAssociatedIdeasAndVotes, actions } = this.props
-    const { showCheckmark } = this.state
+    const { groupLabelInputValue } = this.state
 
     return (
       <div className="ui fluid input">
@@ -48,19 +64,14 @@ class GroupLabelInput extends Component {
           type="text"
           className={styles.textInput}
           placeholder="Add a group label"
-          defaultValue={groupWithAssociatedIdeasAndVotes.label}
+          value={groupLabelInputValue}
           maxLength={MAX_LENGTH_OF_GROUP_NAME}
-          onBlur={e => {
-            actions.submitGroupLabelChanges(groupWithAssociatedIdeasAndVotes, e.target.value)
-          }}
+          onChange={this.handleChange}
         />
-        <div className="instruction">
-          <span className="keyboard-key">tab</span> to submit
-        </div>
-        {showCheckmark && (
+
+        {this.shouldShowCheckmark() && (
           <SuccessCheckmark
             cssModifier={styles.updateSucceededCheckmark}
-            onMount={this.handleSuccessCheckmarkMounting}
           />
         )}
       </div>

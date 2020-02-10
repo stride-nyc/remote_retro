@@ -1,28 +1,18 @@
-import React, { Component } from "react"
+import React from "react"
 import cx from "classnames"
 import PropTypes from "prop-types"
 
-class SuccessCheckmark extends Component {
-  componentDidMount() {
-    const { onMount } = this.props
-    onMount()
-  }
+const SuccessCheckmark = ({ cssModifier }) => {
+  const classes = cx(["ui", "green", "check", "icon", cssModifier])
 
-  render() {
-    const { cssModifier } = this.props
-
-    const classes = cx(["ui", "green", "check", "icon", cssModifier])
-
-    return (
-      <div>
-        <i className={classes} />
-      </div>
-    )
-  }
+  return (
+    <div>
+      <i className={classes} />
+    </div>
+  )
 }
 
 SuccessCheckmark.propTypes = {
-  onMount: PropTypes.func.isRequired,
   cssModifier: PropTypes.string,
 }
 

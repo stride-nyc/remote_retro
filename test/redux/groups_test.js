@@ -1,5 +1,5 @@
 import deepFreeze from "deep-freeze"
-import { spy } from "sinon"
+import { spy, useFakeTimers } from "sinon"
 
 import { setupMockRetroChannel } from "../support/js/test_helper"
 
@@ -7,6 +7,7 @@ import {
   reducer as groupsReducer,
   selectors,
   actionCreators,
+  _debouncedPushOfLabelChangeToServer,
 } from "../../web/static/js/redux/groups"
 
 describe("groups reducer", () => {
@@ -262,24 +263,30 @@ describe("action creators", () => {
     let dispatchStub
     let getStateStub
     let mockRetroChannel
+    let clock
 
     beforeEach(() => {
+      clock = useFakeTimers()
+
       dispatchStub = () => {}
       getStateStub = () => {}
       mockRetroChannel = setupMockRetroChannel()
       spy(mockRetroChannel, "push")
+      _debouncedPushOfLabelChangeToServer.cancel()
     })
 
     afterEach(() => {
       mockRetroChannel.push.restore()
+      clock.restore()
     })
 
     describe("when the given string is *different* than the existing group label", () => {
-      it("pushes an 'group_edited' event to the server, passing the id and updated value", () => {
+      it("pushes an 'group_edited' event to the server, passing the id and updated value after a timeout", () => {
         const groupArguments = { id: 666, label: "steven's domain" }
         const thunk = actionCreators.submitGroupLabelChanges(groupArguments, "steven's NEW domain")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
+        clock.tick(2000)
 
         expect(mockRetroChannel.push).to.have.been.calledWith("group_edited", { id: 666, label: "steven's NEW domain" })
       })
@@ -291,6 +298,7 @@ describe("action creators", () => {
 
           const dispatchSpy = spy()
           thunk(dispatchSpy, getStateStub, mockRetroChannel)
+          clock.tick(2000)
 
           mockRetroChannel.__triggerReply("error", {})
 

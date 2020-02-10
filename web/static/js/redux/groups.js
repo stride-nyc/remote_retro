@@ -1,4 +1,5 @@
 import groupBy from "lodash/groupBy"
+import debounce from "lodash/debounce"
 
 import actionTypes from "./action_types"
 
@@ -36,19 +37,33 @@ export const selectors = {
   },
 }
 
+export const _debouncedPushOfLabelChangeToServer = debounce((
+  retroChannel,
+  existingGroup,
+  groupLabelInputValue,
+  dispatch
+) => {
+  const push = retroChannel.push("group_edited", {
+    id: existingGroup.id,
+    label: groupLabelInputValue,
+  })
+
+  push.receive("error", () => {
+    dispatch({ type: actionTypes.GROUP_UPDATE_REJECTED })
+  })
+}, 500)
+
 export const actionCreators = {
   submitGroupLabelChanges: (existingGroup, groupLabelInputValue) => {
     return (dispatch, getState, retroChannel) => {
       if (existingGroup.label === groupLabelInputValue) return
 
-      const push = retroChannel.push("group_edited", {
-        id: existingGroup.id,
-        label: groupLabelInputValue,
-      })
-
-      push.receive("error", () => {
-        dispatch({ type: actionTypes.GROUP_UPDATE_REJECTED })
-      })
+      _debouncedPushOfLabelChangeToServer(
+        retroChannel,
+        existingGroup,
+        groupLabelInputValue,
+        dispatch
+      )
     }
   },
   updateGroup: updatedGroup => {

@@ -8,7 +8,7 @@ describe("GroupLabelInput component", () => {
   let wrapper
   let groupWithAssociatedIdeasAndVotes
 
-  describe("upon blurring the input field", () => {
+  describe("when the user changes the value", () => {
     let submitGroupLabelChangesSpy
 
     beforeEach(() => {
@@ -28,7 +28,7 @@ describe("GroupLabelInput component", () => {
       )
 
       const input = wrapper.find("input")
-      input.simulate("blur", { target: { value: "Turtles" } })
+      input.simulate("change", { target: { value: "Turtles" } })
     })
 
     it("invokes submitGroupLabelChanges with the group attributes", () => {
@@ -38,8 +38,8 @@ describe("GroupLabelInput component", () => {
     })
   })
 
-  describe("upon the group label changing", () => {
-    it("adds a checkmark next to the label", () => {
+  describe("when the (persisted) group label in props changes over time", () => {
+    beforeEach(() => {
       groupWithAssociatedIdeasAndVotes = {
         id: 777,
         label: "some previous label",
@@ -49,7 +49,7 @@ describe("GroupLabelInput component", () => {
       wrapper = mount(
         <GroupLabelInput
           groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
-          actions={{}}
+          actions={{ submitGroupLabelChanges: () => {} }}
         />
       )
       const newGroupWithAssociatedIdeasAndVotes = {
@@ -59,39 +59,25 @@ describe("GroupLabelInput component", () => {
         votes: [],
       }
 
-      expect(wrapper.find(".check")).to.have.lengthOf(0)
       wrapper.setProps({ groupWithAssociatedIdeasAndVotes: newGroupWithAssociatedIdeasAndVotes })
-      expect(wrapper.find(".check")).to.have.lengthOf(1)
     })
 
-    it("removes the checkmark after a timeout", () => {
-      groupWithAssociatedIdeasAndVotes = {
-        id: 777,
-        label: "some previous label",
-        ideas: [],
-        votes: [],
-      }
-      const clock = sinon.useFakeTimers()
-      wrapper = mount(
-        <GroupLabelInput
-          groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
-          actions={{}}
-        />
-      )
-      const newGroupWithAssociatedIdeasAndVotes = {
-        id: 777,
-        label: "a better label",
-        ideas: [],
-        votes: [],
-      }
+    describe("and the text input *matches* the group label from props", () => {
+      it("adds a checkmark next to the input to indicate up-to-date persistence", () => {
+        const input = wrapper.find("input[type='text']")
+        input.simulate("change", { target: { value: "a better label" } })
 
-      wrapper.setProps({ groupWithAssociatedIdeasAndVotes: newGroupWithAssociatedIdeasAndVotes })
-      clock.tick(1999)
-      expect(wrapper.find(".check")).to.have.lengthOf(1)
-      clock.tick(1)
-      wrapper.update()
-      expect(wrapper.find(".check")).to.have.lengthOf(0)
-      clock.restore()
+        expect(wrapper.find(".check")).to.have.lengthOf(1)
+      })
+    })
+
+    describe("when the input value no longe matches the group label from props", () => {
+      it("doesn't display a checkmark, as the input has dirty, unpersisted values", () => {
+        const input = wrapper.find("input[type='text']")
+        input.simulate("change", { target: { value: "some weird new label" } })
+
+        expect(wrapper.find(".check")).to.have.lengthOf(0)
+      })
     })
   })
 })
