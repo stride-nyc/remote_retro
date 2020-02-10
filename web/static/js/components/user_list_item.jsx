@@ -1,4 +1,5 @@
 import React from "react"
+import PropTypes from "prop-types"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { selectors, actions } from "../redux"
@@ -8,9 +9,9 @@ import styles from "./css_modules/user_list_item.css"
 import AnimatedEllipsis from "./animated_ellipsis"
 import STAGES from "../configs/stages"
 
-const { VOTING } = STAGES
+const { VOTING, LABELING_PLUS_VOTING } = STAGES
 
-export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
+export const UserListItem = ({ user, votes, isVotingStage, currentUser, actions }) => {
   const imgSrc = user.picture.replace("sz=50", "sz=200")
   const votesByUser = votes.filter(vote => vote.user_id === user.id).length
   const allVotesIn = votesByUser >= VOTE_LIMIT
@@ -41,8 +42,8 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
       )}
       <img className={styles.picture} src={imgSrc} alt={identifier} />
       <p data-hj-masked>{identifier}</p>
-      { stage !== VOTING && <AnimatedEllipsis animated={user.is_typing} /> }
-      { stage === VOTING && (
+      { !isVotingStage && <AnimatedEllipsis animated={user.is_typing} /> }
+      { isVotingStage && (
         <span className={`${styles.allVotesIn} ${allVotesIn ? "opaque" : ""}`}>ALL VOTES IN</span>
       )}
     </li>
@@ -51,15 +52,15 @@ export const UserListItem = ({ user, votes, stage, currentUser, actions }) => {
 
 UserListItem.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
+  isVotingStage: PropTypes.bool.isRequired,
   user: AppPropTypes.presence.isRequired,
   votes: AppPropTypes.votes.isRequired,
-  stage: AppPropTypes.stage.isRequired,
   actions: AppPropTypes.actions.isRequired,
 }
 
 const mapStateToProps = state => ({
   votes: state.votes,
-  stage: state.retro.stage,
+  isVotingStage: [VOTING, LABELING_PLUS_VOTING].includes(state.retro.stage),
   currentUser: selectors.getCurrentUserPresence(state),
 })
 

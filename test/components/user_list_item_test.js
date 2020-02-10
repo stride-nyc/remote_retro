@@ -3,9 +3,6 @@ import { shallow, mount } from "enzyme"
 import sinon from "sinon"
 
 import { UserListItem } from "../../web/static/js/components/user_list_item"
-import STAGES from "../../web/static/js/configs/stages"
-
-const { IDEA_GENERATION, VOTING } = STAGES
 
 const defaultUserAttrs = {
   given_name: "dylan",
@@ -25,8 +22,8 @@ const secondaryrUserAttrs = {
 
 const defaultProps = {
   votes: [],
-  stage: IDEA_GENERATION,
   user: defaultUserAttrs,
+  isVotingStage: false,
   currentUser: defaultUserAttrs,
   actions: {
     updateRetroAsync: sinon.spy(),
@@ -120,7 +117,7 @@ describe("UserListItem", () => {
     })
   })
 
-  context("when the stage is anything but 'voting'", () => {
+  context("when the stage is not a voting stage", () => {
     context("when passed a user who *is* currently typing", () => {
       const user = { ...defaultUserAttrs, is_typing: true }
 
@@ -129,7 +126,7 @@ describe("UserListItem", () => {
           <UserListItem
             {...defaultProps}
             user={user}
-            stage={IDEA_GENERATION}
+            isVotingStage={false}
           />
         )
 
@@ -144,7 +141,7 @@ describe("UserListItem", () => {
         const wrapper = shallow(
           <UserListItem
             {...defaultProps}
-            stage={IDEA_GENERATION}
+            isVotingStage={false}
             user={user}
           />
         )
@@ -160,14 +157,14 @@ describe("UserListItem", () => {
     expect(imageSrc).to.equal("http://some/image.jpg?sz=200")
   })
 
-  context("when the stage is voting", () => {
+  context("when the stage is a voting stage", () => {
     it("does not render the animated ellipsis wrapper", () => {
-      const wrapper = shallow(<UserListItem {...defaultProps} stage={VOTING} />)
+      const wrapper = shallow(<UserListItem {...defaultProps} isVotingStage />)
       expect(wrapper.text()).to.not.match(/animatedellipsis/i)
     })
 
     it("renders a voting status span", () => {
-      const wrapper = shallow(<UserListItem {...defaultProps} stage={VOTING} />)
+      const wrapper = shallow(<UserListItem {...defaultProps} isVotingStage />)
       expect(wrapper.html()).to.contain("allVotesIn")
     })
 
@@ -181,7 +178,7 @@ describe("UserListItem", () => {
           <UserListItem
             {...defaultProps}
             user={userWithFiveVotes}
-            stage={VOTING}
+            isVotingStage
             votes={votes}
           />
         )
@@ -200,7 +197,7 @@ describe("UserListItem", () => {
           <UserListItem
             {...defaultProps}
             user={userWithFourVotes}
-            stage={VOTING}
+            isVotingStage
             votes={votes}
           />
         )
