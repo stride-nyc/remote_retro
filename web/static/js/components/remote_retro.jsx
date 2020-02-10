@@ -11,7 +11,6 @@ import ViewportMetaTag from "./viewport_meta_tag"
 import Room from "./room"
 import Alert from "./alert"
 import Error from "./error"
-import DoorChime from "./door_chime"
 import StageHelp from "./stage_help"
 
 export class RemoteRetro extends Component {
@@ -67,7 +66,6 @@ export class RemoteRetro extends Component {
         />
         <Alert config={alert} />
         <Error config={error} />
-        <DoorChime presences={presences} />
         <StageHelp stageConfig={stageConfig} actions={actions} />
       </div>
     )
