@@ -21,15 +21,16 @@
     margin: 0.5rem 0;
   }
 
-  .list {
+  :global(.list-container) {
     border-top: 1px solid var(--semantic-divider-border-top-color);
+    height: 9rem;
+    overflow: scroll;
+  }
+
+  .list {
     list-style: none;
     margin: 0;
     padding: 0;
-
-    height: 9rem;
-
-    overflow: scroll;
 
     li {
       padding-left: 0.25rem;

@@ -1,7 +1,9 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-import * as AppPropTypes from "../prop_types"
+import cx from "classnames"
+import { OverflowDetector } from "react-overflow"
 
+import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_group.css"
 import ideaStyles from "./css_modules/idea.css"
 import GroupLabelContainer from "./group_label_container"
@@ -11,10 +13,18 @@ import STAGES from "../configs/stages"
 
 const { LABELING_PLUS_VOTING } = STAGES
 
-// The component below must be a class component so that its parent (react-flip-move) can pass refs
-/* eslint-disable-next-line react/prefer-stateless-function */
 class IdeaGroup extends Component {
+  state = {
+    listIsOverflowed: false,
+  }
+
+  handleListOverflowChange = listIsOverflowed => {
+    this.setState({ listIsOverflowed })
+  }
+
   render() {
+    const { listIsOverflowed } = this.state
+
     const {
       groupWithAssociatedIdeasAndVotes,
       currentUser,
@@ -25,6 +35,7 @@ class IdeaGroup extends Component {
 
     const ideaToCastVoteFor = groupWithAssociatedIdeasAndVotes.ideas[0]
     const isVotingStage = stage === LABELING_PLUS_VOTING
+    const listContainerClasses = cx("list-container", { overflowed: listIsOverflowed })
 
     return (
       <div className={`idea-group ${styles.wrapper}`}>
@@ -44,11 +55,16 @@ class IdeaGroup extends Component {
           votesForEntity={groupWithAssociatedIdeasAndVotes.votes}
         />
 
-        <ul className={styles.list}>
-          {groupWithAssociatedIdeasAndVotes.ideas.map(idea => {
-            return <li key={idea.id} className={ideaStyles.index}>{idea.body}</li>
-          })}
-        </ul>
+        <OverflowDetector
+          onOverflowChange={this.handleListOverflowChange}
+          className={listContainerClasses}
+        >
+          <ul className={styles.list}>
+            {groupWithAssociatedIdeasAndVotes.ideas.map(idea => {
+              return <li key={idea.id} className={ideaStyles.index}>{idea.body}</li>
+            })}
+          </ul>
+        </OverflowDetector>
       </div>
     )
   }
