@@ -22,6 +22,7 @@
 
     :global(.action-item) {
       flex-grow: 0;
+      flex-basis: auto;
       width: 50%;
 
       @media (min-width: 1040px) {
