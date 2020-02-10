@@ -1,4 +1,5 @@
 import React from "react"
+import classNames from "classnames"
 import * as AppPropTypes from "../prop_types"
 
 import GroupLabelInput from "./group_label_input"
@@ -10,6 +11,9 @@ const { LABELING_PLUS_VOTING } = stages
 
 const GroupLabelContainer = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions, stage }) => {
   const displayGroupLabelInput = (currentUser.is_facilitator && stage === LABELING_PLUS_VOTING)
+  const readonlyGroupLabelClasses = classNames("readonly-group-label", sharedGroupLabelTextStyles.groupLabelText, {
+    unlabeled: !groupWithAssociatedIdeasAndVotes.label,
+  })
 
   return (
     <div className={styles.wrapper}>
@@ -20,9 +24,9 @@ const GroupLabelContainer = ({ groupWithAssociatedIdeasAndVotes, currentUser, ac
         />
       ) : (
         <p
-          className={`readonly-group-label ${sharedGroupLabelTextStyles.groupLabelText}`}
+          className={readonlyGroupLabelClasses}
         >
-          {groupWithAssociatedIdeasAndVotes.label}
+          {groupWithAssociatedIdeasAndVotes.label || "Unlabeled"}
         </p>
       )}
     </div>

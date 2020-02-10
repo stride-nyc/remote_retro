@@ -11,7 +11,6 @@
   display: inline-flex;
   flex-direction: column;
 
-
   @media(min-width: 1040px) {
     width: calc(25% - calc(var(--margin) * 2));
   }

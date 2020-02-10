@@ -1,3 +1,5 @@
+@import '../../../../css/colors.css';
+
 .group-label-text {
   font-size: 1.25rem;
 
@@ -13,5 +15,9 @@
   &:global(.readonly-group-label) {
     line-height: unset;
     text-decoration: underline;
+  }
+  &:global(.unlabeled) {
+    color: var(--semantic-light-grey);
+    text-decoration: none;
   }
 }

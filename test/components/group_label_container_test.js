@@ -36,7 +36,7 @@ describe("GroupLabelContainer component", () => {
       })
 
       it("does *not* render the group label in a paragraph tag", () => {
-        const labelParagraphTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
+        const labelParagraphTag = wrapper.find("p.readonly-group-label").findWhere(pTag => pTag.text() === "Internet Culture")
 
         expect(labelParagraphTag.exists()).to.equal(false)
       })
@@ -59,10 +59,27 @@ describe("GroupLabelContainer component", () => {
         expect(input.length).to.eql(0)
       })
 
-      it("renders the group label in a paragraph tag", () => {
-        const labelParagraphTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
+      describe("when the group has a label", () => {
+        it("renders the group label as text", () => {
+          const labelParagraphTag = wrapper.find("p.readonly-group-label").findWhere(pTag => pTag.text() === "Internet Culture")
 
-        expect(labelParagraphTag.exists()).to.equal(true)
+          expect(labelParagraphTag.exists()).to.equal(true)
+        })
+      })
+
+      describe("when the given group lacks a label", () => {
+        it("renders 'Unlabeled' in the paragraph tag", () => {
+          wrapper = shallow(
+            <GroupLabelContainer
+              {...defaultProps}
+              currentUser={{ is_facilitator: true }}
+              groupWithAssociatedIdeasAndVotes={{ id: 1, label: "" }}
+            />
+          )
+
+          const pTagWithUnlabeledText = wrapper.find("p.readonly-group-label").findWhere(pTag => pTag.text() === "Unlabeled")
+          expect(pTagWithUnlabeledText.exists()).to.eql(true)
+        })
       })
     })
   })
@@ -82,10 +99,27 @@ describe("GroupLabelContainer component", () => {
       expect(input.length).to.eql(0)
     })
 
-    it("renders the group label as text", () => {
-      const labelParagraphTag = wrapper.find("p").findWhere(pTag => pTag.text() === "Internet Culture")
+    describe("when the group has a label", () => {
+      it("renders the group label as text", () => {
+        const labelParagraphTag = wrapper.find("p.readonly-group-label").findWhere(pTag => pTag.text() === "Internet Culture")
 
-      expect(labelParagraphTag.exists()).to.equal(true)
+        expect(labelParagraphTag.exists()).to.equal(true)
+      })
+    })
+
+    describe("when the given group lacks a label", () => {
+      it("renders 'Unlabeled' in the paragraph tag", () => {
+        wrapper = shallow(
+          <GroupLabelContainer
+            {...defaultProps}
+            currentUser={{ is_facilitator: false }}
+            groupWithAssociatedIdeasAndVotes={{ id: 1, label: "" }}
+          />
+        )
+
+        const pTagWithUnlabeledText = wrapper.find("p.readonly-group-label").findWhere(pTag => pTag.text() === "Unlabeled")
+        expect(pTagWithUnlabeledText.exists()).to.eql(true)
+      })
     })
   })
 })
