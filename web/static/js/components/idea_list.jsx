@@ -1,56 +1,52 @@
 import React, { Component } from "react"
 import FlipMove from "react-flip-move"
 import classNames from "classnames"
+import { OverflowDetector } from "react-overflow"
 
 import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_list.css"
 
 class IdeaList extends Component {
-  state = {}
-
-  componentDidMount() {
-    this.honorScrollabilityOfContent()
-    this.scrollabilityInterval = setInterval(this.honorScrollabilityOfContent, 300)
+  state = {
+    isOverflowed: false,
   }
 
-  componentWillUnmount() {
-    clearInterval(this.scrollabilityInterval)
-  }
-
-  honorScrollabilityOfContent = () => {
-    const { list, state } = this
-
-    const overflowed = list.offsetHeight < list.scrollHeight
-    if (overflowed !== state.overflowed) {
-      this.setState({ overflowed })
-    }
+  handleListOverflowChange = isOverflowed => {
+    this.setState({ isOverflowed })
   }
 
   render() {
     const { props, state } = this
     const { ideasSorted } = props
-    const classes = classNames("ideas", styles.list, {
-      overflowed: state.overflowed,
+
+    const listContainerClasses = classNames(styles.listContainer, {
+      overflowed: state.isOverflowed,
     })
+    const listClasses = classNames("ideas", styles.list)
 
     return (
-      <ul
-        ref={list => { this.list = list }}
-        className={classes}
+      <OverflowDetector
+        onOverflowChange={this.handleListOverflowChange}
+        className={listContainerClasses}
       >
-        <FlipMove
-          delay={500}
-          duration={750}
-          staggerDelayBy={100}
-          easing="ease"
-          enterAnimation="none"
-          leaveAnimation="none"
-          typeName={null}
+        <ul
+          ref={list => { this.list = list }}
+          className={listClasses}
         >
-          {ideasSorted.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
-        </FlipMove>
-      </ul>
+          <FlipMove
+            delay={500}
+            duration={750}
+            staggerDelayBy={100}
+            easing="ease"
+            enterAnimation="none"
+            leaveAnimation="none"
+            typeName={null}
+          >
+            {ideasSorted.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
+          </FlipMove>
+        </ul>
+      </OverflowDetector>
     )
   }
 }

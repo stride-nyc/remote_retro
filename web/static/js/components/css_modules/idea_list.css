@@ -1,5 +1,13 @@
 @import '../../../css/colors.css';
 
+.list-container {
+  /* ensure list takes up maximum vertical space amount between column header and user list */
+  flex-grow: 1;
+  flex-basis: 0;
+
+  min-height: 0;
+}
+
 .list {
   list-style: none;
 
