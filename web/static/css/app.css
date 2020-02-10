@@ -352,6 +352,12 @@
     inset 0 var(--width)   var(--width) var(--inverse) rgba(0,0,0,.7);
 }
 
+/* fixes encoding error present in SemanticUI */
+/*   - see https://github.com/Semantic-Org/Semantic-UI-React/issues/2325 for fix discussion */
+:global(ul.ui.list li:before) {
+  content: "\2022";
+}
+
 /*
 /  preposterous iOS Safari-specific hack to avoid zooming in on form inputs on focus.
 /    - requires 16px or larger font-size to avoid zoom
