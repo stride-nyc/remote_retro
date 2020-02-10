@@ -139,7 +139,7 @@ export default {
       headerText: "Retro is Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
-    uiComponent: IdeationInterface,
+    uiComponent: localStorage.getItem("groupingDev") ? GroupsContainer : IdeationInterface,
     progressionButton: null,
   },
 }
