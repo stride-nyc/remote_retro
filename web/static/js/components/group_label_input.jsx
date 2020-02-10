@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import * as AppPropTypes from "../prop_types"
 
+import SuccessCheckmark from "./success_checkmark"
 import styles from "./css_modules/group_label_input.css"
 
 // This max length is presentational more than anything, ensuring it doesn't
@@ -29,12 +30,10 @@ class GroupLabelInput extends Component {
     return null
   }
 
-  labelUpdatedCheckmark = () => {
-    const classes = ["ui", "green", "check", "icon", styles.updateSucceededCheckmark]
+  handleSuccessCheckmarkMounting = () => {
     setTimeout(() => {
       this.setState({ showCheckmark: false })
     }, 2000)
-    return <div><i className={classes.join(" ")} /></div>
   }
 
   render() {
@@ -56,7 +55,12 @@ class GroupLabelInput extends Component {
         <div className="instruction">
           <span className="keyboard-key">tab</span> to submit
         </div>
-        {showCheckmark && this.labelUpdatedCheckmark() }
+        {showCheckmark && (
+          <SuccessCheckmark
+            cssModifier={styles.updateSucceededCheckmark}
+            onMount={this.handleSuccessCheckmarkMounting}
+          />
+        )}
       </div>
     )
   }
