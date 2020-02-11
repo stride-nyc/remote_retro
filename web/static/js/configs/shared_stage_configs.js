@@ -10,8 +10,9 @@ import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
 import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
 
+import { selectors } from "../redux/votes"
+
 import STAGES from "./stages"
-import { VOTE_LIMIT } from "./retro_configs"
 
 const {
   LOBBY,
@@ -39,15 +40,7 @@ const baseVotingConfig = {
     copy: "Action Items",
     iconClass: "arrow right",
     confirmationMessage: "Are you sure you would like to proceed to the action items stage?",
-    stateDependentTooltip: reduxState => {
-      const { votes, presences } = reduxState
-      const TOTAL_VOTE_LIMIT_FOR_RETRO = VOTE_LIMIT * presences.length
-
-      if (votes.length >= TOTAL_VOTE_LIMIT_FOR_RETRO) {
-        return "All votes in!"
-      }
-      return null
-    },
+    stateDependentTooltip: selectors.votingStageProgressionTooltip,
   },
 }
 

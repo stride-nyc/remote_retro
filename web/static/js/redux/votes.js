@@ -1,4 +1,5 @@
 import uuidv4 from "uuid/v4"
+import keyBy from "lodash/keyBy"
 
 import actionTypes from "./action_types"
 import { VOTE_LIMIT } from "../configs/retro_configs"
@@ -102,6 +103,17 @@ export const selectors = {
   },
   votesForIdea: ({ votes }, idea) => {
     return votes.filter(vote => vote.idea_id === idea.id)
+  },
+  votingStageProgressionTooltip: ({ votes, presences }) => {
+    // presences can conain duplicate users if they have multiple retro tabs/windows open
+    const dedupedUserIdsAsKeys = keyBy(presences, "user_id")
+
+    const presentUserCount = Object.keys(dedupedUserIdsAsKeys).length
+    const votesForPresentUsers = votes.filter(vote => dedupedUserIdsAsKeys[vote.user_id])
+
+    const MAX_VOTE_COUNT_FOR_PRESENT_USERS = VOTE_LIMIT * presentUserCount
+
+    return votesForPresentUsers.length >= MAX_VOTE_COUNT_FOR_PRESENT_USERS ? "All votes in!" : undefined
   },
 }
 

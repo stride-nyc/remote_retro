@@ -243,6 +243,166 @@ describe("selectors", () => {
       }])
     })
   })
+
+  describe("votingStageProgressionTooltip", () => {
+    describe("when there's a lone presence", () => {
+      describe("when there are no votes for the lone presence", () => {
+        it("returns nothing", () => {
+          const reduxState = {
+            votes: [],
+            presences: [{ user_id: 2 }],
+          }
+
+          const result = selectors.votingStageProgressionTooltip(reduxState)
+
+          expect(result).to.eql(undefined)
+        })
+      })
+
+      describe("when there are two votes associated with the lone user presence", () => {
+        it("returns nothing", () => {
+          const reduxState = {
+            votes: [{
+              id: 100, user_id: 2,
+            }, {
+              id: 101, user_id: 2,
+            }],
+            presences: [{ user_id: 2 }],
+          }
+
+          const result = selectors.votingStageProgressionTooltip(reduxState)
+
+          expect(result).to.eql(undefined)
+        })
+
+        describe("when and there are votes associated with a user who *isn't* present", () => {
+          it("returns nothing", () => {
+            const reduxState = {
+              votes: [{
+                id: 100, user_id: 99,
+              }, {
+                id: 101, user_id: 2,
+              }, {
+                id: 102, user_id: 2,
+              }],
+              presences: [{ user_id: 2 }],
+            }
+
+            const result = selectors.votingStageProgressionTooltip(reduxState)
+
+            expect(result).to.eql(undefined)
+          })
+        })
+      })
+
+      describe("when there are three votes associated with the lone user presence", () => {
+        describe("when there are no votes for other users", () => {
+          it("signals that all votes have been submitted", () => {
+            const reduxState = {
+              votes: [{
+                id: 100, user_id: 2,
+              }, {
+                id: 101, user_id: 2,
+              }, {
+                id: 102, user_id: 2,
+              }],
+              presences: [{ user_id: 2 }],
+            }
+
+            const result = selectors.votingStageProgressionTooltip(reduxState)
+
+            expect(result).to.eql("All votes in!")
+          })
+        })
+
+        describe("when there are votes for other users who *aren't* present", () => {
+          it("signals that all votes have been submitted, even if the other user didn't have 3 total, because they are not around!", () => {
+            const reduxState = {
+              votes: [{
+                id: 100, user_id: 2,
+              }, {
+                id: 101, user_id: 2,
+              }, {
+                id: 102, user_id: 2,
+              }, {
+                id: 103, user_id: 99,
+              }],
+              presences: [{ user_id: 2 }],
+            }
+
+            const result = selectors.votingStageProgressionTooltip(reduxState)
+
+            expect(result).to.eql("All votes in!")
+          })
+        })
+      })
+    })
+
+    describe("when there are multiple presences", () => {
+      describe("and the presences represent different users", () => {
+        describe("and one user has submitted three votes, but the other is short of three votes", () => {
+          it("returns nothing", () => {
+            const reduxState = {
+              votes: [{
+                id: 100, user_id: 2,
+              }, {
+                id: 101, user_id: 2,
+              }, {
+                id: 102, user_id: 2,
+              }],
+              presences: [{ user_id: 2 }, { user_id: 3 }],
+            }
+
+            const result = selectors.votingStageProgressionTooltip(reduxState)
+
+            expect(result).to.eql(undefined)
+          })
+        })
+
+        describe("when each distinct user has submitted three votes", () => {
+          it("signals that all votes have been submitted", () => {
+            const reduxState = {
+              votes: [
+                { id: 100, user_id: 2 },
+                { id: 101, user_id: 2 },
+                { id: 102, user_id: 2 },
+                { id: 103, user_id: 5 },
+                { id: 104, user_id: 5 },
+                { id: 105, user_id: 5 },
+              ],
+
+              presences: [{ user_id: 2 }, { user_id: 5 }],
+            }
+
+            const result = selectors.votingStageProgressionTooltip(reduxState)
+
+            expect(result).to.eql("All votes in!")
+          })
+        })
+      })
+
+      describe("and the presences contain duplicate user records, as can happen when the user has two browser windows open", () => {
+        describe("and that one user has submitted three votes", () => {
+          it("signals that all votes have been submitted", () => {
+            const reduxState = {
+              votes: [{
+                id: 100, user_id: 2,
+              }, {
+                id: 101, user_id: 2,
+              }, {
+                id: 102, user_id: 2,
+              }],
+              presences: [{ user_id: 2 }, { user_id: 2 }],
+            }
+
+            const result = selectors.votingStageProgressionTooltip(reduxState)
+
+            expect(result).to.eql("All votes in!")
+          })
+        })
+      })
+    })
+  })
 })
 
 describe("actions", () => {
