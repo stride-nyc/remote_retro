@@ -29,17 +29,3 @@
     }
   }
 }
-
-/* hack for scrollability (conditionally applied) in firefox,
-   as overflow content in a flex container will not scroll
-   without it. It will just continue to get larger.
-   Note that this declaration does *not* limit the height due
-   to the `flex-grow: 1` declaration above
-*/
-@-moz-document url-prefix() {
-  @media (min-width: 768px) {
-    .list {
-      height: 1px;
-    }
-  }
-}
