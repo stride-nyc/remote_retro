@@ -54,21 +54,5 @@ describe("Room", () => {
 
       expect(uiComponent.prop("fart")).to.eql("store")
     })
-
-    it("passes any and all props down to the specified UI component", () => {
-      room = shallow(
-        <Room
-          {...defaultProps}
-          stageConfig={{
-            uiComponent: stubComponent,
-          }}
-          fart="store"
-        />
-      )
-
-      const uiComponent = room.find(stubComponent)
-
-      expect(uiComponent.prop("fart")).to.eql("store")
-    })
   })
 })
