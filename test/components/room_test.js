@@ -5,6 +5,8 @@ import Room from "../../web/static/js/components/room"
 
 describe("Room", () => {
   let room
+  let stubComponent
+
   const defaultProps = {
     presences: [{
       given_name: "treezy",
@@ -22,7 +24,9 @@ describe("Room", () => {
   }
 
   describe("when the stage config contains a UI component", () => {
-    const stubComponent = () => <div>Stub Component</div>
+    beforeEach(() => {
+      stubComponent = () => <div>Stub Component</div>
+    })
 
     it("renders an instance of that UI component", () => {
       room = shallow(
@@ -53,6 +57,27 @@ describe("Room", () => {
       const uiComponent = room.find(stubComponent)
 
       expect(uiComponent.prop("fart")).to.eql("store")
+    })
+  })
+
+  describe("when the stage config lacks a uiComponent", () => {
+    it("renders the ui component *designated* by the stage config's ui component factory", () => {
+      const beatlesLyricFunctionalComponent = () => (<p>All You Need Is Love</p>)
+
+      const uiComponentFactory = () => beatlesLyricFunctionalComponent
+
+      room = shallow(
+        <Room
+          {...defaultProps}
+          stageConfig={{
+            uiComponentFactory,
+          }}
+          fart="store"
+        />
+      )
+
+      const uiComponentBuiltByFactory = room.find(beatlesLyricFunctionalComponent)
+      expect(uiComponentBuiltByFactory).to.have.length(1)
     })
   })
 })

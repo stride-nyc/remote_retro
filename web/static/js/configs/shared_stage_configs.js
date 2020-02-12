@@ -14,6 +14,13 @@ import { selectors } from "../redux/votes"
 
 import STAGES from "./stages"
 
+// this is a dirty awful hack to address the GroupsInterface not showing up for non-facilitators
+// in the action-items/closed stage. It will likely exist until we have distinct persisted stages
+// whose names designate whether they follow the grouping stage, via, say a 'groups-' prefix.
+const uiComponentFactoryForActionItemsAndClosedStages = ({ groups }) => {
+  return groups[0] ? GroupsContainer : IdeationInterface
+}
+
 const {
   LOBBY,
   PRIME_DIRECTIVE,
@@ -115,7 +122,7 @@ export default {
       headerText: "Action-Item Generation",
       BodyComponent: StageChangeInfoActionItems,
     },
-    uiComponent: localStorage.getItem("groupingDev") ? GroupsContainer : IdeationInterface,
+    uiComponentFactory: uiComponentFactoryForActionItemsAndClosedStages,
     progressionButton: {
       nextStage: CLOSED,
       copy: "Send Action Items",
@@ -132,7 +139,7 @@ export default {
       headerText: "Retro is Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
-    uiComponent: localStorage.getItem("groupingDev") ? GroupsContainer : IdeationInterface,
+    uiComponentFactory: uiComponentFactoryForActionItemsAndClosedStages,
     progressionButton: null,
   },
 }
