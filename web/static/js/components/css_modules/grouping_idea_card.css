@@ -22,11 +22,6 @@
   font-size: 12px;
   padding: var(--vertical-padding) 8px;
 
-  &:global(.minimized) {
-    font-size: 10px;
-    padding: var(--vertical-padding) 6px;
-  }
-
   /* only show two lines of text to preserve real estate on grouping board */
   overflow: hidden;
   max-height: calc(
@@ -34,6 +29,20 @@
     (var(--vertical-padding) * 2) +
     (var(--border-width))
   );
+
+  --minimized-vertical-padding: 3px;
+  --minimized-semantic-line-height: 1.1em;
+  &:global(.minimized) {
+    font-size: 10px;
+    padding: var(--minimized-vertical-padding);
+    line-height: var(--minimized-semantic-line-height);
+
+    max-height: calc(
+      (var(--minimized-semantic-line-height) * var(--max-lines-to-show)) +
+      (var(--minimized-vertical-padding) * 2) +
+      (var(--border-width))
+    );
+  }
 
   border: 1px solid var(--semantic-dark-grey);
   border-radius: 3px;
