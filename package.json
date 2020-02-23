@@ -7,7 +7,7 @@
     "watch": "webpack --config='webpack.dll.js' && NODE_ENV=dev node webpack.devserver.js",
     "precommit": "lint-staged",
     "postinstall": "bin/prepare_semantic_ui_for_consumption_by_phoenix",
-    "test": "mocha",
+    "test": "mocha --exit",
     "test:watch": "mocha --watch --watch-extensions jsx"
   },
   "lint-staged": {
