@@ -14,7 +14,8 @@ else
 fi
 
 if asdf plugin-list | grep nodejs >/dev/null; then
-  printGreenLine "asdf: 'nodejs' plugin already available. Skipping plugin installation!";
+  printGreenLine "asdf: 'nodejs' plugin already available. Ensuring latest.";
+  asdf plugin update nodejs
 else
   printGreenLine "asdf: installing Node version-management plugin...";
   asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git;
