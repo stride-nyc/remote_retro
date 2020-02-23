@@ -2,6 +2,7 @@ import React from "react"
 import { DropTarget } from "react-dnd"
 import PropTypes from "prop-types"
 import cx from "classnames"
+import orderBy from "lodash/orderBy"
 
 import GroupingIdeaCard from "./grouping_idea_card"
 import DragCoordinates from "../services/drag_coordinates"
@@ -21,13 +22,15 @@ export const GroupingBoard = props => {
     minimized: ideas.length > IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION,
   })
 
+  const ideasSortedByBodyLengthAscending = orderBy(ideas, ['body.length', 'id'], ['desc', 'asc'])
+
   return (
     <React.Fragment>
       <div className={styles.boardAndSideGutterWrapper}>
         {
           connectDropTarget(
             <div className={eligibleDragAreaClassname}>
-              {ideas.map(idea => (
+              {ideasSortedByBodyLengthAscending.map(idea => (
                 <GroupingIdeaCard
                   idea={idea}
                   className={cardClassName}

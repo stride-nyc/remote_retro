@@ -31,12 +31,35 @@ describe("GroupingBoard", () => {
   })
 
   context("when there are ideas to render", () => {
-    it("renders an idea for each card", () => {
-      const wrapper = shallow(
-        <GroupingBoard {...defaultProps} ideas={[{ body: "hey", id: 5 }, { body: "hey", id: 6 }]} />
-      )
+    context("when the ideas are of equal length", () => {
+      it("renders an idea for each card, sorted by id asc", () => {
+        const wrapper = shallow(
+          <GroupingBoard {...defaultProps} ideas={[{ body: "hey", id: 6 }, { body: "you", id: 5 }]} />
+        )
 
-      expect(wrapper.find(GroupingIdeaCard)).to.have.length(2)
+        const renderedIdeaIds = wrapper.find(GroupingIdeaCard).map(ideaCard => ideaCard.prop("idea").id)
+        expect(renderedIdeaIds).to.eql([5, 6])
+      })
+    })
+
+    context("when the idea bodies are of differing length", () => {
+      it("renders the ideas by body length descending", () => {
+        const wrapper = shallow(
+          <GroupingBoard {...defaultProps} ideas={[{
+            id: 6,
+            body: "hi",
+          }, {
+            id: 5,
+            body: "howdy",
+          }, {
+            id: 7,
+            body: "hey",
+          }]} />
+        )
+
+        const renderedIdeaIds = wrapper.find(GroupingIdeaCard).map(ideaCard => ideaCard.prop("idea").id)
+        expect(renderedIdeaIds).to.eql([5, 7, 6])
+      })
     })
 
     context("when there are more than 35 ideas", () => {
