@@ -22,7 +22,7 @@ export const GroupingBoard = props => {
     minimized: ideas.length > IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION,
   })
 
-  const ideasSortedByBodyLengthAscending = orderBy(ideas, ['body.length', 'id'], ['desc', 'asc'])
+  const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
 
   return (
     <React.Fragment>
