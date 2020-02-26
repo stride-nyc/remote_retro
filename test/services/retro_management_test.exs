@@ -13,14 +13,14 @@ defmodule RemoteRetro.RetroManagementTest do
     test "updates the retro with the given id with the given params", ~M{retro} do
       assert retro.stage == "idea-generation"
 
-      %{retro: retro} = RetroManagement.update!(retro.id, %{stage: "voting"})
+      %{retro: retro} = RetroManagement.update!(retro.id, %{"stage" => "voting"})
 
       assert %Retro{stage: "voting"} = retro
     end
   end
 
-  describe "update!/2 when closing the retro" do
-    test "closing the retro results in action items email being sent", ~M{retro} do
+  describe "update!/2 when advancing the retro to either 'closed' or 'groups-closed'" do
+    test "results in an action items email being sent", ~M{retro} do
       RetroManagement.update!(retro.id, %{"stage" => "closed"})
       emails = Emails.action_items_email(retro.id)
       assert_delivered_email(emails)
@@ -33,7 +33,7 @@ defmodule RemoteRetro.RetroManagementTest do
         non_facilitator.completed_retros_count
       ]
 
-      RetroManagement.update!(retro.id, %{"stage" => "closed"})
+      RetroManagement.update!(retro.id, %{"stage" => "groups-closed"})
 
       %{completed_retros_count: updated_count_one} = Repo.get!(User, facilitator.id)
       %{completed_retros_count: updated_count_two} = Repo.get!(User, non_facilitator.id)

@@ -9,7 +9,16 @@ import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
 import * as AppPropTypes from "../prop_types"
 import STAGES from "../configs/stages"
 
-const { VOTING, LABELING_PLUS_VOTING, CLOSED, GROUPING, IDEA_GENERATION, ACTION_ITEMS } = STAGES
+const {
+  VOTING,
+  LABELING_PLUS_VOTING,
+  GROUPING,
+  IDEA_GENERATION,
+  ACTION_ITEMS,
+  GROUPS_ACTION_ITEMS,
+  CLOSED,
+  GROUPS_CLOSED,
+} = STAGES
 
 const stageToComponentMap = {
   [IDEA_GENERATION]: IdeaGenerationLowerThirdContent,
@@ -17,7 +26,9 @@ const stageToComponentMap = {
   [VOTING]: VotingLowerThirdContent,
   [LABELING_PLUS_VOTING]: VotingLowerThirdContent,
   [ACTION_ITEMS]: IdeaGenerationLowerThirdContent,
+  [GROUPS_ACTION_ITEMS]: IdeaGenerationLowerThirdContent,
   [CLOSED]: ClosedLowerThirdContent,
+  [GROUPS_CLOSED]: ClosedLowerThirdContent,
 }
 
 const LowerThird = props => {
