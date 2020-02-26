@@ -110,7 +110,7 @@ export class IdeaSubmissionForm extends Component {
     }
 
     return (
-      <form onSubmit={this.handleSubmit} className="ui form">
+      <form onSubmit={this.handleSubmit} className="ui form idea-submission">
         { showSubmitIdeaPrompt && (
           <div className={`${styles.pointingLabel} floating ui pointing below teal label`}>
             Submit an idea!

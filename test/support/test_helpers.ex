@@ -123,7 +123,7 @@ defmodule RemoteRetro.TestHelpers do
     assert_has(session, Query.css("form"))
 
     session
-    |> find(Query.css("form"))
+    |> find(Query.css("form.idea-submission"))
     |> click(Query.option(category))
     |> fill_in(Query.text_field("idea"), with: body)
     |> click(Query.button("Submit"))
