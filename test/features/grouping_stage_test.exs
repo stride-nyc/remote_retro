@@ -69,7 +69,7 @@ defmodule GroupingStageTest do
         %Idea{category: "sad", body: "getting sickness", x: 10.0, y: 210.0},
       ],
     ]
-    test "ideas can be visible in contrast mode", ~M{retro, session} do
+    test "ideas can be visible in high-contrast mode", ~M{retro, session} do
       retro_path = "/retros/" <> retro.id
       session = visit(session, retro_path)
 

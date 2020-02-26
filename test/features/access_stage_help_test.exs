@@ -6,7 +6,7 @@ defmodule AccessStageHelpTest do
   @tag [
     retro_stage: "action-items",
   ]
-  test "Distributing action items via email", ~M{retro, session} do
+  test "accessing stage info", ~M{retro, session} do
     retro_path = "/retros/" <> retro.id
     visit(session, retro_path)
 
