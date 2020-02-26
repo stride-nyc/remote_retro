@@ -15,7 +15,7 @@ defmodule RemoteRetroWeb.RetroManagement do
   def update!(retro_id, new_attributes, aggregate_updates \\ %{}) do
     retro = update_retro_record!(retro_id, new_attributes)
 
-    if retro_advancing_to_a_closed_state?(new_attributes) do
+    if new_attributes["stage"] == "closed" do
       Emails.action_items_email(retro_id) |> Mailer.deliver_now()
 
       retro
@@ -24,10 +24,6 @@ defmodule RemoteRetroWeb.RetroManagement do
     end
 
     Map.merge(%{retro: retro}, aggregate_updates)
-  end
-
-  defp retro_advancing_to_a_closed_state?(new_attributes) do
-    new_attributes["stage"] && new_attributes["stage"] =~ ~r/closed/
   end
 
   defp persist_groups_with_associated_ideas(retro_id, ideasWithEphemeralGroupingIds) do

@@ -88,6 +88,16 @@ defmodule VotingTest do
     assert_has(session, Query.css(".idea-group", text: "#{vote_count}"))
   end
 
+  defp add_idea_to_group(~M{idea, group} = context) do
+    idea =
+      Idea
+      |> Repo.get!(idea.id)
+      |> Idea.changeset(%{ group_id: group.id })
+      |> Repo.update!(returning: true)
+
+    Map.put(context, :idea, idea)
+  end
+
   defp submit_group_label_change(session, [with: text]) do
     group_input = Query.css(".idea-group input[type='text']")
     session |> fill_in(group_input, with: text)

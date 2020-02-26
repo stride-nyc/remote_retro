@@ -40,9 +40,7 @@ defmodule RemoteRetro.Retro do
       "voting",
       "labeling-plus-voting",
       "action-items",
-      "groups-action-items",
-      "closed",
-      "groups-closed",
+      "closed"
     ])
   end
 end

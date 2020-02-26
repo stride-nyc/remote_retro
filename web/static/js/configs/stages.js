@@ -6,7 +6,5 @@ export default {
   VOTING: "voting",
   LABELING_PLUS_VOTING: "labeling-plus-voting",
   ACTION_ITEMS: "action-items",
-  GROUPS_ACTION_ITEMS: "groups-action-items",
   CLOSED: "closed",
-  GROUPS_CLOSED: "groups-closed",
 }

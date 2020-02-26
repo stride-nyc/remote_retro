@@ -13,9 +13,7 @@ const {
   VOTING,
   LABELING_PLUS_VOTING,
   ACTION_ITEMS,
-  GROUPS_ACTION_ITEMS,
   CLOSED,
-  GROUPS_CLOSED,
 } = STAGES
 
 export const alert = PropTypes.object
@@ -53,9 +51,7 @@ export const stage = PropTypes.oneOf([
   VOTING,
   LABELING_PLUS_VOTING,
   ACTION_ITEMS,
-  GROUPS_ACTION_ITEMS,
   CLOSED,
-  GROUPS_CLOSED,
 ])
 
 export const stageConfig = PropTypes.object
