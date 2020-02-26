@@ -24,7 +24,11 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.Update-group-dependent-stages-for
   end
 
   defp retro_ids_for_retros_with_persisted_groups do
-    Repo.all(Retro)
+    date_before_which_this_feature_flag_wasnt_live = ~D[2019-08-01]
+    {:ok, datetime} = NaiveDateTime.new(date_before_which_this_feature_flag_wasnt_live, ~T[00:00:00])
+    query = from(retro in Retro, where: retro.inserted_at > ^datetime)
+
+    Repo.all(query)
     |> Repo.preload(:groups)
     |> Enum.filter(fn retro -> Enum.any?(retro.groups) end)
     |> Enum.map(fn retro -> retro.id end)
