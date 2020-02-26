@@ -11,7 +11,7 @@ import STAGES from "../configs/stages"
 import SelectDropdown from "./select_dropdown"
 import { actions } from "../redux"
 
-const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
+const { IDEA_GENERATION } = STAGES
 
 const PLACEHOLDER_TEXTS = {
   happy: "we have a linter!",
@@ -31,11 +31,11 @@ export class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
     const { stage, users, ideaGenerationCategories } = props
-    const isActionItemsStage = stage === ACTION_ITEMS
+    const isAnActionItemsStage = stage !== IDEA_GENERATION
     this.state = {
       body: "",
-      category: isActionItemsStage ? "action-item" : ideaGenerationCategories[0],
-      assigneeId: isActionItemsStage ? users[0].id : null,
+      category: isAnActionItemsStage ? "action-item" : ideaGenerationCategories[0],
+      assigneeId: isAnActionItemsStage ? users[0].id : null,
       hasTypedChar: false,
       isMobileDevice: navigator.userAgent.match(/(iPad)|(iPhone)|(iPod)|(android)|(webOS)/i),
     }
@@ -100,7 +100,7 @@ export class IdeaSubmissionForm extends Component {
         onChange: this.handleCategoryChange,
         selectOptions: defaultCategoryOptions,
       }
-    } else if (stage === ACTION_ITEMS) {
+    } else {
       dropdownProps = {
         labelName: "assignee",
         value: assigneeId,

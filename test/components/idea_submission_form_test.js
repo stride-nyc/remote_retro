@@ -4,7 +4,7 @@ import sinon from "sinon"
 import { IdeaSubmissionForm } from "../../web/static/js/components/idea_submission_form"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
+const { IDEA_GENERATION, GROUPS_ACTION_ITEMS } = STAGES
 
 describe("IdeaSubmissionForm component", () => {
   let wrapper
@@ -97,15 +97,15 @@ describe("IdeaSubmissionForm component", () => {
       })
     })
 
-    describe("when in the ACTION_ITEMS stage", () => {
-      it("invokes the submitIdea action with the action-item", () => {
+    describe("when in a stage *other* than the idea generation stage", () => {
+      it("invokes the submitIdea action assuming an action-item", () => {
         const actions = { submitIdea: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             {...defaultProps}
             actions={actions}
-            stage={ACTION_ITEMS}
+            stage={GROUPS_ACTION_ITEMS}
           />
         )
 
@@ -283,7 +283,7 @@ describe("IdeaSubmissionForm component", () => {
       })
     })
 
-    describe("when the stage is action items", () => {
+    describe("when the stage isn't the idea generation stage", () => {
       context("and the hasTypedChar value is false", () => {
         // we don't want to prompt users to just submit action items willy-nilly
         // they should be discussed and generated thoughtfully
@@ -291,7 +291,7 @@ describe("IdeaSubmissionForm component", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
               {...defaultProps}
-              stage={ACTION_ITEMS}
+              stage={GROUPS_ACTION_ITEMS}
             />
           )
 

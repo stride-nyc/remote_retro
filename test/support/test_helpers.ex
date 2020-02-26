@@ -71,6 +71,16 @@ defmodule RemoteRetro.TestHelpers do
     Map.merge(context, ~M{group})
   end
 
+  def add_idea_to_group(~M{idea, group} = context) do
+    idea =
+      Idea
+      |> Repo.get!(idea.id)
+      |> Idea.changeset(%{ group_id: group.id })
+      |> Repo.update!(returning: true)
+
+    Map.put(context, :idea, idea)
+  end
+
   def persist_a_vote(%{idea: idea, non_facilitator: non_facilitator} = context) do
     vote =
       %Vote{idea_id: idea.id, user_id: non_facilitator.id}
@@ -119,12 +129,20 @@ defmodule RemoteRetro.TestHelpers do
     visit(session, "/auth/google/callback?code=#{user.email}&test_override=true")
   end
 
+  def submit_action_item(session, ~M{assignee_name, body}) do
+    submit_idea(session, ~M{select_option: assignee_name, body})
+  end
+
   def submit_idea(session, ~M{category, body}) do
+    submit_idea(session, ~M{select_option: category, body})
+  end
+
+  def submit_idea(session, ~M{select_option, body}) do
     assert_has(session, Query.css("form"))
 
     session
     |> find(Query.css("form.idea-submission"))
-    |> click(Query.option(category))
+    |> click(Query.option(select_option))
     |> fill_in(Query.text_field("idea"), with: body)
     |> click(Query.button("Submit"))
 

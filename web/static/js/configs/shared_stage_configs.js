@@ -14,13 +14,6 @@ import { selectors } from "../redux/votes"
 
 import STAGES from "./stages"
 
-// this is a dirty awful hack to address the GroupsInterface not showing up for non-facilitators
-// in the action-items/closed stage. It will likely exist until we have distinct persisted stages
-// whose names designate whether they follow the grouping stage, via, say a 'groups-' prefix.
-const uiComponentFactoryForActionItemsAndClosedStages = ({ groups }) => {
-  return groups[0] ? GroupsContainer : IdeationInterface
-}
-
 const {
   LOBBY,
   PRIME_DIRECTIVE,
@@ -29,7 +22,9 @@ const {
   VOTING,
   LABELING_PLUS_VOTING,
   ACTION_ITEMS,
+  GROUPS_ACTION_ITEMS,
   CLOSED,
+  GROUPS_CLOSED,
 } = STAGES
 
 const baseVotingConfig = {
@@ -103,6 +98,10 @@ export default {
   [VOTING]: baseVotingConfig,
   [LABELING_PLUS_VOTING]: {
     ...baseVotingConfig,
+    progressionButton: {
+      ...baseVotingConfig.progressionButton,
+      nextStage: GROUPS_ACTION_ITEMS,
+    },
     arrivalAlert: {
       headerText: "Stage Change: Labeling + Voting!",
       BodyComponent: StageChangeInfoVoting,
@@ -122,9 +121,26 @@ export default {
       headerText: "Action-Item Generation",
       BodyComponent: StageChangeInfoActionItems,
     },
-    uiComponentFactory: uiComponentFactoryForActionItemsAndClosedStages,
+    uiComponent: IdeationInterface,
     progressionButton: {
       nextStage: CLOSED,
+      copy: "Send Action Items",
+      iconClass: "send",
+      confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
+    },
+  },
+  [GROUPS_ACTION_ITEMS]: {
+    arrivalAlert: {
+      headerText: "Stage Change: Action-Item Generation!",
+      BodyComponent: StageChangeInfoActionItems,
+    },
+    help: {
+      headerText: "Action-Item Generation",
+      BodyComponent: StageChangeInfoActionItems,
+    },
+    uiComponent: GroupsContainer,
+    progressionButton: {
+      nextStage: GROUPS_CLOSED,
       copy: "Send Action Items",
       iconClass: "send",
       confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
@@ -139,7 +155,19 @@ export default {
       headerText: "Retro is Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
-    uiComponentFactory: uiComponentFactoryForActionItemsAndClosedStages,
+    uiComponent: IdeationInterface,
+    progressionButton: null,
+  },
+  [GROUPS_CLOSED]: {
+    arrivalAlert: {
+      headerText: "Retro: Closed!",
+      BodyComponent: StageChangeInfoClosed,
+    },
+    help: {
+      headerText: "Retro is Closed!",
+      BodyComponent: StageChangeInfoClosed,
+    },
+    uiComponent: GroupsContainer,
     progressionButton: null,
   },
 }
