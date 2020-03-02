@@ -9,16 +9,19 @@ defmodule SendActionItemToUsersViaEmailTest do
     @tag [
       retro_stage: "action-items",
     ]
-    test "allow action item creation and distribution", ~M{retro, session: facilitator_session, facilitator} do
+    test "allow action item creation and distribution", ~M{retro, session: facilitator_session, non_facilitator} do
       retro_path = "/retros/" <> retro.id
       facilitator_session = visit(facilitator_session, retro_path)
 
-      submit_action_item(facilitator_session, %{assignee_name: facilitator.name, body: "Get better"})
+      # ensure non-facilitator has joined/is available as an assignee
+      new_authenticated_browser_session(non_facilitator) |> visit(retro_path)
+
+      submit_action_item(facilitator_session, %{assignee_name: non_facilitator.name, body: "Get better"})
 
       click_and_confirm_progression_to(facilitator_session, "Send Action Items")
 
       emails = Emails.action_items_email(retro.id)
-      assert emails.html_body =~ ~r/Get better \(Test User .*\)/
+      assert emails.html_body =~ ~r/Get better \(Monsieur User\)/
 
       emails |> assert_delivered_email
     end
@@ -31,16 +34,19 @@ defmodule SendActionItemToUsersViaEmailTest do
       retro_stage: "groups-action-items",
       idea: %Idea{category: "happy", body: "Frequent Pairing"},
     ]
-    test "allow action item creation and distribution", ~M{retro, session: facilitator_session, facilitator} do
+    test "allow action item creation and distribution", ~M{retro, session: facilitator_session, non_facilitator} do
       retro_path = "/retros/" <> retro.id
       facilitator_session = visit(facilitator_session, retro_path)
 
-      submit_action_item(facilitator_session, %{assignee_name: facilitator.name, body: "Eat more fish"})
+      # ensure non-facilitator has joined/is available as an assignee
+      new_authenticated_browser_session(non_facilitator) |> visit(retro_path)
+
+      submit_action_item(facilitator_session, %{assignee_name: non_facilitator.name, body: "Eat more fish"})
 
       click_and_confirm_progression_to(facilitator_session, "Send Action Items")
 
       emails = Emails.action_items_email(retro.id)
-      assert emails.html_body =~ ~r/Eat more fish \(Test User .*\)/
+      assert emails.html_body =~ ~r/Eat more fish \(Monsieur User\)/
 
       emails |> assert_delivered_email
     end
