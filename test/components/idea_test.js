@@ -20,6 +20,7 @@ describe("Idea component", () => {
     currentUser: {},
     users: [],
     stage: IDEA_GENERATION,
+    isAnActionItemsStage: true,
     canUserEditIdeaContents: true,
     ideaGenerationCategories: [],
     isTabletOrAbove: true,

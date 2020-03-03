@@ -6,6 +6,7 @@ import { setupMockRetroChannel } from "../support/js/test_helper"
 import {
   reducer,
   actions as actionCreators,
+  selectors,
 } from "../../web/static/js/redux/retro"
 
 import STAGES from "../../web/static/js/configs/stages"
@@ -329,6 +330,28 @@ describe("action creators", () => {
         type: "SET_INITIAL_STATE",
         initialState,
       })
+    })
+  })
+})
+
+describe("selectors", () => {
+  describe("isAnActionItemsStage", () => {
+    it("returns true for the 'action-items' stage", () => {
+      expect(
+        selectors.isAnActionItemsStage({ retro: { stage: "action-items" } })
+      ).to.eql(true)
+    })
+
+    it("returns true for the 'groups-action-items' stage", () => {
+      expect(
+        selectors.isAnActionItemsStage({ retro: { stage: "groups-action-items" } })
+      ).to.eql(true)
+    })
+
+    it("returns false for non-action item stages", () => {
+      expect(
+        selectors.isAnActionItemsStage({ retro: { stage: "idea-generation" } })
+      ).to.eql(false)
     })
   })
 })

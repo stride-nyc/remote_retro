@@ -3,19 +3,17 @@ import { shallow } from "enzyme"
 
 import StageProgressionButton from "../../web/static/js/components/stage_progression_button"
 import IdeaGenerationLowerThirdContent from "../../web/static/js/components/idea_generation_lower_third_content" // eslint-disable-line line-length
-import STAGES from "../../web/static/js/configs/stages"
-
-const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 describe("<IdeaGenerationLowerThirdContent />", () => {
   const defaultProps = {
     currentUser: {},
     stageConfig: {},
+    isAnActionItemsStage: false,
   }
 
-  context("when it's the `idea-generation` stage", () => {
+  context("when in a non-action-items stage", () => {
     context("and there are no ideas", () => {
-      const noIdeasProps = { ...defaultProps, stage: IDEA_GENERATION, ideas: [] }
+      const noIdeasProps = { ...defaultProps, isAnActionItemsStage: false, ideas: [] }
 
       it("renders a disabled <StageProgressionButton>", () => {
         const lowerThird = shallow(
@@ -29,7 +27,7 @@ describe("<IdeaGenerationLowerThirdContent />", () => {
     context("and there are ideas", () => {
       const propsWithIdeas = {
         ...defaultProps,
-        stage: IDEA_GENERATION,
+        isAnActionItemsStage: false,
         ideas: [{ category: "happy" }],
       }
 
@@ -44,13 +42,13 @@ describe("<IdeaGenerationLowerThirdContent />", () => {
   })
 
 
-  context("when it's the `action-items` stage", () => {
+  context("when in an `action-items` stage", () => {
     context("and there are no action items", () => {
       it("renders a disabled <StageProgressionButton>", () => {
         const lowerThird = shallow(
           <IdeaGenerationLowerThirdContent
             {...defaultProps}
-            stage={ACTION_ITEMS}
+            isAnActionItemsStage
             ideas={[]}
           />
         )
@@ -64,7 +62,7 @@ describe("<IdeaGenerationLowerThirdContent />", () => {
         const lowerThird = shallow(
           <IdeaGenerationLowerThirdContent
             {...defaultProps}
-            stage={ACTION_ITEMS}
+            isAnActionItemsStage
             ideas={[{ category: "action-item" }]}
           />
         )

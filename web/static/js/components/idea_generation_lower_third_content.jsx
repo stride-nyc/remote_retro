@@ -1,19 +1,17 @@
 import React from "react"
+import PropTypes from "prop-types"
 
 import IdeaSubmissionForm from "./idea_submission_form"
 import StageProgressionButton from "./stage_progression_button"
 
 import * as AppPropTypes from "../prop_types"
-import STAGES from "../configs/stages"
-
-const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 const IdeaGenerationLowerThirdContent = props => {
-  const { stage, stageConfig, ideas, currentUser } = props
+  const { isAnActionItemsStage, stageConfig, ideas, currentUser } = props
 
   function progressionDisabled() {
-    const noIdeasCreated = stage === IDEA_GENERATION && !ideas.length
-    const noActionItemsCreated = stage === ACTION_ITEMS && !ideas.some(idea => idea.category === "action-item")
+    const noIdeasCreated = !isAnActionItemsStage && !ideas.length
+    const noActionItemsCreated = isAnActionItemsStage && !ideas.some(idea => idea.category === "action-item")
     return noIdeasCreated || noActionItemsCreated
   }
 
@@ -21,7 +19,6 @@ const IdeaGenerationLowerThirdContent = props => {
     <div className="ui stackable grid basic attached secondary left aligned segment">
       <div className="thirteen wide column">
         <IdeaSubmissionForm
-          stage={stage}
           currentUser={currentUser}
           ideas={ideas}
         />
@@ -39,8 +36,8 @@ const IdeaGenerationLowerThirdContent = props => {
 IdeaGenerationLowerThirdContent.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
-  stage: AppPropTypes.stage.isRequired,
   stageConfig: AppPropTypes.stageConfig.isRequired,
+  isAnActionItemsStage: PropTypes.bool.isRequired,
 }
 
 export default IdeaGenerationLowerThirdContent

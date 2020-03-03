@@ -2,9 +2,6 @@ import React from "react"
 import sinon from "sinon"
 
 import { IdeaSubmissionForm } from "../../web/static/js/components/idea_submission_form"
-import STAGES from "../../web/static/js/configs/stages"
-
-const { IDEA_GENERATION, GROUPS_ACTION_ITEMS } = STAGES
 
 describe("IdeaSubmissionForm component", () => {
   let wrapper
@@ -25,7 +22,7 @@ describe("IdeaSubmissionForm component", () => {
     currentUser: stubUser,
     actions: mockActions,
     ideaGenerationCategories: ["happy", "sad", "confused"],
-    stage: IDEA_GENERATION,
+    isAnActionItemsStage: true,
     users,
   }
 
@@ -75,13 +72,14 @@ describe("IdeaSubmissionForm component", () => {
   })
 
   describe("on submit", () => {
-    describe("when in the IDEA_GENERATION stage", () => {
+    describe("when in a non-action-items stage", () => {
       it("invokes submitIdea, passing an idea w/ category of the first category by default", () => {
         const actions = { submitIdea: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             {...defaultProps}
+            isAnActionItemsStage={false}
             actions={actions}
           />
         )
@@ -97,15 +95,15 @@ describe("IdeaSubmissionForm component", () => {
       })
     })
 
-    describe("when in a stage *other* than the idea generation stage", () => {
-      it("invokes the submitIdea action assuming an action-item", () => {
+    describe("when in an action items stage", () => {
+      it("invokes the submitIdea action with an 'action-item' category", () => {
         const actions = { submitIdea: sinon.spy() }
 
         wrapper = mountWithConnectedSubcomponents(
           <IdeaSubmissionForm
             {...defaultProps}
             actions={actions}
-            stage={GROUPS_ACTION_ITEMS}
+            isAnActionItemsStage
           />
         )
 
@@ -202,7 +200,6 @@ describe("IdeaSubmissionForm component", () => {
       wrapper = mountWithConnectedSubcomponents(
         <IdeaSubmissionForm
           {...defaultProps}
-          stage={IDEA_GENERATION}
         />
       )
       let submitButton = wrapper.find("button[type='submit']")
@@ -250,13 +247,13 @@ describe("IdeaSubmissionForm component", () => {
   })
 
   describe("hasTypedChar state", () => {
-    context("when the stage is 'idea-generation'", () => {
+    context("when in a non-action-items stage'", () => {
       context("and the value is true", () => {
         it("does not render a pointing label", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
               {...defaultProps}
-              stage={IDEA_GENERATION}
+              isAnActionItemsStage={false}
             />
           )
           wrapper.setState({ hasTypedChar: true })
@@ -271,7 +268,7 @@ describe("IdeaSubmissionForm component", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
               {...defaultProps}
-              stage={IDEA_GENERATION}
+              isAnActionItemsStage={false}
             />
           )
           wrapper.setState({ hasTypedChar: false })
@@ -283,7 +280,7 @@ describe("IdeaSubmissionForm component", () => {
       })
     })
 
-    describe("when the stage isn't the idea generation stage", () => {
+    describe("when in an action items stage", () => {
       context("and the hasTypedChar value is false", () => {
         // we don't want to prompt users to just submit action items willy-nilly
         // they should be discussed and generated thoughtfully
@@ -291,7 +288,7 @@ describe("IdeaSubmissionForm component", () => {
           wrapper = mountWithConnectedSubcomponents(
             <IdeaSubmissionForm
               {...defaultProps}
-              stage={GROUPS_ACTION_ITEMS}
+              isAnActionItemsStage
             />
           )
 

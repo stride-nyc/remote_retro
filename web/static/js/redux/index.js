@@ -21,6 +21,7 @@ import {
 import {
   actions as retroActions,
   reducer as retro,
+  selectors as retroSelectors,
 } from "./retro"
 
 import {
@@ -95,6 +96,7 @@ export const selectors = {
   ...usersByIdSelectors,
   ...groupSelectors,
   ...voteSelectors,
+  ...retroSelectors,
   isTabletOrAbove: ({ browser }) => {
     return browser.greaterThan.small
   },

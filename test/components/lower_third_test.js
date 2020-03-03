@@ -19,11 +19,12 @@ describe("LowerThird component", () => {
     users: [],
     ideas: [],
     stage: IDEA_GENERATION,
+    isAnActionItemsStage: false,
     stageConfig: {},
   }
 
   context("when the stage is `idea generation`", () => {
-    it("renders business about the retro being read-only", () => {
+    it("renders the idea generation lower third", () => {
       const lowerThird = shallow(
         <LowerThird
           {...defaultProps}

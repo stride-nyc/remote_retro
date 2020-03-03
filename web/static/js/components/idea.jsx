@@ -16,7 +16,14 @@ import {
 } from "../redux"
 
 export const Idea = props => {
-  const { idea, currentUser, stage, users, actions, ideaGenerationCategories } = props
+  const {
+    idea,
+    currentUser,
+    isAnActionItemsStage,
+    users,
+    actions,
+    ideaGenerationCategories,
+  } = props
 
   const userIsEditing = idea.inEditState && idea.isLocalEdit
 
@@ -26,7 +33,7 @@ export const Idea = props => {
       <IdeaEditForm
         idea={idea}
         currentUser={currentUser}
-        stage={stage}
+        isAnActionItemsStage={isAnActionItemsStage}
         users={users}
         actions={actions}
         ideaGenerationCategories={ideaGenerationCategories}
@@ -55,6 +62,7 @@ Idea.propTypes = {
   actions: AppPropTypes.actions,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
+  isAnActionItemsStage: PropTypes.bool.isRequired,
 }
 
 Idea.defaultProps = {
@@ -67,6 +75,7 @@ const mapStateToProps = (state, { idea, currentUser }) => ({
   users: values(state.usersById),
   canUserEditIdeaContents: IdeaPermissions.canUserEditContents(idea, currentUser),
   isTabletOrAbove: selectors.isTabletOrAbove(state),
+  isAnActionItemsStage: selectors.isAnActionItemsStage(state),
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -1,6 +1,9 @@
 import { selectors as userSelectors } from "./users_by_id"
 
 import actionTypes from "./action_types"
+import STAGES from "../configs/stages"
+
+const { ACTION_ITEMS, GROUPS_ACTION_ITEMS } = STAGES
 
 const currentUserHasBecomeFacilitator = () => ({
   type: actionTypes.CURRENT_USER_HAS_BECOME_FACILITATOR,
@@ -87,6 +90,12 @@ export const reducer = (state = null, action) => {
     default:
       return state
   }
+}
+
+export const selectors = {
+  isAnActionItemsStage: ({ retro }) => {
+    return [ACTION_ITEMS, GROUPS_ACTION_ITEMS].includes(retro.stage)
+  },
 }
 
 export default reducer

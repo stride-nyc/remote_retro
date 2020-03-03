@@ -36,6 +36,7 @@ export class RemoteRetro extends Component {
       currentUser,
       facilitatorName,
       isTabletOrAbove,
+      isAnActionItemsStage,
       stageConfig,
       ideaGenerationCategories,
       userOptions,
@@ -63,6 +64,7 @@ export class RemoteRetro extends Component {
           actions={actions}
           browser={browser}
           isTabletOrAbove={isTabletOrAbove}
+          isAnActionItemsStage={isAnActionItemsStage}
         />
         <Alert config={alert} />
         <Error config={error} />
@@ -85,6 +87,7 @@ RemoteRetro.propTypes = {
   currentUser: AppPropTypes.presence,
   facilitatorName: PropTypes.string,
   isTabletOrAbove: PropTypes.bool.isRequired,
+  isAnActionItemsStage: PropTypes.bool.isRequired,
   stageConfig: AppPropTypes.stageConfig.isRequired,
   retro: AppPropTypes.retro.isRequired,
   browser: PropTypes.object.isRequired,
@@ -105,6 +108,7 @@ const mapStateToProps = state => {
     currentUser: selectors.getCurrentUserPresence(state),
     facilitatorName: selectors.getUserById(state, facilitator_id).name,
     isTabletOrAbove: selectors.isTabletOrAbove(state),
+    isAnActionItemsStage: selectors.isAnActionItemsStage(state),
   }
 }
 

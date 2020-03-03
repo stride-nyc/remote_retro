@@ -1,4 +1,5 @@
 import React, { Component } from "react"
+import PropTypes from "prop-types"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import throttle from "lodash/throttle"
@@ -7,11 +8,8 @@ import values from "lodash/values"
 import * as AppPropTypes from "../prop_types"
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 import styles from "./css_modules/idea_submission_form.css"
-import STAGES from "../configs/stages"
 import SelectDropdown from "./select_dropdown"
-import { actions } from "../redux"
-
-const { IDEA_GENERATION } = STAGES
+import { actions, selectors } from "../redux"
 
 const PLACEHOLDER_TEXTS = {
   happy: "we have a linter!",
@@ -30,8 +28,9 @@ const pushUserTypingEventThrottled = throttle((actions, currentUserToken) => {
 export class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
-    const { stage, users, ideaGenerationCategories } = props
-    const isAnActionItemsStage = stage !== IDEA_GENERATION
+
+    const { users, ideaGenerationCategories, isAnActionItemsStage } = props
+
     this.state = {
       body: "",
       category: isAnActionItemsStage ? "action-item" : ideaGenerationCategories[0],
@@ -81,31 +80,32 @@ export class IdeaSubmissionForm extends Component {
   }
 
   render() {
-    const { users, stage, ideaGenerationCategories } = this.props
+    const { users, ideaGenerationCategories, isAnActionItemsStage } = this.props
     const { assigneeId, body, hasTypedChar, category, isMobileDevice } = this.state
     const disabled = !body.trim().length
+
     const assigneeOptions = users.map(({ id, name }) => <option key={id} value={id}>{name}</option>)
     const defaultCategoryOptions = ideaGenerationCategories.map(category => (
       <option key={category} value={category}>{category}</option>
     ))
 
     let showSubmitIdeaPrompt = false
-    let dropdownProps = {}
 
-    if (stage === IDEA_GENERATION) {
+    let dropdownProps = {}
+    if (isAnActionItemsStage) {
+      dropdownProps = {
+        labelName: "assignee",
+        value: assigneeId,
+        onChange: this.handleAssigneeChange,
+        selectOptions: assigneeOptions,
+      }
+    } else {
       showSubmitIdeaPrompt = !hasTypedChar
       dropdownProps = {
         labelName: "category",
         value: category,
         onChange: this.handleCategoryChange,
         selectOptions: defaultCategoryOptions,
-      }
-    } else {
-      dropdownProps = {
-        labelName: "assignee",
-        value: assigneeId,
-        onChange: this.handleAssigneeChange,
-        selectOptions: assigneeOptions,
       }
     }
 
@@ -152,20 +152,20 @@ IdeaSubmissionForm.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   users: AppPropTypes.presences.isRequired,
-  stage: AppPropTypes.stage,
   actions: AppPropTypes.actions,
+  isAnActionItemsStage: PropTypes.bool.isRequired,
 }
 
 IdeaSubmissionForm.defaultProps = {
   alert: null,
-  stage: IDEA_GENERATION,
   actions: {},
 }
 
-const mapStateToProps = ({ alert, usersById, ideaGenerationCategories }) => ({
-  alert,
-  users: values(usersById),
-  ideaGenerationCategories,
+const mapStateToProps = state => ({
+  alert: state.alert,
+  users: values(state.usersById),
+  ideaGenerationCategories: state.ideaGenerationCategories,
+  isAnActionItemsStage: selectors.isAnActionItemsStage(state),
 })
 
 const mapDispatchToProps = dispatch => ({

@@ -1,12 +1,10 @@
 import React, { Component } from "react"
 import classNames from "classnames"
+import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
 
 import SelectDropdown from "./select_dropdown"
-import STAGES from "../configs/stages"
-
-const { ACTION_ITEMS } = STAGES
 
 class IdeaEditForm extends Component {
   constructor(props) {
@@ -65,7 +63,7 @@ class IdeaEditForm extends Component {
   }
 
   render() {
-    const { stage, users, idea, ideaGenerationCategories } = this.props
+    const { isAnActionItemsStage, users, idea, ideaGenerationCategories } = this.props
     const { ideaCategory, ideaAssigneeId, ideaBody, ideaBodyError } = this.state
     const categoryOptions = ideaGenerationCategories.map(category => (
       <option key={category} value={category}>{category}</option>
@@ -80,21 +78,20 @@ class IdeaEditForm extends Component {
     return (
       <form onSubmit={this.onSubmit} className="ui error form raised segment idea-edit-form">
         <p className="ui center aligned sub header">Editing</p>
-        {stage !== ACTION_ITEMS && (
-          <SelectDropdown
-            labelName="editable_category"
-            value={ideaCategory}
-            onChange={this.onChangeIdeaCategory}
-            selectOptions={categoryOptions}
-            showLabel={false}
-          />
-        )}
-        {stage === ACTION_ITEMS && (
+        { isAnActionItemsStage ? (
           <SelectDropdown
             labelName="editable_assignee"
             value={ideaAssigneeId}
             onChange={this.onChangeAssignee}
             selectOptions={assigneeOptions}
+            showLabel={false}
+          />
+        ) : (
+          <SelectDropdown
+            labelName="editable_category"
+            value={ideaCategory}
+            onChange={this.onChangeIdeaCategory}
+            selectOptions={categoryOptions}
             showLabel={false}
           />
         )}
@@ -141,9 +138,9 @@ class IdeaEditForm extends Component {
 
 IdeaEditForm.propTypes = {
   idea: AppPropTypes.idea.isRequired,
+  isAnActionItemsStage: PropTypes.bool.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
-  stage: AppPropTypes.stage.isRequired,
   users: AppPropTypes.presences.isRequired,
   actions: AppPropTypes.actions.isRequired,
 }

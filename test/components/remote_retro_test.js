@@ -16,6 +16,7 @@ describe("RemoteRetro component", () => {
   const defaultProps = {
     currentUser: stubUser,
     isTabletOrAbove: true,
+    isAnActionItemsStage: true,
     presences: [],
     groups: [],
     browser: { orientation: "landscape" },

@@ -3,20 +3,16 @@ import { shallow } from "enzyme"
 import sinon from "sinon"
 
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
-import STAGES from "../../web/static/js/configs/stages"
-
-const { IDEA_GENERATION, ACTION_ITEMS } = STAGES
 
 describe("<IdeaEditForm />", () => {
   const idea = { id: 999, body: "  redundant tests   ", userId: 1 }
-  const stage = IDEA_GENERATION
   const currentUser = { id: 7, name: "Helga Foggybottom", is_facilitator: true }
   const mockActions = { submitIdeaEditAsync: () => {}, broadcastIdeaLiveEdit: () => {} }
   const defaultProps = {
     idea,
     currentUser,
     actions: mockActions,
-    stage,
+    isAnActionItemsStage: false,
     ideaGenerationCategories: ["happy", "sad", "confused"],
     users: [{
       id: 7,
@@ -36,27 +32,25 @@ describe("<IdeaEditForm />", () => {
     })
   })
 
-  describe("the action item phase", () => {
-    context("when all collaborators are in the room", () => {
-      const testProps = {
-        ...defaultProps,
-        idea: { id: 1000, body: "do the thing", userId: 1, assignee_id: 9 },
-        stage: ACTION_ITEMS,
-      }
+  describe("when in an action items stage", () => {
+    const testProps = {
+      ...defaultProps,
+      idea: { id: 1000, body: "do the thing", userId: 1, assignee_id: 9 },
+      isAnActionItemsStage: true,
+    }
 
-      it("lists participants as potential assignees", () => {
-        const form = mountWithConnectedSubcomponents(<IdeaEditForm {...testProps} />)
+    it("lists participants as potential assignees", () => {
+      const form = mountWithConnectedSubcomponents(<IdeaEditForm {...testProps} />)
 
-        const gripers = form.find("select[name='editable_assignee'] option")
-        expect(gripers.map(option => option.text())).to.eql(["Helga Foggybottom", "Prudence Pumpernickel"])
-      })
+      const gripers = form.find("select[name='editable_assignee'] option")
+      expect(gripers.map(option => option.text())).to.eql(["Helga Foggybottom", "Prudence Pumpernickel"])
+    })
 
-      it("shows the assigned user as selected initially", () => {
-        const form = mountWithConnectedSubcomponents(<IdeaEditForm {...testProps} />)
+    it("shows the assigned user as selected initially", () => {
+      const form = mountWithConnectedSubcomponents(<IdeaEditForm {...testProps} />)
 
-        const { value } = form.find("select[name='editable_assignee']").props()
-        expect(value).to.equal(9)
-      })
+      const { value } = form.find("select[name='editable_assignee']").props()
+      expect(value).to.equal(9)
     })
   })
 
@@ -192,10 +186,10 @@ describe("<IdeaEditForm />", () => {
     let categoryDropdown
     let wrapper
 
-    context("when the stage is 'action-items'", () => {
+    context("when in an action items stage", () => {
       beforeEach(() => {
         wrapper = mountWithConnectedSubcomponents(
-          <IdeaEditForm {...defaultProps} stage="action-items" />
+          <IdeaEditForm {...defaultProps} isAnActionItemsStage />
         )
       })
 
@@ -204,10 +198,10 @@ describe("<IdeaEditForm />", () => {
       })
     })
 
-    context("when the stage is not 'action-items'", () => {
+    context("when not in an action items stage", () => {
       beforeEach(() => {
         wrapper = mountWithConnectedSubcomponents(
-          <IdeaEditForm {...defaultProps} stage="voting" />
+          <IdeaEditForm {...defaultProps} isAnActionItemsStage={false} />
         )
         categoryDropdown = wrapper.find("select")
         categoryDropdown.simulate("change", { target: { name: "editable_category", value: "confused" } })
