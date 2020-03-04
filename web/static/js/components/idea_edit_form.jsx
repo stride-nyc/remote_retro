@@ -6,6 +6,8 @@ import * as AppPropTypes from "../prop_types"
 
 import SelectDropdown from "./select_dropdown"
 
+const MAX_IDEA_LENGTH = 255
+
 class IdeaEditForm extends Component {
   constructor(props) {
     super(props)
@@ -28,8 +30,8 @@ class IdeaEditForm extends Component {
     const trimmedValue = target.value.trim()
     if (trimmedValue === "") {
       newIdeaBodyError = "Ideas must have content."
-    } else if (trimmedValue.length > 255) {
-      newIdeaBodyError = "Idea cannot exceed 255 characters."
+    } else if (trimmedValue.length > MAX_IDEA_LENGTH) {
+      newIdeaBodyError = `Idea cannot exceed ${MAX_IDEA_LENGTH} characters.`
     }
 
     this.setState({ ideaBody: target.value, ideaBodyError: newIdeaBodyError })
