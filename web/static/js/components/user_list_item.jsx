@@ -1,5 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
+import includes from "lodash/includes"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 import { selectors, actions } from "../redux"
@@ -61,7 +62,7 @@ UserListItem.propTypes = {
 
 const mapStateToProps = state => ({
   votes: state.votes,
-  isVotingStage: [VOTING, LABELING_PLUS_VOTING].includes(state.retro.stage),
+  isVotingStage: includes([VOTING, LABELING_PLUS_VOTING], state.retro.stage),
   currentUser: selectors.getCurrentUserPresence(state),
 })
 

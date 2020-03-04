@@ -1,5 +1,6 @@
-import { selectors as userSelectors } from "./users_by_id"
+import includes from "lodash/includes"
 
+import { selectors as userSelectors } from "./users_by_id"
 import actionTypes from "./action_types"
 import STAGES from "../configs/stages"
 
@@ -94,7 +95,7 @@ export const reducer = (state = null, action) => {
 
 export const selectors = {
   isAnActionItemsStage: ({ retro }) => {
-    return [ACTION_ITEMS, GROUPS_ACTION_ITEMS].includes(retro.stage)
+    return includes([ACTION_ITEMS, GROUPS_ACTION_ITEMS], retro.stage)
   },
 }
 
