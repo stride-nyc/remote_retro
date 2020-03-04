@@ -47,7 +47,7 @@ describe("IdeaSubmissionForm component", () => {
         )
       })
 
-      it("renders without autofocus", () => {
+      it("renders without autofocus to avoid an unwanted zoom", () => {
         const ideaInput = wrapper.find("input[name='idea']")
         expect(ideaInput.props().autoFocus).to.equal(false)
       })
