@@ -8,11 +8,12 @@ import * as AppPropTypes from "../prop_types"
 
 const IdeaSubmissionLowerThirdContent = props => {
   const { isAnActionItemsStage, stageConfig, ideas, currentUser } = props
+  const isIdeaGenerationStage = !isAnActionItemsStage
 
   function progressionDisabled() {
-    const noIdeasCreated = !isAnActionItemsStage && !ideas.length
+    const noIdeasGenerated = isIdeaGenerationStage && !ideas.length
     const noActionItemsCreated = isAnActionItemsStage && !ideas.some(idea => idea.category === "action-item")
-    return noIdeasCreated || noActionItemsCreated
+    return noIdeasGenerated || noActionItemsCreated
   }
 
   return (
