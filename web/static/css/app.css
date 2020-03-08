@@ -358,6 +358,18 @@
   content: "\2022";
 }
 
+:global(ul.ui.list li p.list-item-note) {
+  position: relative;
+  left: 0.75rem;
+  top: 0.25rem;
+
+  &:before {
+    content: "-";
+    position: absolute;
+    left: -0.75rem;
+  }
+}
+
 /*
 /  preposterous iOS Safari-specific hack to avoid zooming in on form inputs on focus.
 /    - requires 16px or larger font-size to avoid zoom

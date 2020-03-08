@@ -6,13 +6,13 @@ export default () => (
     <div className="ui basic segment">
       <ul className="ui list">
         {localStorage.getItem("groupingDev")
-          && <li>Work as a team to arrive at a sensible label for each group (optional)</li>
+          && <li>Work as a team to arrive at a sensible label for each group</li>
         }
-        <li>Apply votes to the items you feel are <strong>most important</strong> to discuss.</li>
-        <li>You can apply <strong>multiple</strong> votes to a single idea.</li>
-        <li>
-          Voting is <strong>blind</strong>.
-          Totals will be revealed when the facilitator advances the retro.
+        <li>Apply votes to the items you feel are <strong>most important</strong> to discuss.
+          <p className="list-item-note">
+            <strong>Note: </strong>voting is <strong>blind</strong>.
+            Totals will be revealed when the facilitator advances the retro.
+          </p>
         </li>
       </ul>
     </div>
