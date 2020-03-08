@@ -361,7 +361,8 @@
 :global(ul.ui.list li p.list-item-note) {
   position: relative;
   left: 0.75rem;
-  top: 0.25rem;
+  margin-top: 0.1rem;
+  margin-bottom: 0;
 
   &:before {
     content: "-";
