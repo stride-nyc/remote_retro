@@ -354,4 +354,24 @@ describe("selectors", () => {
       ).to.eql(false)
     })
   })
+
+  describe("isRetroClosed", () => {
+    it("returns true for the 'closed' stage", () => {
+      expect(
+        selectors.isRetroClosed({ retro: { stage: "closed" } })
+      ).to.eql(true)
+    })
+
+    it("returns true for the 'groups-closed' stage", () => {
+      expect(
+        selectors.isRetroClosed({ retro: { stage: "groups-closed" } })
+      ).to.eql(true)
+    })
+
+    it("returns false for non-closed stages", () => {
+      expect(
+        selectors.isRetroClosed({ retro: { stage: "idea-generation" } })
+      ).to.eql(false)
+    })
+  })
 })
