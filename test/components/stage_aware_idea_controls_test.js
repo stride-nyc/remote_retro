@@ -17,16 +17,17 @@ describe("<StageAwareIdeaControls />", () => {
     votesForIdea: [],
     currentUser: {},
     stage: IDEA_GENERATION,
+    isRetroClosed: false,
     currentUserHasExhaustedVotes: true,
   }
 
-  context("when the stage is closed", () => {
+  context("when the retro is closed", () => {
     context("and idea represents an action-item", () => {
       it("renders no markup", () => {
         const wrapper = mountWithConnectedSubcomponents(
           <StageAwareIdeaControls
             {...defaultProps}
-            stage={CLOSED}
+            isRetroClosed
             idea={{ ...idea, category: "action-item" }}
           />
         )

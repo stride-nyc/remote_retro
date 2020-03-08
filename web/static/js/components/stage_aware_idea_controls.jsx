@@ -15,6 +15,7 @@ const { VOTING, ACTION_ITEMS, CLOSED } = STAGES
 export const StageAwareIdeaControls = props => {
   const {
     stage,
+    isRetroClosed,
     idea,
     actions,
     currentUser,
@@ -38,7 +39,7 @@ export const StageAwareIdeaControls = props => {
     )
   }
 
-  if (stage === CLOSED) return null
+  if (isRetroClosed) return null
 
   if (canUserEditIdeaContents) {
     return <IdeaEditDeleteIcons {...props} />
@@ -52,6 +53,7 @@ StageAwareIdeaControls.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
+  isRetroClosed: PropTypes.bool.isRequired,
   stage: AppPropTypes.stage.isRequired,
   votesForIdea: AppPropTypes.votes.isRequired,
   currentUserHasExhaustedVotes: PropTypes.bool.isRequired,
@@ -61,6 +63,7 @@ const mapStateToProps = (state, { currentUser, idea }) => {
   return {
     currentUserHasExhaustedVotes: selectors.currentUserHasExhaustedVotes(state, currentUser),
     votesForIdea: selectors.votesForIdea(state, idea),
+    isRetroClosed: selectors.isRetroClosed(state),
   }
 }
 
