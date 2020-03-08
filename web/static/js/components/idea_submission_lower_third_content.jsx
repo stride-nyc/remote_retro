@@ -10,8 +10,8 @@ import { IDEA_GENERATION_IDEA_COUNT_LIMIT } from "../configs/retro_configs"
 const IdeaSubmissionLowerThirdContent = props => {
   const { isAnActionItemsStage, stageConfig, ideas, currentUser } = props
   const isIdeaGenerationStage = !isAnActionItemsStage
-  const isAtIdeaGenerationIdeaCountLimit = isIdeaGenerationStage &&
-    ideas.length === IDEA_GENERATION_IDEA_COUNT_LIMIT
+  const isAtIdeaGenerationIdeaCountLimit = isIdeaGenerationStage
+    && ideas.length === IDEA_GENERATION_IDEA_COUNT_LIMIT
 
   function progressionDisabled() {
     const noIdeasGenerated = isIdeaGenerationStage && !ideas.length
