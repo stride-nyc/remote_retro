@@ -6,7 +6,7 @@ import StageProgressionButton from "./stage_progression_button"
 
 import * as AppPropTypes from "../prop_types"
 
-const IdeaGenerationLowerThirdContent = props => {
+const IdeaSubmissionLowerThirdContent = props => {
   const { isAnActionItemsStage, stageConfig, ideas, currentUser } = props
 
   function progressionDisabled() {
@@ -33,11 +33,11 @@ const IdeaGenerationLowerThirdContent = props => {
   )
 }
 
-IdeaGenerationLowerThirdContent.propTypes = {
+IdeaSubmissionLowerThirdContent.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stageConfig: AppPropTypes.stageConfig.isRequired,
   isAnActionItemsStage: PropTypes.bool.isRequired,
 }
 
-export default IdeaGenerationLowerThirdContent
+export default IdeaSubmissionLowerThirdContent

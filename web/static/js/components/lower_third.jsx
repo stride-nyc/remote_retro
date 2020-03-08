@@ -1,6 +1,6 @@
 import React from "react"
 
-import IdeaGenerationLowerThirdContent from "./idea_generation_lower_third_content"
+import IdeaSubmissionLowerThirdContent from "./idea_submission_lower_third_content"
 import VotingLowerThirdContent from "./voting_lower_third_content"
 import ClosedLowerThirdContent from "./closed_lower_third_content"
 import GroupingLowerThirdContent from "./grouping_lower_third_content"
@@ -21,12 +21,12 @@ const {
 } = STAGES
 
 const stageToComponentMap = {
-  [IDEA_GENERATION]: IdeaGenerationLowerThirdContent,
+  [IDEA_GENERATION]: IdeaSubmissionLowerThirdContent,
   [GROUPING]: GroupingLowerThirdContent,
   [VOTING]: VotingLowerThirdContent,
   [LABELING_PLUS_VOTING]: VotingLowerThirdContent,
-  [ACTION_ITEMS]: IdeaGenerationLowerThirdContent,
-  [GROUPS_ACTION_ITEMS]: IdeaGenerationLowerThirdContent,
+  [ACTION_ITEMS]: IdeaSubmissionLowerThirdContent,
+  [GROUPS_ACTION_ITEMS]: IdeaSubmissionLowerThirdContent,
   [CLOSED]: ClosedLowerThirdContent,
   [GROUPS_CLOSED]: ClosedLowerThirdContent,
 }
