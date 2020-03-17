@@ -42,7 +42,7 @@ class IdeaEditForm extends Component {
   }
 
   onChangeAssignee = ({ target }) => {
-    this.setState({ ideaAssigneeId: Number.parseInt(target.value, 10) })
+    this.setState({ ideaAssigneeId: parseInt(target.value, 10) })
   }
 
   onCancel = event => {

@@ -76,7 +76,7 @@ export class IdeaSubmissionForm extends Component {
   }
 
   handleAssigneeChange = event => {
-    this.setState({ assigneeId: Number.parseInt(event.target.value, 10) })
+    this.setState({ assigneeId: parseInt(event.target.value, 10) })
   }
 
   render() {
