@@ -3,10 +3,9 @@
 
 # RemoteRetro
 
-This repository houses the application code for [RemoteRetro](http://remoteretro.org), a web app that allows distributed teams to conduct effective Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](http://stridenyc.com).
+This repository houses the application code for [RemoteRetro.org](http://remoteretro.org), a web app that allows distributed teams to conduct free Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](http://stridenyc.com).
 
 ## Table of Contents
-1. [Roadmap to MVP](#roadmap-to-mvp)
 1. [Project Management](#project-management)
 1. [Dev Environment Setup](#dev-environment-setup)
 1. [Tests](#tests)
@@ -15,23 +14,6 @@ This repository houses the application code for [RemoteRetro](http://remoteretro
 1. [Code of Conduct](#code-of-conduct)
 1. [Acknowledgements](#acknowledgements)
 1. [License](#license)
-
-## Roadmap to MVP
-
-The MVP aims to provide a collaborative, real-time, facilitator-driven retrospective through the following stages:
-
-1. [The Retrospective Prime Directive](http://www.retrospectives.com/pages/retroPrimeDirective.html)
-    - frame the retro as a safe, collaborative space
-1. Idea Generation
-    - invite ideas (happy, sad, confused) from participants
-1. Mute Mapping
-    - participants group ideas into categories without speaking
-1. Labeling + Voting
-    - participants vote on categories for discussion and root-cause analysis
-1. Action Item Generation
-    - participants generate and assign action items
-1. Action Item Distribution
-    - facilitator distributes action items via email to all retro participants
 
 ## Project Management
 
