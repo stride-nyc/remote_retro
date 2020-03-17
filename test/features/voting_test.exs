@@ -17,9 +17,8 @@ defmodule VotingTest do
          ~M{retro, session: facilitator_session_one, facilitator} do
       facilitator_session_two = new_authenticated_browser_session(facilitator)
 
-      retro_path = "/retros/" <> retro.id
-      facilitator_session_one = visit(facilitator_session_one, retro_path)
-      facilitator_session_two = visit(facilitator_session_two, retro_path)
+      facilitator_session_one = visit_retro(facilitator_session_one, retro)
+      facilitator_session_two = visit_retro(facilitator_session_two, retro)
 
       facilitator_session_one |> assert_vote_count_for_idea_is(0)
 
@@ -50,8 +49,8 @@ defmodule VotingTest do
          ~M{retro, session: facilitator_session, non_facilitator} do
       non_facilitator_session = new_authenticated_browser_session(non_facilitator)
 
-      facilitator_session = visit_retro_with_grouping_feature_enabled(facilitator_session, retro)
-      non_facilitator_session = visit_retro_with_grouping_feature_enabled(non_facilitator_session, retro)
+      facilitator_session = visit_retro(facilitator_session, retro)
+      non_facilitator_session = visit_retro(non_facilitator_session, retro)
 
       submit_group_label_change(facilitator_session, with: "Communication")
 
@@ -66,8 +65,8 @@ defmodule VotingTest do
          ~M{retro, session: facilitator_session_one, facilitator} do
       facilitator_session_two = new_authenticated_browser_session(facilitator)
 
-      facilitator_session_one = visit_retro_with_grouping_feature_enabled(facilitator_session_one, retro)
-      facilitator_session_two = visit_retro_with_grouping_feature_enabled(facilitator_session_two, retro)
+      facilitator_session_one = visit_retro(facilitator_session_one, retro)
+      facilitator_session_two = visit_retro(facilitator_session_two, retro)
 
       facilitator_session_one |> assert_vote_count_for_group_is(0)
 

@@ -96,9 +96,7 @@ defmodule RemoteRetro.TestHelpers do
     authenticate(session, user)
   end
 
-  def visit_retro_with_grouping_feature_enabled(session, retro) do
-    execute_script(session, "localStorage.setItem('groupingDev', true)")
-
+  def visit_retro(session, retro) do
     retro_path = "/retros/" <> retro.id
     visit(session, retro_path)
   end

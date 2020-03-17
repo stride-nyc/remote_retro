@@ -7,8 +7,7 @@ defmodule PreExistingRetroStateRenderedOnJoiningRetroTest do
   test "the rendering of ideas submitted prior to the user joining", ~M{session, retro, facilitator} do
     Repo.insert!(%Idea{category: "happy", body: "continuous delivery!", retro_id: retro.id, user_id: facilitator.id})
 
-    retro_path = "/retros/" <> retro.id
-    session = visit(session, retro_path)
+    session = visit_retro(session, retro)
 
     rendered_idea_text = session |> find(Query.css(".happy .ideas li")) |> Element.text()
 

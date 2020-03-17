@@ -11,8 +11,7 @@ defmodule CategoryChangeViaDragAndDrop do
       idea: %Idea{category: "sad", body: "no linter"},
     ]
     test "users can drag the idea from one column to another", ~M{retro, session} do
-      retro_path = "/retros/" <> retro.id
-      session = visit(session, retro_path)
+      session = visit_retro(session, retro)
 
       assert_has(session, Query.css(".sad .ideas", text: "no linter"))
 

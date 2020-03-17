@@ -32,7 +32,7 @@ defmodule ExistingUserChoosesRetroFormatTest do
   end
 
   defp ensure_user_has_prior_retro_experience(~M{session, retro} = context) do
-    visit(session, "/retros/" <> retro.id)
+    visit_retro(session, retro)
 
     context
   end

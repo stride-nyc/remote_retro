@@ -6,7 +6,6 @@ import STAGES from "./stages"
 const {
   IDEA_GENERATION,
   GROUPING,
-  VOTING,
 } = STAGES
 
 const StageChangeInfoIdeaGeneration = stageChangeInfoIdeaGenerationBuilder([
@@ -15,7 +14,7 @@ const StageChangeInfoIdeaGeneration = stageChangeInfoIdeaGenerationBuilder([
   "Assume best intent; we're all here to improve.",
 ])
 
-const baseIdeaGenerationConfig = {
+const ideaGenerationConfig = {
   arrivalAlert: {
     headerText: "Stage Change: Idea Generation!",
     BodyComponent: StageChangeInfoIdeaGeneration,
@@ -25,23 +24,12 @@ const baseIdeaGenerationConfig = {
     BodyComponent: StageChangeInfoIdeaGeneration,
   },
   uiComponent: IdeationInterface,
-}
-
-const ideaGenerationConfig = localStorage.groupingDev ? {
-  ...baseIdeaGenerationConfig,
   progressionButton: {
     nextStage: GROUPING,
     copy: "Grouping",
     iconClass: "arrow right",
     confirmationMessage: "Are you sure you would like to proceed to the idea grouping stage?",
-  },
-} : {
-  ...baseIdeaGenerationConfig,
-  progressionButton: {
-    nextStage: VOTING,
-    copy: "Voting",
-    iconClass: "arrow right",
-    confirmationMessage: "Are you sure you would like to proceed to the voting stage?",
+    stateDependentTooltip: () => "New!",
   },
 }
 

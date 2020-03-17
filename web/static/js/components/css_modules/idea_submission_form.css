@@ -19,6 +19,6 @@
 
 :global(.ui.form) .pointing-label {
   z-index: 0;
-  top: -3em;
+  top: -2.8em;
   left: 33%;
 }

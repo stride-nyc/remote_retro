@@ -5,8 +5,7 @@
     padding-top: 0rem;
 
     .pointing-label {
-      top: -3em;
-      left: 20%;
+      display: none;
     }
   }
 
@@ -16,11 +15,23 @@
     button {
       padding-top: 12px;
       padding-bottom: 12px;
-    }
 
-    .pointing-label {
-      top: -1.6em;
-      left: 40%;
+      &(:disabled) .pointing-label {
+        display: none;
+      }
+
+      &:not(:disabled) .pointing-label {
+        display: block;
+        font-size: 12px;
+
+        top: -2.4rem;
+        left: 50%;
+        transform: translateX(-50%);
+
+        /* these styles are stripped by semantic due to ascestor specificity, so we reinstate */
+        border-top-left-radius: 4px;
+        border-bottom-left-radius: 4px;
+      }
     }
   }
 }

@@ -10,11 +10,10 @@ defmodule SendActionItemToUsersViaEmailTest do
       retro_stage: "action-items",
     ]
     test "allow action item creation and distribution", ~M{retro, session: facilitator_session, non_facilitator} do
-      retro_path = "/retros/" <> retro.id
-      facilitator_session = visit(facilitator_session, retro_path)
+      facilitator_session = visit_retro(facilitator_session, retro)
 
       # ensure non-facilitator has joined/is available as an assignee
-      new_authenticated_browser_session(non_facilitator) |> visit(retro_path)
+      new_authenticated_browser_session(non_facilitator) |> visit_retro(retro)
 
       submit_action_item(facilitator_session, %{assignee_name: non_facilitator.name, body: "Get better"})
 
@@ -35,11 +34,10 @@ defmodule SendActionItemToUsersViaEmailTest do
       idea: %Idea{category: "happy", body: "Frequent Pairing"},
     ]
     test "allow action item creation and distribution", ~M{retro, session: facilitator_session, non_facilitator} do
-      retro_path = "/retros/" <> retro.id
-      facilitator_session = visit(facilitator_session, retro_path)
+      facilitator_session = visit_retro(facilitator_session, retro)
 
       # ensure non-facilitator has joined/is available as an assignee
-      new_authenticated_browser_session(non_facilitator) |> visit(retro_path)
+      new_authenticated_browser_session(non_facilitator) |> visit_retro(retro)
 
       submit_action_item(facilitator_session, %{assignee_name: non_facilitator.name, body: "Eat more fish"})
 

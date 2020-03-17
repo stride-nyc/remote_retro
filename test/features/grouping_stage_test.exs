@@ -12,8 +12,7 @@ defmodule GroupingStageTest do
     ]
 
     test "appear on the interface with coordinates mapped to transforms", ~M{retro, session} do
-      retro_path = "/retros/" <> retro.id
-      session = visit(session, retro_path)
+      session = visit_retro(session, retro)
 
       idea_coordinates = parse_transform_coordinates_for_card(session, "splinters in the codebase")
 
@@ -25,11 +24,10 @@ defmodule GroupingStageTest do
       ideas: [%Idea{category: "sad", body: "rampant sickness", x: 80.5, y: 300.3}],
     ]
     test "can be drag-and-dropped on one client and have their position update across all clients", ~M{retro, session, non_facilitator} do
-      retro_path = "/retros/" <> retro.id
-      session_one = visit(session, retro_path)
+      session_one = visit_retro(session, retro)
 
       session_two = new_authenticated_browser_session(non_facilitator)
-      session_two = visit(session_two, retro_path)
+      session_two = visit_retro(session_two, retro)
 
       idea_coordinates_before =
         session_two
@@ -52,8 +50,7 @@ defmodule GroupingStageTest do
       ],
     ]
     test "ideas dynamically remove bolding when out of proximity", ~M{retro, session} do
-      retro_path = "/retros/" <> retro.id
-      session = visit(session, retro_path)
+      session = visit_retro(session, retro)
 
       session |> assert_count_of_emboldened_ideas_to_be(2)
 
@@ -70,8 +67,7 @@ defmodule GroupingStageTest do
       ],
     ]
     test "ideas can be visible in high-contrast mode", ~M{retro, session} do
-      retro_path = "/retros/" <> retro.id
-      session = visit(session, retro_path)
+      session = visit_retro(session, retro)
 
       click(session, Query.css("button", text: "High Contrast"))
 
@@ -92,7 +88,7 @@ defmodule GroupingStageTest do
     ]
     test "progressing to the voting stage creates groups by proximity, isolating lone ideas as their own group",
          ~M{retro, session} do
-      session = visit_retro_with_grouping_feature_enabled(session, retro)
+      session = visit_retro(session, retro)
 
       click_and_confirm_progression_to(session, "Voting")
 

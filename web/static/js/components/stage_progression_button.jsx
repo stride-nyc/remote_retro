@@ -75,17 +75,17 @@ export class StageProgressionButton extends Component {
             </button>
           </div>
         </Modal>
-        { tooltipText && (
-          <div className={`${styles.pointingLabel} floating ui pointing below teal label tooltip`}>
-            {tooltipText}
-          </div>
-        )}
         <button
           className="fluid ui right labeled blue icon button"
           onClick={this.handleStageProgressionButtonClick}
           disabled={buttonDisabled}
           type="button"
         >
+          { tooltipText && (
+            <div className={`${styles.pointingLabel} floating ui pointing below black label`}>
+              {tooltipText}
+            </div>
+          )}
           { config.copy }
           <i className={`${config.iconClass} icon`} />
         </button>

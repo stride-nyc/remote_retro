@@ -7,8 +7,7 @@ defmodule AccessStageHelpTest do
     retro_stage: "action-items",
   ]
   test "accessing stage info", ~M{retro, session} do
-    retro_path = "/retros/" <> retro.id
-    visit(session, retro_path)
+    session = visit_retro(session, retro)
 
     trigger_help(session)
 

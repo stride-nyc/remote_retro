@@ -166,7 +166,7 @@ describe("StageProgressionButton", () => {
       })
 
       it("renders tooltip", () => {
-        expect(stageProgressionButton.find(".tooltip").text()).to.equal("All in!")
+        expect(stageProgressionButton.find(".ui.pointing.label").text()).to.equal("All in!")
       })
     })
 

@@ -21,8 +21,7 @@ defmodule ActionItemReviewInDashboardTest do
   end
 
   defp log_participation_in_retro(~M{retro, session} = context) do
-    retro_path = "/retros/" <> retro.id
-    visit(session, retro_path)
+    visit_retro(session, retro)
 
     context
   end

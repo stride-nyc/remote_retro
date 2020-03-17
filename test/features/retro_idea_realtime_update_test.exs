@@ -7,9 +7,8 @@ defmodule RetroIdeaRealtimeUpdateTest do
   test "the immediate appearance of other users' submitted ideas", ~M{retro, session: session_one, non_facilitator} do
     session_two = new_authenticated_browser_session(non_facilitator)
 
-    retro_path = "/retros/" <> retro.id
-    session_one = visit(session_one, retro_path)
-    session_two = visit(session_two, retro_path)
+    session_one = visit_retro(session_one, retro)
+    session_two = visit_retro(session_two, retro)
 
     ideas_list_text = session_one |> find(Query.css(".sad.column")) |> Element.text()
     refute ideas_list_text =~ "user stories lack clear business value"
@@ -30,9 +29,8 @@ defmodule RetroIdeaRealtimeUpdateTest do
          ~M{retro, session: facilitator_session, non_facilitator} do
       participant_session = new_authenticated_browser_session(non_facilitator)
 
-      retro_path = "/retros/" <> retro.id
-      facilitator_session = visit(facilitator_session, retro_path)
-      participant_session = visit(participant_session, retro_path)
+      facilitator_session = visit_retro(facilitator_session, retro)
+      participant_session = visit_retro(participant_session, retro)
 
       facilitator_session |> update_idea_fields_to(category: "confused", text: "No one uses the linter.")
 
@@ -53,9 +51,8 @@ defmodule RetroIdeaRealtimeUpdateTest do
          ~M{retro, session: facilitator_session, non_facilitator} do
       participant_session = new_authenticated_browser_session(non_facilitator)
 
-      retro_path = "/retros/" <> retro.id
-      facilitator_session = visit(facilitator_session, retro_path)
-      participant_session = visit(participant_session, retro_path)
+      facilitator_session = visit_retro(facilitator_session, retro)
+      participant_session = visit_retro(participant_session, retro)
 
       assert_has(participant_session, Query.css(".happy .ideas li", text: "slack time!"))
 
@@ -77,10 +74,9 @@ defmodule RetroIdeaRealtimeUpdateTest do
          ~M{retro, facilitator, session: facilitator_session, non_facilitator} do
       participant_session = new_authenticated_browser_session(non_facilitator)
 
-      retro_path = "/retros/" <> retro.id
-      facilitator_session = visit(facilitator_session, retro_path)
+      facilitator_session = visit_retro(facilitator_session, retro)
       # need the second user to enter the retro so that they're a valid assignee
-      visit(participant_session, retro_path)
+      visit_retro(participant_session, retro)
 
       action_items_list_text = facilitator_session |> find(Query.css(".action-item.column")) |> Element.text()
       assert action_items_list_text =~ "blurgh (#{facilitator.name})"
