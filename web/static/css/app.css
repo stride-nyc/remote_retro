@@ -175,6 +175,13 @@
     &:nth-child(5) { animation-delay: calc(var(--initial-delay) + calc(var(--increment-delay) * 4)); }
     &:nth-child(6) { animation-delay: calc(var(--initial-delay) + calc(var(--increment-delay) * 5)); }
     &:nth-child(7) { animation-delay: calc(var(--initial-delay) + calc(var(--increment-delay) * 6)); }
+
+    /* Fix inexplicale styling error that causes box shadow to disappear on Nth child's box-shadow disappearing */
+    /* This issue only appears when using the animation above. */
+    &:global(.grouping) {
+      box-shadow: 0px 1px 1px rgba(34, 36, 38, .15);
+      margin-bottom: 2px;
+    }
   }
 }
 

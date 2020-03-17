@@ -31,7 +31,7 @@
           <div class="description">Invite ideas from participants</div>
         </div>
       </div>
-      <div class="step">
+      <div class="step grouping">
         <i class="object ungroup outline icon"></i>
         <div class="content">
           <div class="title">Grouping</div>
