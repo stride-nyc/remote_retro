@@ -1,5 +1,7 @@
 /* eslint-disable react/jsx-filename-extension, global-require */
 
+import "core-js/features/set" // IE 11 `Set` support
+
 import React from "react"
 import { render } from "react-dom"
 import { bindActionCreators } from "redux"
