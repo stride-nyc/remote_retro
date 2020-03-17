@@ -174,6 +174,7 @@
     &:nth-child(4) { animation-delay: calc(var(--initial-delay) + calc(var(--increment-delay) * 3)); }
     &:nth-child(5) { animation-delay: calc(var(--initial-delay) + calc(var(--increment-delay) * 4)); }
     &:nth-child(6) { animation-delay: calc(var(--initial-delay) + calc(var(--increment-delay) * 5)); }
+    &:nth-child(7) { animation-delay: calc(var(--initial-delay) + calc(var(--increment-delay) * 6)); }
   }
 }
 

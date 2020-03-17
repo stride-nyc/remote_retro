@@ -32,10 +32,17 @@
         </div>
       </div>
       <div class="step">
+        <i class="object ungroup outline icon"></i>
+        <div class="content">
+          <div class="title">Grouping</div>
+          <div class="description">Group ideas to identify themes and patterns</div>
+        </div>
+      </div>
+      <div class="step">
         <i class="envelope outline icon"></i>
         <div class="content">
-          <div class="title">Voting</div>
-          <div class="description">Vote anonymously to discuss ideas</div>
+          <div class="title">Labeling + Voting</div>
+          <div class="description">Vote anonymously on what to discuss</div>
         </div>
       </div>
       <div class="step">
@@ -46,7 +53,7 @@
         </div>
       </div>
       <div class="final step">
-        <i class="gift icon"></i>
+        <i class="send icon"></i>
         <div class="content">
           <div class="title">Retrospective Close</div>
           <div class="description">Distribute action items and depart!</div>
