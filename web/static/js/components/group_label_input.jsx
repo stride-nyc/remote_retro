@@ -63,7 +63,7 @@ class GroupLabelInput extends Component {
         <input
           type="text"
           className={styles.textInput}
-          placeholder="Add a group label"
+          placeholder="(optional) Group Label"
           value={groupLabelInputValue}
           maxLength={MAX_LENGTH_OF_GROUP_NAME}
           onChange={this.handleChange}

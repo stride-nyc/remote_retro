@@ -379,6 +379,10 @@
   }
 }
 
+:global(.optional) {
+  color: #A0A0A8;
+}
+
 /*
 /  preposterous iOS Safari-specific hack to avoid zooming in on form inputs on focus.
 /    - requires 16px or larger font-size to avoid zoom
