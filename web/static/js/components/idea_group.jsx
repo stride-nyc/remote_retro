@@ -46,14 +46,20 @@ class IdeaGroup extends Component {
           stage={stage}
         />
 
-        <VotingInterface
-          actions={actions}
-          currentUser={currentUser}
-          currentUserHasExhaustedVotes={currentUserHasExhaustedVotes}
-          isVotingStage={isVotingStage}
-          ideaToCastVoteFor={ideaToCastVoteFor}
-          votesForEntity={groupWithAssociatedIdeasAndVotes.votes}
-        />
+        <div className={styles.centeredVotingWrapper}>
+          <div className={`ui right pointing teal label`}>
+            Vote!
+          </div>
+
+          <VotingInterface
+            actions={actions}
+            currentUser={currentUser}
+            currentUserHasExhaustedVotes={currentUserHasExhaustedVotes}
+            isVotingStage={isVotingStage}
+            ideaToCastVoteFor={ideaToCastVoteFor}
+            votesForEntity={groupWithAssociatedIdeasAndVotes.votes}
+          />
+        </div>
 
         <OverflowDetector
           onOverflowChange={this.handleListOverflowChange}

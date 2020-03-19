@@ -15,9 +15,15 @@
     width: calc(25% - calc(var(--margin) * 2));
   }
 
-  :global(> .ui.button) {
+  .centeredVotingWrapper {
     align-self: center;
     margin: 0.5rem 0;
+    position: relative;
+
+    :global(> .ui.labeled.button) {
+      position: relative;
+      top: 1px;
+    }
   }
 
   :global(.list-container) {
