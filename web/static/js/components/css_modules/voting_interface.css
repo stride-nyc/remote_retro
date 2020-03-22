@@ -52,6 +52,7 @@
     cursor: default;
     position: relative;
     overflow: hidden;
+    z-index: -1;
   }
 
   /* override hyper specific semantic UI styling */
