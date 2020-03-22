@@ -13,6 +13,8 @@ import STAGES from "../configs/stages"
 
 const { LABELING_PLUS_VOTING } = STAGES
 
+const CATEGORY_ICON_HEIGHT_WIDTH = 18
+
 class IdeaGroup extends Component {
   state = {
     listIsOverflowed: false,
@@ -67,7 +69,23 @@ class IdeaGroup extends Component {
         >
           <ul className={styles.list}>
             {groupWithAssociatedIdeasAndVotes.ideas.map(idea => {
-              return <li key={idea.id} className={ideaStyles.index}>{idea.body}</li>
+              return (
+                <li
+                  key={idea.id}
+                  className={ideaStyles.index}
+                >
+                  <div className={styles.categoryImgWrapper}>
+                    <img
+                      src={`/images/${idea.category}.svg`}
+                      height={CATEGORY_ICON_HEIGHT_WIDTH}
+                      width={CATEGORY_ICON_HEIGHT_WIDTH}
+                      alt={idea.category}
+                    />
+                  </div>
+
+                  {idea.body}
+                </li>
+              )
             })}
           </ul>
         </OverflowDetector>

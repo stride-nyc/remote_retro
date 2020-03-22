@@ -42,7 +42,18 @@
     padding: 0;
 
     li {
-      padding-left: 0.25rem;
+      padding: 0.25rem 0.25rem 0.15rem;
+
+      display: flex;
+      .category-img-wrapper {
+        margin-right: 0.5rem;
+
+        position: relative;
+        img {
+          top: 1px;
+          position: relative;
+        }
+      }
     }
   }
 }
