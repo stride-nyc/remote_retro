@@ -1,6 +1,8 @@
 /* eslint-disable react/jsx-filename-extension, global-require */
 
-import "core-js/features/set" // IE 11 `Set` support
+// IE 11 support for Set/Map
+import "core-js/features/set"
+import "core-js/features/map"
 
 import React from "react"
 import { render } from "react-dom"

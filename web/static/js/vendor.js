@@ -1,5 +1,6 @@
 require("classnames")
 require("core-js/features/set")
+require("core-js/features/map")
 require("react")
 require("react-transition-group/CSSTransitionGroup")
 require("react-dom")
