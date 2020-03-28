@@ -3,7 +3,7 @@ jobs:  # basic units of work in a run
   build:  # runs not using Workflows must have a `build` job as entry point
     parallelism: 1  # run only one instance of this job in parallel
     docker:  # run the steps with Docker
-      - image: circleci/elixir:1.8.2-otp-22-node-browsers
+      - image: circleci/elixir:1.10.2-node-browsers
         environment:  # environment variables for primary container
           MIX_ENV: test
       - image: circleci/postgres:10.5-alpine-postgis-ram  # database image
