@@ -84,7 +84,7 @@ RemoteRetro.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
-  currentUser: AppPropTypes.presence,
+  currentUser: AppPropTypes.presence.isRequired,
   facilitatorName: PropTypes.string,
   isTabletOrAbove: PropTypes.bool.isRequired,
   isAnActionItemsStage: PropTypes.bool.isRequired,
@@ -94,7 +94,6 @@ RemoteRetro.propTypes = {
 }
 
 RemoteRetro.defaultProps = {
-  currentUser: null,
   facilitatorName: "",
   alert: null,
   error: null,
