@@ -1,5 +1,5 @@
 export default {
-  canUserEditContents: (idea, user) => {
-    return idea.user_id === user.id || user.is_facilitator
+  canUserEditContents: (idea, currentUser) => {
+    return idea.user_id === currentUser.id || currentUser.is_facilitator
   },
 }
