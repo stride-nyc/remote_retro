@@ -18,7 +18,7 @@
   .flex-container-for-groups-and-optionally-action-items {
     flex: 1;
     display: flex;
-    overflow: scroll;
+    overflow: hidden;
 
     :global(.action-item) {
       flex-grow: 0;
