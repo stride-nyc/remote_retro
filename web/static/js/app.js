@@ -49,7 +49,7 @@ const awaitPresencesBeforeMountingApp = () => {
     if (module.hot) {
       module.hot.accept(() => { renderWithHotReload() })
     }
-  }, 5)
+  }, 2)
 }
 
 const renderWithHotReload = () => {
