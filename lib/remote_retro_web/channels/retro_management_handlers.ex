@@ -4,7 +4,9 @@ defmodule RemoteRetroWeb.RetroManagementHandlers do
   alias RemoteRetro.{Repo}
   alias RemoteRetroWeb.{RetroManagement, EctoSchemaPresenter}
 
-  def handle_in("retro_edited" = message, payload, socket) do
+  @retro_edited "retro_edited"
+
+  def handle_in(@retro_edited = message, payload, socket) do
     {reply_atom, _} = atomic_update_and_broadcast(message, payload, socket)
 
     {:reply, reply_atom, socket}
@@ -17,7 +19,9 @@ defmodule RemoteRetroWeb.RetroManagementHandlers do
       broadcast!(socket, message, updates)
     end)
   rescue
-    _ -> {:error, %{}}
+    exception ->
+      Honeybadger.notify(exception, %{handler: @retro_edited}, __STACKTRACE__)
+      {:error, %{}}
   end
 
   defp ensure_serialization_of_updates(updates) do

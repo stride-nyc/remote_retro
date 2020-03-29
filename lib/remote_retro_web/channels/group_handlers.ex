@@ -4,7 +4,9 @@ defmodule RemoteRetroWeb.GroupHandlers do
   import Phoenix.Channel
   import ShorterMaps
 
-  def handle_in("group_edited", ~m{id,label}, socket) do
+  @group_edited "group_edited"
+
+  def handle_in(@group_edited, ~m{id,label}, socket) do
     Repo.transaction fn ->
       group =
         Group
@@ -12,10 +14,13 @@ defmodule RemoteRetroWeb.GroupHandlers do
         |> Group.changeset(~M{label})
         |> Repo.update!()
 
-      broadcast!(socket, "group_edited", group)
+      broadcast!(socket, @group_edited, group)
     end
+
     {:reply, :ok, socket}
   rescue
-    _ -> {:reply, :error, socket}
+    exception ->
+      Honeybadger.notify(exception, %{handler: @group_edited}, __STACKTRACE__)
+      {:reply, :error, socket}
   end
 end

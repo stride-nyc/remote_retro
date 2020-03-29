@@ -4,31 +4,38 @@ defmodule RemoteRetroWeb.VotingHandlers do
 
   import ShorterMaps
 
-  def handle_in("vote_submitted", ~m{idea_id, user_id}, socket) do
+  @vote_submitted "vote_submitted"
+  @vote_retracted "vote_retracted"
+
+  def handle_in(@vote_submitted, ~m{idea_id, user_id}, socket) do
     reply_tuple = atomic_insert_and_broadcast_to_other_clients(idea_id, user_id, socket)
 
     {:reply, reply_tuple, socket}
   end
 
-  def handle_in("vote_retracted", %{"id" => id}, socket) do
+  def handle_in(@vote_retracted, %{"id" => id}, socket) do
     Repo.transaction(fn ->
       %Vote{id: id} |> Repo.delete!()
-      broadcast!(socket, "vote_retracted", %{"id" => id})
+      broadcast!(socket, @vote_retracted, %{"id" => id})
     end)
 
     {:reply, :ok, socket}
   rescue
-    _ -> {:reply, :error, socket}
+    exception ->
+      Honeybadger.notify(exception, %{handler: @vote_retracted}, __STACKTRACE__)
+      {:reply, :error, socket}
   end
 
   defp atomic_insert_and_broadcast_to_other_clients(idea_id, user_id, socket) do
     Repo.transaction(fn ->
       vote = insert_vote!(idea_id, user_id)
-      broadcast_from!(socket, "vote_submitted", vote)
+      broadcast_from!(socket, @vote_submitted, vote)
       vote
     end)
   rescue
-    _ -> {:error, %{}}
+    exception ->
+      Honeybadger.notify(exception, %{handler: @vote_submitted}, __STACKTRACE__)
+      {:error, %{}}
   end
 
   defp insert_vote!(idea_id, user_id) do

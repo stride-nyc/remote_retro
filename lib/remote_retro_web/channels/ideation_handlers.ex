@@ -6,17 +6,21 @@ defmodule RemoteRetroWeb.IdeationHandlers do
 
   alias RemoteRetro.{Repo, Idea}
 
+  @idea_committed "idea_committed"
+  @idea_edited "idea_edited"
+  @idea_deleted "idea_deleted"
+
   def handle_in("idea_submitted", idea_params, socket) do
     {reply_atom, _} = atomic_insert_and_broadcast(idea_params, socket)
     {:reply, reply_atom, socket}
   end
 
-  def handle_in("idea_edited", idea_params, socket) do
+  def handle_in(@idea_edited, idea_params, socket) do
     {reply_atom, response} = atomic_update_and_broadcast_from(idea_params, socket)
     {:reply, {reply_atom, response}, socket}
   end
 
-  def handle_in("idea_deleted", idea_id, socket) do
+  def handle_in(@idea_deleted, idea_id, socket) do
     {reply_atom, _} = atomic_delete_and_broadcast(idea_id, socket)
     {:reply, reply_atom, socket}
   end
@@ -30,10 +34,12 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   defp atomic_insert_and_broadcast(idea_params, socket) do
     Repo.transaction(fn ->
       idea = insert_idea!(idea_params, socket)
-      broadcast!(socket, "idea_committed", idea)
+      broadcast!(socket, @idea_committed, idea)
     end)
   rescue
-    _ -> {:error, %{}}
+    exception ->
+      Honeybadger.notify(exception, %{handler: @idea_committed}, __STACKTRACE__)
+      {:error, %{}}
   end
 
   defp atomic_update_and_broadcast_from(idea_params, socket) do
@@ -43,21 +49,25 @@ defmodule RemoteRetroWeb.IdeationHandlers do
         |> Idea.changeset(idea_params)
         |> Repo.update!()
 
-      broadcast_from!(socket, "idea_edited", idea)
+      broadcast_from!(socket, @idea_edited, idea)
 
       idea
     end)
   rescue
-    _ -> {:error, %{}}
+    exception ->
+      Honeybadger.notify(exception, %{handler: @idea_edited}, __STACKTRACE__)
+      {:error, %{}}
   end
 
   defp atomic_delete_and_broadcast(idea_id, socket) do
     Repo.transaction(fn ->
       idea = Repo.delete!(%Idea{id: idea_id})
-      broadcast!(socket, "idea_deleted", idea)
+      broadcast!(socket, @idea_deleted, idea)
     end)
   rescue
-    _ -> {:error, %{}}
+    exception ->
+      Honeybadger.notify(exception, %{handler: @idea_deleted}, __STACKTRACE__)
+      {:error, %{}}
   end
 
   defp insert_idea!(~m{body, category, userId, assigneeId}, socket) do
