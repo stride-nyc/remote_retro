@@ -1,3 +1,5 @@
+import values from "lodash/values"
+
 import Collisions from "./collisions"
 
 export default {
@@ -19,7 +21,7 @@ export default {
       })
     }
 
-    return Object.values(ideasByIdWithEphemeralGroupingIdCandidate)
+    return values(ideasByIdWithEphemeralGroupingIdCandidate)
       .map(({ ephemeralGroupingIdCandidate, ...rest }) => rest)
   },
 }
