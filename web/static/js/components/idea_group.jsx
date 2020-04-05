@@ -49,7 +49,7 @@ class IdeaGroup extends Component {
         />
 
         <div className={styles.centeredVotingWrapper}>
-          <div className={`ui right pointing teal label`}>
+          <div className="ui right pointing teal label">
             Vote!
           </div>
 
