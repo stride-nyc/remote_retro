@@ -99,7 +99,13 @@
       <script>
         window.userToken = "<%= @user_token %>";
         window.retroUUID = "<%= @retro_uuid %>";
+
+        Honeybadger.setContext({
+          userToken: window.userToken,
+          retroUUID: window.retroUUID,
+        });
       </script>
+
       <script src="<%= Routes.static_path(@conn, "/js/dll/dll.vendor.js") %>"></script>
       <script src="<%= app_js(@conn) %>"></script>
     <% end %>

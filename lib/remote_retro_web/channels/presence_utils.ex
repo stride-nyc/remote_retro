@@ -13,7 +13,7 @@ defmodule RemoteRetroWeb.PresenceUtils do
         Presence.track(socket, assigns.user_token, user)
 
       {:error, _} ->
-        IO.puts("Stale or invalid token")
+        IO.puts("Stale or invalid user token: " <> assigns.user_token)
     end
   end
 end
