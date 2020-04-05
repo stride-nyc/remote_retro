@@ -16,8 +16,8 @@ const LowerThirdAnimationWrapper = ({ children, stage }) => {
         appear
         in
         timeout={{
-          appear: 700,
-          enter: 700,
+          appear: 600,
+          enter: 600,
           exit: 450,
         }}
       >
