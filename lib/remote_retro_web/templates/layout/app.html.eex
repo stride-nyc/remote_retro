@@ -30,8 +30,13 @@
       <!-- HoneyBadger client-side error reporting -->
       <script src="https://js.honeybadger.io/v0.5/honeybadger.min.js" type="text/javascript" data-apiKey="<%= Application.get_env(:honeybadger, :api_key) %>" data-environment="production" data-revision="<%= Application.get_env(:remote_retro, :source_version) %>"></script>
     <% else %>
+      <!-- stub out vendor script funcs in dev/test -->
       <script>
-        window.hj = function() { /* hotjar no-op for non-prod envs */ };
+        window.hj = () => {};
+        window.Honeybadger = {
+          notify: () => {},
+          setContext: () => {},
+        }
       </script>
     <% end %>
     <meta charset="utf-8">
