@@ -25,7 +25,7 @@ export class RemoteRetro extends Component {
     if (prevProps.stage !== stage) { hj("trigger", stage) }
   }
 
-  componentDidCatch(error, info) {
+  componentDidCatch(error) {
     const { stage, presences, usersById } = this.props
 
     Honeybadger.setContext({ stage, presences, usersById })
