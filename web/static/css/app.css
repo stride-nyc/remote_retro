@@ -354,7 +354,6 @@ body, html {
 }
 
 :global(.overflowed) {
-  overflow-y: scroll;
   border-bottom: 1px solid #C0C1C2;
 
   --width: 5px;

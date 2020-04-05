@@ -12,7 +12,7 @@
       display: block;
     }
 
-    overflow-y: scroll;
+    overflow: auto;
   }
 
   .flex-container-for-groups-and-optionally-action-items {

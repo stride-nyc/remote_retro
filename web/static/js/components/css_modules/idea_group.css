@@ -33,7 +33,7 @@
   :global(.list-container) {
     border-top: 1px solid var(--semantic-divider-border-top-color);
     height: 9rem;
-    overflow-y: scroll;
+    overflow: auto;
   }
 
   .list {

@@ -14,7 +14,7 @@
   /* user list scrolls horizontally */
   width: 100%;
   white-space: nowrap;
-  overflow-x: scroll;
+  overflow-x: auto;
 }
 
 :global(.basic.segment).index {
@@ -23,7 +23,7 @@
     max-height: 24rem;
     display: inline-block;
     white-space: initial;
-    overflow-x: scroll;
+    overflow-x: auto;
     padding-top: 0.25rem;
 
     :global(.item), :global(.item:first-child){

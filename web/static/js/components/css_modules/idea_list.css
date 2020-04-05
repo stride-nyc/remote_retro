@@ -6,7 +6,7 @@
   flex-basis: 0;
 
   min-height: 0;
-  overflow-y: scroll;
+  overflow: auto;
 }
 
 .list {
