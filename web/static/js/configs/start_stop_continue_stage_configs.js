@@ -29,7 +29,6 @@ const ideaGenerationConfig = {
     copy: "Grouping",
     iconClass: "arrow right",
     confirmationMessage: "Are you sure you would like to proceed to the idea grouping stage?",
-    stateDependentTooltip: () => "New!",
   },
 }
 
