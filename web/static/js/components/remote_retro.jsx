@@ -26,9 +26,9 @@ export class RemoteRetro extends Component {
   }
 
   componentDidCatch(error, info) {
-    const { stage, presences, users } = this.props
+    const { stage, presences, usersById } = this.props
 
-    Honeybadger.setContext({ stage, presences, users })
+    Honeybadger.setContext({ stage, presences, usersById })
     Honeybadger.notify(error)
   }
 
@@ -88,6 +88,7 @@ RemoteRetro.propTypes = {
   stage: AppPropTypes.stage.isRequired,
   alert: PropTypes.object,
   error: PropTypes.object,
+  usersById: PropTypes.object.isRequired,
   actions: AppPropTypes.actions.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
