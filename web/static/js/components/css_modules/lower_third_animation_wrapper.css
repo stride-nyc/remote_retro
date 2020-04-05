@@ -10,10 +10,6 @@
   }
 }
 
-:global(.translateY-height) {
-  transition: height 0.7s ease;
-}
-
 :global(.translateY-appear) {
   transform: translate3d(0, 140%, 0);
 }

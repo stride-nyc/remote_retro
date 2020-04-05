@@ -1,28 +1,31 @@
 import React from "react"
 import PropTypes from "prop-types"
-import ReactCSSTransitionReplace from "react-css-transition-replace"
+import { TransitionGroup, CSSTransition } from "react-transition-group"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/lower_third_animation_wrapper.css"
 
 const LowerThirdAnimationWrapper = ({ children, stage }) => {
   return (
-    <ReactCSSTransitionReplace
-      transitionName="translateY"
-      overflowHidden={false}
-      transitionAppear
+    <TransitionGroup
       component="div"
       className={styles.index}
-      transitionLeave
-      transitionEnter
-      transitionEnterTimeout={700}
-      transitionAppearTimeout={700}
-      transitionLeaveTimeout={450}
     >
-      <div key={stage}>
-        {children}
-      </div>
-    </ReactCSSTransitionReplace>
+      <CSSTransition
+        classNames="translateY"
+        appear
+        in
+        timeout={{
+          appear: 700,
+          enter: 700,
+          exit: 450,
+        }}
+      >
+        <div key={stage}>
+          {children}
+        </div>
+      </CSSTransition>
+    </TransitionGroup>
   )
 }
 

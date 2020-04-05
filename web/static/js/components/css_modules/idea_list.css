@@ -11,6 +11,7 @@
 
 .list {
   list-style: none;
+  position: relative;
 
   margin: 0;
   padding-left: 0;

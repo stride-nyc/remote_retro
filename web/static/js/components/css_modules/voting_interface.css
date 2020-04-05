@@ -13,12 +13,12 @@
   transition: transform 250ms ease;
 }
 
-:global(.increment-leave) {
+:global(.increment-exit) {
   position: absolute;
   transform: translate3d(0, -0.8rem, 0);
 }
 
-:global(.increment-leave.increment-leave-active) {
+:global(.increment-exit.increment-exit-active) {
   transition: transform 250ms ease;
   transform: translate3d(0, -2.5rem, 0);
 }

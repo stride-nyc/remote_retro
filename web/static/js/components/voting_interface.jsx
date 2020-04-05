@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import ReactTransitionGroup from "react-transition-group/CSSTransitionGroup"
+import { TransitionGroup, CSSTransition } from "react-transition-group"
 import classNames from "classnames"
 
 import * as AppPropTypes from "../prop_types"
@@ -69,14 +69,19 @@ class VotingInterface extends React.Component {
         )}
 
         <div className={`ui basic label ${styles.voteCount}`}>
-          <ReactTransitionGroup
-            component="div"
-            transitionName="increment"
-            transitionEnterTimeout={250}
-            transitionLeaveTimeout={250}
-          >
-            <div key={displayableVoteCount}>{displayableVoteCount}</div>
-          </ReactTransitionGroup>
+          <TransitionGroup>
+            <CSSTransition
+              in
+              appear={false}
+              key={displayableVoteCount}
+              classNames="increment"
+              timeout={250}
+            >
+              <div key={displayableVoteCount}>
+                {displayableVoteCount}
+              </div>
+            </CSSTransition>
+          </TransitionGroup>
         </div>
 
       </div>

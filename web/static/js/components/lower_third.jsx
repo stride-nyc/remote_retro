@@ -37,7 +37,7 @@ const LowerThird = props => {
   const StageSpecificComponent = stageToComponentMap[stage]
 
   return (
-    <LowerThirdAnimationWrapper stage={stage}>
+    <LowerThirdAnimationWrapper stage={stage} key={stage}>
       <StageSpecificComponent {...props} />
     </LowerThirdAnimationWrapper>
   )

@@ -40,15 +40,6 @@ export class IdeaSubmissionForm extends Component {
     }
   }
 
-  componentWillReceiveProps(nextProps) {
-    const { alert } = this.props
-    const { isMobileDevice } = this.state
-
-    const alertDismissed = alert && !nextProps.alert
-
-    if (alertDismissed && !isMobileDevice) { this.ideaInput.focus() }
-  }
-
   componentDidUpdate(prevProps, prevState) {
     const { category } = this.state
     if (category !== prevState.category) { this.ideaInput.focus() }
@@ -77,6 +68,16 @@ export class IdeaSubmissionForm extends Component {
 
   handleAssigneeChange = event => {
     this.setState({ assigneeId: parseInt(event.target.value, 10) })
+  }
+
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { alert } = this.props
+    const { isMobileDevice } = this.state
+
+    const alertDismissed = alert && !nextProps.alert
+
+    if (alertDismissed && !isMobileDevice) { this.ideaInput.focus() }
   }
 
   render() {
