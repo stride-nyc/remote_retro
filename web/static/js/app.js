@@ -4,7 +4,7 @@
 import "core-js/features/set"
 import "core-js/features/map"
 import "core-js/features/symbol"
-import "core-js/features/array/from"
+import "core-js/features/array"
 
 import React from "react"
 import { render } from "react-dom"
