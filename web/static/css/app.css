@@ -1,8 +1,8 @@
 @import './colors.css';
 @import '../js/components/css_modules/grouping_idea_card.css';
 
-body, html {
-  overflow: hidden;
+body {
+  overflow-y: auto;
 }
 
 :global .landing-page {
