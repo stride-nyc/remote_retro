@@ -41,7 +41,7 @@ const baseVotingConfig = {
     nextStage: ACTION_ITEMS,
     copy: "Action Items",
     iconClass: "arrow right",
-    confirmationMessage: "Is everyone satisfied with their votes?",
+    confirmationMessage: "Wait! Is everyone satisfied with their votes?",
     stateDependentTooltip: selectors.votingStageProgressionTooltip,
   },
 }
