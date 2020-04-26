@@ -3,6 +3,7 @@
 .wrapper {
   :global(.ui.basic.button) {
     background-color: white;
+    white-space: nowrap;
   }
 
   /*
