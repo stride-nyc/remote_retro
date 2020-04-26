@@ -1,14 +1,13 @@
 defmodule RemoteRetroWeb.RetroController do
   use RemoteRetroWeb, :controller
-  alias RemoteRetro.{Retro, Participation, Idea, User}
+  alias RemoteRetro.{Retro, Participation, Idea}
   alias RemoteRetroWeb.ErrorView
   alias Phoenix.Token
 
   plug :verify_retro_id_param_is_uuid when action in [:show]
 
   def index(conn, _params) do
-    current_user_id = get_session(conn, "current_user_id")
-    current_user = Repo.get!(User, current_user_id)
+    %{current_user: current_user} = conn.assigns
 
     render(conn, "index.html", %{
       current_user: current_user,
@@ -17,8 +16,7 @@ defmodule RemoteRetroWeb.RetroController do
   end
 
   def show(conn, params) do
-    current_user_id = get_session(conn, "current_user_id")
-    current_user = Repo.get!(User, current_user_id)
+    %{current_user: current_user} = conn.assigns
 
     soft_insert_participation_record!(current_user.id, params["id"])
 
