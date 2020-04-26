@@ -13,6 +13,7 @@ defmodule RemoteRetro do
       {Phoenix.PubSub, name: RemoteRetro.PubSub},
       # Start the Ecto repository
       supervisor(RemoteRetro.Repo, []),
+      RemoteRetroWeb.Telemetry,
       # Start the endpoint when the application starts
       supervisor(RemoteRetroWeb.Endpoint, []),
       supervisor(RemoteRetroWeb.Presence, []),
