@@ -20,7 +20,7 @@ defmodule Mix.Tasks.EndToEnd do
     with {raw_outdated_modules, _status_code} <- System.cmd("npm", ["outdated", "-g", "--json"]),
          {:ok, parsed_outdated_modules} <- Jason.decode(raw_outdated_modules) do
       if Map.has_key?(parsed_outdated_modules, @npm_chromedriver_package) do
-        print_red_line "chomedriver is out of date: Tests may fail due to not having the absolutely latest chromedriver and Chrome installed on your system. Please update accordingly."
+        print_red_line "\n\nYour chromedriver binary is out of date. End-to-end tests may fail due to not having the absolutely latest chromedriver and Chrome installed on your system.\n\n\tYou can update chromedriver via 'npm install -g chromedriver', and update Chrome by visiting chrome://settings/help (in Chrome).\n"
       end
     end
   end
