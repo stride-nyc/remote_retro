@@ -72,7 +72,7 @@ defmodule RemoteRetro.Mixfile do
     [
       "ecto.setup": ["ecto.create", "ecto.migrate", "run priv/repo/seeds.exs"],
       "ecto.reset": ["ecto.drop", "ecto.setup"],
-      test: ["ecto.create --quiet", "ecto.migrate", "test --exclude feature_test"],
+      test: ["ecto.create --quiet", "ecto.migrate --quiet", "test --exclude feature_test"],
       e2e: ["end_to_end"],
       defaults: ["preflight", "phx.server"],
     ]
