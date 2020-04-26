@@ -1,4 +1,4 @@
-defmodule RedirectUnauthenticated do
+defmodule RemoteRetroWeb.Plugs.RedirectUnauthenticated do
   import Plug.Conn
   import Phoenix.Controller
 

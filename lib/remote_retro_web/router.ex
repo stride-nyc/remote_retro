@@ -2,7 +2,7 @@ defmodule RemoteRetroWeb.Router do
   use RemoteRetroWeb, :router
   use Honeybadger.Plug
 
-  alias RemoteRetroWeb.{PageController, AuthController}
+  alias RemoteRetroWeb.{PageController, AuthController, Plugs}
 
   @auth_controller Application.get_env(:remote_retro, :auth_controller)
 
@@ -11,7 +11,7 @@ defmodule RemoteRetroWeb.Router do
   end
 
   pipeline :authentication_required do
-    plug(RedirectUnauthenticated)
+    plug(Plugs.RedirectUnauthenticated)
   end
 
   pipeline :browser do
@@ -20,7 +20,7 @@ defmodule RemoteRetroWeb.Router do
     plug(:fetch_flash)
     plug(:protect_from_forgery)
     plug(:put_secure_browser_headers)
-    plug(SetCurrentUserOnAssignsIfAuthenticated)
+    plug(Plugs.SetCurrentUserOnAssignsIfAuthenticated)
   end
 
   scope "/" do

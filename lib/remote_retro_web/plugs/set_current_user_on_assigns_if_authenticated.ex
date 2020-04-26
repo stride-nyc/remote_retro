@@ -1,4 +1,4 @@
-defmodule SetCurrentUserOnAssignsIfAuthenticated do
+defmodule RemoteRetroWeb.Plugs.SetCurrentUserOnAssignsIfAuthenticated do
   import Plug.Conn
 
   alias RemoteRetro.{Repo, User}
