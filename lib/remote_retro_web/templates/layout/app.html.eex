@@ -97,7 +97,7 @@
         </div>
       </div>
     <% end %>
-      <%= render @view_module, @view_template, assigns %>
+      <%= @inner_content %>
     </main>
 
     <%= if assigns[:include_js] do %>

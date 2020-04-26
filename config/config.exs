@@ -15,7 +15,7 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "btCOS+GDpTLovPJFR8hQ9LbXeshAFCS4DaRCSbwIgFyt2AcKwE9oUfP9i3AsBAGW",
   render_errors: [view: RemoteRetroWeb.ErrorView, accepts: ~w(html json)],
-  pubsub: [name: RemoteRetro.PubSub, adapter: Phoenix.PubSub.PG2]
+  pubsub_server: RemoteRetro.PubSub
 
 # Configures Email API
 config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.SendGridAdapter, api_key: System.get_env("SENDGRID_API_KEY")

@@ -10,6 +10,7 @@ defmodule RemoteRetro do
 
     # Define workers and child supervisors to be supervised
     children = [
+      {Phoenix.PubSub, name: RemoteRetro.PubSub},
       # Start the Ecto repository
       supervisor(RemoteRetro.Repo, []),
       # Start the endpoint when the application starts

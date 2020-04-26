@@ -1,5 +1,5 @@
 defmodule RemoteRetroWeb.ConnCase.Helpers do
-  use Phoenix.ConnTest
+  import Phoenix.ConnTest
 
   @endpoint RemoteRetroWeb.Endpoint
 

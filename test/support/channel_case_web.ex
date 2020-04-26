@@ -20,7 +20,7 @@ defmodule RemoteRetroWeb.ChannelCase do
   using do
     quote do
       # Import conveniences for testing with channels
-      use Phoenix.ChannelTest
+      import Phoenix.ChannelTest
       use RemoteRetro.UserRetroCase
 
       alias RemoteRetro.Repo
