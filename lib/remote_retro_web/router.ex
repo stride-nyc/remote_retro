@@ -2,6 +2,8 @@ defmodule RemoteRetroWeb.Router do
   use RemoteRetroWeb, :router
   use Honeybadger.Plug
 
+  import Phoenix.LiveDashboard.Router
+
   alias RemoteRetroWeb.{PageController, AuthController, Plugs}
 
   @auth_controller Application.get_env(:remote_retro, :auth_controller)
@@ -12,6 +14,10 @@ defmodule RemoteRetroWeb.Router do
 
   pipeline :authentication_required do
     plug(Plugs.RedirectUnauthenticated)
+  end
+
+  pipeline :forbid_non_striders do
+    plug(Plugs.ForbidNonStriders)
   end
 
   pipeline :browser do
@@ -38,5 +44,10 @@ defmodule RemoteRetroWeb.Router do
     pipe_through([:browser, :authentication_required])
 
     resources("/", RetroController, only: [:index, :create, :show])
+  end
+
+  scope "/admin" do
+    pipe_through [:browser, :authentication_required, :forbid_non_striders]
+    live_dashboard "/dashboard"
   end
 end
