@@ -48,7 +48,7 @@ defmodule RemoteRetro.Mixfile do
       {:plug_cowboy, "~> 2.2.1"},
       {:plug, "~> 1.10.0"},
       {:mix_test_watch, "~> 1.0.2", [runtime: false, only: :dev]},
-      {:mock, "~> 0.3.3", only: :test},
+      {:mock, "~> 0.3.4", only: :test},
       {:oauth2, "~> 0.9.4"},
       {:gettext, "~> 0.17.4"},
       {:wallaby, "~> 0.23.0", [runtime: false, only: :test]},
