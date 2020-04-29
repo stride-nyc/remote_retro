@@ -37,7 +37,7 @@ defmodule RemoteRetro.Mixfile do
       {:phoenix, "~> 1.5.1"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.1.0"},
-      {:ecto_sql, "~> 3.4.1"},
+      {:ecto_sql, "~> 3.4.3"},
       {:freedom_formatter, "~> 1.0.0", only: :dev},
       {:distillery, "~> 2.1.1", only: :prod},
       {:excoveralls, "~> 0.10.6", only: :test},
