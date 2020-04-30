@@ -6,4 +6,11 @@
   height: var(--height);
   min-height: var(--height);
   flex-direction: column;
+  animation: allowLowerThirdAppearanceToCompleteWithoutIntroducingTemporaryScrollbar 0.5s;
+}
+
+@keyframes allowLowerThirdAppearanceToCompleteWithoutIntroducingTemporaryScrollbar {
+  0%   { overflow: hidden; }
+  99%  { overflow: hidden; }
+  100% { overflow: auto; }
 }
