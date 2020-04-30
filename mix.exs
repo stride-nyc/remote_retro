@@ -22,8 +22,11 @@ defmodule RemoteRetro.Mixfile do
   #
   # Type `mix help compile.app` for more information.
   def application do
-    [mod: {RemoteRetro, []}, extra_applications: [:logger, :os_mon]]
+    [mod: {RemoteRetro, []}, extra_applications: extra_applications(Mix.env())]
   end
+
+  defp extra_applications(:test), do: extra_applications(:default) -- [:os_mon]
+  defp extra_applications(_),     do: [:logger, :os_mon]
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
