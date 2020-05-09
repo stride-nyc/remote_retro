@@ -16,11 +16,11 @@
 .wrapper {
   composes: wrapper from "./shared/full_height_stage.css";
 
-  :global(.content .ui.header) {
+  :global(.ui.dimmer.transition.visible.active) {
     display: none;
 
     &:global(.device) {
-      @media only screen and (max-device-width: 768px) {
+      @media only screen and (max-device-width: 768px) and (orientation: portrait) {
         display: table-cell;
       }
 
