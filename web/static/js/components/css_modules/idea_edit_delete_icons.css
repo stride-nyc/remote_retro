@@ -13,6 +13,8 @@
 
     &:global(.edit.icon) {
       margin-right: 0.35rem;
+      top: -1px;
+      position: relative;
     }
 
     &:global(.remove.icon) {

@@ -26,7 +26,7 @@ const IdeaEditDeleteIcons = props => {
     <span className={classes}>
       <i
         title="Edit Idea"
-        className="edit icon"
+        className="edit outline icon"
         onClick={handleInitiateEdit}
         onKeyPress={handleInitiateEdit}
       />

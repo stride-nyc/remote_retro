@@ -47,8 +47,6 @@
     <meta name="author" content="">
     <title>RemoteRetro | Free. World-class. Agile retrospectives.</title>
 
-    <link rel="preload" href="<%= Routes.static_path(@conn, "/css/semantic-ui/font/lato-v14-latin-regular.woff2") %>" as="font" crossorigin="anonymous" />
-    <link rel="preload" href="<%= Routes.static_path(@conn, "/css/semantic-ui/themes/default/assets/fonts/icons.woff2") %>" as="font" crossorigin="anonymous" />
     <link rel="stylesheet" href="<%= Routes.static_path(@conn, "/css/semantic-ui/semantic.min.css") %>">
     <link rel="stylesheet" href="<%= app_css(@conn) %>">
     <link rel="apple-touch-icon" href="<%= Routes.static_path(@conn, "/images/apple-touch-icon.png") %>">

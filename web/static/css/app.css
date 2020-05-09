@@ -1,6 +1,11 @@
 @import './colors.css';
 @import '../js/components/css_modules/grouping_idea_card.css';
 
+:global(.ReactModal__Overlay.ReactModal__Overlay--after-open) {
+  display: flex;
+  justify-content: center;
+}
+
 body {
   overflow-y: auto;
 }

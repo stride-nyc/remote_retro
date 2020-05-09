@@ -3,34 +3,29 @@
 @media only screen and (max-width: 767px) {
   :global .ui.tiny.modal {
     width: 95%;
-    margin: 0em 0em 0em -47.5%;
   }
 }
 
 @media only screen and (min-width: 768px) {
   :global .ui.tiny.modal {
     width: 50%;
-    margin: 0em 0em 0em -25%;
   }
 }
 
 @media only screen and (min-width: 992px) {
   :global .ui.tiny.modal {
     width: 450px;
-    margin: 0em 0em 0em -225px;
   }
 }
 
 @media only screen and (min-width: 1200px) {
   :global .ui.tiny.modal {
     width: 550px;
-    margin: 0em 0em 0em -275px;
   }
 }
 
 @media only screen and (min-width: 1920px) {
   :global .ui.tiny.modal {
     width: 650px;
-    margin: 0em 0em 0em -325px;
   }
 }
