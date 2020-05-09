@@ -5,6 +5,18 @@ body {
   overflow-y: auto;
 }
 
+/*
+This overrides some SemanticUI default styling,
+as their 'bold' fonts vary wildly in their appearance across browsers.
+If you truly need to make text bold, use the <strong></strong> tag
+*/
+:global(.ui.label),
+:global(.ui.button),
+:global(.ui.header),
+:global(.ui.items>.item>.content>.header) {
+  font-weight: 100;
+}
+
 :global .landing-page {
   --padding: 5.5rem;
   .welcome-wrapper {

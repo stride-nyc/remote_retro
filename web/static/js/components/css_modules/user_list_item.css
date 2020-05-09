@@ -39,7 +39,6 @@
   .all-votes-in {
     color: var(--semantic-green);
     font-size: 0.7rem;
-    font-weight: 600;
 
     opacity: 0;
     transition: opacity 0.3s ease-in;
