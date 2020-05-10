@@ -84,7 +84,7 @@
 <% else %>
   <%= form_for @conn, Routes.retro_path(@conn, :create), [as: :retro, class: "ui tiny modal retro-format-modal"], fn _f -> %>
     <div class="ui center aligned large header">Select format:</div>
-    <div class="ui unstackable items">
+    <div class="ui unstackable items scrolling content">
       <input type="radio" class="visually-hidden" id="happy-sad-confused" name="format"  value="Happy/Sad/Confused" checked />
       <label class="item" for="happy-sad-confused">
         <div class="ui tiny image">

@@ -285,15 +285,15 @@ If you truly need to make text bold, use the <strong></strong> tag
 }
 
 :global .ui.modal.retro-format-modal {
-  top: 15%;
+  top: 2.5%;
 
-  @media (max-width: 767px) {
-    max-height: 90%;
-    overflow: scroll;
+  @media (min-width: 768px) {
+    top: 15%;
   }
 
   .items {
     margin: 0;
+    padding: 0;
 
     .item {
       margin: 0;
