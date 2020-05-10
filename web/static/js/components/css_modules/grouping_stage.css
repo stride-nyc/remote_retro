@@ -18,6 +18,8 @@
 
   :global(.ui.dimmer.transition.visible.active) {
     display: none;
+    background-color: black;
+    box-shadow: 0 30rem 0 0 black;
 
     &:global(.device) {
       @media only screen and (max-device-width: 768px) and (orientation: portrait) {
