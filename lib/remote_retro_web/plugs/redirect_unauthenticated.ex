@@ -9,9 +9,7 @@ defmodule RemoteRetroWeb.Plugs.RedirectUnauthenticated do
   def call(conn, _opts) do
     case get_session(conn, "current_user_id") do
       nil ->
-        conn = put_session(conn, "requested_endpoint", conn.request_path)
-        redirect(conn, to: "/auth/google") |> halt
-
+        conn
       _user ->
         conn
     end
