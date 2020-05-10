@@ -21,7 +21,7 @@
 
     &:global(.device) {
       @media only screen and (max-device-width: 768px) and (orientation: portrait) {
-        display: table-cell;
+        display: flex;
       }
 
       :global(.mobile.alternate.icon) {
@@ -29,12 +29,13 @@
         animation-timing-function: ease-in-out;
         animation-fill-mode: both;
         animation-delay: 2s;
+        margin-top: 1rem;
       }
     }
 
     &:global(.non-device) {
       @media only screen and (max-width: 948px) and (hover: hover) {
-        display: table-cell;
+        display: flex;
       }
     }
   }
