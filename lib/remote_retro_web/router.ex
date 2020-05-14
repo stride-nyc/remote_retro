@@ -35,6 +35,7 @@ defmodule RemoteRetroWeb.Router do
 
     get("/", PageController, :index)
     get("/faq", PageController, :faq)
+    get("/privacy", PageController, :privacy)
     get("/auth/google", AuthController, :index)
     get("/auth/google/callback", @auth_controller, :callback)
     get("/logout", AuthController, :logout)

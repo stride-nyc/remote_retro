@@ -43,4 +43,27 @@ defmodule RemoteRetro.PageControllerTest do
       assert html_response(conn, 200) =~ "Sign in"
     end
   end
+
+  test "GET /privacy", ~M{conn} do
+    conn = get(conn, "/privacy")
+    assert html_response(conn, 200) =~ "Privacy Policy"
+  end
+
+  describe "authenticated visits to /privacy" do
+    setup [:authenticate_connection]
+
+    test "do not prompt the user to sign in", ~M{conn} do
+      conn = get(conn, "/privacy")
+
+      refute html_response(conn, 200) =~ "Sign in"
+    end
+  end
+
+  describe "unauthenticated visits to /privacy" do
+    test "do not prompt the user to sign in", ~M{conn} do
+      conn = get(conn, "/privacy")
+
+      refute html_response(conn, 200) =~ "Sign in"
+    end
+  end
 end
