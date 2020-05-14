@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 
 import CenteredTextStageWrapper from "./centered_text_stage_wrapper"
 import ShareRetroLinkModal from "./share_retro_link_modal"
+import EmailOptInToggle from "./email_opt_in_toggle"
 
 import * as AppPropTypes from "../prop_types"
 
@@ -33,6 +34,7 @@ const LobbyStage = props => {
       bodyMarkup={bodyMarkup}
     >
       <ShareRetroLinkModal />
+      <EmailOptInToggle emailOptIn={currentUser.email_opt_in} actions={{}} />
     </CenteredTextStageWrapper>
   )
 }
