@@ -27,6 +27,7 @@ defmodule RemoteRetro.User do
     field(:picture, :string)
     field(:last_login, :naive_datetime_usec)
     field(:completed_retros_count, :integer)
+    field(:email_opt_in, :boolean)
 
     field(:online_at, :integer, virtual: true)
     field(:token, :string, virtual: true)
