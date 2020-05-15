@@ -1,6 +1,52 @@
 <div class="ui very padded basic segment">
   <h1 class="ui dividing header">Privacy Policy</h1>
 
+  <h2 class="ui medium header">Personal Information and Usage Data</h2>
+  <p>When you sign up, we create an account using your email address, link to your profile photo, first name and last name from the Google account you use for authentication. We associate your use of and activities on the site (“retros”) with your account so that you and your team members can review your retros if you sign back in later. This includes anything you submit via text inputs, votes you submit during the voting process, grouping, and other activities.</p>
+
+  <p>During your use of the site, your IP address may be captured in our logs or by site analytics providers. If you email us for help, any information you provide in your email will be managed in accordance with Stride Consulting's privacy policy.</p>
+
+  <h2 class="ui medium header">Email, Marketing and Communications</h2>
+  <p>When a retro is completed, any action items you create are emailed to you and your team. We will also send out very occasional updates of major changes to policies or terms. These messages are necessary to operate our service.</p>
+
+  <p>If you have opted in to occasional product updates and marketing emails from us, you can later opt out at any time by emailing <a href="mailto:remote_retro@stridenyc.com?subject=Email%20Opt%20Out">remote_retro@stridenyc.com</a> with subject “Email Opt Out” or by changing your preference in the user interface.</p>
+
+  <h2 class="ui medium header">Data Security</h2>
+  <p>Data transmitted between our hosting provider and your browser is encrypted using SSL/TLS, and database backups are also encrypted. Our production environment is carefully restricted to only the few individuals who need access, and our software development process involves multiple privacy by design considerations.</p>
+
+  <h2 class="ui medium header">Third Party Disclosure</h2>
+  <p>We do not sell your data, and we only share it with third parties necessary to provide the services you request while using the site, to improve the performance and security of the services, and for the occasional emails described above. You can find a list of Third Party Data Processors we use below.</p>
+
+  <p>If we need to monitor, investigate, or respond to any reported or suspected illegal activity, fraud, threats to anyone's physical safety, or similar concerns, we may share your info with those involved in addressing our concerns. If we are compelled by a court order or other valid legal process to share your data, we will attempt to notify you unless legally prohibited from doing so.</p>
+
+  <p>If something material in this policy changes for any reason, we will make our best efforts to notify you in advance.</p>
+
+  <h2 class="ui medium header">Third Party Data Processors</h2>
+  <p>We use the following third party processors to process personal information and other data associated with your usage of Remote Retro to the extent necessary to provide our services.</p>
+  <ul>
+    <li>Gigalixir on AWS (for application hosting)</li>
+    <li>SendGrid (to send emails)</li>
+    <li>Honeybadger (for exception reporting)</li>
+    <li>Papertrail (for request logging)</li>
+    <li>Hubspot (to manage email lists)</li>
+    <li>Google (for authentication and site analytics)</li>
+    <li>Hotjar (for heatmaps and user feedback surveys)</li>
+  </ul>
+
+  <h2 class="ui medium header">GDPR</h2>
+  <p>For users in the EU, the GDPR provides you with rights including:</p>
+  <ul>
+    <li>The right of access</li>
+    <li>The right to rectification (aka correction)</li>
+    <li>The right to erasure</li>
+    <li>The right to restrict processing</li>
+    <li>The right to data portability</li>
+    <li>The right to object</li>
+    <li>Rights in relation to automated decision making and profiling.</li>
+  </ul>
+
+  <p>If you are in the EU and wish to exercise or discuss your GDPR rights, please contact us at <a href="mailto:remote_retro@stridenyc.com?subject=GDPR%20Inquiry">remote_retro@stridenyc.com</a>.</p>
+
   <h2 class="ui medium header">Last Updated</h2>
   <p>May 2020</p>
 </div>
