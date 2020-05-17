@@ -58,7 +58,7 @@ export const actions = {
       const push = retroChannel.push("user_edited", { id, ...params })
 
       push.receive("error", () => {
-        dispatch({ type: "USER_UPDATE_REJECTED" })
+        dispatch({ type: actionTypes.USER_UPDATE_REJECTED })
       })
     }
   },
