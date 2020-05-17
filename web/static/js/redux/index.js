@@ -43,6 +43,7 @@ import {
 import {
   reducer as usersById,
   selectors as usersByIdSelectors,
+  actions as usersByIdActions,
 } from "./users_by_id"
 
 import {
@@ -88,6 +89,7 @@ export const actions = {
   ...mobileActions,
   ...voteActions,
   ...userOptionsActions,
+  ...usersByIdActions,
   ...groupActionCreators,
 }
 

@@ -23,7 +23,8 @@ const nonFacilitatorInstructions = facilitatorName => (
 )
 
 const LobbyStage = props => {
-  const { currentUser, facilitatorName } = props
+  const { currentUser, facilitatorName, actions } = props
+
   const bodyMarkup = currentUser.is_facilitator ? facilitatorInstructions
     : nonFacilitatorInstructions(facilitatorName)
 
@@ -34,7 +35,7 @@ const LobbyStage = props => {
       bodyMarkup={bodyMarkup}
     >
       <ShareRetroLinkModal />
-      <EmailOptInToggle currentUser={currentUser} actions={{}} />
+      <EmailOptInToggle currentUser={currentUser} actions={actions} />
     </CenteredTextStageWrapper>
   )
 }
@@ -43,6 +44,7 @@ LobbyStage.propTypes = {
   currentUser: AppPropTypes.presence.isRequired,
   presences: AppPropTypes.presences.isRequired,
   facilitatorName: PropTypes.string.isRequired,
+  actions: AppPropTypes.actions.isRequired,
 }
 
 export default LobbyStage
