@@ -1,16 +1,13 @@
 import React from "react"
 import * as AppPropTypes from "../prop_types"
-import cx from "classnames"
 import styles from "./css_modules/email_opt_in_toggle.css"
 
 const EmailOptInToggle = props => {
   const { actions, currentUser } = props
 
-  const wrapperClasses = cx(styles.wrapper)
-
   return (
     <div className="thirteen wide mobile eight wide tablet four wide computer column">
-      <div className={wrapperClasses}>
+      <div className={styles.wrapper}>
         <p>
           Would you like to receive occasional emails from RemoteRetro
           and Stride Consulting?
