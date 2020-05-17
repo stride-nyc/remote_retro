@@ -1,8 +1,12 @@
 import deepFreeze from "deep-freeze"
+import sinon from "sinon"
+
+import { setupMockRetroChannel } from "../support/js/test_helper"
 
 import {
   reducer,
   selectors,
+  actions,
 } from "../../web/static/js/redux/users_by_id"
 
 describe("selectors", () => {
@@ -231,6 +235,47 @@ describe("usersById reducer", () => {
             60: { id: 60, name: "Kevin" },
             61: { id: 61, name: "Sarah" },
           })
+        })
+      })
+    })
+  })
+})
+
+describe("actions", () => {
+  describe("updateUser", () => {
+    it("returns a thunk", () => {
+      const result = actions.updateUser(21, { derp: "yerp" })
+
+      expect(typeof result).to.eql("function")
+    })
+
+    describe("invoking the returned function", () => {
+      let thunk
+      let mockRetroChannel
+
+      beforeEach(() => {
+        thunk = actions.updateUser(21, { email_opt_in: false })
+        mockRetroChannel = setupMockRetroChannel()
+        sinon.spy(mockRetroChannel, "push")
+      })
+
+      afterEach(() => {
+        mockRetroChannel.push.restore()
+      })
+
+      it("results in a push of the params to the retroChannel", () => {
+        thunk(() => {}, undefined, mockRetroChannel)
+        expect(mockRetroChannel.push).calledWith("user_edited", { id: 21, email_opt_in: false })
+      })
+
+      describe("when the push results in an error", () => {
+        it("dispatches an error", () => {
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          mockRetroChannel.__triggerReply("error", {})
+
+          expect(dispatchSpy).calledWithMatch({ type: "USER_UPDATE_REJECTED" })
         })
       })
     })
