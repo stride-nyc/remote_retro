@@ -263,6 +263,38 @@ describe("usersById reducer", () => {
           99: { id: 99, name: "Kevin" },
         })
       })
+
+      describe("when the user on state has additional attributes that aren't in the updates", () => {
+        // this test protects against overwriting ephemeral attributes
+        // added to the user in the course of a retro
+        it("preserves those attributes, rather than overwriting them", () => {
+          const initialState = {
+            21: { id: 21, ephemeralAttribute: "nar!" },
+          }
+
+          deepFreeze(initialState)
+
+          const action = {
+            type: "USER_UPDATE_COMMITTED",
+            updatedUser: {
+              id: 21,
+              name: "Travis",
+              email_opt_in: false,
+              nonsense: "value",
+            },
+          }
+
+          expect(reducer(initialState, action)).to.deep.equal({
+            21: {
+              id: 21,
+              ephemeralAttribute: "nar!",
+              name: "Travis",
+              email_opt_in: false,
+              nonsense: "value",
+            },
+          })
+        })
+      })
     })
   })
 })

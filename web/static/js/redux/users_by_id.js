@@ -18,10 +18,14 @@ export const reducer = (state = {}, action) => {
     }
     case actionTypes.USER_UPDATE_COMMITTED: {
       const { id } = action.updatedUser
+      const updatedUser = {
+        ...state[id],
+        ...action.updatedUser,
+      }
 
       return {
         ...state,
-        [id]: action.updatedUser,
+        [id]: updatedUser,
       }
     }
     default:
