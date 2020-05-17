@@ -20,6 +20,8 @@ export const reducer = (state = null, action) => {
       return { message: "Vote submission failed. Please try again." }
     case actionTypes.VOTE_RETRACTION_REJECTED:
       return { message: "Vote retraction failed. Please try again." }
+    case actionTypes.USER_UPDATE_REJECTED:
+      return { message: "Update failed. Please try again." }
     case actionTypes.CLEAR_ERROR:
       return null
     default:

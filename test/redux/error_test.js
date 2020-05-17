@@ -91,6 +91,17 @@ describe("error", () => {
       })
     })
 
+    describe("when the action type is USER_UPDATE_REJECTED", () => {
+      const initialState = null
+      const action = { type: "USER_UPDATE_REJECTED" }
+
+      it("sets a descriptive error message", () => {
+        expect(reducer(initialState, action)).to.deep.equal({
+          message: "Update failed. Please try again.",
+        })
+      })
+    })
+
     describe("when the action is CLEAR_ERROR", () => {
       const action = { type: "CLEAR_ERROR" }
 
