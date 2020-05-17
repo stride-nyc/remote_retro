@@ -57,6 +57,13 @@ export const actions = {
     return (dispatch, state, retroChannel) => {
       const push = retroChannel.push("user_edited", { id, ...params })
 
+      push.receive("ok", updatedUser => {
+        dispatch({
+          type: actionTypes.USER_UPDATE_COMMITTED,
+          updatedUser,
+        })
+      })
+
       push.receive("error", () => {
         dispatch({ type: actionTypes.USER_UPDATE_REJECTED })
       })

@@ -268,6 +268,23 @@ describe("actions", () => {
         expect(mockRetroChannel.push).calledWith("user_edited", { id: 21, email_opt_in: false })
       })
 
+      describe("when the push is successful", () => {
+        it("dispatches an update action, including the updated user ", () => {
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          mockRetroChannel.__triggerReply("ok", { id: 5, email_opt_in: true })
+
+          expect(dispatchSpy).calledWithMatch({
+            type: "USER_UPDATE_COMMITTED",
+            updatedUser: {
+              id: 5,
+              email_opt_in: true,
+            },
+          })
+        })
+      })
+
       describe("when the push results in an error", () => {
         it("dispatches an error", () => {
           const dispatchSpy = sinon.spy()
