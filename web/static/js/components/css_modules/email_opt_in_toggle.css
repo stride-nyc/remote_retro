@@ -1,53 +1,11 @@
 @import '../../../css/colors.css';
+@import './shared/toggle.css';
 
-:global(.email-opt-in-toggle) {
+.email-opt-in-toggle {
+  composes: toggle;
   padding: 1rem !important;
 
   p {
     text-align: justify;
-  }
-
-  :global(.ui.basic.button) {
-    background-color: white;
-    white-space: nowrap;
-  }
-
-  /*
-    allow checkbox label to live on the right of the input
-      -https://stackoverflow.com/questions/25355614/semantic-ui-positioning-labels
-  */
-  :global(.ui.toggle.checkbox) {
-    :global(label) {
-      cursor: pointer;
-      padding-left: 0;
-      padding-right: 4.5em;
-
-      &:before {
-        background-color: var(--semantic-dark-grey);
-        left: auto;
-        right: 0;
-      }
-
-      &:after {
-        left: auto;
-        right: 2em;
-        transition: background 0.3s ease 0s, right 0.3s ease 0s;
-      }
-    }
-
-    :global(input:checked + label:before) {
-      background-color: var(--semantic-blue);
-    }
-
-    :global(input:focus:not(:checked) ~ label:before) {
-      background-color: var(--semantic-dark-grey);
-    }
-
-    :global(input:checked + label:after) {
-      left: auto;
-      right: 0em;
-      transition: background 0.3s ease 0s, right 0.3s ease 0s;
-      content: '';
-    }
   }
 }

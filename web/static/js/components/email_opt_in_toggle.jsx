@@ -6,7 +6,7 @@ const EmailOptInToggle = props => {
   const { actions, currentUser } = props
 
   return (
-    <div className="email-opt-in-toggle ui secondary compact segment thirteen wide mobile eight wide tablet four wide computer column">
+    <div className={`${styles.emailOptInToggle} ui secondary compact segment thirteen wide mobile eight wide tablet four wide computer column`}>
       <p>
         Would you like to receive occasional emails from RemoteRetro
         and Stride Consulting? You can opt out any time, per our <a href="/privacy">privacy policy</a>.
