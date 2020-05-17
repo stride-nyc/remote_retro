@@ -1,3 +1,9 @@
+:global(.lobby), :global(.prime-directive) {
+  :global(.ui.grid .column:not(.row)).index {
+    padding-left: 0;
+    padding-right: 0;
+  }
+}
 
 /* override hyper-specific semantic ui styles on mobile */
 :global(.ui.stackable.grid>.column:not(.row)).index {
