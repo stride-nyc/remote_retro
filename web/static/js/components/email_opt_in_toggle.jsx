@@ -21,7 +21,7 @@ const EmailOptInToggle = props => {
         >
           <div className="ui toggle checkbox">
             <input type="checkbox" name="public" checked={currentUser.email_opt_in} readOnly />
-            <label>Sure! Sign me up.</label>
+            <label>Sign me up!</label>
           </div>
         </button>
       </div>
