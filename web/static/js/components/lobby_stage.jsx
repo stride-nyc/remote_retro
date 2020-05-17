@@ -34,7 +34,7 @@ const LobbyStage = props => {
       bodyMarkup={bodyMarkup}
     >
       <ShareRetroLinkModal />
-      <EmailOptInToggle emailOptIn={currentUser.email_opt_in} actions={{}} />
+      <EmailOptInToggle currentUser={currentUser} actions={{}} />
     </CenteredTextStageWrapper>
   )
 }

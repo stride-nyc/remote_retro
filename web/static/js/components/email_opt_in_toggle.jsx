@@ -1,10 +1,10 @@
 import React from "react"
-import PropTypes from "prop-types"
+import * as AppPropTypes from "../prop_types"
 import cx from "classnames"
 import styles from "./css_modules/email_opt_in_toggle.css"
 
 const EmailOptInToggle = props => {
-  const { actions, emailOptIn } = props
+  const { actions, currentUser } = props
 
   const wrapperClasses = cx(styles.wrapper)
 
@@ -18,9 +18,15 @@ const EmailOptInToggle = props => {
         <p>
           You can opt out any time. <a href="/privacy">Privacy Policy</a>
         </p>
-        <button className="ui basic compact button" type="button" onClick={actions.toggleEmailOptIn}>
+        <button
+          className="ui basic compact button"
+          type="button"
+          onClick={() => {
+            actions.updateUser(currentUser.id, { email_opt_in: !currentUser.email_opt_in })
+          }}
+        >
           <div className="ui toggle checkbox">
-            <input type="checkbox" name="public" checked={emailOptIn} readOnly />
+            <input type="checkbox" name="public" checked={currentUser.email_opt_in} readOnly />
             <label>Sure! Sign me up.</label>
           </div>
         </button>
@@ -30,8 +36,8 @@ const EmailOptInToggle = props => {
 }
 
 EmailOptInToggle.propTypes = {
-  actions: PropTypes.object.isRequired,
-  emailOptIn: PropTypes.bool.isRequired,
+  actions: AppPropTypes.actions.isRequired,
+  currentUser: AppPropTypes.user.isRequired,
 }
 
 export default EmailOptInToggle

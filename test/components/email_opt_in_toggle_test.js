@@ -1,11 +1,12 @@
 import React from "react"
+import sinon from "sinon"
 import { shallow } from "enzyme"
 import EmailOptInToggle from "../../web/static/js/components/email_opt_in_toggle"
 
 describe("EmailOptInToggle", () => {
   const defaultProps = {
     actions: {},
-    emailOptIn: false,
+    currentUser: { id: 777, email_opt_in: false },
   }
 
   const wrapper = (props = defaultProps) => {
@@ -18,7 +19,7 @@ describe("EmailOptInToggle", () => {
     return wrapper(props).find("input[type='checkbox']").prop("checked")
   }
 
-  context("when the user previously opted out", () => {
+  context("when the current user previously opted out", () => {
     it("renders its checkbox input in the unchecked state", () => {
       expect(checkboxState()).to.eql(false)
     })
@@ -26,18 +27,28 @@ describe("EmailOptInToggle", () => {
 
   context("when the user previously opted in", () => {
     it("renders its checkbox input in the checked state", () => {
-      expect(checkboxState({ ...defaultProps, ...{ emailOptIn: true } })).to.eql(true)
+      expect(checkboxState({ ...defaultProps, currentUser: { email_opt_in: true } })).to.eql(true)
     })
   })
 
   context("when the user clicks the toggle", () => {
-    xit("renders its checkbox input in the opposite state", () => {
-      const oldState = checkboxState()
-      expect(checkboxState()).to.eql(!oldState)
+    let emailOptInToggleWrapper
+    let updateUserSpy
+
+    beforeEach(() => {
+      updateUserSpy = sinon.spy()
+      emailOptInToggleWrapper = shallow(
+        <EmailOptInToggle
+          {...defaultProps}
+          actions={{ updateUser: updateUserSpy }}
+        />
+      )
+
+      emailOptInToggleWrapper.find("button").simulate("click")
     })
 
-    xit("sends the updated preference to the server for persistence", () => {
-
+    it("sends the updated preference to the server for persistence", () => {
+      expect(updateUserSpy).to.have.been.calledWith(777, { email_opt_in: true })
     })
   })
 })
