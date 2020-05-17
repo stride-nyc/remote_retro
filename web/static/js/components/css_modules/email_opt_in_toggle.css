@@ -1,6 +1,12 @@
 @import '../../../css/colors.css';
 
-.wrapper {
+:global(.email-opt-in-toggle) {
+  padding: 1rem !important;
+
+  p {
+    text-align: justify;
+  }
+
   :global(.ui.basic.button) {
     background-color: white;
     white-space: nowrap;
