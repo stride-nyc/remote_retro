@@ -466,6 +466,27 @@ defmodule RemoteRetro.RetroChannelTest do
     end
   end
 
+  describe "pushing a `user_edited` event with params" do
+    setup [:join_the_retro_channel]
+
+    test "replies with an updated user with the email opt_in value from the pushed event", ~M{socket} do
+      user = persist_test_user(%{"email_opt_in" => false})
+
+      ref = push(socket, "user_edited", %{id: user.id, email_opt_in: true})
+
+      # extra assertion required to wait for async process to complete
+      %{payload: updated_user} = assert_reply(ref, :ok)
+
+      assert updated_user.email_opt_in == true
+    end
+
+    test "replies with an error when pushing invalid params", ~M{socket, facilitator} do
+      ref = push(socket, "user_edited", %{id: facilitator.id, email_opt_in: "n0n5ense"})
+
+      assert_reply(ref, :error)
+    end
+  end
+
   describe "pushing an unhandled message to the socket" do
     setup [:join_the_retro_channel]
 

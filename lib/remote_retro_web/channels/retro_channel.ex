@@ -7,7 +7,8 @@ defmodule RemoteRetroWeb.RetroChannel do
     VotingHandlers,
     IdeationHandlers,
     RetroManagementHandlers,
-    GroupHandlers
+    GroupHandlers,
+    UserHandlers
   }
 
   alias RemoteRetro.{Retro}
@@ -26,12 +27,10 @@ defmodule RemoteRetroWeb.RetroChannel do
     {:noreply, socket}
   end
 
-  # delegate pattern matching and handling of idea-related messages to handler module
   def handle_in("idea_" <> _ = message_type, idea_params, socket) do
     IdeationHandlers.handle_in(message_type, idea_params, socket)
   end
 
-  # delegate pattern matching and handling of vote-related messages to handler module
   def handle_in("vote_" <> _ = message_type, vote_params, socket) do
     VotingHandlers.handle_in(message_type, vote_params, socket)
   end
@@ -42,6 +41,10 @@ defmodule RemoteRetroWeb.RetroChannel do
 
   def handle_in("group_edited" = message_type, group_params, socket) do
     GroupHandlers.handle_in(message_type, group_params, socket)
+  end
+
+  def handle_in("user_edited" = message_type, user_params, socket) do
+    UserHandlers.handle_in(message_type, user_params, socket)
   end
 
   def handle_in(unhandled_message, payload, socket) do

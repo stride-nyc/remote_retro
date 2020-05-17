@@ -14,6 +14,7 @@ defmodule RemoteRetro.User do
 
   @optional_fields [
     :family_name,
+    :email_opt_in,
   ]
 
   @derive {Jason.Encoder, except: [:__meta__, :participations, :retros, :google_user_info]}
