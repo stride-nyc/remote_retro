@@ -33,14 +33,14 @@ describe("EmailOptInToggle", () => {
 
   context("when the user clicks the toggle", () => {
     let emailOptInToggleWrapper
-    let updateUserSpy
+    let updateUserAsyncSpy
 
     beforeEach(() => {
-      updateUserSpy = sinon.spy()
+      updateUserAsyncSpy = sinon.spy()
       emailOptInToggleWrapper = shallow(
         <EmailOptInToggle
           {...defaultProps}
-          actions={{ updateUser: updateUserSpy }}
+          actions={{ updateUserAsync: updateUserAsyncSpy }}
         />
       )
 
@@ -48,7 +48,7 @@ describe("EmailOptInToggle", () => {
     })
 
     it("sends the updated preference to the server for persistence", () => {
-      expect(updateUserSpy).to.have.been.calledWith(777, { email_opt_in: true })
+      expect(updateUserAsyncSpy).to.have.been.calledWith(777, { email_opt_in: true })
     })
   })
 })

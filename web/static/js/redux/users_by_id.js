@@ -53,7 +53,7 @@ export const selectors = {
 }
 
 export const actions = {
-  updateUser: (id, params) => {
+  updateUserAsync: (id, params) => {
     return (dispatch, state, retroChannel) => {
       const push = retroChannel.push("user_edited", { id, ...params })
 

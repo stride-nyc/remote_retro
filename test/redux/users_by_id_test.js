@@ -242,9 +242,9 @@ describe("usersById reducer", () => {
 })
 
 describe("actions", () => {
-  describe("updateUser", () => {
+  describe("updateUserAsync", () => {
     it("returns a thunk", () => {
-      const result = actions.updateUser(21, { derp: "yerp" })
+      const result = actions.updateUserAsync(21, { derp: "yerp" })
 
       expect(typeof result).to.eql("function")
     })
@@ -254,7 +254,7 @@ describe("actions", () => {
       let mockRetroChannel
 
       beforeEach(() => {
-        thunk = actions.updateUser(21, { email_opt_in: false })
+        thunk = actions.updateUserAsync(21, { email_opt_in: false })
         mockRetroChannel = setupMockRetroChannel()
         sinon.spy(mockRetroChannel, "push")
       })

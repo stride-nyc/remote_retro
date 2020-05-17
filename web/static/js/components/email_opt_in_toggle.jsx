@@ -19,7 +19,7 @@ const EmailOptInToggle = props => {
           className="ui basic compact button"
           type="button"
           onClick={() => {
-            actions.updateUser(currentUser.id, { email_opt_in: !currentUser.email_opt_in })
+            actions.updateUserAsync(currentUser.id, { email_opt_in: !currentUser.email_opt_in })
           }}
         >
           <div className="ui toggle checkbox">
