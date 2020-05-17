@@ -10,10 +10,7 @@ const EmailOptInToggle = props => {
       <div className={styles.wrapper}>
         <p>
           Would you like to receive occasional emails from RemoteRetro
-          and Stride Consulting?
-        </p>
-        <p>
-          You can opt out any time. <a href="/privacy">Privacy Policy</a>
+          and Stride Consulting? You can opt out any time, per our <a href="/privacy">privacy policy</a>.
         </p>
         <button
           className="ui basic compact button"
