@@ -238,6 +238,32 @@ describe("usersById reducer", () => {
         })
       })
     })
+
+    describe("when the action is USER_UPDATE_COMMITTED", () => {
+      it("updates the user with matching id", () => {
+        const initialState = {
+          21: { id: 21, name: "Travis" },
+          99: { id: 99, name: "Kevin" },
+        }
+
+        deepFreeze(initialState)
+
+        const action = {
+          type: "USER_UPDATE_COMMITTED",
+          updatedUser: {
+            id: 21,
+            name: "Travis",
+            email_opt_in: false,
+            nonsense: "value",
+          },
+        }
+
+        expect(reducer(initialState, action)).to.deep.equal({
+          21: { id: 21, name: "Travis", email_opt_in: false, nonsense: "value" },
+          99: { id: 99, name: "Kevin" },
+        })
+      })
+    })
   })
 })
 

@@ -16,6 +16,14 @@ export const reducer = (state = {}, action) => {
       const users = presencesRepresentingJoins.map(join => join.user)
       return { ...state, ...keyBy(users, USER_PRIMARY_KEY) }
     }
+    case actionTypes.USER_UPDATE_COMMITTED: {
+      const { id } = action.updatedUser
+
+      return {
+        ...state,
+        [id]: action.updatedUser,
+      }
+    }
     default:
       return state
   }
