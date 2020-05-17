@@ -1,16 +1,9 @@
 @import '../../../css/colors.css';
 
 .wrapper {
-  padding-top: 2rem;
-
   :global(.ui.basic.button) {
-    margin: 1rem 0;
     background-color: white;
     white-space: nowrap;
-  }
-
-  .email-opt-in-prompt {
-    line-height: 5rem;
   }
 
   /*

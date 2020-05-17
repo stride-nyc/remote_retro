@@ -6,7 +6,7 @@ const EmailOptInToggle = props => {
   const { actions, currentUser } = props
 
   return (
-    <div className="thirteen wide mobile eight wide tablet four wide computer column">
+    <div className="ui secondary compact segment thirteen wide mobile eight wide tablet four wide computer column">
       <div className={styles.wrapper}>
         <p>
           Would you like to receive occasional emails from RemoteRetro
