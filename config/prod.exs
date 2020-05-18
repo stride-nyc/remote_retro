@@ -43,6 +43,7 @@ config :honeybadger,
   api_key: "${HONEYBADGER_API_KEY}",
   hostname: "${HOST}",
   environment_name: :production,
+  project_root: "${HOST}",
   revision: "${SOURCE_VERSION}"
 
 config :libcluster,
