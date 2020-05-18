@@ -12,7 +12,7 @@ const EmailOptInToggle = props => {
         and Stride Consulting? You can opt out any time, per our <a href="/privacy">privacy policy</a>.
       </p>
       <button
-        className="ui basic fluid compact button"
+        className="ui small basic fluid compact button"
         type="button"
         onClick={() => {
           actions.updateUserAsync(currentUser.id, { email_opt_in: !currentUser.email_opt_in })

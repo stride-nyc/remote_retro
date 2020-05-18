@@ -3,7 +3,11 @@
 
 .email-opt-in-toggle {
   composes: toggle;
-  padding: 1rem !important;
+
+  &:global(.ui.secondary.compact.segment) {
+    padding: 1rem;
+    font-size: 12px;
+  }
 
   p {
     text-align: justify;
