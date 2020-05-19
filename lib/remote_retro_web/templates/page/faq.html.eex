@@ -10,8 +10,11 @@
   <h2 class="ui medium header">Who can use RemoteRetro?</h2>
   <p>Anyone with a Google account of any kind can enter a retrospective!</p>
 
+  <h2 class="ui medium header">What's RemoteRetro's privacy policy?</h2>
+  <p><a href="/privacy">Read it!</a></p>
+
   <h2 class="ui medium header">My team is entirely colocated. Should we use RemoteRetro?</h2>
-  <p>You certainly <i>could</i>, but we don't recommend it, as there's no substitute for face-to-face communication. Use a whiteboard!</p>
+  <p>That depends. If you have a large TV on which to show the board, RemoteRetro will expedite the idea submission, grouping, and voting process, but be mindful that once you get to the discussion/action items stage, non-facilitators should put their laptops away to maximize face-to-face communication.</p>
 
   <h2 class="ui medium header">Where can I learn about planned features and updates?</h2>
   <p>Our backlog is public, and resides in <a href="https://github.com/stride-nyc/remote_retro/issues">GitHub issues</a>, which can be viewed in priority order via the wonderful <a href="http://zenhub.io/">ZenHub Chrome extension</span></a>.</p>
