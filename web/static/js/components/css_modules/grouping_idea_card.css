@@ -11,6 +11,7 @@
   z-index: var(--grouping-card-z-index);
 
   max-width: 250px;
+  word-wrap: break-word;
 
   transition: border 0.15s, box-shadow 0.15s;
 
@@ -22,8 +23,7 @@
   font-size: 12px;
   padding: var(--vertical-padding) 8px;
 
-  /* only show two lines of text to preserve real estate on grouping board */
-  overflow: hidden;
+  overflow: auto;
   max-height: calc(
     (var(--semantic-line-height) * var(--max-lines-to-show)) +
     (var(--vertical-padding) * 2) +
