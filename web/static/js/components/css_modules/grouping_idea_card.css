@@ -17,7 +17,7 @@
 
   --vertical-padding: 4px;
   --border-width: 1px;
-  --max-lines-to-show: 2;
+  --max-lines-to-show: 3;
   --semantic-line-height: 1.4em;
 
   font-size: 12px;
@@ -27,7 +27,7 @@
   max-height: calc(
     (var(--semantic-line-height) * var(--max-lines-to-show)) +
     (var(--vertical-padding) * 2) +
-    (var(--border-width))
+    (var(--border-width) * 2.1)
   );
 
   --minimized-vertical-padding: 3px;
@@ -40,7 +40,7 @@
     max-height: calc(
       (var(--minimized-semantic-line-height) * var(--max-lines-to-show)) +
       (var(--minimized-vertical-padding) * 2) +
-      (var(--border-width))
+      (var(--border-width) * 2.1)
     );
   }
 
