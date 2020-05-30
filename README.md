@@ -3,7 +3,7 @@
 
 # RemoteRetro
 
-This repository houses the application code for [RemoteRetro.org](http://remoteretro.org), a free web app that allows distributed teams to conduct free Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](http://stridenyc.com).
+This repository houses the application code for [RemoteRetro.org](http://remoteretro.org), a free web app that allows distributed teams to conduct Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](http://stridenyc.com).
 
 ## Table of Contents
 1. [Project Management](#project-management)
