@@ -3,6 +3,7 @@
 :root {
   --max-width-of-board: 1440px;
   --min-height-of-board: 665px;
+  --maximum-multiline-cards-in-a-given-row: 6;
 }
 
 .board-and-side-gutter-wrapper {

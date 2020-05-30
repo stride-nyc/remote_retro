@@ -1,8 +1,10 @@
 @import '../../../css/colors.css';
+@import './grouping_board.css';
 
 :root {
   /* also leveraged in grouping_board.css to ensure cards can never travel over gutters */
   --grouping-card-z-index: 1;
+  --side-margin-of-cards: 2px;
 }
 
 .wrapper {
@@ -10,7 +12,13 @@
   vertical-align: top;
   z-index: var(--grouping-card-z-index);
 
-  max-width: 250px;
+  /* take up optimal amount of width in rows where every card in the row fills its width */
+  max-width: calc(
+    (var(--max-width-of-board) - (
+      var(--side-margin-of-cards) * 2 * var(--maximum-multiline-cards-in-a-given-row))
+    ) / var(--maximum-multiline-cards-in-a-given-row)
+  );
+
   word-wrap: break-word;
 
   transition: border 0.15s, box-shadow 0.15s;
