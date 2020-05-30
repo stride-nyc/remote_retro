@@ -87,7 +87,11 @@ export class GroupingIdeaCard extends Component {
     })
 
     return connectDragSource(
-      <p className={classes} style={style} ref={cardNode => { this.cardNode = cardNode }}>
+      <p
+        className={classes}
+        style={style}
+        ref={cardNode => { this.cardNode = cardNode }}
+      >
         {idea.body}
 
         {idea.editSubmitted && (
