@@ -3,8 +3,6 @@ defmodule RemoteRetro.OAuth.Google do
   Module for Google Oath.
   """
 
-  use OAuth2.Strategy
-
   @oauth_client Application.get_env(:remote_retro, :oauth_client)
 
   def authorize_url!(params) do
