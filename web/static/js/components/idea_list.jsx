@@ -1,5 +1,4 @@
 import React, { Component } from "react"
-import FlipMove from "react-flip-move"
 import classNames from "classnames"
 import { OverflowDetector } from "react-overflow"
 
@@ -34,17 +33,7 @@ class IdeaList extends Component {
           ref={list => { this.list = list }}
           className={listClasses}
         >
-          <FlipMove
-            delay={500}
-            duration={750}
-            staggerDelayBy={100}
-            easing="ease"
-            enterAnimation="none"
-            leaveAnimation="none"
-            typeName={null}
-          >
-            {ideasSorted.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
-          </FlipMove>
+          {ideasSorted.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
         </ul>
       </OverflowDetector>
     )
