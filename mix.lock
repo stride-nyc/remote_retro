@@ -48,7 +48,7 @@
   "quick_alias": {:hex, :quick_alias, "0.1.0", "9a0b11ca0963a88c32d869a55de4037e3e1c7f176ba27f6d7f92acb6e3da5892", [:mix], [], "hexpm"},
   "ranch": {:hex, :ranch, "1.7.1", "6b1fab51b49196860b733a49c07604465a47bdb78aa10c1c16a3d199f7f8c881", [:rebar3], [], "hexpm", "451d8527787df716d99dc36162fca05934915db0b6141bbdac2ea8d3c7afc7d7"},
   "shorter_maps": {:hex, :shorter_maps, "2.2.5", "77b2e3632a49c72ca8aea2a47687767b3ad2623b9ade529ffe31f41865a32886", [:mix], [], "hexpm", "fbef59a9f13369f819111f500f0253678526ea8c717d794a224df41223bc88ab"},
-  "slender_channel": {:hex, :slender_channel, "0.2.0", "a49705df9d48bd982b68f93add3daf03fb8cc887912e417bff48943638da5938", [:mix], [], "hexpm", "17dc7cec1770a3932775dd6862c68cce1dfdfd32118f656198bf86d585355ae5"},
+  "slender_channel": {:hex, :slender_channel, "1.0.0", "77399af999a47799dd85bbeb5d1416f849c9632f4167a4668aa6b7947f798c2d", [:mix], [], "hexpm", "e3bf7aa605fa3f7fd298f97969c36933c6fc4ba250fc5d2972267ebc28abb1da"},
   "ssl_verify_fun": {:hex, :ssl_verify_fun, "1.1.5", "6eaf7ad16cb568bb01753dbbd7a95ff8b91c7979482b95f38443fe2c8852a79b", [:make, :mix, :rebar3], [], "hexpm", "13104d7897e38ed7f044c4de953a6c28597d1c952075eb2e328bc6d6f2bfc496"},
   "telemetry": {:hex, :telemetry, "0.4.1", "ae2718484892448a24470e6aa341bc847c3277bfb8d4e9289f7474d752c09c7f", [:rebar3], [], "hexpm", "4738382e36a0a9a2b6e25d67c960e40e1a2c95560b9f936d8e29de8cd858480f"},
   "telemetry_metrics": {:hex, :telemetry_metrics, "0.4.2", "1de986fad9aa6bf81f8a33ddfd16e5d8ab0dec6272e624eb517c1a92a44d41a9", [:mix], [{:telemetry, "~> 0.4", [hex: :telemetry, repo: "hexpm", optional: false]}], "hexpm", "e56ffed2dbe293ab6cf7c94980faeb368cb360662c1927f54fc634a4ca55362e"},
