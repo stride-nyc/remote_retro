@@ -52,7 +52,7 @@ defmodule RemoteRetro.Mixfile do
       {:plug, "~> 1.10.1"},
       {:mix_test_watch, "~> 1.0.2", [runtime: false, only: :dev]},
       {:mock, "~> 0.3.4", only: :test},
-      {:oauth2, "~> 0.9.4"},
+      {:oauth2, "~> 2.0"},
       {:gettext, "~> 0.18"},
       {:wallaby, "~> 0.25.0", [runtime: false, only: :test]},
       {:shorter_maps, "~> 2.0"},

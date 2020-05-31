@@ -35,5 +35,6 @@ defmodule RemoteRetro.OAuth.Google do
       authorize_url: "https://accounts.google.com/o/oauth2/auth",
       token_url: "https://accounts.google.com/o/oauth2/token"
     )
+    |> @oauth_client.put_serializer("application/json", Jason)
   end
 end

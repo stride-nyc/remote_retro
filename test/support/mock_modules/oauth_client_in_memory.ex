@@ -4,6 +4,7 @@ defmodule RemoteRetro.OAuth.Client.InMemory do
   defdelegate new(config), to: OAuth2.Client
   defdelegate authorize_url!(client, scope), to: OAuth2.Client
   defdelegate put_param(client, param_name, param_value), to: OAuth2.Client
+  defdelegate put_serializer(client, format, serializer), to: OAuth2.Client
 
   def get_token!(_client, _code) do
     %OAuth2.Client{
