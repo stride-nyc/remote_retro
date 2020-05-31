@@ -57,14 +57,14 @@ defmodule RemoteRetro.Mixfile do
       {:wallaby, "~> 0.25.0", [runtime: false, only: :test]},
       {:shorter_maps, "~> 2.0"},
       {:slender_channel, "~> 1.0"},
-      {:libcluster, "~> 3.1.1"},
+      {:libcluster, "~> 3.2"},
       {:bamboo, "~> 1.5"},
       {:honeybadger, "~> 0.14.0"},
       {:apex, "~>1.2.1", only: [:dev, :test]},
       {:timex, "~> 3.6"},
       {:telemetry_poller, "~> 0.5"},
       {:telemetry_metrics, "~> 0.5"},
-      {:jason, "~> 1.1.2"},
+      {:jason, "~> 1.2.1"},
     ]
   end
 
