@@ -1,0 +1,6 @@
+div.guidance {
+  &:global(.ui.content),
+  &:global(.ui.content li) {
+    font-size: 16px !important;
+  }
+}

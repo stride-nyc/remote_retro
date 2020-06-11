@@ -5,6 +5,7 @@ import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
 
 import { actions as actionCreators } from "../redux"
+import styles from "./css_modules/alert.css"
 
 Modal.defaultStyles.content.zIndex = 2
 Modal.defaultStyles.overlay.zIndex = 2
@@ -19,15 +20,15 @@ export const Alert = props => {
 
   return (
     <Modal
-      className="ui basic small modal visible transition fade in active"
+      className="ui small modal visible transition fade in active"
       contentLabel="Alert"
       isOpen
     >
       <div className="ui basic padded clearing segment">
-        <p className="ui dividing large header">
+        <p className="ui dividing huge header">
           {headerText}
         </p>
-        <div className="ui content">
+        <div className={`ui content ${styles.guidance}`}>
           <BodyComponent />
         </div>
         <br />
