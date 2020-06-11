@@ -20,7 +20,7 @@ export const Alert = props => {
 
   return (
     <Modal
-      className="ui small modal visible transition fade in active"
+      className={styles.wrapper}
       contentLabel="Alert"
       isOpen
     >
