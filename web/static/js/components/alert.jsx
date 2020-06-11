@@ -19,12 +19,12 @@ export const Alert = props => {
 
   return (
     <Modal
-      className="ui tiny modal visible transition fade in active"
+      className="ui basic small modal visible transition fade in active"
       contentLabel="Alert"
       isOpen
     >
       <div className="ui basic padded clearing segment">
-        <p className="ui dividing header">
+        <p className="ui dividing large header">
           {headerText}
         </p>
         <div className="ui content">
