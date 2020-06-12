@@ -20,8 +20,11 @@ export const Alert = props => {
 
   return (
     <Modal
-      className={styles.wrapper}
+      className={`modal ${styles.wrapper}`}
       contentLabel="Alert"
+      style={{
+        overlay: { backgroundColor: 'rgba(0, 0, 0, 0.85)' },
+      }}
       isOpen
     >
       <div className="ui basic padded clearing segment">

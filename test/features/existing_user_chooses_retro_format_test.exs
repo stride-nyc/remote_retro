@@ -24,7 +24,7 @@ defmodule ExistingUserChoosesRetroFormatTest do
 
       click_and_confirm_progression_to(session, "Idea Generation")
 
-      assert_has(session, Query.css(".ui.modal", text: "Suggest practices that the team could start, stop, or continue"))
+      assert_has(session, Query.css(".modal", text: "Suggest practices that the team could start, stop, or continue"))
       click(session, Query.css("button", text: "Got it!"))
 
       assert_has(session, Query.css(".start.column"))

@@ -11,7 +11,7 @@ defmodule AccessStageHelpTest do
 
     trigger_help(session)
 
-    assert_has(session, Query.css(".ui.modal", text: "The skinny on Action-Item Generation"))
+    assert_has(session, Query.css(".modal", text: "The skinny on Action-Item Generation"))
   end
 
   defp trigger_help(session) do
