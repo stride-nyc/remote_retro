@@ -4,9 +4,19 @@
   background-color: white;
   height: fit-content;
   box-shadow: 1px 3px 3px 0 rgba(0,0,0,.2), 1px 3px 15px 2px rgba(0,0,0,.2);
+  display: flex;
+  justify-content: center;
+
+  :global(.ui.basic.padded.clearing.segment) {
+    @media(min-width: 768px) {
+      width: fit-content;
+    }
+  }
 }
 
 div.guidance {
+  max-width: 625px;
+
   &:global(.ui.content),
   &:global(.ui.content li) {
     font-size: 16px;
