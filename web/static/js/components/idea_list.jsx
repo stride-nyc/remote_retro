@@ -1,6 +1,6 @@
 import React, { Component } from "react"
 import classNames from "classnames"
-import { OverflowDetector } from "react-overflow"
+import OverflowDetector from "./overflow_detector"
 
 import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
@@ -19,22 +19,17 @@ class IdeaList extends Component {
     const { props, state } = this
     const { ideasSorted } = props
 
-    const listContainerClasses = classNames(styles.listContainer, {
+    const listClasses = classNames("ideas", styles.list, {
       overflowed: state.isOverflowed,
     })
-    const listClasses = classNames("ideas", styles.list)
 
     return (
       <OverflowDetector
+        elementType="ul"
         onOverflowChange={this.handleListOverflowChange}
-        className={listContainerClasses}
+        className={listClasses}
       >
-        <ul
-          ref={list => { this.list = list }}
-          className={listClasses}
-        >
-          {ideasSorted.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
-        </ul>
+        {ideasSorted.map(idea => <Idea {...this.props} idea={idea} key={idea.id} />)}
       </OverflowDetector>
     )
   }
