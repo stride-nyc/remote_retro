@@ -1,13 +1,13 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import { OverflowDetector } from "react-overflow"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_group.css"
 import ideaStyles from "./css_modules/idea.css"
 import GroupLabelContainer from "./group_label_container"
 import VotingInterface from "./voting_interface"
+import OverflowDetector from "./overflow_detector"
 
 import STAGES from "../configs/stages"
 
@@ -64,8 +64,9 @@ class IdeaGroup extends Component {
         </div>
 
         <OverflowDetector
-          onOverflowChange={this.handleListOverflowChange}
           className={listContainerClasses}
+          elementType="div"
+          onOverflowChange={this.handleListOverflowChange}
         >
           <ul className={styles.list}>
             {groupWithAssociatedIdeasAndVotes.ideas.map(idea => {
