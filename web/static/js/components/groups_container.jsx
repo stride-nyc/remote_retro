@@ -4,13 +4,13 @@ import orderBy from "lodash/orderBy"
 import PropTypes from "prop-types"
 import FlipMove from "react-flip-move"
 import classNames from "classnames"
-import { OverflowDetector } from "react-overflow"
 
 import { selectors } from "../redux/index"
 
 import LowerThird from "./lower_third"
 import IdeaGroup from "./idea_group"
 import CategoryColumn from "./category_column"
+import OverflowDetector from "./overflow_detector"
 import UserList from "./user_list"
 
 import * as AppPropTypes from "../prop_types"
@@ -55,6 +55,7 @@ export class GroupsContainer extends Component {
       <div className={styles.wrapper}>
         <div className={styles.flexContainerForGroupsAndOptionallyActionItems}>
           <OverflowDetector
+            elementType="div"
             onOverflowChange={this.handleOverflowChange}
             className={groupsListClasses}
           >
