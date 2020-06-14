@@ -16,7 +16,7 @@ describe("Alert component", () => {
 
   let actions = {}
 
-  describe("when passed an alert config", () => {
+  describe("when passed a config", () => {
     beforeEach(() => {
       wrapper = mountWithConnectedSubcomponents(<Alert config={alertConfig} actions={actions} />)
       portalToModalContent = wrapper.find(Modal).instance().portal
@@ -51,6 +51,16 @@ describe("Alert component", () => {
       it("invokes the clearAlert action", () => {
         expect(actions.clearAlert).called
       })
+    })
+  })
+
+  describe("when the config is non-existent on initial render", () => {
+    beforeEach(() => {
+      wrapper = mountWithConnectedSubcomponents(<Alert config={null} actions={actions} />)
+    })
+
+    it("renders nothing at all", () => {
+      expect(wrapper.html()).to.equal(null)
     })
   })
 })
