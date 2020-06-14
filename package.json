@@ -3,7 +3,7 @@
   "license": "MIT",
   "scripts": {
     "compile-production": "webpack --mode production --config='webpack.dll.js' && webpack --config='webpack.prod.config.js'",
-    "compile-test": "webpack --config='webpack.dll.js' && webpack --config='webpack.shared.config.js'",
+    "compile-test": "webpack --config='webpack.dll.js' && NODE_ENV=test webpack --config='webpack.shared.config.js'",
     "watch": "webpack --config='webpack.dll.js' && NODE_ENV=dev node webpack.devserver.js",
     "precommit": "lint-staged",
     "postinstall": "bin/prepare_semantic_ui_for_consumption_by_phoenix",

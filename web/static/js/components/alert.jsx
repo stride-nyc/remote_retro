@@ -43,7 +43,7 @@ export class Alert extends Component {
         overlayClassName={styles.overlay}
         contentLabel="Alert"
         isOpen={isOpen}
-        closeTimeoutMS={250}
+        closeTimeoutMS={process.env.NODE_ENV === "test" ? 1 : 250} // avoid delayed removal in e2e tests
       >
         <div className="ui basic padded clearing segment">
           <p className="ui dividing huge header">
