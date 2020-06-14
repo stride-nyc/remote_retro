@@ -6,6 +6,9 @@
   bottom: 0px;
   background-color: rgba(0, 0, 0, 0.85);
   z-index: 2;
+
+  transition: opacity 250ms ease-in;
+  opacity: 0;
 }
 
 .wrapper {
@@ -23,13 +26,21 @@
     }
   }
 
-  transition: transform 300ms ease-in-out;
+  transition: transform 250ms ease-in-out;
   transform: translateY(-100%);
 }
 
 :global(.ReactModal__Overlay--after-open) {
+  opacity: 1;
   .wrapper {
     transform: translateY(0);
+  }
+}
+
+:global(.ReactModal__Overlay--before-close) {
+  opacity: 0;
+  .wrapper {
+    transform: translateY(-100%);
   }
 }
 

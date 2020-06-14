@@ -1,4 +1,4 @@
-import React from "react"
+import React, { Component } from "react"
 import PropTypes from "prop-types"
 import Modal from "react-modal"
 import { bindActionCreators } from "redux"
@@ -11,39 +11,60 @@ Modal.defaultStyles.content.zIndex = 2
 Modal.defaultStyles.overlay.zIndex = 2
 Modal.setAppElement("body")
 
-export const Alert = props => {
-  const { actions, config } = props
+export class Alert extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      config: props.config,
+      isOpen: !!props.config,
+    }
+  }
 
-  if (!config) return null
+  static getDerivedStateFromProps(props, state) {
+    const isOpen = !!props.config
 
-  const { headerText, BodyComponent } = config
+    return {
+      config: isOpen ? props.config : state.config,
+      isOpen,
+    }
+  }
 
-  return (
-    <Modal
-      className={`modal ${styles.wrapper}`}
-      overlayClassName={styles.overlay}
-      contentLabel="Alert"
-      isOpen
-    >
-      <div className="ui basic padded clearing segment">
-        <p className="ui dividing huge header">
-          {headerText}
-        </p>
-        <div className={`ui content ${styles.guidance}`}>
-          <BodyComponent />
+  render() {
+    const { actions } = this.props
+    const { config, isOpen } = this.state
+
+    if (!config) return null
+
+    const { headerText, BodyComponent } = config
+
+    return (
+      <Modal
+        className={`modal ${styles.wrapper}`}
+        overlayClassName={styles.overlay}
+        contentLabel="Alert"
+        isOpen={isOpen}
+        closeTimeoutMS={250}
+      >
+        <div className="ui basic padded clearing segment">
+          <p className="ui dividing huge header">
+            {headerText}
+          </p>
+          <div className={`ui content ${styles.guidance}`}>
+            <BodyComponent />
+          </div>
+          <br />
+          <button
+            autoFocus /* eslint-disable-line jsx-a11y/no-autofocus */
+            type="button"
+            className="ui blue right floated button"
+            onClick={actions.clearAlert}
+          >
+            Got it!
+          </button>
         </div>
-        <br />
-        <button
-          autoFocus /* eslint-disable-line jsx-a11y/no-autofocus */
-          type="button"
-          className="ui blue right floated button"
-          onClick={actions.clearAlert}
-        >
-          Got it!
-        </button>
-      </div>
-    </Modal>
-  )
+      </Modal>
+    )
+  }
 }
 
 Alert.propTypes = {
