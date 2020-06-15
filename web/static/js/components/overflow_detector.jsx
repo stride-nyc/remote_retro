@@ -8,20 +8,24 @@ export const DomElementUtils = {
 }
 
 export default class OverflowDetector extends Component {
-  state = {
-    isOverflowed: false,
+  constructor(props) {
+    super(props)
+    this.isOverflowed = false
   }
 
   componentDidMount() {
     this.interval = setInterval(() => {
-      const { onOverflowChange } = this.props
-      const { isOverflowed: wasOverflowed } = this.state
+      const {
+        isOverflowed: wasOverflowed,
+        props,
+        wrappingEl,
+      } = this
 
-      const isOverflowed = DomElementUtils.isOverflowedY(this.wrappingEl)
+      const isOverflowed = DomElementUtils.isOverflowedY(wrappingEl)
 
       if (isOverflowed !== wasOverflowed) {
-        this.setState({ isOverflowed })
-        onOverflowChange(isOverflowed)
+        this.isOverflowed = isOverflowed
+        props.onOverflowChange(isOverflowed)
       }
     }, 300)
   }
