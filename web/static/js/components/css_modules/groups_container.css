@@ -7,6 +7,7 @@
     flex: 1;
     display: flex;
     flex-direction: column;
+    position: relative;
 
     @media(min-width: 1040px) {
       display: block;
