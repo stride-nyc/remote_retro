@@ -99,8 +99,38 @@ describe("<OverflowDetector />", () => {
 
     it("checks whether the element is overflowed after an interval", () => {
       expect(() => {
-        clock.tick(300)
+        clock.tick(350)
       }).to.alter(() => isOverflowedYSpy.called, { from: false, to: true })
+    })
+
+    describe("when passed an explicit interval greater than 300", () => {
+      beforeEach(() => {
+        // renewing timers/spies necessary to ensure clean slate from ancestral beforeEach's
+        clock.restore()
+        clock = sinon.useFakeTimers()
+
+        isOverflowedYSpy.restore()
+        isOverflowedYSpy = sinon.spy(DomElementUtils, "isOverflowedY")
+
+        mount(
+          <OverflowDetector
+            {...defaultProps}
+            onOverflowChange={onOverflowChangeSpy}
+            interval={2000}
+          />
+        )
+      })
+
+      it("doesnt check the overflow when 300ms (the default interval) have elapsed", () => {
+        clock.tick(301)
+        expect(isOverflowedYSpy).not.to.have.been.called
+      })
+
+      it("only checks whether the element is overflowed after the given interval", () => {
+        expect(() => {
+          clock.tick(2001)
+        }).to.alter(() => isOverflowedYSpy.called, { from: false, to: true })
+      })
     })
 
     describe("when between the intervals the overflow changes", () => {

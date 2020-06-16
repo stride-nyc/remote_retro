@@ -57,6 +57,7 @@ export class GroupsContainer extends Component {
           <OverflowDetector
             elementType="div"
             onOverflowChange={this.handleOverflowChange}
+            interval={3000}
             className={groupsListClasses}
           >
             <FlipMove

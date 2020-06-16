@@ -66,6 +66,7 @@ class IdeaGroup extends Component {
         <OverflowDetector
           className={listContainerClasses}
           elementType="div"
+          interval={3000}
           onOverflowChange={this.handleListOverflowChange}
         >
           <ul className={styles.list}>

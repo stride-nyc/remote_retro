@@ -14,7 +14,9 @@ export default class OverflowDetector extends Component {
   }
 
   componentDidMount() {
-    this.interval = setInterval(() => {
+    const { interval } = this.props
+
+    this.intervalId = setInterval(() => {
       const {
         isOverflowed: wasOverflowed,
         props,
@@ -27,11 +29,11 @@ export default class OverflowDetector extends Component {
         this.isOverflowed = isOverflowed
         props.onOverflowChange(isOverflowed)
       }
-    }, 300)
+    }, interval)
   }
 
   componentWillUnmount() {
-    clearInterval(this.interval)
+    clearInterval(this.intervalId)
   }
 
   render() {
@@ -54,9 +56,11 @@ OverflowDetector.propTypes = {
   elementType: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string,
+  interval: PropTypes.number,
   onOverflowChange: PropTypes.func.isRequired,
 }
 
 OverflowDetector.defaultProps = {
   className: "",
+  interval: 300,
 }
