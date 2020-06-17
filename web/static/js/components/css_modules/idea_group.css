@@ -13,6 +13,7 @@
   min-height: max-content;
 
   @media(min-width: 1040px) {
+    height: max-content;
     width: calc(25% - calc(var(--margin) * 2));
   }
 
@@ -31,8 +32,11 @@
 
   :global(.list-container) {
     border-top: 1px solid var(--semantic-divider-border-top-color);
-    height: 9rem;
-    overflow: auto;
+
+    @media(min-width: 1040px) {
+      height: 9rem;
+      overflow: auto;
+    }
   }
 
   .list {
