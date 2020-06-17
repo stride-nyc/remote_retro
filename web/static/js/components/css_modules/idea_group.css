@@ -26,8 +26,7 @@
     }
 
     :global(> .ui.labeled.button) {
-      position: relative;
-      top: 1px;
+      transform: translateY(1px);
     }
   }
 
@@ -49,10 +48,8 @@
       .category-img-wrapper {
         margin-right: 0.5rem;
 
-        position: relative;
         img {
-          top: 1px;
-          position: relative;
+          transform: translateY(1px);
         }
       }
     }
