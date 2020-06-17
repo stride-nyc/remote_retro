@@ -74,9 +74,8 @@
       font-size: 0.75rem;
 
       &:before {
-        position: relative;
-        left: 1px;
-        top: 1px;
+        display: flex;
+        transform: translate(3px, 0px);
       }
     }
   }
