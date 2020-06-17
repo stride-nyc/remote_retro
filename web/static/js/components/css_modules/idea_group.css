@@ -59,7 +59,7 @@
 :global(.labeling-plus-voting) .wrapper {
   .centeredVotingWrapper {
     :global(.ui.right.pointing.label) {
-      display: inline-block;
+      display: inline-flex;
     }
   }
 }
