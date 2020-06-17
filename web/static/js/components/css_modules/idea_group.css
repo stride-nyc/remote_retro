@@ -19,7 +19,6 @@
   .centeredVotingWrapper {
     align-self: center;
     margin: 0.5rem 0;
-    position: relative;
 
     :global(.ui.right.pointing.label) {
       display: none;
