@@ -33,8 +33,7 @@
       display: inline-block;
       margin: 0 0 0 0.75rem;
       vertical-align: top;
-      position: relative;
-      top: -1px;
+      transform: translateY(-1px);
     }
   }
 
