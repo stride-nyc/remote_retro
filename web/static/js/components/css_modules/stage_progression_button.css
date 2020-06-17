@@ -30,9 +30,8 @@
         opacity: 1;
         font-size: 12px;
 
-        top: -2.4rem;
         left: 50%;
-        transform: translateX(-50%);
+        transform: translate(-50%, -1.75rem);
 
         /* these styles are stripped by semantic due to ascestor specificity, so we reinstate */
         border-top-left-radius: 4px;
