@@ -10,7 +10,8 @@
     position: relative;
 
     @media(min-width: 1040px) {
-      display: block;
+      flex-direction: row;
+      flex-wrap: wrap;
     }
 
     overflow: auto;
