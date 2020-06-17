@@ -23,11 +23,11 @@
       padding-bottom: 12px;
 
       &(:disabled) .pointing-label {
-        display: none;
+        opacity: 0;
       }
 
       &:not(:disabled) .pointing-label {
-        display: block;
+        opacity: 1;
         font-size: 12px;
 
         top: -2.4rem;
