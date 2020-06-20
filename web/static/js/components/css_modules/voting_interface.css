@@ -63,6 +63,11 @@
       }
 
       &:disabled {
+        /*
+          overwrite semantic ui opacity that was causing unnecessary sibling repaints across every IdeaGroup
+        */
+        opacity: unset;
+
         :global(i.icon) {
           opacity: 0.5;
         }
