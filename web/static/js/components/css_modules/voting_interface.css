@@ -69,6 +69,11 @@
       }
     }
 
+    &:after {
+      content: "";
+      display: none;
+    }
+
     :global(i.icon) {
       margin-right: 0 !important;
       font-size: 0.75rem;
