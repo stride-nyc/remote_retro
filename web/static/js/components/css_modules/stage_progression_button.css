@@ -29,6 +29,7 @@
       &:not(:disabled) .pointing-label {
         opacity: 1;
         font-size: 12px;
+        white-space: nowrap;
 
         left: 50%;
         transform: translate(-50%, -1.75rem);
