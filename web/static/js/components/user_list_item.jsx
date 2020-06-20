@@ -44,7 +44,7 @@ export const UserListItem = ({ user, votes, isVotingStage, currentUser, actions 
       <img className={styles.picture} src={imgSrc} alt={identifier} />
       <p data-hj-masked>{identifier}</p>
       { isVotingStage ? (
-        <span className={`${styles.allVotesIn} ${allVotesIn ? "opaque" : ""}`}>ALL VOTES IN</span>
+        <p className={`${styles.allVotesIn} ${allVotesIn ? "opaque" : ""}`}>ALL VOTES IN</p>
       ) : (
         <AnimatedEllipsis animated={user.is_typing} />
       )}
