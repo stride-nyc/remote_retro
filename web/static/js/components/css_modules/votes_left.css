@@ -1,4 +1,10 @@
-:global(.ui.row).index {
+.index {
+  :global(.ui.header) {
+    text-align: unset;
+    margin: 0 auto;
+    width: fit-content;
+  }
+
   @media (min-width: 1170px) {
     padding-bottom: 0.5rem;
   }

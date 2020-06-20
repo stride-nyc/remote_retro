@@ -14,7 +14,7 @@ export const VotesLeft = props => {
   const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"
 
   return (
-    <div className={`${styles.index} ui row`}>
+    <div className={`${styles.index}`}>
       <h2 className="ui header">
         {votesLeft}
         <div className="sub header">{votesText}</div>
