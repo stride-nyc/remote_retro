@@ -30,8 +30,8 @@
       margin-right: 0;
 
       &:before {
-        top: 1px;
-        position: relative;
+        display: block;
+        transform: translateY(1px);
       }
     }
   }
