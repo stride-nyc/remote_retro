@@ -7,7 +7,7 @@
 
   .picture {
     --sidePadding: 0.4rem;
-    height: calc(var(--sidePadding) * 9);
+    max-height: calc(var(--sidePadding) * 9);
     padding-left: var(--sidePadding);
     padding-right: var(--sidePadding);
     border-radius: 50%;
