@@ -329,9 +329,6 @@ If you truly need to make text bold, use the <strong></strong> tag
 }
 
 :global(.nested-action-items-list) {
-  position: relative;
-  left: 0.5rem;
-
   :global(.action-items-label) {
     cursor: pointer;
   }
@@ -387,15 +384,14 @@ If you truly need to make text bold, use the <strong></strong> tag
 }
 
 :global(ul.ui.list li p.list-item-note) {
-  position: relative;
-  left: 0.75rem;
+  transform: translateX(0.75rem);
   margin-top: 0.1rem;
   margin-bottom: 0;
 
   &:before {
     content: "-";
-    position: absolute;
-    left: -0.75rem;
+    display: inline-flex;
+    transform: translateX(-0.75rem);
   }
 }
 
