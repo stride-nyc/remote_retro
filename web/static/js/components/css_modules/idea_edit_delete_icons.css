@@ -1,8 +1,7 @@
 @import '../../../css/colors.css';
 
 .wrapper {
-  position: relative;
-  top: 0.05rem;
+  transform: translateY(0.05rem);
   float: right;
   margin-left: 3px;
 
@@ -13,8 +12,7 @@
 
     &:global(.edit.icon) {
       margin-right: 0.35rem;
-      top: -1px;
-      position: relative;
+      transform: translateY(-1px);
     }
 
     &:global(.remove.icon) {
