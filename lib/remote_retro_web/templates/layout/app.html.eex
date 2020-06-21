@@ -74,13 +74,13 @@
 
     <main role="main">
     <%= unless assigns[:omit_header] do %>
-      <div class="ui clearing segment branded-header-container">
+      <div class="ui segment branded-header-container">
         <a href="/">
-          <div class="ui teal left floated header left-branded-header">
+          <div class="ui teal header left-branded-header">
             <p>RemoteRetro</p>
           </div>
         </a>
-        <div class="ui right floated header right-branded-header grid">
+        <div class="ui header right-branded-header grid">
           <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro" target="_blank" class="built-by-wrapper">
             <div class="middle aligned content logo-text">Built by</div>
             <div class="ui tiny image"><img src="<%= Routes.static_path(@conn, "/images/stride_logo.png") %>" alt="Stride" /></div>
