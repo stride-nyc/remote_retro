@@ -37,7 +37,7 @@ class VotingInterface extends React.Component {
     // voting is blind. totals revealed after stage progression.
     const displayableVoteCount = isVotingStage ? userVoteCountForIdea : votesForEntity.length
 
-    const wrapperClasses = classNames("ui labeled right floated button", styles.wrapper, {
+    const wrapperClasses = classNames("ui labeled button", styles.wrapper, {
       static: !isVotingStage,
     })
 

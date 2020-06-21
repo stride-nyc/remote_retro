@@ -24,10 +24,6 @@
     :global(.ui.right.pointing.label) {
       display: none;
     }
-
-    :global(> .ui.labeled.button) {
-      transform: translateY(1px);
-    }
   }
 
   :global(.list-container) {
