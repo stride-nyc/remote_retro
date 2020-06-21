@@ -83,7 +83,7 @@
         <div class="ui header right-branded-header grid">
           <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro" target="_blank" class="built-by-wrapper">
             <div class="middle aligned content logo-text">Built by</div>
-            <div class="ui tiny image"><img src="<%= Routes.static_path(@conn, "/images/stride_logo.png") %>" alt="Stride" /></div>
+            <div class="ui tiny image"><img height="21" width="21" src="<%= Routes.static_path(@conn, "/images/stride_logo.png") %>" alt="Stride" /></div>
           </a>
           <div class="help-icon" id="stage-help-icon"></div>
 
