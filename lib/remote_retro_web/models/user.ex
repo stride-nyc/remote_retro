@@ -67,12 +67,28 @@ defmodule RemoteRetro.User do
     {result_atom, result, inserted_or_updated_atom}
   end
 
-  defp build_from_oauth_data(user_info) do
+  defp build_from_oauth_data(google_user_info) do
     user_params = %{
-      "google_user_info" => user_info,
+      "google_user_info" => google_user_info,
       "last_login" => DateTime.utc_now(),
     }
 
-    Map.merge(user_params, user_info)
+    google_user_info = supply_given_name_fallback(google_user_info)
+
+    Map.merge(google_user_info, user_params)
+  end
+
+  defp supply_given_name_fallback(google_user_info) do
+    case Map.has_key?(google_user_info, "given_name") do
+      true -> google_user_info
+      false ->
+        email_address = google_user_info["email"]
+
+        # in theory, an '@' character could appear before the domain, provided it's in quotes
+        # however, we'll let that case occur before we add parsing complexity, i.e. YAGNI
+        [email_username | _] = String.split(email_address, "@")
+
+        Map.merge(google_user_info, %{"given_name" => email_username})
+    end
   end
 end

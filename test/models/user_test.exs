@@ -68,5 +68,16 @@ defmodule RemoteRetro.UserTest do
       {:ok, user, _} = User.upsert_record_from(oauth_info: @mock_google_user_info)
       assert user.last_login
     end
+
+    test "accounts lacking a given name receive a given name parsed from their email" do
+      attrs_minus_given_name =
+        @valid_attrs
+        |> Map.drop(["given_name"])
+        |> Map.merge(%{"email" => "tvhoop@hotmail.com"})
+
+      {:ok, user, _} = User.upsert_record_from(oauth_info: attrs_minus_given_name)
+
+      assert user.given_name == "tvhoop"
+    end
   end
 end
