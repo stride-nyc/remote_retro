@@ -6,7 +6,7 @@
   height: var(--height);
   min-height: var(--height);
   flex-direction: column;
-  animation: allowLowerThirdAppearanceToCompleteWithoutIntroducingTemporaryScrollbar 0.5s;
+  animation: allowLowerThirdAppearanceToCompleteWithoutIntroducingTemporaryScrollbar 0.7s;
 }
 
 @keyframes allowLowerThirdAppearanceToCompleteWithoutIntroducingTemporaryScrollbar {
