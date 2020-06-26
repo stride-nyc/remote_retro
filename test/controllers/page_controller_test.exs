@@ -19,6 +19,12 @@ defmodule RemoteRetro.PageControllerTest do
 
       assert html_response(conn, 200) =~ ~r/sign in with google/i
     end
+
+    test "appends a 'landing-page' class to the body element for scoped styling", ~M{conn} do
+      conn = get(conn, "/")
+
+      assert html_response(conn, 200) =~ ~r/body .*class="landing-page".*>/i
+    end
   end
 
   test "GET /faq", ~M{conn} do

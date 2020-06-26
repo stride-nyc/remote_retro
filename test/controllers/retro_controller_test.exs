@@ -49,6 +49,14 @@ defmodule RemoteRetro.RetroControllerTest do
       assert participation_count_diff == 0
     end
 
+    test "appends a 'retro-show-page' class to the body element for scoped styling", ~M{conn} do
+      conn = create_retro_and_follow_redirect(conn)
+
+      get(conn, "/retros/#{conn.params["id"]}")
+
+      assert html_response(conn, 200) =~ ~r/body .*class="retro-show-page".*>/i
+    end
+
     test "invalid uuids passed to the show page result in an informative 404", ~M{conn} do
       conn = create_retro_and_follow_redirect(conn)
 

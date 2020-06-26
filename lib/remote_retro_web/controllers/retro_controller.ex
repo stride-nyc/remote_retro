@@ -21,6 +21,7 @@ defmodule RemoteRetroWeb.RetroController do
     soft_insert_participation_record!(current_user.id, params["id"])
 
     render(conn, "show.html", %{
+      body_class: "retro-show-page",
       user_token: Token.sign(conn, "user", current_user),
       retro_uuid: params["id"],
       include_js: true,

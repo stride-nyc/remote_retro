@@ -6,7 +6,7 @@ defmodule RemoteRetroWeb.PageController do
 
     case current_user_id do
       nil ->
-        render(conn, "index.html", %{is_landing_page: true, omit_header: true})
+        render(conn, "index.html", %{body_class: "landing-page", omit_header: true})
       _user ->
         redirect(conn, to: "/retros")
     end
