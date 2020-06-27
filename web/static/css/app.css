@@ -377,13 +377,12 @@ If you truly need to make text bold, use the <strong></strong> tag
 }
 
 :global(.overflowed) {
-  border-bottom: 1px solid #C0C1C2;
-
   --width: 5px;
   --inverse: -5px;
   box-shadow:
     inset 0 var(--inverse) var(--width) var(--inverse) rgba(0,0,0,.7),
-    inset 0 var(--width)   var(--width) var(--inverse) rgba(0,0,0,.7);
+    inset 0 var(--width)   var(--width) var(--inverse) rgba(0,0,0,.7),
+    0px 1px 1px -1px #C0C1C2;
 }
 
 /* fixes encoding error present in SemanticUI */
