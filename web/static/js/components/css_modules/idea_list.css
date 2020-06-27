@@ -18,7 +18,7 @@
 
   &:global(.overflowed) {
     li:last-of-type {
-      border-bottom: none;
+      border-color: rgba(255, 255, 255, 0.0);
     }
   }
 }
