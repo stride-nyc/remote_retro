@@ -85,7 +85,7 @@
 
       &:before {
         display: flex;
-        transform: translate(3px, 0px);
+        transform: translate(3px, 0.5px);
       }
     }
   }
