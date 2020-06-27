@@ -5,15 +5,7 @@
 
   .groups-wrapper {
     flex: 1;
-    display: flex;
-    flex-direction: column;
     position: relative;
-
-    @media(min-width: 1040px) {
-      flex-direction: row;
-      flex-wrap: wrap;
-    }
-
     overflow: auto;
   }
 

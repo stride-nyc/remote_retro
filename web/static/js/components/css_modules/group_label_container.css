@@ -1,6 +1,7 @@
 .wrapper {
   width: 15rem;
-  align-self: center;
+  margin: 0 auto;
+
   text-align: center;
   position: relative;
 }

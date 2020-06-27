@@ -8,18 +8,18 @@
   border: 1px solid var(--semantic-dark-grey);
   border-radius: 5px;
 
-  display: inline-flex;
-  flex-direction: column;
   min-height: max-content;
 
   @media(min-width: 1040px) {
     height: max-content;
+    display: inline-block;
     width: calc(25% - calc(var(--margin) * 2));
   }
 
   .centeredVotingWrapper {
-    align-self: center;
-    margin: 0.5rem 0;
+    width: 15rem;
+    margin: 0.5rem auto;
+    text-align: center;
 
     :global(.ui.right.pointing.label) {
       display: none;
