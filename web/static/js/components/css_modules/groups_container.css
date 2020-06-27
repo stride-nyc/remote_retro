@@ -7,6 +7,7 @@
     flex: 1;
     position: relative;
     overflow: auto;
+    transition: all 250ms ease-in;
   }
 
   .flex-container-for-groups-and-optionally-action-items {

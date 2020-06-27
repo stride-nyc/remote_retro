@@ -29,6 +29,8 @@
   :global(.list-container) {
     border-top: 1px solid var(--semantic-divider-border-top-color);
 
+    transition: all 250ms ease-in;
+
     @media(min-width: 1040px) {
       height: 9rem;
       overflow: auto;
