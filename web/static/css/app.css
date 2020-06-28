@@ -70,7 +70,11 @@ If you truly need to make text bold, use the <strong></strong> tag
       margin: 1rem 0;
     }
 
-    padding: calc(2 * var(--padding));
+    padding: calc(2 * var(--padding)) var(--padding);
+
+    @media(min-width: 1040px) {
+      padding: calc(2 * var(--padding));
+    }
   }
 
   .trusted-by {
