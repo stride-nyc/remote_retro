@@ -6,17 +6,26 @@ defmodule RemoteRetroWeb.PageController do
 
     case current_user_id do
       nil ->
-        render(conn, "index.html", %{body_class: "landing-page", omit_header: true})
+        render(conn, "index.html", %{
+          body_class: "landing-page",
+          omit_header: true,
+        })
       _user ->
         redirect(conn, to: "/retros")
     end
   end
 
   def faq(conn, _params) do
-    render(conn, "faq.html", %{body_class: "copy-page"})
+    render(conn, "faq.html", %{
+      body_class: "copy-page",
+      title: "Frequently Asked Questions | RemoteRetro.org",
+    })
   end
 
   def privacy(conn, _params) do
-    render(conn, "privacy.html", %{body_class: "copy-page"})
+    render(conn, "privacy.html", %{
+      body_class: "copy-page",
+      title: "Privacy Policy | RemoteRetro.org",
+    })
   end
 end

@@ -12,6 +12,7 @@ defmodule RemoteRetroWeb.RetroController do
     render(conn, "index.html", %{
       current_user: current_user,
       retros: recent_retros_with_action_items_preloaded(current_user),
+      title: "Dashboard | RemoteRetro.org",
     })
   end
 
