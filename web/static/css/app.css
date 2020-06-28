@@ -262,21 +262,6 @@ If you truly need to make text bold, use the <strong></strong> tag
       padding-right: 0.2rem;
       transform: translateY(1px);
     }
-    .question.circle.outline.icon {
-      margin-right: 1rem;
-    }
-
-    .help-icon {
-      padding: 0;
-      cursor: pointer;
-      width: 35.23px;
-      height: 23.22px;
-
-      .question.icon:before {
-        display: inline-block;
-        transform: translateY(1px);
-      }
-    }
 
     :global(.ui.tiny.image) {
       /* necessary for IE 10 & 11, as height: auto applies no restriction to height of svgs,
@@ -426,5 +411,23 @@ If you truly need to make text bold, use the <strong></strong> tag
 :global(.copy-page .very.padded.segment) {
   @media(min-width: 1040px) {
     max-width: 960px;
+  }
+}
+
+:global(.retro-show-page) {
+  .question.circle.outline.icon {
+    margin-right: 1rem;
+    cursor: pointer;
+  }
+
+  .help-icon {
+    width: 35.23px;
+    height: 23.22px;
+    padding: 0;
+
+    .question.icon:before {
+      display: inline-block;
+      transform: translateY(1px);
+    }
   }
 }
