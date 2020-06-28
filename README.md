@@ -17,10 +17,10 @@ This repository houses the application code for [RemoteRetro.org](http://remoter
 
 ## Project Management
 
-To see the project's current feature pipeline, simply install the wonderful [ZenHub](http://zenhub.io) Chrome Extension.
+To see the project's current feature pipeline, simply install the wonderful [ZenHub](http://zenhub.com) Chrome Extension.
 
-  - visit [ZenHub.io](http://zenhub.io), install the ZenHub Chrome Extension, and authorize when prompted
-    - __Note:__ this installation assumes you visit zenhub.io using Chrome
+  - visit [ZenHub.com](http://zenhub.com), install the ZenHub Chrome Extension, and authorize when prompted
+    - __Note:__ this installation assumes you visit zenhub.com using Chrome
   - once the extension is installed, you should be able to visit the boards by typing 'b', or, if clicking is more your speed, simply click the "Boards" tab on the repo's homepage
 
 ## Dev Environment Setup
