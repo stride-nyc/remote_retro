@@ -418,3 +418,9 @@ If you truly need to make text bold, use the <strong></strong> tag
     font-size: 16px !important;
   }
 }
+
+:global(.copy-page .very.padded.segment) {
+  @media(min-width: 1040px) {
+    max-width: 960px;
+  }
+}

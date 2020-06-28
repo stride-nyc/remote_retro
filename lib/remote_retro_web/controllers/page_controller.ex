@@ -13,10 +13,10 @@ defmodule RemoteRetroWeb.PageController do
   end
 
   def faq(conn, _params) do
-    render(conn, "faq.html")
+    render(conn, "faq.html", %{body_class: "copy-page"})
   end
 
   def privacy(conn, _params) do
-    render(conn, "privacy.html")
+    render(conn, "privacy.html", %{body_class: "copy-page"})
   end
 end
