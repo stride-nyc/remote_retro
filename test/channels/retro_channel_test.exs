@@ -423,12 +423,12 @@ defmodule RemoteRetro.RetroChannelTest do
       refute Repo.get(Vote, vote.id)
     end
 
-    test "broadcasts the same event to *all* connected clients, along with retracted vote", ~M{socket, vote} do
+    test "broadcasts the same event to all *other* connected clients, along with retracted vote", ~M{socket, vote} do
       vote_id = vote.id
       ref = push(socket, "vote_retracted", %{id: vote_id})
       assert_reply(ref, :ok)
 
-      assert_broadcast_to_all_clients_including_initiator("vote_retracted", %{"id" => ^vote_id})
+      assert_broadcast_to_other_clients_only("vote_retracted", %{"id" => ^vote_id})
     end
 
     test "rolls back the vote retraction if broadcast fails, responding :error", ~M{socket, vote} do

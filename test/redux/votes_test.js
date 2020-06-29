@@ -27,9 +27,39 @@ describe("votes reducer", () => {
     })
   })
 
-  describe("when the action is VOTE_RETRACTION", () => {
+  describe("when the action is VOTE_RETRACTION_REJECTED", () => {
+    it("adds the vote to state", () => {
+      const voteSubmissionAction = { type: "VOTE_RETRACTION_REJECTED", vote: { idea_id: 99, user_id: 11 } }
+      const initialState = []
+      deepFreeze(initialState)
+      const result = votesReducer(initialState, voteSubmissionAction)
+      expect(result).to.eql([{ idea_id: 99, user_id: 11 }])
+    })
+  })
+
+  describe("when the action is VOTE_RETRACTION_SUBMITTED", () => {
     it("removes the vote from the state", () => {
-      const voteRetraction = { type: "VOTE_RETRACTION", vote: { id: 17 } }
+      const voteRetraction = { type: "VOTE_RETRACTION_SUBMITTED", vote: { id: 19 } }
+      const initialState = [{ id: 19 }]
+      deepFreeze(initialState)
+      const result = votesReducer(initialState, voteRetraction)
+      expect(result).to.eql([])
+    })
+
+    it("does *not* remove non-matching votes from the state", () => {
+      const voteRetraction = { type: "VOTE_RETRACTION_SUBMITTED", vote: { id: 99 } }
+      const voteWithIdOne = { id: 1 }
+      const initialState = [voteWithIdOne, { id: 99 }]
+      deepFreeze(initialState)
+      const result = votesReducer(initialState, voteRetraction)
+
+      expect(result).to.include(voteWithIdOne)
+    })
+  })
+
+  describe("when the action is VOTE_RETRACTION_ACCEPTED", () => {
+    it("removes the vote from the state", () => {
+      const voteRetraction = { type: "VOTE_RETRACTION_ACCEPTED", vote: { id: 17 } }
       const initialState = [{ id: 17 }]
       deepFreeze(initialState)
       const result = votesReducer(initialState, voteRetraction)
@@ -512,9 +542,20 @@ describe("actions", () => {
       let pushSpy
 
       beforeEach(() => {
+        dispatch = () => {}
         vote = { id: 21 }
         mockRetroChannel = setupMockRetroChannel()
         thunk = actions.submitVoteRetraction(vote)
+      })
+
+      it("initiates the removal of the vote from local state", () => {
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, undefined, mockRetroChannel)
+
+        expect(dispatchSpy).calledWithMatch({
+          type: "VOTE_RETRACTION_SUBMITTED",
+          vote,
+        })
       })
 
       it("calls retroChannel.push with 'vote_retracted', passing the given vote", () => {
@@ -526,7 +567,7 @@ describe("actions", () => {
       })
 
       describe("when the push results in an error", () => {
-        it("dispatches a VOTE_RETRACTION_REJECTED", () => {
+        it("dispatches a VOTE_RETRACTION_REJECTED, including the vote for re-addition to the local store", () => {
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
@@ -534,6 +575,7 @@ describe("actions", () => {
 
           expect(dispatchSpy).calledWithMatch({
             type: "VOTE_RETRACTION_REJECTED",
+            vote,
           })
         })
       })

@@ -10,7 +10,7 @@ const voteSubmission = vote => ({
 })
 
 const voteRetraction = vote => ({
-  type: actionTypes.VOTE_RETRACTION,
+  type: actionTypes.VOTE_RETRACTION_ACCEPTED,
   vote,
 })
 
@@ -56,8 +56,10 @@ const submitVoteRetraction = vote => {
   return (dispatch, getState, retroChannel) => {
     const push = retroChannel.push("vote_retracted", vote)
 
+    dispatch({ type: actionTypes.VOTE_RETRACTION_SUBMITTED, vote })
+
     push.receive("error", () => {
-      dispatch({ type: actionTypes.VOTE_RETRACTION_REJECTED })
+      dispatch({ type: actionTypes.VOTE_RETRACTION_REJECTED, vote })
     })
   }
 }
@@ -74,6 +76,7 @@ export const reducer = (state = [], action) => {
     case actionTypes.SET_INITIAL_STATE:
       return action.initialState.votes
     case actionTypes.VOTE_SUBMISSION:
+    case actionTypes.VOTE_RETRACTION_REJECTED:
       return [...state, action.vote]
     case actionTypes.VOTE_SUBMISSION_ACCEPTED:
       return state.map(vote => {
@@ -81,7 +84,8 @@ export const reducer = (state = [], action) => {
       })
     case actionTypes.VOTE_SUBMISSION_REJECTED:
       return state.filter(vote => vote.optimisticUUID !== action.optimisticUUID)
-    case actionTypes.VOTE_RETRACTION:
+    case actionTypes.VOTE_RETRACTION_ACCEPTED:
+    case actionTypes.VOTE_RETRACTION_SUBMITTED:
       return state.filter(vote => vote.id !== action.vote.id)
     default:
       return state
