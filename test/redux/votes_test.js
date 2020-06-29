@@ -526,7 +526,7 @@ describe("actions", () => {
       })
 
       describe("when the push results in an error", () => {
-        it("dispatches a VOTE_RETRACTION_REJECTED with the optimistic UUID", () => {
+        it("dispatches a VOTE_RETRACTION_REJECTED", () => {
           const dispatchSpy = sinon.spy()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
