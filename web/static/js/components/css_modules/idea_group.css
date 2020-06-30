@@ -14,6 +14,7 @@
     height: max-content;
     display: inline-block;
     width: calc(25% - calc(var(--margin) * 2));
+    vertical-align: top;
   }
 
   .centeredVotingWrapper {
