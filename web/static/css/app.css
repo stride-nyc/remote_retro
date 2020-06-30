@@ -415,12 +415,12 @@ If you truly need to make text bold, use the <strong></strong> tag
 }
 
 :global(.retro-show-page) {
-  .question.circle.outline.icon {
+  :global(.question.circle.outline.icon) {
     margin-right: 1rem;
-    cursor: pointer;
   }
 
-  .help-icon {
+  :global(.help-icon) {
+    cursor: pointer;
     width: 35.23px;
     height: 23.22px;
     padding: 0;
