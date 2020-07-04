@@ -416,6 +416,17 @@ If you truly need to make text bold, use the <strong></strong> tag
   }
 }
 
+main,
+:global(.retro-show-page),
+:global(.react-root),
+:global(.stage) {
+  &:not(:global(.prime-directive)) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+  }
+}
+
 :global(.retro-show-page) {
   :global(.portal) {
     margin-right: 1rem;

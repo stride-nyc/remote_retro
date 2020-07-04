@@ -52,7 +52,7 @@ export class RemoteRetro extends Component {
     } = this.props
 
     return (
-      <div className={stage}>
+      <div className={`stage ${stage}`}>
         <ViewportMetaTag
           stage={stage}
           alert={alert}
