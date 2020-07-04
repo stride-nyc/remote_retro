@@ -37,12 +37,12 @@ describe("<GroupingIdeaCard />", () => {
       expect(styleProp.left).to.eql(0)
     })
 
-    it("maps the x/y values to transform: translate", () => {
-      expect(styleProp.transform).to.eql("translate(0px,109px)")
+    it("maps the x/y values to transform: translate3d", () => {
+      expect(styleProp.transform).to.eql("translate3d(0px,109px,0)")
     })
 
     it("maps the x/y values to WebkitTransform: translate", () => {
-      expect(styleProp.WebkitTransform).to.eql("translate(0px,109px)")
+      expect(styleProp.WebkitTransform).to.eql("translate3d(0px,109px,0)")
     })
 
     it("applies no margin", () => {

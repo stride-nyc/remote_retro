@@ -102,7 +102,7 @@ defmodule GroupingStageTest do
       find(session, Query.css("p", text: idea_text))
       |> Wallaby.Element.attr("style")
 
-    ~r/transform: translate\((?<x>.*)px,\s?(?<y>.*)px\)/
+    ~r/transform: translate3d\((?<x>.*)px,\s?(?<y>.*)px,\s0px\)/
       |> Regex.named_captures(inline_style_string)
   end
 

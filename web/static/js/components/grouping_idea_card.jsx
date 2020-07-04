@@ -62,7 +62,7 @@ export class GroupingIdeaCard extends Component {
     const hasNumericCoordinates = isFinite(idea.x)
 
     if (hasNumericCoordinates) {
-      const transform = `translate(${idea.x}px,${idea.y}px)`
+      const transform = `translate3d(${idea.x}px,${idea.y}px,0)`
 
       style = {
         position: "fixed",
