@@ -390,6 +390,7 @@ If you truly need to make text bold, use the <strong></strong> tag
     content: "-";
     display: inline-flex;
     transform: translate3d(-0.75rem, 0, 0);
+    position: absolute;
   }
 }
 
