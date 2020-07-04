@@ -158,7 +158,7 @@ If you truly need to make text bold, use the <strong></strong> tag
     color: var(--semantic-teal);
 
     /* ensure header aligns with text below */
-    transform: translateX(-0.35rem);
+    transform: translate3d(-0.35rem, 0, 0);
   }
 }
 
@@ -382,14 +382,14 @@ If you truly need to make text bold, use the <strong></strong> tag
 }
 
 :global(ul.ui.list li p.list-item-note) {
-  transform: translateX(0.75rem);
+  transform: translate3d(0.75rem, 0, 0);
   margin-top: 0.1rem;
   margin-bottom: 0;
 
   &:before {
     content: "-";
     display: inline-flex;
-    transform: translateX(-0.75rem);
+    transform: translate3d(-0.75rem, 0, 0);
   }
 }
 
