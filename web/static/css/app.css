@@ -427,10 +427,10 @@ If you truly need to make text bold, use the <strong></strong> tag
   :global(.question.circle.outline.icon) {
     margin-right: 0;
     transform: translate3d(0, 1px, 0);
+    cursor: pointer;
   }
 
   :global(.help-icon) {
-    cursor: pointer;
     width: 35.23px;
     height: 23.22px;
     padding: 0;
