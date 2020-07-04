@@ -27,20 +27,20 @@
   }
 
   transition: transform 250ms ease-in-out;
-  transform: translateY(-100%);
+  transform: translate3d(0, -100%, 0);
 }
 
 :global(.ReactModal__Overlay--after-open) {
   opacity: 1;
   .wrapper {
-    transform: translateY(0);
+    transform: translate3d(0, 0, 0);
   }
 }
 
 :global(.ReactModal__Overlay--before-close) {
   opacity: 0;
   .wrapper {
-    transform: translateY(-100%);
+    transform: translate3d(0, -100%, 0);
   }
 }
 
