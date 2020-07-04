@@ -7,6 +7,17 @@
 
   &::before {
     content: "";
+
+    /*
+      safari specific hack for animating pseudoelements
+      see https://stackoverflow.com/questions/16348489/is-there-a-css-hack-for-safari-only-not-chrome
+    */
+    @media not all and (min-resolution:.001dpcm) {
+      @media {
+        content: none;
+      }
+    }
+
     position: absolute;
     width: 100%;
     height: 100%;
@@ -41,6 +52,16 @@
 :global(.ReactModal__Overlay--after-open) {
   &::before {
     opacity: 0.85;
+
+    /*
+      safari specific hack for animating pseudoelements
+      see https://stackoverflow.com/questions/16348489/is-there-a-css-hack-for-safari-only-not-chrome
+    */
+    @media not all and (min-resolution:.001dpcm) {
+      @media {
+        content: "";
+      }
+    }
   }
 
   .wrapper {
