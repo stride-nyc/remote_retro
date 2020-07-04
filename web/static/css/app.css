@@ -416,8 +416,16 @@ If you truly need to make text bold, use the <strong></strong> tag
 }
 
 :global(.retro-show-page) {
-  :global(.question.circle.outline.icon) {
+  :global(.portal) {
     margin-right: 1rem;
+    border: none;
+    padding: 0;
+    overflow: hidden;
+    background-color: transparent;
+  }
+
+  :global(.question.circle.outline.icon) {
+    margin-right: 0;
   }
 
   :global(.help-icon) {

@@ -8,7 +8,7 @@ describe("<StageHelp />", () => {
   let wrapper
 
   // Setup JSDom so that react can inject a portal
-  const iconRoot = global.document.createElement("div")
+  const iconRoot = global.document.createElement("button")
   iconRoot.setAttribute("id", "stage-help-icon")
   const body = global.document.querySelector("body")
   body.appendChild(iconRoot)
@@ -37,7 +37,7 @@ describe("<StageHelp />", () => {
 
     describe("when clicking the icon for help", () => {
       it("dispatches showStageHelp with the stage's help config", () => {
-        wrapper.find("i.question").simulate("click")
+        wrapper.find("button").simulate("click")
         expect(actions.showStageHelp).to.have.been.calledWith({
           header: "Oh yeah, here's some help for ya",
         })

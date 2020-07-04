@@ -13,14 +13,15 @@ export const StageHelp = props => {
 
   if (stageConfig.help) {
     return ReactDOM.createPortal(
-      <div className="portal">
+      <button
+        className="portal"
+        title="Access Stage Information"
+        onClick={handleClick}
+      >
         <i
-          title="Access Stage Information"
           className="question circle outline icon"
-          onClick={handleClick}
-          onKeyPress={handleClick}
         />
-      </div>,
+      </button>,
       document.getElementById("stage-help-icon")
     )
   }
