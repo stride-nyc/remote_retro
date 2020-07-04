@@ -15,6 +15,7 @@ export const StageHelp = props => {
     return ReactDOM.createPortal(
       <button
         className="portal"
+        type="button"
         title="Access Stage Information"
         onClick={handleClick}
       >

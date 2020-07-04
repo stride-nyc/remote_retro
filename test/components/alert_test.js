@@ -48,7 +48,9 @@ describe("Alert component", () => {
         beforeEach(() => {
           actions = { clearAlert: sinon.spy() }
 
-          wrapper = mountWithConnectedSubcomponents(<Alert config={alertConfig} actions={actions} />)
+          wrapper = mountWithConnectedSubcomponents(
+            <Alert config={alertConfig} actions={actions} />
+          )
           portalToModalContent = wrapper.find(Modal).instance().portal
           modalBody = portalToModalContent.content
           modalBody.querySelector("button").click()
