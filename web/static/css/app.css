@@ -434,10 +434,5 @@ If you truly need to make text bold, use the <strong></strong> tag
     width: 35.23px;
     height: 23.22px;
     padding: 0;
-
-    .question.icon:before {
-      display: inline-block;
-      transform: translate3d(0, 1px, 0);
-    }
   }
 }
