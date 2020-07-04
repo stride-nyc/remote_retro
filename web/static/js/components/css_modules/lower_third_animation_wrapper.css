@@ -11,31 +11,31 @@
 }
 
 :global(.translateY-appear) {
-  transform: translateY(140%);
+  transform: translate3d(0, 140%, 0);
 }
 
 :global(.translateY-appear.translateY-appear-active) {
   transition: transform 400ms ease-out;
   transition-delay: 200ms;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 :global(.translateY-enter) {
-  transform: translateY(300%);
+  transform: translate3d(0, 300%, 0);
 }
 
 :global(.translateY-enter.translateY-enter-active) {
   transition: transform 400ms ease-out;
   transition-delay: 200ms;
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 :global(.translateY-exit) {
-  transform: translateY(0);
+  transform: translate3d(0, 0, 0);
 }
 
 :global(.translateY-exit.translateY-exit-active) {
   transition: transform 400ms ease-out;
   transition-delay: 50ms;
-  transform: translateY(200%);
+  transform: translate3d(0, 200%, 0);
 }
