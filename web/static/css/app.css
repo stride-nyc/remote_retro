@@ -226,7 +226,7 @@ If you truly need to make text bold, use the <strong></strong> tag
   z-index: calc(var(--grouping-card-z-index) + 1);
 
   > div, > a {
-    transform: translateY(1px);
+    transform: translate3d(0, 1px, 0);
   }
 
   .left-branded-header {
@@ -261,7 +261,7 @@ If you truly need to make text bold, use the <strong></strong> tag
       font-weight: 500;
       color: var(--semantic-dark-grey);
       padding-right: 0.2rem;
-      transform: translateY(1px);
+      transform: translate3d(0, 1px, 0);
     }
 
     :global(.ui.tiny.image) {
@@ -436,7 +436,7 @@ If you truly need to make text bold, use the <strong></strong> tag
 
     .question.icon:before {
       display: inline-block;
-      transform: translateY(1px);
+      transform: translate3d(0, 1px, 0);
     }
   }
 }
