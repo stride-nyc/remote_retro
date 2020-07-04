@@ -178,7 +178,7 @@ If you truly need to make text bold, use the <strong></strong> tag
     top: 5%;
 
     :global(.ui.form.content) {
-      transition: opacity 1s ease;
+      transition: opacity 1s ease-out;
       opacity: 0;
     }
   }
@@ -333,7 +333,7 @@ If you truly need to make text bold, use the <strong></strong> tag
   }
 
   i {
-    transition: 50ms transform ease-in;
+    transition: 50ms transform ease-out;
   }
 
   &:global(.hidden) {

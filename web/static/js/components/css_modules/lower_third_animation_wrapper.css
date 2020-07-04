@@ -15,7 +15,7 @@
 }
 
 :global(.translateY-appear.translateY-appear-active) {
-  transition: transform 400ms ease;
+  transition: transform 400ms ease-out;
   transition-delay: 200ms;
   transform: translateY(0);
 }
@@ -25,7 +25,7 @@
 }
 
 :global(.translateY-enter.translateY-enter-active) {
-  transition: transform 400ms ease;
+  transition: transform 400ms ease-out;
   transition-delay: 200ms;
   transform: translateY(0);
 }
@@ -35,7 +35,7 @@
 }
 
 :global(.translateY-exit.translateY-exit-active) {
-  transition: transform 400ms ease;
+  transition: transform 400ms ease-out;
   transition-delay: 50ms;
   transform: translateY(200%);
 }

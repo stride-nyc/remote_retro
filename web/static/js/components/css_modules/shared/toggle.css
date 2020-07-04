@@ -23,7 +23,7 @@
       &:after {
         left: auto;
         right: 2em;
-        transition: background 0.3s ease 0s, right 0.3s ease 0s;
+        transition: background 0.3s ease-out 0s, right 0.3s ease-out 0s;
       }
     }
 
@@ -38,7 +38,7 @@
     :global(input:checked + label:after) {
       left: auto;
       right: 0em;
-      transition: background 0.3s ease 0s, right 0.3s ease 0s;
+      transition: background 0.3s ease-out 0s, right 0.3s ease-out 0s;
       content: '';
     }
   }

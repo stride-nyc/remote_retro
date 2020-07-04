@@ -42,7 +42,7 @@
     font-weight: 600;
 
     opacity: 0;
-    transition: opacity 0.3s ease-in;
+    transition: opacity 0.3s ease-out;
 
     &:global(.opaque) {
       opacity: 1;

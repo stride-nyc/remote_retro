@@ -28,7 +28,7 @@
 
       :global(.mobile.alternate.icon) {
         animation: deviceRotate 4s infinite;
-        animation-timing-function: ease-in-out;
+        animation-timing-function: ease-out;
         animation-fill-mode: both;
         animation-delay: 2s;
         margin-top: 1rem;

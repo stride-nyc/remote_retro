@@ -64,7 +64,7 @@ export class GroupsContainer extends Component {
               delay={500}
               duration={750}
               staggerDelayBy={100}
-              easing="ease"
+              easing="ease-out"
               enterAnimation="none"
               leaveAnimation="none"
               typeName={null}

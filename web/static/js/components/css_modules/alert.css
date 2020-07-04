@@ -7,7 +7,7 @@
   background-color: rgba(0, 0, 0, 0.85);
   z-index: 2;
 
-  transition: opacity 250ms ease-in;
+  transition: opacity 250ms ease-out;
   opacity: 0;
 }
 
@@ -26,7 +26,7 @@
     }
   }
 
-  transition: transform 250ms ease-in-out;
+  transition: transform 250ms ease-out;
   transform: translate3d(0, -100%, 0);
 }
 
