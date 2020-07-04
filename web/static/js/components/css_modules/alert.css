@@ -5,7 +5,7 @@
   right: 0px;
   bottom: 0px;
 
-  &:before {
+  &::before {
     content: "";
     position: absolute;
     width: 100%;
@@ -39,7 +39,7 @@
 }
 
 :global(.ReactModal__Overlay--after-open) {
-  &:before {
+  &::before {
     opacity: 1;
   }
 
@@ -49,7 +49,7 @@
 }
 
 :global(.ReactModal__Overlay--before-close) {
-  &:before {
+  &::before {
     opacity: 0;
   }
 
