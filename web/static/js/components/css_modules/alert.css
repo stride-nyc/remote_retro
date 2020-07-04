@@ -51,7 +51,7 @@
 
 :global(.ReactModal__Overlay--after-open) {
   &::before {
-    opacity: 0.85;
+    opacity: 0.7;
 
     /*
       safari specific hack for animating pseudoelements
