@@ -26,6 +26,10 @@ describe("IdeaSubmissionForm component", () => {
     users,
   }
 
+  beforeEach(() => {
+    window.scrollTo = sinon.spy()
+  })
+
   describe("the input field for an idea", () => {
     it("contains the maxLength property with a limit of 255 characters", () => {
       wrapper = mountWithConnectedSubcomponents(
@@ -243,6 +247,23 @@ describe("IdeaSubmissionForm component", () => {
         wrapper.setProps({ alert: null })
         expect(document.activeElement).to.equal(ideaInput.instance())
       })
+    })
+  })
+
+  describe("on mount", () => {
+    beforeEach(() => {
+      wrapper = mountWithConnectedSubcomponents(
+        <IdeaSubmissionForm
+          {...defaultProps}
+          currentUser={stubUser}
+          alert={{ herp: "derp" }}
+          users={users}
+        />
+      )
+    })
+
+    it("ensures the window is scrolled to the top to avoid a safari autofocus render shift", () => {
+      expect(window.scrollTo).to.have.been.calledWith(0, 0)
     })
   })
 

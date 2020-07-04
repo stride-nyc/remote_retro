@@ -40,6 +40,12 @@ export class IdeaSubmissionForm extends Component {
     }
   }
 
+  componentDidMount() {
+    // account for autofocus in safari causing stagger on mount
+    window.scrollTo(0, 0)
+    document.body.scrollTop = 0
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { category } = this.state
     if (category !== prevState.category) { this.ideaInput.focus() }
