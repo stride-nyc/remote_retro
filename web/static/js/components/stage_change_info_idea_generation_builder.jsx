@@ -3,7 +3,7 @@ import React from "react"
 export default listItems => {
   return () => (
     <React.Fragment>
-      The skinny on Idea Generation:
+      Guidance:
       <div className="ui basic segment">
         <ul className="ui list">
           {listItems.map(listItem => {

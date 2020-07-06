@@ -1,8 +1,8 @@
 import React from "react"
 
 export default () => (
-  <div>
-    The skinny on Action-Item Generation:
+  <>
+    Guidance:
     <div className="ui basic segment">
       <ul className="ui list">
         <li>Discuss the highest-voted items on the board.</li>
@@ -16,5 +16,5 @@ export default () => (
         </li>
       </ul>
     </div>
-  </div>
+  </>
 )

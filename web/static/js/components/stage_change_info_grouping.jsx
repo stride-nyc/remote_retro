@@ -2,7 +2,7 @@ import React from "react"
 
 export default () => (
   <React.Fragment>
-    The skinny on Grouping:
+    Guidance:
     <div className="ui basic segment">
       <ul className="ui list">
         <li>
