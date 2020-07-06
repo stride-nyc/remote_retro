@@ -3,7 +3,7 @@ import React from "react"
 export default listItems => {
   return () => (
     <React.Fragment>
-      Guidance:
+      <strong>Guidance:</strong>
       <div className="ui basic segment">
         <ul className="ui list">
           {listItems.map(listItem => {

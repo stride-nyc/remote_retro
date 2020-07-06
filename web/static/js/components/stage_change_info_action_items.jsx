@@ -2,7 +2,7 @@ import React from "react"
 
 export default () => (
   <>
-    Guidance:
+    <strong>Guidance:</strong>
     <div className="ui basic segment">
       <ul className="ui list">
         <li>Discuss the highest-voted items on the board.</li>

@@ -10,7 +10,7 @@ export default () => (
       <ul className="ui list">
         <li>Solicit a volunteer to read the Prime Directive aloud.</li>
         <li>Ask each member of the team if they can agree to the Prime Directive.
-          <p className="list-item-note"><strong>Note: </strong>If someone earnestly <em>cannot</em> agree, there's likely a deep trust issue on the team that should be addressed with a manager.</p>
+          <p className="list-item-note"><strong>Note: </strong>If someone earnestly <em>cannot</em> agree, there are likely trust issues on the team that should be addressed with a manager.</p>
         </li>
         <li>Once the team has agreed to the Prime Directive, advance to Idea Generation.</li>
       </ul>
