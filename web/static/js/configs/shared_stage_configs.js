@@ -148,11 +148,11 @@ export default {
   },
   [CLOSED]: {
     arrivalAlert: {
-      headerText: "Retro: Closed!",
+      headerText: "The Retrospective Has Been Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
     help: {
-      headerText: "Retro is Closed!",
+      headerText: "This Retrospective Is Closed!",
       BodyComponent: StageChangeInfoClosed,
     },
     uiComponent: IdeationInterface,

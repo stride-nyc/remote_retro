@@ -11,7 +11,7 @@ const {
 const StageChangeInfoIdeaGeneration = stageChangeInfoIdeaGenerationBuilder([
   "Reflect on the events of this past sprint.",
   "Submit items that made you happy, sad, or just plain confused.",
-  "Assume best intent; we're all here to improve.",
+  "Be thoughtful and blameless with your language; we're all here to improve.",
 ])
 
 const ideaGenerationConfig = {

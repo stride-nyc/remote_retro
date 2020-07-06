@@ -2,7 +2,7 @@ import React from "react"
 
 export default () => (
   <React.Fragment>
-    <a href="https://retrospectivewiki.org/index.php?title=The_Prime_Directive" target="_blank">Norm Kerth's Prime Directive</a> sets the stage for the retrospective, such that the time spent is as constructive as possible.
+    <a href="https://retrospectivewiki.org/index.php?title=The_Prime_Directive" target="_blank">Norm Kerth's Prime Directive</a> sets the stage for every retrospective, such that the time spent is as constructive as possible.
     <br />
     <br />
     <div className="ui content">
