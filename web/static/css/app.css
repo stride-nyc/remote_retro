@@ -428,10 +428,8 @@ If you truly need to make text bold, use the <strong></strong> tag
     flex-direction: column;
     flex: 1;
 
-    &:not(:global(.prime-directive)) {
-      display: flex;
-      flex-direction: column;
-      flex: 1;
+    &:global(.prime-directive) {
+      display: block;
     }
   }
 }
