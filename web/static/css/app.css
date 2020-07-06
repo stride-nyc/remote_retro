@@ -417,9 +417,17 @@ If you truly need to make text bold, use the <strong></strong> tag
 }
 
 :global(.retro-show-page) {
+  display: flex;
+  flex-direction: column;
+  flex: 1;
+
   main,
   :global(.react-root),
   :global(.stage) {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+
     &:not(:global(.prime-directive)) {
       display: flex;
       flex-direction: column;
