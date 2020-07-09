@@ -6,7 +6,7 @@ defmodule RemoteRetro.Emails do
   def welcome_email(user) do
     new_email(
       to: [user.email],
-      from: {"RemoteRetro", "do-not-reply@remoteretro.org"},
+      from: {"RemoteRetro.org", "do-not-reply@remoteretro.org"},
       subject: "#{user.given_name}! Welcome to RemoteRetro!",
       text_body: text_welcome_email_body(user),
       html_body: html_welcome_email_body(user)
@@ -16,7 +16,7 @@ defmodule RemoteRetro.Emails do
   defp text_welcome_email_body(user) do
     """
     #{user.given_name}!\n\n
-    We're thrilled that you've chosen RemoteRetro to aid your team on a path of continuous improvement. You can now visit your user dashboard at https://remoteretro.org/retros, and we encourage you to forward this email to your team(s) with encouragement to check us out!\n\n
+    We're thrilled that you've chosen RemoteRetro.org to aid your team on a path of continuous improvement. You can now visit your user dashboard at https://remoteretro.org/retros, and we encourage you to forward this email to your team(s) with encouragement to check us out!\n\n
     Looking forward,\n
     The RemoteRetro Team\n
     """
@@ -32,7 +32,7 @@ defmodule RemoteRetro.Emails do
 
     new_email(
       to: participant_emails,
-      from: {"RemoteRetro", "do-not-reply@remoteretro.org"},
+      from: {"RemoteRetro.org", "do-not-reply@remoteretro.org"},
       subject: "Action items from Retro",
       text_body: text_retro_action_items(action_items),
       html_body: html_retro_action_items(action_items, retro_id)
@@ -43,7 +43,7 @@ defmodule RemoteRetro.Emails do
     """
     <div>
       <p>#{user.given_name}!</p>
-      <p>We're thrilled that you've chosen <a href="https://remoteretro.org">RemoteRetro</a> to aid your team on a path of continuous improvement. You can now visit your user dashboard at https://remoteretro.org/retros, and we encourage you to forward this email to your team(s) with encouragement to check us out!</p>
+      <p>We're thrilled that you've chosen <a href="https://remoteretro.org">RemoteRetro.org</a> to aid your team on a path of continuous improvement. You can now visit your user dashboard at https://remoteretro.org/retros, and we encourage you to forward this email to your team(s) with encouragement to check us out!</p>
 
       <p>
         Looking forward,<br>

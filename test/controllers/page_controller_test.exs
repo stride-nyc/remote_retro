@@ -29,7 +29,7 @@ defmodule RemoteRetro.PageControllerTest do
     test "has a default title attribute where RemoteRetro comes first", ~M{conn} do
       conn = get(conn, "/")
 
-      assert html_response(conn, 200) =~ ~r/<title>RemoteRetro \| .*>/i
+      assert html_response(conn, 200) =~ ~r/<title>RemoteRetro\.org \| .*>/i
     end
   end
 
