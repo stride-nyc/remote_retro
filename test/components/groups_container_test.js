@@ -4,6 +4,7 @@ import { shallow } from "enzyme"
 import { GroupsContainer } from "../../web/static/js/components/groups_container"
 import IdeaGroup from "../../web/static/js/components/idea_group"
 import CategoryColumn from "../../web/static/js/components/category_column"
+import ContactStrideCTA from "../../web/static/js/components/contact_stride_cta"
 
 describe("GroupsContainer component", () => {
   const defaultProps = {
@@ -140,6 +141,28 @@ describe("GroupsContainer component", () => {
           expect(ideaGroupIds).to.eql([1, 2])
         })
       })
+    })
+  })
+
+  describe("when in the groups-closed stage", () => {
+    it("renders an ContactStrideCTA", () => {
+      const wrapper = shallow(
+        <GroupsContainer {...defaultProps} stage="groups-closed" />
+      )
+
+      const contactStrideCTA = wrapper.find(ContactStrideCTA)
+      expect(contactStrideCTA.exists()).to.eql(true)
+    })
+  })
+
+  describe("when in a stage *other than* 'groups-closed'", () => {
+    it("does *not* render an ContactStrideCTA column", () => {
+      const wrapper = shallow(
+        <GroupsContainer {...defaultProps} stage="groups-action-items" />
+      )
+
+      const contactStrideCTA = wrapper.find(ContactStrideCTA)
+      expect(contactStrideCTA.exists()).to.eql(false)
     })
   })
 })

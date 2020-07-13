@@ -1,0 +1,10 @@
+.wrapper {
+  display: none;
+
+  @media(min-width: 1200px) {
+    display: block;
+    width: 300px;
+    padding: 1.5rem;
+    text-align: center;
+  }
+}

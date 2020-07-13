@@ -10,6 +10,7 @@ import { selectors } from "../redux/index"
 import LowerThird from "./lower_third"
 import IdeaGroup from "./idea_group"
 import CategoryColumn from "./category_column"
+import ContactStrideCTA from "./contact_stride_cta"
 import OverflowDetector from "./overflow_detector"
 import UserList from "./user_list"
 
@@ -18,7 +19,7 @@ import styles from "./css_modules/groups_container.css"
 
 import STAGES from "../configs/stages"
 
-const { LABELING_PLUS_VOTING } = STAGES
+const { LABELING_PLUS_VOTING, GROUPS_CLOSED } = STAGES
 
 const sortGroups = (groupsWithAssociatedIdeasAndVotes, isLabelingPlusVotingStage) => {
   return isLabelingPlusVotingStage
@@ -46,6 +47,7 @@ export class GroupsContainer extends Component {
     } = this.props
 
     const isLabelingPlusVotingStage = stage === LABELING_PLUS_VOTING
+    const isRetroClosed = stage === GROUPS_CLOSED
     const groupsSorted = sortGroups(groupsWithAssociatedIdeasAndVotes, isLabelingPlusVotingStage)
     const groupsListClasses = classNames(styles.groupsWrapper, {
       overflowed: isGroupsListOverflowed,
@@ -90,6 +92,8 @@ export class GroupsContainer extends Component {
               stage={stage}
             />
           )}
+
+          {isRetroClosed && <ContactStrideCTA />}
         </div>
 
         <UserList wrap={false} />
