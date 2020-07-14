@@ -5,12 +5,19 @@
 
   @media(min-width: 1200px) {
     display: flex;
+    flex-direction: column;
+
     width: 300px;
-    padding: 0 1.5rem 2rem;
+    padding: 0 1.5rem 12.5rem;
 
     text-align: center;
     align-items: center;
+    justify-content: center;
 
     border-left: 1px solid var(--semantic-divider-border-top-color);
+  }
+
+  img {
+    max-width: 100px;
   }
 }
