@@ -2,6 +2,12 @@
 
 .wrapper {
   display: none;
+  transition: transform 250ms ease-out;
+
+  transform: translateX(100%);
+  &:global(.active) {
+    transform: translateX(0);
+  }
 
   @media(min-width: 1200px) {
     display: flex;

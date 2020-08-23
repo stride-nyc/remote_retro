@@ -39,6 +39,7 @@ export class GroupsContainer extends Component {
   render() {
     const { isGroupsListOverflowed } = this.state
     const {
+      alert,
       groupsWithAssociatedIdeasAndVotes,
       currentUser,
       actions,
@@ -93,7 +94,7 @@ export class GroupsContainer extends Component {
             />
           )}
 
-          {isRetroClosed && <ContactStrideCTA />}
+          {isRetroClosed && <ContactStrideCTA alert={alert} />}
         </div>
 
         <UserList wrap={false} />
