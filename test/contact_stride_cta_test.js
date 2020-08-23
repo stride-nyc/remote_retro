@@ -8,11 +8,19 @@ const stubAlert = {
   BodyComponent: () => <p>Derp!</p>,
 }
 
+const defaultProps = {
+  currentUser: {
+    name: "Travis Vander Hoop",
+  },
+  alert: stubAlert,
+}
+
 describe("<ContactStrideCTA />", () => {
   context("when there is no alert to display to the user", () => {
     it("applies an active class to the wrapper", () => {
       const wrapper = shallow(
         <ContactStrideCTA
+          {...defaultProps}
           alert={null}
         />
       )
@@ -25,6 +33,7 @@ describe("<ContactStrideCTA />", () => {
     it("does *not* apply an active class to the wrapper", () => {
       const wrapper = shallow(
         <ContactStrideCTA
+          {...defaultProps}
           alert={stubAlert}
         />
       )
