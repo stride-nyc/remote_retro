@@ -62,7 +62,7 @@ defmodule RemoteRetro.Mixfile do
       {:honeybadger, "~> 0.14.0"},
       {:apex, "~>1.2.1", only: [:dev, :test]},
       {:timex, "~> 3.6"},
-      {:telemetry_poller, "~> 0.5"},
+      {:telemetry_poller, "~> 0.5.1"},
       {:telemetry_metrics, "~> 0.5"},
       {:jason, "~> 1.2.1"},
     ]
