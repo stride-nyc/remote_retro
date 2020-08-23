@@ -110,9 +110,11 @@ GroupsContainer.propTypes = {
   currentUserHasExhaustedVotes: PropTypes.bool.isRequired,
   groupsWithAssociatedIdeasAndVotes: AppPropTypes.groups.isRequired,
   stage: AppPropTypes.stage.isRequired,
+  alert: AppPropTypes.alert.isRequired,
 }
 
 const mapStateToProps = (state, { currentUser }) => ({
+  alert: state.alert,
   groupsWithAssociatedIdeasAndVotes: selectors.groupsWithAssociatedIdeasAndVotes(state),
   currentUserHasExhaustedVotes: selectors.currentUserHasExhaustedVotes(state, currentUser),
 })
