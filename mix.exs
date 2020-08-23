@@ -53,7 +53,7 @@ defmodule RemoteRetro.Mixfile do
       {:mix_test_watch, "~> 1.0.2", [runtime: false, only: :dev]},
       {:mock, "~> 0.3.5", only: :test},
       {:oauth2, "~> 2.0"},
-      {:gettext, "~> 0.18"},
+      {:gettext, "~> 0.18.1"},
       {:wallaby, "~> 0.25.1", [runtime: false, only: :test]},
       {:shorter_maps, "~> 2.0"},
       {:slender_channel, "~> 1.0"},
