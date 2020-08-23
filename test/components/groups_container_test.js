@@ -145,13 +145,26 @@ describe("GroupsContainer component", () => {
   })
 
   describe("when in the groups-closed stage", () => {
-    it("renders an ContactStrideCTA", () => {
-      const wrapper = shallow(
-        <GroupsContainer {...defaultProps} stage="groups-closed" />
-      )
+    describe("when the current user's locale indicates they're in the US timezone", () => {
+      it("renders an ContactStrideCTA", () => {
+        const wrapper = shallow(
+          <GroupsContainer {...defaultProps} stage="groups-closed" currentUser={{ locale: "en" }} />
+        )
 
-      const contactStrideCTA = wrapper.find(ContactStrideCTA)
-      expect(contactStrideCTA.exists()).to.eql(true)
+        const contactStrideCTA = wrapper.find(ContactStrideCTA)
+        expect(contactStrideCTA.exists()).to.eql(true)
+      })
+    })
+
+    describe("when the current user's locale indicates they're outside a US timezone", () => {
+      it("does not render a ContactStrideCTA", () => {
+        const wrapper = shallow(
+          <GroupsContainer {...defaultProps} stage="groups-closed" currentUser={{ locale: "en-GB" }} />
+        )
+
+        const contactStrideCTA = wrapper.find(ContactStrideCTA)
+        expect(contactStrideCTA.exists()).to.eql(false)
+      })
     })
   })
 

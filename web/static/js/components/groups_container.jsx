@@ -49,6 +49,7 @@ export class GroupsContainer extends Component {
 
     const isLabelingPlusVotingStage = stage === LABELING_PLUS_VOTING
     const isRetroClosed = stage === GROUPS_CLOSED
+    const shouldRenderCta = isRetroClosed && currentUser.locale === "en"
     const groupsSorted = sortGroups(groupsWithAssociatedIdeasAndVotes, isLabelingPlusVotingStage)
     const groupsListClasses = classNames(styles.groupsWrapper, {
       overflowed: isGroupsListOverflowed,
@@ -94,7 +95,7 @@ export class GroupsContainer extends Component {
             />
           )}
 
-          {isRetroClosed && <ContactStrideCTA alert={alert} />}
+          {shouldRenderCta && <ContactStrideCTA alert={alert} currentUser={currentUser} />}
         </div>
 
         <UserList wrap={false} />
