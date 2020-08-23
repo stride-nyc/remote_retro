@@ -1,10 +1,15 @@
 import React from "react"
+import cx from "classnames"
 
 import styles from "./css_modules/contact_stride_cta.css"
 
-const ContactStrideCTA = () => {
+const ContactStrideCTA = ({ alert }) => {
+  const wrapperClasses = cx(styles.wrapper, {
+    active: !alert,
+  })
+
   return (
-    <section className={styles.wrapper}>
+    <section className={wrapperClasses}>
       <img src="/images/stride_logo.png" alt="" />
       <h3 className="ui header">
         This retrospective was brought to you by Stride Consulting.

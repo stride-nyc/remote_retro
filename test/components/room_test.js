@@ -8,6 +8,7 @@ describe("Room", () => {
   let stubComponent
 
   const defaultProps = {
+    alert: null,
     presences: [{
       given_name: "treezy",
       online_at: 803,
