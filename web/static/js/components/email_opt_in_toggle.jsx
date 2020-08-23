@@ -9,7 +9,7 @@ const EmailOptInToggle = props => {
     <div className={`${styles.emailOptInToggle} ui secondary compact segment thirteen wide mobile eight wide tablet four wide computer column`}>
       <p>
         Would you like to receive occasional emails from RemoteRetro
-        and Stride Consulting? You can opt out any time, per our <a href="/privacy">privacy policy</a>.
+        and Stride Consulting? You can opt out any time, per our <a href="/privacy" target="_blank" rel="noopener noreferrer">privacy policy</a>.
       </p>
       <button
         className="ui tiny basic fluid compact button"
