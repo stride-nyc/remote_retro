@@ -27,4 +27,13 @@
   img {
     max-width: 100px;
   }
+
+  .cta-section {
+    align-self: normal;
+    margin-top: 0.5rem;
+
+    a {
+      margin-right: 0;
+    }
+  }
 }

@@ -15,9 +15,10 @@ const ContactStrideCTA = ({ alert }) => {
         This retrospective was brought to you by Stride Consulting.
       </h3>
 
-      <p>Got software problems?</p>
-
-      <button className="ui tiny green button">Email Debbie!</button>
+      <div className={styles.ctaSection}>
+        <p className="ui small header">Issues with software delivery?</p>
+        <a className="ui green button">Let's talk.</a>
+      </div>
     </section>
   )
 }
