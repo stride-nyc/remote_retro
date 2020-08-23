@@ -1,3 +1,7 @@
+.whitespace-no-wrap {
+  white-space: nowrap;
+}
+
 .dashboard-link {
   margin-bottom: 1rem;
 

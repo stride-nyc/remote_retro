@@ -4,7 +4,7 @@ import styles from "./css_modules/closed_lower_third_content.css"
 
 const ClosedLowerThirdContent = () => (
   <div className="ui stackable grid basic attached secondary center aligned segment">
-    <div className="ui four wide column header">
+    <div className={`ui four wide column header ${styles.whitespaceNoWrap}`}>
       <div className="content">
         This retro is all wrapped up!
         <p className="sub header">Contents are read-only.</p>
