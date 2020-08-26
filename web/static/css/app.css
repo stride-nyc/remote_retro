@@ -382,14 +382,12 @@ If you truly need to make text bold, use the <strong></strong> tag
 }
 
 :global(ul.ui.list li p.list-item-note) {
-  transform: translate3d(0.75rem, 0, 0);
-  margin-top: 0.1rem;
-  margin-bottom: 0;
+  margin: 0.1rem 0 0 0.75rem;
 
   &:before {
     content: "-";
     display: inline-flex;
-    transform: translate3d(-0.75rem, 0, 0);
+    margin-left: -0.75rem;
     position: absolute;
   }
 }
