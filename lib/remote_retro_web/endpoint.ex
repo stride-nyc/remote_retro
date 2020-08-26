@@ -53,7 +53,8 @@ defmodule RemoteRetroWeb.Endpoint do
     Plug.Session,
     store: :cookie,
     key: "_remote_retro_key",
-    signing_salt: "D76dW6Sl"
+    signing_salt: "D76dW6Sl",
+    same_site: "Strict"
   )
 
   plug(RemoteRetroWeb.Router)
