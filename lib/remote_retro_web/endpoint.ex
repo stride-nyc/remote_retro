@@ -54,7 +54,7 @@ defmodule RemoteRetroWeb.Endpoint do
     store: :cookie,
     key: "_remote_retro_key",
     signing_salt: "D76dW6Sl",
-    same_site: "Strict"
+    extra: Application.get_env(:remote_retro, :extra_headers)
   )
 
   plug(RemoteRetroWeb.Router)

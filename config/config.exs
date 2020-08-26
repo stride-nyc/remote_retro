@@ -23,6 +23,7 @@ config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.SendGridAdapter, api_k
 config :bamboo, :json_library, Jason
 
 config :remote_retro, :auth_controller, RemoteRetroWeb.AuthController
+config :remote_retro, :extra_headers, ""
 
 config :oauth2,
   serializers: %{
