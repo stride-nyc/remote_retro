@@ -16,7 +16,7 @@ module.exports = {
     library: "[name]",
   },
   plugins: [
-    new HardSourceWebpackPlugin(),
+    new HardSourceWebpackPlugin({ info: { level: "error" }}),
     new webpack.DllPlugin({
       path: path.resolve(__dirname, "web/static/js/dll", "[name]-manifest.json"),
       name: "[name]",
