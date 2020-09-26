@@ -41,7 +41,7 @@ const baseVotingConfig = {
     nextStage: ACTION_ITEMS,
     copy: "Action Items",
     iconClass: "arrow right",
-    confirmationMessage: "Wait! Is everyone satisfied with their votes?",
+    confirmationMessageHTML: "<strong>WAIT!</strong> Is everyone satisfied with their votes?",
     stateDependentTooltip: selectors.votingStageProgressionTooltip,
   },
 }
@@ -55,7 +55,7 @@ export default {
       nextStage: PRIME_DIRECTIVE,
       copy: "Begin Retro",
       iconClass: "arrow right",
-      confirmationMessage: "Has your entire party arrived?",
+      confirmationMessageHTML: "Has your entire party arrived?",
     },
   },
   [PRIME_DIRECTIVE]: {
@@ -72,7 +72,7 @@ export default {
       nextStage: IDEA_GENERATION,
       copy: "Idea Generation",
       iconClass: "arrow right",
-      confirmationMessage: "Is everyone ready to begin?",
+      confirmationMessageHTML: "Is everyone ready to begin?",
     },
   },
   [GROUPING]: {
@@ -92,7 +92,7 @@ export default {
       }),
       copy: "Labeling + Voting",
       iconClass: "arrow right",
-      confirmationMessage: "Has your team finished grouping the ideas?",
+      confirmationMessageHTML: "Has your team finished grouping the ideas?",
     },
   },
   [VOTING]: baseVotingConfig,
@@ -126,7 +126,7 @@ export default {
       nextStage: CLOSED,
       copy: "Send Action Items",
       iconClass: "send",
-      confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
+      confirmationMessageHTML: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
     },
   },
   [GROUPS_ACTION_ITEMS]: {
@@ -143,7 +143,7 @@ export default {
       nextStage: GROUPS_CLOSED,
       copy: "Send Action Items",
       iconClass: "send",
-      confirmationMessage: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
+      confirmationMessageHTML: "Are you sure you want to distribute this retrospective's action items? This will close the retro.",
     },
   },
   [CLOSED]: {

@@ -28,7 +28,7 @@ const ideaGenerationConfig = {
     nextStage: GROUPING,
     copy: "Grouping",
     iconClass: "arrow right",
-    confirmationMessage: "Are you sure you would like to proceed to the idea grouping stage?",
+    confirmationMessageHTML: "Are you sure you would like to proceed to the idea grouping stage?",
   },
 }
 

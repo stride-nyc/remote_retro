@@ -9,7 +9,7 @@ describe("StageProgressionButton", () => {
     nextStage: "stageDos",
     copy: "Proceed to stage dos",
     iconClass: "arrow right",
-    confirmationMessage: "Are you sure?",
+    confirmationMessageHTML: "Are you sure?",
   }
 
   const defaultProps = {

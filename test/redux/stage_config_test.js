@@ -18,7 +18,7 @@ describe("stageConfig reducer", () => {
 
     describe("and there is initial state", () => {
       it("should return that initial state", () => {
-        const initialState = { confirmationMessage: "You sure you wanna proceed to voting?" }
+        const initialState = { confirmationMessageHTML: "You sure you wanna proceed to voting?" }
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
         expect(stageConfigReducer(initialState, unhandledAction)).to.deep.equal(initialState)
