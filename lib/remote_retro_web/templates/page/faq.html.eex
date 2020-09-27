@@ -10,8 +10,16 @@
   <h2 class="ui medium header">Who can use RemoteRetro?</h2>
   <p>Anyone with a Google account of any kind can enter a retrospective!</p>
 
+
   <h2 class="ui medium header">How many people should participate in a retro?</h2>
   <p>Ideally, a retrospective will contain no more than 10 people. Exceed 10, and participants will check out because they feel they can go unnoticed. If you can, keep the numbers low!</p>
+
+  <h2 class="ui medium header">How long should our retros be?</h2>
+  <p><strong>TLDR;</strong> Your team should budget an hour per sprint retrospective.</p>
+
+  <p>
+    Millions of technical and social interactions take place in any given sprint/iteration, so teams should budget at least 45 minutes for a retrospective. Any less, and your team is likely to discuss surface-level behaviors without identifying underlying causes and issues. And spending an hour and a half or more can result in introverted teammates checking out entirely. So an hour is the sweet spot for sprint/iteration retrospectives. More time can be budgeted for retrospectives covering broader timelines, but your team should take breaks to avoid social exhaustion.
+  </p>
 
   <h2 class="ui medium header">My team is entirely colocated. Should we use RemoteRetro?</h2>
   <p>That depends. If you have a large TV on which to show the board, RemoteRetro will expedite the idea submission, grouping, and voting process, but be mindful that once you get to the discussion/action items stage, non-facilitators should put their laptops away to maximize face-to-face communication.</p>
