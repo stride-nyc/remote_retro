@@ -27,6 +27,9 @@ config :remote_retro, RemoteRetro.Repo,
   pool_size: 15,
   ssl: true
 
+config :remote_retro,
+  canonical_host: System.get_env("HOST")
+
 # Do not print debug messages in production
 config :logger, level: :info
 

@@ -8,6 +8,8 @@ defmodule RemoteRetroWeb.Endpoint do
     plug(Phoenix.Ecto.SQL.Sandbox)
   end
 
+  plug(:canonical_host)
+
   # Serve at "/" the static files from "priv/static" directory.
   #
   # You should set gzip to true if you are running phoenix.digest
@@ -58,4 +60,16 @@ defmodule RemoteRetroWeb.Endpoint do
   )
 
   plug(RemoteRetroWeb.Router)
+
+  defp canonical_host(conn, _opts) do
+    :remote_retro
+    |> Application.get_env(:canonical_host)
+    |> case do
+      host when is_binary(host) ->
+        opts = PlugCanonicalHost.init(canonical_host: host)
+        PlugCanonicalHost.call(conn, opts)
+      _ ->
+        conn
+    end
+  end
 end
