@@ -52,6 +52,14 @@
     );
   }
 
+  &[data-category="start"],
+  &[data-category="stop"],
+  &[data-category="continue"] {
+    &:before {
+      content: "(" attr(data-category) ") ";
+    }
+  }
+
   border: 1px solid var(--semantic-dark-grey);
   border-radius: 3px;
 

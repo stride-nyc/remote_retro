@@ -90,6 +90,7 @@ export class GroupingIdeaCard extends Component {
       <p
         className={classes}
         style={style}
+        data-category={idea.category}
         ref={cardNode => { this.cardNode = cardNode }}
       >
         {idea.body}
