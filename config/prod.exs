@@ -44,6 +44,8 @@ config :remote_retro, :allow_user_masquerade, false
 
 config :remote_retro, :extra_headers, "SameSite=None"
 
+config :remote_retro, live_dashboard_repos: [RemoteRetro.Repo]
+
 config :honeybadger,
   api_key: "${HONEYBADGER_API_KEY}",
   hostname: "${HOST}",

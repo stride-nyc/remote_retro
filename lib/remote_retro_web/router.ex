@@ -6,6 +6,7 @@ defmodule RemoteRetroWeb.Router do
 
   alias RemoteRetroWeb.{PageController, AuthController, Plugs}
 
+  @live_dashboard_repos Application.get_env(:remote_retro, :live_dashboard_repos)
   @auth_controller Application.get_env(:remote_retro, :auth_controller)
 
   if Application.get_env(:remote_retro, :env) == :dev do
@@ -49,6 +50,6 @@ defmodule RemoteRetroWeb.Router do
 
   scope "/admin" do
     pipe_through [:browser, :authentication_required, :forbid_non_striders]
-    live_dashboard "/dashboard", metrics: RemoteRetroWeb.Telemetry, ecto_repos: [RemoteRetro.Repo]
+    live_dashboard "/dashboard", metrics: RemoteRetroWeb.Telemetry, ecto_repos: @live_dashboard_repos
   end
 end
