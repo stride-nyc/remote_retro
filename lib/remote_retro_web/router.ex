@@ -49,6 +49,6 @@ defmodule RemoteRetroWeb.Router do
 
   scope "/admin" do
     pipe_through [:browser, :authentication_required, :forbid_non_striders]
-    live_dashboard "/dashboard", metrics: RemoteRetroWeb.Telemetry
+    live_dashboard "/dashboard", metrics: RemoteRetroWeb.Telemetry, ecto_repos: [RemoteRetro.Repo]
   end
 end
