@@ -14,9 +14,11 @@ new WebpackDevServer(webpack(config), {
   headers: { "Access-Control-Allow-Origin": "*" },
   stats: config.stats,
 }).listen(port, "0.0.0.0", err => {
-  if (err) console.error(err)
-  console.log(`[info] Running webpack-dev-server using http://localhost:${port}`)
-  console.log("[info] Webpack compiling assets...\n")
+  if (err) {
+    console.error(err)
+  } else {
+    console.log("[info] Webpack compiling assets...\n")
+  }
 })
 
 // Exit on end of STDIN
