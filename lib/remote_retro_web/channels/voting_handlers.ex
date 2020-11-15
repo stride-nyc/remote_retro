@@ -22,7 +22,7 @@ defmodule RemoteRetroWeb.VotingHandlers do
     {:reply, :ok, socket}
   rescue
     exception ->
-      Honeybadger.notify(exception, %{handler: @vote_retracted}, __STACKTRACE__)
+      Honeybadger.notify(exception, metadata:  %{handler: @vote_retracted}, stacktrace: __STACKTRACE__)
       {:reply, :error, socket}
   end
 
@@ -34,7 +34,7 @@ defmodule RemoteRetroWeb.VotingHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, %{handler: @vote_submitted}, __STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @vote_submitted}, stacktrace: __STACKTRACE__)
       {:error, %{}}
   end
 

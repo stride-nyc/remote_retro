@@ -20,7 +20,7 @@ defmodule RemoteRetroWeb.GroupHandlers do
     {:reply, :ok, socket}
   rescue
     exception ->
-      Honeybadger.notify(exception, %{handler: @group_edited}, __STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @group_edited}, stacktrace: __STACKTRACE__)
       {:reply, :error, socket}
   end
 end

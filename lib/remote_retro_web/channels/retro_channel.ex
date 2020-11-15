@@ -49,7 +49,7 @@ defmodule RemoteRetroWeb.RetroChannel do
 
   def handle_in(unhandled_message, payload, socket) do
     error_payload = %{unhandled_message: %{type: unhandled_message, payload: payload}}
-    Honeybadger.notify(error_payload, %{retro_id: socket.assigns.retro_id})
+    Honeybadger.notify(error_payload, metadata: %{retro_id: socket.assigns.retro_id})
 
     {:reply, {:error, error_payload}, socket}
   end

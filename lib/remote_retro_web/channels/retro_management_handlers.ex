@@ -20,7 +20,7 @@ defmodule RemoteRetroWeb.RetroManagementHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, %{handler: @retro_edited}, __STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @retro_edited}, stacktrace: __STACKTRACE__)
       {:error, %{}}
   end
 

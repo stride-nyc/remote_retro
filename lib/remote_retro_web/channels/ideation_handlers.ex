@@ -38,7 +38,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, %{handler: @idea_committed}, __STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @idea_committed}, stacktrace: __STACKTRACE__)
       {:error, %{}}
   end
 
@@ -55,7 +55,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, %{handler: @idea_edited}, __STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @idea_edited}, stacktrace: __STACKTRACE__)
       {:error, %{}}
   end
 
@@ -66,7 +66,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, %{handler: @idea_deleted}, __STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @idea_deleted}, stacktrace: __STACKTRACE__)
       {:error, %{}}
   end
 

@@ -15,7 +15,7 @@ defmodule RemoteRetroWeb.UserHandlers do
     {:reply, {:ok, user}, socket}
   rescue
     exception ->
-      Honeybadger.notify(exception, %{handler: @user_edited}, __STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @user_edited}, stacktrace: __STACKTRACE__)
       {:reply, :error, socket}
   end
 end
