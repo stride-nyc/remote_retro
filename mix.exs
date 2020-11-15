@@ -48,7 +48,7 @@ defmodule RemoteRetro.Mixfile do
       {:postgrex, "~> 0.15.7"},
       {:phoenix_html, "~> 2.14.2"},
       {:phoenix_live_dashboard, "~> 0.3.6"},
-      {:phoenix_live_reload, "~> 1.2.4", only: :dev},
+      {:phoenix_live_reload, "~> 1.3", only: :dev},
       {:plug, "~> 1.11.0"},
       {:plug_canonical_host, "~> 2.0"},
       {:plug_cowboy, "~> 2.4"},
