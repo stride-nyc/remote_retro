@@ -50,7 +50,7 @@ defmodule RemoteRetro.Mixfile do
       {:phoenix_live_dashboard, "~> 0.4"},
       {:phoenix_live_reload, "~> 1.3", only: :dev},
       {:plug, "~> 1.11.0"},
-      {:plug_canonical_host, "~> 2.0"},
+      {:plug_canonical_host, "~> 2.0.1"},
       {:plug_cowboy, "~> 2.4"},
       {:mix_test_watch, "~> 1.0.2", [runtime: false, only: :dev]},
       {:mock, "~> 0.3.6", only: :test},
