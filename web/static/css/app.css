@@ -28,6 +28,10 @@ If you truly need to make text bold, use the <strong></strong> tag
     padding: var(--padding) 0 calc(1rem + var(--padding)) var(--padding);
   }
 
+  .gradient-background {
+    background-image: linear-gradient(to bottom left, white, #D7C7E1);
+  }
+
   .stride-link {
     color: inherit;
 
