@@ -238,7 +238,6 @@ If you truly need to make text bold, use the <strong></strong> tag
 
     p {
       font-weight: 200;
-      font-size: large;
       padding-left: 0.5rem;
     }
   }
