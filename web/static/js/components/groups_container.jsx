@@ -73,11 +73,12 @@ export class GroupsContainer extends Component {
               leaveAnimation="none"
               typeName={null}
             >
-              {groupsSorted.map(groupWithAssociatedIdeasAndVotes => (
+              {groupsSorted.map((groupWithAssociatedIdeasAndVotes, index) => (
                 <IdeaGroup
                   actions={actions}
                   currentUser={currentUser}
                   currentUserHasExhaustedVotes={currentUserHasExhaustedVotes}
+                  index={index}
                   key={groupWithAssociatedIdeasAndVotes.id}
                   stage={stage}
                   groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
