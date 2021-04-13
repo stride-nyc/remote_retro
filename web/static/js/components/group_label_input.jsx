@@ -57,6 +57,7 @@ class GroupLabelInput extends Component {
 
   render() {
     const { groupLabelInputValue } = this.state
+    const { index } = this.props
 
     return (
       <div className="ui fluid input">
@@ -66,6 +67,7 @@ class GroupLabelInput extends Component {
           placeholder="Optional Group Label"
           value={groupLabelInputValue}
           maxLength={MAX_LENGTH_OF_GROUP_NAME}
+          tabIndex={index}
           onChange={this.handleChange}
         />
 

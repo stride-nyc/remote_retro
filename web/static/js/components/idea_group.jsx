@@ -32,6 +32,7 @@ class IdeaGroup extends Component {
       currentUser,
       actions,
       stage,
+      index,
       currentUserHasExhaustedVotes,
     } = this.props
 
@@ -45,6 +46,7 @@ class IdeaGroup extends Component {
           actions={actions}
           currentUser={currentUser}
           groupWithAssociatedIdeasAndVotes={groupWithAssociatedIdeasAndVotes}
+          index={index}
           stage={stage}
         />
 
