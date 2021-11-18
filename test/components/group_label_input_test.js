@@ -11,9 +11,21 @@ const defaultProps = {
     ideas: [],
     votes: [],
   },
+  actions: {},
 };
 
+describe("GroupLabelInput component", () => {
   let wrapper
+
+  it("renders a character count of the label text out of a maximum of 20 on initial paint", () => {
+    wrapper = shallow(
+      <GroupLabelInput
+        {...defaultProps}
+      />
+    )
+
+    expect(wrapper.html()).to.match(/19\/20/)
+  })
 
   describe("when the user changes the value", () => {
     let submitGroupLabelChangesSpy
@@ -35,6 +47,10 @@ const defaultProps = {
       expect(
         submitGroupLabelChangesSpy
       ).to.have.been.calledWith(defaultProps.groupWithAssociatedIdeasAndVotes, "Turtles")
+    })
+
+    it("renders a character count of the updated label text out of a maximum of 20", () => {
+      expect(wrapper.html()).to.match(/7\/20/)
     })
   })
 

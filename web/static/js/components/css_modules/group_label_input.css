@@ -1,6 +1,24 @@
 @import '../../../css/colors.css';
 @import './shared/group_label_text.css';
 
+.wrapper {
+  :global(.character-count) {
+    position: absolute;
+    right: 2px;
+    bottom: 0;
+    z-index: -1;
+    transition: all 150ms ease-out;
+    font-size: 11px;
+    color: var(--semantic-dark-grey);
+  }
+
+  &:focus-within {
+    :global(.character-count) {
+      transform: translateY(80%);
+    }
+  }
+}
+
 .text-input {
   composes: group-label-text;
   height: 2rem;

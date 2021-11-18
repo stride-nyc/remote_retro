@@ -59,7 +59,7 @@ class GroupLabelInput extends Component {
     const { groupLabelInputValue } = this.state
 
     return (
-      <div className="ui fluid input">
+      <div className={`ui fluid input ${styles.wrapper}`}>
         <input
           type="text"
           className={styles.textInput}
@@ -68,6 +68,7 @@ class GroupLabelInput extends Component {
           maxLength={MAX_LENGTH_OF_GROUP_NAME}
           onChange={this.handleChange}
         />
+        <span className="character-count">{groupLabelInputValue.length}/{MAX_LENGTH_OF_GROUP_NAME}</span>
 
         {this.shouldShowCheckmark() && (
           <SuccessCheckmark
