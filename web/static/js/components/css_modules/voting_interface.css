@@ -19,6 +19,7 @@
 
 :global(.ui.labeled.button).wrapper {
   cursor: default;
+  margin-right: 0;
 
   &:global(.static) {
     pointer-events: none;
