@@ -6,7 +6,7 @@ export default () => (
     <div className="ui basic segment">
       <ul className="ui list">
         <li>
-          Work as a team to arrive at sensible labels for each group of ideas
+          Work as a team to arrive at sensible labels for each group of ideas.
         </li>
       </ul>
     </div>
