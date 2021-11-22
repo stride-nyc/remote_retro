@@ -6,6 +6,8 @@ import IdeationInterface from "../components/ideation_interface"
 import StageChangeInfoPrimeDirective from "../components/stage_change_info_prime_directive"
 import StageChangeInfoVoting from "../components/stage_change_info_voting"
 import StageChangeInfoGrouping from "../components/stage_change_info_grouping"
+import StageChangeInfoGroupsLabeling from "../components/stage_change_info_groups_labeling"
+import StageChangeInfoGroupsVoting from "../components/stage_change_info_groups_voting"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
 import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
@@ -20,8 +22,9 @@ const {
   IDEA_GENERATION,
   GROUPING,
   VOTING,
-  LABELING_PLUS_VOTING,
   ACTION_ITEMS,
+  GROUPS_LABELING,
+  GROUPS_VOTING,
   GROUPS_ACTION_ITEMS,
   CLOSED,
   GROUPS_CLOSED,
@@ -86,32 +89,51 @@ export default {
     },
     uiComponent: GroupingStage,
     progressionButton: {
-      nextStage: LABELING_PLUS_VOTING,
+      nextStage: GROUPS_LABELING,
       optionalParamsAugmenter: reduxState => ({
         ideasWithEphemeralGroupingIds: IdeasWithEphemeralGroupingIds.buildFrom(reduxState.ideas),
       }),
-      copy: "Labeling + Voting",
+      copy: "Group Labeling",
       iconClass: "arrow right",
       confirmationMessageHTML: "Has your team finished grouping the ideas?",
     },
   },
-  [VOTING]: baseVotingConfig,
-  [LABELING_PLUS_VOTING]: {
-    ...baseVotingConfig,
-    progressionButton: {
-      ...baseVotingConfig.progressionButton,
-      nextStage: GROUPS_ACTION_ITEMS,
-    },
+  [GROUPS_LABELING]: {
     arrivalAlert: {
-      headerText: "Stage Change: Labeling + Voting!",
-      BodyComponent: StageChangeInfoVoting,
+      headerText: "Stage Change: Labeling!",
+      BodyComponent: StageChangeInfoGroupsLabeling,
     },
     help: {
-      headerText: "Labeling + Voting!",
-      BodyComponent: StageChangeInfoVoting,
+      headerText: "Labeling",
+      BodyComponent: StageChangeInfoGroupsLabeling,
     },
     uiComponent: GroupsContainer,
+    progressionButton: {
+      nextStage: GROUPS_VOTING,
+      copy: "Voting",
+      iconClass: "arrow right",
+      confirmationMessageHTML: "Is your team satisfied with the applied labels?",
+    },
   },
+  [GROUPS_VOTING]: {
+    arrivalAlert: {
+      headerText: "Stage Change: Voting!",
+      BodyComponent: StageChangeInfoGroupsVoting,
+    },
+    help: {
+      headerText: "Voting",
+      BodyComponent: StageChangeInfoGroupsVoting,
+    },
+    uiComponent: GroupsContainer,
+    progressionButton: {
+      nextStage: GROUPS_ACTION_ITEMS,
+      copy: "Action Items",
+      iconClass: "arrow right",
+      confirmationMessageHTML: "Is your team satisfied with their votes?",
+      stateDependentTooltip: selectors.votingStageProgressionTooltip,
+    },
+  },
+  [VOTING]: baseVotingConfig,
   [ACTION_ITEMS]: {
     arrivalAlert: {
       headerText: "Stage Change: Action-Item Generation!",

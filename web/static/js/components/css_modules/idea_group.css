@@ -19,7 +19,7 @@
 
   .centeredVotingWrapper {
     width: 15rem;
-    margin: 0.5rem auto;
+    margin: -0.5rem auto 0.5rem;
     text-align: center;
 
     :global(.ui.right.pointing.label) {
@@ -61,7 +61,7 @@
   }
 }
 
-:global(.labeling-plus-voting) .wrapper {
+:global(.groups-voting) .wrapper {
   .centeredVotingWrapper {
     :global(.ui.right.pointing.label) {
       display: inline-flex;

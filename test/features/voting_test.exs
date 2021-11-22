@@ -38,11 +38,11 @@ defmodule VotingTest do
     end
   end
 
-  describe "group voting" do
+  describe "group labeling and voting" do
     setup [:persist_group_for_retro, :persist_idea_for_retro, :add_idea_to_group]
 
     @tag [
-      retro_stage: "labeling-plus-voting",
+      retro_stage: "groups-labeling",
       idea: %Idea{category: @category, body: "Frequent Pairing"},
     ]
     test "facilitator broadcasting group 'label' changes to other clients",
@@ -58,7 +58,7 @@ defmodule VotingTest do
     end
 
     @tag [
-      retro_stage: "labeling-plus-voting",
+      retro_stage: "groups-voting",
       idea: %Idea{category: @category, body: "Frequent Pairing"},
     ]
     test "incrementing a group's vote count across sessions",

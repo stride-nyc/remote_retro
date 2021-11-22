@@ -2,6 +2,7 @@ import React from "react"
 
 import IdeaSubmissionLowerThirdContent from "./idea_submission_lower_third_content"
 import VotingLowerThirdContent from "./voting_lower_third_content"
+import LabelingLowerThirdContent from "./labeling_lower_third_content"
 import ClosedLowerThirdContent from "./closed_lower_third_content"
 import GroupingLowerThirdContent from "./grouping_lower_third_content"
 import LowerThirdAnimationWrapper from "./lower_third_animation_wrapper"
@@ -11,7 +12,8 @@ import STAGES from "../configs/stages"
 
 const {
   VOTING,
-  LABELING_PLUS_VOTING,
+  GROUPS_LABELING,
+  GROUPS_VOTING,
   GROUPING,
   IDEA_GENERATION,
   ACTION_ITEMS,
@@ -24,7 +26,8 @@ const stageToComponentMap = {
   [IDEA_GENERATION]: IdeaSubmissionLowerThirdContent,
   [GROUPING]: GroupingLowerThirdContent,
   [VOTING]: VotingLowerThirdContent,
-  [LABELING_PLUS_VOTING]: VotingLowerThirdContent,
+  [GROUPS_LABELING]: LabelingLowerThirdContent,
+  [GROUPS_VOTING]: VotingLowerThirdContent,
   [ACTION_ITEMS]: IdeaSubmissionLowerThirdContent,
   [GROUPS_ACTION_ITEMS]: IdeaSubmissionLowerThirdContent,
   [CLOSED]: ClosedLowerThirdContent,

@@ -11,7 +11,7 @@ import OverflowDetector from "./overflow_detector"
 
 import STAGES from "../configs/stages"
 
-const { LABELING_PLUS_VOTING } = STAGES
+const { GROUPS_VOTING, GROUPS_LABELING } = STAGES
 
 const CATEGORY_ICON_HEIGHT_WIDTH = 18
 
@@ -36,7 +36,8 @@ class IdeaGroup extends Component {
     } = this.props
 
     const ideaToCastVoteFor = groupWithAssociatedIdeasAndVotes.ideas[0]
-    const isVotingStage = stage === LABELING_PLUS_VOTING
+    const isVotingStage = stage === GROUPS_VOTING
+    const hasAdvancedPastLabelingStage = !(stage === GROUPS_LABELING)
     const listContainerClasses = cx("list-container", { overflowed: listIsOverflowed })
 
     return (
@@ -48,20 +49,22 @@ class IdeaGroup extends Component {
           stage={stage}
         />
 
-        <div className={styles.centeredVotingWrapper}>
-          <div className="ui right pointing teal label">
-            Vote!
-          </div>
+        {hasAdvancedPastLabelingStage && (
+          <div className={styles.centeredVotingWrapper}>
+            <div className="ui right pointing teal label">
+              Vote!
+            </div>
 
-          <VotingInterface
-            actions={actions}
-            currentUser={currentUser}
-            currentUserHasExhaustedVotes={currentUserHasExhaustedVotes}
-            isVotingStage={isVotingStage}
-            ideaToCastVoteFor={ideaToCastVoteFor}
-            votesForEntity={groupWithAssociatedIdeasAndVotes.votes}
-          />
-        </div>
+            <VotingInterface
+              actions={actions}
+              currentUser={currentUser}
+              currentUserHasExhaustedVotes={currentUserHasExhaustedVotes}
+              isVotingStage={isVotingStage}
+              ideaToCastVoteFor={ideaToCastVoteFor}
+              votesForEntity={groupWithAssociatedIdeasAndVotes.votes}
+            />
+          </div>
+        )}
 
         <OverflowDetector
           className={listContainerClasses}

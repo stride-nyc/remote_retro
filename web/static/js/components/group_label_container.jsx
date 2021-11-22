@@ -7,10 +7,10 @@ import styles from "./css_modules/group_label_container.css"
 import sharedGroupLabelTextStyles from "./css_modules/shared/group_label_text.css"
 import stages from "../configs/stages"
 
-const { LABELING_PLUS_VOTING } = stages
+const { GROUPS_LABELING } = stages
 
 const GroupLabelContainer = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions, stage }) => {
-  const displayGroupLabelInput = (currentUser.is_facilitator && stage === LABELING_PLUS_VOTING)
+  const displayGroupLabelInput = (currentUser.is_facilitator && stage === GROUPS_LABELING)
   const readonlyGroupLabelClasses = classNames("readonly-group-label", sharedGroupLabelTextStyles.groupLabelText, {
     unlabeled: !groupWithAssociatedIdeasAndVotes.label,
   })

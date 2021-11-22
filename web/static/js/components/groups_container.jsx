@@ -19,7 +19,7 @@ import styles from "./css_modules/groups_container.css"
 
 import STAGES from "../configs/stages"
 
-const { LABELING_PLUS_VOTING, GROUPS_CLOSED } = STAGES
+const { GROUPS_LABELING, GROUPS_VOTING, GROUPS_CLOSED } = STAGES
 
 const sortGroups = (groupsWithAssociatedIdeasAndVotes, isLabelingPlusVotingStage) => {
   return isLabelingPlusVotingStage
@@ -47,10 +47,11 @@ export class GroupsContainer extends Component {
       currentUserHasExhaustedVotes,
     } = this.props
 
-    const isLabelingPlusVotingStage = stage === LABELING_PLUS_VOTING
+    const isLabelingOrVotingStage = [GROUPS_LABELING, GROUPS_VOTING].includes(stage)
+    const hasAdvancedPastVotingStage = !isLabelingOrVotingStage
     const isRetroClosed = stage === GROUPS_CLOSED
     const shouldRenderCta = isRetroClosed && currentUser.locale === "en"
-    const groupsSorted = sortGroups(groupsWithAssociatedIdeasAndVotes, isLabelingPlusVotingStage)
+    const groupsSorted = sortGroups(groupsWithAssociatedIdeasAndVotes, isLabelingOrVotingStage)
     const groupsListClasses = classNames(styles.groupsWrapper, {
       overflowed: isGroupsListOverflowed,
     })
@@ -86,7 +87,7 @@ export class GroupsContainer extends Component {
             </FlipMove>
           </OverflowDetector>
 
-          {!isLabelingPlusVotingStage && (
+          {hasAdvancedPastVotingStage && (
             <CategoryColumn
               category="action-item"
               categoryDisplayStringOverride="Action Items"

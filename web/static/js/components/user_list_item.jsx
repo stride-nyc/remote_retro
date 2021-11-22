@@ -10,7 +10,7 @@ import styles from "./css_modules/user_list_item.css"
 import AnimatedEllipsis from "./animated_ellipsis"
 import STAGES from "../configs/stages"
 
-const { VOTING, LABELING_PLUS_VOTING } = STAGES
+const { VOTING, GROUPS_VOTING } = STAGES
 
 export const UserListItem = ({ user, votes, isVotingStage, currentUser, actions }) => {
   const imgSrc = user.picture.replace("sz=50", "sz=200")
@@ -62,7 +62,7 @@ UserListItem.propTypes = {
 
 const mapStateToProps = state => ({
   votes: state.votes,
-  isVotingStage: includes([VOTING, LABELING_PLUS_VOTING], state.retro.stage),
+  isVotingStage: includes([VOTING, GROUPS_VOTING], state.retro.stage),
   currentUser: selectors.getCurrentUserPresence(state),
 })
 

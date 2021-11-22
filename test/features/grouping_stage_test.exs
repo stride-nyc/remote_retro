@@ -90,7 +90,7 @@ defmodule GroupingStageTest do
          ~M{retro, session} do
       session = visit_retro(session, retro)
 
-      click_and_confirm_progression_to(session, "Voting")
+      click_and_confirm_progression_to(session, "Labeling")
 
       assert_has(session, Query.css(".idea-group", text: "rampant sickness\ngetting sickness", count: 1))
       assert_has(session, Query.css(".idea-group", text: "lazy commit messages", count: 1))

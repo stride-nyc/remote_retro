@@ -38,7 +38,9 @@ defmodule RemoteRetro.Retro do
       "idea-generation",
       "grouping",
       "voting",
-      "labeling-plus-voting",
+      "labeling-plus-voting", # TODO: remove once migration to groups-{labeling,voting} is live
+      "groups-labeling",
+      "groups-voting",
       "action-items",
       "groups-action-items",
       "closed",

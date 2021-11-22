@@ -18,13 +18,13 @@ describe("GroupLabelContainer component", () => {
   context("when the user is a facilitator", () => {
     let wrapper
 
-    context("when the stage is 'labeling-plus-voting'", () => {
+    context("when the stage is 'groups-labeling'", () => {
       beforeEach(() => {
         wrapper = shallow(
           <GroupLabelContainer
             {...defaultProps}
             currentUser={{ is_facilitator: true }}
-            stage="labeling-plus-voting"
+            stage="groups-labeling"
           />
         )
       })
@@ -42,13 +42,13 @@ describe("GroupLabelContainer component", () => {
       })
     })
 
-    context("when the stage is something other than 'labeling-plus-voting'", () => {
+    context("when the stage is something other than 'groups-labeling'", () => {
       beforeEach(() => {
         wrapper = shallow(
           <GroupLabelContainer
             {...defaultProps}
             currentUser={{ is_facilitator: true }}
-            stage="closed"
+            stage="groups-voting"
           />
         )
       })

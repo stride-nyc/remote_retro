@@ -31,10 +31,10 @@ describe("GroupsContainer component", () => {
     expect(wrapper.find(IdeaGroup)).to.have.length(2)
   })
 
-  describe("when in the labeling-plus-voting stage", () => {
+  describe("when in the groups-labeling stage", () => {
     it("does *not* render a category column", () => {
       const wrapper = shallow(
-        <GroupsContainer {...defaultProps} stage="labeling-plus-voting" />
+        <GroupsContainer {...defaultProps} stage="groups-labeling" />
       )
 
       const categoryColumn = wrapper.find(CategoryColumn)
@@ -45,7 +45,7 @@ describe("GroupsContainer component", () => {
       it("renders them by id ascending", () => {
         const props = {
           ...defaultProps,
-          stage: "labeling-plus-voting",
+          stage: "groups-labeling",
           groupsWithAssociatedIdeasAndVotes: [{
             id: 102,
             votes: [],
@@ -74,7 +74,50 @@ describe("GroupsContainer component", () => {
     })
   })
 
-  describe("when in a stage *other than* labeling-plus-voting", () => {
+  describe("when in the groups-voting stage", () => {
+    it("does *not* render a category column", () => {
+      const wrapper = shallow(
+        <GroupsContainer {...defaultProps} stage="groups-voting" />
+      )
+
+      const categoryColumn = wrapper.find(CategoryColumn)
+      expect(categoryColumn.exists()).to.eql(false)
+    })
+
+    describe("when the groups are given in an unsorted order", () => {
+      it("renders them by id ascending", () => {
+        const props = {
+          ...defaultProps,
+          stage: "groups-voting",
+          groupsWithAssociatedIdeasAndVotes: [{
+            id: 102,
+            votes: [],
+          }, {
+            id: 100,
+            votes: [],
+          }, {
+            id: 101,
+            votes: [],
+          }],
+        }
+
+        const wrapper = shallow(
+          <GroupsContainer {...props} />
+        )
+
+        const ideaGroups = wrapper.find(IdeaGroup)
+        const ideaGroupIds = ideaGroups.map(ideaGroup => (
+          ideaGroup.prop("groupWithAssociatedIdeasAndVotes").id
+        ))
+
+        expect(ideaGroupIds).to.eql([
+          100, 101, 102,
+        ])
+      })
+    })
+  })
+
+  describe("when in a stage *other than* groups-labeling/groups-voting", () => {
     it("renders a category column for action items", () => {
       const wrapper = shallow(
         <GroupsContainer {...defaultProps} stage="closed" />

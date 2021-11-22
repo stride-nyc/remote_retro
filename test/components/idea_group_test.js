@@ -20,7 +20,7 @@ describe("IdeaGroup component", () => {
       }],
       votes: [],
     },
-    stage: "action-items",
+    stage: "groups-action-items",
   }
 
   it("renders a group label container", () => {
@@ -31,6 +31,66 @@ describe("IdeaGroup component", () => {
     const groupNameContainer = wrapper.find("GroupLabelContainer")
 
     expect(groupNameContainer.exists()).to.eql(true)
+  })
+
+  describe("when the stage is groups-labeling", () => {
+    it("does not render a voting interface", () => {
+      const wrapper = shallow(
+        <IdeaGroup
+          {...defaultProps}
+          stage="groups-labeling"
+        />
+      )
+
+      const votingInterface = wrapper.find("VotingInterface")
+
+      expect(votingInterface.length).to.eql(0)
+    })
+  })
+
+  describe("when the stage is *not* groups-labeling", () => {
+    it("renders a voting interface", () => {
+      const wrapper = shallow(
+        <IdeaGroup
+          {...defaultProps}
+          stage="groups-action-items"
+        />
+      )
+
+      const votingInterface = wrapper.find("VotingInterface")
+
+      expect(votingInterface.length).to.eql(1)
+    })
+  })
+
+  describe("when in the groups-voting stage", () => {
+    it("renders a voting interface with isVotingStage true", () => {
+      const wrapper = shallow(
+        <IdeaGroup
+          {...defaultProps}
+          stage="groups-voting"
+        />
+      )
+
+      const votingInterface = wrapper.find("VotingInterface")
+
+      expect(votingInterface.prop("isVotingStage")).to.eql(true)
+    })
+  })
+
+  describe("when in a stage other than group-labeling or groups-voting", () => {
+    it("renders a voting interface with isVotingStage false", () => {
+      const wrapper = shallow(
+        <IdeaGroup
+          {...defaultProps}
+          stage="groups-action-items"
+        />
+      )
+
+      const votingInterface = wrapper.find("VotingInterface")
+
+      expect(votingInterface.prop("isVotingStage")).to.eql(false)
+    })
   })
 
   it("passes the first idea of the provided group to the voting interface as ideaToCastVoteFor", () => {
@@ -61,35 +121,6 @@ describe("IdeaGroup component", () => {
     expect(votingInterface.prop("currentUserHasExhaustedVotes")).to.eql(true)
   })
 
-  describe("when in the labeling-plus-voting stage", () => {
-    it("renders a voting interface with isVotingStage true", () => {
-      const wrapper = shallow(
-        <IdeaGroup
-          {...defaultProps}
-          stage="labeling-plus-voting"
-        />
-      )
-
-      const votingInterface = wrapper.find("VotingInterface")
-
-      expect(votingInterface.prop("isVotingStage")).to.eql(true)
-    })
-  })
-
-  describe("when in a stage other than labeling-plus-voting", () => {
-    it("renders a voting interface with isVotingStage false", () => {
-      const wrapper = shallow(
-        <IdeaGroup
-          {...defaultProps}
-          stage="action-items"
-        />
-      )
-
-      const votingInterface = wrapper.find("VotingInterface")
-
-      expect(votingInterface.prop("isVotingStage")).to.eql(false)
-    })
-  })
 
   it("renders an item for every idea associated with the given group", () => {
     const wrapper = shallow(
