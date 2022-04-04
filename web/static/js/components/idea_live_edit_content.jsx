@@ -8,7 +8,7 @@ const IdeaLiveEditContent = props => {
   return (
     <div className="ui raised segment">
       <p className="ui center aligned sub dividing header">Facilitator is Editing</p>
-      <span data-hj-masked>{idea.liveEditText}</span>
+      <span>{idea.liveEditText}</span>
     </div>
   )
 }

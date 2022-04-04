@@ -14,17 +14,6 @@ import Error from "./error"
 import StageHelp from "./stage_help"
 
 export class RemoteRetro extends Component {
-  // Trigger analytics events on page load and stage changes
-  componentDidMount() {
-    const { stage } = this.props
-    hj("trigger", stage)
-  }
-
-  componentDidUpdate(prevProps) {
-    const { stage } = this.props
-    if (prevProps.stage !== stage) { hj("trigger", stage) }
-  }
-
   componentDidCatch(error) {
     const { stage, presences, usersById } = this.props
 

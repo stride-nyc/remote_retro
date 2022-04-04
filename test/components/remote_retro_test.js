@@ -33,18 +33,6 @@ describe("RemoteRetro component", () => {
     },
   }
 
-  context("when the component mounts", () => {
-    it("triggers a hotjar event, passing the stage", () => {
-      const hotjarSpy = spy(global, "hj")
-
-      shallow(
-        <RemoteRetro {...defaultProps} stage={CLOSED} />
-      )
-
-      expect(hotjarSpy).calledWith("trigger", CLOSED)
-    })
-  })
-
   // we can't afford to have this integration break, as the grouping stage relies
   // on viewport manipulation
   it("renders a ViewportMetaTag, passing stage, alert, and browser orientation", () => {

@@ -42,7 +42,7 @@ export const UserListItem = ({ user, votes, isVotingStage, currentUser, actions 
         </button>
       )}
       <img className={styles.picture} src={imgSrc} alt={identifier} />
-      <p data-hj-masked>{identifier}</p>
+      <p>{identifier}</p>
       { isVotingStage ? (
         <p className={`${styles.allVotesIn} ${allVotesIn ? "opaque" : ""}`}>ALL VOTES IN</p>
       ) : (
