@@ -1,12 +1,11 @@
 import React from "react"
-import { spy } from "sinon"
 import { shallow } from "enzyme"
 
 import ViewportMetaTag from "../../web/static/js/components/viewport_meta_tag"
 import { RemoteRetro } from "../../web/static/js/components/remote_retro"
 import STAGES from "../../web/static/js/configs/stages"
 
-const { IDEA_GENERATION, CLOSED } = STAGES
+const { IDEA_GENERATION } = STAGES
 
 describe("RemoteRetro component", () => {
   const stubUser = {
@@ -32,18 +31,6 @@ describe("RemoteRetro component", () => {
       currentUserHasBecomeFacilitator: () => {},
     },
   }
-
-  context("when the component mounts", () => {
-    it("triggers a hotjar event, passing the stage", () => {
-      const hotjarSpy = spy(global, "hj")
-
-      shallow(
-        <RemoteRetro {...defaultProps} stage={CLOSED} />
-      )
-
-      expect(hotjarSpy).calledWith("trigger", CLOSED)
-    })
-  })
 
   // we can't afford to have this integration break, as the grouping stage relies
   // on viewport manipulation

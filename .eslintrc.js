@@ -11,7 +11,6 @@ module.exports = {
     "expect": false,
     "beforeEach": false,
     "afterEach": false,
-    "hj": false,
     "Honeybadger": false,
     "mountWithConnectedSubcomponents": false,
   },

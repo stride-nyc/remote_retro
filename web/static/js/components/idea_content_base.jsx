@@ -26,7 +26,7 @@ const IdeaContentBase = props => {
         canUserEditIdeaContents={canUserEditIdeaContents}
       />
       <div className="text">
-        <span data-hj-masked>{ idea.body }</span>
+        <span>{ idea.body }</span>
         {assignee && <span className={styles.assignee}> ({assignee.name})</span>}
         {isEdited && <span className={styles.editedIndicator}> (edited)</span>}
       </div>

@@ -7,7 +7,6 @@ import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
 import sinon from "sinon"
 import PropTypes from "prop-types"
-import noop from "lodash/noop"
 import STAGES from "../../../web/static/js/configs/stages"
 
 chai.use(chaiUUID)
@@ -18,7 +17,6 @@ const { IDEA_GENERATION } = STAGES
 
 Enzyme.configure({ adapter: new Adapter() })
 
-global.hj = noop
 global.expect = expect
 global.Image = function Image() {}
 global.Honeybadger = { notify: () => {} }
