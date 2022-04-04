@@ -66,7 +66,7 @@ defmodule RemoteRetro.Mixfile do
       {:timex, "~> 3.6"},
       {:telemetry_poller, "~> 0.5.1"},
       {:telemetry_metrics, "~> 0.6"},
-      {:jason, "~> 1.2.2"},
+      {:jason, "~> 1.3"},
     ]
   end
 
