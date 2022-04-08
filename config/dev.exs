@@ -40,7 +40,8 @@ config :remote_retro, RemoteRetro.Repo,
   password: "postgres",
   database: "remote_retro_dev",
   hostname: "localhost",
-  pool_size: 10
+  pool_size: 10,
+  log: false
 
 config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.LocalAdapter
 
