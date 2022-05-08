@@ -49,22 +49,22 @@
     <div class="ui seven column stackable centered grid">
       <div class="row">
         <div class="column middle aligned content">
-          <img src="/images/trusted_by/spotify.svg" alt="Spotify">
+          <img src="<%= Routes.static_url(@conn, "/images/trusted_by/spotify.svg") %>" alt="Spotify">
         </div>
         <div class="column middle aligned content">
-          <img src="/images/trusted_by/squarespace.svg" alt="Squarespace logo">
+          <img src="<%= Routes.static_url(@conn, "/images/trusted_by/squarespace.svg") %>" alt="Squarespace logo">
         </div>
         <div class="column ui computer tablet only grid middle aligned content">
-          <img src="/images/trusted_by/weather_channel.svg" alt="The Weather Channel">
+          <img src="<%= Routes.static_url(@conn, "/images/trusted_by/weather_channel.svg") %>" alt="The Weather Channel">
         </div>
         <div class="column ui computer tablet only grid middle aligned content">
-          <img src="/images/trusted_by/flatiron_school.png" alt="Flatiron School">
+          <img src="<%= Routes.static_url(@conn, "/images/trusted_by/flatiron_school.png") %>" alt="Flatiron School">
         </div>
         <div class="column middle aligned content">
-          <img src="/images/trusted_by/warby_parker.svg" alt="Warby Parker">
+          <img src="<%= Routes.static_url(@conn, "/images/trusted_by/warby_parker.svg") %>" alt="Warby Parker">
         </div>
         <div class="column middle aligned content">
-          <img src="/images/trusted_by/casper.svg" alt="Casper">
+          <img src="<%= Routes.static_url(@conn, "/images/trusted_by/casper.svg") %>" alt="Casper">
         </div>
       </div>
     </div>
