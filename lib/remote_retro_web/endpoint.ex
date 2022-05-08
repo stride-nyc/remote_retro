@@ -21,7 +21,8 @@ defmodule RemoteRetroWeb.Endpoint do
     headers: [{"access-control-allow-origin", "*"}],
     brotli: true,
     gzip: true,
-    only: ~w(css fonts images js favicon.ico robots.txt sitemap.xml)
+    only: ~w(css fonts images js favicon.ico robots.txt sitemap.xml),
+    cache_control_for_etags: "public, max-age=31536000" # ensure fonts from semantic ui node module are cached via HTTP-caching
   )
 
   # Code reloading can be explicitly enabled under the
