@@ -24,6 +24,7 @@ config :honeybadger,
   environment_name: :test
 
 config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.TestAdapter
+config :remote_retro, plug_init_mode: :runtime
 
 # Configure your database
 config :remote_retro, RemoteRetro.Repo,
