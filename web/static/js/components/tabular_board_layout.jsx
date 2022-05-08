@@ -28,7 +28,7 @@ export const TabularBoardLayout = props => {
             >
               <img
                 alt={category}
-                src={`/images/${category}.svg`}
+                src={`${ASSET_DOMAIN}/images/${category}.svg`}
                 height={40}
                 width={40}
               />

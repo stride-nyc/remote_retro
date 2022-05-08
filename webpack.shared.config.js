@@ -7,6 +7,7 @@ const WriteFileWebpackPlugin = require("write-file-webpack-plugin")
 process.noDeprecation = true
 
 const OUTPUT_PATH = `${__dirname}/priv/static`
+const { CLOUDFRONT_DOMAIN } = process.env
 
 module.exports = {
   mode: "development",
@@ -59,6 +60,9 @@ module.exports = {
     ],
   },
   plugins: [
+    new webpack.DefinePlugin({
+      ASSET_DOMAIN: CLOUDFRONT_DOMAIN ? `"https://${CLOUDFRONT_DOMAIN}"` : "''",
+    }),
     new webpack.DllReferencePlugin({
       context: path.resolve(__dirname, "web/static/js"),
       manifest: require("./web/static/js/dll/vendor-manifest.json"),

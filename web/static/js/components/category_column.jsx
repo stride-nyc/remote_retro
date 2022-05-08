@@ -31,7 +31,7 @@ export class CategoryColumn extends Component {
       <section className={wrapperClasses}>
         <div className={`${styles.columnHead} ui center aligned basic segment`}>
           <img
-            src={`/images/${category}.svg`}
+            src={`${ASSET_DOMAIN}/images/${category}.svg`}
             height={iconHeight}
             width={iconHeight}
             alt={category}

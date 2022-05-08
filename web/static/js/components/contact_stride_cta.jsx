@@ -15,7 +15,7 @@ const ContactStrideCTA = ({ alert, currentUser }) => {
 
   return (
     <section className={wrapperClasses}>
-      <img src="/images/stride_logo.png" alt="" />
+      <img src={`${ASSET_DOMAIN}/images/stride_logo.png`} alt="" />
       <h3 className="ui header">
         This retrospective was brought to you by Stride Consulting.
       </h3>

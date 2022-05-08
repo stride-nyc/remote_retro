@@ -81,7 +81,7 @@ class IdeaGroup extends Component {
                 >
                   <div className={styles.categoryImgWrapper}>
                     <img
-                      src={`/images/${idea.category}.svg`}
+                      src={`${ASSET_DOMAIN}/images/${idea.category}.svg`}
                       height={CATEGORY_ICON_HEIGHT_WIDTH}
                       width={CATEGORY_ICON_HEIGHT_WIDTH}
                       alt={idea.category}
