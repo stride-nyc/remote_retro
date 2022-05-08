@@ -101,8 +101,8 @@
         });
       </script>
 
-      <script src="<%= Routes.static_url(@conn, "/js/dll/dll.vendor.js") %>"></script>
-      <script src="<%= app_js(@conn) %>"></script>
+      <script fetchpriority="high" importance="high" src="<%= Routes.static_url(@conn, "/js/dll/dll.vendor.js") %>"></script>
+      <script fetchpriority="high" importance="high" src="<%= app_js(@conn) %>"></script>
     <% end %>
   </body>
 </html>
