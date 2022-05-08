@@ -2,7 +2,7 @@
 <html lang="en">
   <head>
     <link rel="preconnect" href="<%= Routes.static_url(@conn, "/") %>">
-    <link rel="shortcut icon" href="<%= Routes.static_url(@conn, "/favicon.ico") %>">
+    <link rel="shortcut icon" href="<%= Routes.static_url(@conn, "/images/favicon.ico") %>">
     <%= if Application.get_env(:remote_retro, :env) == :prod do %>
       <!-- Google Analytics -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52681708-2"></script>
