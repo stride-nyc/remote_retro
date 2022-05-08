@@ -6,17 +6,15 @@ defmodule RemoteRetro do
   # See http://elixir-lang.org/docs/stable/elixir/Application.html
   # for more information on OTP Applications
   def start(_type, _args) do
-    import Supervisor.Spec
-
     # Define workers and child supervisors to be supervised
     children = [
       {Phoenix.PubSub, name: RemoteRetro.PubSub},
       # Start the Ecto repository
-      supervisor(RemoteRetro.Repo, []),
+      RemoteRetro.Repo,
       RemoteRetroWeb.Telemetry,
       # Start the endpoint when the application starts
-      supervisor(RemoteRetroWeb.Endpoint, []),
-      supervisor(RemoteRetroWeb.Presence, []),
+      RemoteRetroWeb.Presence,
+      RemoteRetroWeb.Endpoint,
 
       {Cluster.Supervisor, [Application.get_env(:libcluster, :topologies), [name: RemoteRetro.ClusterSupervisor]]},
 
