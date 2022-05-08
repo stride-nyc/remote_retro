@@ -1,5 +1,5 @@
-<script src="<%= Routes.static_url(@conn, "/js/jquery.min.js") %>"></script>
-<script src="<%= Routes.static_url(@conn, "/js/semantic.min.js") %>"></script>
+<script defer="defer" fetchpriority="high" importance="high" src="<%= Routes.static_url(@conn, "/js/jquery.min.js") %>"></script>
+<script defer="defer" fetchpriority="high" importance="high" src="<%= Routes.static_url(@conn, "/js/semantic.min.js") %>"></script>
 
 <%= if Enum.count(@retros) == 0 do %>
   <div class="ui centered welcome tiny longer modal">
@@ -69,7 +69,7 @@
   </div>
 
   <script>
-    $(document).ready(function() {
+    window.addEventListener('DOMContentLoaded', function() {
       $(".longer.modal").modal({
         observeChanges: true,
         closable: false,
@@ -183,7 +183,7 @@
       nestedActionItemsListEl.classList.toggle("hidden");
     }
 
-    $(document).ready(function() {
+    window.addEventListener('DOMContentLoaded', function() {
       $(".initiate-retro-creation.button").on("click", function() {
         $(".retro-format-modal").modal({
           observeChanges: true,
