@@ -18,6 +18,7 @@ defmodule RemoteRetroWeb.Endpoint do
     Plug.Static,
     at: "/",
     from: :remote_retro,
+    headers: [{"access-control-allow-origin", "*"}],
     gzip: true,
     only: ~w(css fonts images js favicon.ico robots.txt sitemap.xml)
   )

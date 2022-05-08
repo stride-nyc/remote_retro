@@ -75,7 +75,7 @@
     <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro">
       <h2 class="ui icon header">
         <i class="icon">
-          <img height="80" width="80" src="<%= Routes.static_path(@conn, "/images/stride_logo.png") %>" alt="Stride Logo">
+          <img height="80" width="80" src="<%= Routes.static_url(@conn, "/images/stride_logo.png") %>" alt="Stride Logo">
         </i>
         An Open Source Project by Stride Consulting
       </h2>
@@ -113,5 +113,5 @@
   prefetch first-time-user-experience javascript
   during idle time on homepage for immediate execution on login
 -->
-<link rel="prefetch" href="<%= Routes.static_path(@conn, "/js/jquery.min.js") %>">
-<link rel="prefetch" href="<%= Routes.static_path(@conn, "/js/semantic.min.js") %>">
+<link rel="prefetch" href="<%= Routes.static_url(@conn, "/js/jquery.min.js") %>">
+<link rel="prefetch" href="<%= Routes.static_url(@conn, "/js/semantic.min.js") %>">
