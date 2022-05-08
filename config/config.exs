@@ -45,7 +45,12 @@ config :logger, :console,
 config :remote_retro, ecto_repos: [RemoteRetro.Repo]
 config :remote_retro, live_dashboard_repos: []
 
-config :phoenix, :json_library, Jason
+config :phoenix,
+  json_library: Jason,
+  static_compressors: [
+    PhoenixBakery.Gzip,
+    PhoenixBakery.Brotli,
+  ]
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.
