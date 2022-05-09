@@ -23,7 +23,7 @@
       </script>
 
       <!-- HoneyBadger client-side error reporting -->
-      <script src="https://js.honeybadger.io/v0.5/honeybadger.min.js" type="text/javascript" data-apiKey="<%= Application.get_env(:honeybadger, :api_key) %>" data-environment="production" data-revision="<%= Application.get_env(:remote_retro, :source_version) %>"></script>
+      <script defer="defer" fetchpriority="high" importance="high" src="https://js.honeybadger.io/v0.5/honeybadger.min.js" type="text/javascript" data-apiKey="<%= Application.get_env(:honeybadger, :api_key) %>" data-environment="production" data-revision="<%= Application.get_env(:remote_retro, :source_version) %>"></script>
     <% else %>
       <!-- stub out vendor script funcs in dev/test -->
       <script>
@@ -97,14 +97,14 @@
         window.userToken = "<%= @user_token %>";
         window.retroUUID = "<%= @retro_uuid %>";
 
-        (function(){
+        document.addEventListener('DOMContentLoaded', function() {
           if (!Honeybadger) return; // protect against edge-case where honeybadger request fails or gets blocked
 
           Honeybadger.setContext({
             userToken: window.userToken,
             retroUUID: window.retroUUID,
           });
-        })()
+        })
       </script>
 
       <script fetchpriority="high" importance="high" src="<%= Routes.static_url(@conn, "/js/dll/dll.vendor.js") %>"></script>

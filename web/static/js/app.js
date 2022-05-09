@@ -20,51 +20,53 @@ import RetroChannel from "./services/retro_channel"
 import configureStore from "./configure_store"
 import { actions } from "./redux"
 
-const dragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))
+document.addEventListener('DOMContentLoaded', function() {
+  const dragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))
 
-const { userToken, retroUUID } = window
+  const { userToken, retroUUID } = window
 
-const retroChannel = new RetroChannel({ userToken, retroUUID })
-const store = configureStore(retroChannel)
+  const retroChannel = new RetroChannel({ userToken, retroUUID })
+  const store = configureStore(retroChannel)
 
-const actionz = bindActionCreators({ ...actions }, store.dispatch)
+  const actionz = bindActionCreators({ ...actions }, store.dispatch)
 
-retroChannel.applyListenersWithDispatch(store, actionz)
+  retroChannel.applyListenersWithDispatch(store, actionz)
 
-retroChannel.join()
-  .receive("error", error => console.error(error))
-  .receive("ok", initialState => {
-    actionz.setInitialState(initialState)
+  retroChannel.join()
+    .receive("error", error => console.error(error))
+    .receive("ok", initialState => {
+      actionz.setInitialState(initialState)
 
-    awaitPresencesBeforeMountingApp()
-  })
+      awaitPresencesBeforeMountingApp()
+    })
 
-const awaitPresencesBeforeMountingApp = () => {
-  const interval = setInterval(() => {
-    const { presences } = store.getState()
+  const awaitPresencesBeforeMountingApp = () => {
+    const interval = setInterval(() => {
+      const { presences } = store.getState()
 
-    if (!presences.length) { return }
+      if (!presences.length) { return }
 
-    renderWithHotReload()
-    clearInterval(interval)
+      renderWithHotReload()
+      clearInterval(interval)
 
-    if (module.hot) {
-      module.hot.accept(() => { renderWithHotReload() })
-    }
-  }, 2)
-}
+      if (module.hot) {
+        module.hot.accept(() => { renderWithHotReload() })
+      }
+    }, 2)
+  }
 
-const renderWithHotReload = () => {
-  const RemoteRetro = dragAndDropContext(
-    require("./components/remote_retro").default
-  )
+  const renderWithHotReload = () => {
+    const RemoteRetro = dragAndDropContext(
+      require("./components/remote_retro").default
+    )
 
-  render(
-    <AppContainer>
-      <Provider store={store}>
-        <RemoteRetro />
-      </Provider>
-    </AppContainer>,
-    document.querySelector(".react-root")
-  )
-}
+    render(
+      <AppContainer>
+        <Provider store={store}>
+          <RemoteRetro />
+        </Provider>
+      </AppContainer>,
+      document.querySelector(".react-root")
+    )
+  }
+})
