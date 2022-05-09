@@ -96,7 +96,7 @@ defmodule RemoteRetro.Mixfile do
     if Mix.env() == :prod do
       sha = System.get_env("SOURCE_VERSION")
       truncated_sha = String.slice(sha, 0, 7)
-      "1.0.1-" <> truncated_sha
+      "1.0.1-c" <> truncated_sha
     else
       "1.0.1"
     end
