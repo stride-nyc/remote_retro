@@ -97,10 +97,14 @@
         window.userToken = "<%= @user_token %>";
         window.retroUUID = "<%= @retro_uuid %>";
 
-        Honeybadger.setContext({
-          userToken: window.userToken,
-          retroUUID: window.retroUUID,
-        });
+        (function(){
+          if (!Honeybadger) return; // protect against edge-case where honeybadger request fails or gets blocked
+
+          Honeybadger.setContext({
+            userToken: window.userToken,
+            retroUUID: window.retroUUID,
+          });
+        })()
       </script>
 
       <script fetchpriority="high" importance="high" src="<%= Routes.static_url(@conn, "/js/dll/dll.vendor.js") %>"></script>
