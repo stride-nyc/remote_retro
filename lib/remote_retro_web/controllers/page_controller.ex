@@ -19,6 +19,7 @@ defmodule RemoteRetroWeb.PageController do
     render(conn, "faq.html", %{
       body_class: "copy-page",
       title: "Frequently Asked Questions | RemoteRetro.org",
+      description: "Answers to Frequently Asked Questions",
     })
   end
 
@@ -26,6 +27,7 @@ defmodule RemoteRetroWeb.PageController do
     render(conn, "privacy.html", %{
       body_class: "copy-page",
       title: "Privacy Policy | RemoteRetro.org",
+      description: "Information on how and what data RemoteRetro captures, how to make GDPR 'request-to-be-forgotten' requests, and more",
     })
   end
 end

@@ -25,12 +25,18 @@ defmodule RemoteRetro.PageControllerTest do
 
       assert html_response(conn, 200) =~ ~r/body .*class="landing-page".*>/i
     end
+  end
 
-    test "has a default title attribute where RemoteRetro comes first", ~M{conn} do
-      conn = get(conn, "/")
+  test "has a default title attribute where RemoteRetro comes first", ~M{conn} do
+    conn = get(conn, "/")
 
-      assert html_response(conn, 200) =~ ~r/<title>RemoteRetro\.org \| .*>/i
-    end
+    assert html_response(conn, 200) =~ ~r/<title>RemoteRetro\.org \| .*>/i
+  end
+
+  test "has a default meta description", ~M{conn} do
+    conn = get(conn, "/")
+
+    assert html_response(conn, 200) =~ ~r/<meta name="description" content=".*remote retrospectives.*"/i
   end
 
   test "GET /faq", ~M{conn} do
@@ -38,9 +44,14 @@ defmodule RemoteRetro.PageControllerTest do
     assert html_response(conn, 200) =~ "Frequently Asked Questions"
   end
 
-  test "providing a custom custom title attribute", ~M{conn} do
+  test "non-root pages can provide a custom custom title attribute", ~M{conn} do
     conn = get(conn, "/faq")
     assert html_response(conn, 200) =~ ~r/<title>Frequently Asked Questions \| .*<\/title>/i
+  end
+
+  test "non-root pages can provide a custom meta description attribute", ~M{conn} do
+    conn = get(conn, "/faq")
+    assert html_response(conn, 200) =~ ~r/<meta name="description" content=".*answers.*"/i
   end
 
   describe "authenticated visits to /faq" do
