@@ -18,6 +18,7 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
   static_url: [scheme: "https", host: "${CLOUDFRONT_DOMAIN}", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto]],
   cache_static_manifest: "priv/static/cache_manifest.json",
+  cache_manifest_skip_vsn: true, # https://hexdocs.pm/phoenix/Phoenix.Endpoint.html#module-runtime-configuration
   secret_key_base: "${SECRET_KEY_BASE}",
   live_view: [signing_salt: "${SIGNING_SALT}"],
   root: ".",
