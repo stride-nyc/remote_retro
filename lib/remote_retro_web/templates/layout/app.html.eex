@@ -41,6 +41,10 @@
     <meta name="author" content="">
     <title><%= assigns[:title] || "RemoteRetro.org | Free. World-class. Agile retrospectives." %></title>
 
+    <link rel="preload" href="<%= Routes.static_url(@conn, "/css/semantic-ui/font/lato-v15-latin-regular.woff2") %>" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="<%= Routes.static_url(@conn, "/css/semantic-ui/font/lato-v15-latin-bold.woff2") %>" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="<%= Routes.static_url(@conn, "/css/semantic-ui/themes/default/assets/fonts/brand-icons.woff2") %>" as="font" type="font/woff2" crossorigin>
+    <link rel="preload" href="<%= Routes.static_url(@conn, "/css/semantic-ui/themes/default/assets/fonts/icons.woff2") %>" as="font" type="font/woff2" crossorigin>
     <link rel="stylesheet" href="<%= Routes.static_url(@conn, "/css/semantic-ui/semantic.min.css") %>">
     <link rel="stylesheet" href="<%= app_css(@conn) %>">
     <link rel="apple-touch-icon" href="<%= Routes.static_url(@conn, "/images/apple-touch-icon.png") %>">
