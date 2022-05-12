@@ -6,7 +6,7 @@ jobs:  # basic units of work in a run
       - image: circleci/elixir:1.10.2-node-browsers
         environment:  # environment variables for primary container
           MIX_ENV: test
-      - image: circleci/postgres:10.5-alpine-postgis-ram  # database image
+      - image: cimg/postgres:13.6-postgis # database image
 
     working_directory: ~/app  # directory where steps will run
 
