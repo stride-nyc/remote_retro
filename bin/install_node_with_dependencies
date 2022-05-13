@@ -6,6 +6,8 @@ if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
 . "$DIR/utils/io.sh" --source-only
 
 if command -v asdf >/dev/null; then
+  printGreenLine "asdf: found! Ensuring latest."
+  asdf update
   printGreenLine "asdf: operational. Proceeding with installation..."
 else
   printRedLine "Error: The asdf version manager cannot be found."

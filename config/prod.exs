@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For production, we configure the host to read the PORT
 # from the system environment. Therefore, you will need

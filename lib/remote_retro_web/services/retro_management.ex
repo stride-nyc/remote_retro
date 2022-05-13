@@ -16,7 +16,7 @@ defmodule RemoteRetroWeb.RetroManagement do
     retro = update_retro_record!(retro_id, new_attributes)
 
     if retro_advancing_to_a_closed_state?(new_attributes) do
-      Emails.action_items_email(retro_id) |> Mailer.deliver_now()
+      Emails.action_items_email(retro_id) |> Mailer.deliver_now!()
 
       retro
       |> Repo.preload([:participations])

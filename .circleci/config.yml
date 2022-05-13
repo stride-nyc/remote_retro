@@ -1,9 +1,11 @@
-version: 2  # use CircleCI 2.0 instead of CircleCI Classic
+version: 2.1  # use CircleCI 2.0 instead of CircleCI Classic
+orbs:
+  browser-tools: circleci/browser-tools@1.3.0
 jobs:  # basic units of work in a run
   build:  # runs not using Workflows must have a `build` job as entry point
     parallelism: 1  # run only one instance of this job in parallel
     docker:  # run the steps with Docker
-      - image: circleci/elixir:1.10.2-node-browsers
+      - image: cimg/elixir:1.13.4-erlang-24.3-browsers
         environment:  # environment variables for primary container
           MIX_ENV: test
       - image: cimg/postgres:13.6-postgis # database image
@@ -11,6 +13,8 @@ jobs:  # basic units of work in a run
     working_directory: ~/app  # directory where steps will run
 
     steps:  # commands that comprise the `build` job
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
       - checkout  # check out source code to working directory
 
       - run: mix local.hex --force  # install Hex locally (without prompt)
