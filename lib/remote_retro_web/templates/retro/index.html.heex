@@ -1,5 +1,5 @@
-<script defer="defer" fetchpriority="high" importance="high" src="<%= Routes.static_url(@conn, "/js/jquery.min.js") %>"></script>
-<script defer="defer" fetchpriority="high" importance="high" src="<%= Routes.static_url(@conn, "/js/semantic.min.js") %>"></script>
+<script defer="defer" fetchpriority="high" importance="high" src={Routes.static_url(@conn, "/js/jquery.min.js")}></script>
+<script defer="defer" fetchpriority="high" importance="high" src={Routes.static_url(@conn, "/js/semantic.min.js")}></script>
 
 <%= if Enum.count(@retros) == 0 do %>
   <div class="ui centered welcome tiny longer modal">
@@ -88,7 +88,7 @@
       <input type="radio" class="visually-hidden" id="happy-sad-confused" name="format"  value="Happy/Sad/Confused" checked />
       <label class="item" for="happy-sad-confused">
         <div class="ui tiny image">
-          <img src="<%= Routes.static_url(@conn, "/images/happy.svg") %>" />
+          <img src={Routes.static_url(@conn, "/images/happy.svg")} />
         </div>
         <div class="content">
           <p class="header">Happy/Sad/Confused</p>
@@ -105,7 +105,7 @@
       <input type="radio" class="visually-hidden" id="start-stop-continue" name="format" value="Start/Stop/Continue" />
       <label class="item" for="start-stop-continue">
         <div class="ui tiny image">
-          <img src="<%= Routes.static_url(@conn, "/images/traffic_light.svg") %>" />
+          <img src={Routes.static_url(@conn, "/images/traffic_light.svg")} />
         </div>
         <div class="content">
           <p class="header">Start/Stop/Continue</p>
@@ -132,7 +132,7 @@
     <ul class="retros-list">
       <%= for retro <- @retros do %>
         <li>
-          <a href="<%= Routes.retro_path @conn, :show, retro %>">
+          <a href={Routes.retro_path(@conn, :show, retro)}>
             created <%= Timex.format!(retro.inserted_at, "{relative}", :relative) %>
           </a>
           <%= if Enum.count(retro.ideas) > 0 do %>
@@ -195,6 +195,5 @@
 <% end %>
 
 <%# prefetch retro javascript for faster loading on retro creation :) %>
-<link rel="prefetch" href="<%= Routes.static_url(@conn, "/js/dll/dll.vendor.js")%>">
-<link rel="prefetch" href="<%= app_js(@conn) %>">
-
+<link rel="prefetch" href={Routes.static_url(@conn, "/js/dll/dll.vendor.js")}>
+<link rel="prefetch" href={app_js(@conn)}>

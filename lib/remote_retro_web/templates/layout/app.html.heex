@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="preconnect" href="<%= Routes.static_url(@conn, "/") %>">
-    <link rel="shortcut icon" href="<%= Routes.static_url(@conn, "/images/favicon.ico") %>">
+    <link rel="preconnect" href={Routes.static_url(@conn, "/")} />
+    <link rel="shortcut icon" href={Routes.static_url(@conn, "/images/favicon.ico")} />
     <%= if Application.get_env(:remote_retro, :env) == :prod do %>
       <!-- Google Analytics -->
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52681708-2"></script>
@@ -23,7 +23,7 @@
       </script>
 
       <!-- HoneyBadger client-side error reporting -->
-      <script defer="defer" fetchpriority="high" importance="high" src="https://js.honeybadger.io/v0.5/honeybadger.min.js" type="text/javascript" data-apiKey="<%= Application.get_env(:honeybadger, :api_key) %>" data-environment="production" data-revision="<%= Application.get_env(:remote_retro, :source_version) %>"></script>
+      <script defer="defer" fetchpriority="high" importance="high" src="https://js.honeybadger.io/v0.5/honeybadger.min.js" type="text/javascript" data-apiKey={ Application.get_env(:honeybadger, :api_key)} data-environment="production" data-revision={Application.get_env(:remote_retro, :source_version)}></script>
     <% else %>
       <!-- stub out vendor script funcs in dev/test -->
       <script>
@@ -36,18 +36,18 @@
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="<%= assigns[:description] || "The world's best tool for conducting remote retrospectives" %>">
+    <meta name="description" content={assigns[:description] || "The world's best tool for conducting remote retrospectives"}>
     <meta name="google-site-verification" content="T5W8sjrjt-BmTK5SYTjPM-FQZD8oGNatTNAJSyRex7o" />
     <meta name="author" content="">
     <title><%= assigns[:title] || "RemoteRetro.org | Free. World-class. Agile retrospectives." %></title>
 
-    <link rel="preload" href="<%= Routes.static_url(@conn, "/css/semantic-ui/font/lato-v15-latin-regular.woff2") %>" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="<%= Routes.static_url(@conn, "/css/semantic-ui/font/lato-v15-latin-bold.woff2") %>" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="<%= Routes.static_url(@conn, "/css/semantic-ui/themes/default/assets/fonts/brand-icons.woff2") %>" as="font" type="font/woff2" crossorigin>
-    <link rel="preload" href="<%= Routes.static_url(@conn, "/css/semantic-ui/themes/default/assets/fonts/icons.woff2") %>" as="font" type="font/woff2" crossorigin>
-    <link rel="stylesheet" href="<%= Routes.static_url(@conn, "/css/semantic-ui/semantic.min.css") %>">
-    <link rel="stylesheet" href="<%= app_css(@conn) %>">
-    <link rel="apple-touch-icon" href="<%= Routes.static_url(@conn, "/images/apple-touch-icon.png") %>">
+    <link rel="preload" href={Routes.static_url(@conn, "/css/semantic-ui/font/lato-v15-latin-regular.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={Routes.static_url(@conn, "/css/semantic-ui/font/lato-v15-latin-bold.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={Routes.static_url(@conn, "/css/semantic-ui/themes/default/assets/fonts/brand-icons.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="preload" href={Routes.static_url(@conn, "/css/semantic-ui/themes/default/assets/fonts/icons.woff2")} as="font" type="font/woff2" crossorigin />
+    <link rel="stylesheet" href={Routes.static_url(@conn, "/css/semantic-ui/semantic.min.css")} />
+    <link rel="stylesheet" href={app_css(@conn)}>
+    <link rel="apple-touch-icon" href={Routes.static_url(@conn, "/images/apple-touch-icon.png")} />
 
     <%= if Application.get_env(:remote_retro, :env) == :test do %>
       <!--
@@ -64,7 +64,7 @@
     <% end %>
   </head>
 
-  <body class="<%= assigns[:body_class] %>">
+  <body class={assigns[:body_class]}>
     <!-- Google Tag Manager (noscript) -->
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K8F6B6H"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -81,7 +81,7 @@
         <div class="ui header right-branded-header grid">
           <a href="http://stridenyc.com?utm_campaign=RemoteRetro&utm_source=Micro%20Website&utm_medium=remoteretro" target="_blank" class="built-by-wrapper">
             <div class="middle aligned content logo-text">Built by</div>
-            <div class="ui tiny image"><img height="21" width="21" src="<%= Routes.static_url(@conn, "/images/stride_logo.png") %>" alt="Stride" /></div>
+            <div class="ui tiny image"><img height="21" width="21" src={Routes.static_url(@conn, "/images/stride_logo.png")} alt="Stride" /></div>
           </a>
           <div class="help-icon" id="stage-help-icon"></div>
 
@@ -111,8 +111,8 @@
         })
       </script>
 
-      <script fetchpriority="high" importance="high" src="<%= Routes.static_url(@conn, "/js/dll/dll.vendor.js") %>"></script>
-      <script fetchpriority="high" importance="high" src="<%= app_js(@conn) %>"></script>
+      <script fetchpriority="high" importance="high" src={Routes.static_url(@conn, "/js/dll/dll.vendor.js")}></script>
+      <script fetchpriority="high" importance="high" src={app_js(@conn)}></script>
     <% end %>
   </body>
 </html>
