@@ -1,3 +1,5 @@
+info "Grabbing brotli executable"
+apt-get install -y brotli
 info "Building Phoenix static assets"
 npm run compile-production
 mix phx.digest --no-vsn
