@@ -26,7 +26,7 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
 
 config :remote_retro, RemoteRetro.Repo,
   url: "${DATABASE_URL}",
-  pool_size: 15,
+  pool_size: 2,
   ssl: true
 
 config :remote_retro,
