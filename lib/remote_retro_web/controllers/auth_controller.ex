@@ -14,7 +14,7 @@ defmodule RemoteRetroWeb.AuthController do
 
     conn = put_session(conn, :current_user_id, user.id)
 
-    redirect(conn, to: get_session(conn, "requested_endpoint") || "/")
+    redirect(conn, to: get_session(conn, "requested_endpoint") || "/retros")
   end
 
   def logout(conn, _params) do
