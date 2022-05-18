@@ -62,3 +62,5 @@ config :remote_retro, :mock_user, %{
 }
 
 config :tzdata, :autoupdate, :disabled
+config :os_mon,
+  start_memsup: false
