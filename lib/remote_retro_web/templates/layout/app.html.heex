@@ -5,7 +5,7 @@
     <link rel="dns-prefetch" href="https://accounts.google.com" />
     <link rel="shortcut icon" href={Routes.static_url(@conn, "/images/favicon.ico")} />
     <%= if Application.get_env(:remote_retro, :env) == :prod do %>
-      <!-- Google Analytics -->
+      <%# Google Analytics %>
       <script async src="https://www.googletagmanager.com/gtag/js?id=UA-52681708-2"></script>
       <script>
         window.dataLayer = window.dataLayer || [];
@@ -15,18 +15,18 @@
         gtag('config', 'UA-52681708-2');
       </script>
 
+      <%# disable react dev tools in prod to eliminate possible attack vector %>
       <script>
-        // disable react dev tools in prod to eliminate possible attack vector
         var hasReactDevToolsExtension = typeof window.__REACT_DEVTOOLS_GLOBAL_HOOK__ === 'object'
         if (hasReactDevToolsExtension) {
            __REACT_DEVTOOLS_GLOBAL_HOOK__.inject = function() {};
         }
       </script>
 
-      <!-- HoneyBadger client-side error reporting -->
+      <%# HoneyBadger client-side error reporting %>
       <script defer="defer" fetchpriority="high" importance="high" src="https://js.honeybadger.io/v0.5/honeybadger.min.js" type="text/javascript" data-apiKey={ Application.get_env(:honeybadger, :api_key)} data-environment="production" data-revision={Application.get_env(:remote_retro, :source_version)}></script>
     <% else %>
-      <!-- stub out vendor script funcs in dev/test -->
+      <%# stub out vendor script funcs in dev/test %>
       <script>
         window.Honeybadger = {
           notify: () => {},
@@ -66,11 +66,10 @@
   </head>
 
   <body class={assigns[:body_class]}>
-    <!-- Google Tag Manager (noscript) -->
+    <%# Google Tag Manager (noscript) %>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K8F6B6H"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
-    <!-- End Google Tag Manager (noscript) -->
-
+    <%# End Google Tag Manager (noscript) %>
     <main role="main">
     <%= unless assigns[:omit_header] do %>
       <div class="ui segment branded-header-container">
@@ -96,7 +95,6 @@
     <% end %>
       <%= @inner_content %>
     </main>
-
     <%= if assigns[:include_js] do %>
       <script>
         window.userToken = "<%= @user_token %>";
@@ -111,7 +109,6 @@
           });
         })
       </script>
-
       <script fetchpriority="high" importance="high" src={Routes.static_url(@conn, "/js/dll/dll.vendor.js")}></script>
       <script fetchpriority="high" importance="high" src={app_js(@conn)}></script>
     <% end %>
