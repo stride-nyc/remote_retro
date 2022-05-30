@@ -32,11 +32,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   retroChannel.applyListenersWithDispatch(store, actionz)
 
+  console.time('retroChannelJoin -> recieved "ok"')
   retroChannel.join()
     .receive("error", error => console.error(error))
     .receive("ok", initialState => {
+      console.timeEnd('retroChannelJoin -> recieved "ok"')
       actionz.setInitialState(initialState)
 
+      console.time('joined -> presences found and app mounted')
       awaitPresencesBeforeMountingApp()
     })
 
@@ -46,13 +49,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (!presences.length) { return }
 
+      console.timeEnd('joined -> presences found and app mounted')
       renderWithHotReload()
       clearInterval(interval)
 
       if (module.hot) {
         module.hot.accept(() => { renderWithHotReload() })
       }
-    }, 2)
+    }, 1)
   }
 
   const renderWithHotReload = () => {
