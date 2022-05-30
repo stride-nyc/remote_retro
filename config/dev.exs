@@ -17,7 +17,7 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
 config :remote_retro, RemoteRetroWeb.Endpoint,
   live_reload: [
     patterns: [
-      ~r{priv/static/.*(css|png|jpeg|jpg|gif|svg)$},
+      ~r{priv/static/.*(css|png|jpeg|jpg|gif|svg|woff2)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/remote_retro_web/views/.*(ex)$},
       ~r{lib/remote_retro_web/templates/.*(eex)$},
