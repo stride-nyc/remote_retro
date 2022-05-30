@@ -24,6 +24,10 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
     ],
   ]
 
+# can be removed once mix_test_watch is bumped to 1.1
+config :mix_test_watch,
+  extra_extensions: [".heex"]
+
 # Do not include metadata nor timestamps in development logs
 config :logger, :console, format: "[$level] $message\n"
 
