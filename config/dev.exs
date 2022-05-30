@@ -11,7 +11,10 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
   debug_errors: true,
   code_reloader: true,
   check_origin: false,
-  watchers: [npm: ["run", "watch", cd: Path.expand("../", __DIR__)]]
+  watchers: [
+    npm: ["run", "watch", cd: Path.expand("../", __DIR__)],
+    npm: ["run", "reprune-semantic-ui-on-web-changes", cd: Path.expand("../", __DIR__)]
+  ]
 
 # Watch static and templates for browser reloading.
 config :remote_retro, RemoteRetroWeb.Endpoint,
@@ -20,7 +23,7 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
       ~r{priv/static/.*(css|png|jpeg|jpg|gif|svg|woff2)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/remote_retro_web/views/.*(ex)$},
-      ~r{lib/remote_retro_web/templates/.*(eex)$},
+      ~r{lib/remote_retro_web/templates/.*(heex)$},
     ],
   ]
 

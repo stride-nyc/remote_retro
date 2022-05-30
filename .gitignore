@@ -23,6 +23,7 @@ erl_crash.dump
 !/priv/static/css/semantic-ui
 /priv/static/css/semantic-ui/*
 !/priv/static/css/semantic-ui/semantic.min.css
+!/priv/static/css/semantic-ui/postcss.config.js
 !/priv/static/css/semantic-ui/themes
 !/priv/static/css/semantic-ui/font
 
