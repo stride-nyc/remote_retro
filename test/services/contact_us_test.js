@@ -10,7 +10,7 @@ describe("ContactUs", () => {
 
     it("builds out a query-paramed link to stride's contact us page", () => {
       const result = ContactUs.buildPrepulatedFormForUser(stubUser)
-      expect(result.startsWith("https://www.stridenyc.com/contact?")).to.eql(true)
+      expect(result.startsWith("https://stridenyc.com/contact?")).to.eql(true)
     })
 
     it("identifes the referrer as RemoteRetro", () => {

@@ -4,6 +4,6 @@ export default {
     const encodedEmail = encodeURIComponent(email)
     const optionalLastNameQueryParam = familyName ? `lastname=${encodeURIComponent(familyName)}&` : ""
 
-    return `https://www.stridenyc.com/contact?referrer=RemoteRetro&firstname=${encodedFirstName}&${optionalLastNameQueryParam}email=${encodedEmail}`
+    return `https://stridenyc.com/contact?referrer=RemoteRetro&firstname=${encodedFirstName}&${optionalLastNameQueryParam}email=${encodedEmail}`
   },
 }
