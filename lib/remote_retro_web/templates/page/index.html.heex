@@ -110,9 +110,9 @@
 
 <!-- ensure instantaneous render of FAQ page on navigation -->
 <link rel="prerender" href="/faq" />
-<!--
+<%#
   prefetch first-time-user-experience javascript
   during idle time on homepage for immediate execution on login
--->
+%>
 <link rel="prefetch" href={Routes.static_url(@conn, "/js/jquery.min.js")} />
 <link rel="prefetch" href={Routes.static_url(@conn, "/js/semantic.min.js")} />
