@@ -21,7 +21,6 @@ import configureStore from "./configure_store"
 import { actions } from "./redux"
 
 document.addEventListener('DOMContentLoaded', function() {
-  const dragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))
 
   const { userToken, retroUUID } = window
 
@@ -59,6 +58,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }, 1)
   }
 
+  const dragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))
   const renderWithHotReload = () => {
     const RemoteRetro = dragAndDropContext(
       require("./components/remote_retro").default
