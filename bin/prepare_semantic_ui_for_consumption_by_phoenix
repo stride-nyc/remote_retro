@@ -9,5 +9,9 @@ cp -rf priv/static/css/semantic-ui/semantic.min.js priv/static/js/semantic.min.j
 echo -e "  - Stripping Semantic UI minified css of '!important' ..."
 sed -i -e 's/!important//g' priv/static/css/semantic-ui/semantic.min.css
 
+echo -e "  - Use purged brand icons font"
+# we use fontello to trim this file to just the google font needed
+sed -i -e 's/brand-icons\./brand-icons-purged\./g' priv/static/css/semantic-ui/semantic.min.css
+
 echo -e "  - Applying 'font-display: swap' to font-families ...\n"
 sed -i -e 's/@font-face{/@font-face{font-display:swap;/g' priv/static/css/semantic-ui/semantic.min.css
