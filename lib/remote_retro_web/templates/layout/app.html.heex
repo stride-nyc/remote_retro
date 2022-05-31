@@ -112,5 +112,25 @@
       <script fetchpriority="high" importance="high" src={Routes.static_url(@conn, "/js/dll/dll.vendor.js")}></script>
       <script fetchpriority="high" importance="high" src={app_js(@conn)}></script>
     <% end %>
+
+    <%# DataDog Real user metrics %>
+    <script>
+      (function(h,o,u,n,d) {
+        h=h[d]=h[d]||{q:[],onReady:function(c){h.q.push(c)}}
+        d=o.createElement(u);d.async=1;d.src=n
+        n=o.getElementsByTagName(u)[0];n.parentNode.insertBefore(d,n)
+      })(window,document,'script','https://www.datadoghq-browser-agent.com/datadog-rum-v4.js','DD_RUM')
+      DD_RUM.onReady(function() {
+        DD_RUM.init({
+          clientToken: '<%= Application.get_env(:remote_retro, :datadog_client_token) %>',
+          applicationId: '<%= Application.get_env(:remote_retro, :datadog_application_id) %>',
+          site: 'datadoghq.com',
+          service: 'remoteretro',
+          version: '<%= Application.get_env(:remote_retro, :source_version) %>',
+          sampleRate: 100,
+          trackInteractions: false,
+        })
+      })
+    </script>
   </body>
 </html>

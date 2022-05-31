@@ -30,6 +30,10 @@ config :oauth2,
     "application/json" => Jason,
   }
 
+config :remote_retro,
+  datadog_client_token: "",
+  datadog_application_id: ""
+
 config :libcluster,
   topologies: []
 

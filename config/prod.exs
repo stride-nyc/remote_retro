@@ -60,6 +60,10 @@ config :honeybadger,
   project_root: "${HOST}",
   revision: "${SOURCE_VERSION}"
 
+config :remote_retro,
+  datadog_client_token: "${DATADOG_CLIENT_TOKEN}",
+  datadog_application_id: "${DATADOG_APPLICATION_ID}"
+
 config :libcluster,
   topologies: [
     k8s_example: [
