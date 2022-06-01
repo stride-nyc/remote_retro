@@ -4,6 +4,20 @@
     <link rel="preconnect" href={Routes.static_url(@conn, "/")} />
     <link rel="dns-prefetch" href="https://accounts.google.com" />
     <link rel="shortcut icon" href={Routes.static_url(@conn, "/images/favicon.ico")} />
+    <%= if assigns[:include_js] do %>
+      <script>
+        window.__trackLoadAbandonment = function() {
+          document.removeEventListener('visibilitychange', window.__trackLoadAbandonment)
+          if (!window.DD_RUM) return; <%# guard against ad blockers %>
+
+          DD_RUM.onReady(function() {
+            DD_RUM.addAction("Load Abandoned")
+          })
+        }
+
+        document.addEventListener("visibilitychange", window.__trackLoadAbandonment)
+      </script>
+    <% end %>
     <%= if Application.get_env(:remote_retro, :env) == :prod do %>
       <%# Google Analytics %>
       <script async src={"https://www.googletagmanager.com/gtag/js?id=#{Application.get_env(:remote_retro, :google_analytics_id)}"}></script>

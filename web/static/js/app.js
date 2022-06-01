@@ -21,7 +21,6 @@ import configureStore from "./configure_store"
 import { actions } from "./redux"
 
 document.addEventListener('DOMContentLoaded', function() {
-
   const { userToken, retroUUID } = window
 
   const retroChannel = new RetroChannel({ userToken, retroUUID })
@@ -64,13 +63,18 @@ document.addEventListener('DOMContentLoaded', function() {
       require("./components/remote_retro").default
     )
 
+    const postRenderCallback = () => {
+      document.removeEventListener('visibilitychange', window.__trackLoadAbandonment)
+    }
+
     render(
       <AppContainer>
         <Provider store={store}>
           <RemoteRetro />
         </Provider>
       </AppContainer>,
-      document.querySelector(".react-root")
+      document.querySelector(".react-root"),
+      postRenderCallback,
     )
   }
 })
