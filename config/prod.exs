@@ -64,6 +64,9 @@ config :remote_retro,
   datadog_client_token: "${DATADOG_CLIENT_TOKEN}",
   datadog_application_id: "${DATADOG_APPLICATION_ID}"
 
+config :remote_retro,
+  google_analytics_id: "${GOOGLE_ANALYTICS_ID}"
+
 config :libcluster,
   topologies: [
     k8s_example: [
