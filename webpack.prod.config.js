@@ -20,10 +20,10 @@ module.exports = webpackMerge.smart(sharedConfig, {
     ],
   },
   plugins: [
-    new HoneybadgerSourceMapPlugin({
+    HONEYBADGER_API_KEY && new HoneybadgerSourceMapPlugin({
       apiKey: HONEYBADGER_API_KEY,
       assetsUrl: PRODUCTION_ASSETS_URL,
       revision,
     }),
-  ],
+  ].filter(Boolean),
 })
