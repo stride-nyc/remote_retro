@@ -5,6 +5,7 @@ defmodule RemoteRetroWeb.RetroController do
   alias Phoenix.Token
 
   plug :verify_retro_id_param_is_uuid when action in [:show]
+  plug RemoteRetroWeb.Plugs.SetCurrentUserOnAssignsIfAuthenticated when action in [:index, :show]
 
   def index(conn, _params) do
     %{current_user: current_user} = conn.assigns
