@@ -100,7 +100,7 @@
           </a>
           <div class="help-icon" id="stage-help-icon"></div>
 
-          <%= if assigns[:current_user] do %>
+          <%= if Plug.Conn.get_session(@conn, :current_user_id) do %>
             <a href="/logout" class="ui mini compact logout button">
               Log Out
             </a>
