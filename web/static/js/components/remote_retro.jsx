@@ -15,10 +15,20 @@ import StageHelp from "./stage_help"
 
 export class RemoteRetro extends Component {
   componentDidCatch(error) {
+    if (!window.Honeybadger) return; // protect against adblocker extensions blocking error tracking
+
     const { stage, presences, usersById } = this.props
 
     Honeybadger.setContext({ stage, presences, usersById })
     Honeybadger.notify(error)
+  }
+
+  componentDidMount() {
+    if (!window.DD_RUM) return;
+
+    DD_RUM.onReady(() => {
+      DD_RUM.addTiming('SPA_MOUNTED')
+    })
   }
 
   render() {

@@ -409,6 +409,36 @@ describe("actionCreators", () => {
         })
       })
 
+      describe("when honeybadger is available (the default)", () => {
+        it("notifies honeybadger of the error", () => {
+          window.Honeybadger = global.Honeybadger
+          sinon.spy(mockRetroChannel, "pushWithRetries")
+          sinon.spy(global.Honeybadger, "notify")
+          thunk(() => {}, undefined, mockRetroChannel)
+
+          const onErrCallback = mockRetroChannel.pushWithRetries.getCall(0).args[2].onErr
+
+          onErrCallback()
+
+          expect(global.Honeybadger.notify).to.have.been.calledOnce
+        })
+      })
+
+      describe("when honeybadger is not available due to being blocked by extensions", () => {
+        it("does not blow up", () => {
+          delete global.Honeybadger
+          delete window.Honeybadger
+          sinon.spy(mockRetroChannel, "pushWithRetries")
+          thunk(() => {}, undefined, mockRetroChannel)
+
+          const onErrCallback = mockRetroChannel.pushWithRetries.getCall(0).args[2].onErr
+
+          expect(() => {
+            onErrCallback()
+          }).not.to.throw()
+        })
+      })
+
       it("lets the store know that an idea edit submission is in flight", () => {
         const dispatchSpy = sinon.spy()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)

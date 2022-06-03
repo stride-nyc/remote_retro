@@ -63,6 +63,8 @@ export const actions = {
             ideaId: ideaParams.id,
             params: ideaParams,
           })
+          if (!window.Honeybadger) return;
+
           Honeybadger.notify(`'idea_edited' push retries failed with params: ${JSON.stringify(ideaParams)}`)
         },
       })

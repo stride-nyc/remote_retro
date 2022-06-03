@@ -1,5 +1,6 @@
 import React from "react"
 import { shallow } from "enzyme"
+import { spy } from "sinon"
 
 import ViewportMetaTag from "../../web/static/js/components/viewport_meta_tag"
 import { RemoteRetro } from "../../web/static/js/components/remote_retro"
@@ -48,6 +49,36 @@ describe("RemoteRetro component", () => {
       alert: { derp: "herp" },
       stage: "lobby",
       browserOrientation: "portrait",
+    })
+  })
+
+  context("when the component has rendered", () => {
+    describe("when the datadog rum client is available on the window", () => {
+      it("notifies datadog that the single page app has mounted", () => {
+        global.DD_RUM = window.DD_RUM = {
+          onReady: (cb) => cb(),
+          addTiming: spy(),
+        }
+
+        shallow(
+          <RemoteRetro {...defaultProps} />
+        )
+
+        expect(DD_RUM.addTiming).calledWith("SPA_MOUNTED")
+      })
+    })
+
+    describe("when datadog rum is *not* on the window, due to ad blocking or a race", () => {
+      it("does not blow up", () => {
+        delete global.DD_RUM
+        delete window.DD_RUM
+
+        expect(() => {
+          shallow(
+            <RemoteRetro {...defaultProps} />
+          )
+        }).not.to.throw();
+      })
     })
   })
 })

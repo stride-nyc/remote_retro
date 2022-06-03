@@ -12,6 +12,7 @@ module.exports = {
     "beforeEach": false,
     "afterEach": false,
     "Honeybadger": false,
+    "DD_RUM": false,
     "mountWithConnectedSubcomponents": false,
   },
   "extends": "airbnb",
