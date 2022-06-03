@@ -38,7 +38,18 @@
       </script>
 
       <%# HoneyBadger client-side error reporting %>
-      <script defer="defer" fetchpriority="high" importance="high" src="https://js.honeybadger.io/v0.5/honeybadger.min.js" type="text/javascript" data-apiKey={ Application.get_env(:honeybadger, :api_key)} data-environment="production" data-revision={Application.get_env(:remote_retro, :source_version)}></script>
+      <script defer="defer" fetchpriority="high" importance="high" src="https://js.honeybadger.io/v4.0/honeybadger.min.js" type="text/javascript"></script>
+      <script>
+        document.addEventListener('DOMContentLoaded', () => {
+          if (!window.Honeybadger) return; <%# protect against addblocker %>
+
+          Honeybadger.configure({
+            apiKey: '<%= Application.get_env(:honeybadger, :api_key) %>',
+            revision: '<%= Application.get_env(:remote_retro, :source_version) %>',
+            environment: 'production',
+          })
+        })
+      </script>
     <% else %>
       <%# stub out vendor script funcs in dev/test %>
       <script>
