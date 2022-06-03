@@ -4,7 +4,7 @@ const WebpackNotifierPlugin = require("webpack-notifier")
 
 const sharedConfig = require("./webpack.shared.config.js")
 
-const DEV_SERVER_PORT = 5001
+const DEV_SERVER_PORT = 8080
 const OUTPUT_PUBLIC_PATH = `http://localhost:${DEV_SERVER_PORT}/`
 
 module.exports = webpackMerge.smart({
