@@ -2,6 +2,8 @@
 <html lang="en">
   <head>
     <link rel="preconnect" href={Routes.static_url(@conn, "/")} />
+    <link rel="dns-prefetch" href="https://ghbtns.com" />
+    <link rel="dns-prefetch" href="https://api.github.com" />
     <link rel="dns-prefetch" href="https://accounts.google.com" />
     <link rel="shortcut icon" href={Routes.static_url(@conn, "/images/favicon.ico")} />
     <%= if assigns[:include_js] do %>
