@@ -1,21 +1,22 @@
 defmodule RemoteRetroWeb.RetroController do
   use RemoteRetroWeb, :controller
-  alias RemoteRetro.{Retro, Participation, Idea}
+  alias RemoteRetro.{User, Retro, Participation, Idea}
   alias RemoteRetroWeb.ErrorView
   alias Phoenix.Token
 
   plug :verify_retro_id_param_is_uuid when action in [:show]
-  plug RemoteRetroWeb.Plugs.SetCurrentUserOnAssignsIfAuthenticated when action in [:index, :show]
+  plug RemoteRetroWeb.Plugs.SetCurrentUserOnAssignsIfAuthenticated when action in [:show]
 
   def index(conn, _params) do
     Ecto.Adapters.SQL.query!(
       RemoteRetro.Repo, "DISCARD ALL"
     )
-    %{current_user: current_user} = conn.assigns
+    current_user_id = get_session(conn, "current_user_id")
+    current_user_given_name = get_session(conn, "current_user_given_name")
 
     render(conn, "index.html", %{
-      current_user: current_user,
-      retros: recent_retros_with_action_items_preloaded(current_user),
+      current_user_given_name: current_user_given_name,
+      retros: recent_retros_with_action_items_preloaded(current_user_id),
       title: "Dashboard | RemoteRetro.org",
     })
   end
@@ -68,7 +69,8 @@ defmodule RemoteRetroWeb.RetroController do
     |> Repo.insert!(on_conflict: :nothing)
   end
 
-  defp recent_retros_with_action_items_preloaded(current_user) do
+  defp recent_retros_with_action_items_preloaded(current_user_id) do
+    current_user_struct = %User{id: current_user_id}
     action_items_with_assignee =
       from(
         ai in Idea.action_items(),
@@ -78,7 +80,7 @@ defmodule RemoteRetroWeb.RetroController do
 
     query =
       from(
-        r in assoc(current_user, :retros),
+        r in assoc(current_user_struct, :retros),
         limit: 10,
         preload: [ideas: ^action_items_with_assignee],
         order_by: [desc: r.inserted_at]
