@@ -18,6 +18,7 @@ defmodule RemoteRetroWeb.Router do
   end
 
   pipeline :forbid_non_striders do
+    plug(Plugs.SetCurrentUserOnAssignsIfAuthenticated)
     plug(Plugs.ForbidNonStriders)
   end
 
