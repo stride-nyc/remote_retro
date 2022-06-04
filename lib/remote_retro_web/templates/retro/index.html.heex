@@ -4,7 +4,7 @@
 <%= if Enum.count(@retros) == 0 do %>
   <div class="ui centered welcome tiny longer modal">
     <div class="ui center aligned basic very padded segment no-margin-bottom">
-      <h2 class="ui header">Welcome, <%= assigns[:current_user].given_name %>!</h2>
+      <h2 class="ui header">Welcome, <%= assigns[:current_user_given_name] %>!</h2>
       <p>
         You're about to take part in your first RemoteRetro, traversing the following stages:
       </p>
