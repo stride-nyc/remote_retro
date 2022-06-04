@@ -42,13 +42,20 @@ defmodule RemoteRetro.AuthControllerTest do
 
       assert is_integer(session["current_user_id"])
     end
+
+    test "sets the current user's given_name on the session", ~M{conn} do
+      conn = get(conn, "/auth/google/callback?code=schlarpdarp")
+      session = retrieve_session(conn)
+
+      assert session["current_user_given_name"] == "Test"
+    end
   end
 
   describe ".logout" do
     test "clears the session", ~M{conn} do
       conn = Plug.Test.init_test_session(conn, %{
-        "current_user" => %{},
-        "some_other_key" => "some string"
+        "current_user_id" => 1,
+        "current_user_given_name" => "some string"
       })
 
       session_attributes_count_before = get_session_attribute_count(conn)
