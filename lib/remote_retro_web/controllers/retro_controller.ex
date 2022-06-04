@@ -20,6 +20,7 @@ defmodule RemoteRetroWeb.RetroController do
   def show(conn, params) do
     %{current_user: current_user} = conn.assigns
 
+    # TODO: async retrieve the user record and assign the participation, as we already have the current user's id on the session
     soft_insert_participation_record!(current_user.id, params["id"])
 
     render(conn, "show.html", %{
