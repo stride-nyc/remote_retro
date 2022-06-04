@@ -15,6 +15,9 @@ defmodule RemoteRetroWeb.RetroChannel do
 
   def join("retro:" <> retro_id, _, socket) do
     socket = assign(socket, :retro_id, retro_id)
+
+    # TODO: given that we already have the retro id, I don't think we need to first get the retro before we initiate the preloads.
+    # should be able to happen in parallel
     retro = Repo.get!(Retro, retro_id) |> Repo.preload([:ideas, :votes, :users, :groups])
 
     send(self(), :after_join)
