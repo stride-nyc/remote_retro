@@ -1,6 +1,6 @@
 defmodule RemoteRetroWeb.RetroController do
   use RemoteRetroWeb, :controller
-  alias RemoteRetro.{User, Retro, Participation, Idea}
+  alias RemoteRetro.{Retro, Participation, Idea}
   alias RemoteRetroWeb.ErrorView
   alias Phoenix.Token
 
@@ -68,7 +68,6 @@ defmodule RemoteRetroWeb.RetroController do
   end
 
   defp recent_retros_with_action_items_preloaded(current_user_id) do
-    minimal_current_user_struct = %User{id: current_user_id}
     action_items_with_assignee =
       from(
         ai in Idea.action_items(),
@@ -76,12 +75,18 @@ defmodule RemoteRetroWeb.RetroController do
         order_by: [asc: ai.inserted_at]
       )
 
+    subset = from(p in Participation,
+      where: p.user_id == ^current_user_id,
+      order_by: [desc: p.inserted_at],
+      limit: 10
+    )
+
     query =
       from(
-        r in assoc(minimal_current_user_struct, :retros),
-        limit: 10,
-        preload: [ideas: ^action_items_with_assignee],
-        order_by: [desc: r.inserted_at]
+        r in Retro,
+        join: p in subquery(subset),
+        on: p.retro_id == r.id,
+        preload: [ideas: ^action_items_with_assignee]
       )
 
     Repo.all(query)
