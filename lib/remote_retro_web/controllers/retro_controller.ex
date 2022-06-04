@@ -8,6 +8,9 @@ defmodule RemoteRetroWeb.RetroController do
   plug RemoteRetroWeb.Plugs.SetCurrentUserOnAssignsIfAuthenticated when action in [:index, :show]
 
   def index(conn, _params) do
+    Ecto.Adapters.SQL.query!(
+      RemoteRetro.Repo, "DISCARD ALL"
+    )
     %{current_user: current_user} = conn.assigns
 
     render(conn, "index.html", %{
