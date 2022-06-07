@@ -152,6 +152,9 @@ export const reducer = (state = [], action) => {
         replaceOptimisticallyAddedIdea(state, ideaAttrs) :
         [...state, action.idea]
     }
+    case actionTypes.IDEA_SUBMISSION_REJECTED: {
+      return state.filter(idea => idea.id !== OPTIMISTIC_UI_IDEA_ID)
+    }
     case actionTypes.IDEA_UPDATE_COMMITTED:
       return state.map(idea => (
         (idea.id === action.ideaId) ? { ...idea, ...action.newAttributes } : idea

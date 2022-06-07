@@ -75,6 +75,23 @@ describe("idea reducer", () => {
 
     })
 
+    describe("when the action is IDEA_SUBMISSION_REJECTED", () => {
+      it("removes the idea with an id of Infinity from state", () => {
+        const initialState = [
+          { id: Infinity, body: "body", category: "happy", user_id: 2 },
+          { id: 5, body: "who", category: "happy", user_id: 3 },
+        ]
+
+        deepFreeze(initialState)
+
+        const action = { type: "IDEA_SUBMISSION_REJECTED" }
+
+        expect(ideasReducer(initialState, action)).to.deep.equal([
+          { id: 5, body: "who", category: "happy", user_id: 3 },
+        ])
+      })
+    })
+
     describe("when the action is SET_INITIAL_STATE", () => {
       it("should replace the state with the ideas passed in the action's inialState object", () => {
         const initialIdeas = [{ body: "i'm an old idea!", category: "happy", user_id: 2 }]
