@@ -46,7 +46,7 @@ export const Idea = props => {
   }
 
   return (
-    <li className={styles.index} title={idea.body} key={idea.id}>
+    <li className={styles.index} key={idea.id}>
       {content}
     </li>
   )
