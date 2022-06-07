@@ -8,7 +8,7 @@ defmodule RemoteRetro.IntegrationCase do
 
   setup_all context do
     {:ok, _} = Application.ensure_all_started(:wallaby)
-    :timer.sleep(100)
+    :timer.sleep(50)
     Application.put_env(:wallaby, :base_url, "http://localhost:4001")
     context
   end
