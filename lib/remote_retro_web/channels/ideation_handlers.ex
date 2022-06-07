@@ -11,8 +11,8 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   @idea_deleted "idea_deleted"
 
   def handle_in("idea_submitted", idea_params, socket) do
-    {reply_atom, _} = atomic_insert_and_broadcast(idea_params, socket)
-    {:reply, reply_atom, socket}
+    {reply_atom, response} = atomic_insert_and_broadcast_from(idea_params, socket)
+    {:reply, {reply_atom, response}, socket}
   end
 
   def handle_in(@idea_edited, idea_params, socket) do
@@ -31,10 +31,11 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   handle_in_and_broadcast_from("idea_edit_state_disabled", ~m{id})
   handle_in_and_broadcast_from("idea_dragged_in_grouping_stage", ~m{id, x, y})
 
-  defp atomic_insert_and_broadcast(idea_params, socket) do
+  defp atomic_insert_and_broadcast_from(idea_params, socket) do
     Repo.transaction(fn ->
       idea = insert_idea!(idea_params, socket)
-      broadcast!(socket, @idea_committed, idea)
+      broadcast_from!(socket, @idea_committed, idea)
+      idea
     end)
   rescue
     exception ->

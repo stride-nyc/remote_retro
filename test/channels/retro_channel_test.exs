@@ -167,14 +167,14 @@ defmodule RemoteRetro.RetroChannelTest do
         push(socket, "idea_submitted", %{category: "happy", body: "we're pacing well", userId: user_id, assigneeId: nil})
 
       # extra assertion required to wait for async process to complete before
-      assert_reply(ref, :ok)
+      assert_reply(ref, :ok, %Idea{})
 
       idea_count_after = Repo.aggregate(Idea, :count, :id)
 
       assert idea_count_after - idea_count_before == 1
     end
 
-    test "results in the broadcast of the new idea to all connected clients", ~M{socket, facilitator} do
+    test "results in the broadcast of the new idea to *other* connected clients", ~M{socket, facilitator} do
       user_id = facilitator.id
       assignee_id = nil
 
@@ -188,12 +188,12 @@ defmodule RemoteRetro.RetroChannelTest do
 
       assert_reply(ref, :ok)
 
-      assert_broadcast("idea_committed", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
+      assert_broadcast_to_other_clients_only("idea_committed", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
     end
 
-    test "rolls back the idea insertion if broadcast!/3 fails", ~M{socket, facilitator} do
+    test "rolls back the idea insertion if broadcast_from!/3 fails", ~M{socket, facilitator} do
       with_mock Phoenix.Channel,
-        broadcast!: fn _, _, _ ->
+        broadcast_from!: fn _, _, _ ->
           raise "hell"
         end do
         user_id = facilitator.id

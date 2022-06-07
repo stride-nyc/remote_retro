@@ -31,15 +31,48 @@ describe("idea reducer", () => {
   })
 
   describe("the handled actions", () => {
-    describe("when the action is IDEA_SUBMISSION_COMMITTED", () => {
-      it("should add an idea to list of ideas", () => {
+    describe("when the action is IDEA_SUBMISSION_SUBMITTED", () => {
+      it("adds the idea to list of ideas, but with an `id` of Infinity, so that it appears as the end of the list", () => {
         const initialState = [{ body: "i'm an old idea!", category: "happy", user_id: 2 }]
         deepFreeze(initialState)
         const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
-        const action = { type: "IDEA_SUBMISSION_COMMITTED", idea }
+        const action = { type: "IDEA_SUBMISSION_SUBMITTED", idea }
 
-        expect(ideasReducer(initialState, action)).to.deep.equal([...initialState, idea])
+        expect(ideasReducer(initialState, action)).to.deep.equal([...initialState, { ...idea, id: Infinity}])
       })
+    })
+
+    describe("when the action is IDEA_SUBMISSION_COMMITTED", () => {
+      describe("when the idea is noted as being a replacement for an optimistically added idea", () => {
+        it("replaces the idea with an id of Infinity with the given idea object, stripping the replacement flag", () => {
+          const initialState = [
+            { id: Infinity, body: "body", category: "happy", user_id: 2 },
+            { id: 5, body: "who", category: "happy", user_id: 3 },
+          ]
+
+          deepFreeze(initialState)
+
+          const idea = { shouldReplaceOptimisticallyAddedIdea: true, id: 4, body: "body", category: "happy", user_id: 2 }
+          const action = { type: "IDEA_SUBMISSION_COMMITTED", idea }
+
+          expect(ideasReducer(initialState, action)).to.deep.equal([
+            { id: 4, body: "body", category: "happy", user_id: 2 },
+            { id: 5, body: "who", category: "happy", user_id: 3 },
+          ])
+        })
+      })
+
+      describe("when the idea is *not* noted as having been optimistically added", () => {
+        it("simply augments the idea list with the new idea", () => {
+          const initialState = [{ body: "i'm an old idea!", category: "happy", user_id: 2 }]
+          deepFreeze(initialState)
+          const idea = { id: 5, body: "we have a linter!", category: "happy", user_id: 1 }
+          const action = { type: "IDEA_SUBMISSION_COMMITTED", idea }
+
+          expect(ideasReducer(initialState, action)).to.deep.equal([...initialState, idea])
+        })
+      })
+
     })
 
     describe("when the action is SET_INITIAL_STATE", () => {
@@ -183,8 +216,31 @@ describe("actionCreators", () => {
       })
 
       it("results in a push to the retroChannel", () => {
-        thunk(undefined, undefined, mockRetroChannel)
+        thunk(() => {}, undefined, mockRetroChannel)
         expect(mockRetroChannel.push).calledWith("idea_submitted", idea)
+      })
+
+      it("results in the dispatch of an action for optimistic-ui addition of the idea", () => {
+        const dispatchSpy = sinon.spy()
+        thunk(dispatchSpy, undefined, mockRetroChannel)
+        expect(dispatchSpy).calledWithMatch({
+          type: "IDEA_SUBMISSION_SUBMITTED",
+          idea,
+        })
+      })
+
+      describe("when the push is successful", () => {
+        it("lets the store know, noting that this particular commit was already optimistically added to the app state", () => {
+          const dispatchSpy = sinon.spy()
+          thunk(dispatchSpy, undefined, mockRetroChannel)
+
+          mockRetroChannel.__triggerReply("ok", { id: 5, arbitrary: "keyValue" })
+
+          expect(dispatchSpy).calledWithMatch({
+            type: "IDEA_SUBMISSION_COMMITTED",
+            idea: { id: 5, arbitrary: "keyValue", shouldReplaceOptimisticallyAddedIdea: true },
+          })
+        })
       })
 
       describe("when the push results in an error", () => {

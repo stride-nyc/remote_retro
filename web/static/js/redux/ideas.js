@@ -2,6 +2,8 @@ import throttle from "lodash/throttle"
 
 import actionTypes from "./action_types"
 
+const OPTIMISTIC_UI_IDEA_ID = Infinity
+
 const updateIdea = (ideaId, newAttributes) => ({
   type: actionTypes.IDEA_UPDATE_COMMITTED,
   ideaId,
@@ -113,6 +115,12 @@ export const actions = {
     return (dispatch, getState, retroChannel) => {
       const push = retroChannel.push("idea_submitted", idea)
 
+      dispatch({ type: actionTypes.IDEA_SUBMISSION_SUBMITTED, idea })
+
+      push.receive("ok", (idea) => {
+        dispatch({ type: actionTypes.IDEA_SUBMISSION_COMMITTED, idea: { ...idea, shouldReplaceOptimisticallyAddedIdea: true }})
+      })
+
       push.receive("error", () => {
         dispatch({ type: actionTypes.IDEA_SUBMISSION_REJECTED })
       })
@@ -135,8 +143,15 @@ export const reducer = (state = [], action) => {
   switch (action.type) {
     case actionTypes.SET_INITIAL_STATE:
       return action.initialState.ideas
-    case actionTypes.IDEA_SUBMISSION_COMMITTED:
-      return [...state, action.idea]
+    case actionTypes.IDEA_SUBMISSION_SUBMITTED:
+      return [...state, { id: OPTIMISTIC_UI_IDEA_ID, ...action.idea }]
+    case actionTypes.IDEA_SUBMISSION_COMMITTED: {
+      const { shouldReplaceOptimisticallyAddedIdea, ...ideaAttrs } = action.idea
+
+      return shouldReplaceOptimisticallyAddedIdea ?
+        replaceOptimisticallyAddedIdea(state, ideaAttrs) :
+        [...state, action.idea]
+    }
     case actionTypes.IDEA_UPDATE_COMMITTED:
       return state.map(idea => (
         (idea.id === action.ideaId) ? { ...idea, ...action.newAttributes } : idea
@@ -162,4 +177,10 @@ export const reducer = (state = [], action) => {
     default:
       return state
   }
+}
+
+const replaceOptimisticallyAddedIdea = (ideas, persistedIdea) => {
+  return ideas.map(idea => {
+    return idea.id === OPTIMISTIC_UI_IDEA_ID ? persistedIdea : idea
+  })
 }
