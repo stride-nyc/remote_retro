@@ -157,6 +157,18 @@
           version: '<%= Application.get_env(:remote_retro, :source_version) %>',
           sampleRate: 100,
           trackInteractions: false,
+          beforeSend: function(event) {
+            const view = event.view;
+            const retroSpaHasMounted = view.custom_timings && view.custom_timings.SPA_MOUNTED;
+
+            if (retroSpaHasMounted) {
+              const differenceBetweenMountAndLCPinMS = (view.largest_contentful_paint - view.custom_timings.SPA_MOUNTED) / 1000000.0;
+              const lcpEntryTriggeredByActionOfAnotherClient = differenceBetweenMountAndLCPinMS > 4000;
+
+              <%# LCP entries are recorded for as long as the user is idle; this means that if the user app is mounted but the user is idle and the facilitator advances the retro, a new misleading LCP event can be recorded due to the banner dropping down on stage-advancement; we tag these entries so can filter them out in DD %>
+              DD_RUM.addRumGlobalContext('lcpEntryTriggeredByActionOfAnotherClient', lcpEntryTriggeredByActionOfAnotherClient);
+            }
+          },
         })
       })
     </script>
