@@ -55,6 +55,7 @@ defmodule RemoteRetro.Mixfile do
       {:plug_canonical_host, "~> 2.0.1"},
       {:ecto_dev_logger, "~> 0.2"},
       {:plug_cowboy, "~> 2.5"},
+      {:plug_minify_html, "~> 0.1.0"},
       {:mix_test_watch, "~> 1.0.2", [runtime: false, only: :dev]},
       {:mock, "~> 0.3.6", only: :test},
       {:oauth2, "~> 2.0"},

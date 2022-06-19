@@ -62,7 +62,7 @@ defmodule RemoteRetro.RetroControllerTest do
 
       get(conn, "/retros/#{conn.params["id"]}")
 
-      assert html_response(conn, 200) =~ ~r/link rel="preload" as="image".*href=".*googleusercontent.*">/i
+      assert html_response(conn, 200) =~ ~r/link rel="preload" as="image".*href=".*googleusercontent.*"\/>/i
     end
 
     test "invalid uuids passed to the show page result in an informative 404", ~M{conn} do
