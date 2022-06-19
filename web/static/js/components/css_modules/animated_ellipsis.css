@@ -1,4 +1,6 @@
 .index {
+  min-height: 13.5px;
+
   i {
     font-size: 6px;
     width: 7px;
