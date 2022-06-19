@@ -43,7 +43,7 @@
       <script defer="defer" fetchpriority="high" importance="high" src="https://js.honeybadger.io/v4.0/honeybadger.min.js" type="text/javascript"></script>
       <script>
         document.addEventListener('DOMContentLoaded', () => {
-          if (!window.Honeybadger) return; <%# protect against addblocker %>
+          if (!window.Honeybadger) return; <%# protect against ad blockers %>
 
           Honeybadger.configure({
             apiKey: '<%= Application.get_env(:honeybadger, :api_key) %>',
@@ -77,7 +77,6 @@
     <link rel="stylesheet" href={Routes.static_url(@conn, "/css/semantic-ui/semantic-ui-purged.min.css")} />
     <link rel="stylesheet" href={app_css(@conn)}>
     <link rel="apple-touch-icon" href={Routes.static_url(@conn, "/images/apple-touch-icon.png")} />
-
     <%= if Application.get_env(:remote_retro, :env) == :test do %>
       <!--
         disable css animations in end-to-end tests;
@@ -140,7 +139,6 @@
       <script fetchpriority="high" importance="high" src={Routes.static_url(@conn, "/js/dll/dll.vendor.js")}></script>
       <script fetchpriority="high" importance="high" src={app_js(@conn)}></script>
     <% end %>
-
     <%# DataDog Real user metrics %>
     <script>
       (function(h,o,u,n,d) {
