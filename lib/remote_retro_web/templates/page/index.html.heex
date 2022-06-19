@@ -95,20 +95,17 @@
     </div>
   </div>
 </div>
-
 <div class="ui center aligned grid gradient-background">
   <div class="row">
     <div class="ui basic segment cta-wrapper">
       <%= render("sign_in_with_google_to_get_started.html") %>
-
       <a href="/faq" class="ui teal fluid button">
         F.A.Q.
       </a>
     </div>
   </div>
 </div>
-
-<!-- ensure instantaneous render of FAQ page on navigation -->
+<%# ensure instantaneous render of FAQ page on navigation %>
 <link rel="prerender" href="/faq" />
 <%#
   prefetch first-time-user-experience javascript
