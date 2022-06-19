@@ -10,6 +10,9 @@ body {
   overflow-y: auto;
 }
 
+form {
+  margin-block-end: 0;
+}
 /*
 This overrides some SemanticUI default styling,
 as their 'bold' fonts vary wildly in their appearance across browsers.
