@@ -443,7 +443,6 @@ If you truly need to make text bold, use the <strong></strong> tag
     margin-right: 1rem;
     border: none;
     padding: 0;
-    overflow: hidden;
     background-color: transparent;
   }
 
