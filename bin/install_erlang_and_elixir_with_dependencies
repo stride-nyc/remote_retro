@@ -32,8 +32,15 @@ fi
 printGreenLine "asdf: configuring KERL options...";
 
 # see https://github.com/asdf-vm/asdf-erlang/issues/82#issuecomment-535868497 for configuring KERL
-brew_open_ssl_path=$(brew info openssl | egrep -o -m 1 '/[^\S]* \(' | awk '{print $1}')
-export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$brew_open_ssl_path"
+
+# https://github.com/erlang/otp/issues/4577#issuecomment-925962048
+brew install openssl@1.1
+
+# https://github.com/asdf-vm/asdf-erlang/issues/195#issuecomment-849110313
+brew install autoconf@2.69 && \
+brew link --overwrite autoconf@2.69
+
+export KERL_CONFIGURE_OPTIONS="--without-javac --with-ssl=$(brew --prefix openssl@1.1)"
 
 printGreenLine "asdf: installing Erlang version declared in \`.tool-versions\`\n\n\tNOTE: Building erlang takes 5-10 minutes. Be patient.";
 erlang_version=$(awk '/erlang/ { print $2 }' .tool-versions) && asdf install erlang ${erlang_version}
