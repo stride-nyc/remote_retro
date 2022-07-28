@@ -37,7 +37,7 @@ defmodule RemoteRetro.Mixfile do
   # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:phoenix, "~> 1.6.9"},
+      {:phoenix, "~> 1.6.11"},
       {:phoenix_pubsub, "~> 2.0"},
       {:phoenix_ecto, "~> 4.4"},
       {:ecto_sql, "~> 3.7.2"},
@@ -48,9 +48,9 @@ defmodule RemoteRetro.Mixfile do
       {:postgrex, "~> 0.15.13"},
       {:phoenix_bakery, "~> 0.1", [only: :prod, runtime: false]},
       {:phoenix_html, "~> 3.2"},
-      {:phoenix_live_dashboard, "~> 0.6"},
+      {:phoenix_live_dashboard, "~> 0.6.5"},
       {:phoenix_live_reload, "~> 1.3.3", only: :dev},
-      {:phoenix_live_view, "~> 0.17"},
+      {:phoenix_live_view, "~> 0.17.11"},
       {:plug, "~> 1.13.4"},
       {:plug_canonical_host, "~> 2.0.1"},
       {:ecto_dev_logger, "~> 0.2"},
