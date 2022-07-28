@@ -95,8 +95,10 @@ jobs:  # basic units of work in a run
             #     as these wouldn't be run when doing a hot upgrade, but are run on fresh builds
 
             if git log $commit_range_from_previous_build --name-status --pretty="format:" | grep "phoenix_static_buildpack.config\config.exs\|prod.exs\|mix.exs\|mix.lock\|elixir_buildpack.config\|A[[:space:]]priv/repo/migrations"; then
+              echo "Executing deploy cleaned of old dependencies"
               git -c http.extraheader="GIGALIXIR-CLEAN: true" push gigalixir HEAD:refs/heads/master --force;
             else
+              echo "Executing deploy with hot code upgrade"
               git -c http.extraheader="GIGALIXIR-HOT: true" push gigalixir HEAD:refs/heads/master --force;
             fi
 
