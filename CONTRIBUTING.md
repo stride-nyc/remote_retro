@@ -32,7 +32,7 @@ Once you're ready to start coding:
 
 # How to report a bug
 ### Security issues
-If you find a security vulnerability, do NOT open an issue. Email cdranginis@stridenyc.com instead.
+If you find a security vulnerability, do NOT open an issue. Email remote_retro@stridenyc.com instead.
 
 In order to determine whether you are dealing with a security issue, ask yourself these two questions:
 * Can I access something that's not mine, or something I shouldn't have access to?
