@@ -55,10 +55,11 @@ describe("RemoteRetro component", () => {
   context("when the component has rendered", () => {
     describe("when the datadog rum client is available on the window", () => {
       it("notifies datadog that the single page app has mounted", () => {
-        global.DD_RUM = window.DD_RUM = {
-          onReady: (cb) => cb(),
+        global.DD_RUM = {
+          onReady: cb => cb(),
           addTiming: spy(),
         }
+        window.DD_RUM = global.DD_RUM
 
         shallow(
           <RemoteRetro {...defaultProps} />
@@ -77,7 +78,7 @@ describe("RemoteRetro component", () => {
           shallow(
             <RemoteRetro {...defaultProps} />
           )
-        }).not.to.throw();
+        }).not.to.throw()
       })
     })
   })

@@ -65,7 +65,7 @@ export const actions = {
             ideaId: ideaParams.id,
             params: ideaParams,
           })
-          if (!window.Honeybadger) return;
+          if (!window.Honeybadger) return
 
           Honeybadger.notify(`'idea_edited' push retries failed with params: ${JSON.stringify(ideaParams)}`)
         },
@@ -117,8 +117,11 @@ export const actions = {
 
       dispatch({ type: actionTypes.IDEA_SUBMISSION_SUBMITTED, idea })
 
-      push.receive("ok", (idea) => {
-        dispatch({ type: actionTypes.IDEA_SUBMISSION_COMMITTED, idea: { ...idea, shouldReplaceOptimisticallyAddedIdea: true }})
+      push.receive("ok", idea => {
+        dispatch({
+          type: actionTypes.IDEA_SUBMISSION_COMMITTED,
+          idea: { ...idea, shouldReplaceOptimisticallyAddedIdea: true },
+        })
       })
 
       push.receive("error", () => {
@@ -148,9 +151,9 @@ export const reducer = (state = [], action) => {
     case actionTypes.IDEA_SUBMISSION_COMMITTED: {
       const { shouldReplaceOptimisticallyAddedIdea, ...ideaAttrs } = action.idea
 
-      return shouldReplaceOptimisticallyAddedIdea ?
-        replaceOptimisticallyAddedIdea(state, ideaAttrs) :
-        [...state, action.idea]
+      return shouldReplaceOptimisticallyAddedIdea
+        ? replaceOptimisticallyAddedIdea(state, ideaAttrs)
+        : [...state, action.idea]
     }
     case actionTypes.IDEA_SUBMISSION_REJECTED: {
       return state.filter(idea => idea.id !== OPTIMISTIC_UI_IDEA_ID)

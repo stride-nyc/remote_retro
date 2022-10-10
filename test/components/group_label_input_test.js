@@ -12,7 +12,7 @@ const defaultProps = {
     votes: [],
   },
   actions: {},
-};
+}
 
 describe("GroupLabelInput component", () => {
   let wrapper

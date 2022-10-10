@@ -38,7 +38,9 @@ describe("idea reducer", () => {
         const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
         const action = { type: "IDEA_SUBMISSION_SUBMITTED", idea }
 
-        expect(ideasReducer(initialState, action)).to.deep.equal([...initialState, { ...idea, id: Infinity}])
+        expect(ideasReducer(initialState, action)).to.deep.equal(
+          [...initialState, { ...idea, id: Infinity }]
+        )
       })
     })
 
@@ -72,7 +74,6 @@ describe("idea reducer", () => {
           expect(ideasReducer(initialState, action)).to.deep.equal([...initialState, idea])
         })
       })
-
     })
 
     describe("when the action is IDEA_SUBMISSION_REJECTED", () => {

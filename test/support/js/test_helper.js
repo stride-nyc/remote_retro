@@ -20,7 +20,7 @@ Enzyme.configure({ adapter: new Adapter() })
 global.expect = expect
 global.Image = function Image() {}
 global.Honeybadger = { notify: () => {}, setContext: () => {} }
-global.ASSET_DOMAIN = ''
+global.ASSET_DOMAIN = ""
 
 global.requestAnimationFrame = callback => {
   setTimeout(callback, 0)

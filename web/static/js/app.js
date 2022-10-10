@@ -20,7 +20,7 @@ import RetroChannel from "./services/retro_channel"
 import configureStore from "./configure_store"
 import { actions } from "./redux"
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener("DOMContentLoaded", () => {
   const { userToken, retroUUID } = window
 
   const retroChannel = new RetroChannel({ userToken, retroUUID })
@@ -30,14 +30,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
   retroChannel.applyListenersWithDispatch(store, actionz)
 
-  console.time('retroChannelJoin -> recieved "ok"')
+  console.time("retroChannelJoin -> recieved \"ok\"")
   retroChannel.join()
     .receive("error", error => console.error(error))
     .receive("ok", initialState => {
-      console.timeEnd('retroChannelJoin -> recieved "ok"')
+      console.timeEnd("retroChannelJoin -> recieved \"ok\"")
       actionz.setInitialState(initialState)
 
-      console.time('joined -> presences found and app mounted')
+      console.time("joined -> presences found and app mounted")
       awaitPresencesBeforeMountingApp()
     })
 
@@ -47,7 +47,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
       if (!presences.length) { return }
 
-      console.timeEnd('joined -> presences found and app mounted')
+      console.timeEnd("joined -> presences found and app mounted")
       renderWithHotReload()
       clearInterval(interval)
 
@@ -64,7 +64,7 @@ document.addEventListener('DOMContentLoaded', function() {
     )
 
     const postRenderCallback = () => {
-      document.removeEventListener('visibilitychange', window.__trackLoadAbandonment)
+      document.removeEventListener("visibilitychange", window.__trackLoadAbandonment)
     }
 
     render(
@@ -74,7 +74,7 @@ document.addEventListener('DOMContentLoaded', function() {
         </Provider>
       </AppContainer>,
       document.querySelector(".react-root"),
-      postRenderCallback,
+      postRenderCallback
     )
   }
 })
