@@ -14,6 +14,7 @@ module.exports = {
     "Honeybadger": false,
     "DD_RUM": false,
     "mountWithConnectedSubcomponents": false,
+    "ASSET_DOMAIN": false,
   },
   "extends": "airbnb",
   "parserOptions": {
