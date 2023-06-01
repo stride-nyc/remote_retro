@@ -8,7 +8,6 @@ const { port } = config.devServer
 new WebpackDevServer(webpack(config), {
   publicPath: config.output.publicPath,
   hot: true,
-  compress: true,
   clientLogLevel: "none",
   overlay: true,
   headers: { "Access-Control-Allow-Origin": "*" },

@@ -28,7 +28,6 @@
     "copy-webpack-plugin": "^4.6.0",
     "core-js": "^3.6.4",
     "css-loader": "^6.8.1",
-    "hard-source-webpack-plugin": "^0.13.1",
     "latest": "^0.2.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^2.7.6",
@@ -77,6 +76,7 @@
     "chai-uuid": "^1.0.6",
     "cryptiles": "4.1.2",
     "css-hot-loader": "^1.4.3",
+    "css-minimizer-webpack-plugin": "^5.0.0",
     "deep-freeze": "^0.0.1",
     "env-test": "^1.0.0",
     "enzyme": "^3.11.0",
@@ -96,6 +96,6 @@
     "sinon": "^1.17.7",
     "sinon-chai": "^2.14.0",
     "webpack-dev-server": "^4.15.0",
-    "webpack-notifier": "^1.7.0"
+    "webpack-notifier": "^1.15.0"
   }
 }

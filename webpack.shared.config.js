@@ -32,7 +32,7 @@ module.exports = {
         exclude: /(node_modules|polyfills)/,
         use: [{
           loader: "babel-loader",
-          query: {
+          options: {
             cacheDirectory: true,
           },
         }],
