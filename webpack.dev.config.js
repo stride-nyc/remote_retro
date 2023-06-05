@@ -21,8 +21,14 @@ module.exports = webpackMerge.merge(sharedConfig,{
     hotUpdateMainFilename: "hot/hot-update.json",
   },
   devServer: {
+    client:{
+      overlay: true,
+      clientLogLevel: "none",
+    },
     devMiddleware:{
       publicPath: OUTPUT_PUBLIC_PATH,
+      writeToDisk: true,
+      stats: sharedConfig.stats,
     },
     static:{
       contentBase: sharedConfig.output.path,
@@ -32,11 +38,8 @@ module.exports = webpackMerge.merge(sharedConfig,{
   module: {
     rules: [
       {
-        test: /\.css$/,
+        test: /\.css$/i,
         use: [
-          {
-            loader: "css-hot-loader",
-          },
         ],
       },
     ],
