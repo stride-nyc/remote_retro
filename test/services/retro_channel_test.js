@@ -11,6 +11,7 @@ const { CLOSED } = STAGES
 describe("RetroChannel", () => {
   let retroChannel
   let initialConnectMethod
+  let clock
   // ensure socket#connect is a no-op in tests
 
   before(() => {
@@ -24,10 +25,9 @@ describe("RetroChannel", () => {
 
   describe("constructor", () => {
     beforeEach(() => {
-      retroChannel = new RetroChannel({
-        userToken: "38ddm2",
-        retroUUID: "blurg",
-      })
+      const client = getClient()
+
+      retroChannel = new RetroChannel(client)
     })
 
     it("sets an instance of PhoenixChannel as a client", () => {
@@ -77,7 +77,6 @@ describe("RetroChannel", () => {
       let voteSubmissionSpy
       let voteRetractionSpy
       let setPresencesSpy
-      let clock
 
       beforeEach(() => {
         addIdeaSpy = spy()
@@ -105,10 +104,11 @@ describe("RetroChannel", () => {
 
         store = { getState: () => {} }
 
-        retroChannel = new RetroChannel({ userToken: "38ddm2", retroUUID: "blurg" })
+        retroChannel = new RetroChannel(getClient())
         retroChannel.applyListenersWithDispatch(store, actions)
         retroChannelClient = retroChannel.client
       })
+      afterEach(() => { clock.restore() })
 
       describe("on `presence_state`", () => {
         it("invokes the setPresences action", () => {
@@ -177,12 +177,10 @@ describe("RetroChannel", () => {
             ],
           }))
 
-          retroChannel = new RetroChannel({ userToken: "38ddm2", retroUUID: "blurg" })
+          retroChannel = new RetroChannel(getClient())
           retroChannel.applyListenersWithDispatch(store, actions)
           retroChannelClient = retroChannel.client
         })
-
-        afterEach(() => { clock.restore() })
 
         it("dispatches action for updating the user with matching token to is_typing true with timestamp", () => {
           retroChannelClient.trigger("idea_typing_event", { userToken: "s0meUserToken" })
@@ -217,7 +215,7 @@ describe("RetroChannel", () => {
               ],
             }))
 
-            retroChannel = new RetroChannel({ userToken: "38ddm2", retroUUID: "blurg" })
+            retroChannel = new RetroChannel(getClient())
             retroChannel.applyListenersWithDispatch(store, actions)
             retroChannelClient = retroChannel.client
           })
@@ -356,7 +354,6 @@ describe("RetroChannel", () => {
     })
 
     describe("when the push results in an error response", () => {
-      let clock
       let spyHook
 
       beforeEach(() => {
@@ -440,11 +437,21 @@ describe("RetroChannel", () => {
 const addRetrySpyToPushResult = (retroChannel, hook) => {
   const originalPushImplementation = retroChannel.push.bind(retroChannel)
 
-  stub(retroChannel, "push", (...args) => {
+  stub(retroChannel, "push").callsFake((...args) => {
     const push = originalPushImplementation(...args)
 
     hook.retrySpy = spy(push, "send")
 
     return push
   })
+}
+
+const getClient = () => {
+  const userToken = "38ddm2"
+  const retroUUID = "blurg"
+
+  const socket = new Socket("/socket", { params: { userToken } })
+  socket.connect()
+  const client = socket.channel(`retro:${retroUUID}`)
+  return client
 }

@@ -31,12 +31,10 @@ describe("IdeaList", () => {
       vote_count: 1,
     }]
 
-    const wrapper = shallow(
-      <IdeaList
-        {...defaultProps}
-        ideasSorted={ideasSorted}
-      />, { disableLifecycleMethods: true }
-    )
+    const wrapper = shallow(<IdeaList
+      {...defaultProps}
+      ideasSorted={ideasSorted}
+    />, { disableLifecycleMethods: true })
 
     const ideaComponents = wrapper.find(Idea)
     expect(ideaComponents.length).to.eql(2)

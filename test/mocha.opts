@@ -1,9 +1,0 @@
-test/**/*_test.js
---color
---require mock-css-modules
---require mock-local-storage
---require @babel/register
---require=env-test
---require test/support/js/test_helper.js
---require jsdom-global/register
---reporter dot
