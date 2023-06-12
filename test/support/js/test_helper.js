@@ -81,19 +81,6 @@ export const setupMockRetroChannel = () => {
   const RetroChannel = require("../../../web/static/js/services/retro_channel").default
   /* eslint-enable global-require */
 
-  // Build out a fake that mostly inherits from the real RetroChannel, but overrides
-  // the constructor to avoid problematic WebSocket code from executing.
-  // In this constructor override, we uphold the contract of setting a channel client, but
-  // we assign a fake so that we can trigger messages on the client in our tests
-  class MockRetroChannel {
-    constructor(mockClient) {
-      this.client = mockClient
-    }
-  }
-  // https://stackoverflow.com/questions/44288164/cannot-assign-to-read-only-property-name-of-object-object-object#answer-44288358
-  MockRetroChannel.prototype = Object.create(RetroChannel.prototype)
-  MockRetroChannel.prototype.constructor = MockRetroChannel
-
   const socket = new Socket("/socket", { timeout: 10000 })
 
   const originalMakeRef = socket.makeRef.bind(socket)
@@ -101,14 +88,14 @@ export const setupMockRetroChannel = () => {
   // ensure we have access to the ref created for socket pushes,
   // so we can trigger replies for specific pushes in the __triggerReply helper
   let ref
-  sinon.stub(socket, "makeRef", () => { ref = originalMakeRef(); return ref })
-  sinon.stub(socket, "isConnected", () => true)
+  sinon.stub(socket, "makeRef").callsFake(() => { ref = originalMakeRef(); return ref })
+  sinon.stub(socket, "isConnected").callsFake(() => true)
   sinon.stub(socket, "push")
 
   const mockPhoenixChannel = socket.channel("topic", { one: "two" })
   mockPhoenixChannel.join().trigger("ok", {})
 
-  const retroChannel = new MockRetroChannel(mockPhoenixChannel)
+  const retroChannel = new RetroChannel(mockPhoenixChannel)
 
   retroChannel.__triggerReply = (status, response) => {
     const STUBBED_CHANNEL_REPLY_REF = `chan_reply_${ref}`

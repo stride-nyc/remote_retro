@@ -1,49 +1,49 @@
 module.exports = {
-  "parser": "babel-eslint",
-  "env": {
-    "browser": true,
-    "es6": true,
-    "node": true
+  parser: "@babel/eslint-parser",
+  env: {
+    browser: true,
+    es6: true,
+    node: true,
   },
-  "globals": {
-    "describe": false,
-    "it": false,
-    "expect": false,
-    "beforeEach": false,
-    "afterEach": false,
-    "Honeybadger": false,
-    "DD_RUM": false,
-    "mountWithConnectedSubcomponents": false,
-    "ASSET_DOMAIN": false,
+  globals: {
+    describe: false,
+    it: false,
+    expect: false,
+    beforeEach: false,
+    afterEach: false,
+    Honeybadger: false,
+    DD_RUM: false,
+    mountWithConnectedSubcomponents: false,
+    ASSET_DOMAIN: false,
   },
-  "extends": "airbnb",
-  "parserOptions": {
-    "ecmaFeatures": {
-      "experimentalObjectRestSpread": true,
-      "jsx": true
+  extends: "airbnb",
+  parserOptions: {
+    ecmaFeatures: {
+      experimentalObjectRestSpread: true,
+      jsx: true,
     },
-    "sourceType": "module"
+    sourceType: "module",
   },
-  "plugins": [
-    "react"
+  plugins: [
+    "react",
   ],
-  "rules": {
-    "indent": [
+  rules: {
+    indent: [
       "error",
       2,
-      { "SwitchCase": 1 },
+      { SwitchCase: 1 },
     ],
     "linebreak-style": [
       "error",
-      "unix"
+      "unix",
     ],
-    "quotes": [
+    quotes: [
       "error",
-      "double"
+      "double",
     ],
-    "semi": [
+    semi: [
       "error",
-      "never"
+      "never",
     ],
     "object-curly-newline": "off",
     "arrow-parens": [
@@ -53,12 +53,12 @@ module.exports = {
     "comma-dangle": [
       "error",
       {
-        "functions": "never",
-        "objects": "always-multiline",
-        "arrays": "always-multiline",
-        "imports": "ignore",
-        "exports": "ignore",
-      }
+        functions: "never",
+        objects: "always-multiline",
+        arrays: "always-multiline",
+        imports: "ignore",
+        exports: "ignore",
+      },
     ],
     "no-alert": "off",
     "no-underscore-dangle": "off",
@@ -75,14 +75,10 @@ module.exports = {
     "no-restricted-globals": "off",
     "jsx-a11y/no-autofocus": 0,
     "jsx-a11y/no-static-element-interactions": 0,
-    "jsx-a11y/label-has-associated-control": {
-      "some": [ "nesting", "id" ]
-    },
-    "jsx-a11y/label-has-for": {
-      "some": [ "nesting", "id" ]
-    },
     "import/no-named-as-default": "off",
-    "no-unused-expressions": ["error", {"allowTernary": true}],
-    "no-param-reassign": [2, { "props": false }],
-  }
+    "react/jsx-props-no-spreading": "off",
+    "import/no-import-module-exports": "off",
+    "no-unused-expressions": ["error", { allowTernary: true }],
+    "no-param-reassign": [2, { props: false }],
+  },
 }

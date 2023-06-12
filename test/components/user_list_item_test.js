@@ -81,10 +81,6 @@ describe("UserListItem", () => {
           { facilitator_id: nonFacilitator.id }
         )).to.eql(true)
       })
-
-      afterEach(() => {
-        defaultProps.actions.updateRetroAsync.reset()
-      })
     })
 
     describe("declining the passing of facilitatorship", () => {
@@ -102,7 +98,7 @@ describe("UserListItem", () => {
     })
 
     afterEach(() => {
-      defaultProps.actions.updateRetroAsync.reset()
+      defaultProps.actions.updateRetroAsync.resetHistory()
     })
   })
 

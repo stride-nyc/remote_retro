@@ -124,7 +124,7 @@ describe("GroupingBoard", () => {
         }
 
         reconcileMobileZoomOffsetsStub = sinon
-          .stub(DragCoordinates, "reconcileMobileZoomOffsets", () => ({ x: 39, y: 31 }))
+          .stub(DragCoordinates, "reconcileMobileZoomOffsets").callsFake(() => ({ x: 39, y: 31 }))
 
         monitor = {
           getSourceClientOffset: sinon.stub(),
