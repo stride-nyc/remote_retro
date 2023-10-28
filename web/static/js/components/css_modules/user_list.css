@@ -20,7 +20,8 @@
 :global(.basic.segment).index {
   :global(.wrap) {
     max-width: 75rem;
-    max-height: 24rem;
+    max-height: 12rem;
+    min-height: 8rem;
     display: inline-block;
     white-space: initial;
     overflow-x: auto;
