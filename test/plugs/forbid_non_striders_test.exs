@@ -9,7 +9,7 @@ defmodule ForbidNonStridersTest do
   @stub_options %{}
 
   test "user is passed through when they have a stride email address", ~M{conn} do
-    stride_user = %User{email: "travis@stridenyc.com"}
+    stride_user = %User{email: "travis@stride.build"}
 
     conn_before =
       conn

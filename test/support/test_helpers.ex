@@ -8,7 +8,7 @@ defmodule RemoteRetro.TestHelpers do
 
   def persist_test_user(attribute_overrides \\ %{}) do
     unique_integer = System.unique_integer()
-    email = "user-#{unique_integer}@stridenyc.com"
+    email = "user-#{unique_integer}@stride.build"
     name = "Test User #{unique_integer}"
 
     oauth_info =
