@@ -6,7 +6,6 @@ defmodule RemoteRetro.User do
     :email,
     :google_user_info,
     :given_name,
-    :locale,
     :name,
     :picture,
     :last_login,
@@ -23,7 +22,7 @@ defmodule RemoteRetro.User do
     field(:google_user_info, :map)
     field(:family_name, :string)
     field(:given_name, :string)
-    field(:locale, :string)
+    field(:locale, :string, default: "en")
     field(:name, :string)
     field(:picture, :string)
     field(:last_login, :naive_datetime_usec)
