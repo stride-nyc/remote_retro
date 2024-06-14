@@ -1,5 +1,6 @@
 const path = require("path")
 const webpack = require("webpack")
+const HardSourceWebpackPlugin = require("hard-source-webpack-plugin")
 
 process.noDeprecation = true
 
@@ -15,6 +16,7 @@ module.exports = {
     library: "[name]",
   },
   plugins: [
+    new HardSourceWebpackPlugin({ info: { level: "error" } }),
     new webpack.DllPlugin({
       path: path.resolve(__dirname, "web/static/js/dll", "[name]-manifest.json"),
       name: "[name]",

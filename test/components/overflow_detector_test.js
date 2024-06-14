@@ -138,7 +138,7 @@ describe("<OverflowDetector />", () => {
 
       beforeEach(() => {
         isOverflowedYSpy.restore() // necessary to restore the spy before stubbing same method
-        isOverflowedYStub = sinon.stub(DomElementUtils, "isOverflowedY").callsFake(() => true)
+        isOverflowedYStub = sinon.stub(DomElementUtils, "isOverflowedY", () => true)
         clock.tick(300)
       })
 
@@ -150,7 +150,7 @@ describe("<OverflowDetector />", () => {
       describe("when between the intervals the overflow changes *again*", () => {
         beforeEach(() => {
           isOverflowedYSpy.restore() // necessary to restore the spy before stubbing same method
-          isOverflowedYStub = sinon.stub(DomElementUtils, "isOverflowedY").callsFake(() => false)
+          isOverflowedYStub = sinon.stub(DomElementUtils, "isOverflowedY", () => false)
           clock.tick(300)
         })
 
@@ -164,7 +164,7 @@ describe("<OverflowDetector />", () => {
     describe("when between the intervals the overflow *doesn't* change", () => {
       it("does *not* invoke the `onOverflowChange` callback", () => {
         isOverflowedYSpy.restore() // necessary to restore the spy before stubbing same method
-        const isOverflowedYStub = sinon.stub(DomElementUtils, "isOverflowedY").callsFake(() => false)
+        const isOverflowedYStub = sinon.stub(DomElementUtils, "isOverflowedY", () => false)
         clock.tick(300)
 
         expect(onOverflowChangeSpy).not.to.have.been.called

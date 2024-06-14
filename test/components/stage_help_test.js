@@ -7,6 +7,12 @@ import { StageHelp } from "../../web/static/js/components/stage_help"
 describe("<StageHelp />", () => {
   let wrapper
 
+  // Setup JSDom so that react can inject a portal
+  const iconRoot = global.document.createElement("button")
+  iconRoot.setAttribute("id", "stage-help-icon")
+  const body = global.document.querySelector("body")
+  body.appendChild(iconRoot)
+
   const actions = {
     showStageHelp: sinon.spy(),
   }
@@ -22,12 +28,6 @@ describe("<StageHelp />", () => {
 
   describe("when it is a stage with help to show", () => {
     beforeEach(() => {
-      // Setup JSDom so that reactDOM can be injected using createPortal
-      const iconRoot = global.document.createElement("button")
-      iconRoot.setAttribute("id", "stage-help-icon")
-      const body = global.document.querySelector("body")
-      body.appendChild(iconRoot)
-
       wrapper = shallow(<StageHelp {...defaultProps} />)
     })
 

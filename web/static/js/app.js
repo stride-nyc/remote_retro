@@ -16,7 +16,6 @@ import MultiBackend from "react-dnd-multi-backend"
 import HTML5toTouch from "react-dnd-multi-backend/lib/HTML5toTouch"
 import { DragDropContext } from "react-dnd"
 
-import { Socket } from "phoenix"
 import RetroChannel from "./services/retro_channel"
 import configureStore from "./configure_store"
 import { actions } from "./redux"
@@ -24,9 +23,7 @@ import { actions } from "./redux"
 document.addEventListener("DOMContentLoaded", () => {
   const { userToken, retroUUID } = window
 
-  const client = createClientConnection(userToken, retroUUID)
-
-  const retroChannel = new RetroChannel(client)
+  const retroChannel = new RetroChannel({ userToken, retroUUID })
   const store = configureStore(retroChannel)
 
   const actionz = bindActionCreators({ ...actions }, store.dispatch)
@@ -81,10 +78,3 @@ document.addEventListener("DOMContentLoaded", () => {
     )
   }
 })
-
-function createClientConnection(userToken, retroUUID) {
-  const socket = new Socket("/socket", { params: { userToken } })
-  socket.connect()
-  const client = socket.channel(`retro:${retroUUID}`)
-  return client
-}

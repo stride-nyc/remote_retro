@@ -184,14 +184,8 @@ describe("IdeaSubmissionForm component", () => {
 
   describe("when the state's `category` value changes", () => {
     it("shifts focus to the idea input", () => {
-      const root = document.createElement("div")
-      root.setAttribute("id", "root")
-      const body = global.document.querySelector("body")
-      body.appendChild(root)
-
       wrapper = mountWithConnectedSubcomponents(
-        <IdeaSubmissionForm {...defaultProps} />,
-        { attachTo: root }
+        <IdeaSubmissionForm {...defaultProps} />
       )
 
       const ideaInput = wrapper.find("input[name='idea']")
@@ -236,17 +230,14 @@ describe("IdeaSubmissionForm component", () => {
   describe(".componentWillReceiveProps", () => {
     describe("when the form has an alert object and the alert is then removed", () => {
       beforeEach(() => {
-        const root = document.createElement("div")
-        root.setAttribute("id", "root")
-        const body = global.document.querySelector("body")
-        body.appendChild(root)
-
-        wrapper = mountWithConnectedSubcomponents(<IdeaSubmissionForm
-          {...defaultProps}
-          currentUser={stubUser}
-          alert={{ herp: "derp" }}
-          users={users}
-        />, { attachTo: root })
+        wrapper = mountWithConnectedSubcomponents(
+          <IdeaSubmissionForm
+            {...defaultProps}
+            currentUser={stubUser}
+            alert={{ herp: "derp" }}
+            users={users}
+          />
+        )
       })
 
       it("passes the state's focus back to action item input", () => {
