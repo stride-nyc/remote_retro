@@ -169,6 +169,7 @@ describe("<GroupingIdeaCard />", () => {
         wrapper.setProps({ idea: { id: 9, ephemeralGroupingId: 11 } })
         const boxShadowAfter = wrapper.prop("style").boxShadow
 
+
         expect(boxShadowBefore).to.not.eql(boxShadowAfter)
       })
 
@@ -177,6 +178,7 @@ describe("<GroupingIdeaCard />", () => {
 
         wrapper.setProps({ idea: { id: 9, ephemeralGroupingId: 15 } })
         const boxShadowAfter = wrapper.prop("style").boxShadow
+
 
         expect(boxShadowBefore).to.eql(boxShadowAfter)
       })
@@ -220,8 +222,8 @@ describe("<GroupingIdeaCard />", () => {
       expect(actions.updateIdea).to.have.been.calledWithMatch(idea.id, {
         height: 0,
         width: 0,
-        x: 0,
-        y: 0,
+        x: undefined,
+        y: undefined,
       })
     })
   })
@@ -261,8 +263,8 @@ describe("<GroupingIdeaCard />", () => {
         expect(updateIdea).to.have.been.calledWithMatch(idea.id, {
           height: 0,
           width: 0,
-          x: 0,
-          y: 0,
+          x: undefined,
+          y: undefined,
         })
       })
     })

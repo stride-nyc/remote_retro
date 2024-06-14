@@ -7,7 +7,7 @@ const sharedConfig = require("./webpack.shared.config.js")
 const DEV_SERVER_PORT = 8080
 const OUTPUT_PUBLIC_PATH = `http://localhost:${DEV_SERVER_PORT}/`
 
-module.exports = webpackMerge.merge(sharedConfig,{
+module.exports = webpackMerge.smart({
   mode: "development",
   devtool: "source-map",
   entry: [
@@ -21,25 +21,18 @@ module.exports = webpackMerge.merge(sharedConfig,{
     hotUpdateMainFilename: "hot/hot-update.json",
   },
   devServer: {
-    client:{
-      overlay: true,
-      clientLogLevel: "none",
-    },
-    devMiddleware:{
-      publicPath: OUTPUT_PUBLIC_PATH,
-      writeToDisk: true,
-      stats: sharedConfig.stats,
-    },
-    static:{
-      contentBase: sharedConfig.output.path,
-    },
-    port: DEV_SERVER_PORT
+    port: DEV_SERVER_PORT,
+    contentBase: sharedConfig.output.path,
+    publicPath: OUTPUT_PUBLIC_PATH,
   },
   module: {
     rules: [
       {
-        test: /\.css$/i,
+        test: /\.css$/,
         use: [
+          {
+            loader: "css-hot-loader",
+          },
         ],
       },
     ],
@@ -48,4 +41,4 @@ module.exports = webpackMerge.merge(sharedConfig,{
     new WebpackNotifierPlugin({ skipFirstNotification: true }),
     new webpack.HotModuleReplacementPlugin(),
   ],
-})
+}, sharedConfig)

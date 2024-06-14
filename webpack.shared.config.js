@@ -2,6 +2,7 @@ const path = require("path")
 const webpack = require("webpack")
 const MiniCssExtractPlugin = require("mini-css-extract-plugin")
 const CopyWebpackPlugin = require("copy-webpack-plugin")
+const WriteFileWebpackPlugin = require("write-file-webpack-plugin")
 
 process.noDeprecation = true
 
@@ -31,25 +32,24 @@ module.exports = {
         exclude: /(node_modules|polyfills)/,
         use: [{
           loader: "babel-loader",
-          options: {
+          query: {
             cacheDirectory: true,
           },
         }],
       },
       {
-        test: /\.css$/i,
+        test: /\.css$/,
         use: [
           {
             loader: MiniCssExtractPlugin.loader,
           },
           {
             loader: "css-loader",
-            options: { 
+            options: {
+              camelCase: "only", // remove dashed class names from style object
+              modules: true,
               importLoaders: 1,
-              modules:{
-                exportLocalsConvention: "camelCaseOnly", // remove dashed class names from style object
-                localIdentName: "[name]__[local]___[hash:base64:5]",
-              }
+              localIdentName: "[name]__[local]___[hash:base64:5]",
             },
           },
           {
@@ -74,5 +74,6 @@ module.exports = {
       from: "./web/static/assets",
       ignore: "**/.DS_Store",
     }]),
+    new WriteFileWebpackPlugin([{ from: "./web/static/assets" }]),
   ],
 }

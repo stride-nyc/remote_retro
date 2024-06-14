@@ -1,12 +1,15 @@
-import { Presence } from "phoenix"
+import { Socket, Presence } from "phoenix"
 
 import UserActivity from "./user_activity"
 
 import { comprehensiveIdeaEditStateNullifications } from "../redux/ideas"
 
 class RetroChannel {
-  constructor(client) {
-    this.client = client
+  constructor({ userToken, retroUUID }) {
+    const socket = new Socket("/socket", { params: { userToken } })
+    socket.connect()
+
+    this.client = socket.channel(`retro:${retroUUID}`)
   }
 
   applyListenersWithDispatch(store, actions) {
