@@ -15,7 +15,7 @@ module.exports = webpackMerge.smart(sharedConfig, {
   devtool: "source-map",
   optimization: {
     minimizer: [
-      new TerserPlugin({ sourceMap: true, parallel: true }),
+      new TerserPlugin({ terserOptions: { sourceMap: true, parallel: true }}),
       new OptimizeCSSAssetsPlugin({}),
     ],
   },
