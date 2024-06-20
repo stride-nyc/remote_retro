@@ -3,8 +3,9 @@ pairs:
   tvh: Travis Vander Hoop; tvanderhoop
   jm: Jenn Miller; jmiller
   aj: Anurup Joseph; ajoseph
+  nj: Nathan Jones; njones
 email:
   prefix: pair
-  domain: stridenyc.com
+  domain: stride.build
   no_solo_prefix: true
-global: false  # Set to true for git-pair to change git configuration for all your projects
+global: false # Set to true for git-pair to change git configuration for all your projects
