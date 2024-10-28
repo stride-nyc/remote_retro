@@ -48,3 +48,6 @@ package-lock.json
 npm-debug.log*
 .eslintcache
 browser_logs.log
+
+# Ignore .vscode directory
+.vscode
