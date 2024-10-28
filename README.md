@@ -1,7 +1,7 @@
+# RemoteRetro
+
 [![CircleCI](https://circleci.com/gh/stride-nyc/remote_retro.svg?style=shield)](https://circleci.com/gh/stride-nyc/remote_retro)
 [![Coverage Status](https://coveralls.io/repos/github/stride-nyc/remote_retro/badge.svg)](https://coveralls.io/github/stride-nyc/remote_retro?branch=master)
-
-# RemoteRetro
 
 This repository houses the application code for [RemoteRetro.org](http://remoteretro.org), a free web app that allows distributed teams to conduct Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](https://www.stridenyc.com).
 
@@ -26,13 +26,13 @@ To see the project's current feature pipeline, simply install the wonderful [Zen
 
 ## Dev Environment Setup
 
-#### PostgreSQL
+### PostgreSQL
 
 - Install [Homebrew](http://brew.sh/)
   - **Note:** You'll be prompted to install the command-line developer tools. Do it.
 - Install PostgreSQL via Homebrew:
 
-```
+```bash
 brew install postgresql
 
   # (follow directions supplied by brew output upon successful installation)
@@ -60,11 +60,11 @@ psql -h localhost
 
 #### Google OAuth
 
-Authentication within Remote Retro relies on Google OAuth and the Google+ API. To set this up, navigate to the Google API console and create a new project: https://console.developers.google.com/apis
+Authentication within Remote Retro relies on Google OAuth and the Google+ API. To set this up, navigate to the Google API console and create a new project: <https://console.developers.google.com/apis>
 
 Next, click on "Credentials" in the left sidebar nav. On the right hand side, click on the "Create Credentials" button and select "OAuth client ID".
 
-**Settings**
+##### Settings
 
 - Application type: Web application
 - Authorized JavaScript origins: `http://localhost:4000`
@@ -72,7 +72,7 @@ Next, click on "Credentials" in the left sidebar nav. On the right hand side, cl
 
 Click on the Create button. Using the information Google provides, add the following lines to your profile and source (or open a new terminal).
 
-```
+```bash
 export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID="<Client Id>"
 export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET="<Client secret>"
 export REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI="http://localhost:4000/auth/google/callback"
@@ -80,7 +80,7 @@ export REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI="http://localhost:4000/auth/google
 
 Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis.com/overview) the Google+ API for your project.
 
-#### And Voila!
+#### And Voila
 
 Start Phoenix endpoint with `mix`
 
@@ -90,31 +90,31 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 To continually execute the backend unit tests on file change:
 
-```
+```bash
 mix test.watch
 ```
 
 To execute the backend unit tests manually:
 
-```
+```bash
 mix test
 ```
 
 To execute the end-to-end tests:
 
-```
+```bash
 mix e2e
 ```
 
 To continually execute the client-side unit tests on file change:
 
-```
+```bash
 yarn test:watch
 ```
 
 To execute the client-side unit tests manually:
 
-```
+```bash
 yarn test
 ```
 
@@ -122,7 +122,7 @@ yarn test
 
 To run the local eslint:
 
-```
+```bash
 mix lint
 ```
 
