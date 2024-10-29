@@ -51,3 +51,6 @@ browser_logs.log
 
 # Ignore .vscode directory
 .vscode
+
+# Ignore local dev config files like zsh
+.zshrc
