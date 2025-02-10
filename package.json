@@ -73,6 +73,7 @@
     "chai": "^4.2.0",
     "chai-change": "^2.1.2",
     "chai-uuid": "^1.0.6",
+    "chokidar": "^4.0.3",
     "cryptiles": "4.1.2",
     "css-hot-loader": "^1.4.3",
     "deep-freeze": "^0.0.1",
@@ -84,6 +85,7 @@
     "eslint-plugin-import": "^2.16.0",
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
+    "fsevents": "^2.3.3",
     "husky": "^0.14.3",
     "jsdom": "^9.9.1",
     "jsdom-global": "^2.1.1",
@@ -93,6 +95,7 @@
     "mock-local-storage": "^1.1.8",
     "sinon": "^1.17.7",
     "sinon-chai": "^2.14.0",
+    "watchpack": "^2.4.2",
     "webpack-dev-server": "^3.1.5",
     "webpack-notifier": "^1.7.0"
   }

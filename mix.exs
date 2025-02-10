@@ -6,7 +6,7 @@ defmodule RemoteRetro.Mixfile do
       app: :remote_retro,
       version: app_version(),
       default_task: "defaults",
-      elixir: "1.11.4",
+      elixir: "1.18.2",
       elixirc_paths: elixirc_paths(Mix.env()),
       compilers: [:phoenix, :gettext] ++ Mix.compilers(),
       build_embedded: Mix.env() == :prod,
@@ -39,13 +39,13 @@ defmodule RemoteRetro.Mixfile do
     [
       {:phoenix, "~> 1.6.11"},
       {:phoenix_pubsub, "~> 2.0"},
-      {:phoenix_ecto, "~> 4.4"},
-      {:ecto_sql, "~> 3.7.2"},
+      {:phoenix_ecto, "~> 4.5"},
+      {:ecto_sql, "~> 3.10"},
       {:ecto_psql_extras, "~> 0.7.4"},
       {:freedom_formatter, "~> 1.1", only: :dev},
       {:distillery, "~> 2.1.1", only: :prod},
       {:excoveralls, "~> 0.13.3", only: :test},
-      {:postgrex, "~> 0.15.13"},
+      {:postgrex, "~> 0.16.0"},
       {:phoenix_bakery, "~> 0.1", [only: :prod, runtime: false]},
       {:phoenix_html, "~> 3.2"},
       {:phoenix_live_dashboard, "~> 0.6.5"},
@@ -72,6 +72,7 @@ defmodule RemoteRetro.Mixfile do
       {:telemetry_poller, "~> 0.5.1"},
       {:telemetry_metrics, "~> 0.6"},
       {:jason, "~> 1.3"},
+      {:hackney, "~> 1.18"},
     ]
   end
 
