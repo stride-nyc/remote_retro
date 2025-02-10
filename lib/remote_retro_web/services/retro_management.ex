@@ -4,7 +4,7 @@ defmodule RemoteRetroWeb.RetroManagement do
   import Ecto.Query, only: [from: 2]
   import ShorterMaps
 
-  def update!(retro_id, ~m{ideasWithEphemeralGroupingIds} = context) do
+  def update!(retro_id, %{ideasWithEphemeralGroupingIds: ideasWithEphemeralGroupingIds} = context) do
     updates_map = persist_groups_with_associated_ideas(retro_id, ideasWithEphemeralGroupingIds)
 
     context = Map.delete(context, "ideasWithEphemeralGroupingIds")
@@ -62,7 +62,7 @@ defmodule RemoteRetroWeb.RetroManagement do
   end
 
   defp normalize_groups_and_ideas(groups) do
-    Enum.reduce(groups, %{groups: [], ideas: []}, fn(group, ~M{groups, ideas} = acc) ->
+    Enum.reduce(groups, %{groups: [], ideas: []}, fn(group, %{groups: groups, ideas: ideas} = acc) ->
       Map.merge(acc, %{groups: [group | groups], ideas: group.ideas ++ ideas})
     end)
   end

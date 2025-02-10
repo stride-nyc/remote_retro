@@ -4,7 +4,7 @@ defmodule RemoteRetro.ErrorViewTest do
   alias RemoteRetroWeb.ErrorView
 
   # Bring render/3 and render_to_string/3 for testing custom views
-  import Phoenix.View
+  use Phoenix.Template, root: "lib/remote_retro_web/templates", namespace: RemoteRetroWeb
 
   test "requests to a page that doesn't exist surfaces a 404" do
     assert render_to_string(ErrorView, "404.html", []) =~ "Page not found"

@@ -1,3 +1,3 @@
 defmodule RemoteRetroWeb.PageView do
-  use RemoteRetroWeb, :view
+  use Phoenix.Template, root: "lib/remote_retro_web/templates", namespace: RemoteRetroWeb
 end

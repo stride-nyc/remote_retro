@@ -1,5 +1,5 @@
 defmodule RemoteRetroWeb.LayoutView do
-  use RemoteRetroWeb, :view
+  use Phoenix.Template, root: "lib/remote_retro_web/templates", namespace: RemoteRetroWeb
 
   def app_js(conn) do
     case Application.get_env(:remote_retro, :env) do
