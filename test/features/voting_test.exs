@@ -11,7 +11,7 @@ defmodule VotingTest do
 
     @tag [
       retro_stage: "voting",
-      idea: %Idea{category: @category, body: "pacing well"},
+      idea: %Idea{category: @category, body: "pacing well"}
     ]
     test "incrementing/decrementing an idea's vote count across sessions",
          ~M{retro, session: facilitator_session_one, facilitator} do
@@ -43,7 +43,7 @@ defmodule VotingTest do
 
     @tag [
       retro_stage: "groups-labeling",
-      idea: %Idea{category: @category, body: "Frequent Pairing"},
+      idea: %Idea{category: @category, body: "Frequent Pairing"}
     ]
     test "facilitator broadcasting group 'label' changes to other clients",
          ~M{retro, session: facilitator_session, non_facilitator} do
@@ -59,7 +59,7 @@ defmodule VotingTest do
 
     @tag [
       retro_stage: "groups-voting",
-      idea: %Idea{category: @category, body: "Frequent Pairing"},
+      idea: %Idea{category: @category, body: "Frequent Pairing"}
     ]
     test "incrementing a group's vote count across sessions",
          ~M{retro, session: facilitator_session_one, facilitator} do
@@ -87,7 +87,7 @@ defmodule VotingTest do
     assert_has(session, Query.css(".idea-group", text: "#{vote_count}"))
   end
 
-  defp submit_group_label_change(session, [with: text]) do
+  defp submit_group_label_change(session, with: text) do
     group_input = Query.css(".idea-group input[type='text']")
     session |> fill_in(group_input, with: text)
 

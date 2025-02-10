@@ -9,14 +9,17 @@ defmodule ActionItemReviewInDashboardTest do
 
     @tag [
       idea: %Idea{category: "action-item", body: "review action items from retro after standup"},
-      retro_stage: "action-items",
+      retro_stage: "action-items"
     ]
     test "those action items are reviewable in their dashboard", ~M{session: facilitator_session} do
       facilitator_session = visit(facilitator_session, "/retros")
 
       click(facilitator_session, Query.css(".action-items-label"))
 
-      assert_has(facilitator_session, Query.css(".nested-action-items-list", text: "review action items from retro after standup"))
+      assert_has(
+        facilitator_session,
+        Query.css(".nested-action-items-list", text: "review action items from retro after standup")
+      )
     end
   end
 

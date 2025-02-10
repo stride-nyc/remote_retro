@@ -10,7 +10,7 @@ defmodule Mix.Tasks.Preflight do
     required_envars = [
       "REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID",
       "REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET",
-      "REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI",
+      "REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI"
     ]
 
     missing_envars = Enum.reject(required_envars, &System.get_env/1)

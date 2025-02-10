@@ -27,7 +27,7 @@ config :remote_retro, :extra_headers, ""
 
 config :oauth2,
   serializers: %{
-    "application/json" => Jason,
+    "application/json" => Jason
   }
 
 config :remote_retro,

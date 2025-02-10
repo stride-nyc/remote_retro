@@ -1,5 +1,4 @@
 defmodule RemoteRetroWeb.EctoSchemaPresenter do
-
   @static_ecto_schema_metadata_attributes [:__meta__, :__struct__]
 
   def drop_metadata(ecto_schema_struct) do

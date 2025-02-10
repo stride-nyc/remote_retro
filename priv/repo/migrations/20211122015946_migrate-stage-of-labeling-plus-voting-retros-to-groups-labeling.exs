@@ -4,14 +4,20 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.Migrate-stage-of-labeling-plus-vo
   import Ecto.Query, only: [from: 2]
 
   def up do
-    query = from r in Retro,
-       where: r.stage == "labeling-plus-voting"
+    query =
+      from(r in Retro,
+        where: r.stage == "labeling-plus-voting"
+      )
+
     retros_needing_updates = Repo.all(query) |> Repo.preload([:votes])
 
-    retros_to_set_to_groups_labeling = Enum.filter(retros_needing_updates, fn retro -> Kernel.length(retro.votes) == 0 end)
-    retros_to_set_to_groups_voting = Enum.filter(retros_needing_updates, fn retro -> Kernel.length(retro.votes) !== 0 end)
+    retros_to_set_to_groups_labeling =
+      Enum.filter(retros_needing_updates, fn retro -> Kernel.length(retro.votes) == 0 end)
 
-    Repo.transaction fn ->
+    retros_to_set_to_groups_voting =
+      Enum.filter(retros_needing_updates, fn retro -> Kernel.length(retro.votes) !== 0 end)
+
+    Repo.transaction(fn ->
       Enum.each(retros_to_set_to_groups_labeling, fn retro ->
         retro
         |> Retro.changeset(%{stage: "groups-labeling"})
@@ -23,12 +29,15 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.Migrate-stage-of-labeling-plus-vo
         |> Retro.changeset(%{stage: "groups-voting"})
         |> Repo.update!()
       end)
-    end
+    end)
   end
 
   def down do
-    query = from r in Retro,
-       where: r.stage in ["groups-labeling", "groups-voting"]
+    query =
+      from(r in Retro,
+        where: r.stage in ["groups-labeling", "groups-voting"]
+      )
+
     retros_needing_updates = Repo.all(query)
 
     Enum.each(retros_needing_updates, fn retro ->

@@ -2,7 +2,6 @@ defmodule RemoteRetroWeb.RetroManagement do
   alias RemoteRetro.{Retro, User, Group, Repo, Idea, Emails, Mailer}
 
   import Ecto.Query, only: [from: 2]
-  import ShorterMaps
 
   def update!(retro_id, %{ideasWithEphemeralGroupingIds: ideasWithEphemeralGroupingIds} = context) do
     updates_map = persist_groups_with_associated_ideas(retro_id, ideasWithEphemeralGroupingIds)
@@ -31,22 +30,23 @@ defmodule RemoteRetroWeb.RetroManagement do
   end
 
   defp persist_groups_with_associated_ideas(retro_id, ideasWithEphemeralGroupingIds) do
-    all_persisted_ideas = Repo.all(from i in Idea, where: i.retro_id == ^retro_id)
+    all_persisted_ideas = Repo.all(from(i in Idea, where: i.retro_id == ^retro_id))
     all_persisted_ideas_by_id = Enum.reduce(all_persisted_ideas, %{}, fn idea, acc -> Map.put(acc, idea.id, idea) end)
 
-    generate_leader_id = fn (idea) -> idea["ephemeralGroupingId"] || idea["id"] end
+    generate_leader_id = fn idea -> idea["ephemeralGroupingId"] || idea["id"] end
     grouped_by_leader_id = Enum.group_by(ideasWithEphemeralGroupingIds, generate_leader_id)
 
     {:ok, groups} =
       Repo.transaction(fn ->
-        Enum.map(grouped_by_leader_id, fn ({_leader_id, ideas_in_group}) ->
-          ideas_in_group_as_changesets = ensure_ideas_in_group_have_latest_ephemeral_coordinates(
-            ideas_in_group,
-            all_persisted_ideas_by_id
-          )
+        Enum.map(grouped_by_leader_id, fn {_leader_id, ideas_in_group} ->
+          ideas_in_group_as_changesets =
+            ensure_ideas_in_group_have_latest_ephemeral_coordinates(
+              ideas_in_group,
+              all_persisted_ideas_by_id
+            )
 
           %Group{}
-          |> Ecto.Changeset.change(%{ ideas: ideas_in_group_as_changesets })
+          |> Ecto.Changeset.change(%{ideas: ideas_in_group_as_changesets})
           |> Repo.insert!(returning: true)
         end)
       end)
@@ -62,7 +62,7 @@ defmodule RemoteRetroWeb.RetroManagement do
   end
 
   defp normalize_groups_and_ideas(groups) do
-    Enum.reduce(groups, %{groups: [], ideas: []}, fn(group, %{groups: groups, ideas: ideas} = acc) ->
+    Enum.reduce(groups, %{groups: [], ideas: []}, fn group, %{groups: groups, ideas: ideas} = acc ->
       Map.merge(acc, %{groups: [group | groups], ideas: group.ideas ++ ideas})
     end)
   end

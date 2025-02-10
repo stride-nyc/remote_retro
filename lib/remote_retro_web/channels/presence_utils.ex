@@ -11,6 +11,7 @@ defmodule RemoteRetroWeb.PresenceUtils do
       {:ok, user} ->
         user = %User{user | online_at: :os.system_time()}
         Presence.track(socket, assigns.user_token, user)
+
       {:error, _} ->
         IO.puts(:stderr, "Stale or invalid user presence token")
     end

@@ -11,6 +11,7 @@ defmodule RemoteRetroWeb.Plugs.SetCurrentUserOnAssignsIfAuthenticated do
     case get_session(conn, :current_user_id) do
       nil ->
         conn
+
       current_user_id ->
         current_user = Repo.get!(User, current_user_id)
         assign(conn, :current_user, current_user)

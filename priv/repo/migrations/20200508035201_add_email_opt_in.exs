@@ -3,7 +3,7 @@ defmodule RemoteRetro.Repo.Migrations.AddEmailOptIn do
 
   def change do
     alter table(:users) do
-      add :email_opt_in, :boolean
+      add(:email_opt_in, :boolean)
     end
   end
 end

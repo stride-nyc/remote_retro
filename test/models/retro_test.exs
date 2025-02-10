@@ -42,7 +42,7 @@ defmodule RemoteRetro.RetroTest do
         votes: [],
         users: [],
         groups: [],
-        participations: [],
+        participations: []
       }
 
       encoded = Jason.encode!(retro)

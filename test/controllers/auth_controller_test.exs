@@ -53,10 +53,11 @@ defmodule RemoteRetro.AuthControllerTest do
 
   describe ".logout" do
     test "clears the session", ~M{conn} do
-      conn = Plug.Test.init_test_session(conn, %{
-        "current_user_id" => 1,
-        "current_user_given_name" => "some string"
-      })
+      conn =
+        Plug.Test.init_test_session(conn, %{
+          "current_user_id" => 1,
+          "current_user_given_name" => "some string"
+        })
 
       session_attributes_count_before = get_session_attribute_count(conn)
       assert session_attributes_count_before == 2

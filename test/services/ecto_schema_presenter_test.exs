@@ -31,8 +31,8 @@ defmodule RemoteRetro.EctoSchemaPresenterTest do
 
     test "removal of any references to unloaded associations", ~M{retro_schema_struct} do
       assert %Retro{
-        action_items: %Ecto.Association.NotLoaded{},
-      } = retro_schema_struct
+               action_items: %Ecto.Association.NotLoaded{}
+             } = retro_schema_struct
 
       result = EctoSchemaPresenter.drop_metadata(retro_schema_struct)
 

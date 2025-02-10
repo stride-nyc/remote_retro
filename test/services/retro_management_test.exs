@@ -8,7 +8,6 @@ defmodule RemoteRetro.RetroManagementTest do
   import ShorterMaps
   import TestHelpers
 
-
   describe "update!/2" do
     test "updates the retro with the given id with the given params", ~M{retro} do
       assert retro.stage == "idea-generation"
@@ -79,107 +78,123 @@ defmodule RemoteRetro.RetroManagementTest do
 
   @ideas [
     %Idea{category: "sad", body: "splinters in the codebase"},
-    %Idea{category: "sad", body: "death by moonlight"},
+    %Idea{category: "sad", body: "death by moonlight"}
   ]
 
   describe "update!/2 when passing ideas with ephemeral grouping ids" do
     setup [:persist_ideas_for_retro]
 
     @tag [
-      ideas: @ideas,
+      ideas: @ideas
     ]
 
     test "the persistence of idea groups for each *unique* ephemeral grouping id", ~M{retro, ideas} do
       [idea_one, idea_two] = ideas
 
-      ideas_with_ephemeral_grouping_ids = [%{
-        "id" => idea_one.id,
-        "ephemeralGroupingId" => idea_one.id,
-      }, %{
-        "id" => idea_two.id,
-        "ephemeralGroupingId" => idea_one.id,
-      }]
+      ideas_with_ephemeral_grouping_ids = [
+        %{
+          "id" => idea_one.id,
+          "ephemeralGroupingId" => idea_one.id
+        },
+        %{
+          "id" => idea_two.id,
+          "ephemeralGroupingId" => idea_one.id
+        }
+      ]
 
       RetroManagement.update!(retro.id, %{
         "stage" => "voting",
-        "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids,
+        "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids
       })
 
       assert Repo.aggregate(Group, :count, :id) == 1
     end
 
     @tag [
-      ideas: @ideas,
+      ideas: @ideas
     ]
 
     test "persistence of a unique group for any ideas *lacking* an ephemeral id", ~M{retro, ideas} do
       [idea_one | _tail] = ideas
 
-      ideas_lacking_ephemeral_grouping_ids = [%{
-        "id" => idea_one.id,
-      }]
+      ideas_lacking_ephemeral_grouping_ids = [
+        %{
+          "id" => idea_one.id
+        }
+      ]
 
       RetroManagement.update!(retro.id, %{
         "stage" => "voting",
-        "ideasWithEphemeralGroupingIds" => ideas_lacking_ephemeral_grouping_ids,
+        "ideasWithEphemeralGroupingIds" => ideas_lacking_ephemeral_grouping_ids
       })
 
       assert Repo.aggregate(Group, :count, :id) == 1
     end
 
     @tag [
-      ideas: @ideas,
+      ideas: @ideas
     ]
 
     test "updates the idea records so that each knows its group", ~M{retro, ideas} do
       [idea_one | _tail] = ideas
-      ideas_with_ephemeral_grouping_ids = [%{
-        "id" => idea_one.id,
-        "ephemeralGroupingId" => idea_one.id,
-      }]
 
-      %{groups: [persisted_group], ideas: [updated_idea]} = RetroManagement.update!(retro.id, %{
-        "stage" => "voting",
-        "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids,
-      })
+      ideas_with_ephemeral_grouping_ids = [
+        %{
+          "id" => idea_one.id,
+          "ephemeralGroupingId" => idea_one.id
+        }
+      ]
+
+      %{groups: [persisted_group], ideas: [updated_idea]} =
+        RetroManagement.update!(retro.id, %{
+          "stage" => "voting",
+          "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids
+        })
 
       assert persisted_group.id == updated_idea.group_id
     end
 
     @tag [
-      ideas: @ideas,
+      ideas: @ideas
     ]
 
     test "updates the idea records with the given coordinates, casting integers to floats", ~M{retro, ideas} do
       [idea_one | _tail] = ideas
-      ideas_with_ephemeral_grouping_ids = [%{
-        "id" => idea_one.id,
-        "ephemeralGroupingId" => idea_one.id,
-        "x" => 54,
-        "y" => 104.98,
-      }]
 
-      %{ideas: [updated_idea]} = RetroManagement.update!(retro.id, %{
-        "stage" => "voting",
-        "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids,
-      })
+      ideas_with_ephemeral_grouping_ids = [
+        %{
+          "id" => idea_one.id,
+          "ephemeralGroupingId" => idea_one.id,
+          "x" => 54,
+          "y" => 104.98
+        }
+      ]
+
+      %{ideas: [updated_idea]} =
+        RetroManagement.update!(retro.id, %{
+          "stage" => "voting",
+          "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids
+        })
 
       assert %{x: 54.0, y: 104.98} = updated_idea
     end
 
     @tag [
-      ideas: @ideas,
+      ideas: @ideas
     ]
     test "updates the retro record's attributes", ~M{retro, ideas} do
       [idea_one | _tail] = ideas
-      ideas_with_ephemeral_grouping_ids = [%{
-        "id" => idea_one.id,
-        "ephemeralGroupingId" => idea_one.id,
-      }]
+
+      ideas_with_ephemeral_grouping_ids = [
+        %{
+          "id" => idea_one.id,
+          "ephemeralGroupingId" => idea_one.id
+        }
+      ]
 
       RetroManagement.update!(retro.id, %{
         "stage" => "voting",
-        "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids,
+        "ideasWithEphemeralGroupingIds" => ideas_with_ephemeral_grouping_ids
       })
 
       retro = Repo.get!(Retro, retro.id)

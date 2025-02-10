@@ -3,13 +3,13 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.Remove-not-null-constraint-from-u
 
   def up do
     alter table(:users) do
-      modify :family_name, :string, null: true
+      modify(:family_name, :string, null: true)
     end
   end
 
   def down do
     alter table(:users) do
-      modify :family_name, :string, null: false
+      modify(:family_name, :string, null: false)
     end
   end
 end

@@ -8,7 +8,7 @@ defmodule CategoryChangeViaDragAndDrop do
     setup [:persist_idea_for_retro]
 
     @tag [
-      idea: %Idea{category: "sad", body: "no linter"},
+      idea: %Idea{category: "sad", body: "no linter"}
     ]
     test "users can drag the idea from one column to another", ~M{retro, session} do
       session = visit_retro(session, retro)

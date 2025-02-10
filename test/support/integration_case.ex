@@ -43,7 +43,7 @@ defmodule RemoteRetro.IntegrationCase do
     retro =
       Repo.insert!(%Retro{
         stage: context[:retro_stage] || "idea-generation",
-        facilitator_id: facilitator.id,
+        facilitator_id: facilitator.id
       })
 
     session = new_authenticated_browser_session(facilitator, metadata)

@@ -6,13 +6,13 @@ defmodule RemoteRetro.PresenceTest do
     "9sah2y" => %{
       metas: [
         %{
-          online_at: 1500,
+          online_at: 1500
         },
         %{
-          online_at: 300,
+          online_at: 300
         }
-      ],
-    },
+      ]
+    }
   }
 
   describe "Presence.fetch/2" do
@@ -38,14 +38,14 @@ defmodule RemoteRetro.PresenceTest do
               email: "hilly@dilly.com",
               gender: "female",
               name: "Stub User",
-              picture: "stub",
+              picture: "stub"
             },
             %{
               :online_at => 10,
-              "given_name" => "other name",
+              "given_name" => "other name"
             }
-          ],
-        },
+          ]
+        }
       }
 
       result = Presence.fetch("retro:some_retro", presence)

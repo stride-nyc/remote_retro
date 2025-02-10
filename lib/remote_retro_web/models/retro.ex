@@ -17,7 +17,7 @@ defmodule RemoteRetro.Retro do
     has_many(:groups, through: [:ideas, :group])
     has_many(:users, through: [:participations, :user])
 
-    field(:format, :string, read_after_writes: true, default: RetroFormats.happy_sad_confused)
+    field(:format, :string, read_after_writes: true, default: RetroFormats.happy_sad_confused())
     field(:stage, :string, read_after_writes: true)
     field(:facilitator_id, :id, read_after_writes: true)
 
@@ -29,8 +29,8 @@ defmodule RemoteRetro.Retro do
     |> cast(params, [:stage, :facilitator_id, :format])
     |> validate_required(@required_fields)
     |> validate_inclusion(:format, [
-      RetroFormats.happy_sad_confused,
-      RetroFormats.start_stop_continue,
+      RetroFormats.happy_sad_confused(),
+      RetroFormats.start_stop_continue()
     ])
     |> validate_inclusion(:stage, [
       "lobby",
@@ -43,7 +43,7 @@ defmodule RemoteRetro.Retro do
       "action-items",
       "groups-action-items",
       "closed",
-      "groups-closed",
+      "groups-closed"
     ])
   end
 end

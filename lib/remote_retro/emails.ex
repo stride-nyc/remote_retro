@@ -67,9 +67,7 @@ defmodule RemoteRetro.Emails do
       <p>Please find the action items from your retrospective below:</p>
       #{html_action_item_list(action_items)}
 
-      <p><strong>Note: </strong>If you'd like to review the retro in its entirety, you can always revisit the retro board at its <a href="#{
-      retro_link
-    }">unique link</a>.</p>
+      <p><strong>Note: </strong>If you'd like to review the retro in its entirety, you can always revisit the retro board at its <a href="#{retro_link}">unique link</a>.</p>
       <hr>
       <p><small>RemoteRetro is open source software, sponsored and maintained by <a href="https://www.stridenyc.com">Stride Consulting</a>. If you enjoy using it, please take a moment to star the repo at <a href="https://github.com/stride-nyc/remote_retro">https://github.com/stride-nyc/remote_retro</a></small></p>
     </div>

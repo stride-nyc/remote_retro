@@ -15,8 +15,7 @@ defmodule RemoteRetro do
       # Start the endpoint when the application starts
       RemoteRetroWeb.Presence,
       RemoteRetroWeb.Endpoint,
-
-      {Cluster.Supervisor, [Application.get_env(:libcluster, :topologies), [name: RemoteRetro.ClusterSupervisor]]},
+      {Cluster.Supervisor, [Application.get_env(:libcluster, :topologies), [name: RemoteRetro.ClusterSupervisor]]}
 
       # Start your own worker by calling: RemoteRetro.Worker.start_link(arg1, arg2, arg3)
       # worker(RemoteRetro.Worker, [arg1, arg2, arg3]),

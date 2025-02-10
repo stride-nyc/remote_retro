@@ -3,13 +3,13 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.Alter-users-url-fields-from-varch
 
   def up do
     alter table(:users) do
-      modify :picture, :text
+      modify(:picture, :text)
     end
   end
 
   def down do
     alter table(:users) do
-      modify :picture, :string
+      modify(:picture, :string)
     end
   end
 end

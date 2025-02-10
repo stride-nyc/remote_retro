@@ -2,8 +2,6 @@ defmodule RemoteRetroWeb.VotingHandlers do
   alias RemoteRetro.{Repo, Vote}
   import Phoenix.Channel
 
-  import ShorterMaps
-
   @vote_submitted "vote_submitted"
   @vote_retracted "vote_retracted"
 
@@ -22,7 +20,7 @@ defmodule RemoteRetroWeb.VotingHandlers do
     {:reply, :ok, socket}
   rescue
     exception ->
-      Honeybadger.notify(exception, metadata:  %{handler: @vote_retracted}, stacktrace: __STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @vote_retracted}, stacktrace: __STACKTRACE__)
       {:reply, :error, socket}
   end
 

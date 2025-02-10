@@ -21,11 +21,12 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def persist_ideas_for_retro(~M{ideas} = context) do
-    ideas = Enum.map(ideas, fn idea ->
-      context = Map.put(context, :idea, idea)
-      context = persist_idea_for_retro(context)
-      context[:idea]
-    end)
+    ideas =
+      Enum.map(ideas, fn idea ->
+        context = Map.put(context, :idea, idea)
+        context = persist_idea_for_retro(context)
+        context[:idea]
+      end)
 
     Map.put(context, :ideas, ideas)
   end
@@ -57,10 +58,10 @@ defmodule RemoteRetro.TestHelpers do
 
   defp persist_idea(user, idea, retro, options \\ [assignee_id: nil]) do
     %Idea{
-      idea |
-      assignee_id: options[:assignee_id],
-      retro_id: retro.id,
-      user_id: user.id,
+      idea
+      | assignee_id: options[:assignee_id],
+        retro_id: retro.id,
+        user_id: user.id
     }
     |> Repo.insert!()
   end
@@ -75,7 +76,7 @@ defmodule RemoteRetro.TestHelpers do
     idea =
       Idea
       |> Repo.get!(idea.id)
-      |> Idea.changeset(%{ group_id: group.id })
+      |> Idea.changeset(%{group_id: group.id})
       |> Repo.update!(returning: true)
 
     Map.put(context, :idea, idea)
@@ -155,7 +156,8 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def drag_idea(session, idea_text, from: from, to: to) do
-    execute_script(session,
+    execute_script(
+      session,
       """
       var allDraggableIdeas = Array.from(
         document.querySelectorAll("#{from} div[draggable=true]")
@@ -173,7 +175,8 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def drag_idea(session, idea_text, to_center_of: droppable_selector) do
-    execute_script(session,
+    execute_script(
+      session,
       """
       #{define_simulate_drag_and_drop_convenience_method()}
 

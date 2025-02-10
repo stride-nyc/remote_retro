@@ -4,7 +4,7 @@ defmodule StageProgressionRealtimeUpdateTest do
   import ShorterMaps
 
   @tag [
-    retro_stage: "prime-directive",
+    retro_stage: "prime-directive"
   ]
   test "realtime stage progression for connected users", ~M{retro, session: facilitator_session, non_facilitator} do
     participant_session = new_authenticated_browser_session(non_facilitator)

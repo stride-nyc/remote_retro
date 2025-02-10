@@ -3,7 +3,7 @@ defmodule RemoteRetro.Repo.Migrations.AddStageColumnToRetros do
 
   def change do
     alter table(:retros) do
-      add :stage, :string, default: "idea-generation"
+      add(:stage, :string, default: "idea-generation")
     end
   end
 end

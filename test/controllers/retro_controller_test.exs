@@ -17,9 +17,9 @@ defmodule RemoteRetro.RetroControllerTest do
       current_user_id = get_session(conn, "current_user_id")
 
       assert %Retro{
-        facilitator_id: ^current_user_id,
-        format: "Start/Stop/Continue",
-      } = retro
+               facilitator_id: ^current_user_id,
+               format: "Start/Stop/Continue"
+             } = retro
     end
 
     test "POST requests to /retros redirect to a newly created retro", ~M{conn} do

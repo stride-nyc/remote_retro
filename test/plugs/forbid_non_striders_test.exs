@@ -30,8 +30,8 @@ defmodule ForbidNonStridersTest do
     conn_after = ForbidNonStriders.call(conn_before, @stub_options)
 
     assert %Plug.Conn{
-      state: :sent,
-      status: 403,
-    } = conn_after
+             state: :sent,
+             status: 403
+           } = conn_after
   end
 end

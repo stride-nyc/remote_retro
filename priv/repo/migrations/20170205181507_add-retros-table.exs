@@ -3,7 +3,7 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.Add-retros-table" do
 
   def change do
     create table(:retros, primary_key: false) do
-      add :id, :uuid, primary_key: true
+      add(:id, :uuid, primary_key: true)
 
       timestamps()
     end

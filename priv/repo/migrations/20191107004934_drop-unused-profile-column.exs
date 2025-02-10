@@ -3,13 +3,13 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.Drop-unused-profile-column" do
 
   def up do
     alter table(:users) do
-      remove :profile
+      remove(:profile)
     end
   end
 
   def down do
     alter table(:users) do
-      add :profile, :string
+      add(:profile, :string)
     end
   end
 end

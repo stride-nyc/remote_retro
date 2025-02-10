@@ -8,13 +8,13 @@ defmodule RemoteRetro.Mixfile do
       default_task: "defaults",
       elixir: "1.18.2",
       elixirc_paths: elixirc_paths(Mix.env()),
-      compilers: [:phoenix, :gettext] ++ Mix.compilers(),
+      compilers: Mix.compilers(),
       build_embedded: Mix.env() == :prod,
       start_permanent: Mix.env() == :prod,
       test_coverage: [tool: ExCoveralls],
       preferred_cli_env: [coveralls: :test],
       aliases: aliases(),
-      deps: deps(),
+      deps: deps()
     ]
   end
 
@@ -26,7 +26,7 @@ defmodule RemoteRetro.Mixfile do
   end
 
   defp extra_applications(:test), do: extra_applications(:default) -- [:os_mon]
-  defp extra_applications(_),     do: [:logger, :os_mon]
+  defp extra_applications(_), do: [:logger, :os_mon]
 
   # Specifies which paths to compile per environment.
   defp elixirc_paths(:test), do: ["lib", "web", "test/support"]
@@ -72,7 +72,7 @@ defmodule RemoteRetro.Mixfile do
       {:timex, ">=0.0.0"},
       {:telemetry_poller, ">=0.0.0"},
       {:telemetry_metrics, ">=0.0.0"},
-      {:jason, ">=0.0.0"},
+      {:jason, ">=0.0.0"}
     ]
   end
 
@@ -88,7 +88,7 @@ defmodule RemoteRetro.Mixfile do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test --exclude feature_test"],
       e2e: ["end_to_end"],
-      defaults: ["preflight", "phx.server"],
+      defaults: ["preflight", "phx.server"]
     ]
   end
 

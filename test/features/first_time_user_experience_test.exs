@@ -4,7 +4,6 @@ defmodule FirstTimeUserExperienceTest do
 
   import ShorterMaps
 
-
   describe "a user with no prior retro experience" do
     setup [:remove_any_prior_participations_in_retros]
 
@@ -18,7 +17,7 @@ defmodule FirstTimeUserExperienceTest do
 
   defp remove_any_prior_participations_in_retros(%{facilitator: user} = context) do
     user_id = user.id
-    from(p in Participation, where: p.user_id == ^user_id) |> Repo.delete_all
+    from(p in Participation, where: p.user_id == ^user_id) |> Repo.delete_all()
 
     context
   end

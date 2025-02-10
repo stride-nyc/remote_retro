@@ -24,10 +24,10 @@ defmodule RemoteRetro.OAuth.Client.InMemory do
         expires_at: 1_487_810_967,
         other_params: %{"id_token" => "tanner.mctickels"},
         refresh_token: nil,
-        token_type: "Bearer",
+        token_type: "Bearer"
       },
       token_method: :post,
-      token_url: "https://accounts.google.com/o/oauth2/token",
+      token_url: "https://accounts.google.com/o/oauth2/token"
     }
   end
 
@@ -47,9 +47,9 @@ defmodule RemoteRetro.OAuth.Client.InMemory do
         {"x-xss-protection", "1; mode=block"},
         {"content-length", "438"},
         {"server", "GSE"},
-        {"alt-svc", "quic=\":443\"; ma=2592000; v=\"35,34\""},
+        {"alt-svc", "quic=\":443\"; ma=2592000; v=\"35,34\""}
       ],
-      status_code: 200,
+      status_code: 200
     }
   end
 end

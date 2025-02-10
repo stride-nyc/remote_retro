@@ -8,12 +8,12 @@ defmodule RemoteRetro.User do
     :given_name,
     :name,
     :picture,
-    :last_login,
+    :last_login
   ]
 
   @optional_fields [
     :family_name,
-    :email_opt_in,
+    :email_opt_in
   ]
 
   @derive {Jason.Encoder, except: [:__meta__, :participations, :retros, :google_user_info]}
@@ -69,7 +69,7 @@ defmodule RemoteRetro.User do
   defp build_from_oauth_data(google_user_info) do
     user_params = %{
       "google_user_info" => google_user_info,
-      "last_login" => DateTime.utc_now(),
+      "last_login" => DateTime.utc_now()
     }
 
     google_user_info = supply_given_name_fallback(google_user_info)
@@ -79,7 +79,9 @@ defmodule RemoteRetro.User do
 
   defp supply_given_name_fallback(google_user_info) do
     case Map.has_key?(google_user_info, "given_name") do
-      true -> google_user_info
+      true ->
+        google_user_info
+
       false ->
         email_address = google_user_info["email"]
 

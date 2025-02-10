@@ -9,6 +9,7 @@ defmodule RemoteRetroWeb.Plugs.ForbidNonStriders do
     case current_user.email =~ ~r/@stridenyc\.com$/ do
       true ->
         conn
+
       false ->
         conn
         |> put_resp_content_type("text/plain")

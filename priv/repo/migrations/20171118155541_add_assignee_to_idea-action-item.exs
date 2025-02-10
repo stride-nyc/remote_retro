@@ -3,10 +3,13 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.AddAssigneeToIdea-action-item" do
 
   def change do
     alter table(:ideas) do
-      add :assignee_id, references(:users, [
-        column: :id,
-        on_delete: :nothing
-      ])
+      add(
+        :assignee_id,
+        references(:users,
+          column: :id,
+          on_delete: :nothing
+        )
+      )
     end
   end
 end

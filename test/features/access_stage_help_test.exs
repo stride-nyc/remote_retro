@@ -4,7 +4,7 @@ defmodule AccessStageHelpTest do
   import ShorterMaps
 
   @tag [
-    retro_stage: "action-items",
+    retro_stage: "action-items"
   ]
   test "accessing stage info", ~M{retro, session} do
     session = visit_retro(session, retro)

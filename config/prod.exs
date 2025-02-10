@@ -18,7 +18,8 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
   static_url: [scheme: "https", host: "${CLOUDFRONT_DOMAIN}", port: 443],
   force_ssl: [rewrite_on: [:x_forwarded_proto], hsts: true],
   cache_static_manifest: "priv/static/cache_manifest.json",
-  cache_manifest_skip_vsn: true, # https://hexdocs.pm/phoenix/Phoenix.Endpoint.html#module-runtime-configuration
+  # https://hexdocs.pm/phoenix/Phoenix.Endpoint.html#module-runtime-configuration
+  cache_manifest_skip_vsn: true,
   secret_key_base: "${SECRET_KEY_BASE}",
   live_view: [signing_salt: "${SIGNING_SALT}"],
   root: ".",
@@ -48,10 +49,11 @@ config :remote_retro, :extra_headers, "SameSite=None"
 
 config :remote_retro, live_dashboard_repos: [RemoteRetro.Repo]
 
-config :phoenix, static_compressors: [
-  PhoenixBakery.Gzip,
-  PhoenixBakery.Brotli,
-]
+config :phoenix,
+  static_compressors: [
+    PhoenixBakery.Gzip,
+    PhoenixBakery.Brotli
+  ]
 
 config :honeybadger,
   api_key: "${HONEYBADGER_API_KEY}",

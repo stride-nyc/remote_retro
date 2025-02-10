@@ -3,7 +3,7 @@ defmodule RemoteRetro.Repo.Migrations.AddVotesToIdeas do
 
   def change do
     alter table(:ideas) do
-      add :vote_count, :integer
+      add(:vote_count, :integer)
     end
   end
 end

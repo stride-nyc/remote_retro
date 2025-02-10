@@ -188,7 +188,12 @@ defmodule RemoteRetro.RetroChannelTest do
 
       assert_reply(ref, :ok)
 
-      assert_broadcast_to_other_clients_only("idea_committed", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
+      assert_broadcast_to_other_clients_only("idea_committed", %{
+        category: "happy",
+        body: "we're pacing well",
+        id: _,
+        user_id: ^user_id
+      })
     end
 
     test "rolls back the idea insertion if broadcast_from!/3 fails", ~M{socket, facilitator} do
@@ -496,8 +501,8 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_reply(ref, :error, %{
         unhandled_message: %{
           type: "preposterous_mess@ge_",
-          payload: %{"some" => "string"},
-        },
+          payload: %{"some" => "string"}
+        }
       })
     end
   end

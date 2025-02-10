@@ -1,6 +1,5 @@
 defmodule RemoteRetroWeb.IdeationHandlers do
   import Phoenix.Channel
-  import ShorterMaps
 
   use SlenderChannel
 
@@ -77,7 +76,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
       category: category,
       retro_id: socket.assigns.retro_id,
       user_id: userId,
-      assignee_id: assigneeId,
+      assignee_id: assigneeId
     }
     |> Idea.changeset()
     |> Repo.insert!()

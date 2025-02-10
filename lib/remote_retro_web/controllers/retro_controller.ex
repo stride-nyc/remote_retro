@@ -14,7 +14,7 @@ defmodule RemoteRetroWeb.RetroController do
     render(conn, "index.html", %{
       current_user_given_name: current_user_given_name,
       retros: recent_retros_with_action_items_preloaded(current_user_id),
-      title: "Dashboard | RemoteRetro.org",
+      title: "Dashboard | RemoteRetro.org"
     })
   end
 
@@ -28,7 +28,7 @@ defmodule RemoteRetroWeb.RetroController do
       body_class: "retro-show-page",
       user_token: Token.sign(conn, "user", current_user),
       retro_uuid: params["id"],
-      include_js: true,
+      include_js: true
     })
   end
 
@@ -44,19 +44,20 @@ defmodule RemoteRetroWeb.RetroController do
   end
 
   def verify_retro_id_param_is_uuid(conn, _options) do
-    %{"id" => id } = conn.path_params
+    %{"id" => id} = conn.path_params
 
     case Ecto.UUID.cast(id) do
       {:ok, _} ->
         conn
+
       _ ->
         conn
         |> put_status(:not_found)
         |> put_view(ErrorView)
         |> put_layout(false)
-        |> render("404.html", [
-          message: "There's no retro here. Make sure you have the correct URL!",
-        ])
+        |> render("404.html",
+          message: "There's no retro here. Make sure you have the correct URL!"
+        )
         |> halt()
     end
   end
@@ -75,11 +76,12 @@ defmodule RemoteRetroWeb.RetroController do
         order_by: [asc: ai.inserted_at]
       )
 
-    subset = from(p in Participation,
-      where: p.user_id == ^current_user_id,
-      order_by: [desc: p.inserted_at],
-      limit: 10
-    )
+    subset =
+      from(p in Participation,
+        where: p.user_id == ^current_user_id,
+        order_by: [desc: p.inserted_at],
+        limit: 10
+      )
 
     query =
       from(

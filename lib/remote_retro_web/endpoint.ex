@@ -4,7 +4,7 @@ defmodule RemoteRetroWeb.Endpoint do
   socket("/socket", RemoteRetroWeb.UserSocket, websocket: [timeout: 45_000], longpoll: false)
   socket "/live", Phoenix.LiveView.Socket
 
-  if Application.get_env(:remote_retro, :sql_sandbox) do
+  if Application.compile_env(:remote_retro, :sql_sandbox, []) do
     plug(Phoenix.Ecto.SQL.Sandbox)
   end
 
@@ -22,7 +22,8 @@ defmodule RemoteRetroWeb.Endpoint do
     brotli: true,
     gzip: true,
     only: ~w(css fonts images js favicon.ico robots.txt sitemap.xml),
-    cache_control_for_etags: "public, max-age=31536000" # ensure fonts from semantic ui node module are cached via HTTP-caching
+    # ensure fonts from semantic ui node module are cached via HTTP-caching
+    cache_control_for_etags: "public, max-age=31536000"
   )
 
   # Code reloading can be explicitly enabled under the
@@ -38,6 +39,7 @@ defmodule RemoteRetroWeb.Endpoint do
     param_key: "request_logger",
     cookie_key: "request_logger"
   )
+
   plug(Plug.RequestId)
   plug(Plug.Logger)
 
@@ -59,7 +61,7 @@ defmodule RemoteRetroWeb.Endpoint do
     store: :cookie,
     key: "_remote_retro_key",
     signing_salt: "D76dW6Sl",
-    extra: Application.get_env(:remote_retro, :extra_headers)
+    extra: Application.compile_env(:remote_retro, :extra_headers, [])
   )
 
   plug(RemoteRetroWeb.Router)
@@ -71,6 +73,7 @@ defmodule RemoteRetroWeb.Endpoint do
       host when is_binary(host) ->
         opts = PlugCanonicalHost.init(canonical_host: host)
         PlugCanonicalHost.call(conn, opts)
+
       _ ->
         conn
     end

@@ -3,7 +3,7 @@ defmodule RemoteRetro.Repo.Migrations.RemoveAuthorFromIdea do
 
   def change do
     alter table(:ideas) do
-      remove :author
+      remove(:author)
     end
   end
 end

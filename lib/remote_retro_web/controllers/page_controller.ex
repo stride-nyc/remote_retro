@@ -8,8 +8,9 @@ defmodule RemoteRetroWeb.PageController do
       nil ->
         render(conn, "index.html", %{
           body_class: "landing-page",
-          omit_header: true,
+          omit_header: true
         })
+
       _user ->
         redirect(conn, to: "/retros")
     end
@@ -19,7 +20,7 @@ defmodule RemoteRetroWeb.PageController do
     render(conn, "faq.html", %{
       body_class: "copy-page",
       title: "Frequently Asked Questions | RemoteRetro.org",
-      description: "Answers to Frequently Asked Questions",
+      description: "Answers to Frequently Asked Questions"
     })
   end
 
@@ -27,7 +28,8 @@ defmodule RemoteRetroWeb.PageController do
     render(conn, "privacy.html", %{
       body_class: "copy-page",
       title: "Privacy Policy | RemoteRetro.org",
-      description: "Information on how and what data RemoteRetro captures, how to make GDPR 'request-to-be-forgotten' requests, and more",
+      description:
+        "Information on how and what data RemoteRetro captures, how to make GDPR 'request-to-be-forgotten' requests, and more"
     })
   end
 end

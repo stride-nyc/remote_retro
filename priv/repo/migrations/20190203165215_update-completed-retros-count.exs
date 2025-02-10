@@ -2,7 +2,7 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.Update-completed-retros-count" do
   use Ecto.Migration
 
   def up do
-    execute """
+    execute("""
       UPDATE users
       SET completed_retros_count = user_id_completed_retro_count.completed_retros_count
       FROM users u
@@ -16,10 +16,10 @@ defmodule :"Elixir.RemoteRetro.Repo.Migrations.Update-completed-retros-count" do
       ) AS user_id_completed_retro_count
       ON user_id_completed_retro_count.user_id = u.id
       WHERE users.id = user_id_completed_retro_count.user_id;
-    """
+    """)
   end
 
   def down do
-    execute "UPDATE users SET completed_retros_count = 0;"
+    execute("UPDATE users SET completed_retros_count = 0;")
   end
 end

@@ -3,7 +3,7 @@ defmodule RemoteRetro.Repo.Migrations.AddAuthorColumnToIdeas do
 
   def change do
     alter table(:ideas) do
-      add :author, :string
+      add(:author, :string)
     end
   end
 end
