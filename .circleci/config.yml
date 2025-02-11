@@ -35,10 +35,10 @@ jobs: # basic units of work in a run
 
             # Install specific version of Chrome
             CHROME_VERSION="133.0.6943.53"
-            wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
-            sudo dpkg -i google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+            curl -L -o chrome.deb https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+            sudo dpkg -i chrome.deb || (sudo apt-get -f install -y && sudo dpkg -i chrome.deb)
             sudo apt-mark hold google-chrome-stable
-            rm google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+            rm chrome.deb
             
             # Verify Chrome installation
             INSTALLED_CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3)
