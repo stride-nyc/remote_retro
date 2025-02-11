@@ -23,7 +23,13 @@ jobs: # basic units of work in a run
           command: |
             # Install dependencies
             sudo apt-get update
-            sudo apt-get install -y curl inotify-tools firefox xvfb
+            sudo apt-get install -y curl inotify-tools firefox xvfb default-jre
+
+            # Install Selenium Server
+            SELENIUM_VERSION="3.141.59"
+            wget https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-$SELENIUM_VERSION.jar
+            sudo mv selenium-server-standalone-$SELENIUM_VERSION.jar /usr/local/bin/selenium-server-standalone.jar
+            sudo chmod +x /usr/local/bin/selenium-server-standalone.jar
 
             # Install geckodriver for Firefox
             GECKODRIVER_VERSION="v0.33.0"
@@ -107,6 +113,18 @@ jobs: # basic units of work in a run
       - run: # special utility that stalls main process until DB is ready
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
+
+      - run:
+          name: Setup Database
+          command: |
+            mix ecto.create
+            mix ecto.migrate
+
+      - run:
+          name: Start Selenium Server
+          command: |
+            java -jar /usr/local/bin/selenium-server-standalone.jar -port 4444 &
+            sleep 5
 
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
