@@ -11,7 +11,11 @@ config :remote_retro, :sql_sandbox, true
 config :wallaby,
   screenshot_on_failure: true,
   driver: Wallaby.Chrome,
-  chromedriver: "/usr/local/bin/chromedriver"
+  chrome: [
+    path: "/usr/local/bin/chromedriver",
+    headless: true,
+    args: ["--no-sandbox", "--disable-dev-shm-usage"]
+  ]
 config :bamboo, :refute_timeout, 10
 
 {:ok, file} = File.open("browser_logs.log", [:write])
