@@ -3,10 +3,10 @@ jobs: # basic units of work in a run
   build: # runs not using Workflows must have a `build` job as entry point
     parallelism: 1 # run only one instance of this job in parallel
     docker: # run the steps with Docker
-      - image: circleci/elixir:1.11.4-node-browsers
+      - image: cimg/elixir:1.15.7-node-browsers
         environment: # environment variables for primary container
           MIX_ENV: test
-      - image: cimg/postgres:13.6-postgis # database image
+      - image: cimg/postgres:15.5-postgis # database image
 
     working_directory: ~/app # directory where steps will run
 
@@ -18,13 +18,13 @@ jobs: # basic units of work in a run
 
       - restore_cache: # restores saved mix cache
           keys: # list of cache keys, in decreasing specificity
-            - v4-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-            - v4-mix-cache-{{ .Branch }}
-            - v4-mix-cache
+            - v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+            - v5-mix-cache-{{ .Branch }}
+            - v5-mix-cache
       - restore_cache: # restores saved build cache
           keys:
-            - v4-build-cache-{{ .Branch }}
-            - v4-build-cache
+            - v5-build-cache-{{ .Branch }}
+            - v5-build-cache
       - run: mix do deps.get, compile # get updated dependencies & compile them
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -42,20 +42,25 @@ jobs: # basic units of work in a run
           paths:
             - node_modules/
       - save_cache: # generate and store cache so `restore_cache` works
-          key: v4-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-          paths: "deps"
+          key: v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          paths: 
+            - deps
       - save_cache: # make another less specific cache
-          key: v4-mix-cache-{{ .Branch }}
-          paths: "deps"
+          key: v5-mix-cache-{{ .Branch }}
+          paths:
+            - deps
       - save_cache: # you should really save one more cache just in case
-          key: v4-mix-cache
-          paths: "deps"
+          key: v5-mix-cache
+          paths:
+            - deps
       - save_cache: # don't forget to save a *build* cache, too
-          key: v4-build-cache-{{ .Branch }}
-          paths: "_build"
+          key: v5-build-cache-{{ .Branch }}
+          paths:
+            - _build
       - save_cache: # and one more build cache for good measure
-          key: v4-build-cache
-          paths: "_build"
+          key: v5-build-cache
+          paths:
+            - _build
 
       - run: # special utility that stalls main process until DB is ready
           name: Wait for DB
@@ -78,8 +83,7 @@ jobs: # basic units of work in a run
           path: screenshots
 
   deploy:
-    machine:
-      enabled: true
+    machine: true
     working_directory: ~/app # directory where steps will run
     steps:
       - checkout
