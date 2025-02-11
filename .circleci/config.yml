@@ -21,31 +21,51 @@ jobs: # basic units of work in a run
       - run:
           name: Install System Dependencies
           command: |
-            # Install Chrome and other dependencies
-            wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
-            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
+            # Install dependencies (without Chrome)
             sudo apt-get update
-            sudo apt-get install -y curl inotify-tools firefox google-chrome-stable \
+            sudo apt-get install -y curl inotify-tools firefox \
               libnss3 libgconf-2-4 libxss1 libasound2 libxtst6 xvfb unzip
+
+            # Verify ChromeDriver binary exists
+            if [ ! -f vendor/chromedriver/chromedriver ]; then
+              echo "ChromeDriver binary not found in vendor/chromedriver/"
+              exit 1
+            fi
+
+            # Install specific version of Chrome
+            CHROME_VERSION="114.0.5735.90"
+            wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+            sudo dpkg -i google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
+            sudo apt-mark hold google-chrome-stable
+            rm google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
             
-            # Use committed ChromeDriver binary
-            sudo cp vendor/chromedriver/chromedriver /usr/local/bin/
+            # Verify Chrome installation
+            INSTALLED_CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3)
+            if [ "$INSTALLED_CHROME_VERSION" != "$CHROME_VERSION" ]; then
+              echo "Chrome version mismatch. Expected $CHROME_VERSION but got $INSTALLED_CHROME_VERSION"
+              exit 1
+            fi
+            
+            # Setup ChromeDriver
+            echo "Setting up ChromeDriver..."
+            sudo cp -f vendor/chromedriver/chromedriver /usr/local/bin/chromedriver
             sudo chmod +x /usr/local/bin/chromedriver
-            # Debug Chrome and chromedriver
-            echo "Google Chrome version:"
-            google-chrome --version
-            echo "Chromedriver path:"
-            which chromedriver
-            echo "Chromedriver version:"
-            chromedriver --version
-            echo "Chrome binary path:"
-            which google-chrome
-            # Link chromedriver
-            CHROMEDRIVER_PATH=$(which chromedriver)
-            echo "Linking chromedriver from $CHROMEDRIVER_PATH to /usr/local/bin/chromedriver"
-            sudo ln -sf $CHROMEDRIVER_PATH /usr/local/bin/chromedriver
-            sudo chmod +x /usr/local/bin/chromedriver
-            ls -l /usr/local/bin/chromedriver
+            
+            # Verify ChromeDriver installation
+            if ! chromedriver --version | grep -q "ChromeDriver $CHROME_VERSION"; then
+              echo "ChromeDriver version mismatch"
+              exit 1
+            fi
+            
+            # Export paths for Wallaby
+            CHROMEDRIVER_PATH="/usr/local/bin/chromedriver"
+            CHROME_BINARY=$(which google-chrome)
+            
+            # Debug output
+            echo "Chrome version: $(google-chrome --version)"
+            echo "ChromeDriver version: $(chromedriver --version)"
+            echo "Chrome binary path: $CHROME_BINARY"
+            echo "ChromeDriver path: $CHROMEDRIVER_PATH"
             # Export Chrome and chromedriver paths for Wallaby
             echo "export CHROMEDRIVER_PATH=$CHROMEDRIVER_PATH" >> $BASH_ENV
             echo "export CHROME_BINARY=$(which google-chrome)" >> $BASH_ENV
