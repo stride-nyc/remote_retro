@@ -8,7 +8,10 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
 
 config :remote_retro, :sql_sandbox, true
 
-config :wallaby, screenshot_on_failure: true
+config :wallaby,
+  screenshot_on_failure: true,
+  driver: Wallaby.Chrome,
+  chromedriver: "/usr/local/bin/chromedriver"
 config :bamboo, :refute_timeout, 10
 
 {:ok, file} = File.open("browser_logs.log", [:write])

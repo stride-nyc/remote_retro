@@ -21,7 +21,8 @@ jobs: # basic units of work in a run
           name: Install System Dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install -y curl inotify-tools chromium-browser firefox
+            sudo apt-get install -y curl inotify-tools chromium-browser firefox chromium-chromedriver
+            sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
             # Install Node.js and Yarn
             curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
             sudo apt-get install -y nodejs
