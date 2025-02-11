@@ -3,7 +3,7 @@ jobs: # basic units of work in a run
   build: # runs not using Workflows must have a `build` job as entry point
     parallelism: 1 # run only one instance of this job in parallel
     docker: # run the steps with Docker
-      - image: cimg/elixir:1.15-node
+      - image: hexpm/elixir:1.15.7-erlang-24.3.4-ubuntu-focal-20240123
         environment: # environment variables for primary container
           MIX_ENV: test
       - image: cimg/postgres:15.5-postgis # database image
@@ -17,12 +17,24 @@ jobs: # basic units of work in a run
       - run: mix local.rebar --force # fetch a copy of rebar (without prompt)
 
       - run:
-          name: Install Browser Tools
+          name: Install System Dependencies
           command: |
-            sudo apt-get update
-            sudo apt-get install -y wget unzip
-            sudo apt-get install -y libgconf-2-4 chromium-browser
-            sudo apt-get install -y firefox-esr
+            apt-get update
+            apt-get install -y sudo curl wget unzip git inotify-tools
+            # Install dockerize
+            DOCKERIZE_VERSION="v0.6.1"
+            wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
+            # Install Node.js and Yarn
+            curl -fsSL https://deb.nodesource.com/setup_16.x | bash -
+            apt-get install -y nodejs
+            curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | apt-key add -
+            echo "deb https://dl.yarnpkg.com/debian/ stable main" | tee /etc/apt/sources.list.d/yarn.list
+            apt-get update
+            apt-get install -y yarn
+            # Install browsers for testing
+            apt-get install -y chromium-browser firefox
 
       - restore_cache: # restores saved mix cache
           keys: # list of cache keys, in decreasing specificity
