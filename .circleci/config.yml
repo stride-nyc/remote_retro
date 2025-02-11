@@ -3,7 +3,7 @@ jobs: # basic units of work in a run
   build: # runs not using Workflows must have a `build` job as entry point
     parallelism: 1 # run only one instance of this job in parallel
     docker: # run the steps with Docker
-      - image: cimg/elixir:1.15.7-node-browsers
+      - image: cimg/elixir:1.15-node-browsers
         environment: # environment variables for primary container
           MIX_ENV: test
       - image: cimg/postgres:15.5-postgis # database image
