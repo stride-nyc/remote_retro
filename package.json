@@ -78,6 +78,7 @@
     "cryptiles": "4.1.2",
     "css-hot-loader": "^1.4.3",
     "deep-freeze": "^0.0.1",
+    "dotenv": "^16.4.7",
     "env-test": "^1.0.0",
     "enzyme": "^3.11.0",
     "enzyme-adapter-react-16": "^1.15.2",
