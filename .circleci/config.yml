@@ -33,7 +33,7 @@ jobs: # basic units of work in a run
             fi
 
             # Install specific version of Chrome
-            CHROME_VERSION="114.0.5735.90"
+            CHROME_VERSION="133.0.6943.53"
             wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
             sudo dpkg -i google-chrome-stable_${CHROME_VERSION}-1_amd64.deb
             sudo apt-mark hold google-chrome-stable
@@ -52,8 +52,9 @@ jobs: # basic units of work in a run
             sudo chmod +x /usr/local/bin/chromedriver
             
             # Verify ChromeDriver installation
-            if ! chromedriver --version | grep -q "ChromeDriver $CHROME_VERSION"; then
-              echo "ChromeDriver version mismatch"
+            CHROMEDRIVER_VERSION=$(chromedriver --version | cut -d ' ' -f 2)
+            if [ "$CHROMEDRIVER_VERSION" != "$CHROME_VERSION" ]; then
+              echo "ChromeDriver version mismatch. Expected $CHROME_VERSION but got $CHROMEDRIVER_VERSION"
               exit 1
             fi
             
