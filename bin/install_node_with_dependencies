@@ -1,53 +1,13 @@
-#!/bin/bash
+#1/bin/bash
 
-# import helpers
-DIR="${BASH_SOURCE%/*}"
-if [[ ! -d "$DIR" ]]; then DIR="$PWD"; fi
-. "$DIR/utils/io.sh" --source-only
+# install nvm
+brew install nvm
 
-if command -v asdf >/dev/null; then
-  printGreenLine "asdf: operational. Proceeding with installation..."
-else
-  printRedLine "Error: The asdf version manager cannot be found."
-  echo -e "\tPlease ensure asdf has been installed and added to your PATH, following the directions at https://github.com/asdf-vm/asdf#setup"
-  exit 1
-fi
+# install project version of node (18.19.0) and use it
+nvm install 18.19.0 && nvm use 18.19.0
 
-if asdf plugin-list | grep nodejs >/dev/null; then
-  printGreenLine "asdf: 'nodejs' plugin already available. Ensuring latest.";
-  asdf plugin update nodejs
-else
-  printGreenLine "asdf: installing Node version-management plugin...";
-  asdf plugin-add nodejs https://github.com/asdf-vm/asdf-nodejs.git;
+# install yarn to install package
+npm install yarn -g
 
-  printGreenLine "asdf: importing the Node.js release team's OpenPGP keys to main keyring\n\n\t- see https://github.com/asdf-vm/asdf-nodejs#install"
-  bash ~/.asdf/plugins/nodejs/bin/import-release-team-keyring
-fi
-
-node_version=$(awk '/nodejs/ { print $2 }' .tool-versions)
-
-if asdf list nodejs | grep ${node_version} >/dev/null; then
-  printGreenLine "asdf: Node $node_version already installed...";
-else
-  printGreenLine "asdf: installing Node $node_version, as declared in \`.tool-versions\`";
-
-  if asdf install nodejs ${node_version} >/dev/null; then
-    printGreenLine "asdf: Node $node_version installation complete!"
-  else
-    printRedLine "\nError: Node installation failed.\n\n\tPlease ensure you have followed the asdf-nodejs setup outlined at https://github.com/asdf-vm/asdf-nodejs#requirements"
-    exit 1
-  fi
-fi
-
-printGreenLine "asdf: installing global Node dependencies...";
-npm config set scripts-prepend-node-path true
-
-if npm install -g yarn phantomjs-prebuilt chromedriver >/dev/null; then
-  printGreenLine "asdf: Node $node_version installation complete!"
-  printGreenLine "asdf: installing local Node dependencies...";
-  yarn
-
-  printGreenLine "\n!!!!!!!!!\nIMPORTANT\n!!!!!!!!!";
-  printGreenLine "We've installed a chromedriver binary which assumes you have the latest version of Google Chrome. Please ensure your Google Chrome is up to date, as this is required for your end-to-end tests to run locally.";
-  printGreenLine "Thanks!";
-fi
+# install dependencies
+yarn install
