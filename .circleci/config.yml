@@ -21,18 +21,31 @@ jobs: # basic units of work in a run
       - run:
           name: Install System Dependencies
           command: |
-            # Add Google Chrome repository and install Chrome
+            # Install specific version of Chrome
             wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
             sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
             sudo apt-get update
-            sudo apt-get install -y curl inotify-tools firefox google-chrome-stable \
-              libnss3 libgconf-2-4 libxss1 libasound2 libxtst6 xvfb unzip
+            sudo apt-get install -y curl inotify-tools firefox libnss3 libgconf-2-4 libxss1 libasound2 libxtst6 xvfb unzip
+
+            # Install Chrome 114 (known stable version with ChromeDriver support)
+            wget https://dl.google.com/linux/chrome/deb/pool/main/g/google-chrome-stable/google-chrome-stable_114.0.5735.198-1_amd64.deb
+            sudo dpkg -i google-chrome-stable_114.0.5735.198-1_amd64.deb
+            rm google-chrome-stable_114.0.5735.198-1_amd64.deb
             
-            # Install matching chromedriver version
+            # Install matching ChromeDriver version with fallback logic
             CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
             echo "Chrome major version: $CHROME_VERSION"
+            
+            # Try to get the latest ChromeDriver version for this Chrome version
             CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
-            echo "Installing chromedriver version: $CHROMEDRIVER_VERSION"
+            
+            # If that fails, fall back to a known working version for Chrome 114
+            if [[ -z "$CHROMEDRIVER_VERSION" || "$CHROMEDRIVER_VERSION" == *"Error"* ]]; then
+              echo "Failed to get latest ChromeDriver version, falling back to known working version"
+              CHROMEDRIVER_VERSION="114.0.5735.90"
+            fi
+            
+            echo "Installing ChromeDriver version: $CHROMEDRIVER_VERSION"
             wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
             sudo unzip /tmp/chromedriver.zip -d /usr/local/bin/
             rm /tmp/chromedriver.zip
