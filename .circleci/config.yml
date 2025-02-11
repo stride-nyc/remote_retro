@@ -3,7 +3,7 @@ jobs: # basic units of work in a run
   build: # runs not using Workflows must have a `build` job as entry point
     parallelism: 1 # run only one instance of this job in parallel
     docker: # run the steps with Docker
-      - image: cimg/elixir:1.15-node-browsers
+      - image: cimg/elixir:1.15-node
         environment: # environment variables for primary container
           MIX_ENV: test
       - image: cimg/postgres:15.5-postgis # database image
@@ -15,6 +15,14 @@ jobs: # basic units of work in a run
 
       - run: mix local.hex --force # install Hex locally (without prompt)
       - run: mix local.rebar --force # fetch a copy of rebar (without prompt)
+
+      - run:
+          name: Install Browser Tools
+          command: |
+            sudo apt-get update
+            sudo apt-get install -y wget unzip
+            sudo apt-get install -y libgconf-2-4 chromium-browser
+            sudo apt-get install -y firefox-esr
 
       - restore_cache: # restores saved mix cache
           keys: # list of cache keys, in decreasing specificity
