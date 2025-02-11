@@ -24,7 +24,8 @@ jobs: # basic units of work in a run
             # Install dependencies (without Chrome)
             sudo apt-get update
             sudo apt-get install -y curl inotify-tools firefox \
-              libnss3 libgconf-2-4 libxss1 libasound2 libxtst6 xvfb unzip
+              libnss3 libgconf-2-4 libxss1 libasound2 libxtst6 xvfb unzip \
+              fonts-liberation xdg-utils
 
             # Verify ChromeDriver binary exists
             if [ ! -f vendor/chromedriver/chromedriver ]; then
