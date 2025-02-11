@@ -8,16 +8,30 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
 
 config :remote_retro, :sql_sandbox, true
 
+# Increase log level for better debugging
+config :logger, level: :debug
+
 config :wallaby,
   screenshot_on_failure: true,
   driver: Wallaby.Chrome,
   chrome: [
     headless: true,
-    args: ["--no-sandbox", "--disable-dev-shm-usage"]
+    binary: System.get_env("CHROME_BINARY", "/usr/bin/google-chrome"),
+    args: [
+      "--no-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+      "--disable-software-rasterizer",
+      "--disable-extensions",
+      "--remote-debugging-port=9222"
+    ]
   ],
   chromedriver: [
     path: System.get_env("CHROMEDRIVER_PATH", "/usr/local/bin/chromedriver")
-  ]
+  ],
+  hackney_options: [timeout: :infinity],
+  js_errors: true,
+  max_wait_time: 5_000
 config :bamboo, :refute_timeout, 10
 
 {:ok, file} = File.open("browser_logs.log", [:write])

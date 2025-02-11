@@ -21,19 +21,42 @@ jobs: # basic units of work in a run
       - run:
           name: Install System Dependencies
           command: |
+            # Add Google Chrome repository and install Chrome
+            wget -q -O - https://dl-ssl.google.com/linux/linux_signing_key.pub | sudo apt-key add -
+            sudo sh -c 'echo "deb [arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" >> /etc/apt/sources.list.d/google.list'
             sudo apt-get update
-            sudo apt-get install -y curl inotify-tools chromium-browser firefox chromium-driver \
-              libnss3 libgconf-2-4 libxss1 libasound2 libxtst6 xvfb
-            # Find and link chromedriver
+            sudo apt-get install -y curl inotify-tools firefox google-chrome-stable \
+              libnss3 libgconf-2-4 libxss1 libasound2 libxtst6 xvfb unzip
+            
+            # Install matching chromedriver version
+            CHROME_VERSION=$(google-chrome --version | cut -d ' ' -f 3 | cut -d '.' -f 1)
+            echo "Chrome major version: $CHROME_VERSION"
+            CHROMEDRIVER_VERSION=$(curl -s "https://chromedriver.storage.googleapis.com/LATEST_RELEASE_$CHROME_VERSION")
+            echo "Installing chromedriver version: $CHROMEDRIVER_VERSION"
+            wget -O /tmp/chromedriver.zip "https://chromedriver.storage.googleapis.com/$CHROMEDRIVER_VERSION/chromedriver_linux64.zip"
+            sudo unzip /tmp/chromedriver.zip -d /usr/local/bin/
+            rm /tmp/chromedriver.zip
+            sudo chmod +x /usr/local/bin/chromedriver
+            # Debug Chrome and chromedriver
+            echo "Google Chrome version:"
+            google-chrome --version
+            echo "Chromedriver path:"
+            which chromedriver
+            echo "Chromedriver version:"
+            chromedriver --version
+            echo "Chrome binary path:"
+            which google-chrome
+            # Link chromedriver
             CHROMEDRIVER_PATH=$(which chromedriver)
-            echo "Chromedriver path: $CHROMEDRIVER_PATH"
+            echo "Linking chromedriver from $CHROMEDRIVER_PATH to /usr/local/bin/chromedriver"
             sudo ln -sf $CHROMEDRIVER_PATH /usr/local/bin/chromedriver
             sudo chmod +x /usr/local/bin/chromedriver
             ls -l /usr/local/bin/chromedriver
-            chromedriver --version || true
-            # Export chromedriver path for Wallaby
+            # Export Chrome and chromedriver paths for Wallaby
             echo "export CHROMEDRIVER_PATH=$CHROMEDRIVER_PATH" >> $BASH_ENV
+            echo "export CHROME_BINARY=$(which google-chrome)" >> $BASH_ENV
             source $BASH_ENV
+            echo "Chrome binary path: $CHROME_BINARY"
             # Start Xvfb for headless browser testing
             Xvfb :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
             export DISPLAY=:99
