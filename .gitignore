@@ -54,3 +54,4 @@ browser_logs.log
 
 # Ignore local dev config files like zsh
 .zshrc
+.env
