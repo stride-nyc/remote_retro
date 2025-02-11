@@ -3,7 +3,7 @@ jobs: # basic units of work in a run
   build: # runs not using Workflows must have a `build` job as entry point
     parallelism: 1 # run only one instance of this job in parallel
     docker: # run the steps with Docker
-      - image: cimg/elixir:1.15.7-node
+      - image: cimg/elixir:1.16.0-erlang-26.2.1
         environment: # environment variables for primary container
           MIX_ENV: test
       - image: cimg/postgres:15.5-postgis # database image
@@ -20,7 +20,14 @@ jobs: # basic units of work in a run
           name: Install System Dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install -y inotify-tools chromium-browser firefox
+            sudo apt-get install -y curl inotify-tools chromium-browser firefox
+            # Install Node.js and Yarn
+            curl -fsSL https://deb.nodesource.com/setup_16.x | sudo -E bash -
+            sudo apt-get install -y nodejs
+            curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
+            echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
+            sudo apt-get update
+            sudo apt-get install -y yarn
             # Install dockerize
             DOCKERIZE_VERSION="v0.6.1"
             sudo wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz

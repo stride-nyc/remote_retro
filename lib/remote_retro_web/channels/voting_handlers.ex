@@ -7,7 +7,7 @@ defmodule RemoteRetroWeb.VotingHandlers do
   @vote_submitted "vote_submitted"
   @vote_retracted "vote_retracted"
 
-  def handle_in(@vote_submitted, ~m{idea_id, user_id}, socket) do
+  def handle_in(@vote_submitted, %{"idea_id" => idea_id, "user_id" => user_id}, socket) do
     reply_tuple = atomic_insert_and_broadcast_to_other_clients(idea_id, user_id, socket)
 
     {:reply, reply_tuple, socket}
