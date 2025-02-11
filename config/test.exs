@@ -13,21 +13,14 @@ config :logger, level: :debug
 
 config :wallaby,
   screenshot_on_failure: true,
-  driver: Wallaby.Chrome,
-  chrome: [
-    headless: true,
-    binary: System.get_env("CHROME_BINARY", "/usr/bin/google-chrome"),
-    args: [
-      "--no-sandbox",
-      "--disable-dev-shm-usage",
-      "--disable-gpu",
-      "--disable-software-rasterizer",
-      "--disable-extensions",
-      "--remote-debugging-port=9222"
-    ]
-  ],
-  chromedriver: [
-    path: System.get_env("CHROMEDRIVER_PATH", "/usr/local/bin/chromedriver")
+  driver: Wallaby.Selenium,
+  selenium: [
+    capabilities: %{
+      browserName: "firefox",
+      "moz:firefoxOptions": %{
+        args: ["-headless"]
+      }
+    }
   ],
   hackney_options: [timeout: :infinity],
   js_errors: true,
