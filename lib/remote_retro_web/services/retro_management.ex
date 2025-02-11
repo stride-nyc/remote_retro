@@ -2,8 +2,6 @@ defmodule RemoteRetroWeb.RetroManagement do
   alias RemoteRetro.{Retro, User, Group, Repo, Idea, Emails, Mailer}
 
   import Ecto.Query, only: [from: 2]
-  import ShorterMaps
-
   def update!(retro_id, %{"ideasWithEphemeralGroupingIds" => ideasWithEphemeralGroupingIds} = context) do
     updates_map = persist_groups_with_associated_ideas(retro_id, ideasWithEphemeralGroupingIds)
 

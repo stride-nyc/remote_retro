@@ -1,9 +1,7 @@
 defmodule TransferFacilitatorshipTest do
   use RemoteRetro.IntegrationCase, async: false
 
-  import ShorterMaps
-
-  test "facilitator can pass the facilitatorship to another user", ~M{retro, session: facilitator_session, non_facilitator} do
+  test "facilitator can pass the facilitatorship to another user", %{retro: retro, session: facilitator_session, non_facilitator: non_facilitator} do
     non_facilitator_session = new_authenticated_browser_session(non_facilitator)
 
     facilitator_session = visit_retro(facilitator_session, retro)

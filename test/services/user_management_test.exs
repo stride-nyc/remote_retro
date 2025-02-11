@@ -7,7 +7,7 @@ defmodule RemoteRetroWeb.UserManagementTest do
 
   import Mock
 
-  @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
+  @mock_google_user_info Application.compile_env(:remote_retro, :mock_google_user_info)
 
   # The syntax for with_mocks gets very bracey/bracketey, so we break the mock declarations
   # out into private helper methods, allowing us to spy on the stubbed functions within the test

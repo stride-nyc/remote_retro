@@ -2,14 +2,12 @@ defmodule RemoteRetro.RetroControllerTest do
   use RemoteRetroWeb.ConnCase, async: true
   alias RemoteRetro.{Participation, Retro, Repo}
 
-  import ShorterMaps
-
   describe "authenticated requests" do
     setup :authenticate_connection
 
     test "POST requests to /retros result in the creation of a retro \
       of the given format where the current user is the facilitator",
-         ~M{conn} do
+         %{conn: conn} do
       conn = post(conn, "/retros", %{"format" => "Start/Stop/Continue"})
 
       retro = Repo.one(from(r in Retro, order_by: [desc: r.inserted_at], limit: 1))
@@ -22,13 +20,13 @@ defmodule RemoteRetro.RetroControllerTest do
       } = retro
     end
 
-    test "POST requests to /retros redirect to a newly created retro", ~M{conn} do
+    test "POST requests to /retros redirect to a newly created retro", %{conn: conn} do
       conn = post(conn, "/retros")
 
       assert redirected_to(conn) =~ ~r/\/retros\/.+$/
     end
 
-    test "joining a retro results in the persistence of a participation", ~M{conn} do
+    test "joining a retro results in the persistence of a participation", %{conn: conn} do
       participation_count_before = Repo.aggregate(Participation, :count, :id)
       create_retro_and_follow_redirect(conn)
       participation_count_after = Repo.aggregate(Participation, :count, :id)
@@ -37,7 +35,7 @@ defmodule RemoteRetro.RetroControllerTest do
       assert participation_count_diff == 1
     end
 
-    test "rejoining a retro doesn't result in an additional participation being created", ~M{conn} do
+    test "rejoining a retro doesn't result in an additional participation being created", %{conn: conn} do
       conn = create_retro_and_follow_redirect(conn)
       participation_count_after_first_join = Repo.aggregate(Participation, :count, :id)
 
@@ -49,7 +47,7 @@ defmodule RemoteRetro.RetroControllerTest do
       assert participation_count_diff == 0
     end
 
-    test "visits to a retro append a 'retro-show-page' class to the body element", ~M{conn} do
+    test "visits to a retro append a 'retro-show-page' class to the body element", %{conn: conn} do
       conn = create_retro_and_follow_redirect(conn)
 
       get(conn, "/retros/#{conn.params["id"]}")
@@ -57,7 +55,7 @@ defmodule RemoteRetro.RetroControllerTest do
       assert html_response(conn, 200) =~ ~r/body .*class="retro-show-page".*>/i
     end
 
-    test "visits to a retro preload the user's photo", ~M{conn} do
+    test "visits to a retro preload the user's photo", %{conn: conn} do
       conn = create_retro_and_follow_redirect(conn)
 
       get(conn, "/retros/#{conn.params["id"]}")
@@ -65,7 +63,7 @@ defmodule RemoteRetro.RetroControllerTest do
       assert html_response(conn, 200) =~ ~r/link rel="preload" as="image".*href=".*googleusercontent.*"\/>/i
     end
 
-    test "invalid uuids passed to the show page result in an informative 404", ~M{conn} do
+    test "invalid uuids passed to the show page result in an informative 404", %{conn: conn} do
       conn = create_retro_and_follow_redirect(conn)
 
       invalid_uuid_param = "#{conn.params["id"]}kdkdkdkdkdk"
@@ -75,13 +73,13 @@ defmodule RemoteRetro.RetroControllerTest do
       assert html_response(conn, 404) =~ ~r/no retro here/i
     end
 
-    test "GET requests to /retros welcomes users with no retro experience", ~M{conn} do
+    test "GET requests to /retros welcomes users with no retro experience", %{conn: conn} do
       conn = get(conn, "/retros")
       assert conn.resp_body =~ ~r/welcome/i
       refute conn.resp_body =~ ~r/my retros/i
     end
 
-    test "GET requests to /retros lists all retros for a user with retro experience", ~M{conn} do
+    test "GET requests to /retros lists all retros for a user with retro experience", %{conn: conn} do
       conn =
         conn
         |> create_retro_and_follow_redirect
@@ -93,12 +91,12 @@ defmodule RemoteRetro.RetroControllerTest do
   end
 
   describe "unauthenticated GET requests to /retros/some-uuid" do
-    test "are redirected to the google account login", ~M{conn} do
+    test "are redirected to the google account login", %{conn: conn} do
       conn = get(conn, "/retros/d83838383ndnd9d9d")
       assert redirected_to(conn) =~ "/auth/google"
     end
 
-    test "store the desired endpoint in the session", ~M{conn} do
+    test "store the desired endpoint in the session", %{conn: conn} do
       conn = get(conn, "/retros/d83838383ndnd9d9d")
       session = conn.private.plug_session
 

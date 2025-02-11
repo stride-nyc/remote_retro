@@ -10,6 +10,10 @@ config :remote_retro,
   ecto_repos: [RemoteRetro.Repo],
   env: Mix.env()
 
+config :gettext,
+  default_locale: "en",
+  default_priv: "priv/gettext"
+
 # Configures the endpoint
 config :remote_retro, RemoteRetroWeb.Endpoint,
   url: [host: "localhost"],

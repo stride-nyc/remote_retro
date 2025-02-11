@@ -1,7 +1,5 @@
 defmodule RemoteRetroWeb.IdeationHandlers do
   import Phoenix.Channel
-  import ShorterMaps
-
   use SlenderChannel
 
   alias RemoteRetro.{Repo, Idea}

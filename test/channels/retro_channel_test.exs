@@ -5,24 +5,23 @@ defmodule RemoteRetro.RetroChannelTest do
   alias RemoteRetroWeb.{RetroChannel, Presence, RetroManagement, UserSocket}
 
   import Mock
-  import ShorterMaps
 
-  defp join_the_retro_channel(~M{retro, facilitator} = context) do
+  defp join_the_retro_channel(%{retro: retro, facilitator: facilitator} = context) do
     {:ok, join_response, socket} =
       socket(UserSocket, "", %{user_token: Phoenix.Token.sign(socket(UserSocket), "user", facilitator)})
       |> subscribe_and_join(RetroChannel, "retro:" <> retro.id)
 
-    Map.merge(context, ~M{socket, join_response})
+    Map.merge(context, %{socket: socket, join_response: join_response})
   end
 
   describe "joining a RetroChannel" do
     setup [:join_the_retro_channel]
 
-    test "results in a response containing retro state", ~M{join_response} do
+    test "results in a response containing retro state", %{join_response: join_response} do
       assert %{votes: _, ideas: _, stage: _, users: _} = join_response
     end
 
-    test "assigns the retro_id to the socket", ~M{socket, retro} do
+    test "assigns the retro_id to the socket", %{socket: socket, retro: retro} do
       assert socket.assigns.retro_id == retro.id
     end
 
@@ -34,7 +33,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_push("presence_diff", %{})
     end
 
-    test "results in a Presence tracking of the new user, including timestamp", ~M{retro, facilitator} do
+    test "results in a Presence tracking of the new user, including timestamp", %{retro: retro, facilitator: facilitator} do
       result = Presence.list("retro:" <> retro.id)
 
       presence_object =
@@ -53,14 +52,14 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `retro_edited` event with a valid, non-'closed' stage" do
     setup [:join_the_retro_channel]
 
-    test "broadcasts the same event to connected clients, along with stage", ~M{socket} do
+    test "broadcasts the same event to connected clients, along with stage", %{socket: socket} do
       ref = push(socket, "retro_edited", %{stage: "action-items"})
       assert_reply(ref, :ok)
 
       assert_broadcast("retro_edited", %{retro: %{stage: "action-items"}})
     end
 
-    test "updates the retro stage to the value from the pushed event", ~M{socket, retro} do
+    test "updates the retro stage to the value from the pushed event", %{socket: socket, retro: retro} do
       ref = push(socket, "retro_edited", %{stage: "action-items"})
       assert_reply(ref, :ok)
 
@@ -72,7 +71,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `retro_edited` event with a `ideasWithEphemeralGroupingIds` collection" do
     setup [:join_the_retro_channel]
 
-    test "broadcasts the model without blowing up", ~M{socket} do
+    test "broadcasts the model without blowing up", %{socket: socket} do
       ref = push(socket, "retro_edited", %{stage: "action-items", ideasWithEphemeralGroupingIds: []})
 
       assert_reply(ref, :ok)
@@ -86,7 +85,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `group_edited` event with valid params" do
     setup [:persist_group_for_retro, :join_the_retro_channel]
 
-    test "updates the group_label", ~M{socket, group} do
+    test "updates the group_label", %{socket: socket, group: group} do
       ref = push(socket, "group_edited", %{id: group.id, label: "travis' domain"})
 
       assert_reply(ref, :ok)
@@ -95,7 +94,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert "travis' domain" == updated_label
     end
 
-    test "broadcasts the updated group to all connected clients", ~M{socket, group} do
+    test "broadcasts the updated group to all connected clients", %{socket: socket, group: group} do
       ref = push(socket, "group_edited", %{id: group.id, label: "mike's domain"})
 
       assert_reply(ref, :ok)
@@ -108,7 +107,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `group_edited` event with invalid params" do
     setup [:persist_group_for_retro, :join_the_retro_channel]
 
-    test "replies to the client with an error", ~M{socket} do
+    test "replies to the client with an error", %{socket: socket} do
       ref = push(socket, "group_edited", %{id: "nonsense", label: ""})
 
       assert_reply(ref, :error)
@@ -118,7 +117,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "when broadcast of the update fails" do
     setup [:join_the_retro_channel]
 
-    test "rolls back the update to the retro", ~M{socket, retro} do
+    test "rolls back the update to the retro", %{socket: socket, retro: retro} do
       with_mock Phoenix.Channel,
         broadcast!: fn _, _, _ ->
           raise "hell"
@@ -142,12 +141,12 @@ defmodule RemoteRetro.RetroChannelTest do
       update!: fn _, _ ->
         raise "hell"
       end do
-      test "an error reply is sent", ~M{socket} do
+      test "an error reply is sent", %{socket: socket} do
         ref = push(socket, "retro_edited", %{stage: "year of the depend adult undergarment"})
         assert_reply(ref, :error)
       end
 
-      test "does not trigger an 'retro_edited' broadcast to all connected clients", ~M{socket} do
+      test "does not trigger an 'retro_edited' broadcast to all connected clients", %{socket: socket} do
         ref = push(socket, "retro_edited", %{stage: "year of the depend adult undergarment"})
         assert_reply(ref, :error)
 
@@ -159,7 +158,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a valid new idea to the channel" do
     setup [:join_the_retro_channel]
 
-    test "inserts the idea into the database", ~M{socket, facilitator} do
+    test "inserts the idea into the database", %{socket: socket, facilitator: facilitator} do
       user_id = facilitator.id
       idea_count_before = Repo.aggregate(Idea, :count, :id)
 
@@ -174,7 +173,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert idea_count_after - idea_count_before == 1
     end
 
-    test "results in the broadcast of the new idea to *other* connected clients", ~M{socket, facilitator} do
+    test "results in the broadcast of the new idea to *other* connected clients", %{socket: socket, facilitator: facilitator} do
       user_id = facilitator.id
       assignee_id = nil
 
@@ -191,7 +190,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_broadcast_to_other_clients_only("idea_committed", %{category: "happy", body: "we're pacing well", id: _, user_id: ^user_id})
     end
 
-    test "rolls back the idea insertion if broadcast_from!/3 fails", ~M{socket, facilitator} do
+    test "rolls back the idea insertion if broadcast_from!/3 fails", %{socket: socket, facilitator: facilitator} do
       with_mock Phoenix.Channel,
         broadcast_from!: fn _, _, _ ->
           raise "hell"
@@ -220,13 +219,13 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing an invalid idea to the channel" do
     setup [:join_the_retro_channel]
 
-    test "results in an error reply", ~M{socket} do
+    test "results in an error reply", %{socket: socket} do
       invalid_idea = %{category: "", body: "", userId: 666, assigneeId: nil}
       ref = push(socket, "idea_submitted", invalid_idea)
       assert_reply(ref, :error)
     end
 
-    test "does not trigger an 'idea_committed' broadcast to all connected clients", ~M{socket} do
+    test "does not trigger an 'idea_committed' broadcast to all connected clients", %{socket: socket} do
       invalid_idea = %{category: "", body: "", userId: 666, assigneeId: nil}
 
       push(socket, "idea_submitted", invalid_idea)
@@ -238,7 +237,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing an `idea_edit_state_enabled` event to the socket" do
     setup [:join_the_retro_channel]
 
-    test "broadcasts the same event with the given payload", ~M{socket} do
+    test "broadcasts the same event with the given payload", %{socket: socket} do
       push(socket, "idea_edit_state_enabled", %{id: 4})
 
       assert_broadcast("idea_edit_state_enabled", %{"id" => 4})
@@ -248,7 +247,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing an `idea_edit_state_disabled` event to the socket" do
     setup [:join_the_retro_channel]
 
-    test "broadcasts the same event with the given payload", ~M{socket} do
+    test "broadcasts the same event with the given payload", %{socket: socket} do
       push(socket, "idea_edit_state_disabled", %{id: 4})
 
       assert_broadcast("idea_edit_state_disabled", %{"id" => 4})
@@ -258,7 +257,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `idea_typing_event` event to the socket" do
     setup [:join_the_retro_channel]
 
-    test "broadcasts the same event with the given payload", ~M{socket} do
+    test "broadcasts the same event with the given payload", %{socket: socket} do
       push(socket, "idea_typing_event", %{userToken: "insaneToken"})
 
       assert_broadcast("idea_typing_event", %{"userToken" => "insaneToken"})
@@ -268,7 +267,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing an `idea_dragged_in_grouping_stage` event to the socket" do
     setup [:join_the_retro_channel]
 
-    test "broadcasts the same event with the given payload", ~M{socket} do
+    test "broadcasts the same event with the given payload", %{socket: socket} do
       push(socket, "idea_dragged_in_grouping_stage", %{id: 4, x: 39.5, y: 10.2})
 
       assert_broadcast("idea_dragged_in_grouping_stage", %{"id" => 4, "x" => 39.5, "y" => 10.2})
@@ -278,7 +277,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing an `idea_live_edit` event to the socket" do
     setup [:join_the_retro_channel]
 
-    test "broadcasts the same event with the given payload", ~M{socket} do
+    test "broadcasts the same event with the given payload", %{socket: socket} do
       push(socket, "idea_live_edit", %{id: 4, liveEditText: "updated"})
 
       assert_broadcast("idea_live_edit", %{"id" => 4, "liveEditText" => "updated"})
@@ -289,7 +288,7 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "results in the broadcast of the edited idea to *other* connected clients", ~M{socket, idea} do
+    test "results in the broadcast of the edited idea to *other* connected clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "happy", assignee_id: nil})
 
@@ -297,7 +296,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "we met our heroes, and they failed us"}
-    test "responds with the updated idea", ~M{socket, idea} do
+    test "responds with the updated idea", %{socket: socket, idea: idea} do
       idea_id = idea.id
 
       ref = push(socket, "idea_edited", %{id: idea_id, body: "infatuation", category: "happy", assignee_id: nil})
@@ -306,7 +305,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "doggone keeper"}
-    test "results in the idea being updated in the database", ~M{socket, idea} do
+    test "results in the idea being updated in the database", %{socket: socket, idea: idea} do
       idea_id = idea.id
       ref = push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assignee_id: nil})
       # allow async handler to complete before checking db
@@ -317,7 +316,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "no UI feedback on failure"}
-    test "a failed broadcast rolls back the update of the idea", ~M{socket, idea} do
+    test "a failed broadcast rolls back the update of the idea", %{socket: socket, idea: idea} do
       with_mock Phoenix.Channel, broadcast!: fn _, _, _ -> raise "hell" end do
         idea_id = idea.id
         ref = push(socket, "idea_edited", %{id: idea_id, body: "hell's bells", category: "confused", assignee_id: nil})
@@ -333,7 +332,7 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:join_the_retro_channel, :persist_idea_for_retro]
 
     @tag idea: %Idea{category: "sad", body: "WIP commits on master"}
-    test "results in a broadcast of the id of the deleted idea to all clients", ~M{socket, idea} do
+    test "results in a broadcast of the id of the deleted idea to all clients", %{socket: socket, idea: idea} do
       idea_id = idea.id
       ref = push(socket, "idea_deleted", idea_id)
       assert_reply(ref, :ok)
@@ -342,7 +341,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "no UI feedback on failure"}
-    test "removes the idea from the database", ~M{socket, idea} do
+    test "removes the idea from the database", %{socket: socket, idea: idea} do
       idea_id = idea.id
       ref = push(socket, "idea_deleted", idea_id)
       # ensure async process complete before checking db state
@@ -352,7 +351,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "no UI feedback on failure"}
-    test "a failed broadcast rolls back the deletion of the idea", ~M{socket, idea} do
+    test "a failed broadcast rolls back the deletion of the idea", %{socket: socket, idea: idea} do
       with_mock Phoenix.Channel,
         broadcast!: fn _, _, _ ->
           raise "hell"
@@ -371,7 +370,7 @@ defmodule RemoteRetro.RetroChannelTest do
     setup [:persist_idea_for_retro, :join_the_retro_channel]
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "results in the persistence of the vote", ~M{socket, idea, facilitator} do
+    test "results in the persistence of the vote", %{socket: socket, idea: idea, facilitator: facilitator} do
       idea_id = idea.id
       assert_raise(Ecto.NoResultsError, fn -> Repo.get_by!(Vote, idea_id: idea_id, user_id: facilitator.id) end)
 
@@ -383,7 +382,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "JavaScript"}
-    test "results in the broadcast of the persisted vote to connected clients", ~M{socket, idea, facilitator} do
+    test "results in the broadcast of the persisted vote to connected clients", %{socket: socket, idea: idea, facilitator: facilitator} do
       idea_id = idea.id
       user_id = facilitator.id
       ref = push(socket, "vote_submitted", %{idea_id: idea_id, user_id: user_id})
@@ -393,7 +392,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     @tag idea: %Idea{category: "sad", body: "panda"}
-    test "rolls back the vote insertion if broadcast!/3 fails", ~M{socket, idea, facilitator} do
+    test "rolls back the vote insertion if broadcast!/3 fails", %{socket: socket, idea: idea, facilitator: facilitator} do
       with_mock Phoenix.Channel,
         broadcast!: fn _, _, _ ->
           raise "hell"
@@ -416,14 +415,14 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `vote_retracted` event with a given id" do
     setup [:persist_idea_for_retro, :persist_a_vote, :join_the_retro_channel]
 
-    test "removes the vote with the given id from the database", ~M{socket, vote} do
+    test "removes the vote with the given id from the database", %{socket: socket, vote: vote} do
       ref = push(socket, "vote_retracted", %{id: vote.id})
       assert_reply(ref, :ok)
 
       refute Repo.get(Vote, vote.id)
     end
 
-    test "broadcasts the same event to all *other* connected clients, along with retracted vote", ~M{socket, vote} do
+    test "broadcasts the same event to all *other* connected clients, along with retracted vote", %{socket: socket, vote: vote} do
       vote_id = vote.id
       ref = push(socket, "vote_retracted", %{id: vote_id})
       assert_reply(ref, :ok)
@@ -431,7 +430,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_broadcast_to_other_clients_only("vote_retracted", %{"id" => ^vote_id})
     end
 
-    test "rolls back the vote retraction if broadcast fails, responding :error", ~M{socket, vote} do
+    test "rolls back the vote retraction if broadcast fails, responding :error", %{socket: socket, vote: vote} do
       with_mock Phoenix.Channel,
         broadcast!: fn _, _, _ ->
           raise "hell"
@@ -448,7 +447,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing an *invalid* vote to the channel" do
     setup [:join_the_retro_channel]
 
-    test "results in an error reply", ~M{socket, facilitator} do
+    test "results in an error reply", %{socket: socket, facilitator: facilitator} do
       invalid_vote = %{idea_id: "HaaaaiYah!", user_id: facilitator.id}
 
       push(socket, "vote_submitted", invalid_vote)
@@ -457,7 +456,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert_reply(ref, :error)
     end
 
-    test "does not trigger an 'idea_committed' broadcast to all connected clients", ~M{socket, facilitator} do
+    test "does not trigger an 'idea_committed' broadcast to all connected clients", %{socket: socket, facilitator: facilitator} do
       invalid_vote = %{idea_id: "The Fart Store", user_id: facilitator.id}
 
       push(socket, "vote_submitted", invalid_vote)
@@ -469,7 +468,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing a `user_edited` event with params" do
     setup [:join_the_retro_channel]
 
-    test "replies with an updated user with the email opt_in value from the pushed event", ~M{socket} do
+    test "replies with an updated user with the email opt_in value from the pushed event", %{socket: socket} do
       user = persist_test_user(%{"email_opt_in" => false})
 
       ref = push(socket, "user_edited", %{id: user.id, email_opt_in: true})
@@ -480,7 +479,7 @@ defmodule RemoteRetro.RetroChannelTest do
       assert updated_user.email_opt_in == true
     end
 
-    test "replies with an error when pushing invalid params", ~M{socket, facilitator} do
+    test "replies with an error when pushing invalid params", %{socket: socket, facilitator: facilitator} do
       ref = push(socket, "user_edited", %{id: facilitator.id, email_opt_in: "n0n5ense"})
 
       assert_reply(ref, :error)
@@ -490,7 +489,7 @@ defmodule RemoteRetro.RetroChannelTest do
   describe "pushing an unhandled message to the socket" do
     setup [:join_the_retro_channel]
 
-    test "replies with an error tuple", ~M{socket} do
+    test "replies with an error tuple", %{socket: socket} do
       ref = push(socket, "preposterous_mess@ge_", %{some: "string"})
 
       assert_reply(ref, :error, %{

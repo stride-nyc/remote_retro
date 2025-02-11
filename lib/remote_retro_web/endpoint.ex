@@ -4,7 +4,7 @@ defmodule RemoteRetroWeb.Endpoint do
   socket("/socket", RemoteRetroWeb.UserSocket, websocket: [timeout: 45_000], longpoll: false)
   socket "/live", Phoenix.LiveView.Socket
 
-  if Application.get_env(:remote_retro, :sql_sandbox) do
+  if Application.compile_env(:remote_retro, :sql_sandbox) do
     plug(Phoenix.Ecto.SQL.Sandbox)
   end
 
@@ -59,20 +59,19 @@ defmodule RemoteRetroWeb.Endpoint do
     store: :cookie,
     key: "_remote_retro_key",
     signing_salt: "D76dW6Sl",
-    extra: Application.get_env(:remote_retro, :extra_headers)
+    extra: Application.compile_env(:remote_retro, :extra_headers)
   )
 
   plug(RemoteRetroWeb.Router)
 
+  @canonical_host Application.compile_env(:remote_retro, :canonical_host)
+
   defp canonical_host(conn, _opts) do
-    :remote_retro
-    |> Application.get_env(:canonical_host)
-    |> case do
-      host when is_binary(host) ->
-        opts = PlugCanonicalHost.init(canonical_host: host)
-        PlugCanonicalHost.call(conn, opts)
-      _ ->
-        conn
+    if is_binary(@canonical_host) do
+      opts = PlugCanonicalHost.init(canonical_host: @canonical_host)
+      PlugCanonicalHost.call(conn, opts)
+    else
+      conn
     end
   end
 end

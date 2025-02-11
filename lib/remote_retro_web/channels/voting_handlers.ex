@@ -2,8 +2,6 @@ defmodule RemoteRetroWeb.VotingHandlers do
   alias RemoteRetro.{Repo, Vote}
   import Phoenix.Channel
 
-  import ShorterMaps
-
   @vote_submitted "vote_submitted"
   @vote_retracted "vote_retracted"
 
