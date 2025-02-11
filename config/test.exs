@@ -20,11 +20,13 @@ config :wallaby,
       "moz:firefoxOptions": %{
         args: ["-headless"]
       }
-    }
+    },
+    base_url: "http://localhost:4001",
+    port: 4444
   ],
   hackney_options: [timeout: :infinity],
   js_errors: true,
-  max_wait_time: 5_000
+  max_wait_time: 15_000
 config :bamboo, :refute_timeout, 10
 
 {:ok, file} = File.open("browser_logs.log", [:write])

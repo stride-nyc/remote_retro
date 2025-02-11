@@ -7,9 +7,22 @@ defmodule RemoteRetro.IntegrationCase do
   import TestHelpers
 
   setup_all context do
+    # Ensure all applications are started
     {:ok, _} = Application.ensure_all_started(:wallaby)
-    :timer.sleep(50)
+    {:ok, _} = Application.ensure_all_started(:remote_retro)
+    
+    # Configure Wallaby base URL
     Application.put_env(:wallaby, :base_url, "http://localhost:4001")
+    
+    # Give Selenium time to be ready
+    :timer.sleep(2000)
+    
+    on_exit fn ->
+      # Clean up resources
+      Application.stop(:wallaby)
+      Application.stop(:remote_retro)
+    end
+    
     context
   end
 
