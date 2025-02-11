@@ -2,12 +2,10 @@ defmodule FirstTimeUserExperienceTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.{Participation}
 
-  import ShorterMaps
-
   describe "a user with no prior retro experience" do
     setup [:remove_any_prior_participations_in_retros]
 
-    test "is welcomed as a new user who can create a retrospective", ~M{session} do
+    test "is welcomed as a new user who can create a retrospective", %{session: session} do
       visit(session, "/retros")
 
       assert_has(session, Query.css("body", text: "Welcome, Test!"))

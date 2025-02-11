@@ -2,8 +2,6 @@ defmodule ActionItemReviewInDashboardTest do
   alias RemoteRetro.{Idea}
   use RemoteRetro.IntegrationCase, async: false
 
-  import ShorterMaps
-
   describe "when a user has participated in a retro with action items" do
     setup [:persist_idea_for_retro, :log_participation_in_retro]
 
@@ -11,7 +9,7 @@ defmodule ActionItemReviewInDashboardTest do
       idea: %Idea{category: "action-item", body: "review action items from retro after standup"},
       retro_stage: "action-items"
     ]
-    test "those action items are reviewable in their dashboard", ~M{session: facilitator_session} do
+    test "those action items are reviewable in their dashboard", %{session: facilitator_session} do
       facilitator_session = visit(facilitator_session, "/retros")
 
       click(facilitator_session, Query.css(".action-items-label"))
@@ -23,7 +21,7 @@ defmodule ActionItemReviewInDashboardTest do
     end
   end
 
-  defp log_participation_in_retro(~M{retro, session} = context) do
+  defp log_participation_in_retro(%{retro: retro, session: session} = context) do
     visit_retro(session, retro)
 
     context

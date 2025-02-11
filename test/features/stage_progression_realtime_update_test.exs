@@ -1,12 +1,10 @@
 defmodule StageProgressionRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
 
-  import ShorterMaps
-
   @tag [
     retro_stage: "prime-directive"
   ]
-  test "realtime stage progression for connected users", ~M{retro, session: facilitator_session, non_facilitator} do
+  test "realtime stage progression for connected users", %{retro: retro, session: facilitator_session, non_facilitator: non_facilitator} do
     participant_session = new_authenticated_browser_session(non_facilitator)
     facilitator_session = visit_retro(facilitator_session, retro)
     participant_session = visit_retro(participant_session, retro)

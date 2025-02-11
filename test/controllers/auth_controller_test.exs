@@ -1,8 +1,6 @@
 defmodule RemoteRetro.AuthControllerTest do
   use RemoteRetroWeb.ConnCase, async: true
 
-  import ShorterMaps
-
   setup context do
     if desired_endpoint = context[:desired_endpoint_on_session] do
       %{conn: get(context[:conn], desired_endpoint)}
@@ -11,24 +9,24 @@ defmodule RemoteRetro.AuthControllerTest do
     end
   end
 
-  test "GET requests to /auth/google result in redirect to a google account page", ~M{conn} do
+  test "GET requests to /auth/google result in redirect to a google account page", %{conn: conn} do
     conn = get(conn, "/auth/google")
     assert redirected_to(conn) =~ "https://accounts.google.com/o/oauth2/auth"
   end
 
   describe "GET requests to /auth/google/callback" do
-    test "result in redirect to root by default", ~M{conn} do
+    test "result in redirect to root by default", %{conn: conn} do
       conn = get(conn, "/auth/google/callback?code=herpderp")
       assert redirected_to(conn) =~ "/"
     end
 
     @tag desired_endpoint_on_session: "/retros/3939akdjf92jh"
-    test "result in redirect to a desired endpoint when one exists on session", ~M{conn} do
+    test "result in redirect to a desired endpoint when one exists on session", %{conn: conn} do
       conn = get(conn, "/auth/google/callback?code=dontmesswiththejesus")
       assert redirected_to(conn) =~ "/retros/3939akdjf92jh"
     end
 
-    test "establish a session", ~M{conn} do
+    test "establish a session", %{conn: conn} do
       refute Map.has_key?(conn.private, :plug_session)
 
       conn = get(conn, "/auth/google/callback?code=timtom")
@@ -36,14 +34,14 @@ defmodule RemoteRetro.AuthControllerTest do
       assert Map.has_key?(conn.private, :plug_session)
     end
 
-    test "sets the current user's id on the session", ~M{conn} do
+    test "sets the current user's id on the session", %{conn: conn} do
       conn = get(conn, "/auth/google/callback?code=schlarpdarp")
       session = retrieve_session(conn)
 
       assert is_integer(session["current_user_id"])
     end
 
-    test "sets the current user's given_name on the session", ~M{conn} do
+    test "sets the current user's given_name on the session", %{conn: conn} do
       conn = get(conn, "/auth/google/callback?code=schlarpdarp")
       session = retrieve_session(conn)
 
@@ -52,7 +50,7 @@ defmodule RemoteRetro.AuthControllerTest do
   end
 
   describe ".logout" do
-    test "clears the session", ~M{conn} do
+    test "clears the session", %{conn: conn} do
       conn =
         Plug.Test.init_test_session(conn, %{
           "current_user_id" => 1,
@@ -70,7 +68,7 @@ defmodule RemoteRetro.AuthControllerTest do
       assert session_attributes_count_after == 0
     end
 
-    test "redirects the user to /", ~M{conn} do
+    test "redirects the user to /", %{conn: conn} do
       conn =
         conn
         |> get(Routes.auth_path(conn, :logout))

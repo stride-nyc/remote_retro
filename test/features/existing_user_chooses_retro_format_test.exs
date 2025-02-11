@@ -1,12 +1,10 @@
 defmodule ExistingUserChoosesRetroFormatTest do
   use RemoteRetro.IntegrationCase, async: false
 
-  import ShorterMaps
-
   describe "a user with prior retro experience" do
     setup [:ensure_user_has_prior_retro_experience]
 
-    test "is allowed to choose a retro format upon creation", ~M{session} do
+    test "is allowed to choose a retro format upon creation", %{session: session} do
       visit(session, "/retros")
 
       click(session, Query.css("button", text: "Create a Retrospective!"))
@@ -31,7 +29,7 @@ defmodule ExistingUserChoosesRetroFormatTest do
     end
   end
 
-  defp ensure_user_has_prior_retro_experience(~M{session, retro} = context) do
+  defp ensure_user_has_prior_retro_experience(%{session: session, retro: retro} = context) do
     visit_retro(session, retro)
 
     context

@@ -4,12 +4,10 @@ defmodule RemoteRetro.EctoSchemaPresenterTest do
   alias RemoteRetro.Retro
   alias RemoteRetroWeb.EctoSchemaPresenter
 
-  import ShorterMaps
-
   describe "given an ecto schema struct" do
     setup [:build_retro_schema_struct]
 
-    test "removal of :__meta__ metadata", ~M{retro_schema_struct} do
+    test "removal of :__meta__ metadata", %{retro_schema_struct: retro_schema_struct} do
       input_has_meta_key = Map.has_key?(retro_schema_struct, :__meta__)
 
       result = EctoSchemaPresenter.drop_metadata(retro_schema_struct)
@@ -19,7 +17,7 @@ defmodule RemoteRetro.EctoSchemaPresenterTest do
       assert input_has_meta_key && output_lacks_meta_key
     end
 
-    test "removal of :__struct__ metadata", ~M{retro_schema_struct} do
+    test "removal of :__struct__ metadata", %{retro_schema_struct: retro_schema_struct} do
       input_has_struct_key = Map.has_key?(retro_schema_struct, :__struct__)
 
       result = EctoSchemaPresenter.drop_metadata(retro_schema_struct)
@@ -29,7 +27,7 @@ defmodule RemoteRetro.EctoSchemaPresenterTest do
       assert input_has_struct_key && output_lacks_struct_key
     end
 
-    test "removal of any references to unloaded associations", ~M{retro_schema_struct} do
+    test "removal of any references to unloaded associations", %{retro_schema_struct: retro_schema_struct} do
       assert %Retro{
                action_items: %Ecto.Association.NotLoaded{}
              } = retro_schema_struct

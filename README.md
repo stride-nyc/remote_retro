@@ -53,7 +53,7 @@ psql -h localhost
 
 Authentication within Remote Retro relies on Google OAuth and the Google+ API. To set this up, navigate to the Google API console and create a new project: <https://console.developers.google.com/apis>
 
-Next, click on "Credentials" in the left sidebar nav. On the right hand side, click on the "Create Credentials" button and select "OAuth client ID".
+Next, click on "Credentials" in the left sidebar nav. On the right hand side, click on the "Create Project" button and select "OAuth client ID".
 
 ##### Settings
 

@@ -2,8 +2,6 @@ defmodule VotingTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.Idea
 
-  import ShorterMaps
-
   @category "happy"
 
   describe "voting for an idea" do
@@ -14,7 +12,7 @@ defmodule VotingTest do
       idea: %Idea{category: @category, body: "pacing well"}
     ]
     test "incrementing/decrementing an idea's vote count across sessions",
-         ~M{retro, session: facilitator_session_one, facilitator} do
+         %{retro: retro, session: facilitator_session_one, facilitator: facilitator} do
       facilitator_session_two = new_authenticated_browser_session(facilitator)
 
       facilitator_session_one = visit_retro(facilitator_session_one, retro)
@@ -46,7 +44,7 @@ defmodule VotingTest do
       idea: %Idea{category: @category, body: "Frequent Pairing"}
     ]
     test "facilitator broadcasting group 'label' changes to other clients",
-         ~M{retro, session: facilitator_session, non_facilitator} do
+         %{retro: retro, session: facilitator_session, non_facilitator: non_facilitator} do
       non_facilitator_session = new_authenticated_browser_session(non_facilitator)
 
       facilitator_session = visit_retro(facilitator_session, retro)
@@ -62,7 +60,7 @@ defmodule VotingTest do
       idea: %Idea{category: @category, body: "Frequent Pairing"}
     ]
     test "incrementing a group's vote count across sessions",
-         ~M{retro, session: facilitator_session_one, facilitator} do
+         %{retro: retro, session: facilitator_session_one, facilitator: facilitator} do
       facilitator_session_two = new_authenticated_browser_session(facilitator)
 
       facilitator_session_one = visit_retro(facilitator_session_one, retro)

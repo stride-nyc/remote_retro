@@ -1,12 +1,10 @@
 defmodule AccessStageHelpTest do
   use RemoteRetro.IntegrationCase, async: false
 
-  import ShorterMaps
-
   @tag [
     retro_stage: "action-items"
   ]
-  test "accessing stage info", ~M{retro, session} do
+  test "accessing stage info", %{retro: retro, session: session} do
     session = visit_retro(session, retro)
 
     trigger_help(session)
