@@ -7,6 +7,7 @@ jobs: # basic units of work in a run
         environment: # environment variables for primary container
           MIX_ENV: test
           NODE_OPTIONS: --openssl-legacy-provider
+          DISPLAY: :99
       - image: cimg/postgres:15.5-postgis # database image
 
     working_directory: ~/app # directory where steps will run
@@ -21,8 +22,21 @@ jobs: # basic units of work in a run
           name: Install System Dependencies
           command: |
             sudo apt-get update
-            sudo apt-get install -y curl inotify-tools chromium-browser firefox chromium-chromedriver
-            sudo ln -s /usr/lib/chromium-browser/chromedriver /usr/local/bin/chromedriver
+            sudo apt-get install -y curl inotify-tools chromium-browser firefox chromium-driver \
+              libnss3 libgconf-2-4 libxss1 libasound2 libxtst6 xvfb
+            # Find and link chromedriver
+            CHROMEDRIVER_PATH=$(which chromedriver)
+            echo "Chromedriver path: $CHROMEDRIVER_PATH"
+            sudo ln -sf $CHROMEDRIVER_PATH /usr/local/bin/chromedriver
+            sudo chmod +x /usr/local/bin/chromedriver
+            ls -l /usr/local/bin/chromedriver
+            chromedriver --version || true
+            # Export chromedriver path for Wallaby
+            echo "export CHROMEDRIVER_PATH=$CHROMEDRIVER_PATH" >> $BASH_ENV
+            source $BASH_ENV
+            # Start Xvfb for headless browser testing
+            Xvfb :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
+            export DISPLAY=:99
             # Install Node.js and Yarn
             curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
             sudo apt-get install -y nodejs

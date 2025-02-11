@@ -12,9 +12,11 @@ config :wallaby,
   screenshot_on_failure: true,
   driver: Wallaby.Chrome,
   chrome: [
-    path: "/usr/local/bin/chromedriver",
     headless: true,
     args: ["--no-sandbox", "--disable-dev-shm-usage"]
+  ],
+  chromedriver: [
+    path: System.get_env("CHROMEDRIVER_PATH", "/usr/local/bin/chromedriver")
   ]
 config :bamboo, :refute_timeout, 10
 
