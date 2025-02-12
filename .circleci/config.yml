@@ -208,7 +208,9 @@ jobs: # basic units of work in a run
       - store_artifacts:
           path: screenshots
       - store_artifacts:
-          path: selenium.log
+          path: selenium-debug.log
+      - store_artifacts:
+          path: firefox.log
       - store_artifacts:
           path: browser_logs.log
 
