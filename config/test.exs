@@ -56,6 +56,7 @@ config :remote_retro, RemoteRetro.Repo,
   hostname: "localhost",
   pool: Ecto.Adapters.SQL.Sandbox,
   pool_size: 20,
+  queue_target: 5000,
   ownership_timeout: 60_000
 
 config :remote_retro, :oauth_client, RemoteRetro.OAuth.Client.InMemory
