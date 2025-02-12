@@ -35,8 +35,9 @@ defmodule RemoteRetro.IntegrationCase do
         exit(:selenium_not_ready)
     end
 
-    on_exit(fn ->
-      Application.stop(:wallaby)
+    on_exit(fn -> 
+      # Start cleanup with remote_retro
+      :ok = Application.stop(:remote_retro)
     end)
 
     :ok
