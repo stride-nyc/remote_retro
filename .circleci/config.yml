@@ -300,7 +300,10 @@ jobs: # basic units of work in a run
       - run:
           name: Setup Selenium
           command: |
-            # Start Xvfb first
+            # Clean up any stale Xvfb lock files
+            sudo rm -f /tmp/.X99-lock
+            
+            # Start Xvfb
             Xvfb :99 -screen 0 1280x1024x24 &
             export DISPLAY=:99
             
