@@ -11,23 +11,23 @@ config :remote_retro, :sql_sandbox, true
 # Increase log level for better debugging
 config :logger, level: :debug
 
-config :wallaby,
-  screenshot_on_failure: true,
-  driver: Wallaby.Selenium,
-  selenium: [
-    capabilities: %{
-      browserName: "firefox",
-      "moz:firefoxOptions": %{
-        log: %{level: "trace"}
-      }
-    },
-    base_url: "http://localhost:4001",
-    port: 4444,
-    path_prefix: "wd/hub"
-  ],
-  hackney_options: [timeout: :infinity, recv_timeout: 30_000],
-  js_errors: true,
-  max_wait_time: 30_000
+#config :wallaby,
+#  screenshot_on_failure: true,
+#  driver: Wallaby.Selenium,
+#  selenium: [
+#    capabilities: %{
+#      browserName: "firefox",
+#      "moz:firefoxOptions": %{
+#        log: %{level: "trace"}
+#      }
+#    },
+#    base_url: "http://localhost:4001",
+#    port: 4444,
+#    path_prefix: "wd/hub"
+#  ],
+#  hackney_options: [timeout: :infinity, recv_timeout: 30_000],
+#  js_errors: true,
+#  max_wait_time: 30_000
 config :bamboo, :refute_timeout, 10
 
 {:ok, file} = File.open("browser_logs.log", [:write])
