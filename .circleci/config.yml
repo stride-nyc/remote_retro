@@ -1,4 +1,8 @@
-version: 2 # use CircleCI 2.0 instead of CircleCI Classic
+version: 2.1 # use CircleCI 2.1 to enable orb usage
+
+orbs:
+  browser-tools: circleci/browser-tools@1.5.2
+
 jobs: # basic units of work in a run
   build: # runs not using Workflows must have a `build` job as entry point
     parallelism: 1 # run only one instance of this job in parallel
@@ -297,43 +301,29 @@ jobs: # basic units of work in a run
               end)
             '
 
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+
       - run:
-          name: Setup Selenium
+          name: Check Chrome install
           command: |
-            # Clean up any stale Xvfb lock files
-            sudo rm -f /tmp/.X99-lock
+            google-chrome --version
+            chromedriver --version
+
+      - run:
+          name: Setup X server
+          command: |
+            # Clean up any stale X server processes and lock files
+            sudo pkill Xvfb || true
+            sudo rm -f /tmp/.X*-lock
+            sudo rm -rf /tmp/.X11-unix
             
             # Start Xvfb
             Xvfb :99 -screen 0 1280x1024x24 &
             export DISPLAY=:99
             
-            # Start Selenium with detailed logging
-            java -Dwebdriver.gecko.driver=/usr/local/bin/geckodriver \
-                 -Dwebdriver.firefox.logfile=firefox.log \
-                 -jar /usr/local/bin/selenium-server-standalone.jar \
-                 -port 4444 \
-                 -log selenium-debug.log &
-            
-            # Wait for Selenium with better error handling
-            max_attempts=45
-            attempt=1
-            echo "Waiting for Selenium..."
-            while ! curl -s http://localhost:4444/wd/hub/status > /dev/null; do
-              if [ $attempt -eq $max_attempts ]; then
-                echo "Selenium failed to start after $max_attempts attempts"
-                echo "=== Selenium Logs ==="
-                cat selenium-debug.log
-                echo "=== Firefox Logs ==="
-                cat firefox.log
-                exit 1
-              fi
-              echo "Attempt $attempt/$max_attempts..."
-              sleep 2
-              attempt=$((attempt + 1))
-            done
-            
-            echo "Selenium is running"
-            curl -s http://localhost:4444/wd/hub/status
+            # Wait for Xvfb to be ready
+            sleep 2
 
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
@@ -396,10 +386,6 @@ jobs: # basic units of work in a run
           path: _build/test/junit
       - store_artifacts:
           path: screenshots
-      - store_artifacts:
-          path: selenium-debug.log
-      - store_artifacts:
-          path: firefox.log
       - store_artifacts:
           path: browser_logs.log
 
