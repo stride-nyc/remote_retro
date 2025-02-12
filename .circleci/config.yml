@@ -150,28 +150,39 @@ jobs: # basic units of work in a run
             "
 
       - run:
-          name: Start and Verify Selenium
+          name: Setup Selenium
           command: |
-            # Start Selenium with debug logging
+            # Start Xvfb first
+            Xvfb :99 -screen 0 1280x1024x24 &
+            export DISPLAY=:99
+            
+            # Start Selenium with detailed logging
             java -Dwebdriver.gecko.driver=/usr/local/bin/geckodriver \
+                 -Dwebdriver.firefox.logfile=firefox.log \
                  -jar /usr/local/bin/selenium-server-standalone.jar \
                  -port 4444 \
-                 -log selenium.log &
+                 -log selenium-debug.log &
             
-            # More robust wait for Selenium
-            for i in {1..45}; do
-              if curl -s http://localhost:4444/wd/hub/status | grep "ready.*true" > /dev/null; then
-                echo "Selenium is up and running"
-                break
-              fi
-              echo "Waiting for Selenium... attempt $i/45"
-              sleep 2
-              if [ $i -eq 45 ]; then
-                echo "Selenium failed to start"
-                cat selenium.log
+            # Wait for Selenium with better error handling
+            max_attempts=45
+            attempt=1
+            echo "Waiting for Selenium..."
+            while ! curl -s http://localhost:4444/wd/hub/status > /dev/null; do
+              if [ $attempt -eq $max_attempts ]; then
+                echo "Selenium failed to start after $max_attempts attempts"
+                echo "=== Selenium Logs ==="
+                cat selenium-debug.log
+                echo "=== Firefox Logs ==="
+                cat firefox.log
                 exit 1
               fi
+              echo "Attempt $attempt/$max_attempts..."
+              sleep 2
+              attempt=$((attempt + 1))
             done
+            
+            echo "Selenium is running"
+            curl -s http://localhost:4444/wd/hub/status
 
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
