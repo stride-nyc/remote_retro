@@ -135,65 +135,89 @@ jobs: # basic units of work in a run
       - run:
           name: Setup Test Environment
           command: |
-            mix run -e "
-              # Load all configs
-              IO.puts \"Loading configuration...\"
+            mix run -e '
+              # First, let''s ensure our configuration is loaded properly
+              IO.puts "Loading configuration..."
               Application.load(:remote_retro)
               
-              # Start dependencies in order
-              IO.puts \"Starting dependencies...\"
+              # Let''s verify our database configuration
+              db_config = Application.get_env(:remote_retro, RemoteRetro.Repo)
+              IO.puts """
+              Database configuration:
+              - Hostname: #{db_config[:hostname]}
+              - Database: #{db_config[:database]}
+              - Username: #{db_config[:username]}
+              - Pool Size: #{db_config[:pool_size]}
+              """
+              
+              # Start our dependencies in the correct order
+              IO.puts "\nStarting core dependencies..."
               {:ok, _} = Application.ensure_all_started(:logger)
+              {:ok, _} = Application.ensure_all_started(:ssl)
               {:ok, _} = Application.ensure_all_started(:postgrex)
+              
+              # Start Ecto separately to better track any issues
+              IO.puts "\nStarting Ecto..."
               {:ok, _} = Application.ensure_all_started(:ecto_sql)
               
-              # Start the application
-              IO.puts \"Starting application...\"
-              {:ok, _} = Application.ensure_all_started(:remote_retro)
+              # Now start our application
+              IO.puts "\nStarting RemoteRetro..."
+              case Application.ensure_all_started(:remote_retro) do
+                {:ok, started_apps} ->
+                  IO.puts "Started applications: #{inspect(started_apps)}"
+                {:error, {app, reason}} ->
+                  IO.puts "Failed to start #{app}: #{inspect(reason)}"
+                  System.halt(1)
+              end
               
-              # Configure sandbox after app is started
-              IO.puts \"Configuring sandbox...\"
-              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
+              # Configure and verify sandbox mode
+              IO.puts "\nSetting up database sandbox..."
+              :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
               
-              # Add retry logic with delay
+              # Add robust connection verification with detailed logging
+              IO.puts "\nVerifying database connection..."
               max_attempts = 3
+              
               result = Enum.reduce_while(1..max_attempts, {:error, nil}, fn attempt, _ ->
-                IO.puts \"Connection attempt \#{attempt}/\#{max_attempts}...\"
-                :timer.sleep(2000)  # 2 second delay between attempts
+                IO.puts "\nAttempt #{attempt} of #{max_attempts}"
+                :timer.sleep(2000)
                 
-                case RemoteRetro.Repo.query(\"SELECT 1\") do
-                  {:ok, result} -> 
-                    IO.puts \"✓ Database connection verified: \#{inspect(result)}\"
-                    {:halt, {:ok, result}}
-                  {:error, %{postgres: %{message: msg}}} -> 
-                    IO.puts \"✗ Database connection failed: \#{msg}\"
-                    if attempt == max_attempts do
-                      {:halt, {:error, msg}}
-                    else
-                      {:cont, {:error, msg}}
-                    end
-                  {:error, err} -> 
-                    IO.puts \"✗ Database connection failed: \#{inspect(err)}\"
-                    if attempt == max_attempts do
-                      {:halt, {:error, err}}
-                    else
-                      {:cont, {:error, err}}
-                    end
+                try do
+                  case RemoteRetro.Repo.query("SELECT current_timestamp") do
+                    {:ok, result} ->
+                      timestamp = result.rows |> List.first() |> List.first()
+                      IO.puts "✓ Database connection successful - Server time: #{timestamp}"
+                      {:halt, {:ok, result}}
+                    {:error, error} ->
+                      IO.puts "✗ Query failed: #{inspect(error)}"
+                      if attempt == max_attempts, do: {:halt, {:error, error}}, else: {:cont, {:error, error}}
+                  end
+                rescue
+                  e in DBConnection.ConnectionError ->
+                    IO.puts "✗ Connection error: #{Exception.message(e)}"
+                    if attempt == max_attempts, do: {:halt, {:error, e}}, else: {:cont, {:error, e}}
+                  e ->
+                    IO.puts "✗ Unexpected error: #{inspect(e)}"
+                    if attempt == max_attempts, do: {:halt, {:error, e}}, else: {:cont, {:error, e}}
                 end
               end)
 
               case result do
-                {:ok, _} -> :ok
-                {:error, _} -> System.halt(1)
+                {:ok, _} -> 
+                  IO.puts "\n✓ Database setup completed successfully"
+                {:error, error} -> 
+                  IO.puts "\n✗ Database setup failed: #{inspect(error)}"
+                  System.halt(1)
               end
 
               # Register cleanup on exit
               :ok = ExUnit.after_suite(fn ->
-                IO.puts \"Cleaning up test environment...\"
+                IO.puts "\nCleaning up test environment..."
                 :ok = Application.stop(:remote_retro)
                 :ok = Application.stop(:wallaby)
                 :ok = Application.stop(:phoenix)
               end)
-            "
+            '
 
       - run:
           name: Setup Selenium
