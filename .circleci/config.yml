@@ -115,49 +115,38 @@ jobs: # basic units of work in a run
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run:
-          name: Check Database Configuration
+          name: Setup Test Environment
           command: |
-            # Just load and print config, no DB connection
-            mix run --no-start -e "
-              IO.puts(\"Loading configuration...\")
-              Application.load(:remote_retro)
-              config = Application.get_env(:remote_retro, RemoteRetro.Repo)
-              IO.puts(\"Database config:\")
-              config |> Enum.each(fn {k, v} -> 
-                if is_binary(v), do: IO.puts(\"  #{k}: #{v}\")
-              end)
-            "
-
-      - run:
-          name: Setup Database and Start Application
-          command: |
-            # Set up Ecto
-            mix ecto.create
-            mix ecto.migrate
-            
-            # Start the application
             mix run -e "
-              IO.puts \"Starting application...\"
+              # Load all configs
               Application.load(:remote_retro)
+              
+              # Start required dependencies
+              IO.puts \"Starting dependencies...\"
+              Application.ensure_all_started(:ecto)
+              Application.ensure_all_started(:postgrex)
+              
+              # Create and migrate database
+              IO.puts \"Setting up database...\"
+              Mix.Task.run(\"ecto.create\", [\"--quiet\"])
+              Mix.Task.run(\"ecto.migrate\", [\"--quiet\"])
+              
+              # Start the application
+              IO.puts \"Starting application...\"
               Application.ensure_all_started(:remote_retro)
+              
+              # Configure sandbox
+              IO.puts \"Configuring sandbox...\"
+              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
               
               # Verify Repo is started
               case Process.whereis(RemoteRetro.Repo) do
                 pid when is_pid(pid) -> 
-                  IO.puts \"Repo started successfully\"
+                  IO.puts \"✓ Repo started successfully\"
                 nil -> 
-                  IO.puts \"Failed to start Repo\"
+                  IO.puts \"✗ Failed to start Repo\"
                   System.halt(1)
               end
-            "
-
-      - run:
-          name: Configure Test Environment
-          command: |
-            # Ensure SQL Sandbox is configured
-            mix run -e "
-              :ok = Application.ensure_started(:remote_retro)
-              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
             "
 
       - run:
