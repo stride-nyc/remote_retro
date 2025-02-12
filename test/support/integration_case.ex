@@ -48,23 +48,8 @@ defmodule RemoteRetro.IntegrationCase do
   setup_all context do
     {:ok, _} = Application.ensure_all_started(:wallaby)
     :timer.sleep(50)
-    Application.put_env(:wallaby, :base_url, "http://localhost:4001")
+    Application.put_env(:wallaby, :base_url, "http://selenium:4444/wd/hub/")
     context
-  end
-
-  using do
-    quote do
-      use Wallaby.DSL
-
-      alias RemoteRetro.Repo
-      import Ecto
-      import Ecto.Changeset
-      import Ecto.Query
-
-      alias RemoteRetroWeb.Router.Helpers, as: Routes
-      import RemoteRetro.TestHelpers
-      @moduletag :feature_test
-    end
   end
 
   using do
