@@ -238,9 +238,15 @@ jobs: # basic units of work in a run
                   System.halt(1)
               end
               
-              # Configure and verify sandbox mode
+              # Important: Configure sandbox BEFORE trying to use the connection
               IO.puts "\nSetting up database sandbox..."
               :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
+              
+              # Now check out a connection for this process
+              :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
+              
+              # Make it shared so child processes can use it
+              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
               
               # Add robust connection verification with detailed logging
               IO.puts "\nVerifying database connection..."
@@ -273,8 +279,12 @@ jobs: # basic units of work in a run
               case result do
                 {:ok, _} -> 
                   IO.puts "\n✓ Database setup completed successfully"
+                  # Proper cleanup
+                  Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
                 {:error, error} -> 
                   IO.puts "\n✗ Database setup failed: #{inspect(error)}"
+                  # Ensure we clean up even on failure
+                  Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
                   System.halt(1)
               end
 
