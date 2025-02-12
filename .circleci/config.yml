@@ -117,37 +117,29 @@ jobs: # basic units of work in a run
       - run:
           name: Check Database Configuration
           command: |
-            echo "Checking database configuration..."
-            mix run -e "
+            # Just load and print config, no DB connection
+            mix run --no-start -e "
+              IO.puts(\"Loading configuration...\")
               Application.load(:remote_retro)
               config = Application.get_env(:remote_retro, RemoteRetro.Repo)
-              IO.puts \"Database config: \"
-              Enum.each(config, fn {k, v} -> 
+              IO.puts(\"Database config:\")
+              config |> Enum.each(fn {k, v} -> 
                 if is_binary(v), do: IO.puts(\"  #{k}: #{v}\")
               end)
             "
 
       - run:
-          name: Setup Database and Start Application
+          name: Create and Migrate Database
           command: |
-            # Load application without starting
+            mix ecto.create
+            mix ecto.migrate
+
+      - run:
+          name: Start Application
+          command: |
             mix run -e "
-              IO.puts(\"Loading application...\")
-              Application.load(:remote_retro)
-              
-              # Print loaded configuration
-              IO.puts(\"Loaded config:\")
-              IO.inspect(Application.get_all_env(:remote_retro))
-              
-              # Create and migrate database
-              System.cmd(\"mix\", [\"ecto.create\"])
-              System.cmd(\"mix\", [\"ecto.migrate\"])
-              
-              # Start the application
               IO.puts(\"Starting application...\")
               {:ok, _} = Application.ensure_all_started(:remote_retro)
-              
-              # Verify Repo status
               repo_pid = Process.whereis(RemoteRetro.Repo)
               IO.puts(\"Repo process: #{inspect(repo_pid)}\")
             "
