@@ -337,54 +337,57 @@ jobs: # basic units of work in a run
       - run:
           name: Run Tests
           command: |
-            # Setup test environment
+            # Setup test environment with proper connection management
             mix run -e '
-              # Ensure application and database are properly configured
+              # First load all necessary applications
+              IO.puts "Loading applications..."
               Application.load(:remote_retro)
-              Application.ensure_all_started(:remote_retro)
+              {:ok, _} = Application.ensure_all_started(:remote_retro)
               
               # Configure sandbox mode for testing
+              IO.puts "Configuring database sandbox..."
               :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
               
-              # Verify database is ready
-              case RemoteRetro.Repo.query("SELECT 1") do
-                {:ok, _} -> IO.puts "Database ready for testing"
-                {:error, error} -> 
-                  IO.puts "Database not ready: #{inspect(error)}"
-                  System.halt(1)
+              # Explicitly check out a connection for this process
+              IO.puts "Checking out database connection..."
+              :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
+              
+              # Allow other processes to share this connection
+              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
+              
+              # Now verify database is ready
+              IO.puts "Verifying database connection..."
+              try do
+                case RemoteRetro.Repo.query("SELECT 1") do
+                  {:ok, _} -> 
+                    IO.puts "✓ Database ready for testing"
+                  {:error, error} -> 
+                    IO.puts "✗ Database error: #{inspect(error)}"
+                    System.halt(1)
+                end
+              after
+                # Always check the connection back in
+                Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
               end
             '
             
             echo "Running non-feature tests..."
             if ! mix test --exclude feature_test --trace; then
               echo "Non-feature tests failed"
-              mix ecto.reset  # Reset database state
               exit 1
             fi
-            
-            # Reset database state between test suites
-            mix ecto.reset
             
             echo "Running feature tests..."
             if ! MIX_ENV=test TEST_DEBUG=1 mix test --only feature_test --trace; then
               echo "Feature tests failed"
-              mix ecto.reset  # Reset database state
               exit 1
             fi
             
             # Run coverage if token is available
             if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
               echo "Running coverage report..."
-              mix ecto.reset  # Reset database state before coverage
               mix coveralls.circle --include feature_test
             fi
-            
-            # Final cleanup
-            mix run -e '
-              IO.puts "Cleaning up test environment..."
-              :ok = Application.stop(:remote_retro)
-              IO.puts "Cleanup complete"
-            '
 
       - store_test_results: # upload test results for display in Test Summary
           path: _build/test/junit
