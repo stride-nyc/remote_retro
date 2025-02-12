@@ -200,208 +200,216 @@ jobs: # basic units of work in a run
               end)
             '
 
-      - run:
-          name: Setup Test Environment
-          command: |
-            mix run -e '
-              # First, let''s ensure our configuration is loaded properly
-              IO.puts "Loading configuration..."
-              Application.load(:remote_retro)
+#       - run:
+#           name: Setup Test Environment
+#           command: |
+#             mix run -e '
+#               # First, let''s ensure our configuration is loaded properly
+#               IO.puts "Loading configuration..."
+#               Application.load(:remote_retro)
               
-              # Let''s verify our database configuration
-              db_config = Application.get_env(:remote_retro, RemoteRetro.Repo)
-              IO.puts """
-              Database configuration:
-              - Hostname: #{db_config[:hostname]}
-              - Database: #{db_config[:database]}
-              - Username: #{db_config[:username]}
-              - Pool Size: #{db_config[:pool_size]}
-              """
+#               # Let''s verify our database configuration
+#               db_config = Application.get_env(:remote_retro, RemoteRetro.Repo)
+#               IO.puts """
+#               Database configuration:
+#               - Hostname: #{db_config[:hostname]}
+#               - Database: #{db_config[:database]}
+#               - Username: #{db_config[:username]}
+#               - Pool Size: #{db_config[:pool_size]}
+#               """
               
-              # Start our dependencies in the correct order
-              IO.puts "\nStarting core dependencies..."
-              {:ok, _} = Application.ensure_all_started(:logger)
-              {:ok, _} = Application.ensure_all_started(:ssl)
-              {:ok, _} = Application.ensure_all_started(:postgrex)
+#               # Start our dependencies in the correct order
+#               IO.puts "\nStarting core dependencies..."
+#               {:ok, _} = Application.ensure_all_started(:logger)
+#               {:ok, _} = Application.ensure_all_started(:ssl)
+#               {:ok, _} = Application.ensure_all_started(:postgrex)
               
-              # Start Ecto separately to better track any issues
-              IO.puts "\nStarting Ecto..."
-              {:ok, _} = Application.ensure_all_started(:ecto_sql)
+#               # Start Ecto separately to better track any issues
+#               IO.puts "\nStarting Ecto..."
+#               {:ok, _} = Application.ensure_all_started(:ecto_sql)
               
-              # Now start our application
-              IO.puts "\nStarting RemoteRetro..."
-              case Application.ensure_all_started(:remote_retro) do
-                {:ok, started_apps} ->
-                  IO.puts "Started applications: #{inspect(started_apps)}"
-                {:error, {app, reason}} ->
-                  IO.puts "Failed to start #{app}: #{inspect(reason)}"
-                  System.halt(1)
-              end
+#               # Now start our application
+#               IO.puts "\nStarting RemoteRetro..."
+#               case Application.ensure_all_started(:remote_retro) do
+#                 {:ok, started_apps} ->
+#                   IO.puts "Started applications: #{inspect(started_apps)}"
+#                 {:error, {app, reason}} ->
+#                   IO.puts "Failed to start #{app}: #{inspect(reason)}"
+#                   System.halt(1)
+#               end
               
-              # Important: Configure sandbox BEFORE trying to use the connection
-              IO.puts "\nSetting up database sandbox..."
-              :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
+#               # Important: Configure sandbox BEFORE trying to use the connection
+#               IO.puts "\nSetting up database sandbox..."
+#               :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
               
-              # Now check out a connection for this process
-              :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
+#               # Now check out a connection for this process
+#               :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
               
-              # Make it shared so child processes can use it
-              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
+#               # Make it shared so child processes can use it
+#               Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
               
-              # Add robust connection verification with detailed logging
-              IO.puts "\nVerifying database connection..."
-              max_attempts = 3
+#               # Add robust connection verification with detailed logging
+#               IO.puts "\nVerifying database connection..."
+#               max_attempts = 3
               
-              result = Enum.reduce_while(1..max_attempts, {:error, nil}, fn attempt, _ ->
-                IO.puts "\nAttempt #{attempt} of #{max_attempts}"
-                :timer.sleep(2000)
+#               result = Enum.reduce_while(1..max_attempts, {:error, nil}, fn attempt, _ ->
+#                 IO.puts "\nAttempt #{attempt} of #{max_attempts}"
+#                 :timer.sleep(2000)
                 
-                try do
-                  case RemoteRetro.Repo.query("SELECT current_timestamp") do
-                    {:ok, result} ->
-                      timestamp = result.rows |> List.first() |> List.first()
-                      IO.puts "✓ Database connection successful - Server time: #{timestamp}"
-                      {:halt, {:ok, result}}
-                    {:error, error} ->
-                      IO.puts "✗ Query failed: #{inspect(error)}"
-                      if attempt == max_attempts, do: {:halt, {:error, error}}, else: {:cont, {:error, error}}
-                  end
-                rescue
-                  e in DBConnection.ConnectionError ->
-                    IO.puts "✗ Connection error: #{Exception.message(e)}"
-                    if attempt == max_attempts, do: {:halt, {:error, e}}, else: {:cont, {:error, e}}
-                  e ->
-                    IO.puts "✗ Unexpected error: #{inspect(e)}"
-                    if attempt == max_attempts, do: {:halt, {:error, e}}, else: {:cont, {:error, e}}
-                end
-              end)
+#                 try do
+#                   case RemoteRetro.Repo.query("SELECT current_timestamp") do
+#                     {:ok, result} ->
+#                       timestamp = result.rows |> List.first() |> List.first()
+#                       IO.puts "✓ Database connection successful - Server time: #{timestamp}"
+#                       {:halt, {:ok, result}}
+#                     {:error, error} ->
+#                       IO.puts "✗ Query failed: #{inspect(error)}"
+#                       if attempt == max_attempts, do: {:halt, {:error, error}}, else: {:cont, {:error, error}}
+#                   end
+#                 rescue
+#                   e in DBConnection.ConnectionError ->
+#                     IO.puts "✗ Connection error: #{Exception.message(e)}"
+#                     if attempt == max_attempts, do: {:halt, {:error, e}}, else: {:cont, {:error, e}}
+#                   e ->
+#                     IO.puts "✗ Unexpected error: #{inspect(e)}"
+#                     if attempt == max_attempts, do: {:halt, {:error, e}}, else: {:cont, {:error, e}}
+#                 end
+#               end)
 
-              case result do
-                {:ok, _} -> 
-                  IO.puts "\n✓ Database setup completed successfully"
-                  # Proper cleanup
-                  Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
-                {:error, error} -> 
-                  IO.puts "\n✗ Database setup failed: #{inspect(error)}"
-                  # Ensure we clean up even on failure
-                  Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
-                  System.halt(1)
-              end
+#               case result do
+#                 {:ok, _} -> 
+#                   IO.puts "\n✓ Database setup completed successfully"
+#                   # Proper cleanup
+#                   Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
+#                 {:error, error} -> 
+#                   IO.puts "\n✗ Database setup failed: #{inspect(error)}"
+#                   # Ensure we clean up even on failure
+#                   Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
+#                   System.halt(1)
+#               end
 
-              # Register cleanup on exit
-              :ok = ExUnit.after_suite(fn ->
-                IO.puts "\nCleaning up test environment..."
-                :ok = Application.stop(:remote_retro)
-                :ok = Application.stop(:wallaby)
-                :ok = Application.stop(:phoenix)
-              end)
-            '
+#               # Register cleanup on exit
+#               :ok = ExUnit.after_suite(fn ->
+#                 IO.puts "\nCleaning up test environment..."
+#                 :ok = Application.stop(:remote_retro)
+#                 :ok = Application.stop(:wallaby)
+#                 :ok = Application.stop(:phoenix)
+#               end)
+#             '
 
-      - run:
-          name: Setup Selenium
-          command: |
-            # Clean up any stale Xvfb lock files
-            sudo rm -f /tmp/.X99-lock
+#       - run:
+#           name: Setup Selenium
+#           command: |
+#             # Clean up any stale Xvfb lock files
+#             sudo rm -f /tmp/.X99-lock
             
-            # Start Xvfb
-            Xvfb :99 -screen 0 1280x1024x24 &
-            export DISPLAY=:99
+#             # Start Xvfb
+#             Xvfb :99 -screen 0 1280x1024x24 &
+#             export DISPLAY=:99
             
-            # Start Selenium with detailed logging
-            java -Dwebdriver.gecko.driver=/usr/local/bin/geckodriver \
-                 -Dwebdriver.firefox.logfile=firefox.log \
-                 -jar /usr/local/bin/selenium-server-standalone.jar \
-                 -port 4444 \
-                 -log selenium-debug.log &
+#             # Start Selenium with detailed logging
+#             java -Dwebdriver.gecko.driver=/usr/local/bin/geckodriver \
+#                  -Dwebdriver.firefox.logfile=firefox.log \
+#                  -jar /usr/local/bin/selenium-server-standalone.jar \
+#                  -port 4444 \
+#                  -log selenium-debug.log &
             
-            # Wait for Selenium with better error handling
-            max_attempts=45
-            attempt=1
-            echo "Waiting for Selenium..."
-            while ! curl -s http://localhost:4444/wd/hub/status > /dev/null; do
-              if [ $attempt -eq $max_attempts ]; then
-                echo "Selenium failed to start after $max_attempts attempts"
-                echo "=== Selenium Logs ==="
-                cat selenium-debug.log
-                echo "=== Firefox Logs ==="
-                cat firefox.log
-                exit 1
-              fi
-              echo "Attempt $attempt/$max_attempts..."
-              sleep 2
-              attempt=$((attempt + 1))
-            done
+#             # Wait for Selenium with better error handling
+#             max_attempts=45
+#             attempt=1
+#             echo "Waiting for Selenium..."
+#             while ! curl -s http://localhost:4444/wd/hub/status > /dev/null; do
+#               if [ $attempt -eq $max_attempts ]; then
+#                 echo "Selenium failed to start after $max_attempts attempts"
+#                 echo "=== Selenium Logs ==="
+#                 cat selenium-debug.log
+#                 echo "=== Firefox Logs ==="
+#                 cat firefox.log
+#                 exit 1
+#               fi
+#               echo "Attempt $attempt/$max_attempts..."
+#               sleep 2
+#               attempt=$((attempt + 1))
+#             done
             
-            echo "Selenium is running"
-            curl -s http://localhost:4444/wd/hub/status
+#             echo "Selenium is running"
+#             curl -s http://localhost:4444/wd/hub/status
 
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
       - run:
-          name: Run Tests
           command: |
-            # Setup test environment with proper connection management
-            mix run -e '
-              # First load all necessary applications
-              IO.puts "Loading applications..."
-              Application.load(:remote_retro)
-              {:ok, _} = Application.ensure_all_started(:remote_retro)
-              
-              # Configure sandbox mode for testing
-              IO.puts "Configuring database sandbox..."
-              :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
-              
-              # Explicitly check out a connection for this process
-              IO.puts "Checking out database connection..."
-              :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
-              
-              # Allow other processes to share this connection
-              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
-              
-              # Now verify database is ready
-              IO.puts "Verifying database connection..."
-              try do
-                case RemoteRetro.Repo.query("SELECT 1") do
-                  {:ok, _} -> 
-                    IO.puts "✓ Database ready for testing"
-                  {:error, error} -> 
-                    IO.puts "✗ Database error: #{inspect(error)}"
-                    System.halt(1)
-                end
-              after
-                # Always check the connection back in
-                Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
-              end
-            '
-            
-            echo "Running non-feature tests..."
-            if ! mix test --exclude feature_test --trace; then
-              echo "Non-feature tests failed"
-              exit 1
-            fi
-            
-            echo "Running feature tests..."
-            if ! MIX_ENV=test TEST_DEBUG=1 mix test --only feature_test --trace; then
-              echo "Feature tests failed"
-              exit 1
-            fi
-            
-            # Run coverage if token is available
             if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
-              echo "Running coverage report..."
-              mix coveralls.circle --include feature_test
+              mix coveralls.circle --include feature_test;
+            else
+              mix test --exclude feature_test;
+              mix test --only feature_test;
             fi
+#       - run:
+#           name: Run Tests
+#           command: |
+#             # Setup test environment with proper connection management
+#             mix run -e '
+#               # First load all necessary applications
+#               IO.puts "Loading applications..."
+#               Application.load(:remote_retro)
+#               {:ok, _} = Application.ensure_all_started(:remote_retro)
+              
+#               # Configure sandbox mode for testing
+#               IO.puts "Configuring database sandbox..."
+#               :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
+              
+#               # Explicitly check out a connection for this process
+#               IO.puts "Checking out database connection..."
+#               :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
+              
+#               # Allow other processes to share this connection
+#               Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
+              
+#               # Now verify database is ready
+#               IO.puts "Verifying database connection..."
+#               try do
+#                 case RemoteRetro.Repo.query("SELECT 1") do
+#                   {:ok, _} -> 
+#                     IO.puts "✓ Database ready for testing"
+#                   {:error, error} -> 
+#                     IO.puts "✗ Database error: #{inspect(error)}"
+#                     System.halt(1)
+#                 end
+#               after
+#                 # Always check the connection back in
+#                 Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
+#               end
+#             '
+            
+#             echo "Running non-feature tests..."
+#             if ! mix test --exclude feature_test --trace; then
+#               echo "Non-feature tests failed"
+#               exit 1
+#             fi
+            
+#             echo "Running feature tests..."
+#             if ! MIX_ENV=test TEST_DEBUG=1 mix test --only feature_test --trace; then
+#               echo "Feature tests failed"
+#               exit 1
+#             fi
+            
+#             # Run coverage if token is available
+#             if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
+#               echo "Running coverage report..."
+#               mix coveralls.circle --include feature_test
+#             fi
 
       - store_test_results: # upload test results for display in Test Summary
           path: _build/test/junit
       - store_artifacts:
           path: screenshots
-      - store_artifacts:
-          path: selenium-debug.log
-      - store_artifacts:
-          path: firefox.log
-      - store_artifacts:
-          path: browser_logs.log
+#       - store_artifacts:
+#           path: selenium-debug.log
+#       - store_artifacts:
+#           path: firefox.log
+#       - store_artifacts:
+#           path: browser_logs.log
 
   deploy:
     machine: true
