@@ -6,43 +6,65 @@ defmodule RemoteRetro.IntegrationCase do
 
   import TestHelpers
 
-  setup_all _context do
-    # Start applications in correct order
-    {:ok, _} = Application.ensure_all_started(:phoenix)
+#  setup_all _context do
+#    # Start applications in correct order
+#    {:ok, _} = Application.ensure_all_started(:phoenix)
+#   {:ok, _} = Application.ensure_all_started(:wallaby)
+#    {:ok, _} = Application.ensure_all_started(:remote_retro)
+#    
+#    # Configure Wallaby
+#    Application.put_env(:wallaby, :base_url, "http://localhost:4001")
+#    Application.put_env(:wallaby, :selenium, [
+#      capabilities: %{
+#        browserName: "firefox",
+#        "moz:firefoxOptions": %{
+#          args: ["-headless"],
+#          log: %{level: "trace"}
+#        }
+#      },
+#      port: 4444,
+#      path_prefix: "wd/hub"
+#    ])
+#
+#    # Verify Selenium is running
+#    case HTTPoison.get("http://localhost:4444/wd/hub/status") do
+#      {:ok, response} ->
+#        IO.puts "Selenium status: #{response.body}"
+#      {:error, error} ->
+#        IO.puts "Error checking Selenium status: #{inspect(error)}"
+#        exit(:selenium_not_ready)
+#    end
+#
+#    on_exit(fn -> 
+#      # Cleanup applications in reverse order
+#      :ok = Application.stop(:remote_retro)
+#      :ok = Application.stop(:wallaby)
+#      :ok = Application.stop(:phoenix)
+#    end)
+#
+#    :ok
+#  end
+
+  setup_all context do
     {:ok, _} = Application.ensure_all_started(:wallaby)
-    {:ok, _} = Application.ensure_all_started(:remote_retro)
-    
-    # Configure Wallaby
+    :timer.sleep(50)
     Application.put_env(:wallaby, :base_url, "http://localhost:4001")
-    Application.put_env(:wallaby, :selenium, [
-      capabilities: %{
-        browserName: "firefox",
-        "moz:firefoxOptions": %{
-          args: ["-headless"],
-          log: %{level: "trace"}
-        }
-      },
-      port: 4444,
-      path_prefix: "wd/hub"
-    ])
+    context
+  end
 
-    # Verify Selenium is running
-    case HTTPoison.get("http://localhost:4444/wd/hub/status") do
-      {:ok, response} ->
-        IO.puts "Selenium status: #{response.body}"
-      {:error, error} ->
-        IO.puts "Error checking Selenium status: #{inspect(error)}"
-        exit(:selenium_not_ready)
+  using do
+    quote do
+      use Wallaby.DSL
+
+      alias RemoteRetro.Repo
+      import Ecto
+      import Ecto.Changeset
+      import Ecto.Query
+
+      alias RemoteRetroWeb.Router.Helpers, as: Routes
+      import RemoteRetro.TestHelpers
+      @moduletag :feature_test
     end
-
-    on_exit(fn -> 
-      # Cleanup applications in reverse order
-      :ok = Application.stop(:remote_retro)
-      :ok = Application.stop(:wallaby)
-      :ok = Application.stop(:phoenix)
-    end)
-
-    :ok
   end
 
   using do
