@@ -337,19 +337,54 @@ jobs: # basic units of work in a run
       - run:
           name: Run Tests
           command: |
-            # First run non-feature tests
-            echo "Running non-feature tests..."
-            mix test --exclude feature_test --trace
+            # Setup test environment
+            mix run -e '
+              # Ensure application and database are properly configured
+              Application.load(:remote_retro)
+              Application.ensure_all_started(:remote_retro)
+              
+              # Configure sandbox mode for testing
+              :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
+              
+              # Verify database is ready
+              case RemoteRetro.Repo.query("SELECT 1") do
+                {:ok, _} -> IO.puts "Database ready for testing"
+                {:error, error} -> 
+                  IO.puts "Database not ready: #{inspect(error)}"
+                  System.halt(1)
+              end
+            '
             
-            # Then run feature tests with more verbose output
+            echo "Running non-feature tests..."
+            if ! mix test --exclude feature_test --trace; then
+              echo "Non-feature tests failed"
+              mix ecto.reset  # Reset database state
+              exit 1
+            fi
+            
+            # Reset database state between test suites
+            mix ecto.reset
+            
             echo "Running feature tests..."
-            TEST_DEBUG=1 mix test --only feature_test --trace
+            if ! MIX_ENV=test TEST_DEBUG=1 mix test --only feature_test --trace; then
+              echo "Feature tests failed"
+              mix ecto.reset  # Reset database state
+              exit 1
+            fi
             
             # Run coverage if token is available
             if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
               echo "Running coverage report..."
-              mix coveralls.circle --include feature_test;
+              mix ecto.reset  # Reset database state before coverage
+              mix coveralls.circle --include feature_test
             fi
+            
+            # Final cleanup
+            mix run -e '
+              IO.puts "Cleaning up test environment..."
+              :ok = Application.stop(:remote_retro)
+              IO.puts "Cleanup complete"
+            '
 
       - store_test_results: # upload test results for display in Test Summary
           path: _build/test/junit
