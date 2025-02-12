@@ -116,7 +116,16 @@ jobs: # basic units of work in a run
 
       - run:
           name: Check Database Configuration
-          command: mix run --no-start -e "IO.puts RemoteRetro.Repo.config()"
+          command: |
+            echo "Checking database configuration..."
+            mix run -e "
+              Application.load(:remote_retro)
+              config = Application.get_env(:remote_retro, RemoteRetro.Repo)
+              IO.puts \"Database config: \"
+              Enum.each(config, fn {k, v} -> 
+                if is_binary(v), do: IO.puts(\"  #{k}: #{v}\")
+              end)
+            "
 
       - run:
           name: Setup Database and Start Application
