@@ -154,14 +154,36 @@ jobs: # basic units of work in a run
               IO.puts \"Configuring sandbox...\"
               Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
               
-              # Verify Repo is started and can connect
-              IO.puts \"Verifying database connection...\"
-              case RemoteRetro.Repo.query(\"SELECT 1\") do
-                {:ok, _} -> 
-                  IO.puts \"✓ Database connection verified\"
-                {:error, error} -> 
-                  IO.puts \"✗ Database connection failed: \#{inspect(error)}\"
-                  System.halt(1)
+              # Add retry logic with delay
+              max_attempts = 3
+              result = Enum.reduce_while(1..max_attempts, {:error, nil}, fn attempt, _ ->
+                IO.puts \"Connection attempt \#{attempt}/\#{max_attempts}...\"
+                :timer.sleep(2000)  # 2 second delay between attempts
+                
+                case RemoteRetro.Repo.query(\"SELECT 1\") do
+                  {:ok, result} -> 
+                    IO.puts \"✓ Database connection verified: \#{inspect(result)}\"
+                    {:halt, {:ok, result}}
+                  {:error, %{postgres: %{message: msg}}} -> 
+                    IO.puts \"✗ Database connection failed: \#{msg}\"
+                    if attempt == max_attempts do
+                      {:halt, {:error, msg}}
+                    else
+                      {:cont, {:error, msg}}
+                    end
+                  {:error, err} -> 
+                    IO.puts \"✗ Database connection failed: \#{inspect(err)}\"
+                    if attempt == max_attempts do
+                      {:halt, {:error, err}}
+                    else
+                      {:cont, {:error, err}}
+                    end
+                end
+              end)
+
+              case result do
+                {:ok, _} -> :ok
+                {:error, _} -> System.halt(1)
               end
 
               # Register cleanup on exit
