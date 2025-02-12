@@ -3,6 +3,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   use SlenderChannel
 
   alias RemoteRetro.{Repo, Idea}
+  alias RemoteRetroWeb.StacktraceSanitizer
 
   @idea_committed "idea_committed"
   @idea_edited "idea_edited"
@@ -37,7 +38,8 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, metadata: %{handler: @idea_committed}, stacktrace: __STACKTRACE__)
+      sanitized_stacktrace = StacktraceSanitizer.sanitize(__STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @idea_committed}, stacktrace: sanitized_stacktrace)
       {:error, %{}}
   end
 
@@ -54,7 +56,8 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, metadata: %{handler: @idea_edited}, stacktrace: __STACKTRACE__)
+      sanitized_stacktrace = StacktraceSanitizer.sanitize(__STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @idea_edited}, stacktrace: sanitized_stacktrace)
       {:error, %{}}
   end
 
@@ -65,7 +68,8 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, metadata: %{handler: @idea_deleted}, stacktrace: __STACKTRACE__)
+      sanitized_stacktrace = StacktraceSanitizer.sanitize(__STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @idea_deleted}, stacktrace: sanitized_stacktrace)
       {:error, %{}}
   end
 
