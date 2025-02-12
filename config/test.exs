@@ -17,7 +17,9 @@ config :wallaby,
   selenium: [
     capabilities: %{
       browserName: "firefox",
-      "moz:firefoxOptions": %{}
+      "moz:firefoxOptions": %{
+        log: %{level: "trace"}
+      }
     },
     base_url: "http://localhost:4001",
     port: 4444,

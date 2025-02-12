@@ -121,33 +121,46 @@ jobs: # basic units of work in a run
       - run:
           name: Setup Database and Start Application
           command: |
+            # Print environment info
+            echo "MIX_ENV: $MIX_ENV"
+            
+            # Ensure compile-time configs are properly loaded
+            mix compile
+            
+            # Create and migrate database
             mix ecto.create
             mix ecto.migrate
-            echo "Starting RemoteRetro application..."
-            mix run -e "Application.ensure_all_started(:remote_retro)"
+            
+            # Start the application and verify Repo
+            mix run -e "
+              IO.puts \"Starting application...\"
+              {:ok, _} = Application.ensure_all_started(:remote_retro)
+              IO.puts \"Database config: \#{inspect(RemoteRetro.Repo.config())}\"
+              IO.puts \"Repo started: \#{inspect(Process.whereis(RemoteRetro.Repo))}\"
+            "
 
       - run:
-          name: Start Selenium Server
+          name: Start and Verify Selenium
           command: |
-            java -jar /usr/local/bin/selenium-server-standalone.jar -port 4444 &
-            sleep 10
-
-      - run:
-          name: Verify Selenium Server Health
-          command: |
-            echo "Checking Selenium server health..."
-            max_attempts=30
-            attempt=1
-            until $(curl --output /dev/null --silent --fail http://localhost:4444/wd/hub/status); do
-              if [ $attempt -eq $max_attempts ]; then
-                echo "Selenium server failed to respond after $max_attempts attempts"
-                exit 1
+            # Start Selenium with logging
+            java -jar /usr/local/bin/selenium-server-standalone.jar -port 4444 > selenium.log 2>&1 &
+            
+            # Wait for Selenium and verify connection
+            for i in {1..30}; do
+              if curl -s http://localhost:4444/wd/hub/status > /dev/null; then
+                echo "Selenium is up and running"
+                break
               fi
-              echo "Waiting for Selenium server... (attempt $attempt/$max_attempts)"
-              sleep 1
-              attempt=$((attempt + 1))
+              echo "Waiting for Selenium... attempt $i/30"
+              sleep 2
             done
-            echo "Selenium server is healthy"
+            
+            # Verify Firefox and geckodriver
+            echo "Firefox version: $(firefox --version)"
+            echo "Geckodriver version: $(geckodriver --version)"
+            
+            # Test Selenium connection
+            curl -s http://localhost:4444/wd/hub/status | grep "ready"
 
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
@@ -164,6 +177,10 @@ jobs: # basic units of work in a run
           path: _build/test/junit
       - store_artifacts:
           path: screenshots
+      - store_artifacts:
+          path: selenium.log
+      - store_artifacts:
+          path: browser_logs.log
 
   deploy:
     machine: true
