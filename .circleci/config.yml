@@ -110,41 +110,48 @@ jobs: # basic units of work in a run
           paths:
             - _build
 
-      - run: # special utility that stalls main process until DB is ready
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
+      - run:
+          name: Setup Database
+          command: |
+            # Wait for Postgres to be ready
+            dockerize -wait tcp://localhost:5432 -timeout 1m
+
+            # Create test database with manual commands first
+            PGPASSWORD=postgres psql -h localhost -U postgres -c 'CREATE DATABASE remote_retro_test;'
+            
+            # Now run Ecto commands
+            mix ecto.create --quiet || true  # The || true prevents failure if DB exists
+            mix ecto.migrate --quiet
 
       - run:
           name: Setup Test Environment
           command: |
             mix run -e "
               # Load all configs
+              IO.puts \"Loading configuration...\"
               Application.load(:remote_retro)
               
-              # Start required dependencies
+              # Start dependencies in order
               IO.puts \"Starting dependencies...\"
-              Application.ensure_all_started(:ecto)
-              Application.ensure_all_started(:postgrex)
-              
-              # Create and migrate database
-              IO.puts \"Setting up database...\"
-              Mix.Task.run(\"ecto.create\", [\"--quiet\"])
-              Mix.Task.run(\"ecto.migrate\", [\"--quiet\"])
+              {:ok, _} = Application.ensure_all_started(:logger)
+              {:ok, _} = Application.ensure_all_started(:postgrex)
+              {:ok, _} = Application.ensure_all_started(:ecto_sql)
               
               # Start the application
               IO.puts \"Starting application...\"
-              Application.ensure_all_started(:remote_retro)
+              {:ok, _} = Application.ensure_all_started(:remote_retro)
               
-              # Configure sandbox
+              # Configure sandbox after app is started
               IO.puts \"Configuring sandbox...\"
               Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
               
-              # Verify Repo is started
-              case Process.whereis(RemoteRetro.Repo) do
-                pid when is_pid(pid) -> 
-                  IO.puts \"✓ Repo started successfully\"
-                nil -> 
-                  IO.puts \"✗ Failed to start Repo\"
+              # Verify Repo is started and can connect
+              IO.puts \"Verifying database connection...\"
+              case RemoteRetro.Repo.query(\"SELECT 1\") do
+                {:ok, _} -> 
+                  IO.puts \"✓ Database connection verified\"
+                {:error, error} -> 
+                  IO.puts \"✗ Database connection failed: \#{inspect(error)}\"
                   System.halt(1)
               end
             "
