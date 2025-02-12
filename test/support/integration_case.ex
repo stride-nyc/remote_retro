@@ -14,8 +14,18 @@ defmodule RemoteRetro.IntegrationCase do
     # Configure Wallaby base URL
     Application.put_env(:wallaby, :base_url, "http://localhost:4001")
     
-    # Give Selenium time to be ready
-    :timer.sleep(2000)
+    # Give Selenium and Phoenix server time to be ready
+    :timer.sleep(5000)
+    
+    # Ensure Phoenix server is running
+    case HTTPoison.get("http://localhost:4001") do
+      {:error, %HTTPoison.Error{reason: :econnrefused}} ->
+        # Start Phoenix server if not running
+        Application.ensure_all_started(:phoenix)
+        Application.ensure_all_started(:remote_retro)
+        :timer.sleep(1000)  # Give server time to start
+      _ -> :ok
+    end
     
     on_exit fn ->
       # Clean up resources

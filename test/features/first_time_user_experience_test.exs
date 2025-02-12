@@ -24,6 +24,10 @@ defmodule FirstTimeUserExperienceTest do
     # the blue retro creation button isn't visible on page load due to javascript-managed delay
     session
     |> click(Query.css("form .blue.button[type='submit']", visible: false))
-    |> assert_has(Query.css(".center.aligned.header", text: "Share the retro link below with teammates!"))
+    |> assert_has(Query.css(".react-root", count: 1))
+    |> assert_has(Query.css(".ui.active.large.centered.text.loader", text: "Connecting..."))
+    |> assert_has(Query.css(".ui.modal.visible.active", count: 1))
+    |> find(Query.css(".ui.modal.visible.active"))
+    |> assert_has(Query.css(".ui.center.aligned.header", text: "Share the retro link below with teammates!"))
   end
 end

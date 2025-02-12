@@ -17,16 +17,15 @@ config :wallaby,
   selenium: [
     capabilities: %{
       browserName: "firefox",
-      "moz:firefoxOptions": %{
-        args: ["-headless"]
-      }
+      "moz:firefoxOptions": %{}
     },
     base_url: "http://localhost:4001",
-    port: 4444
+    port: 4444,
+    path_prefix: "wd/hub"
   ],
-  hackney_options: [timeout: :infinity],
+  hackney_options: [timeout: :infinity, recv_timeout: 30_000],
   js_errors: true,
-  max_wait_time: 15_000
+  max_wait_time: 30_000
 config :bamboo, :refute_timeout, 10
 
 {:ok, file} = File.open("browser_logs.log", [:write])

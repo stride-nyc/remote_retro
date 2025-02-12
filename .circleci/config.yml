@@ -115,16 +115,39 @@ jobs: # basic units of work in a run
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run:
-          name: Setup Database
+          name: Check Database Configuration
+          command: mix run --no-start -e "IO.puts RemoteRetro.Repo.config()"
+
+      - run:
+          name: Setup Database and Start Application
           command: |
             mix ecto.create
             mix ecto.migrate
+            echo "Starting RemoteRetro application..."
+            mix run -e "Application.ensure_all_started(:remote_retro)"
 
       - run:
           name: Start Selenium Server
           command: |
             java -jar /usr/local/bin/selenium-server-standalone.jar -port 4444 &
-            sleep 5
+            sleep 10
+
+      - run:
+          name: Verify Selenium Server Health
+          command: |
+            echo "Checking Selenium server health..."
+            max_attempts=30
+            attempt=1
+            until $(curl --output /dev/null --silent --fail http://localhost:4444/wd/hub/status); do
+              if [ $attempt -eq $max_attempts ]; then
+                echo "Selenium server failed to respond after $max_attempts attempts"
+                exit 1
+              fi
+              echo "Waiting for Selenium server... (attempt $attempt/$max_attempts)"
+              sleep 1
+              attempt=$((attempt + 1))
+            done
+            echo "Selenium server is healthy"
 
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
