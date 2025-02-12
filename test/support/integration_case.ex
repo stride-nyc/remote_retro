@@ -48,7 +48,8 @@ defmodule RemoteRetro.IntegrationCase do
   setup_all context do
     {:ok, _} = Application.ensure_all_started(:wallaby)
     :timer.sleep(50)
-    Application.put_env(:wallaby, :base_url, "http://selenium:4444/wd/hub/")
+    Application.put_env(:wallaby, :base_url, "http://localhost:4001")
+#    Application.put_env(:wallaby, :remote_url, "http://selenium:4444/wd/hub/")
     context
   end
 
