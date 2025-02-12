@@ -36,8 +36,9 @@ defmodule RemoteRetro.IntegrationCase do
     end
 
     on_exit(fn -> 
-      # Start cleanup with remote_retro
+      # Cleanup applications in reverse order
       :ok = Application.stop(:remote_retro)
+      :ok = Application.stop(:wallaby)
     end)
 
     :ok
