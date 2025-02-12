@@ -129,19 +129,35 @@ jobs: # basic units of work in a run
             "
 
       - run:
-          name: Create and Migrate Database
+          name: Setup Database and Start Application
           command: |
+            # Set up Ecto
             mix ecto.create
             mix ecto.migrate
+            
+            # Start the application
+            mix run -e "
+              IO.puts \"Starting application...\"
+              Application.load(:remote_retro)
+              Application.ensure_all_started(:remote_retro)
+              
+              # Verify Repo is started
+              case Process.whereis(RemoteRetro.Repo) do
+                pid when is_pid(pid) -> 
+                  IO.puts \"Repo started successfully\"
+                nil -> 
+                  IO.puts \"Failed to start Repo\"
+                  System.halt(1)
+              end
+            "
 
       - run:
-          name: Start Application
+          name: Configure Test Environment
           command: |
+            # Ensure SQL Sandbox is configured
             mix run -e "
-              IO.puts(\"Starting application...\")
-              {:ok, _} = Application.ensure_all_started(:remote_retro)
-              repo_pid = Process.whereis(RemoteRetro.Repo)
-              IO.puts(\"Repo process: #{inspect(repo_pid)}\")
+              :ok = Application.ensure_started(:remote_retro)
+              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
             "
 
       - run:
