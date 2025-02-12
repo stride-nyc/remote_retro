@@ -89,36 +89,9 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def new_authenticated_browser_session(user, metadata \\ %{}) do
-    # Give browser more time to initialize in CI
-    if System.get_env("CI") do
-      :timer.sleep(5000)
-    else
-      :timer.sleep(2000)
-    end
-    
-    # Start session with error handling
-    case Wallaby.start_session(metadata: metadata) do
-      {:ok, session} ->
-        try do
-          # Authenticate and wait for completion
-          session = authenticate(session, user)
-          # Wait longer for authentication in CI
-          if System.get_env("CI") do
-            :timer.sleep(3000)
-          else
-            :timer.sleep(1000)
-          end
-          session
-        rescue
-          e ->
-            IO.puts "Authentication error: #{inspect(e)}"
-            Wallaby.end_session(session)
-            reraise e, __STACKTRACE__
-        end
-      {:error, error} ->
-        IO.puts "Failed to start Wallaby session: #{inspect(error)}"
-        raise "Could not start browser session: #{inspect(error)}"
-    end
+    :timer.sleep(50)
+    {:ok, session} = Wallaby.start_session(metadata: metadata)
+    authenticate(session, user)
   end
 
   def visit_retro(session, retro) do
