@@ -1,4 +1,4 @@
-#1/bin/bash
+#!/bin/bash
 
 # install nvm
 brew install nvm
