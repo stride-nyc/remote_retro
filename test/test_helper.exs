@@ -15,12 +15,17 @@ Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
 # Configure Wallaby for local development
 Application.put_env(:wallaby, :max_wait_time, 30_000)
 Application.put_env(:wallaby, :hackney_options, [timeout: 30_000, recv_timeout: 30_000])
+Application.put_env(:wallaby, :base_url, "http://localhost:4001")
 Application.put_env(:wallaby, :selenium, [
   capabilities: %{
     browserName: "firefox",
     "moz:firefoxOptions": %{
-      args: ["-headless"]
+      args: ["-headless"],
+      log: %{level: "trace"}
     }
   },
+  base_url: "http://localhost:4001",
+  port: 4444,
+  path_prefix: "wd/hub",
   pool_timeout: 30_000
 ])
