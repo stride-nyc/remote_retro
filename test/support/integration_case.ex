@@ -39,6 +39,7 @@ defmodule RemoteRetro.IntegrationCase do
       # Cleanup applications in reverse order
       :ok = Application.stop(:remote_retro)
       :ok = Application.stop(:wallaby)
+      :ok = Application.stop(:phoenix)
     end)
 
     :ok
