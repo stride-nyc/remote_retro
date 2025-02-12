@@ -119,6 +119,15 @@ jobs: # basic units of work in a run
             # Create test database with manual commands first
             PGPASSWORD=postgres psql -h localhost -U postgres -c 'CREATE DATABASE remote_retro_test;'
             
+            # Configure optimized database settings
+            mix run -e '
+              Application.put_env(:remote_retro, RemoteRetro.Repo,
+                pool_size: 20,
+                queue_target: 5000,
+                queue_interval: 10000
+              )
+            '
+            
             # Now run Ecto commands
             mix ecto.create --quiet || true  # The || true prevents failure if DB exists
             mix ecto.migrate --quiet
@@ -154,6 +163,14 @@ jobs: # basic units of work in a run
                   IO.puts \"✗ Database connection failed: \#{inspect(error)}\"
                   System.halt(1)
               end
+
+              # Register cleanup on exit
+              :ok = ExUnit.after_suite(fn ->
+                IO.puts \"Cleaning up test environment...\"
+                :ok = Application.stop(:remote_retro)
+                :ok = Application.stop(:wallaby)
+                :ok = Application.stop(:phoenix)
+              end)
             "
 
       - run:
