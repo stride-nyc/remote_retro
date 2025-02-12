@@ -147,25 +147,26 @@ jobs: # basic units of work in a run
       - run:
           name: Start and Verify Selenium
           command: |
-            # Start Selenium with logging
-            java -jar /usr/local/bin/selenium-server-standalone.jar -port 4444 > selenium.log 2>&1 &
+            # Start Selenium with debug logging
+            java -Dwebdriver.gecko.driver=/usr/local/bin/geckodriver \
+                 -jar /usr/local/bin/selenium-server-standalone.jar \
+                 -port 4444 \
+                 -log selenium.log &
             
-            # Wait for Selenium and verify connection
-            for i in {1..30}; do
-              if curl -s http://localhost:4444/wd/hub/status > /dev/null; then
+            # More robust wait for Selenium
+            for i in {1..45}; do
+              if curl -s http://localhost:4444/wd/hub/status | grep "ready.*true" > /dev/null; then
                 echo "Selenium is up and running"
                 break
               fi
-              echo "Waiting for Selenium... attempt $i/30"
+              echo "Waiting for Selenium... attempt $i/45"
               sleep 2
+              if [ $i -eq 45 ]; then
+                echo "Selenium failed to start"
+                cat selenium.log
+                exit 1
+              fi
             done
-            
-            # Verify Firefox and geckodriver
-            echo "Firefox version: $(firefox --version)"
-            echo "Geckodriver version: $(geckodriver --version)"
-            
-            # Test Selenium connection
-            curl -s http://localhost:4444/wd/hub/status | grep "ready"
 
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
