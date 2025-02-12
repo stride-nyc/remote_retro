@@ -187,12 +187,20 @@ jobs: # basic units of work in a run
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
       - run:
+          name: Run Tests
           command: |
+            # First run non-feature tests
+            echo "Running non-feature tests..."
+            mix test --exclude feature_test --trace
+            
+            # Then run feature tests with more verbose output
+            echo "Running feature tests..."
+            TEST_DEBUG=1 mix test --only feature_test --trace
+            
+            # Run coverage if token is available
             if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
+              echo "Running coverage report..."
               mix coveralls.circle --include feature_test;
-            else
-              mix test --exclude feature_test;
-              mix test --only feature_test;
             fi
 
       - store_test_results: # upload test results for display in Test Summary
