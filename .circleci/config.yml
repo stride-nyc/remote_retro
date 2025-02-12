@@ -133,6 +133,74 @@ jobs: # basic units of work in a run
             mix ecto.migrate --quiet
 
       - run:
+          name: Verify Database Setup
+          command: |
+            # First, let's verify PostgreSQL is accepting connections
+            echo "Verifying PostgreSQL connection..."
+            max_attempts=5
+            counter=1
+            until PGPASSWORD=postgres psql -h localhost -U postgres -c '\l' > /dev/null 2>&1; do
+              if [ $counter -eq $max_attempts ]; then
+                echo "Failed to connect to PostgreSQL after $max_attempts attempts"
+                exit 1
+              fi
+              echo "Attempt $counter of $max_attempts - Waiting for PostgreSQL..."
+              sleep 3
+              ((counter++))
+            done
+            echo "✓ PostgreSQL is accepting connections"
+
+            # Now verify our specific database exists and is accessible
+            echo "\nVerifying test database..."
+            if PGPASSWORD=postgres psql -h localhost -U postgres -lqt | cut -d \| -f 1 | grep -qw remote_retro_test; then
+              echo "✓ Database 'remote_retro_test' exists"
+              
+              # Verify we can connect to the specific database
+              if PGPASSWORD=postgres psql -h localhost -U postgres -d remote_retro_test -c 'SELECT current_timestamp;' > /dev/null 2>&1; then
+                echo "✓ Can connect to 'remote_retro_test' database"
+                
+                # Check if our migrations table exists
+                if PGPASSWORD=postgres psql -h localhost -U postgres -d remote_retro_test -c '\dt schema_migrations' | grep -q schema_migrations; then
+                  echo "✓ Migrations table exists"
+                  
+                  # Get the current migration version
+                  current_version=$(PGPASSWORD=postgres psql -h localhost -U postgres -d remote_retro_test -t -c 'SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 1;')
+                  echo "✓ Current migration version: $current_version"
+                else
+                  echo "✗ Migrations table not found - running migrations..."
+                  mix ecto.migrate
+                fi
+              else
+                echo "✗ Cannot connect to 'remote_retro_test' database"
+                exit 1
+              fi
+            else
+              echo "✗ Database 'remote_retro_test' does not exist"
+              exit 1
+            fi
+
+            # Verify database configuration matches our expectations
+            mix run -e '
+              db_config = Application.get_env(:remote_retro, RemoteRetro.Repo)
+              expected_config = [
+                hostname: "localhost",
+                database: "remote_retro_test",
+                username: "postgres",
+                password: "postgres"
+              ]
+              
+              Enum.each(expected_config, fn {key, expected_value} ->
+                actual_value = db_config[key]
+                if actual_value == expected_value do
+                  IO.puts "✓ #{key}: #{actual_value}"
+                else
+                  IO.puts "✗ #{key} mismatch - expected: #{expected_value}, got: #{actual_value}"
+                  System.halt(1)
+                end
+              end)
+            '
+
+      - run:
           name: Setup Test Environment
           command: |
             mix run -e '
