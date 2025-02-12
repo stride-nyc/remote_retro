@@ -6,34 +6,40 @@ defmodule RemoteRetro.IntegrationCase do
 
   import TestHelpers
 
-  setup_all context do
-    # Ensure all applications are started
+  setup_all _context do
+    # Start applications in correct order
+    {:ok, _} = Application.ensure_all_started(:phoenix)
     {:ok, _} = Application.ensure_all_started(:wallaby)
     {:ok, _} = Application.ensure_all_started(:remote_retro)
     
-    # Configure Wallaby base URL
+    # Configure Wallaby
     Application.put_env(:wallaby, :base_url, "http://localhost:4001")
-    
-    # Give Selenium and Phoenix server time to be ready
-    :timer.sleep(5000)
-    
-    # Ensure Phoenix server is running
-    case HTTPoison.get("http://localhost:4001") do
-      {:error, %HTTPoison.Error{reason: :econnrefused}} ->
-        # Start Phoenix server if not running
-        Application.ensure_all_started(:phoenix)
-        Application.ensure_all_started(:remote_retro)
-        :timer.sleep(1000)  # Give server time to start
-      _ -> :ok
+    Application.put_env(:wallaby, :selenium, [
+      capabilities: %{
+        browserName: "firefox",
+        "moz:firefoxOptions": %{
+          args: ["-headless"],
+          log: %{level: "trace"}
+        }
+      },
+      port: 4444,
+      path_prefix: "wd/hub"
+    ])
+
+    # Verify Selenium is running
+    case HTTPoison.get("http://localhost:4444/wd/hub/status") do
+      {:ok, response} ->
+        IO.puts "Selenium status: #{response.body}"
+      {:error, error} ->
+        IO.puts "Error checking Selenium status: #{inspect(error)}"
+        exit(:selenium_not_ready)
     end
-    
-    on_exit fn ->
-      # Clean up resources
+
+    on_exit(fn ->
       Application.stop(:wallaby)
-      Application.stop(:remote_retro)
-    end
-    
-    context
+    end)
+
+    :ok
   end
 
   using do
