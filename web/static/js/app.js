@@ -10,10 +10,10 @@ import React from "react"
 import { render } from "react-dom"
 import { bindActionCreators } from "redux"
 import { Provider } from "react-redux"
-import { AppContainer } from "react-hot-loader"
+// import { AppContainer } from "react-hot-loader"
 
 import MultiBackend from "react-dnd-multi-backend"
-import HTML5toTouch from "react-dnd-multi-backend/lib/HTML5toTouch"
+import { HTML5toTouch } from "rdndmb-html5-to-touch"
 import { DragDropContext } from "react-dnd"
 
 import RetroChannel from "./services/retro_channel"
@@ -68,11 +68,11 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     render(
-      <AppContainer>
-        <Provider store={store}>
-          <RemoteRetro />
-        </Provider>
-      </AppContainer>,
+      // <AppContainer>
+      <Provider store={store}>
+        <RemoteRetro />
+      </Provider>,
+      // </AppContainer>,
       document.querySelector(".react-root"),
       postRenderCallback
     )

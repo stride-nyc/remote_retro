@@ -1,7 +1,7 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 import { DragSource } from "react-dnd"
-import { getEmptyImage } from "react-dnd-html5-backend"
+// import { getEmptyImage } from "react-dnd-html5-backend"
 import isFinite from "lodash/isFinite"
 import cx from "classnames"
 
@@ -21,12 +21,12 @@ export class GroupingIdeaCard extends Component {
     // Use empty image as a drag preview so browsers don't draw it.
     // Instead, we shift the actual DOM node being dragged, so that we can dynamically update its
     // shadow colors when idea comes in contact with other ideas
-    const { connectDragPreview } = this.props
-    connectDragPreview(getEmptyImage(), {
-      // IE fallback: specify that we'd rather screenshot the node
-      // when it already knows it's being dragged so we can hide it with CSS.
-      captureDraggingState: true,
-    })
+    // const { connectDragPreview } = this.props
+    // connectDragPreview(getEmptyImage(), {
+    // IE fallback: specify that we'd rather screenshot the node
+    // when it already knows it's being dragged so we can hide it with CSS.
+    // captureDraggingState: true,
+    // })
   }
 
   componentDidUpdate() {

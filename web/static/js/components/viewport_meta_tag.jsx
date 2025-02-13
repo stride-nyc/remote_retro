@@ -1,5 +1,4 @@
 import React from "react"
-import MetaTags from "react-meta-tags"
 import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
@@ -39,9 +38,7 @@ export const ViewportMetaTag = props => {
     : DEFAULT_VIEWPORT_WIDTH
 
   return (
-    <MetaTags>
-      <meta name="viewport" content={viewportMetaContent} />
-    </MetaTags>
+    <meta name="viewport" content={viewportMetaContent} />
   )
 }
 

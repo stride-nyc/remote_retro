@@ -11,7 +11,7 @@ module.exports = webpackMerge.smart({
   mode: "development",
   devtool: "source-map",
   entry: [
-    "react-hot-loader/patch",
+//    "react-hot-loader/patch",
     `webpack-dev-server/client?${OUTPUT_PUBLIC_PATH}`,
     "webpack/hot/only-dev-server",
   ],
