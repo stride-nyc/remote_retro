@@ -41,7 +41,7 @@ jobs: # basic units of work in a run
             - v1-yarn-packages-
       - run:
           name: Install Node Dependencies
-          command: yarn install --immutable --immutable-cache
+          command: yarn install
       - save_cache:
           name: Save Yarn Package Cache
           key: v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
