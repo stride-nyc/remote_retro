@@ -9951,17 +9951,17 @@ __metadata:
   languageName: node
   linkType: hard
 
-"phoenix@file:deps/phoenix::locator=root-workspace-0b6124%40workspace%3A.":
+"phoenix@npm:1.6.11":
   version: 1.6.11
-  resolution: "phoenix@file:deps/phoenix#deps/phoenix::hash=4fe51a&locator=root-workspace-0b6124%40workspace%3A."
-  checksum: 10c0/6b1a4bd65ece4004a590cb47e725644cc0ee38e039782f08460c560ed2f36cfba8b013a7a89affca4abbaf0471d8fbf1548c1b0b3d3b0bc92315dc398b980777
+  resolution: "phoenix@npm:1.6.11"
+  checksum: 10c0/4303784c6d3ba824594cdceb0d249727ceea79b39319d1dc375eb0dc1b0eddf77b5ccb9515ab12be197c9ac5aa90c0733a2c9944f15340288efc1b829d14faba
   languageName: node
   linkType: hard
 
-"phoenix_html@file:deps/phoenix_html::locator=root-workspace-0b6124%40workspace%3A.":
+"phoenix_html@npm:3.3.4":
   version: 3.3.4
-  resolution: "phoenix_html@file:deps/phoenix_html#deps/phoenix_html::hash=f88a13&locator=root-workspace-0b6124%40workspace%3A."
-  checksum: 10c0/73979f0ce3efa5dc8167935182bd2a3a0af152244891ad8851bbc8ba3a396f7c5c99f74d00dbb217ab598ad0c6bc3ea4fa0da24c1af5a9a9fdabbca2dec3d32c
+  resolution: "phoenix_html@npm:3.3.4"
+  checksum: 10c0/f24aed40fef8735367c270dc8bcd396524341069452df1ff4413818a204090c9e65882fa2a4cda9823c6e720a567f93b224b7926a25fd4f10349122904fca3dc
   languageName: node
   linkType: hard
 
@@ -11743,8 +11743,8 @@ __metadata:
     nodemon: "npm:^2.0.16"
     optimize-css-assets-webpack-plugin: "npm:^5.0.1"
     phantomjs-prebuilt: "npm:^2.1.16"
-    phoenix: "file:deps/phoenix"
-    phoenix_html: "file:deps/phoenix_html"
+    phoenix: "npm:1.6.11"
+    phoenix_html: "npm:3.3.4"
     postcss: "npm:^8.4.14"
     postcss-cli: "npm:^9.1.0"
     postcss-css-variables: "npm:^0.8.0"
