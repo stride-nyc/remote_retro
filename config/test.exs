@@ -11,23 +11,37 @@ config :remote_retro, :sql_sandbox, true
 # Increase log level for better debugging
 config :logger, level: :debug
 
-#config :wallaby,
-#  screenshot_on_failure: true,
-#  driver: Wallaby.Selenium,
-#  selenium: [
-#    capabilities: %{
-#      browserName: "firefox",
-#      "moz:firefoxOptions": %{
-#        log: %{level: "trace"}
-#      }
-#    },
-#    base_url: "http://localhost:4001",
-#    port: 4444,
-#    path_prefix: "wd/hub"
-#  ],
-#  hackney_options: [timeout: :infinity, recv_timeout: 30_000],
-#  js_errors: true,
-#  max_wait_time: 30_000
+if System.get_env("WALLABY_LOCAL") do
+  IO.puts "Loading local Wallaby config..."
+
+  config :wallaby,
+    driver: Wallaby.Chrome,
+    base_url: "http://localhost:4001",
+    chromedriver: [
+      path: Path.expand("bin/chromedriver-mac-arm64/chromedriver", File.cwd!()),
+      headless: false,
+      args: [
+        "--port=4444",
+        "--disable-gpu",
+        "--no-sandbox",
+        "--remote-debugging-port=9222"]
+    ]
+
+  IO.puts "Chrome path: #{Path.expand("bin/chromedriver-mac-arm64/chromedriver")}"
+  IO.puts "Headless mode: false"
+
+else
+  IO.puts "Loading CI/CD Wallaby config..."
+  config :wallaby,
+    driver: chromedriver: [
+      headless: true,
+      args: [
+        "--disable-gpu",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",]
+    ]
+end
+
 config :bamboo, :refute_timeout, 10
 
 {:ok, file} = File.open("browser_logs.log", [:write])
@@ -73,6 +87,3 @@ config :remote_retro, :mock_google_user_info, %{
   "locale" => "en",
   "name" => "Test User",
   "picture" => "https://lh3.googleusercontent.com/a-/AAuE7mBrZMjcPzGHlf3FroPgxpVoVxt33dY3L8l8o4ncoj1GgIDVGMvtPn8Zvz26oo0CFAbmI5gPSEJzJrK9Nxma-6_Qhop6u-1JK8_-K3LLtLj1ZDic6xx9YeGUDsHEF3VrjqzSvoQWkIsEHVsUnTOogh4EuVUMSB-8ftR-bjfZROHxy4Py_4WAn773RKF9ZTbpb7ajTHkBwS7o5GF3riAPEJ9f3XUD9dASlSpRjYq7_hWzXPSAQ3on-A16bKUtily8RprssgIAc63D21XxYqkulhXhUDgDjVMVhhXmgCj1rwzBV_jd8CCJlQx7dJ4Tn5gl2Ur00TFmrKIx0-1FDE8Kiiu6wRmf7rXEFN450zW0PqRjkttiYQj3HdbiPfFOVqvlKcp_4I9o9NwqbdQWhyO_cvAhCAa9B8s8vSc5Dtg5qfA389KnRJu9hPYPhYsUc1bFSLebKG-VKUPhyzMue8Q5pTWeystzI6Zs_ALxpbobS7wPRBE_s48pV5vFWbumWTeRxc00rvINs88unMwsMS8Vet4LfvEdIm00mp5aePI73hLQXVzKI0o4XTMmKKGOM2WhZxag3WVvjMZAfGExvScPNerOyK3pCNK4RLI2DQMfvSIJENlX155kmqYafB7-bJ_pzlDdbZaKA6ShGam9UMuKnIeAHBbKW3c-9blUIu4d92fOMfLWFASzz3YSC9p5OUCe_3wexVQ9NSMhwWNr0LDQ04gxt2X3AOoaLyYH_t8H1mnBW0z0jRC0FxmK5-r-xLY",
-  "profile" => "https://plus.google.com/108658712426577966861",
-  "sub" => "108658712426577966861",
-}
