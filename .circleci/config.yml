@@ -43,6 +43,7 @@ jobs: # basic units of work in a run
           name: Install Node Dependencies
           command: |
             rm -rf node_modules
+            sudo rm -f /usr/local/bin/yarn || true  # Won't error if file doesn't exist
             sudo npm install -g yarn@1.22.19
             yarn install
       - save_cache:
