@@ -22,52 +22,6 @@ jobs: # basic units of work in a run
       - run: mix local.hex --force # install Hex locally (without prompt)
       - run: mix local.rebar --force # fetch a copy of rebar (without prompt)
 
-#      - run:
-#          name: Install System Dependencies
-#          command: |
-#            # Install dependencies
-#            sudo apt-get update
-#            sudo apt-get install -y curl inotify-tools firefox xvfb default-jre
-#
-#            # Install Selenium Server
-#            SELENIUM_VERSION="3.141.59"
-#            wget https://selenium-release.storage.googleapis.com/3.141/selenium-server-standalone-$SELENIUM_VERSION.jar
-#            sudo mv selenium-server-standalone-$SELENIUM_VERSION.jar /usr/local/bin/selenium-server-standalone.jar
-#            sudo chmod +x /usr/local/bin/selenium-server-standalone.jar
-#
-#            # Install geckodriver for Firefox
-#            GECKODRIVER_VERSION="v0.33.0"
-#            wget https://github.com/mozilla/geckodriver/releases/download/$GECKODRIVER_VERSION/geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
-#            sudo tar -xvf geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
-#            sudo mv geckodriver /usr/local/bin/
-#            sudo chmod +x /usr/local/bin/geckodriver
-#            rm geckodriver-$GECKODRIVER_VERSION-linux64.tar.gz
-#
-#            # Set up Firefox for Wallaby
-#            echo "Setting up Firefox for Wallaby..."
-#            export FIREFOX_PATH=$(which firefox)
-#            echo "export FIREFOX_PATH=$FIREFOX_PATH" >> $BASH_ENV
-#            source $BASH_ENV
-#            echo "Firefox path: $FIREFOX_PATH"
-#
-#            # Start Xvfb for headless browser testing
-#            Xvfb :99 -screen 0 1280x1024x24 > /dev/null 2>&1 &
-#            export DISPLAY=:99
-#
-#            # Install Node.js and Yarn
-#            curl -fsSL https://deb.nodesource.com/setup_18.x | sudo -E bash -
-#            sudo apt-get install -y nodejs
-#            curl -sS https://dl.yarnpkg.com/debian/pubkey.gpg | sudo apt-key add -
-#            echo "deb https://dl.yarnpkg.com/debian/ stable main" | sudo tee /etc/apt/sources.list.d/yarn.list
-#            sudo apt-get update
-#            sudo apt-get install -y yarn
-#
-#            # Install dockerize
-#            DOCKERIZE_VERSION="v0.6.1"
-#            sudo wget https://github.com/jwilder/dockerize/releases/download/$DOCKERIZE_VERSION/dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-#            sudo tar -C /usr/local/bin -xzvf dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-#            sudo rm dockerize-linux-amd64-$DOCKERIZE_VERSION.tar.gz
-
       - restore_cache: # restores saved mix cache
           keys: # list of cache keys, in decreasing specificity
             - v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
@@ -87,7 +41,7 @@ jobs: # basic units of work in a run
             - v1-yarn-packages-
       - run:
           name: Install Node Dependencies
-          command: yarn install --frozen-lockfile
+          command: yarn install --immutable --immutable-cache
       - save_cache:
           name: Save Yarn Package Cache
           key: v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
