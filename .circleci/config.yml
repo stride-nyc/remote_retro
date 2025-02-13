@@ -1,78 +1,91 @@
-version: 2.1 # use CircleCI 2.1 to enable orb usage
+version: 2.1
 
 orbs:
   browser-tools: circleci/browser-tools@1.5.2
 
-jobs: # basic units of work in a run
-  build: # runs not using Workflows must have a `build` job as entry point
-    parallelism: 1 # run only one instance of this job in parallel
-    docker: # run the steps with Docker
+jobs:
+  build:
+    parallelism: 1
+    docker:
       - image: cimg/elixir:1.16.0-erlang-26.2.1-browsers
-        environment: # environment variables for primary container
+        environment:
           MIX_ENV: test
           NODE_OPTIONS: --openssl-legacy-provider
           DISPLAY: :99
-      - image: cimg/postgres:15.5-postgis # database image
+      - image: cimg/postgres:15.5-postgis
 
-    working_directory: ~/app # directory where steps will run
+    working_directory: ~/app
 
-    steps: # commands that comprise the `build` job
-      - checkout # check out source code to working directory
+    steps:
+      - checkout
 
-      - run: mix local.hex --force # install Hex locally (without prompt)
-      - run: mix local.rebar --force # fetch a copy of rebar (without prompt)
+      # Install Elixir build tools
+      - run: mix local.hex --force
+      - run: mix local.rebar --force
 
-      - restore_cache: # restores saved mix cache
-          keys: # list of cache keys, in decreasing specificity
+      # Restore Mix dependency caches
+      - restore_cache:
+          keys:
             - v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
             - v5-mix-cache-{{ .Branch }}
             - v5-mix-cache
-      - restore_cache: # restores saved build cache
+
+      - restore_cache:
           keys:
             - v5-build-cache-{{ .Branch }}
             - v5-build-cache
-      - run: mix do deps.get, compile # get updated dependencies & compile them
+
+      # Get and compile Elixir dependencies
+      - run: mix do deps.get, compile
+
+      # Modern Yarn setup using Corepack
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-yarn-packages-{{ .Branch }}
-            - v1-yarn-packages-master
-            - v1-yarn-packages-
+            - v2-yarn-{{ checksum "yarn.lock" }}
+            - v2-yarn-
+
       - run:
           name: Install Node Dependencies
           command: |
             rm -rf node_modules
-            sudo rm -f /usr/local/bin/yarn /usr/local/bin/yarnpkg || true
-            sudo npm install -g yarn@1.22.19
-            yarn install --frozen-lockfile --ignore-engines
+            
+            # Enable and configure Corepack (built into Node.js)
+            corepack enable
+            
+            # Set up Yarn 4.6.0
+            corepack prepare yarn@4.6.0 --activate
+            
+            # Install dependencies with modern Yarn syntax
+            yarn install --immutable
+            
+            # Verify installation
+            yarn --version
+
+      # Save Yarn cache with modern structure
       - save_cache:
           name: Save Yarn Package Cache
-          key: v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
+          key: v2-yarn-{{ checksum "yarn.lock" }}
           paths:
-            - node_modules/
             - .yarn/cache
-            - .yarn/unplugged
-      - save_cache: # generate and store cache so `restore_cache` works
+            - .yarn/install-state.gz
+
+      # Save Mix caches
+      - save_cache:
           key: v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-          paths:
-            - deps
-      - save_cache: # make another less specific cache
+          paths: ["deps"]
+      - save_cache:
           key: v5-mix-cache-{{ .Branch }}
-          paths:
-            - deps
-      - save_cache: # you should really save one more cache just in case
+          paths: ["deps"]
+      - save_cache:
           key: v5-mix-cache
-          paths:
-            - deps
-      - save_cache: # don't forget to save a *build* cache, too
+          paths: ["deps"]
+      - save_cache:
           key: v5-build-cache-{{ .Branch }}
-          paths:
-            - _build
-      - save_cache: # and one more build cache for good measure
+          paths: ["_build"]
+      - save_cache:
           key: v5-build-cache
-          paths:
-            - _build
+          paths: ["_build"]
 
       - run:
           name: Setup Database
@@ -359,10 +372,6 @@ jobs: # basic units of work in a run
           command: |
             git remote add gigalixir https://$GIGALIXIR_EMAIL:$GIGALIXIR_API_KEY@git.gigalixir.com/$GIGALIXIR_APP_NAME.git
             commit_range_from_previous_build=$(echo $CIRCLE_COMPARE_URL | sed -n -e 's/^.*compare\///p')
-
-            # trigger full rebuilds when elixir deps or prod environment configs have changed
-            #   - also trigger full rebuilds when db migrations have been *added* since last push,
-            #     as these wouldn't be run when doing a hot upgrade, but are run on fresh builds
 
             if git log $commit_range_from_previous_build --name-status --pretty="format:" | grep "phoenix_static_buildpack.config\config.exs\|prod.exs\|mix.exs\|mix.lock\|elixir_buildpack.config\|A[[:space:]]priv/repo/migrations"; then
               echo "Executing deploy cleaned of old dependencies"
