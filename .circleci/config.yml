@@ -299,7 +299,7 @@ jobs:
             sleep 2
 
       - run: "echo 'out for lunch, be back soon'" # yarn test # run all js tests in project
-      - run: "echo 'out for lunch, be back soon" #yarn run compile-test
+      - run: "echo 'out for lunch, be back soon'" #yarn run compile-test
       - run:
           name: Run Tests
           command: |
