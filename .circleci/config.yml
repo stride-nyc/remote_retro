@@ -51,10 +51,10 @@ jobs:
             rm -rf node_modules
             
             # Enable and configure Corepack (built into Node.js)
-            corepack enable
+            sudo corepack enable
             
             # Set up Yarn 4.6.0
-            corepack prepare yarn@4.6.0 --activate
+            sudo corepack prepare yarn@4.6.0 --activate
             
             # Install dependencies with modern Yarn syntax
             yarn install --immutable
