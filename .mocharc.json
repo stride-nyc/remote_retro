@@ -1,0 +1,14 @@
+{
+  "spec": "test/**/*.test.{js,jsx}",
+  "color": true,
+  "require": [
+    "mock-css-modules",
+    "mock-local-storage",
+    "@babel/register",
+    "env-test",
+    "test/support/js/test_helper.js",
+    "jsdom-global/register"
+  ],
+  "reporter": "dot",
+  "recursive": true
+}

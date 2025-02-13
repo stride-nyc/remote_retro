@@ -1,4 +1,4 @@
-test/**/*_test.js
+test/**/*.test.{js,jsx}
 --color
 --require mock-css-modules
 --require mock-local-storage
