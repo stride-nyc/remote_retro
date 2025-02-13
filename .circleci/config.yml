@@ -41,12 +41,18 @@ jobs: # basic units of work in a run
             - v1-yarn-packages-
       - run:
           name: Install Node Dependencies
-          command: yarn install --mode=update-lockfile
+          command: |
+            rm -rf node_modules
+            mkdir -p .yarn
+            yarn set version 4.6.0
+            yarn install --mode=update-lockfile
       - save_cache:
           name: Save Yarn Package Cache
           key: v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
           paths:
             - node_modules/
+            - .yarn/cache
+            - .yarn/unplugged
       - save_cache: # generate and store cache so `restore_cache` works
           key: v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
           paths:
