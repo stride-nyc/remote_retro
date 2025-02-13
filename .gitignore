@@ -1,5 +1,8 @@
 # App artifacts
 /_build
+
+# Local test config
+config/test.local.exs
 /db
 /deps
 /*.ez
