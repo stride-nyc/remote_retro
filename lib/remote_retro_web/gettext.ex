@@ -20,5 +20,5 @@ defmodule RemoteRetroWeb.Gettext do
 
   See the [Gettext Docs](https://hexdocs.pm/gettext) for detailed usage.
   """
-  use Gettext, otp_app: :remote_retro
+  use Gettext, otp_app: Application.compile_env(:remote_retro, :otp_app, :remote_retro)
 end

@@ -3,7 +3,7 @@ defmodule RemoteRetro.UserTest do
 
   alias RemoteRetro.User
 
-  @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
+  @mock_google_user_info Application.compile_env(:remote_retro, :mock_google_user_info)
 
   @valid_attrs %{
     "email" => "mistertestuser@gmail.com",

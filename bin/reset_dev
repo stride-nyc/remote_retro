@@ -1,0 +1,8 @@
+#!/bin/bash
+
+# clean existing build/dependencies and get/compile
+rm -rf _build/
+mix deps.clean --all
+mix deps.get
+mix deps.compile
+mix compile

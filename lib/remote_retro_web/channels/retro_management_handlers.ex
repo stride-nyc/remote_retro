@@ -2,7 +2,7 @@ defmodule RemoteRetroWeb.RetroManagementHandlers do
   import Phoenix.Channel
 
   alias RemoteRetro.{Repo}
-  alias RemoteRetroWeb.{RetroManagement, EctoSchemaPresenter}
+  alias RemoteRetroWeb.{RetroManagement, EctoSchemaPresenter, StacktraceSanitizer}
 
   @retro_edited "retro_edited"
 
@@ -20,7 +20,8 @@ defmodule RemoteRetroWeb.RetroManagementHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, metadata: %{handler: @retro_edited}, stacktrace: __STACKTRACE__)
+      sanitized_stacktrace = StacktraceSanitizer.sanitize(__STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @retro_edited}, stacktrace: sanitized_stacktrace)
       {:error, %{}}
   end
 

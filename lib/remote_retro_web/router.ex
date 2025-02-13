@@ -6,10 +6,10 @@ defmodule RemoteRetroWeb.Router do
 
   alias RemoteRetroWeb.{PageController, AuthController, Plugs}
 
-  @live_dashboard_repos Application.get_env(:remote_retro, :live_dashboard_repos)
-  @auth_controller Application.get_env(:remote_retro, :auth_controller)
+  @live_dashboard_repos Application.compile_env(:remote_retro, :live_dashboard_repos)
+  @auth_controller Application.compile_env(:remote_retro, :auth_controller)
 
-  if Application.get_env(:remote_retro, :env) == :dev do
+  if Application.compile_env(:remote_retro, :env) == :dev do
     forward("/sent_emails", Bamboo.SentEmailViewerPlug)
   end
 
