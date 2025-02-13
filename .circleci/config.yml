@@ -41,7 +41,11 @@ jobs: # basic units of work in a run
             - v1-yarn-packages-
       - run:
           name: Install Node Dependencies
-          command: yarn install
+          command: |
+            rm -rf node_modules
+            sudo rm -f /usr/local/bin/yarn /usr/local/bin/yarnpkg || true
+            sudo npm install -g yarn@1.22.19
+            yarn install --frozen-lockfile --ignore-engines
       - save_cache:
           name: Save Yarn Package Cache
           key: v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
