@@ -92,7 +92,7 @@
     "jsdom": "^9.9.1",
     "jsdom-global": "^2.1.1",
     "lint-staged": "^7.2.2",
-    "mocha": "^5.2.0",
+    "mocha": "^11.1.0",
     "mock-css-modules": "^1.0.0",
     "mock-local-storage": "^1.1.8",
     "sinon": "^1.17.7",
