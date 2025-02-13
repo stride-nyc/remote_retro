@@ -33,7 +33,7 @@ if System.get_env("WALLABY_LOCAL") do
 else
   IO.puts "Loading CI/CD Wallaby config..."
   config :wallaby,
-    driver: chromedriver: [
+    chromedriver: [
       headless: true,
       args: [
         "--disable-gpu",
