@@ -58,3 +58,6 @@ browser_logs.log
 # Ignore local dev config files like zsh
 .zshrc
 .env
+
+# Ignore yarn
+.yarn/install-state.gz
