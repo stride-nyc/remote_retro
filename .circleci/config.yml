@@ -343,13 +343,12 @@ jobs:
               exit 1
             fi
             
-            # echo "Running feature tests..."
-            echo "feature tests are under construction"
-            # if ! MIX_ENV=test TEST_DEBUG=1 mix test --only feature_test --trace; then
-            #   echo "Feature tests failed"
-            #   exit 1
-            # fi
-            
+            echo "Running feature tests..."
+            if ! MIX_ENV=test TEST_DEBUG=1 mix test --only feature_test --trace; then
+              echo "Feature tests failed"
+              exit 1
+            fi
+          
             # Run coverage if token is available
             # if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
             #   echo "Running coverage report..."
