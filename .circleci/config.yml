@@ -56,6 +56,9 @@ jobs:
             # Set up Yarn 4.6.0
             sudo corepack prepare yarn@4.6.0 --activate
             
+            # Force delete problematic postcss config
+            rm -f priv/static/css/semantic-ui/postcss.config.js
+            
             # Install dependencies with modern Yarn syntax
             yarn install --immutable
             

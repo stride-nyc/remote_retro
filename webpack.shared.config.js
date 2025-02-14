@@ -1,15 +1,15 @@
-import path from "path"
-import webpack from "webpack"
-import MiniCssExtractPlugin from "mini-css-extract-plugin"
-import CopyWebpackPlugin from "copy-webpack-plugin"
-import vendorManifest from "./web/static/js/dll/vendor-manifest.json" with { type: "json" }
+const path = require("path")
+const webpack = require("webpack")
+const MiniCssExtractPlugin = require("mini-css-extract-plugin")
+const CopyWebpackPlugin = require("copy-webpack-plugin")
+const vendorManifest = require("./web/static/js/dll/vendor-manifest.json")
 
 process.noDeprecation = true
 
-const OUTPUT_PATH = `${path.dirname(new URL(import.meta.url).pathname)}/priv/static`
+const OUTPUT_PATH = path.join(__dirname, "priv/static")
 const { CLOUDFRONT_DOMAIN } = process.env
 
-export default {
+module.exports = {
   mode: "development",
   entry: [
     "./web/static/css/app.css",
@@ -22,7 +22,7 @@ export default {
     filename: "js/app.js",
   },
   resolve: {
-    modules: ["node_modules", `${path.dirname(new URL(import.meta.url).pathname)}/web/static/js`],
+    modules: ["node_modules", path.join(__dirname, "web/static/js")],
     extensions: [".js", ".jsx"],
     fullySpecified: false,
     fallback: {
@@ -49,8 +49,8 @@ export default {
           fullySpecified: false,
         },
         include: [
-          path.resolve(path.dirname(new URL(import.meta.url).pathname), "web/static/js"),
-          path.resolve(path.dirname(new URL(import.meta.url).pathname), "node_modules"),
+          path.resolve(__dirname, "web/static/js"),
+          path.resolve(__dirname, "node_modules"),
         ],
         type: "javascript/auto",
       },
@@ -73,7 +73,7 @@ export default {
             loader: "postcss-loader",
             options: {
               postcssOptions: {
-                config: path.resolve(path.dirname(new URL(import.meta.url).pathname), "postcss.config.cjs"),
+                config: path.resolve(__dirname, "postcss.config.cjs"),
               },
             },
           },
@@ -86,7 +86,7 @@ export default {
       ASSET_DOMAIN: CLOUDFRONT_DOMAIN ? `"https://${CLOUDFRONT_DOMAIN}"` : "''",
     }),
     new webpack.DllReferencePlugin({
-      context: path.resolve(path.dirname(new URL(import.meta.url).pathname), "web/static/js"),
+      context: path.resolve(__dirname, "web/static/js"),
       manifest: vendorManifest,
     }),
     new MiniCssExtractPlugin({
