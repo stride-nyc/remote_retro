@@ -2,7 +2,7 @@
 @import './shared/toggle.css';
 
 .email-opt-in-toggle {
-  composes: toggle;
+  composes: toggle from './shared/toggle.css';
 
   &:global(.ui.secondary.compact.segment) {
     padding: 1rem;

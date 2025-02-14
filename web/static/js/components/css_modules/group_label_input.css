@@ -20,7 +20,7 @@
 }
 
 .text-input {
-  composes: group-label-text;
+  composes: group-label-text from './shared/group_label_text.css';
   height: 2rem;
 }
 

@@ -1,9 +1,9 @@
-const postCssImport = require("postcss-import")
-const postCssNested = require("postcss-nested")
-const postCssCssVariables = require("postcss-css-variables")
-const autoPrefixer = require("autoprefixer")
+import postCssImport from "postcss-import"
+import postCssNested from "postcss-nested"
+import postCssCssVariables from "postcss-css-variables"
+import autoPrefixer from "autoprefixer"
 
-module.exports = {
+export default {
   plugins: [
     postCssImport,
     postCssNested,

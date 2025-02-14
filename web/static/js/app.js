@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-filename-extension, global-require */
+/* eslint-disable react/jsx-filename-extension */
 
 // IE 11 support
 import "core-js/features/set"
@@ -19,6 +19,7 @@ import { DragDropContext } from "react-dnd"
 import RetroChannel from "./services/retro_channel"
 import configureStore from "./configure_store"
 import { actions } from "./redux"
+import RemoteRetroDefault from "./components/remote_retro"
 
 document.addEventListener("DOMContentLoaded", () => {
   const { userToken, retroUUID } = window
@@ -59,9 +60,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
   const dragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))
   const renderWithHotReload = () => {
-    const RemoteRetro = dragAndDropContext(
-      require("./components/remote_retro").default
-    )
+    const RemoteRetro = dragAndDropContext(RemoteRetroDefault)
 
     const postRenderCallback = () => {
       document.removeEventListener("visibilitychange", window.__trackLoadAbandonment)

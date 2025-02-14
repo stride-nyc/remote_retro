@@ -1,4 +1,3 @@
-/* eslint-disable global-require */
 import { createStore, applyMiddleware, compose } from "redux"
 import thunk from "redux-thunk"
 import { responsiveStoreEnhancer } from "redux-responsive"
@@ -21,8 +20,8 @@ export default retroChannel => {
   if (module.hot) {
     interceptOverEagerReactReduxWarning()
 
-    module.hot.accept("./redux/index", () => {
-      const nextRootReducer = require("./redux/index").reducer
+    module.hot.accept("./redux/index", async () => {
+      const { reducer: nextRootReducer } = await import("./redux/index")
       store.replaceReducer(nextRootReducer)
     })
   }

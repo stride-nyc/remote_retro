@@ -2,5 +2,5 @@
 @import './shared/toggle.css';
 
 .wrapper {
-  composes: toggle;
+  composes: toggle from './shared/toggle.css';
 }

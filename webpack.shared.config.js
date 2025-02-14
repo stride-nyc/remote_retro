@@ -1,15 +1,15 @@
-const path = require("path")
-const webpack = require("webpack")
-const MiniCssExtractPlugin = require("mini-css-extract-plugin")
-const CopyWebpackPlugin = require("copy-webpack-plugin")
-const WriteFileWebpackPlugin = require("write-file-webpack-plugin")
+import path from "path"
+import webpack from "webpack"
+import MiniCssExtractPlugin from "mini-css-extract-plugin"
+import CopyWebpackPlugin from "copy-webpack-plugin"
+import vendorManifest from "./web/static/js/dll/vendor-manifest.json" with { type: "json" }
 
 process.noDeprecation = true
 
-const OUTPUT_PATH = `${__dirname}/priv/static`
+const OUTPUT_PATH = `${path.dirname(new URL(import.meta.url).pathname)}/priv/static`
 const { CLOUDFRONT_DOMAIN } = process.env
 
-module.exports = {
+export default {
   mode: "development",
   entry: [
     "./web/static/css/app.css",
@@ -22,9 +22,15 @@ module.exports = {
     filename: "js/app.js",
   },
   resolve: {
-    modules: ["node_modules", `${__dirname}/web/static/js`],
+    modules: ["node_modules", `${path.dirname(new URL(import.meta.url).pathname)}/web/static/js`],
     extensions: [".js", ".jsx"],
+    fullySpecified: false,
+    fallback: {
+      "core-js": false,
+      "url": false
+    }
   },
+  cache: false,
   module: {
     rules: [
       {
@@ -32,10 +38,21 @@ module.exports = {
         exclude: /(node_modules|polyfills)/,
         use: [{
           loader: "babel-loader",
-          query: {
+          options: {
             cacheDirectory: true,
           },
         }],
+      },
+      {
+        test: /\.m?js/,
+        resolve: {
+          fullySpecified: false
+        },
+        include: [
+          path.resolve(path.dirname(new URL(import.meta.url).pathname), "web/static/js"),
+          path.resolve(path.dirname(new URL(import.meta.url).pathname), "node_modules")
+        ],
+        type: "javascript/auto"
       },
       {
         test: /\.css$/,
@@ -64,16 +81,19 @@ module.exports = {
       ASSET_DOMAIN: CLOUDFRONT_DOMAIN ? `"https://${CLOUDFRONT_DOMAIN}"` : "''",
     }),
     new webpack.DllReferencePlugin({
-      context: path.resolve(__dirname, "web/static/js"),
-      manifest: require("./web/static/js/dll/vendor-manifest.json"),
+      context: path.resolve(path.dirname(new URL(import.meta.url).pathname), "web/static/js"),
+      manifest: vendorManifest,
     }),
     new MiniCssExtractPlugin({
       filename: "css/app.css",
     }),
-    new CopyWebpackPlugin([{
-      from: "./web/static/assets",
-      ignore: "**/.DS_Store",
-    }]),
-    new WriteFileWebpackPlugin([{ from: "./web/static/assets" }]),
+    new CopyWebpackPlugin({
+      patterns: [{
+        from: "./web/static/assets",
+        globOptions: {
+          ignore: ["**/.DS_Store"],
+        },
+      }]
+    }),
   ],
 }

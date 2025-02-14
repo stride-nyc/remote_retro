@@ -12,8 +12,7 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    npm: ["run", "watch", cd: Path.expand("../", __DIR__)],
-    npm: ["run", "reprune-semantic-ui-on-web-changes", cd: Path.expand("../", __DIR__)]
+    npm: ["run", "watch", cd: Path.expand("../", __DIR__)]
   ]
 
 # Watch static and templates for browser reloading.

@@ -1,16 +1,16 @@
-const webpack = require("webpack")
-const webpackMerge = require("webpack-merge")
-const OptimizeCSSAssetsPlugin = require("optimize-css-assets-webpack-plugin")
-const TerserPlugin = require("terser-webpack-plugin")
-const HoneybadgerSourceMapPlugin = require("@honeybadger-io/webpack")
+import webpack from "webpack"
+import { smart as webpackMergeSmart } from "webpack-merge"
+import OptimizeCSSAssetsPlugin from "optimize-css-assets-webpack-plugin"
+import TerserPlugin from "terser-webpack-plugin"
+import HoneybadgerSourceMapPlugin from "@honeybadger-io/webpack"
 
-const sharedConfig = require("./webpack.shared.config.js")
+import sharedConfig from "./webpack.shared.config"
 
 const { HOST, HONEYBADGER_API_KEY, npm_package_gitHead, revision } = process.env
 
 const PRODUCTION_ASSETS_URL = `https://${HOST}`
 
-module.exports = webpackMerge.smart(sharedConfig, {
+export default webpackMergeSmart(sharedConfig, {
   mode: "production",
   devtool: "source-map",
   optimization: {

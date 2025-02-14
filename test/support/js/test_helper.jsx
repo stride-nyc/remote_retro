@@ -1,3 +1,4 @@
+import jsdomGlobal from 'jsdom-global'
 import chai, { expect } from "chai"
 import chaiUUID from "chai-uuid"
 import chaiChange from "chai-change"
@@ -7,7 +8,10 @@ import Enzyme from "enzyme"
 import Adapter from "enzyme-adapter-react-16"
 import sinon from "sinon"
 import PropTypes from "prop-types"
+import React from "react"
+import { Socket } from "phoenix"
 import STAGES from "../../../web/static/js/configs/stages"
+import RetroChannel from "../../../web/static/js/services/retro_channel"
 
 chai.use(chaiUUID)
 chai.use(chaiChange)
@@ -22,9 +26,29 @@ global.Image = function Image() {}
 global.Honeybadger = { notify: () => {}, setContext: () => {} }
 global.ASSET_DOMAIN = ""
 
+// Set up test environment
+const dom = jsdomGlobal('<!doctype html><html><body></body></html>', {
+  url: 'http://localhost:3000',
+  pretendToBeVisual: true,
+  resources: 'usable'
+})
+
+// Set up DnD test environment
+global.window = global
+global.window.__ENABLE_DND__ = false
+
+// Set up animation frame
 global.requestAnimationFrame = callback => {
   setTimeout(callback, 0)
 }
+
+// Set up navigator
+Object.defineProperty(global.window, 'navigator', {
+  value: {
+    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36'
+  },
+  writable: true
+})
 
 const store = {
   subscribe: () => {},
@@ -76,11 +100,6 @@ global.mountWithConnectedSubcomponents = (component, options) => {
 
 // eslint-disable-next-line import/prefer-default-export
 export const setupMockRetroChannel = () => {
-  /* eslint-disable global-require */
-  const { Socket } = require("phoenix")
-  const RetroChannel = require("../../../web/static/js/services/retro_channel").default
-  /* eslint-enable global-require */
-
   // Build out a fake that mostly inherits from the real RetroChannel, but overrides
   // the constructor to avoid problematic WebSocket code from executing.
   // In this constructor override, we uphold the contract of setting a channel client, but

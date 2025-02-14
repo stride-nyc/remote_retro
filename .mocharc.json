@@ -6,7 +6,7 @@
     "mock-local-storage",
     "@babel/register",
     "env-test",
-    "test/support/js/test_helper.js",
+    "test/support/js/test_helper.jsx",
     "jsdom-global/register"
   ],
   "reporter": "dot",
