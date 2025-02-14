@@ -297,9 +297,7 @@ jobs:
             
             # Wait for Xvfb to be ready
             sleep 2
-
-      - run: "echo 'out for lunch, be back soon'" # yarn test # run all js tests in project
-      - run: "echo 'out for lunch, be back soon'" #yarn run compile-test
+      - run: yarn run compile-test
       - run:
           name: Run Tests
           command: |
@@ -343,13 +341,12 @@ jobs:
               exit 1
             fi
             
-            # echo "Running feature tests..."
-            echo "feature tests are under construction"
-            # if ! MIX_ENV=test TEST_DEBUG=1 mix test --only feature_test --trace; then
-            #   echo "Feature tests failed"
-            #   exit 1
-            # fi
-            
+            echo "Running feature tests..."
+            if ! mix test --only feature_test --trace; then
+              echo "Feature tests failed"
+              exit 1
+            fi
+          
             # Run coverage if token is available
             # if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
             #   echo "Running coverage report..."
