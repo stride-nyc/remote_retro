@@ -40,7 +40,7 @@ export const selectors = {
   },
   getUserPresences: ({ presences, usersById, retro }) => {
     return presences.map(presence => {
-      // eslint-disable-next-line camelcase
+       
       const { user_id, ...restOfPresenceAttrs } = presence
       const user = usersById[user_id]
       return {

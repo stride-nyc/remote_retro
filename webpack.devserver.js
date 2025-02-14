@@ -14,11 +14,11 @@ const devServerOptions = {
     overlay: true,
   },
   headers: {
-    "Access-Control-Allow-Origin": "*"
+    "Access-Control-Allow-Origin": "*",
   },
   static: {
-    publicPath: config.output.publicPath
-  }
+    publicPath: config.output.publicPath,
+  },
 }
 
 const server = new WebpackDevServer(devServerOptions, compiler)
@@ -62,16 +62,16 @@ process.stdin.on("end", () => {
 })
 
 // Log when process is about to exit
-process.on("exit", (code) => {
+process.on("exit", code => {
   console.log(`[DEBUG] Process exit with code: ${code}`)
 })
 
 // Log any uncaught exceptions
-process.on("uncaughtException", (err) => {
+process.on("uncaughtException", err => {
   console.error("[DEBUG] Uncaught exception:", err)
 })
 
-server.startCallback((err) => {
+server.startCallback(err => {
   if (err) {
     console.error("[DEBUG] Server start error:", err)
     process.exit(1)

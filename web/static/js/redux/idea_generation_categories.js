@@ -5,7 +5,7 @@ const formatToCategoriesMap = {
   "Start/Stop/Continue": ["start", "stop", "continue"],
 }
 
-// eslint-disable-next-line import/prefer-default-export
+ 
 export const reducer = (state = [], action) => {
   switch (action.type) {
     case actionTypes.SET_INITIAL_STATE: {

@@ -76,7 +76,7 @@ export class IdeaSubmissionForm extends Component {
     this.setState({ assigneeId: parseInt(event.target.value, 10) })
   }
 
-  // eslint-disable-next-line camelcase
+   
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { alert } = this.props
     const { isMobileDevice } = this.state
@@ -127,24 +127,21 @@ export class IdeaSubmissionForm extends Component {
           <SelectDropdown {...dropdownProps} />
           <div className="eleven wide field">
             <div className="ui fluid action input">
-              <label
-                htmlFor="idea-body-input"
-                className="visually-hidden"
-              >
+              <label htmlFor="idea-input" className="visually-hidden">
                 Idea input
+                <input
+                  id="idea-input"
+                  type="text"
+                  name="idea"
+                  autoComplete="off"
+                  autoFocus={!isMobileDevice}
+                  ref={input => { this.ideaInput = input }}
+                  value={body}
+                  onChange={this.handleBodyChange}
+                  placeholder={`Ex. ${PLACEHOLDER_TEXTS[category]}`}
+                  maxLength="255"
+                />
               </label>
-              <input
-                id="idea-body-input"
-                type="text"
-                name="idea"
-                autoComplete="off"
-                autoFocus={!isMobileDevice}
-                ref={input => { this.ideaInput = input }}
-                value={body}
-                onChange={this.handleBodyChange}
-                placeholder={`Ex. ${PLACEHOLDER_TEXTS[category]}`}
-                maxLength="255"
-              />
               <button type="submit" disabled={disabled} className="ui teal button">Submit</button>
             </div>
           </div>

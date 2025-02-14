@@ -9,7 +9,7 @@ import DragCoordinates from "../../web/static/js/services/drag_coordinates"
 
 const requireUncached = module => {
   delete require.cache[require.resolve(module)]
-  // eslint-disable-next-line
+   
   return require(module)
 }
 

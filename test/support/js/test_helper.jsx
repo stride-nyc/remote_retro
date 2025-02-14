@@ -1,4 +1,4 @@
-import jsdomGlobal from 'jsdom-global'
+import jsdomGlobal from "jsdom-global"
 import chai, { expect } from "chai"
 import chaiUUID from "chai-uuid"
 import chaiChange from "chai-change"
@@ -27,10 +27,10 @@ global.Honeybadger = { notify: () => {}, setContext: () => {} }
 global.ASSET_DOMAIN = ""
 
 // Set up test environment
-const dom = jsdomGlobal('<!doctype html><html><body></body></html>', {
-  url: 'http://localhost:3000',
+const dom = jsdomGlobal("<!doctype html><html><body></body></html>", {
+  url: "http://localhost:3000",
   pretendToBeVisual: true,
-  resources: 'usable'
+  resources: "usable",
 })
 
 // Set up DnD test environment
@@ -43,11 +43,11 @@ global.requestAnimationFrame = callback => {
 }
 
 // Set up navigator
-Object.defineProperty(global.window, 'navigator', {
+Object.defineProperty(global.window, "navigator", {
   value: {
-    userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36'
+    userAgent: "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36",
   },
-  writable: true
+  writable: true,
 })
 
 const store = {
@@ -98,7 +98,7 @@ global.mountWithConnectedSubcomponents = (component, options) => {
 /    mockRetroChannel.__triggerReply("error", { some: "error body" })
 */
 
-// eslint-disable-next-line import/prefer-default-export
+ 
 export const setupMockRetroChannel = () => {
   // Build out a fake that mostly inherits from the real RetroChannel, but overrides
   // the constructor to avoid problematic WebSocket code from executing.

@@ -24,7 +24,7 @@ export class ShareRetroLinkModal extends Component {
     }
   }
 
-  // eslint-disable-next-line camelcase
+   
   UNSAFE_componentWillReceiveProps({ retroCreationTimestamp }) {
     if (timeElapsedLessThanFiveSec(retroCreationTimestamp)) {
       this.setState({ shouldOpen: true })

@@ -55,7 +55,7 @@ describe("StageConfig.retrieveFor", () => {
     beforeEach(() => {
       const requireUncached = module => {
         delete require.cache[require.resolve(module)]
-        return require(module) // eslint-disable-line
+        return require(module)  
       }
 
       UnCachedStageConfig = requireUncached("../../web/static/js/services/stage_config").default

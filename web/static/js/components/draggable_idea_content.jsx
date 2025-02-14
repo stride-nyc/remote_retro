@@ -10,7 +10,7 @@ import * as AppPropTypes from "../prop_types"
 // http://react-dnd.github.io/react-dnd/docs/api/drag-source#drag-source-specification
 export const dragSourceSpec = {
   beginDrag: ({ idea }) => {
-    const { id, category, body, assignee_id } = idea // eslint-disable-line camelcase
+    const { id, category, body, assignee_id } = idea  
 
     return {
       draggedIdea: { id, category, body, assignee_id },

@@ -53,7 +53,7 @@ export class StageProgressionButton extends Component {
           className="ui tiny modal visible transition fade in active"
         >
           <div className="content">
-            {/* eslint-disable-next-line react/no-danger */}
+            { }
             <p dangerouslySetInnerHTML={{ __html: config.confirmationMessageHTML }} />
           </div>
           <div className="actions" ref={ref => { this.modalActionsRef = ref }}>

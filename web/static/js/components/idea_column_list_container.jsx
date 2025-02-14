@@ -30,7 +30,7 @@ class IdeaColumnListContainer extends Component {
     }
   }
 
-  // eslint-disable-next-line camelcase
+   
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { stage, alert } = this.props
     const actionItemsStageChangeAlertCleared = stage === ACTION_ITEMS && alert && !nextProps.alert

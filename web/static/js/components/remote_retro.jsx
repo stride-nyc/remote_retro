@@ -107,7 +107,7 @@ RemoteRetro.defaultProps = {
 }
 
 const mapStateToProps = state => {
-  const { stage, facilitator_id } = state.retro /* eslint-disable-line camelcase */
+  const { stage, facilitator_id } = state.retro  
   return {
     ...state,
     stage,

@@ -8,10 +8,11 @@
     "watch": "node webpack.watch.js",
     "watch-semantic-ui": "nodemon -e jsx,heex --exec 'npm run prune-semantic-ui-to-used-selectors'",
     "prune-semantic-ui-to-used-selectors": "node_modules/.bin/postcss --config priv/static/css/semantic-ui/ priv/static/css/semantic-ui/semantic.min.css --output priv/static/css/semantic-ui/semantic-ui-purged.min.css",
+    "precommit": "lint-staged",
     "postinstall": "bin/prepare_semantic_ui_for_consumption_by_phoenix",
     "test": "mocha --config=./.mocharc.json --node-env=test --exit",
     "test:watch": "mocha --watch --watch-extensions jsx",
-    "lint": "eslint --fix"
+    "lint": "eslint --fix \"web/static/js/**/*.{js,jsx}\" \"test/**/*.{js,jsx}\""
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint"
@@ -34,7 +35,11 @@
     "copy-webpack-plugin": "^9.0.0",
     "core-js": "^3.6.4",
     "css-loader": "^1.0",
+    "eslint-config-airbnb": "^19.0.4",
+    "eslint-plugin-import": "^2.31.0",
+    "eslint-plugin-jsx-a11y": "^6.10.2",
     "eslint-plugin-react": "^7.37.4",
+    "eslint-plugin-react-hooks": "^5.1.0",
     "globals": "^15.15.0",
     "lodash": "^4.17.21",
     "mini-css-extract-plugin": "^0.5.0",
@@ -78,6 +83,7 @@
     "webpack-merge": "^4.2.1"
   },
   "devDependencies": {
+    "@babel/eslint-parser": "^7.26.8",
     "@babel/plugin-proposal-unicode-property-regex": "^7.18.6",
     "@babel/register": "^7.0.0",
     "chai": "^4.2.0",

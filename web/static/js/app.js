@@ -1,4 +1,4 @@
-/* eslint-disable react/jsx-filename-extension */
+ 
 
 // IE 11 support
 import "core-js/features/set"

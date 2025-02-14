@@ -1,7 +1,7 @@
 import React from "react"
 import { shallow } from "enzyme"
 
-import stageChangeInfoIdeaGenerationBuilder from "../../web/static/js/components/stage_change_info_idea_generation_builder" // eslint-disable-line line-length
+import stageChangeInfoIdeaGenerationBuilder from "../../web/static/js/components/stage_change_info_idea_generation_builder"  
 
 describe("stageChangeInfoIdeaGenerationBuilder", () => {
   it("returns a renderable React component with list", () => {

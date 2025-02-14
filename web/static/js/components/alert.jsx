@@ -54,7 +54,7 @@ export class Alert extends Component {
           </div>
           <br />
           <button
-            autoFocus /* eslint-disable-line jsx-a11y/no-autofocus */
+            autoFocus  
             type="button"
             className="ui blue right floated button"
             onClick={actions.clearAlert}

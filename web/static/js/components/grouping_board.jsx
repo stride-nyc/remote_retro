@@ -75,7 +75,7 @@ export const dropTargetSpec = {
 
     const { x, y } = DragCoordinates.reconcileMobileZoomOffsets(monitor)
 
-    // eslint-disable-next-line
+     
     const duplicativeHoverCoordinates =
       x === memoizedPush.x && y === memoizedPush.y && draggedIdea.id === memoizedPush.id
 

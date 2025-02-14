@@ -96,7 +96,7 @@ const collect = (connect, monitor) => ({
 
 const withDragAndDrop = Component => {
   // Skip drag and drop wrapping in test environment unless explicitly enabled
-  if (process.env.NODE_ENV === 'test' && !window.__ENABLE_DND__) {
+  if (process.env.NODE_ENV === "test" && !window.__ENABLE_DND__) {
     return Component
   }
   return DropTarget("IDEA", dropTargetSpec, collect)(Component)

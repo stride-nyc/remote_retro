@@ -2,8 +2,8 @@ import React from "react"
 import { shallow } from "enzyme"
 
 import LowerThird from "../../web/static/js/components/lower_third"
-import IdeaSubmissionLowerThirdContent from "../../web/static/js/components/idea_submission_lower_third_content" // eslint-disable-line line-length
-import GroupingLowerThirdContent from "../../web/static/js/components/grouping_lower_third_content" // eslint-disable-line line-length
+import IdeaSubmissionLowerThirdContent from "../../web/static/js/components/idea_submission_lower_third_content"  
+import GroupingLowerThirdContent from "../../web/static/js/components/grouping_lower_third_content"  
 import VotingLowerThirdContent from "../../web/static/js/components/voting_lower_third_content"
 import ClosedLowerThirdContent from "../../web/static/js/components/closed_lower_third_content"
 import STAGES from "../../web/static/js/configs/stages"
