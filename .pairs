@@ -5,6 +5,6 @@ pairs:
   aj: Anurup Joseph; ajoseph
 email:
   prefix: pair
-  domain: stridenyc.com
+  domain: stride.build
   no_solo_prefix: true
 global: false  # Set to true for git-pair to change git configuration for all your projects
