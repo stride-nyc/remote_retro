@@ -42,8 +42,8 @@ jobs:
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
-            - v2-yarn-{{ checksum "yarn.lock" }}
-            - v2-yarn-
+            - v3-yarn-{{ checksum "yarn.lock" }}
+            - v3-yarn-
 
       - run:
           name: Install Node Dependencies
