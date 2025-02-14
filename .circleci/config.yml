@@ -72,19 +72,19 @@ jobs:
 
       # Save Mix caches
       - save_cache:
-          key: v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          key: v6-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
           paths: ["deps"]
       - save_cache:
-          key: v5-mix-cache-{{ .Branch }}
+          key: v6-mix-cache-{{ .Branch }}
           paths: ["deps"]
       - save_cache:
-          key: v5-mix-cache
+          key: v6-mix-cache
           paths: ["deps"]
       - save_cache:
-          key: v5-build-cache-{{ .Branch }}
+          key: v6-build-cache-{{ .Branch }}
           paths: ["_build"]
       - save_cache:
-          key: v5-build-cache
+          key: v6-build-cache
           paths: ["_build"]
 
       - run:
