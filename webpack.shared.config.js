@@ -27,8 +27,8 @@ export default {
     fullySpecified: false,
     fallback: {
       "core-js": false,
-      "url": false
-    }
+      "url": false,
+    },
   },
   cache: false,
   module: {
@@ -46,13 +46,13 @@ export default {
       {
         test: /\.m?js/,
         resolve: {
-          fullySpecified: false
+          fullySpecified: false,
         },
         include: [
           path.resolve(path.dirname(new URL(import.meta.url).pathname), "web/static/js"),
-          path.resolve(path.dirname(new URL(import.meta.url).pathname), "node_modules")
+          path.resolve(path.dirname(new URL(import.meta.url).pathname), "node_modules"),
         ],
-        type: "javascript/auto"
+        type: "javascript/auto",
       },
       {
         test: /\.css$/,
@@ -71,6 +71,11 @@ export default {
           },
           {
             loader: "postcss-loader",
+            options: {
+              postcssOptions: {
+                config: path.resolve(path.dirname(new URL(import.meta.url).pathname), "postcss.config.cjs"),
+              },
+            },
           },
         ],
       },
@@ -93,7 +98,7 @@ export default {
         globOptions: {
           ignore: ["**/.DS_Store"],
         },
-      }]
+      }],
     }),
   ],
 }
