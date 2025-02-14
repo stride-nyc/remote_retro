@@ -6,7 +6,7 @@
     "compile-test": "npm run prune-semantic-ui-to-used-selectors && webpack --config='webpack.dll.mjs' && NODE_ENV=test webpack --config='webpack.shared.config.js'",
     "watch": "node webpack.watch.js",
     "watch-semantic-ui": "nodemon -e jsx,heex --exec 'npm run prune-semantic-ui-to-used-selectors'",
-    "prune-semantic-ui-to-used-selectors": "node_modules/.bin/postcss --config priv/static/css/semantic-ui/ priv/static/css/semantic-ui/semantic.min.css --output priv/static/css/semantic-ui/semantic-ui-purged.min.css",
+    "prune-semantic-ui-to-used-selectors": "node_modules/.bin/postcss priv/static/css/semantic-ui/semantic.min.css --output priv/static/css/semantic-ui/semantic-ui-purged.min.css",
     "precommit": "lint-staged",
     "postinstall": "bin/prepare_semantic_ui_for_consumption_by_phoenix",
     "test": "mocha --config=./.mocharc.json --node-env=test --exit",
