@@ -298,6 +298,17 @@ jobs:
             # Wait for Xvfb to be ready
             sleep 2
 
+      # Verify PostCSS config files
+      - run:
+          name: Verify PostCSS Configuration
+          command: |
+            echo "=== Listing contents of priv/static/css/semantic-ui/ ==="
+            ls -la priv/static/css/semantic-ui/
+            echo "\n=== Checking for postcss config files ==="
+            find . -name "postcss.config.*"
+            echo "\n=== Contents of project root postcss.config.cjs ==="
+            cat postcss.config.cjs
+
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
       - run:
