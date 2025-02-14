@@ -344,7 +344,7 @@ jobs:
             fi
             
             echo "Running feature tests..."
-            if ! MIX_ENV=test TEST_DEBUG=1 mix test --only feature_test --trace; then
+            if ! mix test --only feature_test --trace; then
               echo "Feature tests failed"
               exit 1
             fi
