@@ -1,0 +1,36 @@
+services:
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: elixir_backend
+    depends_on:
+      - db
+    environment:
+      DATABASE_URL: "ecto://postgres:postgres@db/remote_retro_dev"
+      NODE_OPTIONS: "--openssl-legacy-provider"
+      REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID: ""
+      REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET: ""
+      REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI: ""
+    working_dir: /app
+    volumes:
+      - .:/app
+    ports:
+      - "4000:4000"
+    command: ["bash", "-l", "./docker-compose-script.sh"]
+
+  db:
+    image: postgres:15
+    container_name: elixir_db
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: remote_retro_dev
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
