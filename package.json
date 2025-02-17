@@ -2,11 +2,11 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "compile-production": "npm run prune-semantic-ui-to-used-selectors && webpack --mode production --config='webpack.dll.js' && webpack --config='webpack.prod.config.js'",
-    "compile-test": "npm run prune-semantic-ui-to-used-selectors && webpack --config='webpack.dll.mjs' && NODE_ENV=test webpack --config='webpack.shared.config.js'",
+    "compile-production": "pnpm run prune-semantic-ui-to-used-selectors && webpack --mode production --config='webpack.dll.js' && webpack --config='webpack.prod.config.js'",
+    "compile-test": "pnpm run prune-semantic-ui-to-used-selectors && webpack --config='webpack.dll.mjs' && NODE_ENV=test webpack --config='webpack.shared.config.js'",
     "watch": "node webpack.watch.js",
-    "watch-semantic-ui": "nodemon -e jsx,heex --exec 'npm run prune-semantic-ui-to-used-selectors'",
-    "prune-semantic-ui-to-used-selectors": "node_modules/.bin/postcss --config /home/circleci/app/postcss.config.cjs priv/static/css/semantic-ui/semantic.min.css --output priv/static/css/semantic-ui/semantic-ui-purged.min.css",
+    "watch-semantic-ui": "nodemon -e jsx,heex --exec 'pnpm run prune-semantic-ui-to-used-selectors'",
+    "prune-semantic-ui-to-used-selectors": "postcss --config ./postcss.config.cjs priv/static/css/semantic-ui/semantic.min.css --output priv/static/css/semantic-ui/semantic-ui-purged.min.css",
     "precommit": "lint-staged",
     "postinstall": "bin/prepare_semantic_ui_for_consumption_by_phoenix",
     "test": "mocha --config=./.mocharc.json --node-env=test --exit",
@@ -109,8 +109,14 @@
     "webpack-dev-server": "^4.0.0",
     "webpack-notifier": "^1.7.0"
   },
-  "resolutions": {
-    "cheerio": "1.0.0-rc.3"
-  },
-  "packageManager": "yarn@4.6.0"
+  "pnpm": {
+    "overrides": {
+      "cheerio": "1.0.0-rc.3"
+    },
+    "onlyBuiltDependencies": [
+      "chromedriver",
+      "core-js",
+      "phantomjs-prebuilt"
+    ]
+  }
 }

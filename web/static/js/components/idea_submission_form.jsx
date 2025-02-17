@@ -76,7 +76,7 @@ export class IdeaSubmissionForm extends Component {
     this.setState({ assigneeId: parseInt(event.target.value, 10) })
   }
 
-   
+
   UNSAFE_componentWillReceiveProps(nextProps) {
     const { alert } = this.props
     const { isMobileDevice } = this.state
@@ -127,10 +127,13 @@ export class IdeaSubmissionForm extends Component {
           <SelectDropdown {...dropdownProps} />
           <div className="eleven wide field">
             <div className="ui fluid action input">
-              <label htmlFor="idea-input" className="visually-hidden">
+              <label
+                htmlFor="idea-body-input"
+                className="visually-hidden"
+              >
                 Idea input
                 <input
-                  id="idea-input"
+                  id="idea-body-input"
                   type="text"
                   name="idea"
                   autoComplete="off"

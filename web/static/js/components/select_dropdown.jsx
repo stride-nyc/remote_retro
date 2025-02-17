@@ -10,24 +10,13 @@ const SelectDropdown = ({ labelName, value, onChange, selectOptions, showLabel }
   const selectClasses = classNames("ui dropdown", {
     [styles.select]: showLabel,
   })
+  const labelContent = showLabel ? `${capitalize(labelName)}:` : ""
   return (
     <div className={divClasses}>
-      {showLabel && (
-        <label htmlFor={`select-${labelName}`}>
-          {`${capitalize(labelName)}:`}
-          <select
-            id={`select-${labelName}`}
-            name={labelName}
-            value={value}
-            className={selectClasses}
-            onChange={onChange}
-          >
-            {selectOptions}
-          </select>
-        </label>
-      )}
-      {!showLabel && (
+      <label htmlFor={labelName}>
+        {labelContent}
         <select
+          id={labelName}
           name={labelName}
           value={value}
           className={selectClasses}
@@ -35,7 +24,7 @@ const SelectDropdown = ({ labelName, value, onChange, selectOptions, showLabel }
         >
           {selectOptions}
         </select>
-      )}
+      </label>
     </div>
   )
 }

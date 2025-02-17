@@ -18,8 +18,6 @@ describe("IdeaBoard component", () => {
   }
 
   describe("when the stage is 'idea-generation'", () => {
-
-    
     beforeEach(() => {
       ideaBoard = mountWithConnectedSubcomponents(
         <IdeaBoard {...defaultProps} stage={IDEA_GENERATION} />
