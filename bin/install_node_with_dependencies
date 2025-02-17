@@ -4,8 +4,8 @@
 brew install nvm
 source ~/.nvm/nvm.sh
 
-# install project version of node (18.19.0) and use it
-nvm install 18.19.0 && nvm use 18.19.0
+# install project version of node (22.0.0) and use it
+nvm install 22.0.0 && nvm use 22.0.0
 
 # install yarn to install package
 npm install yarn -g
