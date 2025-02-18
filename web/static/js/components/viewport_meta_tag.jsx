@@ -1,5 +1,5 @@
 import React from "react"
-import MetaTags from "react-meta-tags"
+import { Helmet } from "react-helmet-async"
 import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
@@ -39,9 +39,9 @@ export const ViewportMetaTag = props => {
     : DEFAULT_VIEWPORT_WIDTH
 
   return (
-    <MetaTags>
+    <Helmet>
       <meta name="viewport" content={viewportMetaContent} />
-    </MetaTags>
+    </Helmet>
   )
 }
 

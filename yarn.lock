@@ -3751,17 +3751,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"css-hot-loader@npm:^1.4.3":
-  version: 1.4.4
-  resolution: "css-hot-loader@npm:1.4.4"
-  dependencies:
-    loader-utils: "npm:^1.1.0"
-    lodash: "npm:^4.17.5"
-    normalize-url: "npm:^1.9.1"
-  checksum: 10c0/ee7129dc81cb0f07832ace4b3d99e959edab9ed5790f0d80872c497792294b02b9cf0a6b1ce6170cb3665154ed82f37bfaf41f724187e26a68d3e9e2965fd92c
-  languageName: node
-  linkType: hard
-
 "css-loader@npm:^1.0":
   version: 1.0.1
   resolution: "css-loader@npm:1.0.1"
@@ -5527,7 +5516,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"fast-levenshtein@npm:^2.0.6, fast-levenshtein@npm:~2.0.6":
+"fast-levenshtein@npm:~2.0.6":
   version: 2.0.6
   resolution: "fast-levenshtein@npm:2.0.6"
   checksum: 10c0/111972b37338bcb88f7d9e2c5907862c280ebf4234433b95bc611e518d192ccb2d38119c4ac86e26b668d75f7f3894f4ff5c4982899afced7ca78633b08287c4
@@ -6249,7 +6238,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"global@npm:^4.3.0, global@npm:^4.3.2":
+"global@npm:^4.3.2":
   version: 4.4.0
   resolution: "global@npm:4.4.0"
   dependencies:
@@ -8180,7 +8169,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"loader-utils@npm:^2.0.3, loader-utils@npm:^2.0.4":
+"loader-utils@npm:^2.0.4":
   version: 2.0.4
   resolution: "loader-utils@npm:2.0.4"
   dependencies:
@@ -9252,18 +9241,6 @@ __metadata:
   version: 0.1.2
   resolution: "normalize-range@npm:0.1.2"
   checksum: 10c0/bf39b73a63e0a42ad1a48c2bd1bda5a07ede64a7e2567307a407674e595bcff0fa0d57e8e5f1e7fa5e91000797c7615e13613227aaaa4d6d6e87f5bd5cc95de6
-  languageName: node
-  linkType: hard
-
-"normalize-url@npm:^1.9.1":
-  version: 1.9.1
-  resolution: "normalize-url@npm:1.9.1"
-  dependencies:
-    object-assign: "npm:^4.0.1"
-    prepend-http: "npm:^1.0.0"
-    query-string: "npm:^4.1.0"
-    sort-keys: "npm:^1.0.0"
-  checksum: 10c0/5ecd525f743c3fb5370d2bab8e78446f3e3bd7c0c97a5fd3f0bc0c5f396fbd117d13c9118766128d25ed575755cb539dc33a38419f18ca9d8577c8d1cd7a8daf
   languageName: node
   linkType: hard
 
@@ -10666,13 +10643,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prepend-http@npm:^1.0.0":
-  version: 1.0.4
-  resolution: "prepend-http@npm:1.0.4"
-  checksum: 10c0/c6c173ca439e58163ba7bea7cbba52a1ed11e3e3da1c048da296f37d4b7654f78f7304e03f76d5923f4b83af7e2d55533e0f79064209c75b743ccddee13904f8
-  languageName: node
-  linkType: hard
-
 "pretty-format@npm:^23.6.0":
   version: 23.6.0
   resolution: "pretty-format@npm:23.6.0"
@@ -10742,7 +10712,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"prop-types@npm:^15.5.10, prop-types@npm:^15.6.0, prop-types@npm:^15.6.1, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
+"prop-types@npm:^15.5.10, prop-types@npm:^15.6.2, prop-types@npm:^15.7.2, prop-types@npm:^15.8.1":
   version: 15.8.1
   resolution: "prop-types@npm:15.8.1"
   dependencies:
@@ -10921,16 +10891,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"query-string@npm:^4.1.0":
-  version: 4.3.4
-  resolution: "query-string@npm:4.3.4"
-  dependencies:
-    object-assign: "npm:^4.1.0"
-    strict-uri-encode: "npm:^1.0.0"
-  checksum: 10c0/6181c343074c2049fbbcde63f87c1da5d3a49c6e34c8d94a61d692e886e0b8cd1ae4a4be00b598112bb9c4cb819e423ed503a5d246e4d24ecb0990d8bb21570b
-  languageName: node
-  linkType: hard
-
 "querystring-es3@npm:^0.2.0":
   version: 0.2.1
   resolution: "querystring-es3@npm:0.2.1"
@@ -11094,6 +11054,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-fast-compare@npm:^3.2.2":
+  version: 3.2.2
+  resolution: "react-fast-compare@npm:3.2.2"
+  checksum: 10c0/0bbd2f3eb41ab2ff7380daaa55105db698d965c396df73e6874831dbafec8c4b5b08ba36ff09df01526caa3c61595247e3269558c284e37646241cba2b90a367
+  languageName: node
+  linkType: hard
+
 "react-flip-move@npm:^3.0.4":
   version: 3.0.5
   resolution: "react-flip-move@npm:3.0.5"
@@ -11104,26 +11071,16 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-hot-loader@npm:^4.13.1":
-  version: 4.13.1
-  resolution: "react-hot-loader@npm:4.13.1"
+"react-helmet-async@npm:^2.0.5":
+  version: 2.0.5
+  resolution: "react-helmet-async@npm:2.0.5"
   dependencies:
-    fast-levenshtein: "npm:^2.0.6"
-    global: "npm:^4.3.0"
-    hoist-non-react-statics: "npm:^3.3.0"
-    loader-utils: "npm:^2.0.3"
-    prop-types: "npm:^15.6.1"
-    react-lifecycles-compat: "npm:^3.0.4"
+    invariant: "npm:^2.2.4"
+    react-fast-compare: "npm:^3.2.2"
     shallowequal: "npm:^1.1.0"
-    source-map: "npm:^0.7.3"
   peerDependencies:
-    "@types/react": ^15.0.0 || ^16.0.0 || ^17.0.0
-    react: ^15.0.0 || ^16.0.0 || ^17.0.0
-    react-dom: ^15.0.0 || ^16.0.0 || ^17.0.0
-  peerDependenciesMeta:
-    "@types/react":
-      optional: true
-  checksum: 10c0/390bb8edf28e6b21bada85314487491ffd42492ea96ff0e8e3d8873ecb2f6a7d5896b199fad965141ebdfe7ed6968a65547c4600c772f6e3abd35d441f526338
+    react: ^16.6.0 || ^17.0.0 || ^18.0.0
+  checksum: 10c0/f390ea8bf13c2681850e5f8eb5b73d8613f407c245a5fd23e9db9b2cc14a3700dd1ce992d3966632886d1d613083294c2aeee009193f49dfa7d145d9f13ea2b0
   languageName: node
   linkType: hard
 
@@ -11141,22 +11098,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react-lifecycles-compat@npm:^3.0.0, react-lifecycles-compat@npm:^3.0.4":
+"react-lifecycles-compat@npm:^3.0.0":
   version: 3.0.4
   resolution: "react-lifecycles-compat@npm:3.0.4"
   checksum: 10c0/1d0df3c85af79df720524780f00c064d53a9dd1899d785eddb7264b378026979acbddb58a4b7e06e7d0d12aa1494fd5754562ee55d32907b15601068dae82c27
-  languageName: node
-  linkType: hard
-
-"react-meta-tags@npm:^0.7.4":
-  version: 0.7.4
-  resolution: "react-meta-tags@npm:0.7.4"
-  dependencies:
-    prop-types: "npm:^15.6.0"
-  peerDependencies:
-    react: ^0.14 || ^15.0.0 || ^ 16.0.0
-    react-dom: ^0.14 || ^15.0.0 || ^ 16.0.0
-  checksum: 10c0/ed237bbc6d9cf28b8fec25f575ed73f785737fb46b9403a43e7821fb78e71c613c8770347f32d2566523761f42f233ff642df469e9e9eb84a4bba567c467eb4b
   languageName: node
   linkType: hard
 
@@ -11740,7 +11685,6 @@ __metadata:
     copy-webpack-plugin: "npm:^4.6.0"
     core-js: "npm:^3.6.4"
     cryptiles: "npm:4.1.2"
-    css-hot-loader: "npm:^1.4.3"
     css-loader: "npm:^1.0"
     deep-freeze: "npm:^0.0.1"
     dotenv: "npm:^16.4.7"
@@ -11780,8 +11724,7 @@ __metadata:
     react-dnd-touch-backend: "npm:^0.8.1"
     react-dom: "npm:^18.2.0"
     react-flip-move: "npm:^3.0.4"
-    react-hot-loader: "npm:^4.13.1"
-    react-meta-tags: "npm:^0.7.4"
+    react-helmet-async: "npm:^2.0.5"
     react-modal: "npm:^3.9.1"
     react-redux: "npm:^8.1.3"
     react-transition-group: "npm:^4.3.0"
@@ -12496,15 +12439,6 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sort-keys@npm:^1.0.0":
-  version: 1.1.2
-  resolution: "sort-keys@npm:1.1.2"
-  dependencies:
-    is-plain-obj: "npm:^1.0.0"
-  checksum: 10c0/5dd383b0299a40277051f7498c3999520138e2eb50d422962f658738341c9e82349fad4a3024d5ba1a3122688fbaf958f2a472d4c53bade55515097c2ce15420
-  languageName: node
-  linkType: hard
-
 "sort-keys@npm:^2.0.0":
   version: 2.0.0
   resolution: "sort-keys@npm:2.0.0"
@@ -12569,13 +12503,6 @@ __metadata:
   version: 0.6.1
   resolution: "source-map@npm:0.6.1"
   checksum: 10c0/ab55398007c5e5532957cb0beee2368529618ac0ab372d789806f5718123cc4367d57de3904b4e6a4170eb5a0b0f41373066d02ca0735a0c4d75c7d328d3e011
-  languageName: node
-  linkType: hard
-
-"source-map@npm:^0.7.3":
-  version: 0.7.4
-  resolution: "source-map@npm:0.7.4"
-  checksum: 10c0/dc0cf3768fe23c345ea8760487f8c97ef6fca8a73c83cd7c9bf2fde8bc2c34adb9c0824d6feb14bc4f9e37fb522e18af621543f1289038a66ac7586da29aa7dc
   languageName: node
   linkType: hard
 
@@ -12754,13 +12681,6 @@ __metadata:
   version: 1.0.3
   resolution: "stream-shift@npm:1.0.3"
   checksum: 10c0/939cd1051ca750d240a0625b106a2b988c45fb5a3be0cebe9a9858cb01bc1955e8c7b9fac17a9462976bea4a7b704e317c5c2200c70f0ca715a3363b9aa4fd3b
-  languageName: node
-  linkType: hard
-
-"strict-uri-encode@npm:^1.0.0":
-  version: 1.1.0
-  resolution: "strict-uri-encode@npm:1.1.0"
-  checksum: 10c0/eb8a4109ba2588239787389313ba58ec49e043d4c64a1d44716defe5821a68ae49abe0cdefed9946ca9fc2a4af7ecf321da92422b0a67258ec0a3638b053ae62
   languageName: node
   linkType: hard
 

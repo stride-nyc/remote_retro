@@ -26,4 +26,23 @@ module.exports = {
   resolve: {
     modules: ["node_modules"],
   },
+  module: {
+    rules: [
+      {
+        test: /\.jsx?$/,
+        exclude: /(polyfills|node_modules\/(?!(react-helmet-async)\/).*)/,
+        use: [{
+          loader: "babel-loader",
+          options: {
+            cacheDirectory: true,
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+            plugins: [
+              ["@babel/plugin-proposal-class-properties", { loose: true }],
+              "@babel/plugin-proposal-object-rest-spread",
+            ],
+          },
+        }],
+      },
+    ],
+  },
 }
