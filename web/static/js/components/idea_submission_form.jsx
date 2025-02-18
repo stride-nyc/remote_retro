@@ -159,7 +159,7 @@ export class IdeaSubmissionForm extends Component {
 }
 
 IdeaSubmissionForm.propTypes = {
-  alert: AppPropTypes.alert.isRequired,
+  alert: AppPropTypes.alert,
   currentUser: AppPropTypes.presence.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   users: AppPropTypes.presences.isRequired,

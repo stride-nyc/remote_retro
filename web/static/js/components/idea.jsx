@@ -23,6 +23,7 @@ export const Idea = ({
   actions = {},
   ideaGenerationCategories,
   assignee = null,
+  isTabletOrAbove,
   ...props
 }) => {
   const userIsEditing = idea.inEditState && idea.isLocalEdit
@@ -42,7 +43,15 @@ export const Idea = ({
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
   } else {
-    content = <ConditionallyDraggableIdeaContent {...props} assignee={assignee} />
+    content = (
+      <ConditionallyDraggableIdeaContent
+        {...props}
+        currentUser={currentUser}
+        idea={idea}
+        assignee={assignee}
+        isTabletOrAbove={isTabletOrAbove}
+      />
+    )
   }
 
   return (
@@ -56,7 +65,7 @@ Idea.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  assignee: AppPropTypes.presence.isRequired,
+  assignee: AppPropTypes.presence,
   users: AppPropTypes.presences.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   actions: AppPropTypes.actions.isRequired,

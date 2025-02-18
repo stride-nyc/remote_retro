@@ -36,7 +36,7 @@ const ContactStrideCTA = ({ alert = null, currentUser }) => {
 }
 
 ContactStrideCTA.propTypes = {
-  alert: AppPropTypes.alert.isRequired,
+  alert: AppPropTypes.alert,
   currentUser: AppPropTypes.user.isRequired,
 }
 

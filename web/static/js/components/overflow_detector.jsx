@@ -60,6 +60,6 @@ OverflowDetector.propTypes = {
   elementType: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
   className: PropTypes.string.isRequired,
-  interval: PropTypes.number.isRequired,
+  interval: PropTypes.number,
   onOverflowChange: PropTypes.func.isRequired,
 }

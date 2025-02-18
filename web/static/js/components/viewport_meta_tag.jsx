@@ -44,7 +44,7 @@ export const ViewportMetaTag = ({
 }
 
 ViewportMetaTag.propTypes = {
-  alert: AppPropTypes.alert.isRequired,
+  alert: AppPropTypes.alert,
   stage: AppPropTypes.stage.isRequired,
   browserOrientation: PropTypes.string.isRequired,
 }

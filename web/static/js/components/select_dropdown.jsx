@@ -43,7 +43,7 @@ SelectDropdown.propTypes = {
   ]).isRequired,
   onChange: PropTypes.func.isRequired,
   selectOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  showLabel: PropTypes.bool.isRequired,
+  showLabel: PropTypes.bool,
 }
 
 export default SelectDropdown

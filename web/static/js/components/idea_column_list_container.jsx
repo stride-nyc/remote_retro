@@ -65,7 +65,7 @@ IdeaColumnListContainer.propTypes = {
   category: AppPropTypes.category.isRequired,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  alert: AppPropTypes.alert.isRequired,
+  alert: AppPropTypes.alert,
 }
 
 export default IdeaColumnListContainer

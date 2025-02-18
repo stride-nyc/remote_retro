@@ -70,7 +70,7 @@ export class Alert extends Component {
 
 Alert.propTypes = {
   actions: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
+  config: PropTypes.object,
 }
 
 const mapStateToProps = state => ({

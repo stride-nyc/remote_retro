@@ -50,7 +50,7 @@ export class CategoryColumn extends Component {
 CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   category: AppPropTypes.category.isRequired,
-  categoryDisplayStringOverride: PropTypes.string.isRequired,
+  categoryDisplayStringOverride: PropTypes.string,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
   actions: AppPropTypes.actions.isRequired,

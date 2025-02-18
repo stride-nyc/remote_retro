@@ -12,7 +12,7 @@ const AnimatedEllipsis = ({ animated = false }) => (
 )
 
 AnimatedEllipsis.propTypes = {
-  animated: PropTypes.bool.isRequired,
+  animated: PropTypes.bool,
 }
 
 export default AnimatedEllipsis

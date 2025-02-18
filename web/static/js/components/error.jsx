@@ -35,7 +35,7 @@ export const Error = ({
 
 Error.propTypes = {
   actions: PropTypes.object.isRequired,
-  config: PropTypes.object.isRequired,
+  config: PropTypes.object,
 }
 
 const mapStateToProps = state => ({

@@ -21,9 +21,20 @@ const ConditionallyDraggableIdeaContent = ({
   const isIdeaDragEligible = isTabletOrAbove && isIdeaGeneration && canUserEditIdeaContents
 
   return isIdeaDragEligible ? (
-    <DraggableIdeaContent {...props} assignee={assignee} />
+    <DraggableIdeaContent
+      {...props}
+      stage={stage}
+      canUserEditIdeaContents={canUserEditIdeaContents}
+      assignee={assignee}
+      isTabletOrAbove={isTabletOrAbove}
+    />
   ) : (
-    <IdeaContentBase {...props} assignee={assignee} />
+    <IdeaContentBase
+      {...props}
+      stage={stage}
+      canUserEditIdeaContents={canUserEditIdeaContents}
+      assignee={assignee}
+    />
   )
 }
 
@@ -31,7 +42,7 @@ ConditionallyDraggableIdeaContent.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  assignee: AppPropTypes.presence.isRequired,
+  assignee: AppPropTypes.presence,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
 }

@@ -42,7 +42,7 @@ CenteredTextStageWrapper.propTypes = {
   stageConfig: PropTypes.object.isRequired,
   bodyMarkup: PropTypes.node.isRequired,
   headerText: PropTypes.string.isRequired,
-  children: PropTypes.node.isRequired,
+  children: PropTypes.node,
 }
 
 export default CenteredTextStageWrapper

@@ -11,8 +11,10 @@ const IdeaContentBase = ({
   currentUser,
   stage,
   assignee = null,
-  canUserEditIdeaContents,
+  canUserEditIdeaContents = false,
 }) => {
+  if (!idea || !stage || !currentUser) return null
+
   const isEdited = (+new Date(idea.updated_at) > +new Date(idea.inserted_at))
 
   return (
@@ -35,9 +37,9 @@ const IdeaContentBase = ({
 IdeaContentBase.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
-  stage: AppPropTypes.stage.isRequired,
-  assignee: AppPropTypes.presence.isRequired,
-  canUserEditIdeaContents: PropTypes.bool.isRequired,
+  stage: AppPropTypes.stage,
+  assignee: AppPropTypes.presence,
+  canUserEditIdeaContents: PropTypes.bool,
 }
 
 export default IdeaContentBase
