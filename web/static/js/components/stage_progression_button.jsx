@@ -30,12 +30,12 @@ export class StageProgressionButton extends Component {
 
   render() {
     const {
-      buttonDisabled,
-      className,
+      buttonDisabled = false,
+      className = "",
       currentUser,
-      reduxState,
-      retroUpdateRequested,
-      config,
+      reduxState = {},
+      retroUpdateRequested = false,
+      config = null,
     } = this.props
 
     const { modalOpen } = this.state
@@ -98,19 +98,11 @@ export class StageProgressionButton extends Component {
 StageProgressionButton.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
-  className: PropTypes.string,
-  config: PropTypes.object,
-  reduxState: PropTypes.object,
-  buttonDisabled: PropTypes.bool,
-  retroUpdateRequested: PropTypes.bool,
-}
-
-StageProgressionButton.defaultProps = {
-  className: "",
-  buttonDisabled: false,
-  retroUpdateRequested: false,
-  reduxState: {},
-  config: null,
+  className: PropTypes.string.isRequired,
+  config: PropTypes.object.isRequired,
+  reduxState: PropTypes.object.isRequired,
+  buttonDisabled: PropTypes.bool.isRequired,
+  retroUpdateRequested: PropTypes.bool.isRequired,
 }
 
 const mapStateToProps = reduxState => ({

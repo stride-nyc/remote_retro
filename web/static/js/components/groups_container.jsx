@@ -39,7 +39,7 @@ export class GroupsContainer extends Component {
   render() {
     const { isGroupsListOverflowed } = this.state
     const {
-      alert,
+      alert = null,
       groupsWithAssociatedIdeasAndVotes,
       currentUser,
       actions,
@@ -113,11 +113,7 @@ GroupsContainer.propTypes = {
   currentUserHasExhaustedVotes: PropTypes.bool.isRequired,
   groupsWithAssociatedIdeasAndVotes: AppPropTypes.groups.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  alert: AppPropTypes.alert,
-}
-
-GroupsContainer.defaultProps = {
-  alert: null,
+  alert: AppPropTypes.alert.isRequired,
 }
 
 const mapStateToProps = (state, { currentUser }) => ({

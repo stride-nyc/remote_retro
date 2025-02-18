@@ -10,11 +10,14 @@ export const DomElementUtils = {
 export default class OverflowDetector extends Component {
   constructor(props) {
     super(props)
+    const { className = "", interval = 300 } = props
+    this.className = className
+    this.interval = interval
     this.isOverflowed = false
   }
 
   componentDidMount() {
-    const { interval } = this.props
+    const { interval } = this
 
     this.intervalId = setInterval(() => {
       const {
@@ -37,7 +40,8 @@ export default class OverflowDetector extends Component {
   }
 
   render() {
-    const { elementType, children, className } = this.props
+    const { elementType, children } = this.props
+    const { className } = this
 
     const WrappingEl = elementType
 
@@ -55,12 +59,7 @@ export default class OverflowDetector extends Component {
 OverflowDetector.propTypes = {
   elementType: PropTypes.string.isRequired,
   children: PropTypes.node.isRequired,
-  className: PropTypes.string,
-  interval: PropTypes.number,
+  className: PropTypes.string.isRequired,
+  interval: PropTypes.number.isRequired,
   onOverflowChange: PropTypes.func.isRequired,
-}
-
-OverflowDetector.defaultProps = {
-  className: "",
-  interval: 300,
 }

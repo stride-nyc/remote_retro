@@ -41,6 +41,4 @@ IdeaList.propTypes = {
   stage: AppPropTypes.stage.isRequired,
 }
 
-IdeaList.defaultProps = {}
-
 export default IdeaList

@@ -4,9 +4,11 @@ import cx from "classnames"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/high_contrast_button.css"
 
-const HighContrastButton = props => {
-  const { actions, userOptions, className } = props
-
+const HighContrastButton = ({
+  actions,
+  userOptions,
+  className = "",
+}) => {
   const wrapperClasses = cx(className, styles.wrapper)
 
   return (
@@ -24,11 +26,7 @@ const HighContrastButton = props => {
 HighContrastButton.propTypes = {
   actions: PropTypes.object.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
-  className: PropTypes.string,
-}
-
-HighContrastButton.defaultProps = {
-  className: "",
+  className: PropTypes.string.isRequired,
 }
 
 export default HighContrastButton

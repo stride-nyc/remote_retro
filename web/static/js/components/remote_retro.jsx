@@ -37,10 +37,10 @@ export class RemoteRetro extends Component {
       ideas,
       groups,
       stage,
-      alert,
-      error,
+      alert = null,
+      error = null,
       currentUser,
-      facilitatorName,
+      facilitatorName = "",
       isTabletOrAbove,
       isAnActionItemsStage,
       stageConfig,
@@ -85,25 +85,19 @@ RemoteRetro.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   groups: AppPropTypes.groups.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  alert: PropTypes.object,
-  error: PropTypes.object,
+  alert: PropTypes.object.isRequired,
+  error: PropTypes.object.isRequired,
   usersById: PropTypes.object.isRequired,
   actions: AppPropTypes.actions.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
-  facilitatorName: PropTypes.string,
+  facilitatorName: PropTypes.string.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
   isAnActionItemsStage: PropTypes.bool.isRequired,
   stageConfig: AppPropTypes.stageConfig.isRequired,
   retro: AppPropTypes.retro.isRequired,
   browser: PropTypes.object.isRequired,
-}
-
-RemoteRetro.defaultProps = {
-  facilitatorName: "",
-  alert: null,
-  error: null,
 }
 
 const mapStateToProps = state => {

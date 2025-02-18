@@ -9,21 +9,21 @@ import STAGES from "../configs/stages"
 
 const { IDEA_GENERATION } = STAGES
 
-const ConditionallyDraggableIdeaContent = props => {
-  const {
-    stage,
-    canUserEditIdeaContents,
-    isTabletOrAbove,
-  } = props
-
+const ConditionallyDraggableIdeaContent = ({
+  stage,
+  canUserEditIdeaContents,
+  isTabletOrAbove,
+  assignee = null,
+  ...props
+}) => {
   const isIdeaGeneration = stage === IDEA_GENERATION
 
   const isIdeaDragEligible = isTabletOrAbove && isIdeaGeneration && canUserEditIdeaContents
 
   return isIdeaDragEligible ? (
-    <DraggableIdeaContent {...props} />
+    <DraggableIdeaContent {...props} assignee={assignee} />
   ) : (
-    <IdeaContentBase {...props} />
+    <IdeaContentBase {...props} assignee={assignee} />
   )
 }
 
@@ -31,13 +31,9 @@ ConditionallyDraggableIdeaContent.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  assignee: AppPropTypes.presence,
+  assignee: AppPropTypes.presence.isRequired,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
-}
-
-ConditionallyDraggableIdeaContent.defaultProps = {
-  assignee: null,
 }
 
 export default ConditionallyDraggableIdeaContent

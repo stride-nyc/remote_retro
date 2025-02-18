@@ -29,7 +29,11 @@ export class IdeaSubmissionForm extends Component {
   constructor(props) {
     super(props)
 
-    const { users, ideaGenerationCategories, isAnActionItemsStage } = props
+    const {
+      users,
+      ideaGenerationCategories,
+      isAnActionItemsStage,
+    } = props
 
     this.state = {
       body: "",
@@ -155,17 +159,12 @@ export class IdeaSubmissionForm extends Component {
 }
 
 IdeaSubmissionForm.propTypes = {
-  alert: AppPropTypes.alert,
+  alert: AppPropTypes.alert.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
   users: AppPropTypes.presences.isRequired,
-  actions: AppPropTypes.actions,
+  actions: AppPropTypes.actions.isRequired,
   isAnActionItemsStage: PropTypes.bool.isRequired,
-}
-
-IdeaSubmissionForm.defaultProps = {
-  alert: null,
-  actions: {},
 }
 
 const mapStateToProps = state => ({
