@@ -4,7 +4,7 @@ import chaiChange from "chai-change"
 import sinonChai from "sinon-chai"
 
 import Enzyme from "enzyme"
-import Adapter from "enzyme-adapter-react-16"
+import Adapter from "@cfaester/enzyme-adapter-react-18"
 import sinon from "sinon"
 import PropTypes from "prop-types"
 import STAGES from "../../../web/static/js/configs/stages"

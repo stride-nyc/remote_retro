@@ -72,7 +72,7 @@
   },
   "devDependencies": {
     "@babel/register": "^7.0.0",
-    "@wojtekmaj/enzyme-adapter-react-17": "^0.8.0",
+    "@cfaester/enzyme-adapter-react-18": "^0.8.0",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
     "chai-change": "^2.1.2",
