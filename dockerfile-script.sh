@@ -2,7 +2,7 @@
 set -e  # Exit on error
 
 # install netcat
-apt-get update && apt-get install -y netcat
+apt-get update && apt-get install -y netcat inotify-tools
 
 # install openssl 1.1
 

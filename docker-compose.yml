@@ -17,6 +17,7 @@ services:
       - .:/app
     ports:
       - "4000:4000"
+      - "8080:8080"
     command: ["bash", "-l", "./docker-compose-script.sh"]
 
   db:

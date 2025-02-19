@@ -1,113 +1,41 @@
 version: 2.1
-
 orbs:
   browser-tools: circleci/browser-tools@1.5.2
-
 jobs:
   build:
     parallelism: 1
     docker:
-      - image: cimg/elixir:1.16.0-erlang-26.2.1-browsers
-        environment:
-          MIX_ENV: test
-          NODE_OPTIONS: --openssl-legacy-provider
-          DISPLAY: :99
-      - image: cimg/postgres:15.5-postgis
-
-    working_directory: ~/app
-
+      - image: docker:24.0  # Use a Docker-enabled image
     steps:
       - checkout
 
-      # Install Elixir build tools
-      - run: mix local.hex --force
-      - run: mix local.rebar --force
-
-      # Restore Mix dependency caches
-      - restore_cache:
-          keys:
-            - v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-            - v5-mix-cache-{{ .Branch }}
-            - v5-mix-cache
-
-      - restore_cache:
-          keys:
-            - v5-build-cache-{{ .Branch }}
-            - v5-build-cache
-
-      # Get and compile Elixir dependencies
-      - run: mix do deps.get, compile
-
-      # Modern Yarn setup using Corepack
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - v2-yarn-{{ checksum "yarn.lock" }}
-            - v2-yarn-
+      - setup_remote_docker:
+          version: 24.0  # Required to run Docker commands
+          docker_layer_caching: true
 
       - run:
-          name: Install Node Dependencies
+          name: Install PostgreSQL Client
           command: |
-            rm -rf node_modules
-            
-            # Enable and configure Corepack (built into Node.js)
-            sudo corepack enable
-            
-            # Set up Yarn 4.6.0
-            sudo corepack prepare yarn@4.6.0 --activate
-            
-            # Install dependencies with modern Yarn syntax
-            yarn install --immutable
-            
-            # Verify installation
-            yarn --version
-
-      # Save Yarn cache with modern structure
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: v2-yarn-{{ checksum "yarn.lock" }}
-          paths:
-            - .yarn/cache
-            - .yarn/install-state.gz
-
-      # Save Mix caches
-      - save_cache:
-          key: v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-          paths: ["deps"]
-      - save_cache:
-          key: v5-mix-cache-{{ .Branch }}
-          paths: ["deps"]
-      - save_cache:
-          key: v5-mix-cache
-          paths: ["deps"]
-      - save_cache:
-          key: v5-build-cache-{{ .Branch }}
-          paths: ["_build"]
-      - save_cache:
-          key: v5-build-cache
-          paths: ["_build"]
+            apk update
+            apk add postgresql-client
 
       - run:
-          name: Setup Database
+          name: Install Docker Compose
+          command: |
+            apk add --update docker-compose
+
+      - run:
+          name: Start Services with Docker Compose
+          command: docker-compose up -d
+
+      - run:
+          name: Verify Services are Running
           command: |
             # Wait for Postgres to be ready
             dockerize -wait tcp://localhost:5432 -timeout 1m
 
-            # Create test database with manual commands first
-            PGPASSWORD=postgres psql -h localhost -U postgres -c 'CREATE DATABASE remote_retro_test;'
-            
-            # Configure optimized database settings
-            mix run -e '
-              Application.put_env(:remote_retro, RemoteRetro.Repo,
-                pool_size: 20,
-                queue_target: 5000,
-                queue_interval: 10000
-              )
-            '
-            
-            # Now run Ecto commands
-            mix ecto.create --quiet || true  # The || true prevents failure if DB exists
-            mix ecto.migrate --quiet
+            # Wait for Phoenix app to be available
+            dockerize -wait http://localhost:4000 -timeout 5m
 
       - run:
           name: Verify Database Setup
@@ -145,7 +73,7 @@ jobs:
                   echo "✓ Current migration version: $current_version"
                 else
                   echo "✗ Migrations table not found - running migrations..."
-                  mix ecto.migrate
+                  docker-compose exec backend mix ecto.migrate
                 fi
               else
                 echo "✗ Cannot connect to 'remote_retro_test' database"
@@ -157,10 +85,10 @@ jobs:
             fi
 
             # Verify database configuration matches our expectations
-            mix run -e '
+            docker-compose exec backend mix run -e '
               db_config = Application.get_env(:remote_retro, RemoteRetro.Repo)
               expected_config = [
-                hostname: "localhost",
+                hostname: "db",
                 database: "remote_retro_test",
                 username: "postgres",
                 password: "postgres"
@@ -180,7 +108,7 @@ jobs:
       - run:
           name: Setup Test Environment
           command: |
-            mix run -e '
+            docker-compose exec backend mix run -e '
               # First, let''s ensure our configuration is loaded properly
               IO.puts "Loading configuration..."
               Application.load(:remote_retro)
@@ -283,26 +211,12 @@ jobs:
             google-chrome --version
             chromedriver --version
 
-      - run:
-          name: Setup X server
-          command: |
-            # Clean up any stale X server processes and lock files
-            sudo pkill Xvfb || true
-            sudo rm -f /tmp/.X*-lock
-            sudo rm -rf /tmp/.X11-unix
-            
-            # Start Xvfb
-            Xvfb :99 -screen 0 1280x1024x24 &
-            export DISPLAY=:99
-            
-            # Wait for Xvfb to be ready
-            sleep 2
-      - run: yarn run compile-test
+      - run: docker-compose exec backend yarn run compile-test
       - run:
           name: Run Tests
           command: |
             # Setup test environment with proper connection management
-            mix run -e '
+            docker-compose exec backend mix run -e '
               # First load all necessary applications
               IO.puts "Loading applications..."
               Application.load(:remote_retro)
