@@ -33,12 +33,22 @@ jobs:
           name: Verify Services are Running
           command: |
             # Wait for Postgres to be ready
-            echo "Waiting for PostgreSQL connection..."
-            timeout 60 sh -c 'until nc -z localhost 5432; do sleep 1; done'
+            echo "Waiting for PostgreSQL..."
+            if ! timeout 120 sh -c 'until nc -z localhost 5432; do sleep 1; done'; then
+                echo "PostgreSQL did not start within 120 seconds."
+                exit 1
+            else
+                echo "PostgreSQL is up and running!"
+            fi
 
-            echo "Waiting for Phoenix app to be available..."
+            echo "Waiting for Phoenix app..."
             # Wait for Phoenix app to be available
-            timeout 300 sh -c 'until curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep -q "200"; do sleep 1; done'
+            if ! timeout 300 sh -c 'until curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep -q "200"; do sleep 1; done'; then
+              echo "Phoenix app did not start within 300 seconds."
+              exit 1
+            else
+              echo "Phoenix app is up and running!"
+            fi
 
       - run:
           name: Verify Database Setup
