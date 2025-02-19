@@ -34,7 +34,7 @@ jobs:
           command: |
             # Wait for Postgres to be ready
             echo "Waiting for PostgreSQL..."
-            if ! timeout 120 sh -c 'until pg_isready -h localhost -p 5432; do sleep 1; done'
+            if ! timeout 120 sh -c 'until pg_isready -h localhost -p 5432; do sleep 1; done'; then
                 echo "PostgreSQL did not start within 120 seconds."
                 docker-compose logs db
                 exit 1
