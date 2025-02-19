@@ -14,10 +14,11 @@ jobs:
           docker_layer_caching: true
 
       - run:
-          name: Install PostgreSQL Client
+          name: Install Command-Line Tools
           command: |
             apk update
             apk add postgresql-client
+            apk add --no-cache dockerize
 
       - run:
           name: Install Docker Compose
