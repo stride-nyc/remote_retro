@@ -1,13 +1,14 @@
 {
-  "presets": [["@babel/env", { "modules": false }], "@babel/preset-react"],
+  "presets": [["@babel/preset-env", { "modules": false }], "@babel/preset-react"],
   "plugins": [
-    "@babel/plugin-proposal-class-properties",
-    "@babel/plugin-proposal-object-rest-spread",
-    "react-hot-loader/babel"
+    ["@babel/plugin-transform-private-property-in-object", { "loose": true }],
+    ["@babel/plugin-transform-private-methods", { "loose": true }],
+    ["@babel/plugin-transform-class-properties", { "loose": true }],
+    "@babel/plugin-proposal-object-rest-spread"
   ],
   "env": {
     "test": {
-      "presets": ["@babel/env", "@babel/preset-react"],
+      "presets": ["@babel/preset-env", "@babel/preset-react"],
       "plugins": ["@babel/plugin-proposal-object-rest-spread"]
     }
   }

@@ -12,7 +12,7 @@ import styles from "./css_modules/grouping_board.css"
 const IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION = 35
 
 export const GroupingBoard = props => {
-  const { ideas, actions, connectDropTarget, userOptions } = props
+  const { ideas, actions, connectDropTarget = node => node, userOptions } = props
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
@@ -58,12 +58,8 @@ export const GroupingBoard = props => {
 GroupingBoard.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
-  connectDropTarget: PropTypes.func,
+  connectDropTarget: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,
-}
-
-GroupingBoard.defaultProps = {
-  connectDropTarget: node => node,
 }
 
 let memoizedPush = {}

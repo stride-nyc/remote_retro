@@ -6,7 +6,7 @@ defmodule RemoteRetroWeb.MockAuthController do
   use RemoteRetroWeb, :controller
   alias RemoteRetro.{User}
 
-  @allow_user_masquerade Application.get_env(:remote_retro, :allow_user_masquerade)
+  @allow_user_masquerade Application.compile_env(:remote_retro, :allow_user_masquerade)
 
   def callback(conn, %{"code" => test_user_email, "test_override" => "true"}) do
     if @allow_user_masquerade do

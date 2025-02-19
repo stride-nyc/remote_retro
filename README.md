@@ -3,7 +3,7 @@
 [![CircleCI](https://circleci.com/gh/stride-nyc/remote_retro.svg?style=shield)](https://circleci.com/gh/stride-nyc/remote_retro)
 [![Coverage Status](https://coveralls.io/repos/github/stride-nyc/remote_retro/badge.svg)](https://coveralls.io/github/stride-nyc/remote_retro?branch=master)
 
-This repository houses the application code for [RemoteRetro.org](http://remoteretro.org), a free web app that allows distributed teams to conduct Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](https://www.stridenyc.com).
+This repository houses the application code for [RemoteRetro.org](http://remoteretro.org), a free web app that allows distributed teams to conduct Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](https://www.stride.build).
 
 ## Table of Contents
 
@@ -39,14 +39,12 @@ psql -h localhost
 
 #### Elixir/Phoenix Dependencies
 
-- [Install the asdf version manager](https://asdf-vm.com/#/core-manage-asdf-vm)
-- Install Erlang, Elixir, and their dependencies by running `bin/install_erlang_and_elixir_with_dependencies`
+- Install Elixir and its dependencies by running `bin/install_elixir_with_dependencies`
 - Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
 - Create the "remote_retro_test" database and migrate via `MIX_ENV=test mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
 
-- [Ensure you have the asdf version manager installed](https://asdf-vm.com/#/core-manage-asdf-vm)
 - Install the project's Node version and Node dependencies by running `bin/install_node_with_dependencies`
 
 #### Google OAuth
@@ -63,11 +61,11 @@ Next, click on "Credentials" in the left sidebar nav. On the right hand side, cl
 
 Click on the Create button. Using the information Google provides, add the following lines to your profile and source (or open a new terminal).
 
-```bash
-export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID="<Client Id>"
-export REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET="<Client secret>"
-export REMOTE_RETRO_GOOGLE_OAUTH_REDIRECT_URI="http://localhost:4000/auth/google/callback"
-```
+Copy sample environment file to the environment file ```cp .env-sample .env```.
+
+Set the google oauth values in the environment file to the client ID and client secret.
+
+Source the environment file using ```source .env```.
 
 Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis.com/overview) the Google+ API for your project.
 
@@ -127,7 +125,7 @@ mix lint
 
 ## Acknowledgements
 
-Many thanks to the project's contributors for devoting their time, energy, and passion, and additional thanks go out to the leadership of [Stride Consulting](https://www.stridenyc.com) for giving this project the opportunity it needed to bloom.
+Many thanks to the project's contributors for devoting their time, energy, and passion, and additional thanks go out to the leadership of [Stride Consulting](https://www.stride.build) for giving this project the opportunity it needed to bloom.
 
 ## License
 

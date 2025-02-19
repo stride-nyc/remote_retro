@@ -15,11 +15,12 @@ const timeElapsedLessThanFiveSec = retroCreationTimestamp => {
 export class ShareRetroLinkModal extends Component {
   constructor(props) {
     super(props)
+    const { retroCreationTimestamp = null } = props
     this.closeModal = this.closeModal.bind(this)
     this.handleCopyLink = this.handleCopyLink.bind(this)
     this.state = {
       closedByUser: false,
-      shouldOpen: timeElapsedLessThanFiveSec(props.retroCreationTimestamp),
+      shouldOpen: timeElapsedLessThanFiveSec(retroCreationTimestamp),
       buttonClicked: false,
     }
   }
@@ -104,12 +105,8 @@ export class ShareRetroLinkModal extends Component {
   }
 }
 
-ShareRetroLinkModal.defaultProps = {
-  retroCreationTimestamp: null,
-}
-
 ShareRetroLinkModal.propTypes = {
-  retroCreationTimestamp: PropTypes.string,
+  retroCreationTimestamp: PropTypes.string.isRequired,
 }
 
 const mapStateToProps = ({ retro }) => ({

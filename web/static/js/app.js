@@ -7,10 +7,10 @@ import "core-js/features/symbol"
 import "core-js/features/array"
 
 import React from "react"
-import { render } from "react-dom"
+import { createRoot } from "react-dom/client"
 import { bindActionCreators } from "redux"
 import { Provider } from "react-redux"
-import { AppContainer } from "react-hot-loader"
+import { HelmetProvider } from "react-helmet-async"
 
 import MultiBackend from "react-dnd-multi-backend"
 import HTML5toTouch from "react-dnd-multi-backend/lib/HTML5toTouch"
@@ -38,43 +38,27 @@ document.addEventListener("DOMContentLoaded", () => {
       actionz.setInitialState(initialState)
 
       console.time("joined -> presences found and app mounted")
-      awaitPresencesBeforeMountingApp()
+      const interval = setInterval(() => {
+        const { presences } = store.getState()
+
+        if (!presences.length) { return }
+
+        console.timeEnd("joined -> presences found and app mounted")
+        clearInterval(interval)
+
+        const dragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))
+        const RemoteRetro = dragAndDropContext(require("./components/remote_retro").default)
+
+        const root = createRoot(document.querySelector(".react-root"))
+        root.render(
+          <HelmetProvider>
+            <Provider store={store}>
+              <RemoteRetro />
+            </Provider>
+          </HelmetProvider>
+        )
+
+        document.removeEventListener("visibilitychange", window.__trackLoadAbandonment)
+      }, 1)
     })
-
-  const awaitPresencesBeforeMountingApp = () => {
-    const interval = setInterval(() => {
-      const { presences } = store.getState()
-
-      if (!presences.length) { return }
-
-      console.timeEnd("joined -> presences found and app mounted")
-      renderWithHotReload()
-      clearInterval(interval)
-
-      if (module.hot) {
-        module.hot.accept(() => { renderWithHotReload() })
-      }
-    }, 1)
-  }
-
-  const dragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))
-  const renderWithHotReload = () => {
-    const RemoteRetro = dragAndDropContext(
-      require("./components/remote_retro").default
-    )
-
-    const postRenderCallback = () => {
-      document.removeEventListener("visibilitychange", window.__trackLoadAbandonment)
-    }
-
-    render(
-      <AppContainer>
-        <Provider store={store}>
-          <RemoteRetro />
-        </Provider>
-      </AppContainer>,
-      document.querySelector(".react-root"),
-      postRenderCallback
-    )
-  }
 })

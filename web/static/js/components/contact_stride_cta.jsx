@@ -6,7 +6,7 @@ import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/contact_stride_cta.css"
 
-const ContactStrideCTA = ({ alert, currentUser }) => {
+const ContactStrideCTA = ({ alert = null, currentUser }) => {
   const wrapperClasses = cx(styles.wrapper, {
     active: !alert,
   })
@@ -38,10 +38,6 @@ const ContactStrideCTA = ({ alert, currentUser }) => {
 ContactStrideCTA.propTypes = {
   alert: AppPropTypes.alert,
   currentUser: AppPropTypes.user.isRequired,
-}
-
-ContactStrideCTA.defaultProps = {
-  alert: null,
 }
 
 export default ContactStrideCTA

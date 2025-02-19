@@ -1,10 +1,8 @@
 defmodule UserPresenceRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
 
-  import ShorterMaps
-
   test "the realtime updates of other users entering/leaving a retro",
-       ~M{retro, session: session_one, non_facilitator} do
+       %{retro: retro, session: session_one, non_facilitator: non_facilitator} do
     session_one = visit_retro(session_one, retro)
 
     assert_has(session_one, Query.css("#user-list li", count: 1))

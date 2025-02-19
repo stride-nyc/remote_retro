@@ -6,14 +6,14 @@ import StageAwareIdeaControls from "./stage_aware_idea_controls"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/conditionally_draggable_idea_content.css"
 
-const IdeaContentBase = props => {
-  const {
-    idea,
-    currentUser,
-    stage,
-    assignee,
-    canUserEditIdeaContents,
-  } = props
+const IdeaContentBase = ({
+  idea,
+  currentUser,
+  stage,
+  assignee = null,
+  canUserEditIdeaContents = false,
+}) => {
+  if (!idea || !stage || !currentUser) return null
 
   const isEdited = (+new Date(idea.updated_at) > +new Date(idea.inserted_at))
 
@@ -37,13 +37,9 @@ const IdeaContentBase = props => {
 IdeaContentBase.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
-  stage: AppPropTypes.stage.isRequired,
+  stage: AppPropTypes.stage,
   assignee: AppPropTypes.presence,
-  canUserEditIdeaContents: PropTypes.bool.isRequired,
-}
-
-IdeaContentBase.defaultProps = {
-  assignee: null,
+  canUserEditIdeaContents: PropTypes.bool,
 }
 
 export default IdeaContentBase

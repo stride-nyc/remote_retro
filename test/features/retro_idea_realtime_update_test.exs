@@ -2,9 +2,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.Idea
 
-  import ShorterMaps
-
-  test "the immediate appearance of other users' submitted ideas", ~M{retro, session: session_one, non_facilitator} do
+  test "the immediate appearance of other users' submitted ideas", %{retro: retro, session: session_one, non_facilitator: non_facilitator} do
     session_two = new_authenticated_browser_session(non_facilitator)
 
     session_one = visit_retro(session_one, retro)
@@ -26,7 +24,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       idea_author: :non_facilitator,
     ]
     test "the immediate update of ideas as they are changed/saved",
-         ~M{retro, session: facilitator_session, non_facilitator} do
+         %{retro: retro, session: facilitator_session, non_facilitator: non_facilitator} do
       participant_session = new_authenticated_browser_session(non_facilitator)
 
       facilitator_session = visit_retro(facilitator_session, retro)
@@ -48,7 +46,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
       idea: %Idea{category: "happy", body: "slack time!"},
     ]
     test "the immediate removal of an idea deleted by the facilitator",
-         ~M{retro, session: facilitator_session, non_facilitator} do
+         %{retro: retro, session: facilitator_session, non_facilitator: non_facilitator} do
       participant_session = new_authenticated_browser_session(non_facilitator)
 
       facilitator_session = visit_retro(facilitator_session, retro)
@@ -71,7 +69,7 @@ defmodule RetroIdeaRealtimeUpdateTest do
     ]
 
     test "it can be re-assigned to a different user",
-         ~M{retro, facilitator, session: facilitator_session, non_facilitator} do
+         %{retro: retro, facilitator: facilitator, session: facilitator_session, non_facilitator: non_facilitator} do
       participant_session = new_authenticated_browser_session(non_facilitator)
 
       facilitator_session = visit_retro(facilitator_session, retro)

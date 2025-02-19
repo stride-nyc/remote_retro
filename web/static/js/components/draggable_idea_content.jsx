@@ -39,7 +39,7 @@ export const collect = connect => {
 }
 
 const IdeaContentConnected = props => {
-  const { connectDragSource, ...rest } = props
+  const { connectDragSource = node => node, ...rest } = props
 
   // <connectDragSource requires a native html element for applying drag-n-drop handlers
   return connectDragSource(
@@ -56,12 +56,7 @@ IdeaContentConnected.propTypes = {
   assignee: AppPropTypes.presence,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
-  connectDragSource: PropTypes.func,
-}
-
-IdeaContentConnected.defaultProps = {
-  assignee: null,
-  connectDragSource: node => node,
+  connectDragSource: PropTypes.func.isRequired,
 }
 
 export default DragSource(

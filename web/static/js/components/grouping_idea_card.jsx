@@ -51,9 +51,10 @@ export class GroupingIdeaCard extends Component {
   render() {
     const {
       idea,
-      className,
-      connectDragSource,
+      className = "",
+      connectDragSource = node => node,
       userOptions: { highContrastOn },
+      actions = null,
     } = this.props
 
     let style = { margin: `${COLLISION_BUFFER + 2}px ${COLLISION_BUFFER + 1}px 0 0` }
@@ -107,18 +108,11 @@ export class GroupingIdeaCard extends Component {
 
 GroupingIdeaCard.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  actions: AppPropTypes.actions,
-  className: PropTypes.string,
-  connectDragSource: PropTypes.func,
-  connectDragPreview: PropTypes.func,
+  actions: AppPropTypes.actions.isRequired,
+  className: PropTypes.string.isRequired,
+  connectDragSource: PropTypes.func.isRequired,
+  connectDragPreview: PropTypes.func.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
-}
-
-GroupingIdeaCard.defaultProps = {
-  className: "",
-  connectDragSource: node => node,
-  connectDragPreview: null,
-  actions: null,
 }
 
 export default DragSource(

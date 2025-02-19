@@ -6,7 +6,7 @@ defmodule RemoteRetroWeb.Plugs.ForbidNonStriders do
   def call(conn, _opts) do
     %{current_user: current_user} = conn.assigns
 
-    case current_user.email =~ ~r/@stridenyc\.com$/ do
+    case current_user.email =~ ~r/@stridenyc\.com$|@stride\.build$/ do
       true ->
         conn
       false ->

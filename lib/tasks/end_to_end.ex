@@ -26,7 +26,7 @@ defmodule Mix.Tasks.EndToEnd do
   end
 
   defp compile_js do
-    System.cmd("npm", ["run", "compile-test"], into: IO.stream(:stdio, :line))
+    System.cmd("yarn", ["run", "compile-test"], into: IO.stream(:stdio, :line))
   end
 
   defp print_red_line(output) do
