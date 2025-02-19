@@ -11179,7 +11179,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"react@npm:^18.2.0":
+"react@npm:18.3.1":
   version: 18.3.1
   resolution: "react@npm:18.3.1"
   dependencies:
@@ -11717,7 +11717,7 @@ __metadata:
     postcss-loader: "npm:^2.0.8"
     postcss-nested: "npm:^2.1.0"
     prop-types: "npm:^15.5.10"
-    react: "npm:^18.2.0"
+    react: "npm:18.3.1"
     react-dnd: "npm:^7.0.2"
     react-dnd-html5-backend: "npm:^7.0.2"
     react-dnd-multi-backend: "npm:^3.1.11"
