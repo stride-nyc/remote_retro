@@ -33,8 +33,10 @@ jobs:
           name: Verify Services are Running
           command: |
             # Wait for Postgres to be ready
+            echo "Waiting for PostgreSQL connection..."
             timeout 60 sh -c 'until nc -z localhost 5432; do sleep 1; done'
 
+            echo "Waiting for Phoenix app to be available..."
             # Wait for Phoenix app to be available
             timeout 300 sh -c 'until curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep -q "200"; do sleep 1; done'
 
