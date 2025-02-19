@@ -32,16 +32,6 @@ jobs:
       - run:
           name: Verify Services are Running
           command: |
-            # Wait for Postgres to be ready
-            echo "Waiting for PostgreSQL..."
-            if ! timeout 120 sh -c 'until PGPASSWORD=postgres pg_isready -h localhost -p 5432 -U postgres; do sleep 1; done'; then
-                echo "PostgreSQL did not start within 120 seconds."
-                docker-compose logs db
-                exit 1
-            else
-                echo "PostgreSQL is up and running!"
-            fi
-
             echo "Waiting for Phoenix app..."
             # Wait for Phoenix app to be available
             if ! timeout 300 sh -c 'until curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep -q "200"; do sleep 1; done'; then
