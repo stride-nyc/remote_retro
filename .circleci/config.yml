@@ -6,6 +6,9 @@ jobs:
     parallelism: 1
     docker:
       - image: docker:24.0  # Use a Docker-enabled image
+    
+    working_directory: ~/app
+
     steps:
       - checkout
 
