@@ -32,10 +32,9 @@ jobs:
       - run:
           name: Verify Services are Running
           command: |
-
             # Wait for Postgres to be ready
             echo "Waiting for PostgreSQL..."
-            if ! timeout 120 sh -c 'until nc -z localhost 5432; do sleep 1; done'; then
+            if ! timeout 120 sh -c 'until pg_isready -h localhost -p 5432; do sleep 1; done'
                 echo "PostgreSQL did not start within 120 seconds."
                 docker-compose logs db
                 exit 1
@@ -52,7 +51,6 @@ jobs:
             else
               echo "Phoenix app is up and running!"
             fi
-
       - run:
           name: Verify Database Setup
           command: |
