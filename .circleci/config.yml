@@ -18,8 +18,7 @@ jobs:
           command: |
             apk update
             apk add postgresql-client
-            wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64 -O /usr/local/bin/dockerize
-            chmod +x /usr/local/bin/dockerize
+            apk add --no-cache netcat-openbsd
 
       - run:
           name: Install Docker Compose
@@ -34,10 +33,10 @@ jobs:
           name: Verify Services are Running
           command: |
             # Wait for Postgres to be ready
-            dockerize -wait tcp://localhost:5432 -timeout 1m
+            timeout 60 sh -c 'until nc -z localhost 5432; do sleep 1; done'
 
             # Wait for Phoenix app to be available
-            dockerize -wait http://localhost:4000 -timeout 5m
+            timeout 300 sh -c 'until curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep -q "200"; do sleep 1; done'
 
       - run:
           name: Verify Database Setup
