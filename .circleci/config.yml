@@ -19,6 +19,7 @@ jobs:
             apk update
             apk add postgresql-client
             apk add --no-cache netcat-openbsd
+            apk add curl
 
       - run:
           name: Install Docker Compose
