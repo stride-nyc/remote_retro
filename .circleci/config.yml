@@ -18,7 +18,8 @@ jobs:
           command: |
             apk update
             apk add postgresql-client
-            apk add --no-cache dockerize
+            wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64 -O /usr/local/bin/dockerize
+            chmod +x /usr/local/bin/dockerize
 
       - run:
           name: Install Docker Compose
