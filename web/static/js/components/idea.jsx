@@ -15,16 +15,17 @@ import {
   actions,
 } from "../redux"
 
-export const Idea = props => {
-  const {
-    idea,
-    currentUser,
-    isAnActionItemsStage,
-    users,
-    actions,
-    ideaGenerationCategories,
-  } = props
-
+export const Idea = ({
+  idea,
+  currentUser,
+  isAnActionItemsStage,
+  users,
+  actions = {},
+  ideaGenerationCategories,
+  assignee = null,
+  isTabletOrAbove,
+  ...props
+}) => {
   const userIsEditing = idea.inEditState && idea.isLocalEdit
 
   let content
@@ -42,7 +43,15 @@ export const Idea = props => {
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
   } else {
-    content = <ConditionallyDraggableIdeaContent {...props} />
+    content = (
+      <ConditionallyDraggableIdeaContent
+        {...props}
+        currentUser={currentUser}
+        idea={idea}
+        assignee={assignee}
+        isTabletOrAbove={isTabletOrAbove}
+      />
+    )
   }
 
   return (
@@ -59,15 +68,10 @@ Idea.propTypes = {
   assignee: AppPropTypes.presence,
   users: AppPropTypes.presences.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
-  actions: AppPropTypes.actions,
+  actions: AppPropTypes.actions.isRequired,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
   isAnActionItemsStage: PropTypes.bool.isRequired,
-}
-
-Idea.defaultProps = {
-  actions: {},
-  assignee: null,
 }
 
 const mapStateToProps = (state, { idea, currentUser }) => ({

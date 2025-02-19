@@ -3,7 +3,7 @@ import PropTypes from "prop-types"
 import cx from "classnames"
 import styles from "./css_modules/animated_ellipsis.css"
 
-const AnimatedEllipsis = ({ animated }) => (
+const AnimatedEllipsis = ({ animated = false }) => (
   <div className={cx(styles.index, { [styles.animated]: animated })}>
     <i className="circle icon" />
     <i className="circle icon" />
@@ -13,10 +13,6 @@ const AnimatedEllipsis = ({ animated }) => (
 
 AnimatedEllipsis.propTypes = {
   animated: PropTypes.bool,
-}
-
-AnimatedEllipsis.defaultProps = {
-  animated: false,
 }
 
 export default AnimatedEllipsis

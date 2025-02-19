@@ -68,8 +68,4 @@ IdeaColumnListContainer.propTypes = {
   alert: AppPropTypes.alert,
 }
 
-IdeaColumnListContainer.defaultProps = {
-  alert: null,
-}
-
 export default IdeaColumnListContainer

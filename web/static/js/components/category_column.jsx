@@ -16,10 +16,10 @@ export class CategoryColumn extends Component {
   render() {
     const {
       category,
-      categoryDisplayStringOverride,
+      categoryDisplayStringOverride = null,
       ideas,
-      connectDropTarget,
-      draggedOver,
+      connectDropTarget = node => node,
+      draggedOver = false,
     } = this.props
 
     const iconHeight = 23
@@ -54,16 +54,9 @@ CategoryColumn.propTypes = {
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
   actions: AppPropTypes.actions.isRequired,
-  connectDropTarget: PropTypes.func,
-  draggedOver: PropTypes.bool,
+  connectDropTarget: PropTypes.func.isRequired,
+  draggedOver: PropTypes.bool.isRequired,
 }
-
-CategoryColumn.defaultProps = {
-  categoryDisplayStringOverride: null,
-  connectDropTarget: node => node,
-  draggedOver: false,
-}
-
 export const mapStateToProps = ({ votes, ideas, alert, ideaGenerationCategories }, props) => {
   return {
     votes,

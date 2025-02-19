@@ -14,9 +14,10 @@ Modal.setAppElement("body")
 export class Alert extends Component {
   constructor(props) {
     super(props)
+    const { config = null } = props
     this.state = {
-      config: props.config,
-      isOpen: !!props.config,
+      config,
+      isOpen: !!config,
     }
   }
 
@@ -68,13 +69,8 @@ export class Alert extends Component {
 }
 
 Alert.propTypes = {
-  actions: PropTypes.object,
+  actions: PropTypes.object.isRequired,
   config: PropTypes.object,
-}
-
-Alert.defaultProps = {
-  actions: {},
-  config: null,
 }
 
 const mapStateToProps = state => ({

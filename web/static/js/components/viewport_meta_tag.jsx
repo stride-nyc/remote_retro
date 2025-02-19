@@ -1,5 +1,5 @@
 import React from "react"
-import MetaTags from "react-meta-tags"
+import { Helmet } from "react-helmet-async"
 import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
@@ -20,13 +20,11 @@ const GROUPING_VIEWPORT_WIDTH = "width=1440"
 // by a conditional render at some point in the future, as we need the width to fall back to
 // its default when *leaving* the grouping stage, which it won't do on unmount if we house it in the
 // GroupingStage component, which we would otherwise do.
-export const ViewportMetaTag = props => {
-  const {
-    alert,
-    stage,
-    browserOrientation,
-  } = props
-
+export const ViewportMetaTag = ({
+  alert = null,
+  stage,
+  browserOrientation,
+}) => {
   const noAlertToRead = !alert
   const noOrientationWarningToRead = browserOrientation === "landscape"
 
@@ -39,9 +37,9 @@ export const ViewportMetaTag = props => {
     : DEFAULT_VIEWPORT_WIDTH
 
   return (
-    <MetaTags>
+    <Helmet>
       <meta name="viewport" content={viewportMetaContent} />
-    </MetaTags>
+    </Helmet>
   )
 }
 
@@ -49,10 +47,6 @@ ViewportMetaTag.propTypes = {
   alert: AppPropTypes.alert,
   stage: AppPropTypes.stage.isRequired,
   browserOrientation: PropTypes.string.isRequired,
-}
-
-ViewportMetaTag.defaultProps = {
-  alert: null,
 }
 
 export default ViewportMetaTag
