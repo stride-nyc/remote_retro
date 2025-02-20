@@ -3,9 +3,8 @@ orbs:
   browser-tools: circleci/browser-tools@1.5.2
 jobs:
   build:
-    parallelism: 1
     machine:
-      image: ubuntu-2204:docker
+      image: default
     
     working_directory: ~/app
 
