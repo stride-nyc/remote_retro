@@ -16,9 +16,9 @@ jobs:
           name: Install Command-Line Tools
           command: |
             sudo apt-get update
-            sudo apt-get add postgresql-client
-            sudo apt-get add --no-cache netcat-openbsd
-            sudo apt-get add curl
+            sudo apt-get install postgresql-client
+            sudo apt-get install --no-cache netcat-openbsd
+            sudo apt-get install curl
 
       - run:
           name: Install Docker Compose
