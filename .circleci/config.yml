@@ -23,7 +23,7 @@ jobs:
       - run:
           name: Install Docker Compose
           command: |
-            sudo apt-get add --update docker-compose
+            sudo apt-get install --update docker-compose
 
       - run:
           name: Start Services with Docker Compose
