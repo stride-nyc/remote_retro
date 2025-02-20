@@ -15,15 +15,15 @@ jobs:
       - run:
           name: Install Command-Line Tools
           command: |
-            apt-get update
-            apt-get add postgresql-client
-            apt-get add --no-cache netcat-openbsd
-            apt-get add curl
+            sudo apt-get update
+            sudo apt-get add postgresql-client
+            sudo apt-get add --no-cache netcat-openbsd
+            sudo apt-get add curl
 
       - run:
           name: Install Docker Compose
           command: |
-            apt-get add --update docker-compose
+            sudo apt-get add --update docker-compose
 
       - run:
           name: Start Services with Docker Compose
