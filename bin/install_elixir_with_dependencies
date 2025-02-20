@@ -1,0 +1,16 @@
+#!/bin/bash
+
+# install kiex to manage elixir versions
+\curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s
+
+# install the appropriate version of elixir (1.16.0) and use that version
+kiex install 1.16.0 && kiex use 1.16.0
+
+# install legacy version of openssl
+brew install openssl@1.1
+
+# add the elixir package manager 
+mix local.hex --force
+
+# add erlang's compilation tool
+mix local.rebar --force

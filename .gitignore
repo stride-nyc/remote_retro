@@ -1,5 +1,8 @@
 # App artifacts
 /_build
+
+# Local test config
+config/test.local.exs
 /db
 /deps
 /*.ez
@@ -54,3 +57,7 @@ browser_logs.log
 
 # Ignore local dev config files like zsh
 .zshrc
+.env
+
+# Ignore yarn
+.yarn/install-state.gz

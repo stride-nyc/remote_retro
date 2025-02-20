@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For development, we disable any cache and enable
 # debugging and code reloading.
@@ -12,8 +12,8 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
   code_reloader: true,
   check_origin: false,
   watchers: [
-    npm: ["run", "watch", cd: Path.expand("../", __DIR__)],
-    npm: ["run", "reprune-semantic-ui-on-web-changes", cd: Path.expand("../", __DIR__)]
+    yarn: ["run", "watch", cd: Path.expand("../", __DIR__)],
+    yarn: ["run", "reprune-semantic-ui-on-web-changes", cd: Path.expand("../", __DIR__)]
   ]
 
 # Watch static and templates for browser reloading.
@@ -46,7 +46,7 @@ config :remote_retro, RemoteRetro.Repo,
   username: "postgres",
   password: "postgres",
   database: "remote_retro_dev",
-  hostname: "localhost",
+  hostname: "db",
   pool_size: 10,
   log: false
 

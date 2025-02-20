@@ -1,5 +1,5 @@
 defmodule RemoteRetro.OAuth.Client.InMemory do
-  @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
+  @mock_google_user_info Application.compile_env(:remote_retro, :mock_google_user_info)
 
   defdelegate new(config), to: OAuth2.Client
   defdelegate authorize_url!(client, scope), to: OAuth2.Client
