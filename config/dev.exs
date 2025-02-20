@@ -46,7 +46,7 @@ config :remote_retro, RemoteRetro.Repo,
   username: "postgres",
   password: "postgres",
   database: "remote_retro_dev",
-  hostname: "localhost",
+  hostname: "db",
   pool_size: 10,
   log: false
 
