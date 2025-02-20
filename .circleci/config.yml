@@ -12,10 +12,6 @@ jobs:
     steps:
       - checkout
 
-      - setup_remote_docker:
-          version: 24.0  # Required to run Docker commands
-          docker_layer_caching: true
-
       - run:
           name: Install Command-Line Tools
           command: |
