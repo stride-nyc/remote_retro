@@ -4,8 +4,8 @@ orbs:
 jobs:
   build:
     parallelism: 1
-    docker:
-      - image: docker:24.0  # Use a Docker-enabled image
+    machine:
+      image: ubuntu-2204:current
     
     working_directory: ~/app
 
@@ -19,15 +19,15 @@ jobs:
       - run:
           name: Install Command-Line Tools
           command: |
-            apk update
-            apk add postgresql-client
-            apk add --no-cache netcat-openbsd
-            apk add curl
+            apt-get update
+            apt-get add postgresql-client
+            apt-get add --no-cache netcat-openbsd
+            apt-get add curl
 
       - run:
           name: Install Docker Compose
           command: |
-            apk add --update docker-compose
+            apt-get add --update docker-compose
 
       - run:
           name: Start Services with Docker Compose
@@ -36,6 +36,17 @@ jobs:
       - run:
           name: Verify Services are Running
           command: |
+            echo "Waiting for Postgres..."
+            # Wait for Postgres to be available
+            echo "Waiting for PostgreSQL..."
+            if ! timeout 60 sh -c 'until PGPASSWORD=postgres pg_isready -h localhost -p 5432; do sleep 1; done'; then
+                echo "PostgreSQL did not start within 60 seconds."
+                docker-compose logs db
+                exit 1
+            else
+                echo "PostgreSQL is up and running!"
+            fi
+            
             echo "Waiting for Phoenix app..."
             # Wait for Phoenix app to be available
             if ! timeout 300 sh -c 'until curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep -q "200"; do sleep 1; done'; then
