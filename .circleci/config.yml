@@ -5,7 +5,7 @@ jobs:
   build:
     parallelism: 1
     machine:
-      image: ubuntu-2204:current
+      image: ubuntu-2204:docker
     
     working_directory: ~/app
 
@@ -17,13 +17,11 @@ jobs:
           command: |
             sudo apt-get update
             sudo apt-get install postgresql-client
-            sudo apt-get install --no-cache netcat-openbsd
             sudo apt-get install curl
 
       - run:
           name: Install Docker Compose
           command: |
-            sudo apt-get install --update docker-compose
 
       - run:
           name: Start Services with Docker Compose
