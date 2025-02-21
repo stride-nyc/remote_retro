@@ -18,7 +18,7 @@ mix compile
 
 # install project version of node (18.19.0) and use it
 
-nvm install 18.19.0 && nvm use 18.19.0
+nvm install 22.14.0 && nvm use 22.14.0
 
 # install yarn
 
