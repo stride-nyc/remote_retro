@@ -7,7 +7,8 @@ This repository houses the application code for [RemoteRetro.org](http://remoter
 
 ## Table of Contents
 
-1. [Dev Environment Setup](#dev-environment-setup)
+1. [Dev Environment Setup (docker)](#dev-environment-setup-docker)
+1. [Dev Environment Setup (macOS)](#dev-environment-setup-macos)
 1. [Tests](#tests)
 1. [Code](#code)
 1. [Contributing](#contributing)
@@ -15,9 +16,47 @@ This repository houses the application code for [RemoteRetro.org](http://remoter
 1. [Acknowledgements](#acknowledgements)
 1. [License](#license)
 
-## Dev Environment Setup
+## Dev Environment Setup (docker)
 
-### PostgreSQL
+*Note: When running the project using docker, remember to use `docker-compose exec <command>` to run commands.*
+
+#### Google OAuth
+
+Authentication within Remote Retro relies on Google OAuth and the Google+ API. To set this up, navigate to the Google API console and create a new project: <https://console.developers.google.com/apis>
+
+Next, click on "Credentials" in the left sidebar nav. On the right hand side, click on the "Create Credentials" button and select "OAuth client ID".
+
+##### Settings
+
+- Application type: Web application
+- Authorized JavaScript origins: `http://localhost:4000`
+- Authorized redirect URIs: `http://localhost:4000/auth/google/callback`
+
+Click on the Create button. Using the information Google provides, add the following lines to your profile and source (or open a new terminal).
+
+Copy sample environment file to the environment file ```cp .env-sample .env```.
+
+Set the google oauth values in the environment file to the client ID and client secret.
+
+Source the environment file using ```source .env```.
+
+Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis.com/overview) the Google+ API for your project.
+
+#### Starting Docker Services
+
+- From the root directory of the project, run the following command `docker-compose up -d`.
+
+#### Stopping Docker Services
+
+- From the root directory of the project, run the following command `docker-compose down`.
+
+#### And Voila
+
+Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+## Dev Environment Setup (macOS)
+
+#### PostgreSQL
 
 - Install [Homebrew](http://brew.sh/)
   - **Note:** You'll be prompted to install the command-line developer tools. Do it.
@@ -39,13 +78,22 @@ psql -h localhost
 
 #### Elixir/Phoenix Dependencies
 
-- Install Elixir and its dependencies by running `bin/install_elixir_with_dependencies`
+- Install kiex (elixir version manager) `curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s`
+- Install and use elixir (version 1.16) using kiex `kiex install 1.16.0 && kiex use 1.16.0`
+- Install openssl (version 1.1) using brew `brew install openssl@1.1`
+- Add the exilir package manager using mix `mix local.hex --force`
+- Add erlang compilation tools using mix `mix local.rebar --force`
 - Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
 - Create the "remote_retro_test" database and migrate via `MIX_ENV=test mix ecto.create && mix ecto.migrate`
 
 #### Node Dependencies
 
 - Install the project's Node version and Node dependencies by running `bin/install_node_with_dependencies`
+- Install nvm using brew `brew install nvm`
+- Install and use node (version 22.14.0) using nvm `nvm install 22.14.0 && nvm use 22.14.0`
+- Install yarn `npm install yarn -g`
+- Set the version of yarn (version 4.6.0) `yarn set version 4.6.0`
+- Install dependencies with yarn `yarn install`
 
 #### Google OAuth
 
