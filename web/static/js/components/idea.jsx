@@ -50,6 +50,7 @@ export const Idea = ({
         idea={idea}
         assignee={assignee}
         isTabletOrAbove={isTabletOrAbove}
+        actions={actions}
       />
     )
   }

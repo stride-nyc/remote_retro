@@ -1,34 +1,40 @@
-import React, { Component } from "react"
-import PropTypes from "prop-types"
-import { DropTarget } from "react-dnd"
-import { connect } from "react-redux"
-import { bindActionCreators } from "redux"
-import cx from "classnames"
+import React from "react";
+import PropTypes from "prop-types";
+import { useDroppable, DndContext } from "@dnd-kit/core";
+import { connect } from "react-redux";
+import { bindActionCreators } from "redux";
+import cx from "classnames";
 
-import IdeaColumnListContainer from "./idea_column_list_container"
-import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/category_column.css"
-import { actions as actionCreators } from "../redux"
+import IdeaColumnListContainer from "./idea_column_list_container";
+import * as AppPropTypes from "../prop_types";
+import styles from "./css_modules/category_column.css";
+import { actions as actionCreators } from "../redux";
 
-export class CategoryColumn extends Component {
-  state = {}
+const CategoryColumn = ({ category, categoryDisplayStringOverride = null, ideas, actions, votes, stage, currentUser, ideaGenerationCategories }) => {
+  const state = {}
+  const { isOver, setNodeRef } = useDroppable({
+    id: category, // Unique ID for the droppable column
+  });
 
-  render() {
-    const {
-      category,
-      categoryDisplayStringOverride = null,
-      ideas,
-      connectDropTarget = node => node,
-      draggedOver = false,
-    } = this.props
+  const handleDragEnd = (event) => {
+    const { active, over } = event;
 
-    const iconHeight = 23
-    const wrapperClasses = cx(category, "column", styles.index, {
-      "dragged-over": draggedOver,
-    })
+    if (active && over && active.id !== over.id) {
+      const draggedIdea = active.data.current;
+      if (draggedIdea.category !== category) {
+        actions.submitIdeaEditAsync({ ...draggedIdea, category });
+      }
+    }
+  };
 
-    return connectDropTarget(
-      <section className={wrapperClasses}>
+  const iconHeight = 23;
+  const wrapperClasses = cx(category, "column", styles.index, {
+    "dragged-over": isOver,
+  });
+
+  return (
+    <DndContext onDragEnd={handleDragEnd}>
+      <section ref={setNodeRef} className={wrapperClasses}>
         <div className={`${styles.columnHead} ui center aligned basic segment`}>
           <img
             src={`${ASSET_DOMAIN}/images/${category}.svg`}
@@ -39,57 +45,29 @@ export class CategoryColumn extends Component {
           <p className="ui medium header">{categoryDisplayStringOverride || category}</p>
         </div>
         <div className={`ui fitted divider ${styles.divider}`} />
-        { !!ideas.length && <IdeaColumnListContainer {...this.props} /> }
-
+        {!!ideas.length && <IdeaColumnListContainer category={category} ideas={ideas} votes={votes} stage={stage} currentUser={currentUser} ideaGenerationCategories={ideaGenerationCategories} actions={actions} />}
         <span className="overlay" />
       </section>
-    )
-  }
-}
+    </DndContext>
+  );
+};
 
 CategoryColumn.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   category: AppPropTypes.category.isRequired,
   categoryDisplayStringOverride: PropTypes.string,
+  actions: AppPropTypes.actions.isRequired,
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
-  actions: AppPropTypes.actions.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
-  draggedOver: PropTypes.bool.isRequired,
-}
-export const mapStateToProps = ({ votes, ideas, alert, ideaGenerationCategories }, props) => {
-  return {
-    votes,
-    ideas: ideas.filter(idea => idea.category === props.category),
-    alert,
-    ideaGenerationCategories,
-  }
-}
+};
+
+const mapStateToProps = ({ ideas, votes }, props) => ({
+  votes,
+  ideas: ideas.filter(idea => idea.category === props.category),
+});
 
 const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actionCreators, dispatch),
-})
+});
 
-// http://react-dnd.github.io/react-dnd/docs/api/drop-target#drop-target-specification
-export const dropTargetSpec = {
-  drop: (props, monitor) => {
-    const { draggedIdea } = monitor.getItem()
-    const { actions, category } = props
-
-    if (draggedIdea.category === category) return
-
-    actions.submitIdeaEditAsync({ ...draggedIdea, category })
-  },
-}
-
-const collect = (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  draggedOver: monitor.isOver({ shallow: true }),
-})
-
-const CategoryColumnAsDropTarget = DropTarget("IDEA", dropTargetSpec, collect)(CategoryColumn)
-
-export default connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(CategoryColumnAsDropTarget)
+export default connect(mapStateToProps, mapDispatchToProps)(CategoryColumn);

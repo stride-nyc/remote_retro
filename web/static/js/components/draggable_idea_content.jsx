@@ -1,53 +1,48 @@
-import React from "react"
-import { DragSource } from "react-dnd"
-import isFinite from "lodash/isFinite"
-import PropTypes from "prop-types"
+import React from "react";
+import { useDraggable } from "@dnd-kit/core";
+import isFinite from "lodash/isFinite";
+import PropTypes from "prop-types";
 
-import IdeaContentBase from "./idea_content_base"
+import IdeaContentBase from "./idea_content_base";
+import * as AppPropTypes from "../prop_types";
 
-import * as AppPropTypes from "../prop_types"
+const IdeaContentConnected = ({ idea, actions, ...rest }) => {
+  const { id, category, body, assignee_id } = idea; // eslint-disable-line camelcase
 
-// http://react-dnd.github.io/react-dnd/docs/api/drag-source#drag-source-specification
-export const dragSourceSpec = {
-  beginDrag: ({ idea }) => {
-    const { id, category, body, assignee_id } = idea // eslint-disable-line camelcase
+  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+    id: `idea-${id}`,
+    data: { draggedIdea: { id, category, body, assignee_id } },
+  });
 
-    return {
-      draggedIdea: { id, category, body, assignee_id },
+  // Handle drop logic in parent DndContext
+  const handleDragEnd = (event) => {
+    const { active } = event;
+    if (!active) return;
+
+    const droppedIdea = active.data.current;
+    if (!droppedIdea) return;
+
+    const { id, x, y } = droppedIdea;
+
+    if (isFinite(x)) {
+      actions.submitIdeaEditAsync({ id, x, y });
     }
-  },
-  canDrag: ({ idea }) => {
-    return !idea.inEditState
-  },
-  endDrag: ({ idea, actions }) => {
-    const { id, x, y } = idea
+  };
 
-    const dragOccursBetweenIdeaColumns = !isFinite(x)
-    if (dragOccursBetweenIdeaColumns) { return }
-
-    actions.submitIdeaEditAsync({ id, x, y })
-  },
-}
-
-// collects props as drag events begin and end
-// http://react-dnd.github.io/react-dnd/docs/api/drag-source#the-collecting-function
-export const collect = connect => {
-  return {
-    connectDragSource: connect.dragSource(),
-    connectDragPreview: connect.dragPreview(),
-  }
-}
-
-const IdeaContentConnected = props => {
-  const { connectDragSource = node => node, ...rest } = props
-
-  // <connectDragSource requires a native html element for applying drag-n-drop handlers
-  return connectDragSource(
-    <div>
-      <IdeaContentBase {...rest} />
+  return (
+    <div
+      ref={setNodeRef}
+      {...attributes}
+      {...listeners}
+      style={{
+        opacity: isDragging ? 0.5 : 1,
+        transform: transform ? `translate(${transform.x}px, ${transform.y}px)` : "none",
+      }}
+    >
+      <IdeaContentBase idea={idea} {...rest} />
     </div>
-  )
-}
+  );
+};
 
 IdeaContentConnected.propTypes = {
   idea: AppPropTypes.idea.isRequired,
@@ -56,11 +51,7 @@ IdeaContentConnected.propTypes = {
   assignee: AppPropTypes.presence,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
-  connectDragSource: PropTypes.func.isRequired,
-}
+  actions: PropTypes.object.isRequired,
+};
 
-export default DragSource(
-  "IDEA",
-  dragSourceSpec,
-  collect
-)(IdeaContentConnected)
+export default IdeaContentConnected;
