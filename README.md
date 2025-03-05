@@ -5,58 +5,26 @@
 
 This repository houses the application code for [RemoteRetro.org](http://remoteretro.org), a free web app that allows distributed teams to conduct Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](https://www.stride.build).
 
-## Table of Contents
+## Running with Docker
 
-1. [Dev Environment Setup (docker)](#dev-environment-setup-docker)
-1. [Dev Environment Setup (macOS)](#dev-environment-setup-macos)
-1. [Tests](#tests)
-1. [Code](#code)
-1. [Contributing](#contributing)
-1. [Code of Conduct](#code-of-conduct)
-1. [Acknowledgements](#acknowledgements)
-1. [License](#license)
+First, create a .env file with `cp .env-sample .env`.
 
-## Dev Environment Setup (docker)
+Follow the steps in the [Setup Google Cloud](#setup-google-cloud) section below.
 
 *Note: When running the project using docker, remember to use `docker-compose exec <command>` to run commands.*
 
-#### Google OAuth
+* Start: `docker-compose up -d`
+* Stop: `docker-compose down`
 
-Authentication within Remote Retro relies on Google OAuth and the Google+ API. To set this up, navigate to the Google API console and create a new project: <https://console.developers.google.com/apis>
+While Docker compose is running, you can open the app at <http://localhost:4000>.
 
-Next, click on "Credentials" in the left sidebar nav. On the right hand side, click on the "Create Credentials" button and select "OAuth client ID".
+## Running locally
 
-##### Settings
+First, create a .env file with `cp .env-sample .env`.
 
-- Application type: Web application
-- Authorized JavaScript origins: `http://localhost:4000`
-- Authorized redirect URIs: `http://localhost:4000/auth/google/callback`
+Follow the steps in the [Setup Google Cloud](#setup-google-cloud) section below.
 
-Click on the Create button. Using the information Google provides, add the following lines to your profile and source (or open a new terminal).
-
-Copy sample environment file to the environment file ```cp .env-sample .env```.
-
-Set the google oauth values in the environment file to the client ID and client secret.
-
-Source the environment file using ```source .env```.
-
-Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis.com/overview) the Google+ API for your project.
-
-#### Starting Docker Services
-
-- From the root directory of the project, run the following command `docker-compose up -d`.
-
-#### Stopping Docker Services
-
-- From the root directory of the project, run the following command `docker-compose down`.
-
-#### And Voila
-
-Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
-
-## Dev Environment Setup (macOS)
-
-#### PostgreSQL
+### PostgreSQL
 
 - Install [Homebrew](http://brew.sh/)
   - **Note:** You'll be prompted to install the command-line developer tools. Do it.
@@ -64,64 +32,71 @@ Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
 
 ```bash
 brew install postgresql
-
   # (follow directions supplied by brew output upon successful installation)
-
 createdb
-
 # depending on how you installed postgres, this user may already exist
 createuser -s postgres
-
 # make sure you can log in to default database
 psql -h localhost
 ```
 
-#### Elixir/Phoenix Dependencies
+### Elixir/Phoenix Dependencies
 
-- Install kiex (elixir version manager) `curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s`
-- Install and use elixir (version 1.16) using kiex `kiex install 1.16.0 && kiex use 1.16.0`
+- Install erlang - `brew install erlang`
+- Install elixir 1.16
+  - Install kiex (elixir version manager) - `curl -sSL https://raw.githubusercontent.com/taylor/kiex/master/install | bash -s`
+  - Install elixir 1.16 - `kiex install 1.16.0`
+  - Setup your shell to use elixir 1.16 - `kiex use 1.16.0-27`
+    - Or instead use `kiex default 1.16.0-27`
 - Install openssl (version 1.1) using brew `brew install openssl@1.1`
-- Add the exilir package manager using mix `mix local.hex --force`
-- Add erlang compilation tools using mix `mix local.rebar --force`
-- Create the "remote_retro_dev" database and migrate via `mix ecto.create && mix ecto.migrate`
-- Create the "remote_retro_test" database and migrate via `MIX_ENV=test mix ecto.create && mix ecto.migrate`
+- Add the exilir package manager using mix `mix local.hex`
+- Add erlang compilation tools using mix `mix local.rebar`
+- Get dependencies - `mix deps.get`
+- Create the "remote_retro_dev" database and migrate
+  ```
+  mix ecto.create
+  mix ecto.migrate
+  ```
+- Create the "remote_retro_test" database and migrate
+  ```
+  MIX_ENV=test mix ecto.create
+  MIX_ENV=test mix ecto.migrate
+  ```
 
-#### Node Dependencies
+### Node Dependencies
 
-- Install the project's Node version and Node dependencies by running `bin/install_node_with_dependencies`
 - Install nvm using brew `brew install nvm`
 - Install and use node (version 22.14.0) using nvm `nvm install 22.14.0 && nvm use 22.14.0`
-- Install yarn `npm install yarn -g`
-- Set the version of yarn (version 4.6.0) `yarn set version 4.6.0`
-- Install dependencies with yarn `yarn install`
+- Enable corepack to get yarn - `corepack enable`
+- Install dependencies - `yarn install`
 
-#### Google OAuth
-
-Authentication within Remote Retro relies on Google OAuth and the Google+ API. To set this up, navigate to the Google API console and create a new project: <https://console.developers.google.com/apis>
-
-Next, click on "Credentials" in the left sidebar nav. On the right hand side, click on the "Create Credentials" button and select "OAuth client ID".
-
-##### Settings
-
-- Application type: Web application
-- Authorized JavaScript origins: `http://localhost:4000`
-- Authorized redirect URIs: `http://localhost:4000/auth/google/callback`
-
-Click on the Create button. Using the information Google provides, add the following lines to your profile and source (or open a new terminal).
-
-Copy sample environment file to the environment file ```cp .env-sample .env```.
-
-Set the google oauth values in the environment file to the client ID and client secret.
-
-Source the environment file using ```source .env```.
-
-Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis.com/overview) the Google+ API for your project.
-
-#### And Voila
+### And Voila
 
 Start Phoenix endpoint with `mix`
 
 Now you can visit [`localhost:4000`](http://localhost:4000) from your browser.
+
+## Setup Google Cloud
+
+Authentication within Remote Retro relies on Google OAuth and the Google+ API.
+You will need to follow these instructions to run Remote Retro on your machine.
+
+### Setup OAuth Credentials
+
+- Open [Google API Console](https://console.developers.google.com/apis)
+- Create a project
+- Click "Credentials" in the left sidebar nav
+- Click on the "Create Credentials" button and select "OAuth client ID".
+- Fill the form:
+  - Application type: Web application
+  - Authorized JavaScript origins: `http://localhost:4000`
+  - Authorized redirect URIs: `http://localhost:4000/auth/google/callback`
+- Click the "Create" button
+- Copy the "Client ID" and "Client secret" into the .env file
+
+Source the environment file using ```source .env```.
+
+Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis.com/overview) the Google+ API for your project.
 
 ## Tests
 
