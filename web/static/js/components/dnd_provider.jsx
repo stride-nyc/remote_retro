@@ -1,21 +1,42 @@
-import React from "react"
+import React, { useState } from "react"
 import PropTypes from "prop-types"
-import { DndContext, DragOverlay, pointerWithMouseSensor } from "@dnd-kit/core"
+import { DndContext, DragOverlay, PointerSensor, useSensor, useSensors } from "@dnd-kit/core"
 import { GroupingIdeaCard } from "./grouping_idea_card"
 
-const DndProvider = ({ children, onDragStart, onDragEnd, onDragOver, activeDragItem }) => {
+const DndProvider = ({ children }) => {
+  const [activeId, setActiveId] = useState(null);
+  const [activeData, setActiveData] = useState(null);
+  
+  const sensors = useSensors(
+    useSensor(PointerSensor, {
+      // Require the mouse to move by 10 pixels before activating
+      activationConstraint: {
+        distance: 10,
+      },
+    })
+  );
+
+  const handleDragStart = (event) => {
+    setActiveId(event.active.id);
+    setActiveData(event.active.data.current);
+  };
+
+  const handleDragEnd = () => {
+    setActiveId(null);
+    setActiveData(null);
+  };
+
   return (
-    <DndContext
-      sensors={[pointerWithMouseSensor]}
-      onDragStart={onDragStart}
-      onDragEnd={onDragEnd}
-      onDragOver={onDragOver}
+    <DndContext 
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
     >
       {children}
       <DragOverlay>
-        {activeDragItem && (
+        {activeId && activeData && (
           <GroupingIdeaCard
-            idea={activeDragItem.idea}
+            idea={activeData.idea}
             className="dragging"
             userOptions={{ highContrastOn: false }}
             actions={{ updateIdea: () => {} }}
@@ -28,10 +49,6 @@ const DndProvider = ({ children, onDragStart, onDragEnd, onDragOver, activeDragI
 
 DndProvider.propTypes = {
   children: PropTypes.node.isRequired,
-  onDragStart: PropTypes.func,
-  onDragEnd: PropTypes.func,
-  onDragOver: PropTypes.func,
-  activeDragItem: PropTypes.object,
 }
 
 export default DndProvider
