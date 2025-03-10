@@ -152,7 +152,7 @@ mix lint
 
 ## Common Issues
 
-**I'm running into issues creating and migrating the databases**
+**Running into issues creating and migrating the databases**
 Check the `hostname` in `config/dev.exs`. If running locally, you will want to ensure it is set to `localhost`. If running with Docker, you will want it to be set to `db`.
 
 ## Acknowledgements
