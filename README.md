@@ -18,7 +18,7 @@ _Note: When running the project using docker, remember to use `docker-compose ex
 
 While Docker compose is running, you can open the app at <http://localhost:4000>.
 
-_Note: If running into issues running the app using Docker, nsure the `hostname` in `config/dev.exs` and `config/test.exs` is `db`_
+_Note: If running into issues running the app using Docker, nsure the `hostname` in `config/dev.exs` is `db`_
 
 ## Running locally
 
@@ -65,7 +65,7 @@ psql -h localhost
   MIX_ENV=test mix ecto.migrate
   ```
 
-_Note: If running into issues running the app locally, ensure the `hostname` in `config/dev.exs` and `config/test.exs` is `localhost`_
+_Note: If running into issues running the app locally, ensure the `hostname` in `config/dev.exs` is `localhost`_
 
 ### Node Dependencies
 
@@ -153,7 +153,7 @@ mix lint
 ## Common Issues
 
 **I'm running into issues creating and migrating the databases**
-Check the `hostname` in `config/dev.exs` and `config/test.exs`. If running locally, you will want to ensure it is set to `localhost`. If running with Docker, you will want it to be set to `db`.
+Check the `hostname` in `config/dev.exs`. If running locally, you will want to ensure it is set to `localhost`. If running with Docker, you will want it to be set to `db`.
 
 ## Acknowledgements
 
