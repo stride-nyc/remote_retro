@@ -18,7 +18,7 @@ _Note: When running the project using docker, remember to use `docker-compose ex
 
 While Docker compose is running, you can open the app at <http://localhost:4000>.
 
-_Note: If running into issues running the app using Docker, nsure the `hostname` in `config/dev.exs` is `db`_
+_Note: If running into issues running the app using Docker, ensure the `hostname` in `config/dev.exs` is `db`_
 
 ## Running locally
 
