@@ -11,12 +11,14 @@ First, create a .env file with `cp .env-sample .env`.
 
 Follow the steps in the [Setup Google Cloud](#setup-google-cloud) section below.
 
-*Note: When running the project using docker, remember to use `docker-compose exec <command>` to run commands.*
+_Note: When running the project using docker, remember to use `docker-compose exec <command>` to run commands._
 
-* Start: `docker-compose up -d`
-* Stop: `docker-compose down`
+- Start: `docker-compose up -d`
+- Stop: `docker-compose down`
 
 While Docker compose is running, you can open the app at <http://localhost:4000>.
+
+_Note: If running into issues running the app using Docker, ensure the `hostname` in `config/dev.exs` is `db`_
 
 ## Running locally
 
@@ -63,6 +65,8 @@ psql -h localhost
   MIX_ENV=test mix ecto.migrate
   ```
 
+_Note: If running into issues running the app locally, ensure the `hostname` in `config/dev.exs` is `localhost`_
+
 ### Node Dependencies
 
 - Install nvm using brew `brew install nvm`
@@ -94,7 +98,7 @@ You will need to follow these instructions to run Remote Retro on your machine.
 - Click the "Create" button
 - Copy the "Client ID" and "Client secret" into the .env file
 
-Source the environment file using ```source .env```.
+Source the environment file using `source .env`.
 
 Finally, [enable](https://console.developers.google.com/apis/api/plus.googleapis.com/overview) the Google+ API for your project.
 
@@ -145,6 +149,11 @@ mix lint
 ## Code of Conduct
 
 [The Contributor Covenant](CODE_OF_CONDUCT.md)
+
+## Common Issues
+
+**Running into issues creating and migrating the databases**
+Check the `hostname` in `config/dev.exs`. If running locally, you will want to ensure it is set to `localhost`. If running with Docker, you will want it to be set to `db`.
 
 ## Acknowledgements
 
