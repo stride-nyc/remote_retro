@@ -1,5 +1,6 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+// TODO: Remove this
 import { DropTarget } from "react-dnd"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"

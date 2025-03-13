@@ -1,3 +1,4 @@
+// TODO: Do we still need this?
 export default {
   reconcileMobileZoomOffsets: monitor => {
     // http://react-dnd.github.io/react-dnd/docs/api/drag-source-monitor

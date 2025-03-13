@@ -12,6 +12,7 @@ import { bindActionCreators } from "redux"
 import { Provider } from "react-redux"
 import { HelmetProvider } from "react-helmet-async"
 
+// TODO: Remove this
 import MultiBackend from "react-dnd-multi-backend"
 import HTML5toTouch from "react-dnd-multi-backend/lib/HTML5toTouch"
 import { DragDropContext } from "react-dnd"
@@ -19,6 +20,8 @@ import { DragDropContext } from "react-dnd"
 import RetroChannel from "./services/retro_channel"
 import configureStore from "./configure_store"
 import { actions } from "./redux"
+
+import { RemoteRetro } from "./components/remote_retro"
 
 document.addEventListener("DOMContentLoaded", () => {
   const { userToken, retroUUID } = window
@@ -46,6 +49,7 @@ document.addEventListener("DOMContentLoaded", () => {
         console.timeEnd("joined -> presences found and app mounted")
         clearInterval(interval)
 
+        // TODO: Remove this
         const dragAndDropContext = DragDropContext(MultiBackend(HTML5toTouch))
         const RemoteRetro = dragAndDropContext(require("./components/remote_retro").default)
 

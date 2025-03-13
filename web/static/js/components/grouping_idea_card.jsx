@@ -1,6 +1,8 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
+// TODO: Remove this
 import { DragSource } from "react-dnd"
+// TODO: Remove this
 import { getEmptyImage } from "react-dnd-html5-backend"
 import isFinite from "lodash/isFinite"
 import cx from "classnames"
@@ -54,7 +56,6 @@ export class GroupingIdeaCard extends Component {
       className = "",
       connectDragSource = node => node,
       userOptions: { highContrastOn },
-      actions = null,
     } = this.props
 
     let style = { margin: `${COLLISION_BUFFER + 2}px ${COLLISION_BUFFER + 1}px 0 0` }

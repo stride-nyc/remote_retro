@@ -4,9 +4,12 @@ require("core-js/features/map")
 require("react")
 require("react-transition-group")
 require("react-dom")
+// TODO: Remove this
 require("react-dnd")
 require("react-helmet-async")
+// TODO: Remove this
 require("react-dnd-multi-backend")
+// TODO: Remove this
 require("react-dnd-multi-backend/lib/HTML5toTouch")
 require("react-redux")
 require("react-modal")

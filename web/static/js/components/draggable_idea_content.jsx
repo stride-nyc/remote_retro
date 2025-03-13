@@ -1,4 +1,5 @@
 import React from "react"
+// TODO: Remove this
 import { DragSource } from "react-dnd"
 import isFinite from "lodash/isFinite"
 import PropTypes from "prop-types"

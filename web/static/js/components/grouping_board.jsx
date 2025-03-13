@@ -1,4 +1,5 @@
 import React from "react"
+// TODO: Remove this
 import { DropTarget } from "react-dnd"
 import PropTypes from "prop-types"
 import cx from "classnames"
