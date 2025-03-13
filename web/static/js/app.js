@@ -21,7 +21,7 @@ import RetroChannel from "./services/retro_channel"
 import configureStore from "./configure_store"
 import { actions } from "./redux"
 
-import { RemoteRetro } from "./components/remote_retro"
+// import { RemoteRetro } from "./components/remote_retro"
 
 document.addEventListener("DOMContentLoaded", () => {
   const { userToken, retroUUID } = window

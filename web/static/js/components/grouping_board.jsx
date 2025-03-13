@@ -1,48 +1,44 @@
-import React from "react"
-// TODO: Remove this
-import { DropTarget } from "react-dnd"
+import React, { useState, useEffect } from "react"
+import { DndContext, useDroppable, useDraggable } from "@dnd-kit/core"
+import { CSS } from "@dnd-kit/utilities"
+
 import PropTypes from "prop-types"
 import cx from "classnames"
-import orderBy from "lodash/orderBy"
-
-import GroupingIdeaCard from "./grouping_idea_card"
-import DragCoordinates from "../services/drag_coordinates"
+import { last } from "lodash"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/grouping_board.css"
 
-const IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION = 35
-
 export const GroupingBoard = props => {
   const { ideas, actions, connectDropTarget = node => node, userOptions } = props
+
+  const [isDropped, setIsDropped] = useState(false)
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
   const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
 
-  const cardClassName = cx({
-    minimized: ideas.length > IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION,
-  })
-
-  const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+  const handleDragEnd = event => {
+    if (event.over && event.over.id === "droppable") {
+      setIsDropped(true)
+    }
+  }
 
   return (
     <React.Fragment>
       <div className={styles.boardAndSideGutterWrapper}>
-        {
-          connectDropTarget(
-            <div className={eligibleDragAreaClassname}>
-              {ideasSortedByBodyLengthAscending.map(idea => (
-                <GroupingIdeaCard
-                  idea={idea}
-                  className={cardClassName}
-                  key={idea.id}
-                  actions={actions}
-                  userOptions={userOptions}
-                />
-              ))}
-            </div>
-          )
-        }
+        {/* Should this move higher up the tree? */}
+        {/* Setup a11y */}
+        {/* Figure out collsion detection */}
+        {/* Remove old stuff, including tests */}
+        {/* Tests */}
+        {/* Dragging outside the bounding box */}
+        <DndContext onDragEnd={handleDragEnd}>
+          <div className={eligibleDragAreaClassname}>
+            <Droppable>
+              <Draggable>Drag me</Draggable>
+            </Droppable>
+          </div>
+        </DndContext>
         <div className={sideGutterClassname}>
           <h2 className="ui inverted header">
             <div className="content">
@@ -63,34 +59,48 @@ GroupingBoard.propTypes = {
   actions: PropTypes.object.isRequired,
 }
 
-let memoizedPush = {}
+export default GroupingBoard
 
-// http://react-dnd.github.io/react-dnd/docs/api/drop-target#drop-target-specification
-export const dropTargetSpec = {
-  hover: ({ actions }, monitor) => {
-    const { draggedIdea } = monitor.getItem()
+const Droppable = ({ children }) => {
+  const { isOver, setNodeRef } = useDroppable({
+    id: "droppable",
+  })
+  const style = {
+    color: isOver ? "green" : undefined,
+    height: "100%",
+    backgroundColor: "pink",
+  }
 
-    const { x, y } = DragCoordinates.reconcileMobileZoomOffsets(monitor)
-
-    // eslint-disable-next-line
-    const duplicativeHoverCoordinates =
-      x === memoizedPush.x && y === memoizedPush.y && draggedIdea.id === memoizedPush.id
-
-    if (duplicativeHoverCoordinates) { return }
-
-    memoizedPush = { id: draggedIdea.id, x, y }
-
-    actions.ideaDraggedInGroupingStage(memoizedPush)
-  },
+  return (
+    <div ref={setNodeRef} style={style}>
+      {children}
+    </div>
+  )
 }
 
-// http://react-dnd.github.io/react-dnd/docs/api/drop-target#the-collecting-function
-const collect = connect => ({
-  connectDropTarget: connect.dropTarget(),
-})
 
-export default DropTarget(
-  "GROUPING_STAGE_IDEA_CARD",
-  dropTargetSpec,
-  collect
-)(GroupingBoard)
+function Draggable({ children }) {
+  const [lastTransform, setLastTransform] = useState(null)
+
+
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: "draggable",
+  })
+
+  const currentTransform = lastTransform || transform
+  const style = {
+    transform: CSS.Translate.toString(currentTransform),
+  }
+
+  useEffect(() => {
+    if (transform) {
+      setLastTransform(transform)
+    }
+  }, [transform])
+
+  return (
+    <button type="button" ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      {children}
+    </button>
+  )
+}
