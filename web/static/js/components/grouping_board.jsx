@@ -13,15 +13,24 @@ export const GroupingBoard = props => {
 
   const [isDropped, setIsDropped] = useState(false)
 
+  const [activeId, setActiveId] = useState(null)
+
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
   const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
 
-  const handleDragEnd = event => {
-    if (event.over && event.over.id === "droppable") {
-      setIsDropped(true)
-    }
+  const handleDragEnd = ({ active, delta }) => {
+    setCoordinates(({ x, y }) => {
+      return {
+        x: x + delta.x,
+        y: y + delta.y,
+      }
+    })
   }
+
+  const [{ x, y }, setCoordinates] = useState({ x: 0, y: 0 })
+
+  const draggableObjs = [{ id: "draggable-1", label: "Number one" }, { id: "draggable-2", label: "Number two" }]
 
   return (
     <React.Fragment>
@@ -34,9 +43,11 @@ export const GroupingBoard = props => {
         {/* Dragging outside the bounding box */}
         <DndContext onDragEnd={handleDragEnd}>
           <div className={eligibleDragAreaClassname}>
-            <Droppable>
-              <Draggable>Drag me</Draggable>
-            </Droppable>
+            {draggableObjs.map(({ id, label }) => {
+              return (
+                <Draggable key={id} id={id} top={y} left={x}>{label}</Draggable>
+              )
+            })}
           </div>
         </DndContext>
         <div className={sideGutterClassname}>
@@ -61,42 +72,45 @@ GroupingBoard.propTypes = {
 
 export default GroupingBoard
 
-const Droppable = ({ children }) => {
-  const { isOver, setNodeRef } = useDroppable({
-    id: "droppable",
-  })
-  const style = {
-    color: isOver ? "green" : undefined,
-    height: "100%",
-    backgroundColor: "pink",
-  }
+// const Droppable = ({ children }) => {
+//   const { isOver, setNodeRef } = useDroppable({
+//     id: "droppable",
+//   })
+//   const style = {
+//     color: isOver ? "green" : undefined,
+//     height: "100%",
+//     backgroundColor: "pink",
+//   }
 
-  return (
-    <div ref={setNodeRef} style={style}>
-      {children}
-    </div>
-  )
-}
+//   return (
+//     <div ref={setNodeRef} style={style}>
+//       {children}
+//     </div>
+//   )
+// }
 
 
-function Draggable({ children }) {
-  const [lastTransform, setLastTransform] = useState(null)
+function Draggable({ id, top, left, children }) {
+  // const [lastTransform, setLastTransform] = useState(null)
 
 
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
-    id: "draggable",
+    id,
   })
 
-  const currentTransform = lastTransform || transform
+  // const currentTransform = lastTransform || transform
   const style = {
-    transform: CSS.Translate.toString(currentTransform),
+    position: "relative",
+    top,
+    left,
+    transform: CSS.Translate.toString(transform),
   }
 
-  useEffect(() => {
-    if (transform) {
-      setLastTransform(transform)
-    }
-  }, [transform])
+  // useEffect(() => {
+  //   if (transform) {
+  //     setLastTransform(transform)
+  //   }
+  // }, [transform])
 
   return (
     <button type="button" ref={setNodeRef} style={style} {...listeners} {...attributes}>
