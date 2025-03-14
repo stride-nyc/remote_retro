@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from "react"
-import { DndContext, useDroppable, useDraggable } from "@dnd-kit/core"
+import { DndContext, useDraggable } from "@dnd-kit/core"
+import { restrictToParentElement } from "@dnd-kit/modifiers"
 import { CSS } from "@dnd-kit/utilities"
 
 import PropTypes from "prop-types"
@@ -50,7 +51,7 @@ export const GroupingBoard = props => {
         {/* Remove old stuff, including tests */}
         {/* Tests */}
         {/* Dragging outside the bounding box */}
-        <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+        <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd} modifiers={[restrictToParentElement]}>
           <div className={eligibleDragAreaClassname}>
             {draggables.map(({ id, label }) => {
               const { x = 0, y = 0 } = positions?.[id] ?? {}
