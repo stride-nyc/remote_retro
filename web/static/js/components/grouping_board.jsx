@@ -11,6 +11,7 @@ export const GroupingBoard = props => {
   const { ideas, actions, draggables, connectDropTarget = node => node, userOptions } = props
 
   const [positions, setPositions] = useState(null)
+  const [activeDraggable, setActiveDraggable] = useState(null)
 
 
   useEffect(() => {
@@ -21,6 +22,10 @@ export const GroupingBoard = props => {
       }))
     })
   }, [])
+
+  const handleDragStart = ({ active }) => {
+    setActiveDraggable(active.id)
+  }
 
   const handleDragEnd = ({ active, delta }) => {
     setPositions(prevPositions => ({
@@ -45,13 +50,13 @@ export const GroupingBoard = props => {
         {/* Remove old stuff, including tests */}
         {/* Tests */}
         {/* Dragging outside the bounding box */}
-        <DndContext onDragEnd={handleDragEnd}>
+        <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
           <div className={eligibleDragAreaClassname}>
             {draggables.map(({ id, label }) => {
               const { x = 0, y = 0 } = positions?.[id] ?? {}
 
               return (
-                <Draggable key={id} id={id} top={y} left={x}>
+                <Draggable key={id} id={id} top={y} left={x} isActive={activeDraggable === id}>
                   {label}
                 </Draggable>
               )
@@ -81,7 +86,7 @@ GroupingBoard.propTypes = {
 export default GroupingBoard
 
 
-function Draggable({ id, top, left, children }) {
+function Draggable({ id, top, left, isActive, children }) {
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id,
   })
@@ -91,6 +96,7 @@ function Draggable({ id, top, left, children }) {
     top,
     left,
     transform: CSS.Translate.toString(transform),
+    zIndex: isActive ? 1 : 0,
   }
 
   return (
