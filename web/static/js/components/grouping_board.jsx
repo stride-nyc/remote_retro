@@ -69,12 +69,14 @@ export const GroupingBoard = props => {
   return (
     <React.Fragment>
       <div className={styles.boardAndSideGutterWrapper}>
-        {/* Should this move higher up the tree? */}
         {/* Setup a11y */}
         {/* Figure out collsion detection */}
+        {/* Groupings based off collision detection */}
         {/* Remove old stuff, including tests */}
         {/* Tests */}
-        {/* Dragging outside the bounding box */}
+        {/* Location persists when nav off page */}
+        {/* Real draggable data from server */}
+        {/* Styles */}
         <DndContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
