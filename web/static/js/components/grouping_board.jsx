@@ -4,33 +4,37 @@ import { CSS } from "@dnd-kit/utilities"
 
 import PropTypes from "prop-types"
 import cx from "classnames"
-import { last } from "lodash"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/grouping_board.css"
 
 export const GroupingBoard = props => {
-  const { ideas, actions, connectDropTarget = node => node, userOptions } = props
+  const { ideas, actions, draggables, connectDropTarget = node => node, userOptions } = props
 
-  const [isDropped, setIsDropped] = useState(false)
+  const [positions, setPositions] = useState(null)
 
-  const [activeId, setActiveId] = useState(null)
+
+  useEffect(() => {
+    draggables.forEach(({ id }) => {
+      setPositions(prevPositions => ({
+        ...prevPositions,
+        [id]: { x: 0, y: 0 },
+      }))
+    })
+  }, [])
+
+  const handleDragEnd = ({ active, delta }) => {
+    setPositions(prevPositions => ({
+      ...prevPositions,
+      [active.id]: {
+        x: prevPositions[active.id].x + delta.x,
+        y: prevPositions[active.id].y + delta.y,
+      },
+    }))
+  }
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
   const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
-
-  const handleDragEnd = ({ active, delta }) => {
-    setCoordinates(({ x, y }) => {
-      return {
-        x: x + delta.x,
-        y: y + delta.y,
-      }
-    })
-  }
-
-  const [{ x, y }, setCoordinates] = useState({ x: 0, y: 0 })
-
-  const draggableObjs = [{ id: "draggable-1", label: "Number one" }, { id: "draggable-2", label: "Number two" }]
 
   return (
     <React.Fragment>
@@ -43,9 +47,13 @@ export const GroupingBoard = props => {
         {/* Dragging outside the bounding box */}
         <DndContext onDragEnd={handleDragEnd}>
           <div className={eligibleDragAreaClassname}>
-            {draggableObjs.map(({ id, label }) => {
+            {draggables.map(({ id, label }) => {
+              const { x = 0, y = 0 } = positions?.[id] ?? {}
+
               return (
-                <Draggable key={id} id={id} top={y} left={x}>{label}</Draggable>
+                <Draggable key={id} id={id} top={y} left={x}>
+                  {label}
+                </Draggable>
               )
             })}
           </div>
@@ -72,45 +80,18 @@ GroupingBoard.propTypes = {
 
 export default GroupingBoard
 
-// const Droppable = ({ children }) => {
-//   const { isOver, setNodeRef } = useDroppable({
-//     id: "droppable",
-//   })
-//   const style = {
-//     color: isOver ? "green" : undefined,
-//     height: "100%",
-//     backgroundColor: "pink",
-//   }
-
-//   return (
-//     <div ref={setNodeRef} style={style}>
-//       {children}
-//     </div>
-//   )
-// }
-
 
 function Draggable({ id, top, left, children }) {
-  // const [lastTransform, setLastTransform] = useState(null)
-
-
   const { attributes, listeners, setNodeRef, transform } = useDraggable({
     id,
   })
 
-  // const currentTransform = lastTransform || transform
   const style = {
     position: "relative",
     top,
     left,
     transform: CSS.Translate.toString(transform),
   }
-
-  // useEffect(() => {
-  //   if (transform) {
-  //     setLastTransform(transform)
-  //   }
-  // }, [transform])
 
   return (
     <button type="button" ref={setNodeRef} style={style} {...listeners} {...attributes}>
