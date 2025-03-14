@@ -20,16 +20,12 @@ class GroupingStage extends Component {
 
     const ideasWithEphemeralGroupingIds = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
 
-    const draggableObjs = [{ id: "draggable-1", label: "Number one" }, { id: "draggable-2", label: "Number two" }, { id: "draggable-3", label: "Number three" }]
-
     return (
       <div className={styles.wrapper}>
         <GroupingBoard
           ideas={ideasWithEphemeralGroupingIds}
           actions={actions}
           userOptions={userOptions}
-          // TODO: Rename?
-          draggables={draggableObjs}
         />
 
         <div className="ui dimmer visible transition active device">

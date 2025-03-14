@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react"
 import { DndContext, useDraggable, useDroppable, rectIntersection } from "@dnd-kit/core"
 import { restrictToParentElement } from "@dnd-kit/modifiers"
 import { CSS } from "@dnd-kit/utilities"
+import orderBy from "lodash/orderBy"
 
 import PropTypes from "prop-types"
 import cx from "classnames"
@@ -9,15 +10,22 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/grouping_board.css"
 
 export const GroupingBoard = props => {
-  const { ideas, actions, draggables, connectDropTarget = node => node, userOptions } = props
+  const { ideas, actions, connectDropTarget = node => node, userOptions } = props
 
   const [positions, setPositions] = useState(null)
   const [activeDraggable, setActiveDraggable] = useState(null)
   const [collisions, setCollisions] = useState({})
 
+  const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
+  const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
+  const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
+
+  const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+  console.log("actions", actions)
+  console.log("userOptions", userOptions)
 
   useEffect(() => {
-    draggables.forEach(({ id }) => {
+    ideasSortedByBodyLengthAscending.forEach(({ id }) => {
       setPositions(prevPositions => ({
         ...prevPositions,
         [id]: { x: 0, y: 0 },
@@ -62,9 +70,7 @@ export const GroupingBoard = props => {
     }
   }
 
-  const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
-  const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
-  const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
+  const categoriesToDisplay = ["start", "stop", "continue"]
 
   return (
     <React.Fragment>
@@ -74,8 +80,8 @@ export const GroupingBoard = props => {
         {/* Groupings based off collision detection */}
         {/* Remove old stuff, including tests */}
         {/* Tests */}
-        {/* Location persists when nav off page */}
-        {/* Real draggable data from server */}
+        {/* Location of cards persists when nav off page */}
+        {/* All users see the dragging cards and groupings live - not local state */}
         {/* Styles */}
         <DndContext
           onDragStart={handleDragStart}
@@ -85,13 +91,12 @@ export const GroupingBoard = props => {
           modifiers={[restrictToParentElement]}
         >
           <div className={eligibleDragAreaClassname}>
-            {draggables.map(({ id, label }) => {
+            {ideasSortedByBodyLengthAscending.map(({ id, body, category }) => {
               const { x = 0, y = 0 } = positions?.[id] ?? {}
-
               const isColliding = activeDraggable && activeDraggable !== id && collisions[id]
 
               return (
-                <Draggable
+                <GroupingCard
                   key={id}
                   id={id}
                   top={y}
@@ -99,8 +104,9 @@ export const GroupingBoard = props => {
                   isActive={activeDraggable === id}
                   isColliding={isColliding}
                 >
-                  {label}
-                </Draggable>
+                  {/* Could probably do this more elegantly - want to only display cats for Start/Stop/Continue & remove sentiment categories even tho they exist */}
+                  <span>{categoriesToDisplay.includes(category) ? `(${category}) ${body}` : body}</span>
+                </GroupingCard>
               )
             })}
           </div>
@@ -128,7 +134,7 @@ GroupingBoard.propTypes = {
 export default GroupingBoard
 
 
-function Draggable({ id, top, left, isActive, isColliding, children }) {
+function GroupingCard({ id, top, left, isActive, isColliding, children }) {
   const { attributes, listeners, setNodeRef: draggableRef, transform } = useDraggable({
     id,
   })
