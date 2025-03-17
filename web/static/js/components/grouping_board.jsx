@@ -10,19 +10,17 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/grouping_board.css"
 
 export const GroupingBoard = props => {
-  const { ideas, actions, connectDropTarget = node => node, userOptions } = props
+  const { ideas, actions, userOptions } = props
 
   const [positions, setPositions] = useState(null)
   const [activeDraggable, setActiveDraggable] = useState(null)
-  const [collisions, setCollisions] = useState({})
+  const [collisions, setCollisions] = useState([])
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
   const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
 
   const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
-  console.log("actions", actions)
-  console.log("userOptions", userOptions)
 
   useEffect(() => {
     ideasSortedByBodyLengthAscending.forEach(({ id }) => {
@@ -35,12 +33,12 @@ export const GroupingBoard = props => {
 
   const handleDragStart = ({ active }) => {
     setActiveDraggable(active.id)
-    // Reset collisions when starting a new drag
-    // setCollisions({})
   }
 
   const handleDragEnd = event => {
     const { active, delta } = event
+
+    console.log("event", event)
 
     setPositions(prevPositions => ({
       ...prevPositions,
@@ -49,25 +47,6 @@ export const GroupingBoard = props => {
         y: prevPositions[active.id].y + delta.y,
       },
     }))
-
-    // Clear collisions after drag ends
-    // setCollisions({})
-  }
-
-  const handleDragOver = event => {
-    const { active, collisions: detectedCollisions } = event
-
-    if (detectedCollisions.length > 0) {
-      // Create a map of collisions for the active draggable
-      const newCollisions = {}
-      detectedCollisions.forEach(collision => {
-        newCollisions[collision.id] = true
-      })
-
-      setCollisions(newCollisions)
-    } else {
-      // setCollisions({})
-    }
   }
 
   const categoriesToDisplay = ["start", "stop", "continue"]
@@ -86,14 +65,12 @@ export const GroupingBoard = props => {
         <DndContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
-          onDragOver={handleDragOver}
           collisionDetection={rectIntersection}
           modifiers={[restrictToParentElement]}
         >
           <div className={eligibleDragAreaClassname}>
             {ideasSortedByBodyLengthAscending.map(({ id, body, category }) => {
               const { x = 0, y = 0 } = positions?.[id] ?? {}
-              const isColliding = activeDraggable && activeDraggable !== id && collisions[id]
 
               return (
                 <GroupingCard
@@ -102,7 +79,6 @@ export const GroupingBoard = props => {
                   top={y}
                   left={x}
                   isActive={activeDraggable === id}
-                  isColliding={isColliding}
                 >
                   {/* Could probably do this more elegantly - want to only display cats for Start/Stop/Continue & remove sentiment categories even tho they exist */}
                   <span>{categoriesToDisplay.includes(category) ? `(${category}) ${body}` : body}</span>
@@ -151,14 +127,13 @@ function GroupingCard({ id, top, left, isActive, isColliding, children }) {
     zIndex: isActive ? 1 : 0,
     border: isColliding ? "1px solid red" : "1px solid #ccc",
     backgroundColor: "white",
-    padding: "8px",
+    padding: "0px",
     borderRadius: "4px",
-    transition: "border-color 0.2s, background-color 0.2s",
   }
 
   return (
     <button type="button" ref={draggableRef} style={style} {...listeners} {...attributes}>
-      <div ref={droppableRef}>
+      <div ref={droppableRef} style={{ padding: "8px" }}>
         {children}
       </div>
     </button>
