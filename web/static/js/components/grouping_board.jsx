@@ -1,5 +1,5 @@
-import React, { useState, useEffect, useRef } from "react"
-import { DndContext, useDraggable, useDroppable, rectIntersection } from "@dnd-kit/core"
+import React, { useState, useEffect, useRef, useCallback, forwardRef } from "react"
+import { DndContext, useDraggable, rectIntersection } from "@dnd-kit/core"
 import { restrictToParentElement } from "@dnd-kit/modifiers"
 import { CSS } from "@dnd-kit/utilities"
 import orderBy from "lodash/orderBy"
@@ -17,7 +17,7 @@ export const GroupingBoard = props => {
   const [positions, setPositions] = useState(null)
   const [activeDraggable, setActiveDraggable] = useState(null)
   // START
-  const [groups, setGroups] = useState({}) // Map of card id to group id
+  const [groups, setGroups] = useState([]) // Map of card id to group id
   const cardRefs = useRef({})
   // END
 
@@ -40,7 +40,7 @@ export const GroupingBoard = props => {
     setActiveDraggable(active.id)
   }
 
-  // GEN AI CODE START
+  // REFACTOR INTO SEPARATE FILE?
   const areElementsOverlapping = (rect1, rect2) => {
     return (
       rect1.right > rect2.left
@@ -49,17 +49,14 @@ export const GroupingBoard = props => {
       && rect1.top < rect2.bottom
     )
   }
-
-  // Function to find all elements overlapping with a given element
+  // REFACTOR INTO SEPARATE FILE?
   const findOverlappingElements = activeId => {
     const overlappingIds = []
     const activeRect = cardRefs.current[activeId]?.getBoundingClientRect()
 
     if (!activeRect) return overlappingIds
 
-    // Check each card to see if it's overlapping with the active card
     Object.entries(cardRefs.current).forEach(([id, ref]) => {
-      // console.log("foo", cardRefs.current)
       if (id === activeId || !ref) return
 
       const rect = ref.getBoundingClientRect()
@@ -70,67 +67,50 @@ export const GroupingBoard = props => {
 
     return overlappingIds
   }
-
-  // Function to find all connected elements (direct and indirect connections)
+  // REFACTOR INTO SEPARATE FILE?
   const findConnectedGroups = () => {
-    // Start with each element in its own group
-    const initialGroups = {}
-    Object.keys(cardRefs.current).forEach(id => {
-      initialGroups[id] = [id]
+    const cardIds = Object.keys(cardRefs.current).map(Number)
+    const groups = {}
+
+    cardIds.forEach(id => {
+      groups[id] = new Set([id])
     })
 
-    // For each card, find all overlapping cards and merge groups
-    Object.keys(cardRefs.current).forEach(id => {
+    const mergeGroups = (id1, id2) => {
+      const group1 = groups[id1]
+      const group2 = groups[id2]
+
+      if (group1 === group2) return
+
+      const mergedGroup = new Set([...group1, ...group2])
+      mergedGroup.forEach(memberId => {
+        groups[memberId] = mergedGroup
+      })
+    }
+
+    cardIds.forEach(id => {
       const overlappingIds = findOverlappingElements(id)
-
-      // If this card is overlapping with other cards, merge their groups
-      if (overlappingIds.length > 0) {
-        const currentGroup = initialGroups[id]
-
-        overlappingIds.forEach(overlappingId => {
-          const overlappingGroup = initialGroups[overlappingId]
-
-          // Skip if they're already in the same group
-          if (currentGroup === overlappingGroup) return
-
-          // Merge the groups
-          const mergedGroup = [...currentGroup, ...overlappingGroup];
-
-          // Update all cards in both groups to point to the merged group
-          [...currentGroup, ...overlappingGroup].forEach(groupId => {
-            initialGroups[groupId] = mergedGroup
-          })
-        })
-      }
+      overlappingIds.forEach(overlappingId => mergeGroups(id, overlappingId))
     })
 
-    // Deduplicate groups
-    const uniqueGroups = []
-    const processedIds = new Set()
+    const result = []
+    const processedGroups = new Set()
 
-    Object.entries(initialGroups).forEach(([id, group]) => {
-      if (!processedIds.has(id)) {
-        uniqueGroups.push(group)
-        group.forEach(groupId => processedIds.add(groupId))
-      }
-    })
+    cardIds.forEach(id => {
+      const group = groups[id]
 
-    // Convert to the format we need: map of card id to group id
-    const result = {}
-    uniqueGroups.forEach(group => {
-      // Only create a group if there's more than one card
-      if (group.length > 1) {
-        const groupId = group[0] // Use the first card's id as the group id
-        group.forEach(cardId => {
-          result[cardId] = groupId
-        })
-      }
+      if (group.size <= 1 || processedGroups.has(group)) return
+
+      result.push({
+        groupId: id,
+        cardIds: Array.from(group),
+      })
+
+      processedGroups.add(group)
     })
 
     return result
   }
-
-  // GENAI CODE END
 
   const handleDragEnd = event => {
     const { active, delta } = event
@@ -143,14 +123,8 @@ export const GroupingBoard = props => {
       },
     }))
 
-    // START
-    // Wait for the DOM to update with the new position
-    // setTimeout(() => {
-    // Find all connected groups
     const newGroups = findConnectedGroups()
     setGroups(newGroups)
-    // }, 0)
-    // END
   }
 
 
@@ -174,7 +148,8 @@ export const GroupingBoard = props => {
           <div className={eligibleDragAreaClassname}>
             {ideasSortedByBodyLengthAscending.map(({ id, body, category }) => {
               const { x = 0, y = 0 } = positions?.[id] ?? {}
-              const groupId = groups[id]
+              const group = groups.find(group => group.cardIds.includes(id))
+              const groupId = group ? group.groupId : null
 
               return (
                 <GroupingCard
@@ -183,13 +158,13 @@ export const GroupingBoard = props => {
                   top={y}
                   left={x}
                   isActive={activeDraggable === id}
-                  // START
                   groupId={groupId}
-                  ref={el => cardRefs.current[id] = el}
-                  // END
+                  ref={el => {
+                    cardRefs.current[id] = el
+                  }}
                 >
-                  {/* Could probably do this more elegantly - want to only display cats for Start/Stop/Continue & remove sentiment categories even tho they exist */}
-                  <span>{CATEGORIES_TO_DISPLAY.includes(category) ? `(${category}) ${body}` : body}</span>
+                  {/* TODO: Could probably do this more elegantly - want to only display cats for Start/Stop/Continue & remove sentiment categories even tho they exist */}
+                  <span>{CATEGORIES_TO_DISPLAY.includes(category) ? `(${category}) ${body}` : body + id}</span>
                 </GroupingCard>
               )
             })}
@@ -217,29 +192,20 @@ GroupingBoard.propTypes = {
 
 export default GroupingBoard
 
+const GroupingCard = forwardRef(({ id, top, left, isActive, groupId, children }, ref) => {
+  const { attributes, listeners, setNodeRef: draggableRef, transform } = useDraggable({ id })
 
-const GroupingCard = React.forwardRef(({ id, top, left, isActive, groupId, children }, ref) => {
-  const { attributes, listeners, setNodeRef: draggableRef, transform } = useDraggable({
-    id,
-  })
-
-  const { setNodeRef: droppableRef } = useDroppable({
-    id,
-  })
-
-  // START
-  // Combine the refs
-  const setRefs = element => {
+  const setRefs = useCallback(element => {
     draggableRef(element)
-    if (ref) {
-      if (typeof ref === "function") {
-        ref(element)
-      } else {
-        ref.current = element
-      }
+
+    if (!ref) return
+
+    if (typeof ref === "function") {
+      ref(element)
+    } else {
+      ref.current = element
     }
-  }
-  // END
+  }, [draggableRef, ref])
 
   const style = {
     position: "relative",
@@ -249,33 +215,22 @@ const GroupingCard = React.forwardRef(({ id, top, left, isActive, groupId, child
     zIndex: isActive ? 1 : 0,
     backgroundColor: "white",
     padding: "8px",
-    // padding: "0px",
     borderRadius: "4px",
+    border: "1px solid #ccc",
   }
 
-  // START
-  // TODO: Fix the color setting
+  // TODO: Colorize different groups
   if (groupId) {
-    // const hash = Math.abs(String(groupId).split("").reduce((a, b) => {
-    //   a = ((a << 5) - a) + b.charCodeAt(0)
-    //   return a & a
-    // }, 0))
     const color = "pink"
-
     style.boxShadow = `0 0 0px 2px ${color}`
     style.border = `1px solid ${color}`
-  } else {
-    style.border = "1px solid #ccc"
   }
-  // END
 
   return (
     <button type="button" ref={setRefs} style={style} {...listeners} {...attributes}>
-      {/* <div ref={droppableRef} style={{ padding: "8px" }}> */}
       {children}
       <br />
       Group: {groupId}
-      {/* </div> */}
     </button>
   )
 })
