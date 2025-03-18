@@ -14,12 +14,9 @@ const CATEGORIES_TO_DISPLAY = ["start", "stop", "continue"]
 export const GroupingBoard = props => {
   const { ideas, actions, userOptions } = props
 
-  const [positions, setPositions] = useState(null)
   const [activeDraggable, setActiveDraggable] = useState(null)
-  // START
   const [groups, setGroups] = useState([]) // Map of card id to group id
   const cardRefs = useRef({})
-  // END
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
@@ -28,13 +25,9 @@ export const GroupingBoard = props => {
   const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
 
   useEffect(() => {
-    ideasSortedByBodyLengthAscending.forEach(({ id }) => {
-      setPositions(prevPositions => ({
-        ...prevPositions,
-        [id]: { x: 0, y: 0 },
-      }))
-    })
-  }, [])
+    const newGroups = findConnectedGroups()
+    setGroups(newGroups)
+  }, [ideas])
 
   const handleDragStart = ({ active }) => {
     setActiveDraggable(active.id)
@@ -114,17 +107,23 @@ export const GroupingBoard = props => {
 
   const handleDragEnd = event => {
     const { active, delta } = event
+    const ideaId = active.id
 
-    setPositions(prevPositions => ({
-      ...prevPositions,
-      [active.id]: {
-        x: prevPositions[active.id].x + delta.x,
-        y: prevPositions[active.id].y + delta.y,
-      },
-    }))
+    const currentIdea = ideas.find(idea => idea.id === ideaId)
+    const currentX = currentIdea?.x ? currentIdea.x : 0
+    const currentY = currentIdea?.y ? currentIdea.y : 0
+
+    const newX = currentX + delta.x
+    const newY = currentY + delta.y
+
+    // Update position in the store and persist to server
+    actions.ideaDraggedInGroupingStage({ id: ideaId, x: newX, y: newY })
+    // When drag ends, submit the final position to be persisted
+    actions.submitIdeaEditAsync({ id: ideaId, x: newX, y: newY })
 
     const newGroups = findConnectedGroups()
     setGroups(newGroups)
+    // E
   }
 
 
@@ -132,21 +131,21 @@ export const GroupingBoard = props => {
     <React.Fragment>
       <div className={styles.boardAndSideGutterWrapper}>
         {/* Setup a11y */}
-        {/* Figure out collsion detection */}
-        {/* Groupings based off collision detection */}
+        {/* x - Figure out collsion detection */}
+        {/* x - Groupings based off collision detection */}
         {/* Remove old stuff, including tests */}
         {/* Tests */}
-        {/* Location of cards persists when nav off page */}
+        {/* x - Location of cards persists when nav off page */}
         {/* All users see the dragging cards and groupings live - not local state */}
-        {/* Styles */}
+        {/* x - Styles */}
         <DndContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
           modifiers={[restrictToParentElement]}
         >
           <div className={eligibleDragAreaClassname}>
-            {ideasSortedByBodyLengthAscending.map(({ id, body, category }) => {
-              const { x = 0, y = 0 } = positions?.[id] ?? {}
+            {ideasSortedByBodyLengthAscending.map(idea => {
+              const { id, body, category, x = 0, y = 0 } = idea
               const group = groups.find(group => group.cardIds.includes(id))
               const groupId = group ? group.groupId : null
 

@@ -35,6 +35,7 @@ const GroupingCard = forwardRef(({
     top,
     left,
     transform: CSS.Translate.toString(transform),
+    margin: "4px 0 0 4px",
     WebkitTransform: CSS.Translate.toString(transform),
     zIndex: isActive ? 1 : 0,
     cursor: "move",

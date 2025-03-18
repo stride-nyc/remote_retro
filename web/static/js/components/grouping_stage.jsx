@@ -2,6 +2,7 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 
 import LowerThird from "./lower_third"
+// import GroupingBoard from "./grouping_board_old"
 import GroupingBoard from "./grouping_board"
 
 import * as AppPropTypes from "../prop_types"
