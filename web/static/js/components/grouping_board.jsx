@@ -1,11 +1,11 @@
-import React, { useState, useEffect, useRef, useCallback, forwardRef } from "react"
-import { DndContext, useDraggable, rectIntersection } from "@dnd-kit/core"
+import React, { useState, useEffect, useRef } from "react"
+import { DndContext } from "@dnd-kit/core"
 import { restrictToParentElement } from "@dnd-kit/modifiers"
-import { CSS } from "@dnd-kit/utilities"
 import orderBy from "lodash/orderBy"
 
 import PropTypes from "prop-types"
 import cx from "classnames"
+import GroupingCard from "./grouping_card"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/grouping_board.css"
 
@@ -142,7 +142,6 @@ export const GroupingBoard = props => {
         <DndContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
-          collisionDetection={rectIntersection}
           modifiers={[restrictToParentElement]}
         >
           <div className={eligibleDragAreaClassname}>
@@ -159,12 +158,13 @@ export const GroupingBoard = props => {
                   left={x}
                   isActive={activeDraggable === id}
                   groupId={groupId}
+                  userOptions={userOptions}
                   ref={el => {
                     cardRefs.current[id] = el
                   }}
                 >
                   {/* TODO: Could probably do this more elegantly - want to only display cats for Start/Stop/Continue & remove sentiment categories even tho they exist */}
-                  <span>{CATEGORIES_TO_DISPLAY.includes(category) ? `(${category}) ${body}` : body + id}</span>
+                  <span>{CATEGORIES_TO_DISPLAY.includes(category) ? `(${category}) ${body}` : body}</span>
                 </GroupingCard>
               )
             })}
@@ -191,46 +191,3 @@ GroupingBoard.propTypes = {
 }
 
 export default GroupingBoard
-
-const GroupingCard = forwardRef(({ id, top, left, isActive, groupId, children }, ref) => {
-  const { attributes, listeners, setNodeRef: draggableRef, transform } = useDraggable({ id })
-
-  const setRefs = useCallback(element => {
-    draggableRef(element)
-
-    if (!ref) return
-
-    if (typeof ref === "function") {
-      ref(element)
-    } else {
-      ref.current = element
-    }
-  }, [draggableRef, ref])
-
-  const style = {
-    position: "relative",
-    top,
-    left,
-    transform: CSS.Translate.toString(transform),
-    zIndex: isActive ? 1 : 0,
-    backgroundColor: "white",
-    padding: "8px",
-    borderRadius: "4px",
-    border: "1px solid #ccc",
-  }
-
-  // TODO: Colorize different groups
-  if (groupId) {
-    const color = "pink"
-    style.boxShadow = `0 0 0px 2px ${color}`
-    style.border = `1px solid ${color}`
-  }
-
-  return (
-    <button type="button" ref={setRefs} style={style} {...listeners} {...attributes}>
-      {children}
-      <br />
-      Group: {groupId}
-    </button>
-  )
-})
