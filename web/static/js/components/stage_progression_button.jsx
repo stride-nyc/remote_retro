@@ -17,6 +17,7 @@ export class StageProgressionButton extends Component {
 
   handleStageProgression = () => {
     const { config, actions, reduxState } = this.props
+    // console.log(reduxState)
     const { nextStage, optionalParamsAugmenter } = config
 
     const additionalParams = optionalParamsAugmenter ? optionalParamsAugmenter(reduxState) : {}

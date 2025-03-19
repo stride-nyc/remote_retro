@@ -1,4 +1,4 @@
-import React, { useCallback, forwardRef } from "react"
+import React, { useCallback, forwardRef, useEffect, useRef } from "react"
 import PropTypes from "prop-types"
 import { useDraggable } from "@dnd-kit/core"
 // TODO: Fix import
@@ -14,12 +14,16 @@ import styles from "./css_modules/grouping_idea_card.css"
 const COLOR_BLACK = "#000000"
 
 const GroupingCard = forwardRef(({
-  id, top, left, isActive, groupId, userOptions: { highContrastOn }, children,
+  id, top, left, isActive, groupId, userOptions: { highContrastOn }, actions, children,
 }, ref) => {
   const { attributes, listeners, setNodeRef: draggableRef, transform } = useDraggable({ id })
 
+  const localRef = useRef(null)
+
+
   const setRefs = useCallback(element => {
     draggableRef(element)
+    localRef.current = element
 
     if (!ref) return
 
@@ -29,6 +33,14 @@ const GroupingCard = forwardRef(({
       ref.current = element
     }
   }, [draggableRef, ref])
+
+  useEffect(() => {
+    console.log("hi", id, localRef.current?.getBoundingClientRect())
+
+    const { height, width, x, y } = localRef.current?.getBoundingClientRect()
+    // THIS IS WORKING BUT IT"S KINDA SHAKY
+    actions.updateIdea(id, { height, width, x, y })
+  }, [isActive])
 
   const style = {
     position: "relative",

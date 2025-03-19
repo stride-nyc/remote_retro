@@ -42,8 +42,8 @@ export const GroupingBoard = props => {
       }
     })
 
-    console.log("groupsForRedux", groupsForRedux)
-    console.log("actions", actions)
+    // console.log("groupsForRedux", groupsForRedux)
+    // console.log("actions", actions)
 
     // if (groupsForRedux.length > 0) {
     //   actions.saveGroupingBoardGroups(groupsForRedux)
@@ -145,19 +145,21 @@ export const GroupingBoard = props => {
     const newGroups = findConnectedGroups()
     setGroups(newGroups)
 
+    setActiveDraggable(null)
+
     // Convert the detected groups to the format expected by the Redux store
     // and dispatch the action to save them
-    const groupsForRedux = newGroups.map(group => {
-      return {
-        id: group.groupId,
-        label: `Group ${group.groupId}`, // Default label
-        idea_ids: group.cardIds, // Store the idea IDs associated with this group
-      }
-    })
+    // const groupsForRedux = newGroups.map(group => {
+    //   return {
+    //     id: group.groupId,
+    //     label: `Group ${group.groupId}`, // Default label
+    //     idea_ids: group.cardIds, // Store the idea IDs associated with this group
+    //   }
+    // })
 
-    if (groupsForRedux.length > 0) {
-      actions.saveGroupingBoardGroups(groupsForRedux)
-    }
+    // if (groupsForRedux.length > 0) {
+    //   actions.saveGroupingBoardGroups(groupsForRedux)
+    // }
   }
 
 
