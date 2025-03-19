@@ -15,7 +15,7 @@ export const GroupingBoard = props => {
   const { ideas, actions, userOptions } = props
 
   const [activeDraggable, setActiveDraggable] = useState(null)
-  const [groups, setGroups] = useState([]) // Map of card id to group id
+  const [groups, setGroups] = useState([])
   const cardRefs = useRef({})
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
@@ -27,6 +27,27 @@ export const GroupingBoard = props => {
   useEffect(() => {
     const newGroups = findConnectedGroups()
     setGroups(newGroups)
+
+    // IN PROGRESS
+    const groupsForRedux = newGroups.map(group => {
+      const filteredIdeas = ideas
+        .filter(idea => group.cardIds.includes(idea.id))
+        .map(idea => ({ ...idea, group_id: group.groupId }))
+
+      return {
+        id: group.groupId,
+        label: `Group ${group.groupId}`,
+        ideas: filteredIdeas,
+        votes: [],
+      }
+    })
+
+    console.log("groupsForRedux", groupsForRedux)
+    console.log("actions", actions)
+
+    // if (groupsForRedux.length > 0) {
+    //   actions.saveGroupingBoardGroups(groupsForRedux)
+    // }
   }, [ideas])
 
   const handleDragStart = ({ active }) => {
@@ -63,21 +84,21 @@ export const GroupingBoard = props => {
   // REFACTOR INTO SEPARATE FILE?
   const findConnectedGroups = () => {
     const cardIds = Object.keys(cardRefs.current).map(Number)
-    const groups = {}
+    const groupings = {}
 
     cardIds.forEach(id => {
-      groups[id] = new Set([id])
+      groupings[id] = new Set([id])
     })
 
     const mergeGroups = (id1, id2) => {
-      const group1 = groups[id1]
-      const group2 = groups[id2]
+      const group1 = groupings[id1]
+      const group2 = groupings[id2]
 
       if (group1 === group2) return
 
       const mergedGroup = new Set([...group1, ...group2])
       mergedGroup.forEach(memberId => {
-        groups[memberId] = mergedGroup
+        groupings[memberId] = mergedGroup
       })
     }
 
@@ -90,7 +111,7 @@ export const GroupingBoard = props => {
     const processedGroups = new Set()
 
     cardIds.forEach(id => {
-      const group = groups[id]
+      const group = groupings[id]
 
       if (group.size <= 1 || processedGroups.has(group)) return
 
@@ -123,7 +144,20 @@ export const GroupingBoard = props => {
 
     const newGroups = findConnectedGroups()
     setGroups(newGroups)
-    // E
+
+    // Convert the detected groups to the format expected by the Redux store
+    // and dispatch the action to save them
+    const groupsForRedux = newGroups.map(group => {
+      return {
+        id: group.groupId,
+        label: `Group ${group.groupId}`, // Default label
+        idea_ids: group.cardIds, // Store the idea IDs associated with this group
+      }
+    })
+
+    if (groupsForRedux.length > 0) {
+      actions.saveGroupingBoardGroups(groupsForRedux)
+    }
   }
 
 
@@ -158,6 +192,7 @@ export const GroupingBoard = props => {
                   isActive={activeDraggable === id}
                   groupId={groupId}
                   userOptions={userOptions}
+                  actions={actions}
                   ref={el => {
                     cardRefs.current[id] = el
                   }}

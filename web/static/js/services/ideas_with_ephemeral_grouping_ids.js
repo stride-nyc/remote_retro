@@ -1,8 +1,10 @@
 import values from "lodash/values"
 
+// UNSURE IF THIS IS NECESSARY ANYMORE
 import Collisions from "./collisions"
 
 export default {
+  // UNSURE IF THIS IS NECESSARY ANYMORE
   buildFrom: ideas => {
     const collisions = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
     const collisionsDeduped = Collisions.merge(collisions)
