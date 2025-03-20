@@ -29,25 +29,18 @@ export const GroupingBoard = props => {
     setGroups(newGroups)
 
     // IN PROGRESS
-    const groupsForRedux = newGroups.map(group => {
-      const filteredIdeas = ideas
-        .filter(idea => group.cardIds.includes(idea.id))
-        .map(idea => ({ ...idea, group_id: group.groupId }))
+    // const groupsForRedux = newGroups.map(group => {
+    //   const filteredIdeas = ideas
+    //     .filter(idea => group.cardIds.includes(idea.id))
+    //     .map(idea => ({ ...idea, group_id: group.groupId }))
 
-      return {
-        id: group.groupId,
-        label: `Group ${group.groupId}`,
-        ideas: filteredIdeas,
-        votes: [],
-      }
-    })
-
-    // console.log("groupsForRedux", groupsForRedux)
-    // console.log("actions", actions)
-
-    // if (groupsForRedux.length > 0) {
-    //   actions.saveGroupingBoardGroups(groupsForRedux)
-    // }
+    //   return {
+    //     id: group.groupId,
+    //     label: `Group ${group.groupId}`,
+    //     ideas: filteredIdeas,
+    //     votes: [],
+    //   }
+    // })
   }, [ideas])
 
   const handleDragStart = ({ active }) => {
@@ -146,20 +139,6 @@ export const GroupingBoard = props => {
     setGroups(newGroups)
 
     setActiveDraggable(null)
-
-    // Convert the detected groups to the format expected by the Redux store
-    // and dispatch the action to save them
-    // const groupsForRedux = newGroups.map(group => {
-    //   return {
-    //     id: group.groupId,
-    //     label: `Group ${group.groupId}`, // Default label
-    //     idea_ids: group.cardIds, // Store the idea IDs associated with this group
-    //   }
-    // })
-
-    // if (groupsForRedux.length > 0) {
-    //   actions.saveGroupingBoardGroups(groupsForRedux)
-    // }
   }
 
 

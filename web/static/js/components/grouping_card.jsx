@@ -34,14 +34,6 @@ const GroupingCard = forwardRef(({
     }
   }, [draggableRef, ref])
 
-  useEffect(() => {
-    console.log("hi", id, localRef.current?.getBoundingClientRect())
-
-    const { height, width, x, y } = localRef.current?.getBoundingClientRect()
-    // THIS IS WORKING BUT IT"S KINDA SHAKY
-    actions.updateIdea(id, { height, width, x, y })
-  }, [isActive])
-
   const style = {
     position: "relative",
     top,
