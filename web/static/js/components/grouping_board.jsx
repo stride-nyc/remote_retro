@@ -43,6 +43,12 @@ export const GroupingBoard = props => {
     // })
   }, [ideas])
 
+  useEffect(() => {
+    ideas.forEach(idea => {
+      actions.updateIdea(idea.id, { temp_group_id: 333 })
+    })
+  }, [])
+
   const handleDragStart = ({ active }) => {
     setActiveDraggable(active.id)
   }
@@ -137,6 +143,24 @@ export const GroupingBoard = props => {
 
     const newGroups = findConnectedGroups()
     setGroups(newGroups)
+
+    // Update temp_group_id for all ideas based on the groups
+    // For each group, set the temp_group_id of all ideas in the group to the group's leader id
+    // newGroups.forEach(group => {
+    //   const { groupId, cardIds } = group
+    //   cardIds.forEach(cardId => {
+    //     // Set temp_group_id for all ideas in the group, including the leader
+    //     actions.updateIdea(cardId, { temp_group_id: groupId })
+    //   })
+    // })
+
+    // // For ideas not in any group, set their temp_group_id to their own id
+    // ideas.forEach(idea => {
+    //   const isInGroup = newGroups.some(group => group.cardIds.includes(idea.id))
+    //   if (!isInGroup) {
+    //     actions.updateIdea(idea.id, { temp_group_id: idea.id })
+    //   }
+    // })
 
     setActiveDraggable(null)
   }
