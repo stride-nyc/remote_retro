@@ -29,18 +29,37 @@ export const GroupingBoard = props => {
     setGroups(initialGroups)
   }, [])
 
+  // This effect runs when groups change to update the temp_group_id of each idea
   useEffect(() => {
-    ideas.forEach(idea => {
-      const group = groups.find(group => group.cardIds.includes(idea.id))
+    // Create a map to track which ideas are in which groups
+    const ideaGroupMap = new Map()
 
-      if (group) {
-        actions.updateIdea(idea.id, { temp_group_id: group.groupId })
+    // First, identify which ideas belong to which groups
+    groups.forEach(group => {
+      group.cardIds.forEach(cardId => {
+        ideaGroupMap.set(cardId, group.groupId)
+      })
+    })
+
+    // Then update each idea's temp_group_id based on group membership
+    ideas.forEach(idea => {
+      const groupId = ideaGroupMap.get(idea.id)
+
+      if (groupId !== undefined) {
+        // The idea is in a group, set temp_group_id to the groupId
+        if (idea.temp_group_id !== groupId) {
+          actions.updateIdea(idea.id, { temp_group_id: groupId })
+        }
       } else if (idea.temp_group_id !== null) {
+        // The idea is not in any group but has a temp_group_id, set it to null
         actions.updateIdea(idea.id, { temp_group_id: null })
       }
+      // console.log(idea.body, idea.temp_group_id)
+      // If the idea is not in any group and already has null temp_group_id, do nothing
     })
-  }, [groups])
+  }, [groups, ideas, actions])
 
+  // console.log(ideas)
   const handleDragStart = ({ active }) => {
     setActiveDraggable(active.id)
   }

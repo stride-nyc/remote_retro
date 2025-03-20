@@ -4,8 +4,11 @@ import values from "lodash/values"
 import Collisions from "./collisions"
 
 export default {
-  // UNSURE IF THIS IS NECESSARY ANYMORE
   buildFrom: ideas => {
+    // TempGroupingId is not working as expected here
+    ideas.forEach(idea => {
+      console.log(idea.body, idea.temp_group_id)
+    })
     const collisions = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
     const collisionsDeduped = Collisions.merge(collisions)
 

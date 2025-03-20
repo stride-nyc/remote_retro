@@ -21,7 +21,7 @@ class GroupingStage extends Component {
 
     // Is this necessary? Can I do this with just sending ideas?
     const ideasWithEphemeralGroupingIds = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
-    console.log(ideas)
+    // console.log(ideas)
 
     return (
       <div className={styles.wrapper}>
