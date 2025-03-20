@@ -25,29 +25,21 @@ export const GroupingBoard = props => {
   const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
 
   useEffect(() => {
-    const newGroups = findConnectedGroups()
-    setGroups(newGroups)
-
-    // IN PROGRESS
-    // const groupsForRedux = newGroups.map(group => {
-    //   const filteredIdeas = ideas
-    //     .filter(idea => group.cardIds.includes(idea.id))
-    //     .map(idea => ({ ...idea, group_id: group.groupId }))
-
-    //   return {
-    //     id: group.groupId,
-    //     label: `Group ${group.groupId}`,
-    //     ideas: filteredIdeas,
-    //     votes: [],
-    //   }
-    // })
-  }, [ideas])
+    const initialGroups = findConnectedGroups()
+    setGroups(initialGroups)
+  }, [])
 
   useEffect(() => {
     ideas.forEach(idea => {
-      actions.updateIdea(idea.id, { temp_group_id: 333 })
+      const group = groups.find(group => group.cardIds.includes(idea.id))
+
+      if (group) {
+        actions.updateIdea(idea.id, { temp_group_id: group.groupId })
+      } else if (idea.temp_group_id !== null) {
+        actions.updateIdea(idea.id, { temp_group_id: null })
+      }
     })
-  }, [])
+  }, [groups])
 
   const handleDragStart = ({ active }) => {
     setActiveDraggable(active.id)
