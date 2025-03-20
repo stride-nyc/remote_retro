@@ -2,7 +2,7 @@ import orderBy from "lodash/orderBy"
 import isFinite from "lodash/isFinite"
 import SeparatingAxisTheorum from "sat"
 
-// UNSURE WHAT OF THIS IS NECESSARY IF I UPDATE HOW I AM HANDLING COLLISIONS
+// TODO: Confirm file can be deleted
 export default {
   identifyAllIdeaCollisionsSortedByIdAscending: ideas => {
     let collisions = new Map()

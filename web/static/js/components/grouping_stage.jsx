@@ -19,9 +19,7 @@ class GroupingStage extends Component {
   render() {
     const { ideas, actions, userOptions } = this.props
 
-    // Is this necessary? Can I do this with just sending ideas?
     const ideasWithEphemeralGroupingIds = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
-    // console.log(ideas)
 
     return (
       <div className={styles.wrapper}>

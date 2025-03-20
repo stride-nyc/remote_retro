@@ -1,32 +1,40 @@
-import values from "lodash/values"
-
-// UNSURE IF THIS IS NECESSARY ANYMORE
-import Collisions from "./collisions"
-
 export default {
+  // MOSTLY WORKING - need to break this down by group into different ephemeralGroupingIds
   buildFrom: ideas => {
-    // TempGroupingId is not working as expected here
+    // Group ideas by temp_group_id
+    const groupedIdeas = {}
+
+    // First pass: create groups based on temp_group_id
     ideas.forEach(idea => {
-      console.log(idea.body, idea.temp_group_id)
+      const tempGroupId = idea.temp_group_id
+
+      // Skip null or undefined temp_group_id
+      if (tempGroupId == null) return
+
+      // Initialize group if it doesn't exist
+      if (!groupedIdeas[tempGroupId]) {
+        groupedIdeas[tempGroupId] = {
+          ephemeralGroupingId: tempGroupId,
+          ideas: [],
+        }
+      }
+
+      // Add idea to its group
+      groupedIdeas[tempGroupId].ideas.push(idea)
     })
-    const collisions = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
-    const collisionsDeduped = Collisions.merge(collisions)
 
-    const ideasByIdWithEphemeralGroupingIdCandidate = ideas.reduce((accumulator, idea, index) => {
-      accumulator[idea.id] = { ...idea, ephemeralGroupingIdCandidate: index + 1 }
-      return accumulator
-    }, {})
+    // Second pass: assign ephemeralGroupingId to each idea
+    return ideas.map(idea => {
+      // If idea has a temp_group_id and that group exists
+      if (idea.temp_group_id != null && groupedIdeas[idea.temp_group_id]) {
+        return {
+          ...idea,
+          ephemeralGroupingId: groupedIdeas[idea.temp_group_id].ephemeralGroupingId,
+        }
+      }
 
-    for (const [groupLeaderId, collisionsForIdea] of collisionsDeduped) {
-      collisionsForIdea.forEach(relatedIdeaId => {
-        const groupLeaderIdea = ideasByIdWithEphemeralGroupingIdCandidate[groupLeaderId]
-        const relatedIdea = ideasByIdWithEphemeralGroupingIdCandidate[relatedIdeaId]
-
-        relatedIdea.ephemeralGroupingId = groupLeaderIdea.ephemeralGroupingIdCandidate
-      })
-    }
-
-    return values(ideasByIdWithEphemeralGroupingIdCandidate)
-      .map(({ ephemeralGroupingIdCandidate, ...rest }) => rest)
+      // Ideas without a temp_group_id don't get an ephemeralGroupingId
+      return { ...idea }
+    })
   },
 }
