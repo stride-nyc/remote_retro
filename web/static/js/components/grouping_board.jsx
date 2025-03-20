@@ -18,10 +18,6 @@ export const GroupingBoard = props => {
   const [groups, setGroups] = useState([])
   const cardRefs = useRef({})
 
-  const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
-  const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
-  const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
-
   const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
 
   useEffect(() => {
@@ -29,37 +25,22 @@ export const GroupingBoard = props => {
     setGroups(initialGroups)
   }, [])
 
-  // This effect runs when groups change to update the temp_group_id of each idea
   useEffect(() => {
-    // Create a map to track which ideas are in which groups
     const ideaGroupMap = new Map()
 
-    // First, identify which ideas belong to which groups
-    groups.forEach(group => {
-      group.cardIds.forEach(cardId => {
-        ideaGroupMap.set(cardId, group.groupId)
-      })
+    groups.forEach(({ groupId, cardIds }) => {
+      cardIds.forEach(cardId => ideaGroupMap.set(cardId, groupId))
     })
 
-    // Then update each idea's temp_group_id based on group membership
-    ideas.forEach(idea => {
-      const groupId = ideaGroupMap.get(idea.id)
+    ideas.forEach(({ id, temp_group_id: tempGroupId }) => {
+      const newGroupId = ideaGroupMap.get(id) || null
 
-      if (groupId !== undefined) {
-        // The idea is in a group, set temp_group_id to the groupId
-        if (idea.temp_group_id !== groupId) {
-          actions.updateIdea(idea.id, { temp_group_id: groupId })
-        }
-      } else if (idea.temp_group_id !== null) {
-        // The idea is not in any group but has a temp_group_id, set it to null
-        actions.updateIdea(idea.id, { temp_group_id: null })
+      if (tempGroupId !== newGroupId) {
+        actions.updateIdea(id, { temp_group_id: newGroupId })
       }
-      // console.log(idea.body, idea.temp_group_id)
-      // If the idea is not in any group and already has null temp_group_id, do nothing
     })
   }, [groups, ideas, actions])
 
-  // console.log(ideas)
   const handleDragStart = ({ active }) => {
     setActiveDraggable(active.id)
   }
@@ -155,27 +136,12 @@ export const GroupingBoard = props => {
     const newGroups = findConnectedGroups()
     setGroups(newGroups)
 
-    // Update temp_group_id for all ideas based on the groups
-    // For each group, set the temp_group_id of all ideas in the group to the group's leader id
-    // newGroups.forEach(group => {
-    //   const { groupId, cardIds } = group
-    //   cardIds.forEach(cardId => {
-    //     // Set temp_group_id for all ideas in the group, including the leader
-    //     actions.updateIdea(cardId, { temp_group_id: groupId })
-    //   })
-    // })
-
-    // // For ideas not in any group, set their temp_group_id to their own id
-    // ideas.forEach(idea => {
-    //   const isInGroup = newGroups.some(group => group.cardIds.includes(idea.id))
-    //   if (!isInGroup) {
-    //     actions.updateIdea(idea.id, { temp_group_id: idea.id })
-    //   }
-    // })
-
     setActiveDraggable(null)
   }
 
+  const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
+  const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
+  const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
 
   return (
     <React.Fragment>
@@ -188,6 +154,7 @@ export const GroupingBoard = props => {
         {/* x - Location of cards persists when nav off page */}
         {/* All users see the dragging cards and groupings live - not local state */}
         {/* x - Styles */}
+        {/* Can we keep the color the same for the group instead of having it tansition sometimes? */}
         <DndContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}

@@ -1,5 +1,5 @@
 export default {
-  // MOSTLY WORKING - need to break this down by group into different ephemeralGroupingIds
+  // TODO: Figure out if we can skip doing this all together and rely on the temp_group_ids eventually
   buildFrom: ideas => {
     // Group ideas by temp_group_id
     const groupedIdeas = {}
@@ -17,6 +17,7 @@ export default {
           ephemeralGroupingId: tempGroupId,
           ideas: [],
         }
+        console.log(groupedIdeas)
       }
 
       // Add idea to its group
