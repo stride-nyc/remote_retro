@@ -8,6 +8,7 @@ import cx from "classnames"
 import GroupingCard from "./grouping_card"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/grouping_board.css"
+import IdeaCardGrouping from "../services/idea_card_grouping"
 
 const CATEGORIES_TO_DISPLAY = ["start", "stop", "continue"]
 
@@ -21,7 +22,7 @@ export const GroupingBoard = props => {
   const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
 
   useEffect(() => {
-    const initialGroups = findConnectedGroups()
+    const initialGroups = IdeaCardGrouping.findConnectedGroups(cardRefs.current)
     setGroups(initialGroups)
   }, [])
 
@@ -45,97 +46,19 @@ export const GroupingBoard = props => {
     setActiveDraggable(active.id)
   }
 
-  // REFACTOR INTO SEPARATE FILE?
-  const areElementsOverlapping = (rect1, rect2) => {
-    return (
-      rect1.right > rect2.left
-      && rect1.left < rect2.right
-      && rect1.bottom > rect2.top
-      && rect1.top < rect2.bottom
-    )
-  }
-  // REFACTOR INTO SEPARATE FILE?
-  const findOverlappingElements = activeId => {
-    const overlappingIds = []
-    const activeRect = cardRefs.current[activeId]?.getBoundingClientRect()
-
-    if (!activeRect) return overlappingIds
-
-    Object.entries(cardRefs.current).forEach(([id, ref]) => {
-      if (id === activeId || !ref) return
-
-      const rect = ref.getBoundingClientRect()
-      if (areElementsOverlapping(activeRect, rect)) {
-        overlappingIds.push(id)
-      }
-    })
-
-    return overlappingIds
-  }
-  // REFACTOR INTO SEPARATE FILE?
-  const findConnectedGroups = () => {
-    const cardIds = Object.keys(cardRefs.current).map(Number)
-    const groupings = {}
-
-    cardIds.forEach(id => {
-      groupings[id] = new Set([id])
-    })
-
-    const mergeGroups = (id1, id2) => {
-      const group1 = groupings[id1]
-      const group2 = groupings[id2]
-
-      if (group1 === group2) return
-
-      const mergedGroup = new Set([...group1, ...group2])
-      mergedGroup.forEach(memberId => {
-        groupings[memberId] = mergedGroup
-      })
-    }
-
-    cardIds.forEach(id => {
-      const overlappingIds = findOverlappingElements(id)
-      overlappingIds.forEach(overlappingId => mergeGroups(id, overlappingId))
-    })
-
-    const result = []
-    const processedGroups = new Set()
-
-    cardIds.forEach(id => {
-      const group = groupings[id]
-
-      if (group.size <= 1 || processedGroups.has(group)) return
-
-      result.push({
-        groupId: id,
-        cardIds: Array.from(group),
-      })
-
-      processedGroups.add(group)
-    })
-
-    return result
-  }
-
-  const handleDragEnd = event => {
-    const { active, delta } = event
+  const handleDragEnd = ({ active, delta }) => {
     const ideaId = active.id
 
     const currentIdea = ideas.find(idea => idea.id === ideaId)
     const currentX = currentIdea?.x ? currentIdea.x : 0
     const currentY = currentIdea?.y ? currentIdea.y : 0
 
-    const newX = currentX + delta.x
-    const newY = currentY + delta.y
+    const updatedPosition = { id: ideaId, x: currentX + delta.x, y: currentY + delta.y }
 
-    // Update position in the store and persist to server
-    actions.ideaDraggedInGroupingStage({ id: ideaId, x: newX, y: newY })
-    // When drag ends, submit the final position to be persisted
-    actions.submitIdeaEditAsync({ id: ideaId, x: newX, y: newY })
+    actions.ideaDraggedInGroupingStage(updatedPosition)
+    actions.submitIdeaEditAsync(updatedPosition)
 
-    const newGroups = findConnectedGroups()
-    setGroups(newGroups)
-
+    setGroups(IdeaCardGrouping.findConnectedGroups(cardRefs.current))
     setActiveDraggable(null)
   }
 
@@ -152,9 +75,9 @@ export const GroupingBoard = props => {
         {/* Remove old stuff, including tests */}
         {/* Tests */}
         {/* x - Location of cards persists when nav off page */}
-        {/* All users see the dragging cards and groupings live - not local state */}
         {/* x - Styles */}
-        {/* Can we keep the color the same for the group instead of having it tansition sometimes? */}
+        {/* All users see the dragging cards and groupings live - not local state */}
+        {/* Groupings not working on on non dragging screen. I believe this is happening because of local state vs. grouping on the server correctly.  */}
         <DndContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
