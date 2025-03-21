@@ -13,7 +13,7 @@ import IdeaCardGrouping from "../services/idea_card_grouping"
 const CATEGORIES_TO_DISPLAY = ["start", "stop", "continue"]
 
 export const GroupingBoard = props => {
-  const { ideas, actions, userOptions } = props
+  const { ideas, actions, userOptions, currentUser } = props
 
   const [activeDraggable, setActiveDraggable] = useState(null)
   const [groups, setGroups] = useState([])
@@ -44,6 +44,11 @@ export const GroupingBoard = props => {
 
   const handleDragStart = ({ active }) => {
     setActiveDraggable(active.id)
+
+    // This is in place to prevent the user from dragging a card that is already being dragged by another user
+    // If we want to get rid of this approach we will want to remove the dragging_user_id from the model, remove all instances of it in the code,
+    // and also remove our use of currentUser in the GroupingStage component, here, and in the GroupingCard component
+    actions.updateIdea(active.id, { dragging_user_id: currentUser.id })
   }
 
   const handleDragEnd = ({ active, delta }) => {
@@ -60,6 +65,8 @@ export const GroupingBoard = props => {
 
     setGroups(IdeaCardGrouping.findConnectedGroups(cardRefs.current))
     setActiveDraggable(null)
+
+    actions.updateIdea(active.id, { dragging_user_id: null })
   }
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
@@ -85,7 +92,7 @@ export const GroupingBoard = props => {
         >
           <div className={eligibleDragAreaClassname}>
             {ideasSortedByBodyLengthAscending.map(idea => {
-              const { id, body, category, x = 0, y = 0 } = idea
+              const { id, body, category, x = 0, y = 0, dragging_user_id: draggingUserId } = idea
               const group = groups.find(group => group.cardIds.includes(id))
               const groupId = group ? group.groupId : null
 
@@ -96,6 +103,8 @@ export const GroupingBoard = props => {
                   top={y}
                   left={x}
                   isActive={activeDraggable === id}
+                  draggingUserId={draggingUserId}
+                  currentUser={currentUser}
                   groupId={groupId}
                   userOptions={userOptions}
                   actions={actions}
@@ -125,9 +134,9 @@ export const GroupingBoard = props => {
 
 GroupingBoard.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
-  userOptions: AppPropTypes.userOptions.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
   actions: PropTypes.object.isRequired,
+  userOptions: AppPropTypes.userOptions.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
 }
 
 export default GroupingBoard

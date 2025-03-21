@@ -17,7 +17,7 @@ class GroupingStage extends Component {
   }
 
   render() {
-    const { ideas, actions, userOptions } = this.props
+    const { ideas, actions, userOptions, currentUser } = this.props
 
     const ideasWithEphemeralGroupingIds = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
 
@@ -27,6 +27,7 @@ class GroupingStage extends Component {
           ideas={ideasWithEphemeralGroupingIds}
           actions={actions}
           userOptions={userOptions}
+          currentUser={currentUser}
         />
 
         <div className="ui dimmer visible transition active device">
@@ -59,6 +60,7 @@ GroupingStage.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   actions: PropTypes.object.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
 }
 
 export default GroupingStage
