@@ -64,13 +64,10 @@ const GroupingCard = forwardRef(
 
     const classes = cx("idea-card", styles.wrapper)
 
-    // Probably can refactor this if we keep this approach
-    return isDifferentUserDragging ? (
-      <p className={classes} ref={setRefs} style={style}>
-        {children}
-      </p>
-    ) : (
-      <p className={classes} ref={setRefs} style={style} {...listeners} {...attributes}>
+    const conditionalDraggingProps = isDifferentUserDragging ? {} : { ...listeners, ...attributes }
+
+    return (
+      <p className={classes} ref={setRefs} style={style} {...conditionalDraggingProps}>
         {children}
       </p>
     )
