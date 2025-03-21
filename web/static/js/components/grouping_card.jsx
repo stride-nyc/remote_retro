@@ -41,7 +41,7 @@ const GroupingCard = forwardRef(({
     transform: CSS.Translate.toString(transform),
     margin: "4px 0 0 4px",
     WebkitTransform: CSS.Translate.toString(transform),
-    zIndex: isActive ? 1 : 0,
+    opacity: isActive ? 0.5 : 1,
     cursor: "move",
   }
 
