@@ -22,9 +22,9 @@ export const GroupingBoard = props => {
   const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
 
   useEffect(() => {
-    const initialGroups = IdeaCardGrouping.findConnectedGroups(cardRefs.current)
-    setGroups(initialGroups)
-  }, [])
+    const newGroups = IdeaCardGrouping.findConnectedGroups(cardRefs.current)
+    setGroups(newGroups)
+  }, [ideas])
 
   useEffect(() => {
     const ideaGroupMap = new Map()
