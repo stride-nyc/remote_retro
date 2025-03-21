@@ -83,8 +83,9 @@ export const GroupingBoard = props => {
         {/* Tests */}
         {/* x - Location of cards persists when nav off page */}
         {/* x - Styles */}
-        {/* All users see the dragging cards and groupings live - not local state */}
-        {/* Groupings not working on on non dragging screen. I believe this is happening because of local state vs. grouping on the server correctly.  */}
+        {/* NICE TO HAVE: All users see the dragging cards and groupings live - not local state */}
+        {/* need to test - disable card when dragged by another user until drag stops */}
+        {/* x- Groupings not working on on non dragging screen. */}
         <DndContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
@@ -106,14 +107,14 @@ export const GroupingBoard = props => {
                   draggingUserId={draggingUserId}
                   currentUser={currentUser}
                   groupId={groupId}
+                  category={category}
                   userOptions={userOptions}
                   actions={actions}
                   ref={el => {
                     cardRefs.current[id] = el
                   }}
                 >
-                  {/* TODO: Could probably do this more elegantly - want to only display cats for Start/Stop/Continue & remove sentiment categories even tho they exist */}
-                  <span>{CATEGORIES_TO_DISPLAY.includes(category) ? `(${category}) ${body}` : body}</span>
+                  <span>{body}</span>
                 </GroupingCard>
               )
             })}

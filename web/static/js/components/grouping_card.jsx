@@ -23,6 +23,7 @@ const GroupingCard = forwardRef(
       draggingUserId,
       currentUser,
       groupId,
+      category,
       userOptions: { highContrastOn },
       children,
     }, ref
@@ -67,7 +68,7 @@ const GroupingCard = forwardRef(
     const conditionalDraggingProps = isDifferentUserDragging ? {} : { ...listeners, ...attributes }
 
     return (
-      <p className={classes} ref={setRefs} style={style} {...conditionalDraggingProps}>
+      <p className={classes} ref={setRefs} style={style} data-category={category} {...conditionalDraggingProps}>
         {children}
       </p>
     )
@@ -82,6 +83,7 @@ GroupingCard.propTypes = {
   draggingUserId: PropTypes.number,
   currentUser: AppPropTypes.presence.isRequired,
   groupId: PropTypes.number,
+  category: PropTypes.string.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
   children: PropTypes.node.isRequired,
 }
