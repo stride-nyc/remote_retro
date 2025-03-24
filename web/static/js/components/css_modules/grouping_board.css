@@ -39,7 +39,6 @@
 .side-gutter {
   composes: gutter;
   flex-grow: 0;
-  z-index: 2;
 
   /*
     we can't use css variables within media queries, but the breakpoints at
@@ -56,7 +55,6 @@
 .bottom-gutter {
   composes: gutter;
   flex-grow: 100;
-  z-index: 2;
 
   /* see comment above regarding relationship between breakpoints and grouping board dimensions */
   @media (min-height: 805px) {
