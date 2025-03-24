@@ -6,7 +6,6 @@ import LowerThird from "./lower_third"
 import GroupingBoard from "./grouping_board"
 
 import * as AppPropTypes from "../prop_types"
-import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
 
 import styles from "./css_modules/grouping_stage.css"
 
@@ -19,12 +18,10 @@ class GroupingStage extends Component {
   render() {
     const { ideas, actions, userOptions, currentUser } = this.props
 
-    const ideasWithEphemeralGroupingIds = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
-
     return (
       <div className={styles.wrapper}>
         <GroupingBoard
-          ideas={ideasWithEphemeralGroupingIds}
+          ideas={ideas}
           actions={actions}
           userOptions={userOptions}
           currentUser={currentUser}

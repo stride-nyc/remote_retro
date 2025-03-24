@@ -10,8 +10,6 @@ import StageChangeInfoGroupsLabeling from "../components/stage_change_info_group
 import StageChangeInfoGroupsVoting from "../components/stage_change_info_groups_voting"
 import StageChangeInfoClosed from "../components/stage_change_info_closed"
 import StageChangeInfoActionItems from "../components/stage_change_info_action_items"
-// DO WE NEED THIS
-import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
 
 import { selectors } from "../redux/votes"
 
@@ -92,7 +90,7 @@ export default {
     progressionButton: {
       nextStage: GROUPS_LABELING,
       optionalParamsAugmenter: reduxState => ({
-        ideasWithEphemeralGroupingIds: IdeasWithEphemeralGroupingIds.buildFrom(reduxState.ideas),
+        ideasWithEphemeralGroupingIds: reduxState.ideas,
       }),
       copy: "Group Labeling",
       iconClass: "arrow right",
