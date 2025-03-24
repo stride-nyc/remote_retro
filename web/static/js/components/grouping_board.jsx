@@ -10,16 +10,13 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/grouping_board.css"
 import IdeaCardGrouping from "../services/idea_card_grouping"
 
-const CATEGORIES_TO_DISPLAY = ["start", "stop", "continue"]
-
 export const GroupingBoard = props => {
   const { ideas, actions, userOptions, currentUser } = props
 
   const [activeDraggable, setActiveDraggable] = useState(null)
   const [groups, setGroups] = useState([])
-  const cardRefs = useRef({})
 
-  const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+  const cardRefs = useRef({})
 
   useEffect(() => {
     const newGroups = IdeaCardGrouping.findConnectedGroups(cardRefs.current)
@@ -69,6 +66,8 @@ export const GroupingBoard = props => {
     actions.updateIdea(active.id, { dragging_user_id: null })
   }
 
+  const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
   const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
@@ -93,21 +92,17 @@ export const GroupingBoard = props => {
         >
           <div className={eligibleDragAreaClassname}>
             {ideasSortedByBodyLengthAscending.map(idea => {
-              const { id, body, category, x = 0, y = 0, dragging_user_id: draggingUserId } = idea
+              const { id, body } = idea
               const group = groups.find(group => group.cardIds.includes(id))
               const groupId = group ? group.groupId : null
 
               return (
                 <GroupingCard
                   key={id}
-                  id={id}
-                  top={y}
-                  left={x}
+                  idea={idea}
                   isActive={activeDraggable === id}
-                  draggingUserId={draggingUserId}
                   currentUser={currentUser}
                   groupId={groupId}
-                  category={category}
                   userOptions={userOptions}
                   actions={actions}
                   ref={el => {

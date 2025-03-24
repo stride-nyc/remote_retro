@@ -40,15 +40,12 @@ export class GroupsContainer extends Component {
     const { isGroupsListOverflowed } = this.state
     const {
       alert = null,
-      // HERE IS WHERE WE HAVE THE GROUPS PASSED IN
       groupsWithAssociatedIdeasAndVotes,
       currentUser,
       actions,
       stage,
       currentUserHasExhaustedVotes,
     } = this.props
-
-    console.log("groupsWithAssociatedIdeasAndVotes", groupsWithAssociatedIdeasAndVotes)
 
     const isLabelingOrVotingStage = [GROUPS_LABELING, GROUPS_VOTING].includes(stage)
     const hasAdvancedPastVotingStage = !isLabelingOrVotingStage
@@ -120,7 +117,6 @@ GroupsContainer.propTypes = {
 }
 
 const mapStateToProps = (state, { currentUser }) => {
-  console.log("shhhh", state)
   return ({
     alert: state.alert,
     groupsWithAssociatedIdeasAndVotes: selectors.groupsWithAssociatedIdeasAndVotes(state),

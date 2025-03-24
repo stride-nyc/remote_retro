@@ -16,27 +16,21 @@ const COLOR_BLACK = "#000000"
 const GroupingCard = forwardRef(
   (
     {
-      id,
-      top,
-      left,
+      idea,
       isActive,
-      draggingUserId,
       currentUser,
       groupId,
-      category,
       userOptions: { highContrastOn },
       children,
     }, ref
   ) => {
+    const { id, category, x: left = 0, y: top = 0, dragging_user_id: draggingUserId } = idea
     const { attributes, listeners, setNodeRef: draggableRef, transform } = useDraggable({ id })
 
-    const localRef = useRef(null)
     const setRefs = useCallback(element => {
       draggableRef(element)
-      localRef.current = element
 
       if (!ref) return
-
       if (typeof ref === "function") {
         ref(element)
       } else {
@@ -68,7 +62,13 @@ const GroupingCard = forwardRef(
     const conditionalDraggingProps = isDifferentUserDragging ? {} : { ...listeners, ...attributes }
 
     return (
-      <p className={classes} ref={setRefs} style={style} data-category={category} {...conditionalDraggingProps}>
+      <p
+        className={classes}
+        ref={setRefs}
+        style={style}
+        data-category={category}
+        {...conditionalDraggingProps}
+      >
         {children}
       </p>
     )
@@ -76,14 +76,10 @@ const GroupingCard = forwardRef(
 )
 
 GroupingCard.propTypes = {
-  id: PropTypes.number.isRequired,
-  top: PropTypes.number.isRequired,
-  left: PropTypes.number.isRequired,
+  idea: AppPropTypes.idea.isRequired,
   isActive: PropTypes.bool,
-  draggingUserId: PropTypes.number,
   currentUser: AppPropTypes.presence.isRequired,
   groupId: PropTypes.number,
-  category: PropTypes.string.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
   children: PropTypes.node.isRequired,
 }
