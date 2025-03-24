@@ -7,7 +7,6 @@ import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grou
 // TODO: This should be fixed but need new ticket to keep scope in check
 // eslint-disable-next-line import/no-cycle
 import LowerThird from "./lower_third"
-// import GroupingBoard from "./grouping_board_old"
 import GroupingBoard from "./grouping_board"
 import styles from "./css_modules/grouping_stage.css"
 

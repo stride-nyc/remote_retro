@@ -116,12 +116,10 @@ GroupsContainer.propTypes = {
   alert: AppPropTypes.alert,
 }
 
-const mapStateToProps = (state, { currentUser }) => {
-  return ({
-    alert: state.alert,
-    groupsWithAssociatedIdeasAndVotes: selectors.groupsWithAssociatedIdeasAndVotes(state),
-    currentUserHasExhaustedVotes: selectors.currentUserHasExhaustedVotes(state, currentUser),
-  })
-}
+const mapStateToProps = (state, { currentUser }) => ({
+  alert: state.alert,
+  groupsWithAssociatedIdeasAndVotes: selectors.groupsWithAssociatedIdeasAndVotes(state),
+  currentUserHasExhaustedVotes: selectors.currentUserHasExhaustedVotes(state, currentUser),
+})
 
 export default connect(mapStateToProps)(GroupsContainer)
