@@ -12,7 +12,7 @@ import * as AppPropTypes from "../prop_types"
 import { dragSourceSpec, collect } from "./draggable_idea_content"
 import ColorPicker from "../services/color_picker"
 import { COLLISION_BUFFER } from "../services/collisions"
-import styles from "./css_modules/grouping_idea_card.css"
+import styles from "./css_modules/grouping_card.css"
 
 const COLOR_BLACK = "#000000"
 

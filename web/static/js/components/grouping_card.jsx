@@ -1,15 +1,13 @@
-import React, { useCallback, forwardRef, useEffect, useRef } from "react"
+import React, { useCallback, forwardRef } from "react"
 import PropTypes from "prop-types"
 import { useDraggable } from "@dnd-kit/core"
-// TODO: Fix import
 import { CSS } from "@dnd-kit/utilities"
 import cx from "classnames"
 
 import * as AppPropTypes from "../prop_types"
-
 import ColorPicker from "../services/color_picker"
-// TODO: Rename file name to grouping_card.css
-import styles from "./css_modules/grouping_idea_card.css"
+
+import styles from "./css_modules/grouping_card.css"
 
 const COLOR_BLACK = "#000000"
 

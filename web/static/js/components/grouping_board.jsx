@@ -2,13 +2,14 @@ import React, { useState, useEffect, useRef } from "react"
 import { DndContext } from "@dnd-kit/core"
 import { restrictToParentElement } from "@dnd-kit/modifiers"
 import orderBy from "lodash/orderBy"
-
 import PropTypes from "prop-types"
 import cx from "classnames"
-import GroupingCard from "./grouping_card"
+
 import * as AppPropTypes from "../prop_types"
-import styles from "./css_modules/grouping_board.css"
 import IdeaCardGrouping from "../services/idea_card_grouping"
+
+import GroupingCard from "./grouping_card"
+import styles from "./css_modules/grouping_board.css"
 
 export const GroupingBoard = props => {
   const { ideas, actions, userOptions, currentUser } = props
@@ -42,9 +43,12 @@ export const GroupingBoard = props => {
   const handleDragStart = ({ active }) => {
     setActiveDraggable(active.id)
 
-    // This is in place to prevent the user from dragging a card that is already being dragged by another user
-    // If we want to get rid of this approach we will want to remove the dragging_user_id from the model, remove all instances of it in the code,
-    // and also remove our use of currentUser in the GroupingStage component, here, and in the GroupingCard component
+    // This is in place to prevent the user from dragging a card
+    // that is already being dragged by another user
+    // If we want to get rid of this approach we will want to remove the
+    // dragging_user_id from the model, remove all instances of it in the code,
+    // and also remove our use of currentUser in the GroupingStage component,
+    // here, and in the GroupingCard component
     actions.updateIdea(active.id, { dragging_user_id: currentUser.id })
   }
 
@@ -75,16 +79,6 @@ export const GroupingBoard = props => {
   return (
     <React.Fragment>
       <div className={styles.boardAndSideGutterWrapper}>
-        {/* Setup a11y */}
-        {/* x - Figure out collsion detection */}
-        {/* x - Groupings based off collision detection */}
-        {/* Remove old stuff, including tests */}
-        {/* Tests */}
-        {/* x - Location of cards persists when nav off page */}
-        {/* x - Styles */}
-        {/* NICE TO HAVE: All users see the dragging cards and groupings live - not local state */}
-        {/* need to test - disable card when dragged by another user until drag stops */}
-        {/* x- Groupings not working on on non dragging screen. */}
         <DndContext
           onDragStart={handleDragStart}
           onDragEnd={handleDragEnd}
