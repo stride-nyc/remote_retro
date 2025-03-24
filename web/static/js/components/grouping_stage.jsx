@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
 
+// TODO: This should be fixed but need new ticket to keep scope in check
 // eslint-disable-next-line import/no-cycle
 import LowerThird from "./lower_third"
 // import GroupingBoard from "./grouping_board_old"
