@@ -8,29 +8,29 @@ describe("ContactUs", () => {
       given_name: "Joe Bob",
     }
 
-    it("builds out a query-paramed link to stride's contact us page", () => {
+    test("builds out a query-paramed link to stride's contact us page", () => {
       const result = ContactUs.buildPrepulatedFormForUser(stubUser)
-      expect(result.startsWith("https://www.stridenyc.com/contact?")).to.eql(true)
+      expect(result.startsWith("https://www.stridenyc.com/contact?")).toBe(true)
     })
 
-    it("identifes the referrer as RemoteRetro", () => {
+    test("identifes the referrer as RemoteRetro", () => {
       const result = ContactUs.buildPrepulatedFormForUser(stubUser)
-      expect(result).to.contain("referrer=RemoteRetro")
+      expect(result).toContain("referrer=RemoteRetro")
     })
 
-    it("encodes the user's first name as a query parameter", () => {
+    test("encodes the user's first name as a query parameter", () => {
       const result = ContactUs.buildPrepulatedFormForUser(stubUser)
-      expect(result).to.contain("firstname=Joe%20Bob")
+      expect(result).toContain("firstname=Joe%20Bob")
     })
 
-    it("encodes the user's last name as a query parameter", () => {
+    test("encodes the user's last name as a query parameter", () => {
       const result = ContactUs.buildPrepulatedFormForUser(stubUser)
-      expect(result).to.contain("lastname=Vander%20Hoop")
+      expect(result).toContain("lastname=Vander%20Hoop")
     })
 
-    it("encodes the user's email as a query parameter", () => {
+    test("encodes the user's email as a query parameter", () => {
       const result = ContactUs.buildPrepulatedFormForUser(stubUser)
-      expect(result).to.contain("email=jb.vanderhoop%40stridenyc.com")
+      expect(result).toContain("email=jb.vanderhoop%40stridenyc.com")
     })
 
     describe("when the user lacks a last name", () => {
@@ -40,9 +40,9 @@ describe("ContactUs", () => {
         family_name: undefined,
       }
 
-      it("does not include a lastname query param", () => {
+      test("does not include a lastname query param", () => {
         const result = ContactUs.buildPrepulatedFormForUser(user)
-        expect(result).to.not.contain("lastname")
+        expect(result).not.toContain("lastname")
       })
     })
   })

@@ -16,8 +16,8 @@ const defaultProps = {
 }
 
 describe("<ContactStrideCTA />", () => {
-  context("when there is no alert to display to the user", () => {
-    it("applies an active class to the wrapper", () => {
+  describe("when there is no alert to display to the user", () => {
+    test("applies an active class to the wrapper", () => {
       const wrapper = shallow(
         <ContactStrideCTA
           {...defaultProps}
@@ -25,12 +25,12 @@ describe("<ContactStrideCTA />", () => {
         />
       )
 
-      expect(wrapper.find(".active")).to.have.lengthOf(1)
+      expect(wrapper.find(".active")).toHaveLength(1)
     })
   })
 
-  context("when there *is* an alert to display to the user", () => {
-    it("does *not* apply an active class to the wrapper", () => {
+  describe("when there *is* an alert to display to the user", () => {
+    test("does *not* apply an active class to the wrapper", () => {
       const wrapper = shallow(
         <ContactStrideCTA
           {...defaultProps}
@@ -38,7 +38,7 @@ describe("<ContactStrideCTA />", () => {
         />
       )
 
-      expect(wrapper.find(".active")).to.have.lengthOf(0)
+      expect(wrapper.find(".active")).toHaveLength(0)
     })
   })
 })

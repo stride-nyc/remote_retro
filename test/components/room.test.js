@@ -28,7 +28,7 @@ describe("Room", () => {
     stubComponent = () => <div>Stub Component</div>
   })
 
-  it("renders an instance of that UI component", () => {
+  test("renders an instance of that UI component", () => {
     room = shallow(
       <Room
         {...defaultProps}
@@ -40,10 +40,10 @@ describe("Room", () => {
 
     const uiComponent = room.find(stubComponent)
 
-    expect(uiComponent).to.have.length(1)
+    expect(uiComponent).toHaveLength(1)
   })
 
-  it("passes any and all props down to the specified UI component", () => {
+  test("passes any and all props down to the specified UI component", () => {
     room = shallow(
       <Room
         {...defaultProps}
@@ -56,6 +56,6 @@ describe("Room", () => {
 
     const uiComponent = room.find(stubComponent)
 
-    expect(uiComponent.prop("fart")).to.eql("store")
+    expect(uiComponent.prop("fart")).toEqual("store")
   })
 })

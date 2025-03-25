@@ -2,8 +2,8 @@ import Collisions from "../../web/static/js/services/collisions"
 
 describe("Collisions", () => {
   describe("identifyAllIdeaCollisionsSortedByIdAscending", () => {
-    it("identifies no collisions in an empty list", () => {
-      expect(Collisions.identifyAllIdeaCollisionsSortedByIdAscending([])).to.deep.equal(new Map())
+    test("identifies no collisions in an empty list", () => {
+      expect(Collisions.identifyAllIdeaCollisionsSortedByIdAscending([])).toEqual(new Map())
     })
 
     describe("when two ideas' dimensions do not overlap", () => {
@@ -21,9 +21,9 @@ describe("Collisions", () => {
         width: 20,
       }]
 
-      it("does not identify any collisions", () => {
+      test("does not identify any collisions", () => {
         const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
-        expect(result).to.deep.equal(new Map([]))
+        expect(result).toEqual(new Map([]))
       })
     })
 
@@ -42,14 +42,14 @@ describe("Collisions", () => {
         width: 20,
       }]
 
-      it("identifies the collision between two ideas under a key of their lowest id", () => {
+      test("identifies the collision between two ideas under a key of their lowest id", () => {
         const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
-        expect(result.get(1)).to.deep.equal(new Set([1, 2]))
+        expect(result.get(1)).toEqual(new Set([1, 2]))
       })
 
-      it("does not duplicate the collision under the higher id of the two ideas", () => {
+      test("does not duplicate the collision under the higher id of the two ideas", () => {
         const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
-        expect(result.get(2)).to.be.an("undefined")
+        expect(result.get(2)).toBeUndefined()
       })
 
       describe("when the ideas are given in an order where larger ids precede smaller ones", () => {
@@ -67,9 +67,9 @@ describe("Collisions", () => {
           width: 20,
         }]
 
-        it("identifies the collision between two ideas under a key of their lowest id", () => {
+        test("identifies the collision between two ideas under a key of their lowest id", () => {
           const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
-          expect(result.get(2)).to.deep.equal(new Set([2, 3]))
+          expect(result.get(2)).toEqual(new Set([2, 3]))
         })
       })
     })
@@ -89,9 +89,9 @@ describe("Collisions", () => {
         width: undefined,
       }]
 
-      it("does not register them as collisions", () => {
+      test("does not register them as collisions", () => {
         const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
-        expect(result).to.deep.equal(new Map())
+        expect(result).toEqual(new Map())
       })
     })
 
@@ -110,9 +110,9 @@ describe("Collisions", () => {
         width: 20,
       }]
 
-      it("registers the collision due to their being within the 3px collision buffer", () => {
+      test("registers the collision due to their being within the 3px collision buffer", () => {
         const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
-        expect(result.values()).to.include(new Set([2, 3]))
+        expect(Array.from(result.values())).toContainEqual(new Set([2, 3]))
       })
     })
 
@@ -131,9 +131,9 @@ describe("Collisions", () => {
         width: 20,
       }]
 
-      it("registers the collision due to their being within the 3px collision buffer", () => {
+      test("registers the collision due to their being within the 3px collision buffer", () => {
         const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
-        expect(result.values()).to.include(new Set([4, 5]))
+        expect(Array.from(result.values())).toContainEqual(new Set([4, 5]))
       })
     })
 
@@ -152,9 +152,9 @@ describe("Collisions", () => {
         width: 20,
       }]
 
-      it("registers the collision due to their being within the 3px collision buffer", () => {
+      test("registers the collision due to their being within the 3px collision buffer", () => {
         const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
-        expect(result.values()).to.include(new Set([8, 9]))
+        expect(Array.from(result.values())).toContainEqual(new Set([8, 9]))
       })
     })
 
@@ -179,24 +179,24 @@ describe("Collisions", () => {
         width: 20,
       }]
 
-      it("consolidates *all* three under the highest id of the three ideas", () => {
+      test("consolidates *all* three under the highest id of the three ideas", () => {
         const result = Collisions.identifyAllIdeaCollisionsSortedByIdAscending(ideas)
 
-        expect(result.get(1)).to.deep.equal(new Set([1, 2, 3]))
+        expect(result.get(1)).toEqual(new Set([1, 2, 3]))
       })
     })
   })
 
   describe(".merge", () => {
-    it("leaves single collisions untouched", () => {
+    test("leaves single collisions untouched", () => {
       const collisionsMap = new Map([[348, new Set([348, 349])]])
 
       const result = Collisions.merge(collisionsMap)
 
-      expect(result).to.deep.equal(collisionsMap)
+      expect(result).toEqual(collisionsMap)
     })
 
-    it("merges collisions with a single degree of separation, housing them under the lowest id key", () => {
+    test("merges collisions with a single degree of separation, housing them under the lowest id key", () => {
       const collisionsMap = new Map([
         [348, new Set([348, 349])],
         [349, new Set([349, 350])],
@@ -204,12 +204,12 @@ describe("Collisions", () => {
 
       const result = Collisions.merge(collisionsMap)
 
-      expect(result).to.deep.equal(
+      expect(result).toEqual(
         new Map([[348, new Set([348, 349, 350])]])
       )
     })
 
-    it("merges collisions with 2+ degrees of separation, housing them under lowest id key", () => {
+    test("merges collisions with 2+ degrees of separation, housing them under lowest id key", () => {
       const collisionsMap = new Map([
         [348, new Set([348, 349])],
         [349, new Set([349, 350])],
@@ -218,12 +218,12 @@ describe("Collisions", () => {
 
       const result = Collisions.merge(collisionsMap)
 
-      expect(result).to.deep.equal(
+      expect(result).toEqual(
         new Map([[348, new Set([348, 349, 350, 351])]])
       )
     })
 
-    it("connects the keys-value pairs via intersection of their value sets ", () => {
+    test("connects the keys-value pairs via intersection of their value sets ", () => {
       const collisionsMap = new Map([
         [1, new Set([1, 4])],
         [3, new Set([3, 4])],
@@ -231,12 +231,12 @@ describe("Collisions", () => {
 
       const result = Collisions.merge(collisionsMap)
 
-      expect(result).to.deep.equal(
+      expect(result).toEqual(
         new Map([[1, new Set([1, 4, 3])]])
       )
     })
 
-    it("consolidates *multiple* collision clusters, ", () => {
+    test("consolidates *multiple* collision clusters, ", () => {
       const collisionsMap = new Map([
         [1, new Set([1, 4, 7])],
         [2, new Set([2, 4])],
@@ -246,14 +246,14 @@ describe("Collisions", () => {
 
       const result = Collisions.merge(collisionsMap)
 
-      expect(result).to.deep.equal(new Map([
+      expect(result).toEqual(new Map([
         [1, new Set([1, 4, 2, 7])],
         [5, new Set([5, 9, 11, 13])],
       ]))
     })
 
     describe("when a non-first, non-last key is only connected to a collision by shared values", () => {
-      it("includes that key in the consolidated grouping", () => {
+      test("includes that key in the consolidated grouping", () => {
         const collisionsMap = new Map([
           [376, new Set([376, 387])],
           [380, new Set([380, 390])],
@@ -262,7 +262,7 @@ describe("Collisions", () => {
 
         const result = Collisions.merge(collisionsMap)
 
-        expect(result.get(376)).to.include(380)
+        expect(result.get(376)).toContain(380)
       })
     })
   })

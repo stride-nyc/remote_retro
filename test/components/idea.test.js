@@ -27,7 +27,7 @@ describe("Idea component", () => {
     idea,
   }
 
-  context("when the idea is being edited locally", () => {
+  describe("when the idea is being edited locally", () => {
     const ideaInEditState = { ...idea, inEditState: true, isLocalEdit: true }
 
     const wrapper = shallow(
@@ -37,11 +37,11 @@ describe("Idea component", () => {
       />
     )
 
-    it("renders an <IdeaEditForm/> as a child", () => {
-      expect(wrapper.find(IdeaEditForm).length).to.equal(1)
+    test("renders an <IdeaEditForm/> as a child", () => {
+      expect(wrapper.find(IdeaEditForm).length).toBe(1)
     })
 
-    context("when the idea is being edited on a *different* client", () => {
+    describe("when the idea is being edited on a *different* client", () => {
       const ideaInEditState = { ...idea, inEditState: true, isLocalEdit: false }
       const wrapper = shallow(
         <Idea
@@ -50,11 +50,11 @@ describe("Idea component", () => {
         />
       )
 
-      it("does not render an <IdeaEditForm/> as a child", () => {
-        expect(wrapper.find(IdeaEditForm).length).to.equal(0)
+      test("does not render an <IdeaEditForm/> as a child", () => {
+        expect(wrapper.find(IdeaEditForm).length).toBe(0)
       })
 
-      context("when the idea has a `liveEditText` value", () => {
+      describe("when the idea has a `liveEditText` value", () => {
         const wrapper = shallow(
           <Idea
             {...defaultProps}
@@ -62,14 +62,14 @@ describe("Idea component", () => {
           />
         )
 
-        it("renders the <IdeaLiveEditContent /> as a child", () => {
-          expect(wrapper.find(IdeaLiveEditContent).length).to.equal(1)
+        test("renders the <IdeaLiveEditContent /> as a child", () => {
+          expect(wrapper.find(IdeaLiveEditContent).length).toBe(1)
         })
       })
     })
   })
 
-  context("when the idea is not in an edit state", () => {
+  describe("when the idea is not in an edit state", () => {
     const ideaInDefaultState = { ...idea, inEditState: false }
 
     const wrapper = shallow(
@@ -79,16 +79,16 @@ describe("Idea component", () => {
       />
     )
 
-    it("renders <ConditionallyDraggableIdeaContent /> as a child", () => {
-      expect(wrapper.find(ConditionallyDraggableIdeaContent).length).to.equal(1)
+    test("renders <ConditionallyDraggableIdeaContent /> as a child", () => {
+      expect(wrapper.find(ConditionallyDraggableIdeaContent).length).toBe(1)
     })
 
-    it("does not render <IdeaEditForm/> as a child", () => {
-      expect(wrapper.find(IdeaEditForm).length).to.equal(0)
+    test("does not render <IdeaEditForm/> as a child", () => {
+      expect(wrapper.find(IdeaEditForm).length).toBe(0)
     })
 
-    it("does not render <IdeaLiveEditContent/> as a child", () => {
-      expect(wrapper.find(IdeaLiveEditContent).length).to.equal(0)
+    test("does not render <IdeaLiveEditContent/> as a child", () => {
+      expect(wrapper.find(IdeaLiveEditContent).length).toBe(0)
     })
   })
 })
