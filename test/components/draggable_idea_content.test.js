@@ -1,10 +1,20 @@
-import sinon from "sinon"
+import "@testing-library/jest-dom"
 import { dragSourceSpec, collect } from "../../web/static/js/components/draggable_idea_content"
+
+jest.mock("react-dnd", () => {
+  return {
+    DragSource: () => component => component,
+    DropTarget: () => component => component,
+    useDrag: () => [{}, () => {}],
+    useDrop: () => [{}, () => {}],
+    DndProvider: ({ children }) => children,
+  }
+})
 
 describe("DraggableIdeaContent", () => {
   describe("dragSourceSpec", () => {
     describe("#beginDrag", () => {
-      it("returns an object with a `draggedIdea` id and editable attributes", () => {
+      test("returns an object with a `draggedIdea` id and editable attributes", () => {
         const props = {
           idea: {
             id: 666,
@@ -16,7 +26,7 @@ describe("DraggableIdeaContent", () => {
           },
         }
 
-        expect(dragSourceSpec.beginDrag(props)).to.eql({
+        expect(dragSourceSpec.beginDrag(props)).toEqual({
           draggedIdea: {
             id: 666,
             category: "sad",
@@ -28,7 +38,7 @@ describe("DraggableIdeaContent", () => {
     })
 
     describe("#canDrag", () => {
-      it("returns false when the idea is in an edit state", () => {
+      test("returns false when the idea is in an edit state", () => {
         const props = {
           idea: {
             id: 666,
@@ -36,10 +46,10 @@ describe("DraggableIdeaContent", () => {
           },
         }
 
-        expect(dragSourceSpec.canDrag(props)).to.eql(false)
+        expect(dragSourceSpec.canDrag(props)).toEqual(false)
       })
 
-      it("returns true when the idea is not in an edit state", () => {
+      test("returns true when the idea is not in an edit state", () => {
         const props = {
           idea: {
             id: 666,
@@ -47,7 +57,7 @@ describe("DraggableIdeaContent", () => {
           },
         }
 
-        expect(dragSourceSpec.canDrag(props)).to.eql(true)
+        expect(dragSourceSpec.canDrag(props)).toEqual(true)
       })
     })
 
@@ -55,11 +65,11 @@ describe("DraggableIdeaContent", () => {
       let submitIdeaEditAsyncSpy
 
       beforeEach(() => {
-        submitIdeaEditAsyncSpy = sinon.spy()
+        submitIdeaEditAsyncSpy = jest.fn()
       })
 
       describe("when the given idea has numeric x/y coordinates", () => {
-        it("tells the server to persist the most up to date coordinates", () => {
+        test("tells the server to persist the most up to date coordinates", () => {
           const props = {
             idea: {
               id: 666,
@@ -73,12 +83,12 @@ describe("DraggableIdeaContent", () => {
 
           dragSourceSpec.endDrag(props)
 
-          expect(submitIdeaEditAsyncSpy).to.have.been.calledWith({ id: 666, x: 0, y: 100 })
+          expect(submitIdeaEditAsyncSpy).toHaveBeenCalledWith({ id: 666, x: 0, y: 100 })
         })
       })
 
       describe("when the given idea *lacks* numeric x/y coordinates", () => {
-        it("doesn't instruct the server to persist the most up to date coordinates", () => {
+        test("doesn't instruct the server to persist the most up to date coordinates", () => {
           const props = {
             idea: {
               id: 666,
@@ -92,42 +102,39 @@ describe("DraggableIdeaContent", () => {
 
           dragSourceSpec.endDrag(props)
 
-          expect(submitIdeaEditAsyncSpy).to.not.have.been.called
+          expect(submitIdeaEditAsyncSpy).not.toHaveBeenCalled()
         })
       })
     })
   })
 
   describe("collect", () => {
-    let monitorMock
     let connectMock
 
-    it("passes a custom drag preview func needed for changing the dragged idea's appearance mid-drag", () => {
+    test("passes a custom drag preview func needed for changing the dragged idea's appearance mid-drag", () => {
       const dragPreviewStub = () => {}
 
-      monitorMock = { isDragging: sinon.stub() }
       connectMock = {
         dragPreview: () => (dragPreviewStub),
-        dragSource: sinon.stub(),
+        dragSource: jest.fn(),
       }
 
-      const result = collect(connectMock, monitorMock)
+      const result = collect(connectMock)
 
-      expect(Object.values(result)).to.contain(dragPreviewStub)
+      expect(Object.values(result)).toContain(dragPreviewStub)
     })
 
-    it("passes the dragSource function returned by connect.dragSource", () => {
+    test("passes the dragSource function returned by connect.dragSource", () => {
       const dragSourceStub = () => {}
 
-      monitorMock = { isDragging: sinon.stub() }
       connectMock = {
-        dragPreview: sinon.stub(),
+        dragPreview: jest.fn(),
         dragSource: () => (dragSourceStub),
       }
 
-      const result = collect(connectMock, monitorMock)
+      const result = collect(connectMock)
 
-      expect(Object.values(result)).to.contain(dragSourceStub)
+      expect(Object.values(result)).toContain(dragSourceStub)
     })
   })
 })
