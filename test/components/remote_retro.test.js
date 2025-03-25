@@ -30,7 +30,9 @@ describe("RemoteRetro component", () => {
     facilitatorName: "Daniel Handpan",
     ideaGenerationCategories: ["happy", "sad", "confused"],
     userOptions: {},
-    stageConfig: {},
+    stageConfig: {
+      uiComponent: () => <div>Mock UI Component</div>,
+    },
     retro: { stage: IDEA_GENERATION },
     actions: {
       currentUserHasBecomeFacilitator: () => {},
@@ -43,7 +45,11 @@ describe("RemoteRetro component", () => {
     renderWithRedux(
       <RemoteRetro
         {...defaultProps}
-        alert={{ derp: "herp" }}
+        alert={{
+          derp: "herp",
+          headerText: "Test Alert",
+          BodyComponent: () => <div>Test Alert Body</div>,
+        }}
         browser={{ orientation: "portrait" }}
         stage="lobby"
       />
@@ -51,7 +57,11 @@ describe("RemoteRetro component", () => {
 
     expect(ViewportMetaTag).toHaveBeenCalledWith(
       {
-        alert: { derp: "herp" },
+        alert: {
+          derp: "herp",
+          headerText: "Test Alert",
+          BodyComponent: expect.any(Function),
+        },
         stage: "lobby",
         browserOrientation: "portrait",
       },
