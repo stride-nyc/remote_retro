@@ -1,11 +1,33 @@
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 import React from "react"
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
 
 import { StageAwareIdeaControls } from "../../web/static/js/components/stage_aware_idea_controls"
-import IdeaEditDeleteIcons from "../../web/static/js/components/idea_edit_delete_icons"
-import VotingInterface from "../../web/static/js/components/voting_interface"
 import STAGES from "../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION, VOTING, ACTION_ITEMS, CLOSED } = STAGES
+
+// Mock the child components
+jest.mock("../../web/static/js/components/idea_edit_delete_icons", () => {
+  return function MockIdeaEditDeleteIcons() {
+    return <div data-testid="idea-edit-delete-icons">Edit/Delete Icons</div>
+  }
+})
+
+jest.mock("../../web/static/js/components/voting_interface", () => {
+  return function MockVotingInterface(props) {
+    return (
+      <div
+        data-testid="voting-interface"
+        data-exhausted-votes={props.currentUserHasExhaustedVotes}
+      >
+        Votes
+      </div>
+    )
+  }
+})
 
 describe("<StageAwareIdeaControls />", () => {
   const idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1 }
@@ -21,10 +43,10 @@ describe("<StageAwareIdeaControls />", () => {
     currentUserHasExhaustedVotes: true,
   }
 
-  context("when the retro is closed", () => {
-    context("and idea represents an action-item", () => {
+  describe("when the retro is closed", () => {
+    describe("and idea represents an action-item", () => {
       it("renders no markup", () => {
-        const wrapper = mountWithConnectedSubcomponents(
+        const { container } = render(
           <StageAwareIdeaControls
             {...defaultProps}
             isRetroClosed
@@ -32,13 +54,13 @@ describe("<StageAwareIdeaControls />", () => {
           />
         )
 
-        expect(wrapper.html()).to.equal(null)
+        expect(container).toBeEmptyDOMElement()
       })
     })
 
-    context("and idea does *not* represent an action item", () => {
+    describe("and idea does *not* represent an action item", () => {
       it("renders the voting interface", () => {
-        const wrapper = mountWithConnectedSubcomponents(
+        render(
           <StageAwareIdeaControls
             {...defaultProps}
             stage={CLOSED}
@@ -46,42 +68,43 @@ describe("<StageAwareIdeaControls />", () => {
           />
         )
 
-        expect(wrapper.html()).to.match(/<div .*>Votes<\/div/)
+        expect(screen.getByTestId("voting-interface")).toBeInTheDocument()
+        expect(screen.getByText("Votes")).toBeInTheDocument()
       })
     })
   })
 
-  context("when the user has edit permissions", () => {
+  describe("when the user has edit permissions", () => {
     it("renders <IdeaEditDeleteIcons />", () => {
-      const wrapper = mountWithConnectedSubcomponents(
+      render(
         <StageAwareIdeaControls
           {...defaultProps}
           canUserEditIdeaContents
         />
       )
 
-      expect(wrapper.find(IdeaEditDeleteIcons)).to.have.length(1)
+      expect(screen.getByTestId("idea-edit-delete-icons")).toBeInTheDocument()
     })
   })
 
-  context("when the user lacks edit permissions", () => {
+  describe("when the user lacks edit permissions", () => {
     it("does not render <IdeaEditDeleteIcons />", () => {
-      const wrapper = mountWithConnectedSubcomponents(
+      const { container } = render(
         <StageAwareIdeaControls
           {...defaultProps}
           canUserEditIdeaContents={false}
         />
       )
 
-      expect(wrapper.find(IdeaEditDeleteIcons)).to.have.length(0)
+      expect(container).toBeEmptyDOMElement()
     })
   })
 
   describe("the vote button", () => {
-    context("when the stage is not idea-generation", () => {
-      context("and the category is not action-item", () => {
+    describe("when the stage is not idea-generation", () => {
+      describe("and the category is not action-item", () => {
         it("renders, passing the currentUserHasExhaustedVotes prop through", () => {
-          const wrapper = mountWithConnectedSubcomponents(
+          render(
             <StageAwareIdeaControls
               {...defaultProps}
               idea={{ ...idea, category: "sad" }}
@@ -90,16 +113,16 @@ describe("<StageAwareIdeaControls />", () => {
             />
           )
 
-          const votingInterface = wrapper.find(VotingInterface)
-          expect(votingInterface.prop("currentUserHasExhaustedVotes")).to.eql(false)
+          const votingInterface = screen.getByTestId("voting-interface")
+          expect(votingInterface).toHaveAttribute("data-exhausted-votes", "false")
         })
       })
 
-      context("and the idea category is action-item", () => {
+      describe("and the idea category is action-item", () => {
         it("doesn't render", () => {
           const actionItemIdea = { id: 667, category: "action-item", body: "write tests", user_id: 1 }
 
-          const wrapper = mountWithConnectedSubcomponents(
+          render(
             <StageAwareIdeaControls
               {...defaultProps}
               idea={actionItemIdea}
@@ -107,34 +130,34 @@ describe("<StageAwareIdeaControls />", () => {
             />
           )
 
-          expect(wrapper.find(VotingInterface)).to.have.length(0)
+          expect(screen.queryByTestId("voting-interface")).not.toBeInTheDocument()
         })
       })
     })
 
-    context("when the stage is idea-generation", () => {
+    describe("when the stage is idea-generation", () => {
       it("doesn't render", () => {
-        const wrapper = mountWithConnectedSubcomponents(
+        render(
           <StageAwareIdeaControls
             {...defaultProps}
             stage={IDEA_GENERATION}
           />
         )
 
-        expect(wrapper.find(VotingInterface)).to.have.length(0)
+        expect(screen.queryByTestId("voting-interface")).not.toBeInTheDocument()
       })
     })
 
-    context("after entering action-items stage", () => {
+    describe("after entering action-items stage", () => {
       it("renders a VotingInterface for display purposes", () => {
-        const wrapper = mountWithConnectedSubcomponents(
+        render(
           <StageAwareIdeaControls
             {...defaultProps}
             stage={ACTION_ITEMS}
           />
         )
 
-        expect(wrapper.find(VotingInterface)).to.have.length(1)
+        expect(screen.getByTestId("voting-interface")).toBeInTheDocument()
       })
     })
   })
