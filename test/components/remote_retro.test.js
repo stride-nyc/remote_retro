@@ -1,12 +1,16 @@
 import React from "react"
-import { shallow } from "enzyme"
-import { spy } from "sinon"
+import "@testing-library/jest-dom"
 
 import ViewportMetaTag from "../../web/static/js/components/viewport_meta_tag"
 import { RemoteRetro } from "../../web/static/js/components/remote_retro"
 import STAGES from "../../web/static/js/configs/stages"
+import renderWithRedux from "../support/js/render_with_redux"
 
 const { IDEA_GENERATION } = STAGES
+
+jest.mock("../../web/static/js/components/viewport_meta_tag", () => {
+  return jest.fn(() => <div data-testid="viewport-meta-tag" />)
+})
 
 describe("RemoteRetro component", () => {
   const stubUser = {
@@ -36,7 +40,7 @@ describe("RemoteRetro component", () => {
   // we can't afford to have this integration break, as the grouping stage relies
   // on viewport manipulation
   it("renders a ViewportMetaTag, passing stage, alert, and browser orientation", () => {
-    const wrapper = shallow(
+    renderWithRedux(
       <RemoteRetro
         {...defaultProps}
         alert={{ derp: "herp" }}
@@ -45,27 +49,30 @@ describe("RemoteRetro component", () => {
       />
     )
 
-    expect(wrapper.find(ViewportMetaTag).props()).to.eql({
-      alert: { derp: "herp" },
-      stage: "lobby",
-      browserOrientation: "portrait",
-    })
+    expect(ViewportMetaTag).toHaveBeenCalledWith(
+      {
+        alert: { derp: "herp" },
+        stage: "lobby",
+        browserOrientation: "portrait",
+      },
+      expect.anything()
+    )
   })
 
-  context("when the component has rendered", () => {
+  describe("when the component has rendered", () => {
     describe("when the datadog rum client is available on the window", () => {
       it("notifies datadog that the single page app has mounted", () => {
         global.DD_RUM = {
-          onReady: cb => cb(),
-          addTiming: spy(),
+          onReady: jest.fn(cb => cb()),
+          addTiming: jest.fn(),
         }
         window.DD_RUM = global.DD_RUM
 
-        shallow(
+        renderWithRedux(
           <RemoteRetro {...defaultProps} />
         )
 
-        expect(DD_RUM.addTiming).calledWith("SPA_MOUNTED")
+        expect(DD_RUM.addTiming).toHaveBeenCalledWith("SPA_MOUNTED")
       })
     })
 
@@ -75,10 +82,10 @@ describe("RemoteRetro component", () => {
         delete window.DD_RUM
 
         expect(() => {
-          shallow(
+          renderWithRedux(
             <RemoteRetro {...defaultProps} />
           )
-        }).not.to.throw()
+        }).not.toThrow()
       })
     })
   })
