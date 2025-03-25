@@ -1,10 +1,10 @@
 import React from "react"
-import { shallow } from "enzyme"
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
 
 import Room from "../../web/static/js/components/room"
 
 describe("Room", () => {
-  let room
   let stubComponent
 
   const defaultProps = {
@@ -25,11 +25,11 @@ describe("Room", () => {
   }
 
   beforeEach(() => {
-    stubComponent = () => <div>Stub Component</div>
+    stubComponent = ({ fart }) => <div data-testid="stub-component">{fart}</div>
   })
 
-  it("renders an instance of that UI component", () => {
-    room = shallow(
+  test("renders an instance of that UI component", () => {
+    render(
       <Room
         {...defaultProps}
         stageConfig={{
@@ -38,13 +38,11 @@ describe("Room", () => {
       />
     )
 
-    const uiComponent = room.find(stubComponent)
-
-    expect(uiComponent).to.have.length(1)
+    expect(screen.getByTestId("stub-component")).toBeInTheDocument()
   })
 
-  it("passes any and all props down to the specified UI component", () => {
-    room = shallow(
+  test("passes any and all props down to the specified UI component", () => {
+    render(
       <Room
         {...defaultProps}
         stageConfig={{
@@ -54,8 +52,6 @@ describe("Room", () => {
       />
     )
 
-    const uiComponent = room.find(stubComponent)
-
-    expect(uiComponent.prop("fart")).to.eql("store")
+    expect(screen.getByText("store")).toBeInTheDocument()
   })
 })
