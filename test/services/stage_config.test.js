@@ -18,34 +18,34 @@ describe("StageConfig.retrieveFor", () => {
   })
 
   describe("when the given retro format + stage maps to a configuration object", () => {
-    it("retrieves the value", () => {
+    test("retrieves the value", () => {
       expect(
         StageConfig.retrieveFor({ format: happySadConfused, stage: primeDirective })
-      ).to.eql(fakeValueForTest)
+      ).toEqual(fakeValueForTest)
     })
   })
 
   describe("when the given retro format doesn't exist", () => {
-    it("throws", () => {
+    test("throws", () => {
       expect(() => {
         StageConfig.retrieveFor({ format: "Non-Exiztant Format", stage: primeDirective })
-      }).to.throw("No format configuration found for 'Non-Exiztant Format'.")
+      }).toThrow("No format configuration found for 'Non-Exiztant Format'.")
     })
   })
 
   describe("when given an invalid retro stage", () => {
-    it("throws an error", () => {
+    test("throws an error", () => {
       expect(() => {
         StageConfig.retrieveFor({ format: happySadConfused, stage: "prince time!" })
-      }).to.throw("No stage configuration found for 'prince time!'.")
+      }).toThrow("No stage configuration found for 'prince time!'.")
     })
   })
 
   describe("when the given retro format doesn't exist", () => {
-    it("throws", () => {
+    test("throws", () => {
       expect(() => {
         StageConfig.retrieveFor({ format: "Non-Exiztant Format", stage: primeDirective })
-      }).to.throw("No format configuration found for 'Non-Exiztant Format'.")
+      }).toThrow("No format configuration found for 'Non-Exiztant Format'.")
     })
   })
 
@@ -55,17 +55,18 @@ describe("StageConfig.retrieveFor", () => {
     beforeEach(() => {
       const requireUncached = module => {
         delete require.cache[require.resolve(module)]
-        return require(module) // eslint-disable-line
+        // eslint-disable-next-line global-require, import/no-dynamic-require
+        return require(module).default
       }
 
-      UnCachedStageConfig = requireUncached("../../web/static/js/services/stage_config").default
+      UnCachedStageConfig = requireUncached("../../web/static/js/services/stage_config")
     })
 
     describe("when invoked without a format for the first time", () => {
-      it("throws an error", () => {
+      test("throws an error", () => {
         expect(() => {
           UnCachedStageConfig.retrieveFor({ stage: "prince time!" })
-        }).to.throw()
+        }).toThrow()
       })
     })
 
@@ -74,10 +75,10 @@ describe("StageConfig.retrieveFor", () => {
         UnCachedStageConfig.retrieveFor({ format: happySadConfused, stage: primeDirective })
       })
 
-      it("can be invoked *without* a format and still retrieve the needed value", () => {
+      test("can be invoked *without* a format and still retrieve the needed value", () => {
         expect(
           UnCachedStageConfig.retrieveFor({ stage: primeDirective })
-        ).to.eql(fakeValueForTest)
+        ).toEqual(fakeValueForTest)
       })
     })
   })

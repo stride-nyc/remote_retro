@@ -7344,6 +7344,13 @@ __metadata:
   languageName: node
   linkType: hard
 
+"harmony-reflect@npm:^1.4.6":
+  version: 1.6.2
+  resolution: "harmony-reflect@npm:1.6.2"
+  checksum: 10c0/fa5b251fbeff0e2d925f0bfb5ffe39e0627639e998c453562d6a39e41789c15499649dc022178c807cf99bfb97e7b974bbbc031ba82078a26be7b098b9bc2b1a
+  languageName: node
+  linkType: hard
+
 "harmony-reflect@npm:~1.4.2":
   version: 1.4.6
   resolution: "harmony-reflect@npm:1.4.6"
@@ -7810,6 +7817,15 @@ __metadata:
   dependencies:
     postcss: "npm:^6.0.1"
   checksum: 10c0/69d3b8fdea58fbf5c26d8dc2d1b7d8ded34fd8fb0800ed60b390e0ae5f596e77b155c587fb62e7642d1064d2d72fc672676df58ef935eba7303d79467e43edbf
+  languageName: node
+  linkType: hard
+
+"identity-obj-proxy@npm:^3.0.0":
+  version: 3.0.0
+  resolution: "identity-obj-proxy@npm:3.0.0"
+  dependencies:
+    harmony-reflect: "npm:^1.4.6"
+  checksum: 10c0/a3fc4de0042d7b45bf8652d5596c80b42139d8625c9cd6a8834e29e1b6dce8fccabd1228e08744b78677a19ceed7201a32fed8ca3dc3e4852e8fee24360a6cfc
   languageName: node
   linkType: hard
 
@@ -13387,6 +13403,7 @@ __metadata:
     eslint-plugin-react: "npm:^7.12.4"
     hard-source-webpack-plugin: "npm:^0.13.1"
     husky: "npm:^0.14.3"
+    identity-obj-proxy: "npm:^3.0.0"
     jest: "npm:^29.7.0"
     jest-environment-jsdom: "npm:^29.7.0"
     jsdom: "npm:^9.9.1"
