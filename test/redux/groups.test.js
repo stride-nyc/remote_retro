@@ -1,7 +1,5 @@
 import deepFreeze from "deep-freeze"
-import { spy, useFakeTimers } from "sinon"
-
-import { setupMockRetroChannel } from "../support/js/test_helper"
+import { setupMockRetroChannel } from "../support/js/jest_test_helper"
 
 import {
   reducer as groupsReducer,
@@ -16,8 +14,8 @@ describe("groups reducer", () => {
       it("should return an empty array", () => {
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(groupsReducer(undefined, {})).to.deep.equal([])
-        expect(groupsReducer(undefined, unhandledAction)).to.deep.equal([])
+        expect(groupsReducer(undefined, {})).toEqual([])
+        expect(groupsReducer(undefined, unhandledAction)).toEqual([])
       })
     })
 
@@ -26,8 +24,8 @@ describe("groups reducer", () => {
         const initialState = [{ id: 5, label: "communication" }]
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(groupsReducer(initialState, {})).to.deep.equal(initialState)
-        expect(groupsReducer(initialState, unhandledAction)).to.deep.equal(initialState)
+        expect(groupsReducer(initialState, {})).toEqual(initialState)
+        expect(groupsReducer(initialState, unhandledAction)).toEqual(initialState)
       })
     })
   })
@@ -41,12 +39,12 @@ describe("groups reducer", () => {
         const groups = [{ id: 5, label: "ceremonies" }]
         const action = { type: "SET_INITIAL_STATE", initialState: { groups } }
 
-        expect(groupsReducer(initialState, action)).to.deep.equal([...groups])
+        expect(groupsReducer(initialState, action)).toEqual([...groups])
       })
     })
 
     describe("when the action is RETRO_STAGE_PROGRESSION_COMMITTED", () => {
-      context("when the payload contains data for groups", () => {
+      describe("when the payload contains data for groups", () => {
         it("should replace the state with the groups passed in the action's payload", () => {
           const initialState = []
           deepFreeze(initialState)
@@ -54,18 +52,18 @@ describe("groups reducer", () => {
           const groups = [{ id: 7, label: "the build" }]
           const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload: { groups } }
 
-          expect(groupsReducer(initialState, action)).to.deep.equal([...groups])
+          expect(groupsReducer(initialState, action)).toEqual([...groups])
         })
       })
 
-      context("when the payload *lacks* groups data", () => {
+      describe("when the payload *lacks* groups data", () => {
         it("leaves the state unchanged", () => {
           const initialState = []
           deepFreeze(initialState)
 
           const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload: {} }
 
-          expect(groupsReducer(initialState, action)).to.deep.equal(initialState)
+          expect(groupsReducer(initialState, action)).toEqual(initialState)
         })
       })
     })
@@ -93,7 +91,7 @@ describe("groups reducer", () => {
 
         const action = { type: "GROUP_UPDATE_COMMITTED", updatedGroup }
 
-        expect(groupsReducer(initialState, action)).to.deep.equal([{
+        expect(groupsReducer(initialState, action)).toEqual([{
           id: 1,
           label: "Commnication",
         }, {
@@ -117,7 +115,7 @@ describe("selectors", () => {
 
         const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
 
-        expect(result).to.eql([])
+        expect(result).toEqual([])
       })
     })
 
@@ -135,7 +133,7 @@ describe("selectors", () => {
         const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
         const ids = result.map(group => group.id)
 
-        expect(ids).to.eql([11, 19])
+        expect(ids).toEqual([11, 19])
       })
 
       describe("when there are ideas on state whose group_id matches a group on state", () => {
@@ -157,7 +155,7 @@ describe("selectors", () => {
           const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
           const group = result[0]
 
-          expect(group.ideas).to.eql([{
+          expect(group.ideas).toEqual([{
             id: 1,
             group_id: 11,
           }, {
@@ -182,7 +180,7 @@ describe("selectors", () => {
             const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
             const group = result[0]
 
-            expect(group.votes).to.eql([])
+            expect(group.votes).toEqual([])
           })
         })
 
@@ -203,7 +201,7 @@ describe("selectors", () => {
               const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
               const group = result[0]
 
-              expect(group.votes).to.eql([])
+              expect(group.votes).toEqual([])
             })
           })
         })
@@ -224,7 +222,7 @@ describe("selectors", () => {
             const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
             const group = result[0]
 
-            expect(group.votes).to.eql([{
+            expect(group.votes).toEqual([{
               id: 5,
               idea_id: 1,
             }])
@@ -251,7 +249,7 @@ describe("selectors", () => {
           const result = selectors.groupsWithAssociatedIdeasAndVotes(state)
           const group = result[0]
 
-          expect(group.ideas).to.eql([])
+          expect(group.ideas).toEqual([])
         })
       })
     })
@@ -263,21 +261,20 @@ describe("action creators", () => {
     let dispatchStub
     let getStateStub
     let mockRetroChannel
-    let clock
 
     beforeEach(() => {
-      clock = useFakeTimers()
+      jest.useFakeTimers()
 
-      dispatchStub = () => {}
+      dispatchStub = jest.fn()
       getStateStub = () => {}
       mockRetroChannel = setupMockRetroChannel()
-      spy(mockRetroChannel, "push")
+      jest.spyOn(mockRetroChannel, "push")
       _debouncedPushOfLabelChangeToServer.cancel()
     })
 
     afterEach(() => {
-      mockRetroChannel.push.restore()
-      clock.restore()
+      jest.restoreAllMocks()
+      jest.useRealTimers()
     })
 
     describe("when the given string is *different* than the existing group label", () => {
@@ -286,9 +283,9 @@ describe("action creators", () => {
         const thunk = actionCreators.submitGroupLabelChanges(groupArguments, "steven's NEW domain")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
-        clock.tick(2000)
+        jest.advanceTimersByTime(2000)
 
-        expect(mockRetroChannel.push).to.have.been.calledWith("group_edited", { id: 666, label: "steven's NEW domain" })
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("group_edited", { id: 666, label: "steven's NEW domain" })
       })
 
       describe("when the push results in an error", () => {
@@ -296,13 +293,12 @@ describe("action creators", () => {
           const groupArgumentsStub = {}
           const thunk = actionCreators.submitGroupLabelChanges(groupArgumentsStub, "someNewLabel!")
 
-          const dispatchSpy = spy()
-          thunk(dispatchSpy, getStateStub, mockRetroChannel)
-          clock.tick(2000)
+          thunk(dispatchStub, getStateStub, mockRetroChannel)
+          jest.advanceTimersByTime(2000)
 
           mockRetroChannel.__triggerReply("error", {})
 
-          expect(dispatchSpy).calledWithMatch({ type: "GROUP_UPDATE_REJECTED" })
+          expect(dispatchStub).toHaveBeenCalledWith(expect.objectContaining({ type: "GROUP_UPDATE_REJECTED" }))
         })
       })
     })
@@ -314,7 +310,7 @@ describe("action creators", () => {
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
-        expect(mockRetroChannel.push).not.to.have.been.called
+        expect(mockRetroChannel.push).not.toHaveBeenCalled()
       })
     })
   })
@@ -322,7 +318,7 @@ describe("action creators", () => {
   describe("updateGroup", () => {
     it("creates an action to update the group", () => {
       const result = actionCreators.updateGroup({ id: 6, label: "Disfunction" })
-      expect(result).to.deep.equal({
+      expect(result).toEqual({
         type: "GROUP_UPDATE_COMMITTED",
         updatedGroup: {
           id: 6,

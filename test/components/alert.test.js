@@ -3,7 +3,7 @@ import { render, screen, fireEvent, cleanup } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import Modal from "react-modal"
 import { Alert } from "../../web/static/js/components/alert"
-import renderWithRedux from "../support/js/render_with_redux"
+import { renderWithRedux } from "../support/js/jest_test_helper"
 
 // Mock Modal's setAppElement to avoid test warnings
 Modal.setAppElement(document.createElement("div"))
