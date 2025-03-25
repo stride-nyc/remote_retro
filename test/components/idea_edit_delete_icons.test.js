@@ -1,6 +1,6 @@
 import React from "react"
-import { shallow } from "enzyme"
-import sinon from "sinon"
+import { render, screen, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
 
 import IdeaEditDeleteIcons from "../../web/static/js/components/idea_edit_delete_icons"
 
@@ -19,65 +19,65 @@ describe("<IdeaEditDeleteIcons />", () => {
   })
 
   describe("when idea in question is in an edit state", () => {
-    it("disables", () => {
+    test("disables", () => {
       idea = { id: 666, body: "redundant tests", user_id: 1, inEditState: true }
 
-      const wrapper = shallow(
+      const { container } = render(
         <IdeaEditDeleteIcons
           {...defaultProps}
           idea={idea}
         />
       )
 
-      const removalIconQuery = wrapper.find(".disabled")
-      expect(removalIconQuery.length).to.equal(1)
+      const iconContainer = container.querySelector("span")
+      expect(iconContainer).toHaveClass("disabled")
     })
   })
 
   describe("when idea in question has been submitted for deletion", () => {
-    it("disables", () => {
+    test("disables", () => {
       idea = { id: 666, body: "redundant tests", user_id: 1, deletionSubmitted: true }
 
-      const wrapper = shallow(
+      const { container } = render(
         <IdeaEditDeleteIcons
           {...defaultProps}
           idea={idea}
         />
       )
 
-      const removalIconQuery = wrapper.find(".disabled")
-      expect(removalIconQuery.length).to.equal(1)
+      const iconContainer = container.querySelector("span")
+      expect(iconContainer).toHaveClass("disabled")
     })
   })
 
   describe("when idea in question isnt in editing state and hasn't been submitted for deletion", () => {
-    it("is not disabled", () => {
+    test("is not disabled", () => {
       idea = { id: 666, body: "redundant tests", user_id: 1, inEditState: false, deletionSubmitted: false }
 
-      const wrapper = shallow(
+      const { container } = render(
         <IdeaEditDeleteIcons
           {...defaultProps}
           idea={idea}
         />
       )
 
-      const removalIconQuery = wrapper.find(".disabled")
-      expect(removalIconQuery.length).to.equal(0)
+      const iconContainer = container.querySelector("span")
+      expect(iconContainer).not.toHaveClass("disabled")
     })
   })
 
   describe("on click of the removal icon", () => {
-    context("when the user confirms the removal", () => {
+    describe("when the user confirms the removal", () => {
       let originalConfirm
 
       beforeEach(() => {
         originalConfirm = window.confirm
-        global.confirm = () => (true)
+        window.confirm = jest.fn(() => true)
 
-        actions = { submitIdeaDeletionAsync: sinon.spy() }
+        actions = { submitIdeaDeletionAsync: jest.fn() }
         idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
 
-        const wrapper = shallow(
+        render(
           <IdeaEditDeleteIcons
             {...defaultProps}
             actions={actions}
@@ -85,32 +85,30 @@ describe("<IdeaEditDeleteIcons />", () => {
           />
         )
 
-        const removalIcon = wrapper.find(".remove.icon")
-        expect(removalIcon.prop("title")).to.equal("Delete Idea")
-
-        removalIcon.simulate("click")
+        const removalIcon = screen.getByTitle("Delete Idea")
+        fireEvent.click(removalIcon)
       })
 
-      after(() => {
-        global.confirm = originalConfirm
+      afterEach(() => {
+        window.confirm = originalConfirm
       })
 
-      it("dispatches the submitIdeaDeletionAsync action with the idea id", () => {
-        expect(actions.submitIdeaDeletionAsync).calledWith(666)
+      test("dispatches the submitIdeaDeletionAsync action with the idea id", () => {
+        expect(actions.submitIdeaDeletionAsync).toHaveBeenCalledWith(666)
       })
     })
 
-    context("when the user does *not* confirm the removal", () => {
+    describe("when the user does *not* confirm the removal", () => {
       let originalConfirm
 
       beforeEach(() => {
         originalConfirm = window.confirm
-        global.confirm = () => (false)
+        window.confirm = jest.fn(() => false)
 
-        actions = { submitIdeaDeletionAsync: sinon.spy() }
+        actions = { submitIdeaDeletionAsync: jest.fn() }
         idea = { id: 666, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
 
-        const wrapper = shallow(
+        render(
           <IdeaEditDeleteIcons
             {...defaultProps}
             actions={actions}
@@ -118,28 +116,26 @@ describe("<IdeaEditDeleteIcons />", () => {
           />
         )
 
-        const removalIcon = wrapper.find(".remove.icon")
-        expect(removalIcon.prop("title")).to.equal("Delete Idea")
-
-        removalIcon.simulate("click")
+        const removalIcon = screen.getByTitle("Delete Idea")
+        fireEvent.click(removalIcon)
       })
 
-      after(() => {
-        global.confirm = originalConfirm
+      afterEach(() => {
+        window.confirm = originalConfirm
       })
 
-      it("no deletion action is dispatched the submitIdeaDeletionAsync action with the idea id", () => {
-        expect(actions.submitIdeaDeletionAsync).not.called
+      test("no deletion action is dispatched", () => {
+        expect(actions.submitIdeaDeletionAsync).not.toHaveBeenCalled()
       })
     })
   })
 
   describe("on click of the edit icon", () => {
-    it("dispatches the initiateIdeaEditState action with the idea id", () => {
-      actions = { initiateIdeaEditState: sinon.spy() }
+    test("dispatches the initiateIdeaEditState action with the idea id", () => {
+      actions = { initiateIdeaEditState: jest.fn() }
       idea = { id: 789, category: "sad", body: "redundant tests", user_id: 1, inEditState: false }
 
-      const wrapper = shallow(
+      render(
         <IdeaEditDeleteIcons
           {...defaultProps}
           actions={actions}
@@ -147,11 +143,9 @@ describe("<IdeaEditDeleteIcons />", () => {
         />
       )
 
-      const editIcon = wrapper.find(".edit.icon")
-      expect(editIcon.prop("title")).to.equal("Edit Idea")
-
-      editIcon.simulate("click")
-      expect(actions.initiateIdeaEditState).calledWith(789)
+      const editIcon = screen.getByTitle("Edit Idea")
+      fireEvent.click(editIcon)
+      expect(actions.initiateIdeaEditState).toHaveBeenCalledWith(789)
     })
   })
 })
