@@ -1,6 +1,6 @@
 import React from "react"
-import { shallow, mount } from "enzyme"
-import sinon from "sinon"
+import { render, screen, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
 
 import { UserListItem } from "../../web/static/js/components/user_list_item"
 
@@ -12,7 +12,7 @@ const defaultUserAttrs = {
   id: 4,
 }
 
-const secondaryrUserAttrs = {
+const secondaryUserAttrs = {
   given_name: "xion",
   online_at: 805,
   is_typing: false,
@@ -26,22 +26,21 @@ const defaultProps = {
   isVotingStage: false,
   currentUser: defaultUserAttrs,
   actions: {
-    updateRetroAsync: sinon.spy(),
+    updateRetroAsync: jest.fn(),
   },
 }
 
 describe("UserListItem", () => {
-  let wrapper
-  let user
+  afterEach(() => {
+    jest.clearAllMocks()
+  })
 
   describe("passed a facilitator user", () => {
     const user = { ...defaultUserAttrs, is_facilitator: true }
 
     it("renders a list item that labels the user the facilitator", () => {
-      const wrapper = shallow(
-        <UserListItem {...defaultProps} user={user} />
-      )
-      expect(wrapper.text()).to.match(/facilitator/i)
+      render(<UserListItem {...defaultProps} user={user} />)
+      expect(screen.getByText(/facilitator/i)).toBeInTheDocument()
     })
   })
 
@@ -49,60 +48,50 @@ describe("UserListItem", () => {
     const user = { ...defaultUserAttrs, is_facilitator: false }
 
     it("renders a list item with no '(facilitator)' label", () => {
-      const wrapper = shallow(
-        <UserListItem {...defaultProps} user={user} />
-      )
-      expect(wrapper.text()).not.to.match(/dylan \(facilitator\)/i)
+      render(<UserListItem {...defaultProps} user={user} />)
+      expect(screen.queryByText(/dylan \(facilitator\)/i)).not.toBeInTheDocument()
     })
   })
 
   describe("passed a non-facilitator user", () => {
     const facilitator = { ...defaultUserAttrs, is_facilitator: true }
-    const nonFacilitator = { ...secondaryrUserAttrs, is_facilitator: false }
+    const nonFacilitator = { ...secondaryUserAttrs, is_facilitator: false }
 
-    it("renders a means of tranferring the facilitatorship to that user", () => {
-      const wrapper = shallow(
+    it("renders a means of transferring the facilitatorship to that user", () => {
+      render(
         <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
       )
-      expect(wrapper.find("button.transferFacilitatorship")).to.have.length(1)
+      expect(screen.getByRole("button", { name: /transfer facilitatorship to xion/i })).toBeInTheDocument()
     })
 
     describe("passing facilitatorship", () => {
       beforeEach(() => {
-        window.confirm = sinon.stub().returns(true)
+        window.confirm = jest.fn().mockReturnValue(true)
       })
 
       it("calls the action to change facilitator", () => {
-        const wrapper = shallow(
+        render(
           <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
         )
-        wrapper.find("button.transferFacilitatorship").simulate("click")
-        expect(defaultProps.actions.updateRetroAsync.calledWith(
+        fireEvent.click(screen.getByRole("button", { name: /transfer facilitatorship to xion/i }))
+        expect(defaultProps.actions.updateRetroAsync).toHaveBeenCalledWith(
           { facilitator_id: nonFacilitator.id }
-        )).to.eql(true)
-      })
-
-      afterEach(() => {
-        defaultProps.actions.updateRetroAsync.reset()
+        )
       })
     })
 
     describe("declining the passing of facilitatorship", () => {
       beforeEach(() => {
-        window.confirm = sinon.stub().returns(false)
+        window.confirm = jest.fn().mockReturnValue(false)
       })
 
       it("does not call the action to change facilitator", () => {
-        const wrapper = shallow(
+        render(
           <UserListItem {...defaultProps} user={nonFacilitator} currentUser={facilitator} />
         )
-        wrapper.find("button.transferFacilitatorship").simulate("click")
-        expect(defaultProps.actions.updateRetroAsync.notCalled).to.eql(true)
+        fireEvent.click(screen.getByRole("button", { name: /transfer facilitatorship to xion/i }))
+        expect(defaultProps.actions.updateRetroAsync).not.toHaveBeenCalled()
       })
-    })
-
-    afterEach(() => {
-      defaultProps.actions.updateRetroAsync.reset()
     })
   })
 
@@ -110,19 +99,19 @@ describe("UserListItem", () => {
     const user = { ...defaultUserAttrs, is_facilitator: true }
 
     it("does not render a means of giving them the facilitatorship", () => {
-      const wrapper = shallow(
+      render(
         <UserListItem {...defaultProps} user={user} currentUser={user} />
       )
-      expect(wrapper.find("button.transferFacilitatorship")).to.have.length(0)
+      expect(screen.queryByRole("button", { name: /transfer facilitatorship/i })).not.toBeInTheDocument()
     })
   })
 
-  context("when the stage is not a voting stage", () => {
-    context("when passed a user who *is* currently typing", () => {
+  describe("when the stage is not a voting stage", () => {
+    describe("when passed a user who *is* currently typing", () => {
       const user = { ...defaultUserAttrs, is_typing: true }
 
       it("renders the user with an ellipsis animation", () => {
-        const wrapper = mount(
+        const { container } = render(
           <UserListItem
             {...defaultProps}
             user={user}
@@ -130,79 +119,85 @@ describe("UserListItem", () => {
           />
         )
 
-        expect(wrapper.find("i.circle.icon")).to.have.length(3)
+        const circleIcons = container.querySelectorAll("i.circle.icon")
+        expect(circleIcons.length).toBe(3)
       })
     })
 
-    context("when passed a user who is *not* currently typing", () => {
+    describe("when passed a user who is *not* currently typing", () => {
       const user = { ...defaultUserAttrs, is_typing: false }
 
-      it("does not render the user with an ellipsis animation", () => {
-        const wrapper = shallow(
+      it("does not render the user with an animated ellipsis", () => {
+        const { container } = render(
           <UserListItem
             {...defaultProps}
             isVotingStage={false}
             user={user}
           />
         )
-        expect(wrapper.find("i.circle.icon")).to.have.length(0)
+        // The AnimatedEllipsis component always renders 3 circle icons,
+        // but they're only animated when the 'animated' prop is true
+        const animatedElement = container.querySelector("[class*='animated']")
+        expect(animatedElement).toBeNull()
       })
     })
   })
 
   it("changes the user's image url such that its `sz` query attribute's becomes 200", () => {
-    user = { ...defaultUserAttrs, picture: "http://some/image.jpg?sz=50" }
-    wrapper = shallow(<UserListItem {...defaultProps} user={user} />)
-    const imageSrc = wrapper.find("img.picture").prop("src")
-    expect(imageSrc).to.equal("http://some/image.jpg?sz=200")
+    const user = { ...defaultUserAttrs, picture: "http://some/image.jpg?sz=50" }
+    render(<UserListItem {...defaultProps} user={user} />)
+    const image = screen.getByAltText(user.given_name)
+    expect(image.src).toBe("http://some/image.jpg?sz=200")
   })
 
-  context("when the stage is a voting stage", () => {
+  describe("when the stage is a voting stage", () => {
     it("does not render the animated ellipsis wrapper", () => {
-      const wrapper = shallow(<UserListItem {...defaultProps} isVotingStage />)
-      expect(wrapper.text()).to.not.match(/animatedellipsis/i)
+      render(<UserListItem {...defaultProps} isVotingStage />)
+      expect(screen.queryByText(/animatedellipsis/i)).not.toBeInTheDocument()
     })
 
     it("renders a voting status span", () => {
-      const wrapper = shallow(<UserListItem {...defaultProps} isVotingStage />)
-      expect(wrapper.html()).to.contain("allVotesIn")
+      render(<UserListItem {...defaultProps} isVotingStage />)
+      expect(screen.getByText("ALL VOTES IN")).toBeInTheDocument()
     })
 
-    context("and the given user has more than 2 votes", () => {
-      const userWithFiveVotes = { ...defaultUserAttrs, id: 999 }
+    describe("and the given user has more than 2 votes", () => {
+      const userWithThreeVotes = { ...defaultUserAttrs, id: 999 }
       const voteForUser = { user_id: 999 }
       const votes = [voteForUser, voteForUser, voteForUser]
 
       it("renders an opaque span indicating that the user is done voting", () => {
-        const wrapper = shallow(
+        render(
           <UserListItem
             {...defaultProps}
-            user={userWithFiveVotes}
+            user={userWithThreeVotes}
             isVotingStage
             votes={votes}
           />
         )
 
-        expect(wrapper.find(".allVotesIn").hasClass("opaque")).to.eql(true)
+        const allVotesInElement = screen.getByText("ALL VOTES IN")
+        expect(allVotesInElement).toHaveClass("opaque")
       })
     })
 
-    context("and the given user has less than 3 votes", () => {
-      const userWithFourVotes = { ...defaultUserAttrs, id: 999 }
+    describe("and the given user has less than 3 votes", () => {
+      const userWithTwoVotes = { ...defaultUserAttrs, id: 999 }
       const voteForUser = { user_id: 999 }
       const votes = [voteForUser, voteForUser]
 
       it("does not apply opaqueness to text indicating that the user is done voting", () => {
-        const wrapper = shallow(
+        render(
           <UserListItem
             {...defaultProps}
-            user={userWithFourVotes}
+            user={userWithTwoVotes}
             isVotingStage
             votes={votes}
           />
         )
 
-        expect(wrapper.find(".allVotesIn").hasClass("opaque")).to.eql(false)
+        const allVotesInElement = screen.getByText("ALL VOTES IN")
+        expect(allVotesInElement).not.toHaveClass("opaque")
       })
     })
   })
