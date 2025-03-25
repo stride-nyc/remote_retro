@@ -124,6 +124,9 @@ mix e2e
 
 To continually execute the client-side unit tests on file change:
 
+<!-- TODO: confirm works -->
+<!-- TODO: remove mocha -->
+
 ```bash
 yarn test:watch
 ```
