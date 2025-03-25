@@ -1,10 +1,36 @@
+/* eslint-disable react/prop-types */
 import React from "react"
-import { shallow } from "enzyme"
+import { screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
 
 import { GroupsContainer } from "../../web/static/js/components/groups_container"
-import IdeaGroup from "../../web/static/js/components/idea_group"
-import CategoryColumn from "../../web/static/js/components/category_column"
-import ContactStrideCTA from "../../web/static/js/components/contact_stride_cta"
+// We're mocking these components, so we don't need to import the actual ones
+import renderWithRedux from "../support/js/render_with_redux"
+
+// Mock the components we're not directly testing
+jest.mock("../../web/static/js/components/idea_group", () => {
+  return function MockIdeaGroup({ groupWithAssociatedIdeasAndVotes }) {
+    return <div data-testid={`idea-group-${groupWithAssociatedIdeasAndVotes.id}`}>IdeaGroup</div>
+  }
+})
+
+jest.mock("../../web/static/js/components/category_column", () => {
+  return function MockCategoryColumn({ category }) {
+    return <div data-testid={`category-column-${category}`}>CategoryColumn</div>
+  }
+})
+
+jest.mock("../../web/static/js/components/contact_stride_cta", () => {
+  return function MockContactStrideCTA() {
+    return <div data-testid="contact-stride-cta">ContactStrideCTA</div>
+  }
+})
+
+jest.mock("../../web/static/js/components/lower_third", () => {
+  return function MockLowerThird() {
+    return <div data-testid="lower-third">LowerThird</div>
+  }
+})
 
 describe("GroupsContainer component", () => {
   const defaultProps = {
@@ -24,21 +50,15 @@ describe("GroupsContainer component", () => {
   }
 
   it("renders a IdeaGroup component for every group given", () => {
-    const wrapper = shallow(
-      <GroupsContainer {...defaultProps} />
-    )
-
-    expect(wrapper.find(IdeaGroup)).to.have.length(2)
+    renderWithRedux(<GroupsContainer {...defaultProps} />)
+    expect(screen.getByTestId("idea-group-5")).toBeInTheDocument()
+    expect(screen.getByTestId("idea-group-6")).toBeInTheDocument()
   })
 
   describe("when in the groups-labeling stage", () => {
     it("does *not* render a category column", () => {
-      const wrapper = shallow(
-        <GroupsContainer {...defaultProps} stage="groups-labeling" />
-      )
-
-      const categoryColumn = wrapper.find(CategoryColumn)
-      expect(categoryColumn.exists()).to.eql(false)
+      renderWithRedux(<GroupsContainer {...defaultProps} stage="groups-labeling" />)
+      expect(screen.queryByTestId("category-column-action-item")).not.toBeInTheDocument()
     })
 
     describe("when the groups are given in an unsorted order", () => {
@@ -58,30 +78,20 @@ describe("GroupsContainer component", () => {
           }],
         }
 
-        const wrapper = shallow(
-          <GroupsContainer {...props} />
-        )
+        renderWithRedux(<GroupsContainer {...props} />)
+        const ideaGroups = screen.getAllByTestId(/idea-group-\d+/)
+        const ideaGroupIds = ideaGroups.map(ideaGroup => parseInt(ideaGroup.getAttribute("data-testid").replace("idea-group-", ""), 10))
 
-        const ideaGroups = wrapper.find(IdeaGroup)
-        const ideaGroupIds = ideaGroups.map(ideaGroup => (
-          ideaGroup.prop("groupWithAssociatedIdeasAndVotes").id
-        ))
-
-        expect(ideaGroupIds).to.eql([
-          100, 101, 102,
-        ])
+        // Check that the groups are rendered in ascending order by id
+        expect(ideaGroupIds).toEqual([100, 101, 102])
       })
     })
   })
 
   describe("when in the groups-voting stage", () => {
     it("does *not* render a category column", () => {
-      const wrapper = shallow(
-        <GroupsContainer {...defaultProps} stage="groups-voting" />
-      )
-
-      const categoryColumn = wrapper.find(CategoryColumn)
-      expect(categoryColumn.exists()).to.eql(false)
+      renderWithRedux(<GroupsContainer {...defaultProps} stage="groups-voting" />)
+      expect(screen.queryByTestId("category-column-action-item")).not.toBeInTheDocument()
     })
 
     describe("when the groups are given in an unsorted order", () => {
@@ -101,30 +111,19 @@ describe("GroupsContainer component", () => {
           }],
         }
 
-        const wrapper = shallow(
-          <GroupsContainer {...props} />
-        )
+        renderWithRedux(<GroupsContainer {...props} />)
+        const ideaGroups = screen.getAllByTestId(/idea-group-\d+/)
+        const ideaGroupIds = ideaGroups.map(ideaGroup => parseInt(ideaGroup.getAttribute("data-testid").replace("idea-group-", ""), 10))
 
-        const ideaGroups = wrapper.find(IdeaGroup)
-        const ideaGroupIds = ideaGroups.map(ideaGroup => (
-          ideaGroup.prop("groupWithAssociatedIdeasAndVotes").id
-        ))
-
-        expect(ideaGroupIds).to.eql([
-          100, 101, 102,
-        ])
+        expect(ideaGroupIds).toEqual([100, 101, 102])
       })
     })
   })
 
   describe("when in a stage *other than* groups-labeling/groups-voting", () => {
     it("renders a category column for action items", () => {
-      const wrapper = shallow(
-        <GroupsContainer {...defaultProps} stage="closed" />
-      )
-
-      const categoryColumn = wrapper.find(CategoryColumn)
-      expect(categoryColumn.prop("category")).to.eql("action-item")
+      renderWithRedux(<GroupsContainer {...defaultProps} stage="closed" />)
+      expect(screen.getByTestId("category-column-action-item")).toBeInTheDocument()
     })
 
     describe("when the groups are given in an unsorted order", () => {
@@ -145,16 +144,11 @@ describe("GroupsContainer component", () => {
             }],
           }
 
-          const wrapper = shallow(
-            <GroupsContainer {...props} />
-          )
+          renderWithRedux(<GroupsContainer {...props} />)
+          const ideaGroups = screen.getAllByTestId(/idea-group-\d+/)
+          const ideaGroupIds = ideaGroups.map(ideaGroup => parseInt(ideaGroup.getAttribute("data-testid").replace("idea-group-", ""), 10))
 
-          const ideaGroups = wrapper.find(IdeaGroup)
-          const ideaGroupIds = ideaGroups.map(ideaGroup => (
-            ideaGroup.prop("groupWithAssociatedIdeasAndVotes").id
-          ))
-
-          expect(ideaGroupIds).to.eql([3, 4, 2])
+          expect(ideaGroupIds).toEqual([3, 4, 2])
         })
       })
 
@@ -172,16 +166,11 @@ describe("GroupsContainer component", () => {
             }],
           }
 
-          const wrapper = shallow(
-            <GroupsContainer {...props} />
-          )
+          renderWithRedux(<GroupsContainer {...props} />)
+          const ideaGroups = screen.getAllByTestId(/idea-group-\d+/)
+          const ideaGroupIds = ideaGroups.map(ideaGroup => parseInt(ideaGroup.getAttribute("data-testid").replace("idea-group-", ""), 10))
 
-          const ideaGroups = wrapper.find(IdeaGroup)
-          const ideaGroupIds = ideaGroups.map(ideaGroup => (
-            ideaGroup.prop("groupWithAssociatedIdeasAndVotes").id
-          ))
-
-          expect(ideaGroupIds).to.eql([1, 2])
+          expect(ideaGroupIds).toEqual([1, 2])
         })
       })
     })
@@ -190,35 +179,29 @@ describe("GroupsContainer component", () => {
   describe("when in the groups-closed stage", () => {
     describe("when the current user's locale indicates they're in the US timezone", () => {
       it("renders an ContactStrideCTA", () => {
-        const wrapper = shallow(
+        renderWithRedux(
           <GroupsContainer {...defaultProps} stage="groups-closed" currentUser={{ locale: "en" }} />
         )
-
-        const contactStrideCTA = wrapper.find(ContactStrideCTA)
-        expect(contactStrideCTA.exists()).to.eql(true)
+        expect(screen.getByTestId("contact-stride-cta")).toBeInTheDocument()
       })
     })
 
     describe("when the current user's locale indicates they're outside a US timezone", () => {
       it("does not render a ContactStrideCTA", () => {
-        const wrapper = shallow(
+        renderWithRedux(
           <GroupsContainer {...defaultProps} stage="groups-closed" currentUser={{ locale: "en-GB" }} />
         )
-
-        const contactStrideCTA = wrapper.find(ContactStrideCTA)
-        expect(contactStrideCTA.exists()).to.eql(false)
+        expect(screen.queryByTestId("contact-stride-cta")).not.toBeInTheDocument()
       })
     })
   })
 
   describe("when in a stage *other than* 'groups-closed'", () => {
     it("does *not* render an ContactStrideCTA column", () => {
-      const wrapper = shallow(
+      renderWithRedux(
         <GroupsContainer {...defaultProps} stage="groups-action-items" />
       )
-
-      const contactStrideCTA = wrapper.find(ContactStrideCTA)
-      expect(contactStrideCTA.exists()).to.eql(false)
+      expect(screen.queryByTestId("contact-stride-cta")).not.toBeInTheDocument()
     })
   })
 })
