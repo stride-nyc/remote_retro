@@ -10,7 +10,7 @@ describe("error", () => {
         it("should return null", () => {
           const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-          expect(reducer(undefined, unhandledAction)).to.equal(null)
+          expect(reducer(undefined, unhandledAction)).toBe(null)
         })
       })
 
@@ -19,7 +19,7 @@ describe("error", () => {
           const initialState = { message: "Broken. It's all broken." }
           const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-          expect(reducer(initialState, unhandledAction)).to.deep.equal(initialState)
+          expect(reducer(initialState, unhandledAction)).toEqual(initialState)
         })
       })
     })
@@ -29,7 +29,7 @@ describe("error", () => {
       const action = { type: "GROUP_UPDATE_REJECTED" }
 
       it("sets a descriptive error message", () => {
-        expect(reducer(initialState, action).message).to.match(/group update failed\. please try again\./i)
+        expect(reducer(initialState, action).message).toMatch(/group update failed\. please try again\./i)
       })
     })
 
@@ -38,7 +38,7 @@ describe("error", () => {
       const action = { type: "IDEA_DELETION_REJECTED" }
 
       it("sets a descriptive error message", () => {
-        expect(reducer(initialState, action).message).to.match(/idea deletion failed\. please try again\./i)
+        expect(reducer(initialState, action).message).toMatch(/idea deletion failed\. please try again\./i)
       })
     })
 
@@ -47,7 +47,7 @@ describe("error", () => {
       const action = { type: "IDEA_SUBMISSION_REJECTED" }
 
       it("sets a descriptive error message", () => {
-        expect(reducer(initialState, action).message).to.match(/idea submission failed\. please try again\./i)
+        expect(reducer(initialState, action).message).toMatch(/idea submission failed\. please try again\./i)
       })
     })
 
@@ -57,7 +57,7 @@ describe("error", () => {
 
       describe("when there is already an error object in state", () => {
         it("sets a descriptive error message", () => {
-          expect(reducer(initialState, action).message).to.match(/idea update failed\. please try again\./i)
+          expect(reducer(initialState, action).message).toMatch(/idea update failed\. please try again\./i)
         })
       })
     })
@@ -67,7 +67,7 @@ describe("error", () => {
       const action = { type: "VOTE_SUBMISSION_REJECTED" }
 
       it("sets a descriptive error message", () => {
-        expect(reducer(initialState, action).message).to.match(/vote submission failed\. please try again\./i)
+        expect(reducer(initialState, action).message).toMatch(/vote submission failed\. please try again\./i)
       })
     })
 
@@ -76,7 +76,7 @@ describe("error", () => {
       const initialState = null
 
       it("sets a descriptive error message", () => {
-        expect(reducer(initialState, action).message).to.match(/vote retraction/i)
+        expect(reducer(initialState, action).message).toMatch(/vote retraction/i)
       })
     })
 
@@ -85,7 +85,7 @@ describe("error", () => {
       const action = { type: "RETRO_UPDATE_REJECTED" }
 
       it("sets a descriptive error message", () => {
-        expect(reducer(initialState, action)).to.deep.equal({
+        expect(reducer(initialState, action)).toEqual({
           message: "Retro update failed. Please try again.",
         })
       })
@@ -96,7 +96,7 @@ describe("error", () => {
       const action = { type: "USER_UPDATE_REJECTED" }
 
       it("sets a descriptive error message", () => {
-        expect(reducer(initialState, action)).to.deep.equal({
+        expect(reducer(initialState, action)).toEqual({
           message: "Update failed. Please try again.",
         })
       })
@@ -107,13 +107,13 @@ describe("error", () => {
 
       describe("and the initial state is null", () => {
         it("returns null", () => {
-          expect(reducer(null, action)).to.equal(null)
+          expect(reducer(null, action)).toBe(null)
         })
       })
 
       describe("when there is a not-null initial state", () => {
         it("returns null", () => {
-          expect(reducer({}, action)).to.equal(null)
+          expect(reducer({}, action)).toBe(null)
         })
       })
     })
@@ -122,7 +122,7 @@ describe("error", () => {
   describe("actions", () => {
     describe("clearError", () => {
       it("creates an action to clear the error", () => {
-        expect(actions.clearError()).to.deep.equal({ type: "CLEAR_ERROR" })
+        expect(actions.clearError()).toEqual({ type: "CLEAR_ERROR" })
       })
     })
   })

@@ -1,5 +1,4 @@
 import deepFreeze from "deep-freeze"
-import sinon from "sinon"
 import NewFacilitator from "../../web/static/js/components/new_facilitator"
 import StageConfig from "../../web/static/js/services/stage_config"
 
@@ -15,7 +14,7 @@ describe("alert", () => {
         it("should return null", () => {
           const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-          expect(reducer(undefined, unhandledAction)).to.equal(null)
+          expect(reducer(undefined, unhandledAction)).toEqual(null)
         })
       })
 
@@ -24,7 +23,7 @@ describe("alert", () => {
           const initialState = { headerText: "derp", bodyText: "derp" }
           const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-          expect(reducer(initialState, unhandledAction)).to.deep.equal(initialState)
+          expect(reducer(initialState, unhandledAction)).toEqual(initialState)
         })
       })
     })
@@ -34,8 +33,8 @@ describe("alert", () => {
       let resultingConfig
 
       beforeEach(() => {
-        stub = sinon.stub(StageConfig, "retrieveFor")
-          .returns({ anotherKey: "value", arrivalAlert: { one: "two" } })
+        stub = jest.spyOn(StageConfig, "retrieveFor")
+          .mockReturnValue({ anotherKey: "value", arrivalAlert: { one: "two" } })
 
         const payload = {
           retro: {
@@ -48,15 +47,15 @@ describe("alert", () => {
       })
 
       afterEach(() => {
-        stub.restore()
+        jest.restoreAllMocks()
       })
 
       it("invokes StageConfig.retrieveFor", () => {
-        expect(stub).calledWith({ stage: "idea-generation" })
+        expect(stub).toHaveBeenCalledWith({ stage: "idea-generation" })
       })
 
       it("returns the alert value from the result of StageConfig.retrieveFor", () => {
-        expect(resultingConfig).to.eql({ one: "two" })
+        expect(resultingConfig).toEqual({ one: "two" })
       })
     })
 
@@ -75,7 +74,7 @@ describe("alert", () => {
       }
 
       it("it replaces the state with the given configuration", () => {
-        expect(reducer(initialState, action)).to.deep.equal({
+        expect(reducer(initialState, action)).toEqual({
           headerText: "I need help!",
           bodyText: "Tell me what to do",
         })
@@ -87,7 +86,7 @@ describe("alert", () => {
       const initialState = null
 
       it("returns configs for the NewFacilitator alert", () => {
-        expect(reducer(initialState, action)).to.eql({
+        expect(reducer(initialState, action)).toEqual({
           headerText: "You've been granted the facilitatorship!",
           BodyComponent: NewFacilitator,
         })
@@ -99,13 +98,13 @@ describe("alert", () => {
 
       describe("and the initial state is null", () => {
         it("returns null", () => {
-          expect(reducer(null, action)).to.equal(null)
+          expect(reducer(null, action)).toEqual(null)
         })
       })
 
       describe("when there is a not-null initial state", () => {
         it("returns null", () => {
-          expect(reducer({}, action)).to.equal(null)
+          expect(reducer({}, action)).toEqual(null)
         })
       })
     })
@@ -114,7 +113,7 @@ describe("alert", () => {
   describe("actions", () => {
     describe("clearAlert", () => {
       it("creates an action to clear the alert", () => {
-        expect(actions.clearAlert()).to.deep.equal({ type: "CLEAR_ALERT" })
+        expect(actions.clearAlert()).toEqual({ type: "CLEAR_ALERT" })
       })
     })
   })
