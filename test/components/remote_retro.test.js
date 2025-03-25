@@ -46,7 +46,7 @@ describe("RemoteRetro component", () => {
       <RemoteRetro
         {...defaultProps}
         alert={{
-          derp: "herp",
+          foo: "bar",
           headerText: "Test Alert",
           BodyComponent: () => <div>Test Alert Body</div>,
         }}
@@ -58,7 +58,7 @@ describe("RemoteRetro component", () => {
     expect(ViewportMetaTag).toHaveBeenCalledWith(
       {
         alert: {
-          derp: "herp",
+          foo: "bar",
           headerText: "Test Alert",
           BodyComponent: expect.any(Function),
         },
