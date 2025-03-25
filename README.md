@@ -126,6 +126,7 @@ To continually execute the client-side unit tests on file change:
 
 <!-- TODO: confirm works -->
 <!-- TODO: remove mocha -->
+<!-- TODO: remove enzyme? -->
 
 ```bash
 yarn test:watch

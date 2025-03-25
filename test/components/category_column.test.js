@@ -1,12 +1,12 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
 
 import {
   CategoryColumn,
   mapStateToProps,
   dropTargetSpec,
 } from "../../web/static/js/components/category_column"
-// import "@testing-library/jest-dom"
 
 global.ASSET_DOMAIN = "http://localhost"
 
@@ -38,7 +38,7 @@ describe("CategoryColumn", () => {
       it("renders the raw category string in the column header", () => {
         render(<CategoryColumn {...defaultProps} />)
 
-        expect(screen.getByText("action-item").innerHTML).toEqual("action-item")
+        expect(screen.getByText("action-item")).toBeInTheDocument()
       })
     })
 
@@ -51,7 +51,7 @@ describe("CategoryColumn", () => {
           />
         )
 
-        expect(screen.getByText("gobbledygook").innerHTML).toEqual("gobbledygook")
+        expect(screen.getByText("gobbledygook")).toBeInTheDocument()
       })
     })
   })
