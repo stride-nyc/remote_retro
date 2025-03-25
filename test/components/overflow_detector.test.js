@@ -1,7 +1,6 @@
 import React from "react"
-import { mount } from "enzyme"
-import sinon from "sinon"
-
+import { render, screen } from "@testing-library/react"
+import "@testing-library/jest-dom"
 import OverflowDetector, { DomElementUtils } from "../../web/static/js/components/overflow_detector"
 
 // rather than laboriously mock dom element client/scroll heights, we extract
@@ -14,7 +13,7 @@ describe("`DomElementUtils.isOverflowedY` helper", () => {
         clientHeight: 79,
       }
 
-      expect(DomElementUtils.isOverflowedY(domElementAttrs)).to.eql(true)
+      expect(DomElementUtils.isOverflowedY(domElementAttrs)).toBe(true)
     })
   })
 
@@ -25,7 +24,7 @@ describe("`DomElementUtils.isOverflowedY` helper", () => {
         clientHeight: 80,
       }
 
-      expect(DomElementUtils.isOverflowedY(domElementAttrs)).to.eql(false)
+      expect(DomElementUtils.isOverflowedY(domElementAttrs)).toBe(false)
     })
   })
 
@@ -36,139 +35,142 @@ describe("`DomElementUtils.isOverflowedY` helper", () => {
         clientHeight: 80,
       }
 
-      expect(DomElementUtils.isOverflowedY(domElementAttrs)).to.eql(false)
+      expect(DomElementUtils.isOverflowedY(domElementAttrs)).toBe(false)
     })
   })
 })
 
 describe("<OverflowDetector />", () => {
-  let clock
   let isOverflowedYSpy
   const defaultProps = {
     children: <p>Playing gleefully</p>,
     elementType: "div",
-    onOverflowChange: () => {},
+    onOverflowChange: jest.fn(),
+    className: "",
   }
 
   beforeEach(() => {
-    isOverflowedYSpy = sinon.spy(DomElementUtils, "isOverflowedY")
-    clock = sinon.useFakeTimers()
+    jest.useFakeTimers()
+    isOverflowedYSpy = jest.spyOn(DomElementUtils, "isOverflowedY")
   })
 
   afterEach(() => {
-    clock.restore()
-    isOverflowedYSpy.restore()
+    jest.useRealTimers()
+    jest.restoreAllMocks()
   })
 
   it("renders a wrapping element of the type passed in elementType", () => {
-    const wrapper = mount(
+    const { container } = render(
       <OverflowDetector {...defaultProps} elementType="span" />
     )
 
-    expect(wrapper.childAt(0).type()).to.equal("span")
+    expect(container.firstChild.tagName.toLowerCase()).toBe("span")
   })
 
   it("passes the given className down to the wrapping element", () => {
-    const wrapper = mount(
+    const { container } = render(
       <OverflowDetector {...defaultProps} className="pretty" />
     )
 
-    expect(wrapper.childAt(0).hasClass("pretty")).to.equal(true)
+    expect(container.firstChild).toHaveClass("pretty")
   })
 
   it("renders the given children within the wrapping element", () => {
-    const wrapper = mount(
+    render(
       <OverflowDetector {...defaultProps}>
         <p>Inner beauty</p>
       </OverflowDetector>
     )
 
-    expect(wrapper.childAt(0).html()).to.match(/inner beauty/i)
+    expect(screen.getByText(/inner beauty/i)).toBeInTheDocument()
   })
 
   describe("required mount logic", () => {
-    let onOverflowChangeSpy
+    let onOverflowChangeMock
 
     beforeEach(() => {
-      onOverflowChangeSpy = sinon.spy()
+      onOverflowChangeMock = jest.fn()
 
-      mount(
-        <OverflowDetector {...defaultProps} onOverflowChange={onOverflowChangeSpy} />
+      render(
+        <OverflowDetector {...defaultProps} onOverflowChange={onOverflowChangeMock} />
       )
     })
 
     it("checks whether the element is overflowed after an interval", () => {
-      expect(() => {
-        clock.tick(350)
-      }).to.alter(() => isOverflowedYSpy.called, { from: false, to: true })
+      expect(isOverflowedYSpy).not.toHaveBeenCalled()
+      jest.advanceTimersByTime(350)
+      expect(isOverflowedYSpy).toHaveBeenCalled()
     })
 
     describe("when passed an explicit interval greater than 300", () => {
       beforeEach(() => {
-        // renewing timers/spies necessary to ensure clean slate from ancestral beforeEach's
-        clock.restore()
-        clock = sinon.useFakeTimers()
+        // Reset mocks for a clean slate
+        jest.clearAllMocks()
 
-        isOverflowedYSpy.restore()
-        isOverflowedYSpy = sinon.spy(DomElementUtils, "isOverflowedY")
-
-        mount(
+        render(
           <OverflowDetector
             {...defaultProps}
-            onOverflowChange={onOverflowChangeSpy}
+            onOverflowChange={onOverflowChangeMock}
             interval={2000}
           />
         )
       })
 
       it("doesnt check the overflow when 300ms (the default interval) have elapsed", () => {
-        clock.tick(301)
-        expect(isOverflowedYSpy).not.to.have.been.called
+        // We need to reset the timer and mock completely for this test
+        jest.clearAllTimers()
+        isOverflowedYSpy.mockReset()
+
+        render(
+          <OverflowDetector
+            {...defaultProps}
+            onOverflowChange={onOverflowChangeMock}
+            interval={2000}
+          />
+        )
+
+        jest.advanceTimersByTime(301)
+        expect(isOverflowedYSpy).not.toHaveBeenCalled()
       })
 
       it("only checks whether the element is overflowed after the given interval", () => {
-        expect(() => {
-          clock.tick(2001)
-        }).to.alter(() => isOverflowedYSpy.called, { from: false, to: true })
+        expect(isOverflowedYSpy).not.toHaveBeenCalled()
+        jest.advanceTimersByTime(2001)
+        expect(isOverflowedYSpy).toHaveBeenCalled()
       })
     })
 
     describe("when between the intervals the overflow changes", () => {
-      let isOverflowedYStub
-
       beforeEach(() => {
-        isOverflowedYSpy.restore() // necessary to restore the spy before stubbing same method
-        isOverflowedYStub = sinon.stub(DomElementUtils, "isOverflowedY", () => true)
-        clock.tick(300)
+        // Mock implementation to return true
+        isOverflowedYSpy.mockImplementation(() => true)
+        jest.advanceTimersByTime(300)
       })
 
       it("invokes the `onOverflowChange` callback with the value", () => {
-        expect(onOverflowChangeSpy).to.have.been.calledWith(true)
-        isOverflowedYStub.restore()
+        expect(onOverflowChangeMock).toHaveBeenCalledWith(true)
       })
 
       describe("when between the intervals the overflow changes *again*", () => {
         beforeEach(() => {
-          isOverflowedYSpy.restore() // necessary to restore the spy before stubbing same method
-          isOverflowedYStub = sinon.stub(DomElementUtils, "isOverflowedY", () => false)
-          clock.tick(300)
+          // Mock implementation to return false
+          isOverflowedYSpy.mockImplementation(() => false)
+          jest.advanceTimersByTime(300)
         })
 
         it("invokes the `onOverflowChange` callback with the new value", () => {
-          expect(onOverflowChangeSpy).to.have.been.calledWith(false)
-          isOverflowedYStub.restore()
+          expect(onOverflowChangeMock).toHaveBeenCalledWith(false)
         })
       })
     })
 
     describe("when between the intervals the overflow *doesn't* change", () => {
       it("does *not* invoke the `onOverflowChange` callback", () => {
-        isOverflowedYSpy.restore() // necessary to restore the spy before stubbing same method
-        const isOverflowedYStub = sinon.stub(DomElementUtils, "isOverflowedY", () => false)
-        clock.tick(300)
+        // Mock implementation to return false (default state is also false)
+        isOverflowedYSpy.mockImplementation(() => false)
+        jest.advanceTimersByTime(300)
 
-        expect(onOverflowChangeSpy).not.to.have.been.called
-        isOverflowedYStub.restore()
+        expect(onOverflowChangeMock).not.toHaveBeenCalled()
       })
     })
   })
