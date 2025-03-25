@@ -3,7 +3,7 @@ import { screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 
 import LobbyStage from "../../web/static/js/components/lobby_stage"
-import renderWithRedux from "../support/js/render_with_redux"
+import { renderWithRedux } from "../support/js/jest_test_helper"
 
 describe("LobbyStage component", () => {
   const currentUser = {

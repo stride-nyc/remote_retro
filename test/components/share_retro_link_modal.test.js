@@ -2,7 +2,7 @@ import React from "react"
 import { fireEvent, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import Modal from "react-modal"
-import renderWithRedux from "../support/js/render_with_redux"
+import { renderWithRedux } from "../support/js/jest_test_helper"
 
 import { ShareRetroLinkModal } from "../../web/static/js/components/share_retro_link_modal"
 

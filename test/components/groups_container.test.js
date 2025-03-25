@@ -4,8 +4,7 @@ import { screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 
 import { GroupsContainer } from "../../web/static/js/components/groups_container"
-// We're mocking these components, so we don't need to import the actual ones
-import renderWithRedux from "../support/js/render_with_redux"
+import { renderWithRedux } from "../support/js/jest_test_helper"
 
 // Mock the components we're not directly testing
 jest.mock("../../web/static/js/components/idea_group", () => {

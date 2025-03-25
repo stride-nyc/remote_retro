@@ -4,7 +4,7 @@ import "@testing-library/jest-dom"
 
 import LowerThird from "../../web/static/js/components/lower_third"
 import STAGES from "../../web/static/js/configs/stages"
-import renderWithRedux from "../support/js/render_with_redux"
+import { renderWithRedux } from "../support/js/jest_test_helper"
 
 const { IDEA_GENERATION, VOTING, CLOSED, GROUPING } = STAGES
 
