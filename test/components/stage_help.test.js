@@ -1,20 +1,30 @@
 import React from "react"
-import sinon from "sinon"
-import { shallow } from "enzyme"
+import { render, fireEvent } from "@testing-library/react"
+import "@testing-library/jest-dom"
 
 import { StageHelp } from "../../web/static/js/components/stage_help"
 
 describe("<StageHelp />", () => {
-  let wrapper
-
   // Setup JSDom so that react can inject a portal
-  const iconRoot = global.document.createElement("button")
-  iconRoot.setAttribute("id", "stage-help-icon")
-  const body = global.document.querySelector("body")
-  body.appendChild(iconRoot)
+  const setupPortalRoot = () => {
+    const iconRoot = document.createElement("div")
+    iconRoot.setAttribute("id", "stage-help-icon")
+    document.body.appendChild(iconRoot)
+  }
+
+  beforeEach(() => {
+    setupPortalRoot()
+  })
+
+  afterEach(() => {
+    const iconRoot = document.getElementById("stage-help-icon")
+    if (iconRoot) {
+      document.body.removeChild(iconRoot)
+    }
+  })
 
   const actions = {
-    showStageHelp: sinon.spy(),
+    showStageHelp: jest.fn(),
   }
 
   const defaultProps = {
@@ -28,17 +38,19 @@ describe("<StageHelp />", () => {
 
   describe("when it is a stage with help to show", () => {
     beforeEach(() => {
-      wrapper = shallow(<StageHelp {...defaultProps} />)
+      render(<StageHelp {...defaultProps} />)
     })
 
     it("renders the question mark icon", () => {
-      expect(wrapper.find("i.question").exists()).to.equal(true)
+      const questionIcon = document.querySelector("i.question")
+      expect(questionIcon).toBeInTheDocument()
     })
 
     describe("when clicking the icon for help", () => {
       it("dispatches showStageHelp with the stage's help config", () => {
-        wrapper.find("button").simulate("click")
-        expect(actions.showStageHelp).to.have.been.calledWith({
+        const button = document.querySelector("button")
+        fireEvent.click(button)
+        expect(actions.showStageHelp).toHaveBeenCalledWith({
           header: "Oh yeah, here's some help for ya",
         })
       })
@@ -54,11 +66,12 @@ describe("<StageHelp />", () => {
         },
       }
 
-      wrapper = shallow(<StageHelp {...newProps} />)
+      render(<StageHelp {...newProps} />)
     })
 
     it("does NOT render the question mark icon", () => {
-      expect(wrapper.find("i.question").exists()).to.equal(false)
+      const questionIcon = document.querySelector("i.question")
+      expect(questionIcon).not.toBeInTheDocument()
     })
   })
 })
