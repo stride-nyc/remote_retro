@@ -1,7 +1,6 @@
 import deepFreeze from "deep-freeze"
-import sinon from "sinon"
 
-import { setupMockRetroChannel } from "../support/js/test_helper"
+import { setupMockRetroChannel } from "../support/js/jest_test_helper"
 
 import {
   reducer,
@@ -18,7 +17,7 @@ describe("retro reducer", () => {
     describe("when there is an empty action", () => {
       describe("when no initial state is passed", () => {
         it("should return an initial state of null", () => {
-          expect(reducer(undefined, { type: "unknown" })).to.equal(null)
+          expect(reducer(undefined, { type: "unknown" })).toEqual(null)
         })
       })
 
@@ -29,7 +28,7 @@ describe("retro reducer", () => {
         })
 
         it("should return that initial state", () => {
-          expect(reducer(initialState, {})).to.equal(initialState)
+          expect(reducer(initialState, {})).toEqual(initialState)
         })
       })
     })
@@ -46,7 +45,7 @@ describe("retro reducer", () => {
           votes: [],
         }
         const action = { type: "SET_INITIAL_STATE", initialState: actionInitialState }
-        expect(reducer(undefined, action)).to.eql({
+        expect(reducer(undefined, action)).toEqual({
           inserted_at: "holy mother of jeebus",
           stage: "prime-directive",
           facilitator_id: 98,
@@ -72,7 +71,7 @@ describe("retro reducer", () => {
             },
           }
           const action = { type: actionType, payload }
-          expect(reducer(initialState, action)).to.include({
+          expect(reducer(initialState, action)).toMatchObject({
             stage: "new stage",
             facilitator_id: 70,
             someNewKey: "someNewVal",
@@ -85,7 +84,7 @@ describe("retro reducer", () => {
           })
 
           const action = { type: actionType, payload: { retro: {} } }
-          expect(reducer(initialState, action)).to.eql({
+          expect(reducer(initialState, action)).toEqual({
             updateRequested: false,
           })
         })
@@ -97,7 +96,7 @@ describe("retro reducer", () => {
         const initialState = deepFreeze({ one: "two", updateRequested: true })
         const action = { type: "RETRO_UPDATE_REJECTED" }
 
-        expect(reducer(initialState, action)).to.eql({
+        expect(reducer(initialState, action)).toEqual({
           one: "two",
           updateRequested: false,
         })
@@ -112,7 +111,7 @@ describe("retro reducer", () => {
         })
 
         const action = { type: "RETRO_UPDATE_REQUESTED" }
-        expect(reducer(initialState, action)).to.eql({
+        expect(reducer(initialState, action)).toEqual({
           ...initialState,
           updateRequested: true,
         })
@@ -125,7 +124,7 @@ describe("action creators", () => {
   describe("retroUpdateCommitted", () => {
     it("returns a thunk", () => {
       const thunk = actionCreators.retroUpdateCommitted({ stage: "newSlang" })
-      expect(typeof thunk).to.equal("function")
+      expect(typeof thunk).toBe("function")
     })
 
     describe("when the given payload contains a stage different than the current stage", () => {
@@ -149,14 +148,14 @@ describe("action creators", () => {
         }
 
         const thunk = actionCreators.retroUpdateCommitted(payload)
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
 
         thunk(dispatchSpy, getState, {})
 
-        expect(dispatchSpy).calledWithMatch({
+        expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
           type: "RETRO_STAGE_PROGRESSION_COMMITTED",
           payload,
-        })
+        }))
       })
     })
 
@@ -185,17 +184,17 @@ describe("action creators", () => {
         }
 
         const thunk = actionCreators.retroUpdateCommitted(payload)
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
 
         thunk(dispatchSpy, getState, {})
 
-        expect(dispatchSpy).calledWithMatch({
+        expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
           type: "RETRO_FACILITATOR_CHANGE_COMMITTED",
           payload,
-        })
+        }))
       })
 
-      context("when the new facilitator id is the current user's id", () => {
+      describe("when the new facilitator id is the current user's id", () => {
         beforeEach(() => {
           window.userToken = "currentUserToken"
         })
@@ -221,13 +220,13 @@ describe("action creators", () => {
           }
 
           const thunk = actionCreators.retroUpdateCommitted(payload)
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
 
           thunk(dispatchSpy, getState, {})
 
-          expect(dispatchSpy).calledWithMatch({
+          expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
             type: "CURRENT_USER_HAS_BECOME_FACILITATOR",
-          })
+          }))
         })
 
         afterEach(() => {
@@ -235,7 +234,7 @@ describe("action creators", () => {
         })
       })
 
-      context("when the new facilitator id is *not* the current user's id", () => {
+      describe("when the new facilitator id is *not* the current user's id", () => {
         beforeEach(() => {
           window.userToken = "tokenForCurrentUser!"
         })
@@ -261,13 +260,13 @@ describe("action creators", () => {
           }
 
           const thunk = actionCreators.retroUpdateCommitted(payload)
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
 
           thunk(dispatchSpy, getState, {})
 
-          expect(dispatchSpy).not.calledWithMatch({
+          expect(dispatchSpy).not.toHaveBeenCalledWith(expect.objectContaining({
             type: "CURRENT_USER_HAS_BECOME_FACILITATOR",
-          })
+          }))
         })
 
         afterEach(() => {
@@ -280,7 +279,7 @@ describe("action creators", () => {
   describe("updateRetroAsync", () => {
     it("returns a thunk", () => {
       const thunk = actionCreators.updateRetroAsync({ stage: "newSlang" })
-      expect(typeof thunk).to.equal("function")
+      expect(typeof thunk).toBe("function")
     })
 
     describe("invoking the returned function", () => {
@@ -290,33 +289,33 @@ describe("action creators", () => {
       beforeEach(() => {
         thunk = actionCreators.updateRetroAsync({ stage: "newSlang" })
         mockRetroChannel = setupMockRetroChannel()
-        sinon.spy(mockRetroChannel, "push")
+        jest.spyOn(mockRetroChannel, "push")
       })
 
       afterEach(() => {
-        mockRetroChannel.push.restore()
+        jest.restoreAllMocks()
       })
 
       it("results in a push to the retroChannel", () => {
         thunk(() => {}, undefined, mockRetroChannel)
-        expect(mockRetroChannel.push).calledWith("retro_edited", { stage: "newSlang" })
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("retro_edited", { stage: "newSlang" })
       })
 
       it("notifies the store that a retro update request is in flight", () => {
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
 
         thunk(dispatchSpy, undefined, mockRetroChannel)
-        expect(dispatchSpy).calledWithMatch({ type: "RETRO_UPDATE_REQUESTED" })
+        expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ type: "RETRO_UPDATE_REQUESTED" }))
       })
 
       describe("when the push results in an error", () => {
         it("dispatches an error", () => {
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
           mockRetroChannel.__triggerReply("error", {})
 
-          expect(dispatchSpy).calledWithMatch({ type: "RETRO_UPDATE_REJECTED" })
+          expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ type: "RETRO_UPDATE_REJECTED" }))
         })
       })
     })
@@ -326,7 +325,7 @@ describe("action creators", () => {
     it("creates an action to set the retro's initial state", () => {
       const initialState = { stage: PRIME_DIRECTIVE, inserted_at: "2017-04-14T17:30:10" }
 
-      expect(actionCreators.setInitialState(initialState)).to.deep.equal({
+      expect(actionCreators.setInitialState(initialState)).toEqual({
         type: "SET_INITIAL_STATE",
         initialState,
       })
@@ -339,19 +338,19 @@ describe("selectors", () => {
     it("returns true for the 'action-items' stage", () => {
       expect(
         selectors.isAnActionItemsStage({ retro: { stage: "action-items" } })
-      ).to.eql(true)
+      ).toEqual(true)
     })
 
     it("returns true for the 'groups-action-items' stage", () => {
       expect(
         selectors.isAnActionItemsStage({ retro: { stage: "groups-action-items" } })
-      ).to.eql(true)
+      ).toEqual(true)
     })
 
     it("returns false for non-action item stages", () => {
       expect(
         selectors.isAnActionItemsStage({ retro: { stage: "idea-generation" } })
-      ).to.eql(false)
+      ).toEqual(false)
     })
   })
 
@@ -359,19 +358,19 @@ describe("selectors", () => {
     it("returns true for the 'closed' stage", () => {
       expect(
         selectors.isRetroClosed({ retro: { stage: "closed" } })
-      ).to.eql(true)
+      ).toEqual(true)
     })
 
     it("returns true for the 'groups-closed' stage", () => {
       expect(
         selectors.isRetroClosed({ retro: { stage: "groups-closed" } })
-      ).to.eql(true)
+      ).toEqual(true)
     })
 
     it("returns false for non-closed stages", () => {
       expect(
         selectors.isRetroClosed({ retro: { stage: "idea-generation" } })
-      ).to.eql(false)
+      ).toEqual(false)
     })
   })
 })
