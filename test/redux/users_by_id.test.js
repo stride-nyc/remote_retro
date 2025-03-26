@@ -1,7 +1,6 @@
 import deepFreeze from "deep-freeze"
-import sinon from "sinon"
 
-import { setupMockRetroChannel } from "../support/js/test_helper"
+import { setupMockRetroChannel } from "../support/js/jest_test_helper"
 
 import {
   reducer,
@@ -11,7 +10,7 @@ import {
 
 describe("selectors", () => {
   describe("getUserById", () => {
-    context("when the user with the specified id exists in state", () => {
+    describe("when the user with the specified id exists in state", () => {
       const state = {
         usersById: {
           1: { id: 1, name: "Betty White" },
@@ -23,7 +22,7 @@ describe("selectors", () => {
       const userId = 1
 
       it("should select the user with the given userId", () => {
-        expect(selectors.getUserById(state, userId)).to.eql({
+        expect(selectors.getUserById(state, userId)).toEqual({
           id: 1,
           name: "Betty White",
         })
@@ -53,7 +52,7 @@ describe("selectors", () => {
     }
 
     it("should merge each presence object with the associated user, dropping the foreign key and adding a is_facilitator boolean", () => {
-      expect(selectors.getUserPresences(state)).to.eql([{
+      expect(selectors.getUserPresences(state)).toEqual([{
         id: 1,
         online_at: 987,
         is_typing: true,
@@ -70,7 +69,7 @@ describe("selectors", () => {
   })
 
   describe("getCurrentUserPresence", () => {
-    context("when the presence with the token on window exists in state", () => {
+    describe("when the presence with the token on window exists in state", () => {
       beforeEach(() => {
         window.userToken = "hErOboy"
       })
@@ -91,7 +90,7 @@ describe("selectors", () => {
       }
 
       it("merges the presence object, sans user_id, with the associated user attributes, adding a is_facilitator boolean attribute", () => {
-        expect(selectors.getCurrentUserPresence(state)).to.eql({
+        expect(selectors.getCurrentUserPresence(state)).toEqual({
           id: 3,
           is_facilitator: true,
           name: "Estelle Getty",
@@ -100,7 +99,7 @@ describe("selectors", () => {
         })
       })
 
-      context("when you call the selector again, but the presence is no longer 'present'", () => {
+      describe("when you call the selector again, but the presence is no longer 'present'", () => {
         const newStateLackingPresences = {
           retro: {
             facilitator_id: 3,
@@ -116,7 +115,7 @@ describe("selectors", () => {
           const firstResult = selectors.getCurrentUserPresence(state)
           const secondResult = selectors.getCurrentUserPresence(newStateLackingPresences)
 
-          expect(secondResult).to.equal(firstResult)
+          expect(secondResult).toBe(firstResult)
         })
       })
     })
@@ -129,8 +128,8 @@ describe("usersById reducer", () => {
       it("should return an empty object", () => {
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(reducer(undefined, {})).to.deep.equal({})
-        expect(reducer(undefined, unhandledAction)).to.deep.equal({})
+        expect(reducer(undefined, {})).toEqual({})
+        expect(reducer(undefined, unhandledAction)).toEqual({})
       })
     })
 
@@ -141,8 +140,8 @@ describe("usersById reducer", () => {
 
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(reducer(initialState, {})).to.deep.equal(initialState)
-        expect(reducer(initialState, unhandledAction)).to.deep.equal(initialState)
+        expect(reducer(initialState, {})).toEqual(initialState)
+        expect(reducer(initialState, unhandledAction)).toEqual(initialState)
       })
     })
   })
@@ -160,7 +159,7 @@ describe("usersById reducer", () => {
           },
         }
 
-        expect(reducer(undefined, action)).to.deep.equal({
+        expect(reducer(undefined, action)).toEqual({
           3: { id: 3, name: "Hilary" },
           5: { id: 5, name: "Timmy" },
         })
@@ -181,7 +180,7 @@ describe("usersById reducer", () => {
           const initialState = {}
           deepFreeze(initialState)
 
-          expect(reducer(initialState, action)).to.deep.equal({
+          expect(reducer(initialState, action)).toEqual({
             6: { id: 6, name: "Kevin" },
             7: { id: 7, name: "Blurg Man" },
           })
@@ -204,7 +203,7 @@ describe("usersById reducer", () => {
 
           deepFreeze(initialState)
 
-          expect(reducer(initialState, action)).to.deep.equal({
+          expect(reducer(initialState, action)).toEqual({
             6: { id: 6, name: "Kevin" },
             7: { id: 7, name: "Blurg Man" },
           })
@@ -230,7 +229,7 @@ describe("usersById reducer", () => {
             5: { id: 5, name: "Travis" },
           }
 
-          expect(reducer(initialState, action)).to.deep.equal({
+          expect(reducer(initialState, action)).toEqual({
             5: { id: 5, name: "Travis" },
             60: { id: 60, name: "Kevin" },
             61: { id: 61, name: "Sarah" },
@@ -258,7 +257,7 @@ describe("usersById reducer", () => {
           },
         }
 
-        expect(reducer(initialState, action)).to.deep.equal({
+        expect(reducer(initialState, action)).toEqual({
           21: { id: 21, name: "Travis", email_opt_in: false, nonsense: "value" },
           99: { id: 99, name: "Kevin" },
         })
@@ -284,7 +283,7 @@ describe("usersById reducer", () => {
             },
           }
 
-          expect(reducer(initialState, action)).to.deep.equal({
+          expect(reducer(initialState, action)).toEqual({
             21: {
               id: 21,
               ephemeralAttribute: "nar!",
@@ -304,7 +303,7 @@ describe("actions", () => {
     it("returns a thunk", () => {
       const result = actions.updateUserAsync(21, { derp: "yerp" })
 
-      expect(typeof result).to.eql("function")
+      expect(typeof result).toEqual("function")
     })
 
     describe("invoking the returned function", () => {
@@ -314,43 +313,43 @@ describe("actions", () => {
       beforeEach(() => {
         thunk = actions.updateUserAsync(21, { email_opt_in: false })
         mockRetroChannel = setupMockRetroChannel()
-        sinon.spy(mockRetroChannel, "push")
+        jest.spyOn(mockRetroChannel, "push")
       })
 
       afterEach(() => {
-        mockRetroChannel.push.restore()
+        jest.restoreAllMocks()
       })
 
       it("results in a push of the params to the retroChannel", () => {
         thunk(() => {}, undefined, mockRetroChannel)
-        expect(mockRetroChannel.push).calledWith("user_edited", { id: 21, email_opt_in: false })
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("user_edited", { id: 21, email_opt_in: false })
       })
 
       describe("when the push is successful", () => {
         it("dispatches an update action, including the updated user ", () => {
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
           mockRetroChannel.__triggerReply("ok", { id: 5, email_opt_in: true })
 
-          expect(dispatchSpy).calledWithMatch({
+          expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
             type: "USER_UPDATE_COMMITTED",
             updatedUser: {
               id: 5,
               email_opt_in: true,
             },
-          })
+          }))
         })
       })
 
       describe("when the push results in an error", () => {
         it("dispatches an error", () => {
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
           mockRetroChannel.__triggerReply("error", {})
 
-          expect(dispatchSpy).calledWithMatch({ type: "USER_UPDATE_REJECTED" })
+          expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ type: "USER_UPDATE_REJECTED" }))
         })
       })
     })
