@@ -9,14 +9,16 @@ const { IDEA_GENERATION } = STAGES
 
 // Add data-testid attributes to the components for easier querying
 jest.mock("../../web/static/js/components/idea_content_base", () => {
-  return function MockIdeaContentBase(props) {
-    return <div data-testid="idea-content-base" {...props} />
+  return function MockIdeaContentBase() {
+    // Don't spread props to avoid React warnings about non-DOM props
+    return <div data-testid="idea-content-base" />
   }
 })
 
 jest.mock("../../web/static/js/components/draggable_idea_content", () => {
-  return function MockDraggableIdeaContent(props) {
-    return <div data-testid="draggable-idea-content" {...props} />
+  return function MockDraggableIdeaContent() {
+    // Don't spread props to avoid React warnings about non-DOM props
+    return <div data-testid="draggable-idea-content" />
   }
 })
 
