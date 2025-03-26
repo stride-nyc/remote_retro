@@ -1,10 +1,15 @@
-import sinon from "sinon"
-
+// Mock the Redux store to prevent "No reducer provided for key 'stageConfig'" error
 import {
   reducer as stageConfigReducer
 } from "../../web/static/js/redux/stage_config"
 
 import StageConfig from "../../web/static/js/services/stage_config"
+
+jest.mock("../../web/static/js/redux/index", () => ({
+  reducer: jest.fn(),
+  actions: {},
+  selectors: {},
+}))
 
 describe("stageConfig reducer", () => {
   describe("when an action is nonexistent or unhandled", () => {
@@ -12,7 +17,7 @@ describe("stageConfig reducer", () => {
       it("returns nothing", () => {
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(stageConfigReducer(undefined, unhandledAction)).to.equal(null)
+        expect(stageConfigReducer(undefined, unhandledAction)).toBe(null)
       })
     })
 
@@ -21,18 +26,18 @@ describe("stageConfig reducer", () => {
         const initialState = { confirmationMessageHTML: "You sure you wanna proceed to voting?" }
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(stageConfigReducer(initialState, unhandledAction)).to.deep.equal(initialState)
+        expect(stageConfigReducer(initialState, unhandledAction)).toEqual(initialState)
       })
     })
   })
 
   describe("the handled actions", () => {
     describe("when invoked with a SET_INITIAL_STATE action", () => {
-      let stub
+      let mockRetrieveFor
       let resultingConfig
 
       beforeEach(() => {
-        stub = sinon.stub(StageConfig, "retrieveFor").returns({ keyFromStub: "value", alert: {} })
+        mockRetrieveFor = jest.spyOn(StageConfig, "retrieveFor").mockReturnValue({ keyFromStub: "value", alert: {} })
         const actionInitialState = {
           stage: "prime-directive",
           format: "Happy/Sad/Confused",
@@ -43,28 +48,28 @@ describe("stageConfig reducer", () => {
       })
 
       afterEach(() => {
-        stub.restore()
+        mockRetrieveFor.mockRestore()
       })
 
       it("invokes StageConfig.retrieveFor with the format and initial stage", () => {
-        expect(stub).calledWith({ format: "Happy/Sad/Confused", stage: "prime-directive" })
+        expect(mockRetrieveFor).toHaveBeenCalledWith({ format: "Happy/Sad/Confused", stage: "prime-directive" })
       })
 
       it("returns an object based on the config returned by StageConfig.retrieveFor", () => {
-        expect(resultingConfig).to.have.property("keyFromStub")
+        expect(resultingConfig).toHaveProperty("keyFromStub")
       })
 
       it("omits alert configuration", () => {
-        expect(resultingConfig).to.not.have.property("alert")
+        expect(resultingConfig).not.toHaveProperty("alert")
       })
     })
 
     describe("when the retro stage is advanced", () => {
-      let stub
+      let mockRetrieveFor
       let resultingConfig
 
       beforeEach(() => {
-        stub = sinon.stub(StageConfig, "retrieveFor").returns({ anotherKey: "value", alert: {} })
+        mockRetrieveFor = jest.spyOn(StageConfig, "retrieveFor").mockReturnValue({ anotherKey: "value", alert: {} })
         const payload = {
           retro: {
             stage: "idea-generation",
@@ -76,19 +81,19 @@ describe("stageConfig reducer", () => {
       })
 
       afterEach(() => {
-        stub.restore()
+        mockRetrieveFor.mockRestore()
       })
 
       it("invokes StageConfig.retrieveFor with the new stage", () => {
-        expect(stub).calledWith({ stage: "idea-generation" })
+        expect(mockRetrieveFor).toHaveBeenCalledWith({ stage: "idea-generation" })
       })
 
       it("returns a configuration object based on the return of the collaborator", () => {
-        expect(resultingConfig).to.have.property("anotherKey")
+        expect(resultingConfig).toHaveProperty("anotherKey")
       })
 
       it("omits the alert configuration", () => {
-        expect(resultingConfig).to.not.have.property("alert")
+        expect(resultingConfig).not.toHaveProperty("alert")
       })
     })
   })
