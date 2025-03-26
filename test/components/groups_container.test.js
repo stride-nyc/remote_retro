@@ -6,10 +6,21 @@ import "@testing-library/jest-dom"
 import { GroupsContainer } from "../../web/static/js/components/groups_container"
 import { renderWithRedux } from "../support/js/jest_test_helper"
 
-// Mock the components we're not directly testing
+// Mock components to avoid ref issues
+jest.mock("react-flip-move", () => {
+  return function MockFlipMove({ children }) {
+    return <div>{children}</div>
+  }
+})
+
 jest.mock("../../web/static/js/components/idea_group", () => {
-  return function MockIdeaGroup({ groupWithAssociatedIdeasAndVotes }) {
-    return <div data-testid={`idea-group-${groupWithAssociatedIdeasAndVotes.id}`}>IdeaGroup</div>
+  // Mock IdeaGroup as a div element directly to avoid FlipMove ref issues
+  return {
+    __esModule: true,
+    default: function MockIdeaGroup(props) {
+      const { groupWithAssociatedIdeasAndVotes } = props
+      return <div data-testid={`idea-group-${groupWithAssociatedIdeasAndVotes.id}`}>IdeaGroup</div>
+    },
   }
 })
 
