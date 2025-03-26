@@ -10,7 +10,7 @@ describe("user options", () => {
         it("should return default initial state", () => {
           const unhandledAction = { type: "SOMEUNHANDLEDACTION" }
 
-          expect(reducer(undefined, unhandledAction)).to.deep.equal({
+          expect(reducer(undefined, unhandledAction)).toEqual({
             highContrastOn: false,
           })
         })
@@ -21,7 +21,7 @@ describe("user options", () => {
           const initialState = { highContrastOn: true }
           const unhandledAction = { type: "SOMEUNHANDLEDACTION" }
 
-          expect(reducer(initialState, unhandledAction)).to.deep.equal(initialState)
+          expect(reducer(initialState, unhandledAction)).toEqual(initialState)
         })
       })
     })
@@ -31,13 +31,13 @@ describe("user options", () => {
 
       describe("and highContrastOn is true", () => {
         it("returns highContrastOn as false", () => {
-          expect(reducer({ highContrastOn: true }, action)).to.deep.equal({ highContrastOn: false })
+          expect(reducer({ highContrastOn: true }, action)).toEqual({ highContrastOn: false })
         })
       })
 
       describe("and highContrastOn is false", () => {
         it("returns highContrastOn as true", () => {
-          expect(reducer({ highContrastOn: false }, action)).to.deep.equal({ highContrastOn: true })
+          expect(reducer({ highContrastOn: false }, action)).toEqual({ highContrastOn: true })
         })
       })
     })
@@ -46,7 +46,7 @@ describe("user options", () => {
   describe("actions", () => {
     describe("toggleHighContrastOn", () => {
       it("creates an action to toggle the value of highContrastOn", () => {
-        expect(actions.toggleHighContrastOn()).to.deep.equal({ type: "TOGGLE_HIGH_CONTRAST" })
+        expect(actions.toggleHighContrastOn()).toEqual({ type: "TOGGLE_HIGH_CONTRAST" })
       })
     })
   })
