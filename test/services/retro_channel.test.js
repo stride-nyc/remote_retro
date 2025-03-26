@@ -392,7 +392,7 @@ describe("RetroChannel", () => {
           // Mock retry behavior
           setTimeout(() => {
             if (callbacks && callbacks.onErr) {
-              callbacks.onErr({ fart: "store" })
+              callbacks.onErr({ foo: "store" })
             }
           }, 1000)
 
@@ -412,7 +412,7 @@ describe("RetroChannel", () => {
       it("retries the push only after a brief timeout", () => {
         expect(retrySpy).not.toHaveBeenCalled()
         jest.advanceTimersByTime(1000)
-        expect(mockCallbacks.onErr).toHaveBeenCalledWith({ fart: "store" })
+        expect(mockCallbacks.onErr).toHaveBeenCalledWith({ foo: "store" })
       })
     })
   })

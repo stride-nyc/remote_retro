@@ -25,7 +25,7 @@ describe("Room", () => {
   }
 
   beforeEach(() => {
-    stubComponent = ({ fart }) => <div data-testid="stub-component">{fart}</div>
+    stubComponent = ({ foo }) => <div data-testid="stub-component">{foo}</div>
   })
 
   test("renders an instance of that UI component", () => {
@@ -48,7 +48,7 @@ describe("Room", () => {
         stageConfig={{
           uiComponent: stubComponent,
         }}
-        fart="store"
+        foo="store"
       />
     )
 

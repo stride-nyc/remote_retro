@@ -457,7 +457,7 @@ defmodule RemoteRetro.RetroChannelTest do
     end
 
     test "does not trigger an 'idea_committed' broadcast to all connected clients", %{socket: socket, facilitator: facilitator} do
-      invalid_vote = %{idea_id: "The Fart Store", user_id: facilitator.id}
+      invalid_vote = %{idea_id: "The foo Store", user_id: facilitator.id}
 
       push(socket, "vote_submitted", invalid_vote)
 

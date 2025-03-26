@@ -75,7 +75,7 @@ describe("GroupingBoard", () => {
 
       beforeEach(() => {
         _.times(36, n => {
-          ideas.push({ id: n, body: "fart" })
+          ideas.push({ id: n, body: "foo" })
         })
       })
 
@@ -97,7 +97,7 @@ describe("GroupingBoard", () => {
       const ideas = []
 
       beforeEach(() => {
-        _.times(35, n => { ideas.push({ id: n, body: "fart" }) })
+        _.times(35, n => { ideas.push({ id: n, body: "foo" }) })
       })
 
       it("does *not* minimize the cards within, as there is enough real estate to group comfortably", () => {

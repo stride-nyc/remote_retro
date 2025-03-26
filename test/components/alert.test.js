@@ -18,7 +18,7 @@ describe("Alert component", () => {
   }
 
   const alternateAlertConfig = {
-    headerText: "Fart time!",
+    headerText: "foo time!",
     BodyComponent: () => <p>Who did it?</p>,
   }
 
@@ -82,7 +82,7 @@ describe("Alert component", () => {
             rerender(<Alert config={alternateAlertConfig} actions={actions} />)
 
             // Check that the new content is displayed
-            expect(screen.getByText(/fart time!/i)).toBeInTheDocument()
+            expect(screen.getByText(/foo time!/i)).toBeInTheDocument()
             expect(screen.getByText(/who did it\?/i)).toBeInTheDocument()
           })
         })

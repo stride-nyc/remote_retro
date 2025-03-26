@@ -21,7 +21,7 @@ jest.mock("../../web/static/js/components/high_contrast_button", () => {
 describe("GroupingLowerThirdContent", () => {
   const defaultProps = {
     currentUser: {},
-    children: <p>Fart</p>,
+    children: <p>foo</p>,
     actions: {},
     stageConfig: { progressionButton: {} },
     userOptions: { highContrastOn: false },
