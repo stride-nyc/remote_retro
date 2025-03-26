@@ -12,7 +12,7 @@ describe("mobile", () => {
         it("returns an object with default selected category of 'happy'", () => {
           const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-          expect(reducer(undefined, unhandledAction)).to.eql({})
+          expect(reducer(undefined, unhandledAction)).toEqual({})
         })
       })
 
@@ -21,7 +21,7 @@ describe("mobile", () => {
           const initialState = { selectedCategoryTab: "happy" }
           const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-          expect(reducer(initialState, unhandledAction)).to.deep.equal(initialState)
+          expect(reducer(initialState, unhandledAction)).toEqual(initialState)
         })
       })
     })
@@ -37,7 +37,7 @@ describe("mobile", () => {
         }
 
         it("transforms the intiial state, updating the selected category", () => {
-          expect(reducer(initialState, action)).to.deep.equal({
+          expect(reducer(initialState, action)).toEqual({
             selectedCategoryTab: "some new category",
           })
         })
@@ -50,7 +50,7 @@ describe("mobile", () => {
       it("creates an action indicating tab selection of the given category", () => {
         expect(
           actions.categoryTabSelected("sad")
-        ).to.deep.equal({ type: "CATEGORY_TAB_SELECTED", category: "sad" })
+        ).toEqual({ type: "CATEGORY_TAB_SELECTED", category: "sad" })
       })
     })
   })
@@ -61,7 +61,7 @@ describe("mobile", () => {
         const initialState = deepFreeze([])
         const unhandledAction = { type: "SET_INITIAL_STATE", initialState: { format: "Happy/Sad/Confused" } }
 
-        expect(reducer(initialState, unhandledAction)).to.eql({ selectedCategoryTab: "happy" })
+        expect(reducer(initialState, unhandledAction)).toEqual({ selectedCategoryTab: "happy" })
       })
     })
 
@@ -70,7 +70,7 @@ describe("mobile", () => {
         const initialState = deepFreeze([])
         const unhandledAction = { type: "SET_INITIAL_STATE", initialState: { format: "Start/Stop/Continue" } }
 
-        expect(reducer(initialState, unhandledAction)).to.eql({ selectedCategoryTab: "start" })
+        expect(reducer(initialState, unhandledAction)).toEqual({ selectedCategoryTab: "start" })
       })
     })
   })
