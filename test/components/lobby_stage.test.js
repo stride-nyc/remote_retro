@@ -14,7 +14,12 @@ describe("LobbyStage component", () => {
     token: "herp",
   }
   const defaultProps = {
-    stageConfig: {},
+    stageConfig: {
+      progressionButton: {
+        copy: "Start Retro",
+        nextStage: "idea-generation",
+      },
+    },
     currentUser,
     presences: [currentUser],
     facilitatorName: "Darren",
@@ -23,7 +28,13 @@ describe("LobbyStage component", () => {
 
   describe("when the currentUser is the facilitator", () => {
     it("contains the instructions specific to the facilitator", () => {
-      renderWithRedux(<LobbyStage {...defaultProps} />)
+      renderWithRedux(<LobbyStage {...defaultProps} />, {
+        retro: {
+          facilitator_id: 1,
+          stage: "lobby",
+          inserted_at: "2023-01-01T00:00:00Z",
+        },
+      })
       expect(screen.getByText(/responsibility/i)).toBeInTheDocument()
     })
   })
@@ -35,7 +46,13 @@ describe("LobbyStage component", () => {
     }
 
     it("contains the instructions specific to participants", () => {
-      renderWithRedux(<LobbyStage {...nonFacilitatorProps} />)
+      renderWithRedux(<LobbyStage {...nonFacilitatorProps} />, {
+        retro: {
+          facilitator_id: 1,
+          stage: "lobby",
+          inserted_at: "2023-01-01T00:00:00Z",
+        },
+      })
       expect(screen.getByText(/hold tight/i)).toBeInTheDocument()
     })
   })
