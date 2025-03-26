@@ -2,7 +2,7 @@ import React from "react"
 import { fireEvent } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import { TabularBoardLayout } from "../../web/static/js/components/tabular_board_layout"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 global.ASSET_DOMAIN = "test-domain"
 

@@ -3,7 +3,7 @@ import { render, screen, fireEvent } from "@testing-library/react"
 import "@testing-library/jest-dom"
 
 import IdeaEditForm from "../../web/static/js/components/idea_edit_form"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 describe("<IdeaEditForm />", () => {
   const idea = { id: 999, body: "  redundant tests   ", userId: 1 }

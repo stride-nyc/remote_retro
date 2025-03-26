@@ -3,7 +3,7 @@ import { fireEvent, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 
 import { IdeaSubmissionForm } from "../../web/static/js/components/idea_submission_form"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 describe("IdeaSubmissionForm component", () => {
   const stubUser = { given_name: "Mugatu", token: "xyz", id: 1 }

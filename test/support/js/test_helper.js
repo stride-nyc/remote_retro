@@ -1,67 +1,31 @@
-// TODO: Delete this and update jest_test_helper to use this filename
-import chai, { expect } from "chai"
-import chaiUUID from "chai-uuid"
-import chaiChange from "chai-change"
-import sinonChai from "sinon-chai"
+import React from "react"
+import { render } from "@testing-library/react"
+import { Provider } from "react-redux"
+import { createStore } from "redux"
 
-// TODO: Not working when imported for Jest tests. Come back to this.
-import Enzyme from "enzyme"
-import Adapter from "@cfaester/enzyme-adapter-react-18"
-import sinon from "sinon"
-import PropTypes from "prop-types"
-import STAGES from "../../../web/static/js/configs/stages"
-
-chai.use(chaiUUID)
-chai.use(chaiChange)
-chai.use(sinonChai)
-
-const { IDEA_GENERATION } = STAGES
-
-Enzyme.configure({ adapter: new Adapter() })
-
-global.expect = expect
-global.Image = function Image() {}
-global.Honeybadger = { notify: () => {}, setContext: () => {} }
-global.ASSET_DOMAIN = ""
-
-global.requestAnimationFrame = callback => {
-  setTimeout(callback, 0)
-}
-
-const store = {
-  subscribe: () => {},
-  dispatch: () => {},
-  getState: () => ({
+// Create a mock store for testing
+const _createMockStore = (initialState = {}) => {
+  return createStore(() => ({
     retro: {
       facilitator_id: 1,
-      stage: IDEA_GENERATION,
+      stage: "idea-generation",
     },
     ideas: [],
     votes: [],
     usersById: {},
     presences: [],
-    mobile: {
-      selectedCategoryTab: "happy",
-    },
-    stageConfig: {},
-    ideaGenerationCategories: [],
-    browser: {
-      greaterThan: {
-        small: true,
-        medium: true,
-        large: true,
-      },
-    },
-  }),
+    ...initialState,
+  }))
 }
 
-const defaultOptions = {
-  context: { store },
-  childContextTypes: { store: PropTypes.object.isRequired },
-}
-
-global.mountWithConnectedSubcomponents = (component, options) => {
-  return Enzyme.mount(component, { ...defaultOptions, ...options })
+// Wrapper component to provide Redux store
+export const renderWithRedux = (ui, initialState) => {
+  const store = _createMockStore(initialState)
+  return render(
+    <Provider store={store}>
+      {ui}
+    </Provider>
+  )
 }
 
 /*
@@ -80,21 +44,7 @@ global.mountWithConnectedSubcomponents = (component, options) => {
 export const setupMockRetroChannel = () => {
   /* eslint-disable global-require */
   const { Socket } = require("phoenix")
-  const RetroChannel = require("../../../web/static/js/services/retro_channel").default
   /* eslint-enable global-require */
-
-  // Build out a fake that mostly inherits from the real RetroChannel, but overrides
-  // the constructor to avoid problematic WebSocket code from executing.
-  // In this constructor override, we uphold the contract of setting a channel client, but
-  // we assign a fake so that we can trigger messages on the client in our tests
-  class MockRetroChannel {
-    constructor(mockClient) {
-      this.client = mockClient
-    }
-  }
-  // https://stackoverflow.com/questions/44288164/cannot-assign-to-read-only-property-name-of-object-object-object#answer-44288358
-  MockRetroChannel.prototype = Object.create(RetroChannel.prototype)
-  MockRetroChannel.prototype.constructor = MockRetroChannel
 
   const socket = new Socket("/socket", { timeout: 10000 })
 
@@ -103,19 +53,32 @@ export const setupMockRetroChannel = () => {
   // ensure we have access to the ref created for socket pushes,
   // so we can trigger replies for specific pushes in the __triggerReply helper
   let ref
-  sinon.stub(socket, "makeRef", () => { ref = originalMakeRef(); return ref })
-  sinon.stub(socket, "isConnected", () => true)
-  sinon.stub(socket, "push")
+  jest.spyOn(socket, "makeRef").mockImplementation(() => { ref = originalMakeRef(); return ref })
+  jest.spyOn(socket, "isConnected").mockReturnValue(true)
+  jest.spyOn(socket, "push").mockImplementation(() => {})
 
   const mockPhoenixChannel = socket.channel("topic", { one: "two" })
   mockPhoenixChannel.join().trigger("ok", {})
 
-  const retroChannel = new MockRetroChannel(mockPhoenixChannel)
+  // Create a mock RetroChannel that has the necessary methods
+  const callbacks = {}
 
-  retroChannel.__triggerReply = (status, response) => {
-    const STUBBED_CHANNEL_REPLY_REF = `chan_reply_${ref}`
-    retroChannel.client.trigger(STUBBED_CHANNEL_REPLY_REF, { status, response })
+  const mockRetroChannel = {
+    client: mockPhoenixChannel,
+    push: jest.fn().mockImplementation(() => {
+      return {
+        receive: (status, callback) => {
+          callbacks[status] = callback
+          return this
+        },
+      }
+    }),
+    __triggerReply(status, response) {
+      if (callbacks[status]) {
+        callbacks[status](response)
+      }
+    },
   }
 
-  return retroChannel
+  return mockRetroChannel
 }

@@ -3,7 +3,7 @@ import { screen, fireEvent, cleanup } from "@testing-library/react"
 import "@testing-library/jest-dom"
 
 import { StageProgressionButton } from "../../web/static/js/components/stage_progression_button"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 describe("StageProgressionButton", () => {
   const actions = { updateRetroAsync: jest.fn() }

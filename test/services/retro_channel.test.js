@@ -4,7 +4,7 @@ import { createStore } from "redux"
 
 import RetroChannel from "../../web/static/js/services/retro_channel"
 import STAGES from "../../web/static/js/configs/stages"
-import { setupMockRetroChannel } from "../support/js/jest_test_helper"
+import { setupMockRetroChannel } from "../support/js/test_helper"
 
 const { CLOSED } = STAGES
 

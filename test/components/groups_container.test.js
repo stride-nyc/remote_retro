@@ -4,7 +4,7 @@ import { screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 
 import { GroupsContainer } from "../../web/static/js/components/groups_container"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 // Mock components to avoid ref issues
 jest.mock("react-flip-move", () => {

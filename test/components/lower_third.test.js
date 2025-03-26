@@ -4,7 +4,7 @@ import "@testing-library/jest-dom"
 
 import LowerThird from "../../web/static/js/components/lower_third"
 import STAGES from "../../web/static/js/configs/stages"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 // Mock window.scrollTo to fix the "Not implemented: window.scrollTo" error
 beforeAll(() => {

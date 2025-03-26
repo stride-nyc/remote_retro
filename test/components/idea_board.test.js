@@ -4,7 +4,7 @@ import "@testing-library/jest-dom"
 import IdeaBoard from "../../web/static/js/components/idea_board"
 import ColumnarBoardLayout from "../../web/static/js/components/columnar_board_layout"
 import STAGES from "../../web/static/js/configs/stages"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 const { IDEA_GENERATION, ACTION_ITEMS, CLOSED } = STAGES
 

@@ -1,7 +1,7 @@
 import React from "react"
 import { screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 import GroupLabelContainer from "../../web/static/js/components/group_label_container"
 

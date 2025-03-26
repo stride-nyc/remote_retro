@@ -1,6 +1,6 @@
 import deepFreeze from "deep-freeze"
 
-import { setupMockRetroChannel } from "../support/js/jest_test_helper"
+import { setupMockRetroChannel } from "../support/js/test_helper"
 
 import {
   reducer,

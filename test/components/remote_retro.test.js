@@ -4,7 +4,7 @@ import "@testing-library/jest-dom"
 import ViewportMetaTag from "../../web/static/js/components/viewport_meta_tag"
 import { RemoteRetro } from "../../web/static/js/components/remote_retro"
 import STAGES from "../../web/static/js/configs/stages"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 const { IDEA_GENERATION } = STAGES
 

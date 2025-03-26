@@ -1,7 +1,7 @@
 import React from "react"
 import { render } from "@testing-library/react"
 import "@testing-library/jest-dom"
-import { renderWithRedux } from "../support/js/jest_test_helper"
+import { renderWithRedux } from "../support/js/test_helper"
 
 import { GroupingIdeaCard } from "../../web/static/js/components/grouping_idea_card"
 import { COLLISION_BUFFER } from "../../web/static/js/services/collisions"
