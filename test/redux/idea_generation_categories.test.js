@@ -10,7 +10,7 @@ describe("idea generation categories reducer", () => {
       it("returns an empty list", () => {
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(reducer(undefined, unhandledAction)).to.eql([])
+        expect(reducer(undefined, unhandledAction)).toEqual([])
       })
     })
 
@@ -19,7 +19,7 @@ describe("idea generation categories reducer", () => {
         const initialState = []
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(reducer(initialState, unhandledAction)).to.eql(initialState)
+        expect(reducer(initialState, unhandledAction)).toEqual(initialState)
       })
     })
   })
@@ -30,7 +30,7 @@ describe("idea generation categories reducer", () => {
         const initialState = deepFreeze([])
         const unhandledAction = { type: "SET_INITIAL_STATE", initialState: { format: "Happy/Sad/Confused" } }
 
-        expect(reducer(initialState, unhandledAction)).to.eql([
+        expect(reducer(initialState, unhandledAction)).toEqual([
           "happy",
           "sad",
           "confused",
@@ -43,7 +43,7 @@ describe("idea generation categories reducer", () => {
         const initialState = deepFreeze([])
         const unhandledAction = { type: "SET_INITIAL_STATE", initialState: { format: "Start/Stop/Continue" } }
 
-        expect(reducer(initialState, unhandledAction)).to.eql([
+        expect(reducer(initialState, unhandledAction)).toEqual([
           "start",
           "stop",
           "continue",
