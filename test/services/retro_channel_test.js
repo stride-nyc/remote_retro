@@ -1,3 +1,4 @@
+// TODO: Having issues with refactoring this test to jest
 import { Socket, Channel } from "phoenix"
 import { spy, stub, useFakeTimers } from "sinon"
 import { createStore } from "redux"
