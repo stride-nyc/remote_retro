@@ -1,6 +1,5 @@
 import deepFreeze from "deep-freeze"
-import sinon from "sinon"
-import { setupMockRetroChannel } from "../support/js/test_helper"
+import { setupMockRetroChannel } from "../support/js/jest_test_helper"
 
 import {
   reducer as votesReducer,
@@ -12,7 +11,7 @@ describe("votes reducer", () => {
   describe("when there is an empty action", () => {
     describe("when no new state is passed", () => {
       it("should return the initial state of an empty array", () => {
-        expect(votesReducer(undefined, {})).to.deep.equal([])
+        expect(votesReducer(undefined, {})).toEqual([])
       })
     })
   })
@@ -23,7 +22,7 @@ describe("votes reducer", () => {
       const initialState = []
       deepFreeze(initialState)
       const result = votesReducer(initialState, voteSubmissionAction)
-      expect(result).to.eql([{ idea_id: 12, user_id: 33 }])
+      expect(result).toEqual([{ idea_id: 12, user_id: 33 }])
     })
   })
 
@@ -33,7 +32,7 @@ describe("votes reducer", () => {
       const initialState = []
       deepFreeze(initialState)
       const result = votesReducer(initialState, voteSubmissionAction)
-      expect(result).to.eql([{ idea_id: 99, user_id: 11 }])
+      expect(result).toEqual([{ idea_id: 99, user_id: 11 }])
     })
   })
 
@@ -43,7 +42,7 @@ describe("votes reducer", () => {
       const initialState = [{ id: 19 }]
       deepFreeze(initialState)
       const result = votesReducer(initialState, voteRetraction)
-      expect(result).to.eql([])
+      expect(result).toEqual([])
     })
 
     it("does *not* remove non-matching votes from the state", () => {
@@ -53,7 +52,7 @@ describe("votes reducer", () => {
       deepFreeze(initialState)
       const result = votesReducer(initialState, voteRetraction)
 
-      expect(result).to.include(voteWithIdOne)
+      expect(result).toContain(voteWithIdOne)
     })
   })
 
@@ -63,7 +62,7 @@ describe("votes reducer", () => {
       const initialState = [{ id: 17 }]
       deepFreeze(initialState)
       const result = votesReducer(initialState, voteRetraction)
-      expect(result).to.eql([])
+      expect(result).toEqual([])
     })
   })
 
@@ -83,7 +82,7 @@ describe("votes reducer", () => {
       deepFreeze(initialState)
       const result = votesReducer(initialState, action)
 
-      expect(result).to.eql([{
+      expect(result).toEqual([{
         id: 2,
         idea_id: 12,
         user_id: 33,
@@ -110,7 +109,7 @@ describe("votes reducer", () => {
       deepFreeze(initialState)
       const result = votesReducer(initialState, action)
 
-      expect(result).to.eql([{
+      expect(result).toEqual([{
         id: 1,
         idea_id: 31,
         user_id: 24,
@@ -134,7 +133,7 @@ describe("votes reducer", () => {
       deepFreeze(initialState)
       const result = votesReducer(["some_other_state"], initialStateAction)
 
-      expect(result).to.eql([
+      expect(result).toEqual([
         { idea_id: 12, user_id: 33 },
         { idea_id: 31, user_id: 24 },
       ])
@@ -158,7 +157,7 @@ describe("selectors", () => {
 
     it("returns the number of votes the given user has on the store", () => {
       const cumulativeVoteCountForUser = selectors.cumulativeVoteCountForUser(state, user)
-      expect(cumulativeVoteCountForUser).to.equal(2)
+      expect(cumulativeVoteCountForUser).toBe(2)
     })
   })
 
@@ -172,7 +171,7 @@ describe("selectors", () => {
         const currentUser = null
 
         const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
-        expect(result).to.equal(true)
+        expect(result).toBe(true)
       })
     })
 
@@ -185,7 +184,7 @@ describe("selectors", () => {
         const currentUser = { id: 5 }
 
         const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
-        expect(result).to.equal(false)
+        expect(result).toBe(false)
       })
     })
 
@@ -202,7 +201,7 @@ describe("selectors", () => {
         const currentUser = { id: 6 }
 
         const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
-        expect(result).to.equal(false)
+        expect(result).toBe(false)
       })
     })
 
@@ -221,7 +220,7 @@ describe("selectors", () => {
 
       it("the currentUser has exhausted their votes", () => {
         const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
-        expect(result).to.equal(true)
+        expect(result).toBe(true)
       })
     })
 
@@ -246,7 +245,7 @@ describe("selectors", () => {
 
       it("the currentUser has exhausted their votes", () => {
         const result = selectors.currentUserHasExhaustedVotes(state, currentUser)
-        expect(result).to.equal(true)
+        expect(result).toBe(true)
       })
     })
   })
@@ -266,7 +265,7 @@ describe("selectors", () => {
 
     it("returns only the votes for the given idea", () => {
       const votesForIdea = selectors.votesForIdea(state, idea)
-      expect(votesForIdea).to.deep.eql([{
+      expect(votesForIdea).toEqual([{
         user_id: 5, idea_id: 7,
       }, {
         user_id: 5, idea_id: 7,
@@ -285,7 +284,7 @@ describe("selectors", () => {
 
           const result = selectors.votingStageProgressionTooltip(reduxState)
 
-          expect(result).to.eql(undefined)
+          expect(result).toEqual(undefined)
         })
       })
 
@@ -302,7 +301,7 @@ describe("selectors", () => {
 
           const result = selectors.votingStageProgressionTooltip(reduxState)
 
-          expect(result).to.eql(undefined)
+          expect(result).toEqual(undefined)
         })
 
         describe("when and there are votes associated with a user who *isn't* present", () => {
@@ -320,7 +319,7 @@ describe("selectors", () => {
 
             const result = selectors.votingStageProgressionTooltip(reduxState)
 
-            expect(result).to.eql(undefined)
+            expect(result).toEqual(undefined)
           })
         })
       })
@@ -341,7 +340,7 @@ describe("selectors", () => {
 
             const result = selectors.votingStageProgressionTooltip(reduxState)
 
-            expect(result).to.eql("All votes in!")
+            expect(result).toEqual("All votes in!")
           })
         })
 
@@ -362,7 +361,7 @@ describe("selectors", () => {
 
             const result = selectors.votingStageProgressionTooltip(reduxState)
 
-            expect(result).to.eql("All votes in!")
+            expect(result).toEqual("All votes in!")
           })
         })
       })
@@ -385,7 +384,7 @@ describe("selectors", () => {
 
             const result = selectors.votingStageProgressionTooltip(reduxState)
 
-            expect(result).to.eql(undefined)
+            expect(result).toEqual(undefined)
           })
         })
 
@@ -406,7 +405,7 @@ describe("selectors", () => {
 
             const result = selectors.votingStageProgressionTooltip(reduxState)
 
-            expect(result).to.eql("All votes in!")
+            expect(result).toEqual("All votes in!")
           })
         })
       })
@@ -427,7 +426,7 @@ describe("selectors", () => {
 
             const result = selectors.votingStageProgressionTooltip(reduxState)
 
-            expect(result).to.eql("All votes in!")
+            expect(result).toEqual("All votes in!")
           })
         })
       })
@@ -442,7 +441,7 @@ describe("actions", () => {
 
     it("is a thunk", () => {
       const result = actions.submitVote()
-      expect(typeof result).to.equal("function")
+      expect(typeof result).toBe("function")
     })
 
     describe("the returned thunk", () => {
@@ -457,30 +456,27 @@ describe("actions", () => {
       })
 
       it("dispatches the voteSubmission action optimistically", () => {
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, undefined, mockRetroChannel)
 
-        expect(dispatchSpy).calledWithMatch({ type: "VOTE_SUBMISSION" })
+        expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ type: "VOTE_SUBMISSION" }))
       })
 
       it("assigns a UUID to the optimistically added vote", () => {
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, undefined, mockRetroChannel)
 
-        const invocationArguments = dispatchSpy.args[0]
+        const invocationArguments = dispatchSpy.mock.calls[0]
         const addedVote = invocationArguments[0].vote
 
-        expect(addedVote.optimisticUUID).to.be.a.uuid("v4")
+        // Using a regex to check for UUID v4 format
+        expect(addedVote.optimisticUUID).toMatch(/^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i)
       })
 
       it("calls retroChannel.push with 'vote_submitted', passing the idea and user ids as snakecased attributes", () => {
-        const pushSpy = sinon.spy(mockRetroChannel, "push")
-
         thunk(dispatch, undefined, mockRetroChannel)
 
-        expect(pushSpy).calledWith("vote_submitted", { idea_id: 10, user_id: 5 })
-
-        pushSpy.restore()
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("vote_submitted", { idea_id: 10, user_id: 5 })
       })
 
       describe("when the push results in an 'ok' response", () => {
@@ -489,19 +485,19 @@ describe("actions", () => {
         })
 
         it("dispatches VOTE_SUBMISSION_ACCEPTED with the optimistic UUID and the persisted idea", () => {
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
-          const invocationArguments = dispatchSpy.args[0]
+          const invocationArguments = dispatchSpy.mock.calls[0]
           const optimisticallyAddedVote = invocationArguments[0].vote
 
           mockRetroChannel.__triggerReply("ok", { id: 1001, user_id: 1, idea_id: 3 })
 
-          expect(dispatchSpy).calledWithMatch({
+          expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
             type: "VOTE_SUBMISSION_ACCEPTED",
             optimisticUUID: optimisticallyAddedVote.optimisticUUID,
             persistedVote: { id: 1001, user_id: 1, idea_id: 3 },
-          })
+          }))
         })
       })
 
@@ -511,18 +507,18 @@ describe("actions", () => {
         })
 
         it("dispatches a VOTE_SUBMISSION_REJECTED with the optimistic UUID", () => {
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
-          const invocationArguments = dispatchSpy.args[0]
+          const invocationArguments = dispatchSpy.mock.calls[0]
           const optimisticallyAddedVote = invocationArguments[0].vote
 
           mockRetroChannel.__triggerReply("error", {})
 
-          expect(dispatchSpy).calledWithMatch({
+          expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
             type: "VOTE_SUBMISSION_REJECTED",
             optimisticUUID: optimisticallyAddedVote.optimisticUUID,
-          })
+          }))
         })
       })
     })
@@ -531,7 +527,7 @@ describe("actions", () => {
   describe("voteRetraction", () => {
     it("is a thunk", () => {
       const result = actions.submitVoteRetraction()
-      expect(typeof result).to.equal("function")
+      expect(typeof result).toBe("function")
     })
 
     describe("the returned thunk", () => {
@@ -539,7 +535,6 @@ describe("actions", () => {
       let dispatch
       let mockRetroChannel
       let vote
-      let pushSpy
 
       beforeEach(() => {
         dispatch = () => {}
@@ -549,34 +544,32 @@ describe("actions", () => {
       })
 
       it("initiates the removal of the vote from local state", () => {
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, undefined, mockRetroChannel)
 
-        expect(dispatchSpy).calledWithMatch({
+        expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
           type: "VOTE_RETRACTION_SUBMITTED",
           vote,
-        })
+        }))
       })
 
       it("calls retroChannel.push with 'vote_retracted', passing the given vote", () => {
-        pushSpy = sinon.spy(mockRetroChannel, "push")
         thunk(dispatch, undefined, mockRetroChannel)
 
-        expect(pushSpy).calledWith("vote_retracted", vote)
-        pushSpy.restore()
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("vote_retracted", vote)
       })
 
       describe("when the push results in an error", () => {
         it("dispatches a VOTE_RETRACTION_REJECTED, including the vote for re-addition to the local store", () => {
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
           mockRetroChannel.__triggerReply("error", {})
 
-          expect(dispatchSpy).calledWithMatch({
+          expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
             type: "VOTE_RETRACTION_REJECTED",
             vote,
-          })
+          }))
         })
       })
     })
