@@ -1,7 +1,6 @@
 import deepFreeze from "deep-freeze"
-import sinon from "sinon"
 
-import { setupMockRetroChannel } from "../support/js/test_helper"
+import { setupMockRetroChannel } from "../support/js/jest_test_helper"
 import {
   actions as actionCreators,
   reducer as ideasReducer,
@@ -14,8 +13,8 @@ describe("idea reducer", () => {
       it("should return an empty array", () => {
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(ideasReducer(undefined, {})).to.deep.equal([])
-        expect(ideasReducer(undefined, unhandledAction)).to.deep.equal([])
+        expect(ideasReducer(undefined, {})).toEqual([])
+        expect(ideasReducer(undefined, unhandledAction)).toEqual([])
       })
     })
 
@@ -24,8 +23,8 @@ describe("idea reducer", () => {
         const initialState = [{ body: "we have a linter!", category: "happy", user_id: 1 }]
         const unhandledAction = { type: "IHAVENOIDEAWHATSHAPPENING" }
 
-        expect(ideasReducer(initialState, {})).to.deep.equal(initialState)
-        expect(ideasReducer(initialState, unhandledAction)).to.deep.equal(initialState)
+        expect(ideasReducer(initialState, {})).toEqual(initialState)
+        expect(ideasReducer(initialState, unhandledAction)).toEqual(initialState)
       })
     })
   })
@@ -38,7 +37,7 @@ describe("idea reducer", () => {
         const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
         const action = { type: "IDEA_SUBMISSION_SUBMITTED", idea }
 
-        expect(ideasReducer(initialState, action)).to.deep.equal(
+        expect(ideasReducer(initialState, action)).toEqual(
           [...initialState, { ...idea, id: Infinity }]
         )
       })
@@ -57,7 +56,7 @@ describe("idea reducer", () => {
           const idea = { shouldReplaceOptimisticallyAddedIdea: true, id: 4, body: "body", category: "happy", user_id: 2 }
           const action = { type: "IDEA_SUBMISSION_COMMITTED", idea }
 
-          expect(ideasReducer(initialState, action)).to.deep.equal([
+          expect(ideasReducer(initialState, action)).toEqual([
             { id: 4, body: "body", category: "happy", user_id: 2 },
             { id: 5, body: "who", category: "happy", user_id: 3 },
           ])
@@ -71,7 +70,7 @@ describe("idea reducer", () => {
           const idea = { id: 5, body: "we have a linter!", category: "happy", user_id: 1 }
           const action = { type: "IDEA_SUBMISSION_COMMITTED", idea }
 
-          expect(ideasReducer(initialState, action)).to.deep.equal([...initialState, idea])
+          expect(ideasReducer(initialState, action)).toEqual([...initialState, idea])
         })
       })
     })
@@ -87,7 +86,7 @@ describe("idea reducer", () => {
 
         const action = { type: "IDEA_SUBMISSION_REJECTED" }
 
-        expect(ideasReducer(initialState, action)).to.deep.equal([
+        expect(ideasReducer(initialState, action)).toEqual([
           { id: 5, body: "who", category: "happy", user_id: 3 },
         ])
       })
@@ -101,7 +100,7 @@ describe("idea reducer", () => {
         const newIdeas = [{ body: "modern convenience", category: "confused", user_id: 1 }]
         const action = { type: "SET_INITIAL_STATE", initialState: { ideas: newIdeas } }
 
-        expect(ideasReducer(initialIdeas, action)).to.deep.equal([...newIdeas])
+        expect(ideasReducer(initialIdeas, action)).toEqual([...newIdeas])
       })
     })
 
@@ -119,7 +118,7 @@ describe("idea reducer", () => {
         const action = { type: "IDEA_UPDATE_REJECTED", ideaId: 666, params: { x: 67, y: 101 } }
 
         it("nullifies all edit attributes", () => {
-          expect(ideasReducer(initialIdeas, action)).to.deep.equal([
+          expect(ideasReducer(initialIdeas, action)).toEqual([
             {
               id: 666,
               editSubmitted: false,
@@ -136,7 +135,7 @@ describe("idea reducer", () => {
         const action = { type: "IDEA_UPDATE_REJECTED", ideaId: 666, params: { body: "so tired" } }
 
         it("returns updated set of ideas, where the idea with matching id is no longer in an edit submitted state", () => {
-          expect(ideasReducer(initialIdeas, action)).to.deep.equal([
+          expect(ideasReducer(initialIdeas, action)).toEqual([
             { id: 666, editSubmitted: false },
             { id: 22 },
           ])
@@ -150,7 +149,7 @@ describe("idea reducer", () => {
 
       it("returns an updated set of ideas, where the idea with matching id has been removed", () => {
         const action = { type: "IDEA_DELETION_COMMITTED", ideaId: 667 }
-        expect(ideasReducer(initialIdeas, action)).to.deep.equal([
+        expect(ideasReducer(initialIdeas, action)).toEqual([
           { id: 22, category: "n/a", user_id: 2 },
         ])
       })
@@ -165,7 +164,7 @@ describe("idea reducer", () => {
 
       it("returns an updated set of ideas, where the idea's no longer flagged as submitted for deletion", () => {
         const action = { type: "IDEA_DELETION_REJECTED", ideaId: 22 }
-        expect(ideasReducer(initialIdeas, action)).to.deep.equal([
+        expect(ideasReducer(initialIdeas, action)).toEqual([
           { id: 667, category: "happy", user_id: 1 },
           { id: 22, category: "n/a", user_id: 2, deletionSubmitted: false },
         ])
@@ -173,7 +172,7 @@ describe("idea reducer", () => {
     })
 
     describe("when the action is RETRO_STAGE_PROGRESSION_COMMITTED", () => {
-      context("when the payload contains data for ideas", () => {
+      describe("when the payload contains data for ideas", () => {
         it("should replace the state with the ideas passed in the action's payload", () => {
           const initialState = []
           deepFreeze(initialState)
@@ -181,18 +180,18 @@ describe("idea reducer", () => {
           const ideas = [{ id: 7, category: "sad", body: "no cookies", x: 104.4, y: 100 }]
           const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload: { ideas } }
 
-          expect(ideasReducer(initialState, action)).to.deep.equal([...ideas])
+          expect(ideasReducer(initialState, action)).toEqual([...ideas])
         })
       })
 
-      context("when the payload *lacks* ideas data", () => {
+      describe("when the payload *lacks* ideas data", () => {
         it("leaves the state unchanged", () => {
           const initialState = []
           deepFreeze(initialState)
 
           const action = { type: "RETRO_STAGE_PROGRESSION_COMMITTED", payload: {} }
 
-          expect(ideasReducer(initialState, action)).to.deep.equal(initialState)
+          expect(ideasReducer(initialState, action)).toEqual(initialState)
         })
       })
     })
@@ -207,7 +206,7 @@ describe("actionCreators", () => {
     it("creates an action to add idea to store", () => {
       const idea = { body: "we have a linter!", category: "happy", user_id: 1 }
 
-      expect(actionCreators.addIdea(idea)).to.deep.equal({ type: "IDEA_SUBMISSION_COMMITTED", idea })
+      expect(actionCreators.addIdea(idea)).toEqual({ type: "IDEA_SUBMISSION_COMMITTED", idea })
     })
   })
 
@@ -216,7 +215,7 @@ describe("actionCreators", () => {
 
     it("returns a thunk", () => {
       const result = actionCreators.submitIdea(idea)
-      expect(result).to.be.a("function")
+      expect(typeof result).toBe("function")
     })
 
     describe("invoking the returned function", () => {
@@ -226,49 +225,49 @@ describe("actionCreators", () => {
       beforeEach(() => {
         thunk = actionCreators.submitIdea(idea)
         mockRetroChannel = setupMockRetroChannel()
-        sinon.spy(mockRetroChannel, "push")
+        jest.spyOn(mockRetroChannel, "push")
       })
 
       afterEach(() => {
-        mockRetroChannel.push.restore()
+        jest.restoreAllMocks()
       })
 
       it("results in a push to the retroChannel", () => {
         thunk(() => {}, undefined, mockRetroChannel)
-        expect(mockRetroChannel.push).calledWith("idea_submitted", idea)
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("idea_submitted", idea)
       })
 
       it("results in the dispatch of an action for optimistic-ui addition of the idea", () => {
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, undefined, mockRetroChannel)
-        expect(dispatchSpy).calledWithMatch({
+        expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
           type: "IDEA_SUBMISSION_SUBMITTED",
           idea,
-        })
+        }))
       })
 
       describe("when the push is successful", () => {
         it("lets the store know, noting that this particular commit was already optimistically added to the app state", () => {
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
           mockRetroChannel.__triggerReply("ok", { id: 5, arbitrary: "keyValue" })
 
-          expect(dispatchSpy).calledWithMatch({
+          expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
             type: "IDEA_SUBMISSION_COMMITTED",
             idea: { id: 5, arbitrary: "keyValue", shouldReplaceOptimisticallyAddedIdea: true },
-          })
+          }))
         })
       })
 
       describe("when the push results in an error", () => {
         it("dispatches an error", () => {
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
           mockRetroChannel.__triggerReply("error", {})
 
-          expect(dispatchSpy).calledWithMatch({ type: "IDEA_SUBMISSION_REJECTED" })
+          expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({ type: "IDEA_SUBMISSION_REJECTED" }))
         })
       })
     })
@@ -279,7 +278,7 @@ describe("actionCreators", () => {
 
     it("returns a thunk", () => {
       const result = actionCreators.broadcastIdeaLiveEdit(idea)
-      expect(result).to.be.a("function")
+      expect(typeof result).toBe("function")
     })
 
     describe("invoking the returned function", () => {
@@ -292,7 +291,7 @@ describe("actionCreators", () => {
 
       beforeEach(() => {
         params = { id: 5, liveEditText: "some value" }
-        mockRetroChannel = { push: sinon.spy() }
+        mockRetroChannel = { push: jest.fn() }
 
         thunk = actionCreators.broadcastIdeaLiveEdit(params)
 
@@ -300,7 +299,7 @@ describe("actionCreators", () => {
       })
 
       it("notifies the server, passing the params", () => {
-        expect(mockRetroChannel.push).calledWith("idea_live_edit", params)
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("idea_live_edit", params)
       })
     })
   })
@@ -310,7 +309,7 @@ describe("actionCreators", () => {
 
     it("returns a thunk", () => {
       const result = actionCreators.broadcastIdeaTypingEvent(dumbParams)
-      expect(result).to.be.a("function")
+      expect(typeof result).toBe("function")
     })
 
     describe("invoking the returned function", () => {
@@ -323,7 +322,7 @@ describe("actionCreators", () => {
 
       beforeEach(() => {
         params = { userToken: "azby" }
-        mockRetroChannel = { push: sinon.spy() }
+        mockRetroChannel = { push: jest.fn() }
 
         thunk = actionCreators.broadcastIdeaTypingEvent(params)
 
@@ -331,7 +330,7 @@ describe("actionCreators", () => {
       })
 
       it("notifies the server, passing the params", () => {
-        expect(mockRetroChannel.push).calledWith("idea_typing_event", params)
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("idea_typing_event", params)
       })
     })
   })
@@ -341,7 +340,7 @@ describe("actionCreators", () => {
 
     it("returns a thunk", () => {
       const result = actionCreators.ideaDraggedInGroupingStage(idea)
-      expect(result).to.be.a("function")
+      expect(typeof result).toBe("function")
     })
 
     describe("invoking the returned function", () => {
@@ -352,10 +351,10 @@ describe("actionCreators", () => {
       const getStateStub = () => {}
 
       beforeEach(() => {
-        mockRetroChannel = { push: sinon.spy() }
+        mockRetroChannel = { push: jest.fn() }
 
         thunk = actionCreators.ideaDraggedInGroupingStage(idea)
-        dispatchSpy = sinon.spy()
+        dispatchSpy = jest.fn()
 
         // ensure we cancel any throttled pushes to avoid test contamination
         _throttledPushOfDragToServer.cancel()
@@ -364,7 +363,7 @@ describe("actionCreators", () => {
       })
 
       it("updates the local store with the idea's x y coordinates", () => {
-        expect(dispatchSpy).calledWith({
+        expect(dispatchSpy).toHaveBeenCalledWith({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId: idea.id,
           newAttributes: { x: idea.x, y: idea.y, inEditState: true },
@@ -372,36 +371,33 @@ describe("actionCreators", () => {
       })
 
       it("notifies the server, passing the idea", () => {
-        expect(mockRetroChannel.push).calledWith("idea_dragged_in_grouping_stage", idea)
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("idea_dragged_in_grouping_stage", idea)
       })
 
       describe("invoking it again within 40ms", () => {
         it("does not renotify the server", () => {
-          expect(() => {
-            thunk(dispatchSpy, getStateStub, mockRetroChannel)
-          }).to.not.alter(() => {
-            return mockRetroChannel.push.callCount
-          })
+          const initialCallCount = mockRetroChannel.push.mock.calls.length
+          thunk(dispatchSpy, getStateStub, mockRetroChannel)
+          expect(mockRetroChannel.push.mock.calls.length).toBe(initialCallCount)
         })
       })
 
       describe("when invoked multiple times in an interval", () => {
         it("doesn't save up throttled pushes to fire off in the *next* timeout", () => {
-          const clock = sinon.useFakeTimers()
+          jest.useFakeTimers()
 
           // ensure throttle timeout has elapsed
-          clock.tick(41)
+          jest.advanceTimersByTime(41)
 
-          expect(() => {
-            thunk(dispatchSpy, getStateStub, mockRetroChannel)
-            thunk(dispatchSpy, getStateStub, mockRetroChannel)
+          const initialCallCount = mockRetroChannel.push.mock.calls.length
+          thunk(dispatchSpy, getStateStub, mockRetroChannel)
+          thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-            clock.tick(41)
-          }).to.alter(() => {
-            return mockRetroChannel.push.callCount
-          }, { from: 1, to: 2 })
+          jest.advanceTimersByTime(41)
 
-          clock.restore()
+          expect(mockRetroChannel.push.mock.calls.length).toBe(initialCallCount + 1)
+
+          jest.useRealTimers()
         })
       })
     })
@@ -412,7 +408,7 @@ describe("actionCreators", () => {
       const ideaId = 999
       const newAttributes = { name: "Kimberly" }
 
-      expect(actionCreators.updateIdea(ideaId, newAttributes)).to.deep.equal({
+      expect(actionCreators.updateIdea(ideaId, newAttributes)).toEqual({
         type: "IDEA_UPDATE_COMMITTED",
         ideaId,
         newAttributes,
@@ -430,10 +426,16 @@ describe("actionCreators", () => {
     beforeEach(() => {
       thunk = actionCreators.submitIdeaEditAsync(ideaParams)
       mockRetroChannel = setupMockRetroChannel()
+      // Add pushWithRetries method to mockRetroChannel
+      mockRetroChannel.pushWithRetries = jest.fn().mockImplementation(() => {
+        return {
+          receive: () => {},
+        }
+      })
     })
 
     it("returns a thunk", () => {
-      expect(typeof thunk).to.equal("function")
+      expect(typeof thunk).toBe("function")
     })
 
     describe("the thunk", () => {
@@ -441,60 +443,63 @@ describe("actionCreators", () => {
       const getStateStub = () => {}
 
       it("pushes—with retries—an idea_edited event, along with the idea params", () => {
-        sinon.spy(mockRetroChannel, "pushWithRetries")
+        jest.spyOn(mockRetroChannel, "pushWithRetries")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
-        expect(mockRetroChannel.pushWithRetries).calledWith("idea_edited", ideaParams)
+        expect(mockRetroChannel.pushWithRetries).toHaveBeenCalledWith("idea_edited", ideaParams, expect.anything())
 
-        mockRetroChannel.pushWithRetries.restore()
+        jest.restoreAllMocks()
       })
 
       it("tells the retro channel to dispatch an IDEA_UPDATE_COMMITTED action on success", () => {
-        sinon.spy(mockRetroChannel, "pushWithRetries")
+        jest.spyOn(mockRetroChannel, "pushWithRetries")
 
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-        const onOkCallback = mockRetroChannel.pushWithRetries.getCall(0).args[2].onOk
+        const onOkCallback = mockRetroChannel.pushWithRetries.mock.calls[0][2].onOk
 
         onOkCallback({ id: 589, derp: "herp" })
 
-        expect(dispatchSpy).calledWithMatch({
+        // Check that the second call to dispatchSpy matches our expectations
+        expect(dispatchSpy.mock.calls[1][0]).toEqual({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId: 589,
-          newAttributes: { derp: "herp", inEditState: false, isLocalEdit: null, editSubmitted: false },
+          newAttributes: { derp: "herp", inEditState: false, isLocalEdit: null, editSubmitted: false, liveEditText: null, id: 589 },
         })
       })
 
       it("tells the retro channel to dispatch an IDEA_UPDATE_REJECTED an error", () => {
-        sinon.spy(mockRetroChannel, "pushWithRetries")
-        const dispatchSpy = sinon.spy()
+        jest.spyOn(mockRetroChannel, "pushWithRetries")
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, undefined, mockRetroChannel)
 
-        const onErrCallback = mockRetroChannel.pushWithRetries.getCall(0).args[2].onErr
+        const onErrCallback = mockRetroChannel.pushWithRetries.mock.calls[0][2].onErr
 
         onErrCallback()
 
-        expect(dispatchSpy).calledWithMatch({
+        expect(dispatchSpy).toHaveBeenCalledWith(expect.objectContaining({
           type: "IDEA_UPDATE_REJECTED",
           ideaId: ideaParams.id,
           params: ideaParams,
-        })
+        }))
       })
 
       describe("when honeybadger is available (the default)", () => {
         it("notifies honeybadger of the error", () => {
+          // Mock Honeybadger
+          global.Honeybadger = { notify: jest.fn() }
           window.Honeybadger = global.Honeybadger
-          sinon.spy(mockRetroChannel, "pushWithRetries")
-          sinon.spy(global.Honeybadger, "notify")
+
+          jest.spyOn(mockRetroChannel, "pushWithRetries")
           thunk(() => {}, undefined, mockRetroChannel)
 
-          const onErrCallback = mockRetroChannel.pushWithRetries.getCall(0).args[2].onErr
+          const onErrCallback = mockRetroChannel.pushWithRetries.mock.calls[0][2].onErr
 
           onErrCallback()
 
-          expect(global.Honeybadger.notify).to.have.been.calledOnce
+          expect(global.Honeybadger.notify).toHaveBeenCalledTimes(1)
         })
       })
 
@@ -502,22 +507,22 @@ describe("actionCreators", () => {
         it("does not blow up", () => {
           delete global.Honeybadger
           delete window.Honeybadger
-          sinon.spy(mockRetroChannel, "pushWithRetries")
+          jest.spyOn(mockRetroChannel, "pushWithRetries")
           thunk(() => {}, undefined, mockRetroChannel)
 
-          const onErrCallback = mockRetroChannel.pushWithRetries.getCall(0).args[2].onErr
+          const onErrCallback = mockRetroChannel.pushWithRetries.mock.calls[0][2].onErr
 
           expect(() => {
             onErrCallback()
-          }).not.to.throw()
+          }).not.toThrow()
         })
       })
 
       it("lets the store know that an idea edit submission is in flight", () => {
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-        expect(dispatchSpy).calledWith({
+        expect(dispatchSpy).toHaveBeenCalledWith({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId: ideaParams.id,
           newAttributes: { editSubmitted: true },
@@ -530,7 +535,7 @@ describe("actionCreators", () => {
     it("creates an action to delete an idea with particular id", () => {
       const ideaId = 999
 
-      expect(actionCreators.deleteIdea(ideaId)).to.deep.equal({
+      expect(actionCreators.deleteIdea(ideaId)).toEqual({
         type: "IDEA_DELETION_COMMITTED",
         ideaId,
       })
@@ -546,7 +551,7 @@ describe("actionCreators", () => {
     })
 
     it("returns a thunk", () => {
-      expect(typeof thunk).to.equal("function")
+      expect(typeof thunk).toBe("function")
     })
 
     describe("the thunk", () => {
@@ -554,31 +559,31 @@ describe("actionCreators", () => {
       const getStateStub = () => {}
 
       it("pushes a idea_deleted event to the retro channel", () => {
-        sinon.spy(mockRetroChannel, "push")
+        jest.spyOn(mockRetroChannel, "push")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
 
-        expect(mockRetroChannel.push).calledWith("idea_deleted", 999)
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("idea_deleted", 999)
 
-        mockRetroChannel.push.restore()
+        jest.restoreAllMocks()
       })
 
       describe("when the push results in an error", () => {
         it("dispatches an error", () => {
-          const dispatchSpy = sinon.spy()
+          const dispatchSpy = jest.fn()
           thunk(dispatchSpy, undefined, mockRetroChannel)
 
           mockRetroChannel.__triggerReply("error", {})
 
-          expect(dispatchSpy).calledWith({ type: "IDEA_DELETION_REJECTED", ideaId: 999 })
+          expect(dispatchSpy).toHaveBeenCalledWith({ type: "IDEA_DELETION_REJECTED", ideaId: 999 })
         })
       })
 
       it("notifies the store that the idea has been submitted for deletion", () => {
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-        expect(dispatchSpy).calledWith({
+        expect(dispatchSpy).toHaveBeenCalledWith({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId: 999,
           newAttributes: { deletionSubmitted: true },
@@ -596,7 +601,7 @@ describe("actionCreators", () => {
     })
 
     it("returns a thunk", () => {
-      expect(typeof thunk).to.equal("function")
+      expect(typeof thunk).toBe("function")
     })
 
     describe("the thunk", () => {
@@ -604,19 +609,19 @@ describe("actionCreators", () => {
       const getStateStub = () => {}
 
       it("pushes a idea_edit_state_enabled event to the retro channel", () => {
-        sinon.spy(mockRetroChannel, "push")
+        jest.spyOn(mockRetroChannel, "push")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
-        expect(mockRetroChannel.push).calledWith("idea_edit_state_enabled", { id: ideaId })
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("idea_edit_state_enabled", { id: ideaId })
 
-        mockRetroChannel.push.restore()
+        jest.restoreAllMocks()
       })
 
       it("notifies the store that the idea has entered into an edit state", () => {
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-        expect(dispatchSpy).calledWith({
+        expect(dispatchSpy).toHaveBeenCalledWith({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId,
           newAttributes: { inEditState: true, isLocalEdit: true },
@@ -634,7 +639,7 @@ describe("actionCreators", () => {
     })
 
     it("returns a thunk", () => {
-      expect(typeof thunk).to.equal("function")
+      expect(typeof thunk).toBe("function")
     })
 
     describe("the thunk", () => {
@@ -642,19 +647,19 @@ describe("actionCreators", () => {
       const getStateStub = () => {}
 
       it("pushes a idea_edit_state_disabled event to the retro channel", () => {
-        sinon.spy(mockRetroChannel, "push")
+        jest.spyOn(mockRetroChannel, "push")
 
         thunk(dispatchStub, getStateStub, mockRetroChannel)
-        expect(mockRetroChannel.push).calledWith("idea_edit_state_disabled", { id: ideaId })
+        expect(mockRetroChannel.push).toHaveBeenCalledWith("idea_edit_state_disabled", { id: ideaId })
 
-        mockRetroChannel.push.restore()
+        jest.restoreAllMocks()
       })
 
       it("notifies the store that the idea has left the edit state", () => {
-        const dispatchSpy = sinon.spy()
+        const dispatchSpy = jest.fn()
         thunk(dispatchSpy, getStateStub, mockRetroChannel)
 
-        expect(dispatchSpy).calledWith({
+        expect(dispatchSpy).toHaveBeenCalledWith({
           type: "IDEA_UPDATE_COMMITTED",
           ideaId,
           newAttributes: {
