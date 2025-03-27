@@ -6,6 +6,9 @@ import STAGES from "../../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION } = STAGES
 
+global.ASSET_DOMAIN = ""
+global.Honeybadger = { notify: () => {}, setContext: () => {} }
+
 // Create a mock store for testing
 const createMockStore = (initialState = {}) => {
   return createStore(() => ({

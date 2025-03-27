@@ -1,14 +1,13 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
+import "../support/js/test_helper"
 
 import {
   CategoryColumn,
   mapStateToProps,
   dropTargetSpec,
 } from "../../web/static/js/components/category_column"
-
-global.ASSET_DOMAIN = "http://localhost"
 
 jest.mock("react-dnd", () => {
   return {

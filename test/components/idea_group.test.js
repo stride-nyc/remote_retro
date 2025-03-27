@@ -1,6 +1,7 @@
 import React from "react"
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
+import "../support/js/test_helper"
 
 import IdeaGroup from "../../web/static/js/components/idea_group"
 
@@ -25,9 +26,6 @@ describe("IdeaGroup component", () => {
     },
     stage: "groups-action-items",
   }
-
-  // Mock the ASSET_DOMAIN global variable
-  global.ASSET_DOMAIN = ""
 
   it("renders a group label container", () => {
     const { container } = render(<IdeaGroup {...defaultProps} />)

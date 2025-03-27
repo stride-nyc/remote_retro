@@ -1,10 +1,9 @@
 import React from "react"
 import { render } from "@testing-library/react"
 import "@testing-library/jest-dom"
+import "../support/js/test_helper"
 
 import ContactStrideCTA from "../../web/static/js/components/contact_stride_cta"
-
-global.ASSET_DOMAIN = "test-domain"
 
 const stubAlert = {
   headerText: "Crucial Text!",

@@ -488,9 +488,9 @@ describe("actionCreators", () => {
 
       describe("when honeybadger is available (the default)", () => {
         it("notifies honeybadger of the error", () => {
-          // Mock Honeybadger
-          global.Honeybadger = { notify: jest.fn() }
           window.Honeybadger = global.Honeybadger
+
+          jest.spyOn(global.Honeybadger, "notify")
 
           jest.spyOn(mockRetroChannel, "pushWithRetries")
           thunk(() => {}, undefined, mockRetroChannel)
