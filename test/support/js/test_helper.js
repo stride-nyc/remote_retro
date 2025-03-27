@@ -2,13 +2,16 @@ import React from "react"
 import { render } from "@testing-library/react"
 import { Provider } from "react-redux"
 import { createStore } from "redux"
+import STAGES from "../../../web/static/js/configs/stages"
+
+const { IDEA_GENERATION } = STAGES
 
 // Create a mock store for testing
-const _createMockStore = (initialState = {}) => {
+const createMockStore = (initialState = {}) => {
   return createStore(() => ({
     retro: {
       facilitator_id: 1,
-      stage: "idea-generation",
+      stage: IDEA_GENERATION,
     },
     ideas: [],
     votes: [],
@@ -20,7 +23,7 @@ const _createMockStore = (initialState = {}) => {
 
 // Wrapper component to provide Redux store
 export const renderWithRedux = (ui, initialState) => {
-  const store = _createMockStore(initialState)
+  const store = createMockStore(initialState)
   return render(
     <Provider store={store}>
       {ui}
