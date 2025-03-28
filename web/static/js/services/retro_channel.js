@@ -56,6 +56,11 @@ class RetroChannel {
       updateIdea(id, { x, y, inEditState: true })
     })
 
+    // eslint-disable-next-line camelcase
+    client.on("idea_drag_state_changed", ({ id, dragging_user_id }) => {
+      updateIdea(id, { dragging_user_id })
+    })
+
     client.on("idea_edited", editedIdea => {
       const updatedIdea = {
         ...editedIdea,

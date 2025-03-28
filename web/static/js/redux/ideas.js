@@ -36,6 +36,12 @@ export const actions = {
     idea,
   }),
 
+  broadcastIdeaDragStateChange: (ideaId, userId) => {
+    return (dispatch, getState, retroChannel) => {
+      retroChannel.push("idea_drag_state_changed", { id: ideaId, dragging_user_id: userId })
+    }
+  },
+
   ideaDraggedInGroupingStage: idea => {
     return (dispatch, getState, retroChannel) => {
       dispatch(updateIdea(idea.id, { x: idea.x, y: idea.y, inEditState: true }))

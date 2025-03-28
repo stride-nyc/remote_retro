@@ -29,6 +29,7 @@ defmodule RemoteRetroWeb.IdeationHandlers do
   handle_in_and_broadcast_from("idea_edit_state_enabled", %{"id" => id})
   handle_in_and_broadcast_from("idea_edit_state_disabled", %{"id" => id})
   handle_in_and_broadcast_from("idea_dragged_in_grouping_stage", %{"id" => id, "x" => x, "y" => y})
+  handle_in_and_broadcast_from("idea_drag_state_changed", %{"id" => id, "dragging_user_id" => dragging_user_id})
 
   defp atomic_insert_and_broadcast_from(idea_params, socket) do
     Repo.transaction(fn ->

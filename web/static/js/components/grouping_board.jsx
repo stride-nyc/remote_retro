@@ -12,10 +12,16 @@ import GroupingCard from "./grouping_card"
 import styles from "./css_modules/grouping_board.css"
 
 export const GroupingBoard = props => {
-  const { ideas, actions, userOptions, currentUser } = props
+  // TODO: Bring this back in when done testing multi-user behavior
+  // const { ideas, actions, userOptions, currentUser } = props
+  const { ideas, actions, userOptions } = props
 
   const [activeDraggable, setActiveDraggable] = useState(null)
   const [groups, setGroups] = useState([])
+
+  // TEMPORARY: This is a temporary solution to simulate different users in
+  // diff browser windwos. Need to cleanup
+  const [currentUser] = useState({ id: Math.floor(Math.random() * 100) + 1 })
 
   const cardRefs = useRef({})
 
@@ -50,6 +56,9 @@ export const GroupingBoard = props => {
     // and also remove our use of currentUser in the GroupingStage component,
     // here, and in the GroupingCard component
     actions.updateIdea(active.id, { dragging_user_id: currentUser.id })
+    // If we want to remove this approach also need to remove refs to this broadcast
+    // and idea_drag_state_changed throuhgout codebase
+    actions.broadcastIdeaDragStateChange(active.id, currentUser.id)
   }
 
   const handleDragEnd = ({ active, delta }) => {
@@ -68,6 +77,7 @@ export const GroupingBoard = props => {
     setActiveDraggable(null)
 
     actions.updateIdea(active.id, { dragging_user_id: null })
+    actions.broadcastIdeaDragStateChange(active.id, null)
   }
 
   const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
