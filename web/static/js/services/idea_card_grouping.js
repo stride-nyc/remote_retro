@@ -1,8 +1,8 @@
 export default {
   findConnectedGroups: cardRefs => {
     const cardIds = Object.keys(cardRefs).map(Number)
-    const groupsMap = {}
 
+    const groupsMap = {}
     cardIds.forEach(id => {
       groupsMap[id] = new Set([id])
     })
@@ -13,40 +13,28 @@ export default {
       rects[id] = ref?.getBoundingClientRect()
     })
 
-    const mergeGroups = (id1, id2) => {
-      const group1 = groupsMap[id1]
-      const group2 = groupsMap[id2]
-
-      if (group1 === group2) return
-
-      const mergedGroup = new Set([...group1, ...group2])
-      mergedGroup.forEach(memberId => {
-        groupsMap[memberId] = mergedGroup
-      })
-    }
-
     cardIds.forEach(id => {
       const overlappingIds = findOverlappingElements(id, rects)
-      overlappingIds.forEach(overlappingId => mergeGroups(id, overlappingId))
+      overlappingIds.forEach(overlappingId => mergeGroups(groupsMap, id, overlappingId))
     })
 
-    const groups = []
-    const groupSets = new Set()
+    const processedGroups = new Set()
+    const validGroups = []
 
     cardIds.forEach(id => {
       const group = groupsMap[id]
 
-      if (group.size <= 1 || groupSets.has(group)) return
+      if (group.size <= 1 || processedGroups.has(group)) return
 
-      groups.push({
+      validGroups.push({
         groupId: id,
         cardIds: Array.from(group),
       })
 
-      groupSets.add(group)
+      processedGroups.add(group)
     })
 
-    return groups
+    return validGroups
   },
 }
 
@@ -74,4 +62,16 @@ const findOverlappingElements = (activeId, rects) => {
   })
 
   return overlappingIds
+}
+
+const mergeGroups = (groupsMap, id1, id2) => {
+  const group1 = groupsMap[id1]
+  const group2 = groupsMap[id2]
+
+  if (group1 === group2) return
+
+  const mergedGroup = new Set([...group1, ...group2])
+  mergedGroup.forEach(memberId => {
+    groupsMap[memberId] = mergedGroup
+  })
 }
