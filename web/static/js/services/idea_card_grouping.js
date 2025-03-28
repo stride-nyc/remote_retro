@@ -20,7 +20,7 @@ export default {
     }
 
     cardIds.forEach(id => {
-      const overlappingIds = _findOverlappingElements(id, cardRefs)
+      const overlappingIds = findOverlappingElements(id, cardRefs)
       overlappingIds.forEach(overlappingId => mergeGroups(id, overlappingId))
     })
 
@@ -44,7 +44,7 @@ export default {
   },
 }
 
-const _areElementsOverlapping = (rect1, rect2) => {
+const areElementsOverlapping = (rect1, rect2) => {
   return (
     rect1.right > rect2.left
     && rect1.left < rect2.right
@@ -53,7 +53,7 @@ const _areElementsOverlapping = (rect1, rect2) => {
   )
 }
 
-const _findOverlappingElements = (activeId, cardRefs) => {
+const findOverlappingElements = (activeId, cardRefs) => {
   const overlappingIds = []
   const activeRect = cardRefs[activeId]?.getBoundingClientRect()
 
@@ -63,7 +63,7 @@ const _findOverlappingElements = (activeId, cardRefs) => {
     if (id === activeId || !ref) return
 
     const rect = ref.getBoundingClientRect()
-    if (_areElementsOverlapping(activeRect, rect)) {
+    if (areElementsOverlapping(activeRect, rect)) {
       overlappingIds.push(id)
     }
   })
