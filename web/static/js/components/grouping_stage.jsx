@@ -2,7 +2,6 @@ import React, { Component } from "react"
 import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
-import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
 
 // TODO: This should be fixed but need new ticket to keep scope in check
 // eslint-disable-next-line import/no-cycle
@@ -19,12 +18,10 @@ class GroupingStage extends Component {
   render() {
     const { ideas, actions, userOptions, currentUser } = this.props
 
-    const ideasWithEphemeralGroupingIds = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
-
     return (
       <div className={styles.wrapper}>
         <GroupingBoard
-          ideas={ideasWithEphemeralGroupingIds}
+          ideas={ideas}
           actions={actions}
           userOptions={userOptions}
           currentUser={currentUser}
@@ -75,4 +72,4 @@ export default GroupingStage
 // NICE TO HAVE (New ticket?): All users see the dragging cards and groupings live - not local state
 // x - disable card when dragged by another user until drag stops
 // x- Groupings not working on on non dragging screen.
-// Consider pulling out any references to ephemeralIds - wip branch: pl/dnd-kit-no-ephemeral-ids
+// Pull out references to ephemeralIds - wip branch: pl/dnd-kit-no-ephemeral-ids
