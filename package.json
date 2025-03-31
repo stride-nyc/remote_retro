@@ -9,8 +9,8 @@
     "reprune-semantic-ui-on-web-changes": "nodemon -e jsx,heex --exec 'yarn run prune-semantic-ui-to-used-selectors'",
     "precommit": "lint-staged",
     "postinstall": "./prepare_semantic_ui_for_consumption_by_phoenix",
-    "test": "mocha --exit",
-    "test:watch": "mocha --watch --watch-extensions jsx"
+    "test": "jest",
+    "test:watch": "jest --watch"
   },
   "lint-staged": {
     "*.{js,jsx}": "eslint"
@@ -77,6 +77,9 @@
   "devDependencies": {
     "@babel/register": "^7.0.0",
     "@cfaester/enzyme-adapter-react-18": "^0.8.0",
+    "@testing-library/dom": "^10.4.0",
+    "@testing-library/jest-dom": "^6.6.3",
+    "@testing-library/react": "^16.2.0",
     "babel-eslint": "^10.0.1",
     "chai": "^4.2.0",
     "chai-change": "^2.1.2",
@@ -92,6 +95,9 @@
     "eslint-plugin-jsx-a11y": "^6.2.1",
     "eslint-plugin-react": "^7.12.4",
     "husky": "^0.14.3",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^29.7.0",
+    "jest-environment-jsdom": "^29.7.0",
     "jsdom": "^9.9.1",
     "jsdom-global": "^2.1.1",
     "lint-staged": "^7.2.2",
