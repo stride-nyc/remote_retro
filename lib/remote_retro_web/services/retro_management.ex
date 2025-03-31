@@ -2,7 +2,7 @@ defmodule RemoteRetroWeb.RetroManagement do
   alias RemoteRetro.{Retro, User, Group, Repo, Idea, Emails, Mailer}
 
   import Ecto.Query, only: [from: 2]
-  # TODO: Can we remove this or at least the refs to ideasWEphGIds?
+
   def update!(retro_id, %{"ideasWithTempGroupIds" => ideas} = context) do
     updates_map = persist_groups_with_associated_ideas(retro_id, ideas)
 
