@@ -3,7 +3,6 @@ import PropTypes from "prop-types"
 
 import * as AppPropTypes from "../prop_types"
 
-// TODO: This should be fixed but need new ticket to keep scope in check
 // eslint-disable-next-line import/no-cycle
 import LowerThird from "./lower_third"
 import GroupingBoard from "./grouping_board"
@@ -61,15 +60,3 @@ GroupingStage.propTypes = {
 }
 
 export default GroupingStage
-
-// x - Setup a11y
-// x - Figure out collsion detection
-// x - Groupings based off collision detection
-// Remove old stuff, including tests
-// Tests
-// x - Location of cards persists when nav off page
-// x - Styles
-// NICE TO HAVE (New ticket?): All users see the dragging cards and groupings live - not local state
-// x - disable card when dragged by another user until drag stops
-// x- Groupings not working on on non dragging screen.
-// Pull out references to ephemeralIds - wip branch: pl/dnd-kit-no-ephemeral-ids

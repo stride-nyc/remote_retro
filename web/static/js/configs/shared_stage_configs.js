@@ -90,7 +90,6 @@ export default {
     uiComponent: GroupingStage,
     progressionButton: {
       nextStage: GROUPS_LABELING,
-      // Can we get rid of this?
       optionalParamsAugmenter: reduxState => ({
         ideasWithTempGroupIds: reduxState.ideas,
       }),

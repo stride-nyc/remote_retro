@@ -77,11 +77,9 @@ describe("IdeaCardGrouping", () => {
 
         expect(result).toHaveLength(1)
 
-        // Check that cardIds contains exactly [1, 2] in any order
         expect(result[0].cardIds).toEqual(expect.arrayContaining([1, 2]))
         expect(result[0].cardIds.length).toBe(2)
 
-        // Check that groupId is either 1 or 2
         expect([1, 2]).toContain(result[0].groupId)
       })
 
@@ -144,7 +142,6 @@ describe("IdeaCardGrouping", () => {
 
         expect(result).toHaveLength(1)
 
-        // Check that cardIds contains exactly [1, 2, 3] in any order
         expect(result[0].cardIds).toEqual(expect.arrayContaining([1, 2, 3]))
         expect(result[0].cardIds.length).toBe(3)
       })
@@ -153,7 +150,6 @@ describe("IdeaCardGrouping", () => {
     describe("given two separate groups of overlapping cards", () => {
       it("returns two distinct groups", () => {
         const cardRefs = {
-          // Group 1
           1: {
             getBoundingClientRect: () => ({
               top: 0,
@@ -170,7 +166,6 @@ describe("IdeaCardGrouping", () => {
               right: 250,
             }),
           },
-          // Group 2
           3: {
             getBoundingClientRect: () => ({
               top: 400,
@@ -193,20 +188,16 @@ describe("IdeaCardGrouping", () => {
 
         expect(result).toHaveLength(2)
 
-        // Find the group containing cards 1 and 2
         const group1 = result.find(group => group.cardIds.includes(1) && group.cardIds.includes(2))
 
-        // Find the group containing cards 3 and 4
         const group2 = result.find(group => group.cardIds.includes(3) && group.cardIds.includes(4))
 
         expect(group1).toBeTruthy()
         expect(group2).toBeTruthy()
 
-        // Check that group1.cardIds contains exactly [1, 2] in any order
         expect(group1.cardIds).toEqual(expect.arrayContaining([1, 2]))
         expect(group1.cardIds.length).toBe(2)
 
-        // Check that group2.cardIds contains exactly [3, 4] in any order
         expect(group2.cardIds).toEqual(expect.arrayContaining([3, 4]))
         expect(group2.cardIds.length).toBe(2)
       })
@@ -238,7 +229,6 @@ describe("IdeaCardGrouping", () => {
 
         expect(result).toHaveLength(1)
 
-        // Check that cardIds contains exactly [1, 3] in any order
         expect(result[0].cardIds).toEqual(expect.arrayContaining([1, 3]))
         expect(result[0].cardIds.length).toBe(2)
       })
@@ -258,7 +248,7 @@ describe("IdeaCardGrouping", () => {
           2: {
             getBoundingClientRect: () => ({
               top: 0,
-              left: 100, // Right edge of card 1 touches left edge of card 2
+              left: 100,
               bottom: 100,
               right: 200,
             }),
@@ -277,7 +267,7 @@ describe("IdeaCardGrouping", () => {
               top: 0,
               left: 0,
               bottom: 100,
-              right: 101, // Overlaps by 1px
+              right: 101,
             }),
           },
           2: {
@@ -294,7 +284,6 @@ describe("IdeaCardGrouping", () => {
 
         expect(result).toHaveLength(1)
 
-        // Check that cardIds contains exactly [1, 2] in any order
         expect(result[0].cardIds).toEqual(expect.arrayContaining([1, 2]))
         expect(result[0].cardIds.length).toBe(2)
       })

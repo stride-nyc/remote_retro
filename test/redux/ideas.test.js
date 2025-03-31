@@ -335,6 +335,37 @@ describe("actionCreators", () => {
     })
   })
 
+  describe("broadcastIdeaDragStateChange", () => {
+    const ideaId = 123
+    const userId = 456
+
+    it("returns a thunk", () => {
+      const result = actionCreators.broadcastIdeaDragStateChange(ideaId, userId)
+      expect(typeof result).toBe("function")
+    })
+
+    describe("invoking the returned function", () => {
+      let thunk
+      let mockRetroChannel
+
+      const dispatchStub = () => {}
+      const getStateStub = () => {}
+
+      beforeEach(() => {
+        mockRetroChannel = { push: jest.fn() }
+        thunk = actionCreators.broadcastIdeaDragStateChange(ideaId, userId)
+        thunk(dispatchStub, getStateStub, mockRetroChannel)
+      })
+
+      it("notifies the server, passing the idea id and dragging user id", () => {
+        expect(mockRetroChannel.push).toHaveBeenCalledWith(
+          "idea_drag_state_changed",
+          { id: ideaId, dragging_user_id: userId }
+        )
+      })
+    })
+  })
+
   describe("ideaDraggedInGroupingStage", () => {
     const idea = { id: 5, x: 393.39, y: 3928.3 }
 

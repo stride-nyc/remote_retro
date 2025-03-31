@@ -1,11 +1,11 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
-// TODO: Remove this
 import { DropTarget } from "react-dnd"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import cx from "classnames"
 
+// eslint-disable-next-line import/no-cycle
 import IdeaColumnListContainer from "./idea_column_list_container"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
