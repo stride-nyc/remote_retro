@@ -3,10 +3,10 @@ defmodule RemoteRetroWeb.RetroManagement do
 
   import Ecto.Query, only: [from: 2]
   # TODO: Can we remove this or at least the refs to ideasWEphGIds?
-  def update!(retro_id, %{"ideasWithEphemeralGroupingIds" => ideas} = context) do
+  def update!(retro_id, %{"ideasWithTempGroupIds" => ideas} = context) do
     updates_map = persist_groups_with_associated_ideas(retro_id, ideas)
 
-    context = Map.delete(context, "ideasWithEphemeralGroupingIds")
+    context = Map.delete(context, "ideasWithTempGroupIds")
 
     update!(retro_id, context, updates_map)
   end

@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle
 import LobbyStage from "../components/lobby_stage"
 import PrimeDirectiveStage from "../components/prime_directive_stage"
 import GroupingStage from "../components/grouping_stage"
@@ -91,7 +92,7 @@ export default {
       nextStage: GROUPS_LABELING,
       // Can we get rid of this?
       optionalParamsAugmenter: reduxState => ({
-        ideasWithEphemeralGroupingIds: reduxState.ideas,
+        ideasWithTempGroupIds: reduxState.ideas,
       }),
       copy: "Group Labeling",
       iconClass: "arrow right",
