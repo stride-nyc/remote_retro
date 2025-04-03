@@ -1,4 +1,4 @@
-import React, { Component } from "react"
+import React from "react"
 import PropTypes from "prop-types"
 import { DropTarget } from "react-dnd"
 import { connect } from "react-redux"
@@ -10,41 +10,37 @@ import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/category_column.css"
 import { actions as actionCreators } from "../redux"
 
-export class CategoryColumn extends Component {
-  state = {}
+export const CategoryColumn = props => {
+  const {
+    category,
+    categoryDisplayStringOverride = null,
+    ideas,
+    connectDropTarget = node => node,
+    draggedOver = false,
+  } = props
 
-  render() {
-    const {
-      category,
-      categoryDisplayStringOverride = null,
-      ideas,
-      connectDropTarget = node => node,
-      draggedOver = false,
-    } = this.props
+  const iconHeight = 23
+  const wrapperClasses = cx(category, "column", styles.index, {
+    "dragged-over": draggedOver,
+  })
 
-    const iconHeight = 23
-    const wrapperClasses = cx(category, "column", styles.index, {
-      "dragged-over": draggedOver,
-    })
+  return connectDropTarget(
+    <section className={wrapperClasses}>
+      <div className={`${styles.columnHead} ui center aligned basic segment`}>
+        <img
+          src={`${ASSET_DOMAIN}/images/${category}.svg`}
+          height={iconHeight}
+          width={iconHeight}
+          alt={category}
+        />
+        <p className="ui medium header">{categoryDisplayStringOverride || category}</p>
+      </div>
+      <div className={`ui fitted divider ${styles.divider}`} />
+      {!!ideas.length && <IdeaColumnListContainer {...props} />}
 
-    return connectDropTarget(
-      <section className={wrapperClasses}>
-        <div className={`${styles.columnHead} ui center aligned basic segment`}>
-          <img
-            src={`${ASSET_DOMAIN}/images/${category}.svg`}
-            height={iconHeight}
-            width={iconHeight}
-            alt={category}
-          />
-          <p className="ui medium header">{categoryDisplayStringOverride || category}</p>
-        </div>
-        <div className={`ui fitted divider ${styles.divider}`} />
-        { !!ideas.length && <IdeaColumnListContainer {...this.props} /> }
-
-        <span className="overlay" />
-      </section>
-    )
-  }
+      <span className="overlay" />
+    </section>
+  )
 }
 
 CategoryColumn.propTypes = {
