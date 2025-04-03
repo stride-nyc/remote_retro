@@ -40,10 +40,12 @@ class IdeaColumnListContainer extends Component {
     }
   }
 
+
   render() {
     const { props, state } = this
     const { ideas, votes } = props
 
+    // console.log("shshshshshsh", props)
     let ideasSorted
     if (state.sortByVotes) {
       ideasSorted = sortByVoteCountWithSecondarySortOnIdASC(votes, ideas)

@@ -1,6 +1,6 @@
 import React from "react"
 import PropTypes from "prop-types"
-import { DropTarget } from "react-dnd"
+import { useDroppable } from "@dnd-kit/core"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
 import cx from "classnames"
@@ -15,17 +15,20 @@ export const CategoryColumn = props => {
     category,
     categoryDisplayStringOverride = null,
     ideas,
-    connectDropTarget = node => node,
-    draggedOver = false,
   } = props
+
+  const { isOver, setNodeRef } = useDroppable({
+    id: `droppable-${category}`,
+    data: { category },
+  })
 
   const iconHeight = 23
   const wrapperClasses = cx(category, "column", styles.index, {
-    "dragged-over": draggedOver,
+    "dragged-over": isOver,
   })
 
-  return connectDropTarget(
-    <section className={wrapperClasses}>
+  return (
+    <section ref={setNodeRef} className={wrapperClasses}>
       <div className={`${styles.columnHead} ui center aligned basic segment`}>
         <img
           src={`${ASSET_DOMAIN}/images/${category}.svg`}
@@ -50,8 +53,6 @@ CategoryColumn.propTypes = {
   votes: AppPropTypes.votes.isRequired,
   stage: AppPropTypes.stage.isRequired,
   actions: AppPropTypes.actions.isRequired,
-  connectDropTarget: PropTypes.func.isRequired,
-  draggedOver: PropTypes.bool.isRequired,
 }
 export const mapStateToProps = ({ votes, ideas, alert, ideaGenerationCategories }, props) => {
   return {
@@ -66,26 +67,7 @@ const mapDispatchToProps = dispatch => ({
   actions: bindActionCreators(actionCreators, dispatch),
 })
 
-// http://react-dnd.github.io/react-dnd/docs/api/drop-target#drop-target-specification
-export const dropTargetSpec = {
-  drop: (props, monitor) => {
-    const { draggedIdea } = monitor.getItem()
-    const { actions, category } = props
-
-    if (draggedIdea.category === category) return
-
-    actions.submitIdeaEditAsync({ ...draggedIdea, category })
-  },
-}
-
-const collect = (connect, monitor) => ({
-  connectDropTarget: connect.dropTarget(),
-  draggedOver: monitor.isOver({ shallow: true }),
-})
-
-const CategoryColumnAsDropTarget = DropTarget("IDEA", dropTargetSpec, collect)(CategoryColumn)
-
 export default connect(
   mapStateToProps,
   mapDispatchToProps
-)(CategoryColumnAsDropTarget)
+)(CategoryColumn)

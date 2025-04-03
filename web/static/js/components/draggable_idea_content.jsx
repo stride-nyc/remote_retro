@@ -1,12 +1,14 @@
 import React from "react"
-import { DragSource } from "react-dnd"
-import isFinite from "lodash/isFinite"
+import { useDraggable } from "@dnd-kit/core"
+import { CSS } from "@dnd-kit/utilities"
 import PropTypes from "prop-types"
+import isFinite from "lodash/isFinite"
 
 import IdeaContentBase from "./idea_content_base"
 
 import * as AppPropTypes from "../prop_types"
 
+// Keep these exports for compatibility with GroupingIdeaCard
 // http://react-dnd.github.io/react-dnd/docs/api/drag-source#drag-source-specification
 export const dragSourceSpec = {
   beginDrag: ({ idea }) => {
@@ -38,29 +40,35 @@ export const collect = connect => {
   }
 }
 
-const IdeaContentConnected = props => {
-  const { connectDragSource = node => node, ...rest } = props
+const DraggableIdeaContent = props => {
+  const { idea, ...rest } = props
 
-  // <connectDragSource requires a native html element for applying drag-n-drop handlers
-  return connectDragSource(
-    <div>
-      <IdeaContentBase {...rest} />
+  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+    id: idea.id.toString(),
+    data: {
+      idea,
+    },
+    disabled: idea.inEditState,
+  })
+
+  const style = {
+    transform: CSS.Translate.toString(transform),
+  }
+
+  return (
+    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+      <IdeaContentBase idea={idea} {...rest} />
     </div>
   )
 }
 
-IdeaContentConnected.propTypes = {
+DraggableIdeaContent.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
-  connectDragSource: PropTypes.func.isRequired,
 }
 
-export default DragSource(
-  "IDEA",
-  dragSourceSpec,
-  collect
-)(IdeaContentConnected)
+export default DraggableIdeaContent
