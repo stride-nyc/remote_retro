@@ -13,38 +13,33 @@ const ColumnarBoardLayout = props => {
   const [, setActiveId] = useState(null)
   const [activeIdea, setActiveIdea] = useState(null)
 
-  const handleDragStart = event => {
-    const { active } = event
+  const findIdeaById = id => ideas.find(idea => idea.id === parseInt(id, 10))
+
+  const handleDragStart = ({ active }) => {
     setActiveId(active.id)
 
-    const idea = ideas.find(idea => idea.id === parseInt(active.id, 10))
+    const idea = findIdeaById(active.id)
     if (idea) {
       setActiveIdea(idea)
     }
   }
 
-  const handleDragEnd = event => {
-    const { active, over } = event
-
+  const handleDragEnd = ({ active, over }) => {
     setActiveIdea(null)
 
     if (!over) return
 
-    const ideaId = active.id
-    const idea = ideas.find(idea => idea.id === parseInt(ideaId, 10))
-
-    if (!idea) return
-
+    const idea = findIdeaById(active.id)
     const targetCategory = over.data.current.category
 
-    if (idea.category === targetCategory) return
-
-    actions.submitIdeaEditAsync({
-      id: idea.id,
-      body: idea.body,
-      assignee_id: idea.assignee_id,
-      category: targetCategory,
-    })
+    if (idea && idea.category !== targetCategory) {
+      actions.submitIdeaEditAsync({
+        id: idea.id,
+        body: idea.body,
+        assignee_id: idea.assignee_id,
+        category: targetCategory,
+      })
+    }
   }
 
   return (
@@ -57,23 +52,24 @@ const ColumnarBoardLayout = props => {
           <CategoryColumn {...props} category={category} key={category} />
         ))}
         <DragOverlay dropAnimation={null}>
-          {/* Display the actual component and hide the component being dragged? */}
-          {activeIdea ? (
-            <div
-              className="idea-overlay"
-              // TODO: Stylesheet not inline
-              style={{
-                background: "pink",
-                boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-                borderRadius: "3px",
-                opacity: 0.8,
-                // Cursor should also be move on hover
-                cursor: "move",
-              }}
-            >
-              <IdeaContentBase idea={activeIdea} {...props} />
-            </div>
-          ) : null}
+          <div
+            className="idea-overlay"
+            // TODO: Stylesheet not inline
+            style={{
+              position: "relative",
+              //  TODO: How do I get this to sit in the exact same position instead of drop right without magic numbers?
+              top: -3,
+              left: -4,
+              background: "white",
+              boxShadow: "0 0 10px rgba(0,0,0,0.2)",
+              borderRadius: "3px",
+              opacity: 0.8,
+              // Cursor should also be move on hover
+              cursor: "move",
+            }}
+          >
+            <IdeaContentBase idea={activeIdea} {...props} />
+          </div>
         </DragOverlay>
       </DndContext>
     </div>
