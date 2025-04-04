@@ -47,8 +47,6 @@ const ColumnarBoardLayout = props => {
     })
   }
 
-  console.log(activeIdea)
-
   return (
     <div className={styles.categoryColumnsWrapper}>
       <DndContext
@@ -69,6 +67,7 @@ const ColumnarBoardLayout = props => {
                 boxShadow: "0 0 10px rgba(0,0,0,0.2)",
                 borderRadius: "3px",
                 opacity: 0.8,
+                // Cursor should also be move on hover
                 cursor: "move",
               }}
             >

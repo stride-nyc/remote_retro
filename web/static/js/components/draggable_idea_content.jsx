@@ -1,11 +1,12 @@
+// TODO: Test if we can delete this file
 import React from "react"
-import { useDraggable } from "@dnd-kit/core"
 import PropTypes from "prop-types"
 import isFinite from "lodash/isFinite"
 
 import IdeaContentBase from "./idea_content_base"
 
 import * as AppPropTypes from "../prop_types"
+
 
 // TODO: These need to be removed
 
@@ -42,21 +43,12 @@ export const collect = connect => {
   }
 }
 
+// DO WE EVEN NEED THIS COMPONENT?
 const DraggableIdeaContent = props => {
   const { idea, ...rest } = props
 
-  const { attributes, listeners, setNodeRef } = useDraggable({
-    id: idea.id.toString(),
-    data: {
-      idea,
-    },
-    disabled: idea.inEditState,
-  })
-
   return (
-    <div ref={setNodeRef} {...listeners} {...attributes}>
-      <IdeaContentBase idea={idea} {...rest} />
-    </div>
+    <IdeaContentBase idea={idea} {...rest} />
   )
 }
 

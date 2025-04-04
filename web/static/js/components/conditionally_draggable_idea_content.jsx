@@ -20,17 +20,11 @@ const ConditionallyDraggableIdeaContent = ({
 
   const isIdeaDragEligible = isTabletOrAbove && isIdeaGeneration && canUserEditIdeaContents
 
-  return isIdeaDragEligible ? (
-    <DraggableIdeaContent
-      {...props}
-      stage={stage}
-      canUserEditIdeaContents={canUserEditIdeaContents}
-      assignee={assignee}
-      isTabletOrAbove={isTabletOrAbove}
-    />
-  ) : (
+  // TODO: Test re-writes
+  return (
     <IdeaContentBase
       {...props}
+      isIdeaDragEligible={isIdeaDragEligible}
       stage={stage}
       canUserEditIdeaContents={canUserEditIdeaContents}
       assignee={assignee}
