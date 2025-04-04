@@ -1,0 +1,27 @@
+.idea-wrapper {
+  overflow: auto;
+  width: 100%;
+
+  :global(.text) {
+    line-height: 20px;
+  }
+}
+
+.edited-indicator {
+  color: #A0A0A8;
+  font-size: 0.85rem;
+}
+
+.idea-content {
+  padding: 0.2rem 0 0.2rem 0.25rem;
+  flex-grow: 1;
+}
+
+.idea-content.draggable {
+  cursor: move;
+}
+
+.idea-controls {
+  position: relative;
+  top: .2rem;
+}

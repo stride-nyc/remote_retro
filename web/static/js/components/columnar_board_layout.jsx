@@ -1,6 +1,5 @@
 import React, { useState } from "react"
 import { DndContext, DragOverlay } from "@dnd-kit/core"
-import { restrictToWindowEdges } from "@dnd-kit/modifiers"
 import IdeaContentBase from "./idea_content_base"
 
 import CategoryColumn from "./category_column"
@@ -52,23 +51,8 @@ const ColumnarBoardLayout = props => {
           <CategoryColumn {...props} category={category} key={category} />
         ))}
         <DragOverlay dropAnimation={null}>
-          <div
-            className="idea-overlay"
-            // TODO: Stylesheet not inline
-            style={{
-              position: "relative",
-              //  TODO: How do I get this to sit in the exact same position instead of drop right without magic numbers?
-              top: -3,
-              left: -4,
-              background: "white",
-              boxShadow: "0 0 10px rgba(0,0,0,0.2)",
-              borderRadius: "3px",
-              opacity: 0.8,
-              // Cursor should also be move on hover
-              cursor: "move",
-            }}
-          >
-            <IdeaContentBase idea={activeIdea} {...props} />
+          <div className={styles.dragIdeaWrapper}>
+            <IdeaContentBase idea={activeIdea} canUserEditIdeaContents {...props} />
           </div>
         </DragOverlay>
       </DndContext>
