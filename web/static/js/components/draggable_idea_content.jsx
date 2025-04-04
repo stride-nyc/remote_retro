@@ -1,12 +1,13 @@
 import React from "react"
 import { useDraggable } from "@dnd-kit/core"
-import { CSS } from "@dnd-kit/utilities"
 import PropTypes from "prop-types"
 import isFinite from "lodash/isFinite"
 
 import IdeaContentBase from "./idea_content_base"
 
 import * as AppPropTypes from "../prop_types"
+
+// TODO: These need to be removed
 
 // Keep these exports for compatibility with GroupingIdeaCard
 // http://react-dnd.github.io/react-dnd/docs/api/drag-source#drag-source-specification
@@ -31,6 +32,7 @@ export const dragSourceSpec = {
   },
 }
 
+// TODO: These need to be removed
 // collects props as drag events begin and end
 // http://react-dnd.github.io/react-dnd/docs/api/drag-source#the-collecting-function
 export const collect = connect => {
@@ -43,7 +45,7 @@ export const collect = connect => {
 const DraggableIdeaContent = props => {
   const { idea, ...rest } = props
 
-  const { attributes, listeners, setNodeRef, transform } = useDraggable({
+  const { attributes, listeners, setNodeRef } = useDraggable({
     id: idea.id.toString(),
     data: {
       idea,
@@ -51,12 +53,8 @@ const DraggableIdeaContent = props => {
     disabled: idea.inEditState,
   })
 
-  const style = {
-    transform: CSS.Translate.toString(transform),
-  }
-
   return (
-    <div ref={setNodeRef} style={style} {...listeners} {...attributes}>
+    <div ref={setNodeRef} {...listeners} {...attributes}>
       <IdeaContentBase idea={idea} {...rest} />
     </div>
   )
