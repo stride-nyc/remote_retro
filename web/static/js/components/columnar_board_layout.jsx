@@ -1,5 +1,6 @@
 import React, { useState } from "react"
 import { DndContext, DragOverlay } from "@dnd-kit/core"
+// eslint-disable-next-line import/no-cycle
 import IdeaContentBase from "./idea_content_base"
 
 import CategoryColumn from "./category_column"
@@ -9,14 +10,11 @@ import styles from "./css_modules/columnar_board_layout.css"
 
 const ColumnarBoardLayout = props => {
   const { categories, actions, ideas } = props
-  const [, setActiveId] = useState(null)
   const [activeIdea, setActiveIdea] = useState(null)
 
   const findIdeaById = id => ideas.find(idea => idea.id === parseInt(id, 10))
 
   const handleDragStart = ({ active }) => {
-    setActiveId(active.id)
-
     const idea = findIdeaById(active.id)
     if (idea) {
       setActiveIdea(idea)
@@ -24,8 +22,6 @@ const ColumnarBoardLayout = props => {
   }
 
   const handleDragEnd = ({ active, over }) => {
-    setActiveIdea(null)
-
     if (!over) return
 
     const idea = findIdeaById(active.id)
