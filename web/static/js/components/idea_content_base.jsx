@@ -4,6 +4,7 @@ import { useDraggable } from "@dnd-kit/core"
 import cx from "classnames"
 import PropTypes from "prop-types"
 
+// eslint-disable-next-line import/no-cycle
 import StageAwareIdeaControls from "./stage_aware_idea_controls"
 
 import * as AppPropTypes from "../prop_types"
