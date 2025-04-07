@@ -1,4 +1,3 @@
-// TODO: Test rewrite to handle the isIdeaDragEligible cases
 import React from "react"
 import { useDraggable } from "@dnd-kit/core"
 import cx from "classnames"
