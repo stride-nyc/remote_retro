@@ -1,4 +1,4 @@
-// TODO: Test if we can delete this file
+// TODO: Remove file in this ticket: https://stride-beach.atlassian.net/browse/RR-48
 import React from "react"
 import PropTypes from "prop-types"
 import isFinite from "lodash/isFinite"
