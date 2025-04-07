@@ -8,7 +8,6 @@ import STAGES from "../../web/static/js/configs/stages"
 
 const { IDEA_GENERATION } = STAGES
 
-// Mock the useDraggable hook
 jest.mock("@dnd-kit/core", () => ({
   useDraggable: jest.fn(() => ({
     attributes: { "aria-pressed": false },
@@ -65,7 +64,7 @@ describe("<IdeaContentBase />", () => {
     test("applies the draggable class to the idea content", () => {
       const idea = { body: "draggable idea", id: 456 }
 
-      const { container } = render(
+      render(
         <IdeaContentBase
           {...defaultProps}
           idea={idea}
@@ -73,8 +72,9 @@ describe("<IdeaContentBase />", () => {
         />
       )
 
-      // Find the div containing the idea content
-      const ideaContentDiv = container.querySelector("div:nth-child(2)")
+      // Find the span with the idea body text and get its parent div (the idea content div)
+      const ideaBodySpan = screen.getByText("draggable idea")
+      const ideaContentDiv = ideaBodySpan.parentElement
       expect(ideaContentDiv).toHaveClass("draggable")
     })
 
@@ -109,10 +109,11 @@ describe("<IdeaContentBase />", () => {
     })
 
     test("does not apply the draggable class to the idea content", () => {
-      const { container } = render(<IdeaContentBase {...defaultProps} />)
+      render(<IdeaContentBase {...defaultProps} />)
 
-      // Find the div containing the idea content
-      const ideaContentDiv = container.querySelector("div:nth-child(2)")
+      // Find the span with the idea body text and get its parent div (the idea content div)
+      const ideaBodySpan = screen.getByText("body text")
+      const ideaContentDiv = ideaBodySpan.parentElement
       expect(ideaContentDiv).not.toHaveClass("draggable")
     })
   })
