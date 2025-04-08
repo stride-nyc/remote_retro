@@ -2,10 +2,11 @@ defmodule RemoteRetroWeb.RetroManagement do
   alias RemoteRetro.{Retro, User, Group, Repo, Idea, Emails, Mailer}
 
   import Ecto.Query, only: [from: 2]
-  def update!(retro_id, %{"ideasWithEphemeralGroupingIds" => ideasWithEphemeralGroupingIds} = context) do
-    updates_map = persist_groups_with_associated_ideas(retro_id, ideasWithEphemeralGroupingIds)
 
-    context = Map.delete(context, "ideasWithEphemeralGroupingIds")
+  def update!(retro_id, %{"ideasWithTempGroupIds" => ideas} = context) do
+    updates_map = persist_groups_with_associated_ideas(retro_id, ideas)
+
+    context = Map.delete(context, "ideasWithTempGroupIds")
 
     update!(retro_id, context, updates_map)
   end
@@ -28,23 +29,24 @@ defmodule RemoteRetroWeb.RetroManagement do
     new_attributes["stage"] && new_attributes["stage"] =~ ~r/closed/
   end
 
-  defp persist_groups_with_associated_ideas(retro_id, ideasWithEphemeralGroupingIds) do
-    all_persisted_ideas = Repo.all(from i in Idea, where: i.retro_id == ^retro_id)
+  defp persist_groups_with_associated_ideas(retro_id, ideas) do
+    all_persisted_ideas = Repo.all(from(i in Idea, where: i.retro_id == ^retro_id))
     all_persisted_ideas_by_id = Enum.reduce(all_persisted_ideas, %{}, fn idea, acc -> Map.put(acc, idea.id, idea) end)
 
-    generate_leader_id = fn (idea) -> idea["ephemeralGroupingId"] || idea["id"] end
-    grouped_by_leader_id = Enum.group_by(ideasWithEphemeralGroupingIds, generate_leader_id)
+    generate_leader_id = fn idea -> idea["temp_group_id"] || idea["id"] end
+    grouped_by_leader_id = Enum.group_by(ideas, generate_leader_id)
 
     {:ok, groups} =
       Repo.transaction(fn ->
-        Enum.map(grouped_by_leader_id, fn ({_leader_id, ideas_in_group}) ->
-          ideas_in_group_as_changesets = ensure_ideas_in_group_have_latest_ephemeral_coordinates(
-            ideas_in_group,
-            all_persisted_ideas_by_id
-          )
+        Enum.map(grouped_by_leader_id, fn {_leader_id, ideas_in_group} ->
+          ideas_in_group_as_changesets =
+            ensure_ideas_in_group_have_latest_coordinates(
+              ideas_in_group,
+              all_persisted_ideas_by_id
+            )
 
           %Group{}
-          |> Ecto.Changeset.change(%{ ideas: ideas_in_group_as_changesets })
+          |> Ecto.Changeset.change(%{ideas: ideas_in_group_as_changesets})
           |> Repo.insert!(returning: true)
         end)
       end)
@@ -52,7 +54,7 @@ defmodule RemoteRetroWeb.RetroManagement do
     normalize_groups_and_ideas(groups)
   end
 
-  defp ensure_ideas_in_group_have_latest_ephemeral_coordinates(ideas_in_group, all_persisted_ideas_by_id) do
+  defp ensure_ideas_in_group_have_latest_coordinates(ideas_in_group, all_persisted_ideas_by_id) do
     Enum.map(ideas_in_group, fn idea ->
       persisted_idea = all_persisted_ideas_by_id[idea["id"]]
       Idea.changeset(persisted_idea, %{x: idea["x"], y: idea["y"]})
@@ -60,7 +62,7 @@ defmodule RemoteRetroWeb.RetroManagement do
   end
 
   defp normalize_groups_and_ideas(groups) do
-    Enum.reduce(groups, %{groups: [], ideas: []}, fn(group, %{groups: groups, ideas: ideas} = acc) ->
+    Enum.reduce(groups, %{groups: [], ideas: []}, fn group, %{groups: groups, ideas: ideas} = acc ->
       Map.merge(acc, %{groups: [group | groups], ideas: group.ideas ++ ideas})
     end)
   end

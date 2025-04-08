@@ -23,8 +23,8 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
       ~r{priv/static/.*(css|png|jpeg|jpg|gif|svg|woff2)$},
       ~r{priv/gettext/.*(po)$},
       ~r{lib/remote_retro_web/views/.*(ex)$},
-      ~r{lib/remote_retro_web/templates/.*(heex)$},
-    ],
+      ~r{lib/remote_retro_web/templates/.*(heex)$}
+    ]
   ]
 
 # can be removed once mix_test_watch is bumped to 1.1
@@ -65,9 +65,10 @@ config :remote_retro, :mock_user, %{
   "name" => "Dev User",
   "picture" => "https://lh6.googleusercontent.com/-cZI40d8YpIQ/AAAAAAAAAAI/AAAAAAAAABs/gmDI7LQ2Lo0/photo.jpg?sz=50",
   "profile" => "https://plus.google.com/108658712426577966861",
-  "sub" => "108658712426577966861",
+  "sub" => "108658712426577966861"
 }
 
 config :tzdata, :autoupdate, :disabled
+
 config :os_mon,
   start_memsup: false
