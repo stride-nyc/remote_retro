@@ -1,17 +1,14 @@
 // TODO: Remove file in this ticket: https://stride-beach.atlassian.net/browse/RR-48
 import React from "react"
-import PropTypes from "prop-types"
+import { DragSource } from "react-dnd"
 import isFinite from "lodash/isFinite"
+import PropTypes from "prop-types"
 
 // eslint-disable-next-line import/no-cycle
 import IdeaContentBase from "./idea_content_base"
 
 import * as AppPropTypes from "../prop_types"
 
-
-// TODO: These need to be removed
-
-// Keep these exports for compatibility with GroupingIdeaCard
 // http://react-dnd.github.io/react-dnd/docs/api/drag-source#drag-source-specification
 export const dragSourceSpec = {
   beginDrag: ({ idea }) => {
@@ -34,7 +31,6 @@ export const dragSourceSpec = {
   },
 }
 
-// TODO: These need to be removed
 // collects props as drag events begin and end
 // http://react-dnd.github.io/react-dnd/docs/api/drag-source#the-collecting-function
 export const collect = connect => {
@@ -44,22 +40,29 @@ export const collect = connect => {
   }
 }
 
-// DO WE EVEN NEED THIS COMPONENT?
-const DraggableIdeaContent = props => {
-  const { idea, ...rest } = props
+const IdeaContentConnected = props => {
+  const { connectDragSource = node => node, ...rest } = props
 
-  return (
-    <IdeaContentBase idea={idea} {...rest} />
+  // <connectDragSource requires a native html element for applying drag-n-drop handlers
+  return connectDragSource(
+    <div>
+      <IdeaContentBase {...rest} />
+    </div>
   )
 }
 
-DraggableIdeaContent.propTypes = {
+IdeaContentConnected.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   stage: AppPropTypes.stage.isRequired,
   assignee: AppPropTypes.presence,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
+  connectDragSource: PropTypes.func.isRequired,
 }
 
-export default DraggableIdeaContent
+export default DragSource(
+  "IDEA",
+  dragSourceSpec,
+  collect
+)(IdeaContentConnected)

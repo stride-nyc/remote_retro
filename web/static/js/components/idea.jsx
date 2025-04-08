@@ -18,8 +18,6 @@ import {
 } from "../redux"
 import STAGES from "../configs/stages"
 
-const { IDEA_GENERATION } = STAGES
-
 export const Idea = ({
   idea,
   currentUser,
@@ -50,7 +48,7 @@ export const Idea = ({
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
   } else {
-    const isIdeaGeneration = stage === IDEA_GENERATION
+    const isIdeaGeneration = stage === STAGES.IDEA_GENERATION
     const isIdeaDragEligible = isTabletOrAbove && isIdeaGeneration && canUserEditIdeaContents
 
     content = (
@@ -60,6 +58,7 @@ export const Idea = ({
         currentUser={currentUser}
         stage={stage}
         isIdeaDragEligible={isIdeaDragEligible}
+        canUserEditIdeaContents
         assignee={assignee}
       />
     )
