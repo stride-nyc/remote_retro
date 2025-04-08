@@ -3,6 +3,7 @@ import { DragSource } from "react-dnd"
 import isFinite from "lodash/isFinite"
 import PropTypes from "prop-types"
 
+// eslint-disable-next-line import/no-cycle
 import IdeaContentBase from "./idea_content_base"
 
 import * as AppPropTypes from "../prop_types"

@@ -1,12 +1,11 @@
 import React, { Component } from "react"
 import PropTypes from "prop-types"
 
+import * as AppPropTypes from "../prop_types"
+
+// eslint-disable-next-line import/no-cycle
 import LowerThird from "./lower_third"
 import GroupingBoard from "./grouping_board"
-
-import * as AppPropTypes from "../prop_types"
-import IdeasWithEphemeralGroupingIds from "../services/ideas_with_ephemeral_grouping_ids"
-
 import styles from "./css_modules/grouping_stage.css"
 
 class GroupingStage extends Component {
@@ -16,16 +15,15 @@ class GroupingStage extends Component {
   }
 
   render() {
-    const { ideas, actions, userOptions } = this.props
-
-    const ideasWithEphemeralGroupingIds = IdeasWithEphemeralGroupingIds.buildFrom(ideas)
+    const { ideas, actions, userOptions, currentUser } = this.props
 
     return (
       <div className={styles.wrapper}>
         <GroupingBoard
-          ideas={ideasWithEphemeralGroupingIds}
+          ideas={ideas}
           actions={actions}
           userOptions={userOptions}
+          currentUser={currentUser}
         />
 
         <div className="ui dimmer visible transition active device">
@@ -58,6 +56,7 @@ GroupingStage.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
   actions: PropTypes.object.isRequired,
   userOptions: AppPropTypes.userOptions.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
 }
 
 export default GroupingStage

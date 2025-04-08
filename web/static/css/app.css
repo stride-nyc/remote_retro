@@ -1,5 +1,5 @@
 @import './colors.css';
-@import '../js/components/css_modules/grouping_idea_card.css';
+@import '../js/components/css_modules/grouping_card.css';
 
 :global(.ReactModal__Overlay.ReactModal__Overlay--after-open) {
   display: flex;
