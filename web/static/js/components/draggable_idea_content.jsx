@@ -3,6 +3,7 @@ import React from "react"
 import PropTypes from "prop-types"
 import isFinite from "lodash/isFinite"
 
+// eslint-disable-next-line import/no-cycle
 import IdeaContentBase from "./idea_content_base"
 
 import * as AppPropTypes from "../prop_types"

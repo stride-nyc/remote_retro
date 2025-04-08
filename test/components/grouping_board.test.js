@@ -7,9 +7,9 @@ import _ from "lodash"
 import { GroupingBoard } from "../../web/static/js/components/grouping_board"
 
 // Mock GroupingIdeaCard component
-jest.mock("../../web/static/js/components/grouping_idea_card", () => {
+jest.mock("../../web/static/js/components/grouping_card", () => {
   const MockGroupingIdeaCard = ({ idea }) => (
-    <div data-testid="grouping-idea-card" data-idea-id={idea.id}>
+    <div data-testid="grouping-card" data-idea-id={idea.id}>
       {idea.body}
     </div>
   )
@@ -20,15 +20,21 @@ jest.mock("../../web/static/js/components/grouping_idea_card", () => {
 describe("GroupingBoard", () => {
   const defaultProps = {
     ideas: [],
-    actions: {},
+    actions: {
+      updateIdea: jest.fn(),
+      broadcastIdeaDragStateChange: jest.fn(),
+      ideaDraggedInGroupingStage: jest.fn(),
+      submitIdeaEditAsync: jest.fn(),
+    },
     userOptions: {},
     connectDropTarget: node => node,
+    currentUser: { id: 1 },
   }
 
   describe("when there are no ideas to render", () => {
     it("renders no idea cards", () => {
       render(<GroupingBoard {...defaultProps} ideas={[]} />)
-      const ideaCards = screen.queryAllByTestId("grouping-idea-card")
+      const ideaCards = screen.queryAllByTestId("grouping-card")
       expect(ideaCards).toHaveLength(0)
     })
   })
@@ -40,7 +46,7 @@ describe("GroupingBoard", () => {
           <GroupingBoard {...defaultProps} ideas={[{ body: "hey", id: 6 }, { body: "you", id: 5 }]} />
         )
 
-        const ideaCards = screen.getAllByTestId("grouping-idea-card")
+        const ideaCards = screen.getAllByTestId("grouping-card")
         expect(ideaCards).toHaveLength(2)
         // Check order by data-idea-id attribute
         expect(ideaCards[0]).toHaveAttribute("data-idea-id", "5")
@@ -61,7 +67,7 @@ describe("GroupingBoard", () => {
           />
         )
 
-        const ideaCards = screen.getAllByTestId("grouping-idea-card")
+        const ideaCards = screen.getAllByTestId("grouping-card")
         expect(ideaCards).toHaveLength(3)
         // Check order by data-idea-id attribute
         expect(ideaCards[0]).toHaveAttribute("data-idea-id", "5")
