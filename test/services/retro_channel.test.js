@@ -1,4 +1,3 @@
-// Converted from Mocha to Jest
 import { Socket, Channel } from "phoenix"
 import { createStore } from "redux"
 
