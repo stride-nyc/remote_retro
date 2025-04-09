@@ -1,7 +1,7 @@
 @import '../../../css/colors.css';
 
 .list {
-  overflow: auto;
+  overflow-y: auto;
   list-style: none;
   position: relative;
 

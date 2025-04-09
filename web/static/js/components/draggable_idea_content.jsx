@@ -1,3 +1,4 @@
+// TODO: Remove file in this ticket: https://stride-beach.atlassian.net/browse/RR-48
 import React from "react"
 import { DragSource } from "react-dnd"
 import isFinite from "lodash/isFinite"

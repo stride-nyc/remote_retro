@@ -2,3 +2,11 @@
   flex: 1 0;
   display: flex;
 }
+
+.drag-idea-wrapper {
+  background: #fff;
+  box-shadow: 0 0 10px rgba(0,0,0,0.2);
+  border-radius: 3px;
+  opacity: 0.8;
+  cursor: move;
+}

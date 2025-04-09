@@ -6,7 +6,9 @@ import values from "lodash/values"
 
 import IdeaEditForm from "./idea_edit_form"
 import IdeaLiveEditContent from "./idea_live_edit_content"
-import ConditionallyDraggableIdeaContent from "./conditionally_draggable_idea_content"
+// eslint-disable-next-line import/no-cycle
+import IdeaContentBase from "./idea_content_base"
+
 import IdeaPermissions from "../services/idea_permissions"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
@@ -14,6 +16,7 @@ import {
   selectors,
   actions,
 } from "../redux"
+import STAGES from "../configs/stages"
 
 export const Idea = ({
   idea,
@@ -23,7 +26,9 @@ export const Idea = ({
   actions = {},
   ideaGenerationCategories,
   assignee = null,
+  canUserEditIdeaContents,
   isTabletOrAbove,
+  stage,
   ...props
 }) => {
   const userIsEditing = idea.inEditState && idea.isLocalEdit
@@ -43,13 +48,18 @@ export const Idea = ({
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
   } else {
+    const isIdeaGeneration = stage === STAGES.IDEA_GENERATION
+    const isIdeaDragEligible = isTabletOrAbove && isIdeaGeneration && canUserEditIdeaContents
+
     content = (
-      <ConditionallyDraggableIdeaContent
+      <IdeaContentBase
         {...props}
-        currentUser={currentUser}
         idea={idea}
+        currentUser={currentUser}
+        stage={stage}
+        isIdeaDragEligible={isIdeaDragEligible}
+        canUserEditIdeaContents
         assignee={assignee}
-        isTabletOrAbove={isTabletOrAbove}
       />
     )
   }

@@ -2,24 +2,22 @@ import React from "react"
 import { render, screen } from "@testing-library/react"
 import "@testing-library/jest-dom"
 import "../support/js/test_helper"
+import { useDroppable } from "@dnd-kit/core"
 
 import {
   CategoryColumn,
   mapStateToProps,
-  dropTargetSpec,
 } from "../../web/static/js/components/category_column"
 
-jest.mock("react-dnd", () => {
+jest.mock("@dnd-kit/core", () => {
+  const mockSetNodeRef = jest.fn()
   return {
-    DragSource: () => component => component,
-    DropTarget: () => component => component,
-    useDrag: () => [{}, () => {}],
-    useDrop: () => [{}, () => {}],
-    DndProvider: ({ children }) => children,
+    useDroppable: jest.fn(() => ({
+      isOver: false,
+      setNodeRef: mockSetNodeRef,
+    })),
   }
 })
-
-jest.mock("react-dnd-html5-backend", () => ({}))
 
 describe("CategoryColumn", () => {
   const defaultProps = {
@@ -28,11 +26,34 @@ describe("CategoryColumn", () => {
     votes: [],
     stage: "idea-generation",
     actions: {},
-    connectDropTarget: jest.fn(el => el),
-    draggedOver: false,
   }
 
   describe("component", () => {
+    it("sets up the droppable area with the correct id and data", () => {
+      render(<CategoryColumn {...defaultProps} />)
+      expect(useDroppable).toHaveBeenCalledWith({
+        id: "droppable-action-item",
+        data: { category: "action-item" },
+      })
+    })
+
+    it("applies the dragged-over class when isOver is true", () => {
+      useDroppable.mockImplementationOnce(() => ({
+        isOver: true,
+        setNodeRef: jest.fn(),
+      }))
+      const { container } = render(<CategoryColumn {...defaultProps} />)
+      expect(container.querySelector(".dragged-over")).toBeInTheDocument()
+    })
+
+    it("does not apply the dragged-over class when isOver is false", () => {
+      useDroppable.mockImplementationOnce(() => ({
+        isOver: false,
+        setNodeRef: jest.fn(),
+      }))
+      const { container } = render(<CategoryColumn {...defaultProps} />)
+      expect(container.querySelector(".dragged-over")).not.toBeInTheDocument()
+    })
     describe("when no categoryDisplayStringOverride is passed", () => {
       it("renders the raw category string in the column header", () => {
         render(<CategoryColumn {...defaultProps} />)
@@ -79,49 +100,6 @@ describe("CategoryColumn", () => {
         expect(resultingProps.ideas).toEqual([
           { id: 2, body: "fassssst build", category: "happy" },
         ])
-      })
-    })
-  })
-
-  describe("dropTargetSpec", () => {
-    describe("#drop", () => {
-      let actions
-      let mockDragMonitor
-      let categoryColumnProps
-
-      beforeEach(() => {
-        mockDragMonitor = {
-          getItem: () => ({
-            draggedIdea: { id: 66, category: "confused" },
-          }),
-        }
-
-        actions = { submitIdeaEditAsync: jest.fn() }
-      })
-
-      describe("when the column's category differs from draggedIdea's category", () => {
-        beforeEach(() => {
-          categoryColumnProps = { category: "sad", actions }
-        })
-
-        it("calls submitIdeaEditAsync with updated category", () => {
-          dropTargetSpec.drop(categoryColumnProps, mockDragMonitor)
-          expect(actions.submitIdeaEditAsync).toHaveBeenCalledWith({
-            id: 66,
-            category: "sad",
-          })
-        })
-      })
-
-      describe("when the draggedIdea has the same category as the column", () => {
-        beforeEach(() => {
-          categoryColumnProps = { category: "confused", actions }
-        })
-
-        it("does not call submitIdeaEditAsync", () => {
-          dropTargetSpec.drop(categoryColumnProps, mockDragMonitor)
-          expect(actions.submitIdeaEditAsync).not.toHaveBeenCalled()
-        })
       })
     })
   })
