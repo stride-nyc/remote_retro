@@ -38,6 +38,8 @@ const GroupingCard = forwardRef(
 
     const isDifferentUserDragging = draggingUserId && draggingUserId !== currentUser.id
 
+    console.log("left", left)
+
     const style = {
       position: "relative",
       top,

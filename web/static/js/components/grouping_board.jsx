@@ -12,7 +12,14 @@ import GroupingCard from "./grouping_card"
 import styles from "./css_modules/grouping_board.css"
 
 export const GroupingBoard = props => {
-  const { ideas, actions, userOptions, currentUser } = props
+  // const { ideas, actions, userOptions, currentUser } = props
+  // TEMP
+  const { ideas, actions, userOptions } = props
+  const [currentUser, setCurrentUser] = useState()
+  useEffect(() => {
+    setCurrentUser({ id: Math.floor(Math.random() * 100) + 1 })
+  }, [])
+  // END EMP
 
   const [activeDraggable, setActiveDraggable] = useState(null)
   const [groups, setGroups] = useState([])
@@ -47,14 +54,26 @@ export const GroupingBoard = props => {
     actions.broadcastIdeaDragStateChange(active.id, currentUser.id)
   }
 
-  const handleDragEnd = ({ active, delta }) => {
-    const ideaId = active.id
+  const handleDragMove = ({ active, delta }) => {
+    const currentIdea = ideas.find(idea => idea.id === active.id)
+    // if (currentIdea.dragging_user_id === currentUser.id) return
 
-    const currentIdea = ideas.find(idea => idea.id === ideaId)
     const currentX = currentIdea?.x ? currentIdea.x : 0
     const currentY = currentIdea?.y ? currentIdea.y : 0
 
-    const updatedPosition = { id: ideaId, x: currentX + delta.x, y: currentY + delta.y }
+    const updatedPosition = { id: active.id, x: currentX + delta.x, y: currentY + delta.y }
+    console.log("updated x", updatedPosition.x)
+
+    // actions.ideaDraggedInGroupingStage(updatedPosition)
+    // actions.submitIdeaEditAsync(updatedPosition)
+  }
+
+  const handleDragEnd = ({ active, delta }) => {
+    const currentIdea = ideas.find(idea => idea.id === active.id)
+    const currentX = currentIdea?.x ? currentIdea.x : 0
+    const currentY = currentIdea?.y ? currentIdea.y : 0
+
+    const updatedPosition = { id: active.id, x: currentX + delta.x, y: currentY + delta.y }
 
     actions.ideaDraggedInGroupingStage(updatedPosition)
     actions.submitIdeaEditAsync(updatedPosition)
@@ -77,6 +96,7 @@ export const GroupingBoard = props => {
       <div className={styles.boardAndSideGutterWrapper}>
         <DndContext
           onDragStart={handleDragStart}
+          onDragMove={handleDragMove}
           onDragEnd={handleDragEnd}
           modifiers={[restrictToParentElement]}
         >
