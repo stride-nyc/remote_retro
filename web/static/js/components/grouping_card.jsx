@@ -1,4 +1,4 @@
-import React, { useCallback, forwardRef } from "react"
+import React, { useCallback, forwardRef, useState, useEffect } from "react"
 import PropTypes from "prop-types"
 import { useDraggable } from "@dnd-kit/core"
 import { CSS } from "@dnd-kit/utilities"
@@ -22,8 +22,16 @@ const GroupingCard = forwardRef(
       children,
     }, ref
   ) => {
-    const { id, category, x: left = 0, y: top = 0, dragging_user_id: draggingUserId } = idea
-    const { attributes, listeners, setNodeRef: draggableRef, transform } = useDraggable({ id })
+    const { id, category, x: ideaLeft = 0, y: ideaTop = 0, dragging_user_id: draggingUserId } = idea
+    const { attributes, listeners, setNodeRef: draggableRef, transform, isDragging } = useDraggable({ id })
+
+    const [dragStartPosition, setDragStartPosition] = useState({ left: ideaLeft, top: ideaTop })
+
+    useEffect(() => {
+      if (!isDragging) {
+        setDragStartPosition({ top: ideaTop, left: ideaLeft })
+      }
+    }, [ideaTop, ideaLeft, isDragging])
 
     const setRefs = useCallback(element => {
       draggableRef(element)
@@ -38,15 +46,12 @@ const GroupingCard = forwardRef(
 
     const isDifferentUserDragging = draggingUserId && draggingUserId !== currentUser.id
 
-    console.log("active", isActive, "left", left)
-
     const style = {
-      position: "relative",
-      top,
-      left,
-      transform: CSS.Translate.toString(transform),
+      position: "absolute",
+      top: dragStartPosition.top,
+      left: dragStartPosition.left,
+      transform: transform ? CSS.Translate.toString(transform) : undefined,
       margin: "4px 0 0 4px",
-      WebkitTransform: CSS.Translate.toString(transform),
       opacity: isActive || isDifferentUserDragging ? 0.5 : 1,
       cursor: isDifferentUserDragging ? "not-allowed" : "move",
     }

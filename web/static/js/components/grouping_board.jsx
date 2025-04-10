@@ -47,35 +47,36 @@ export const GroupingBoard = props => {
     })
   }, [groups, ideas, actions])
 
+  const dragStartPosition = useRef({ x: 0, y: 0 })
+
   const handleDragStart = ({ active }) => {
     setActiveDraggable(active.id)
+    const currentIdea = ideas.find(idea => idea.id === active.id)
+    dragStartPosition.current = {
+      x: currentIdea?.x || 0,
+      y: currentIdea?.y || 0,
+    }
 
     actions.updateIdea(active.id, { dragging_user_id: currentUser.id })
     actions.broadcastIdeaDragStateChange(active.id, currentUser.id)
   }
 
   const handleDragMove = ({ active, delta }) => {
-    const currentIdea = ideas.find(idea => idea.id === active.id)
-    // if (currentIdea.dragging_user_id === currentUser.id) return
-
-    const currentX = currentIdea?.x ? currentIdea.x : 0
-    const currentY = currentIdea?.y ? currentIdea.y : 0
-
-    const updatedPosition = { id: active.id, x: currentX + delta.x, y: currentY + delta.y }
-    // const updatedPosition = { id: active.id, x: delta.x, y: delta.y }
-    console.log("delta x", delta.x)
-    console.log("currentIdea x", currentIdea.x)
+    const updatedPosition = {
+      id: active.id,
+      x: dragStartPosition.current.x + delta.x,
+      y: dragStartPosition.current.y + delta.y,
+    }
 
     actions.ideaDraggedInGroupingStage(updatedPosition)
-    actions.submitIdeaEditAsync(updatedPosition)
   }
 
   const handleDragEnd = ({ active, delta }) => {
-    const currentIdea = ideas.find(idea => idea.id === active.id)
-    const currentX = currentIdea?.x ? currentIdea.x : 0
-    const currentY = currentIdea?.y ? currentIdea.y : 0
-
-    const updatedPosition = { id: active.id, x: currentX + delta.x, y: currentY + delta.y }
+    const updatedPosition = {
+      id: active.id,
+      x: dragStartPosition.current.x + delta.x,
+      y: dragStartPosition.current.y + delta.y,
+    }
 
     actions.ideaDraggedInGroupingStage(updatedPosition)
     actions.submitIdeaEditAsync(updatedPosition)
@@ -86,6 +87,7 @@ export const GroupingBoard = props => {
     actions.updateIdea(active.id, { dragging_user_id: null })
     actions.broadcastIdeaDragStateChange(active.id, null)
   }
+
 
   const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
 
