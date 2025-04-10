@@ -62,10 +62,12 @@ export const GroupingBoard = props => {
     const currentY = currentIdea?.y ? currentIdea.y : 0
 
     const updatedPosition = { id: active.id, x: currentX + delta.x, y: currentY + delta.y }
-    console.log("updated x", updatedPosition.x)
+    // const updatedPosition = { id: active.id, x: delta.x, y: delta.y }
+    console.log("delta x", delta.x)
+    console.log("currentIdea x", currentIdea.x)
 
-    // actions.ideaDraggedInGroupingStage(updatedPosition)
-    // actions.submitIdeaEditAsync(updatedPosition)
+    actions.ideaDraggedInGroupingStage(updatedPosition)
+    actions.submitIdeaEditAsync(updatedPosition)
   }
 
   const handleDragEnd = ({ active, delta }) => {
