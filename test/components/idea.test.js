@@ -5,15 +5,15 @@ import "@testing-library/jest-dom"
 import { Idea } from "../../web/static/js/components/idea"
 import STAGES from "../../web/static/js/configs/stages"
 
-// Mock the child components
 jest.mock("../../web/static/js/components/idea_edit_form", () => () => <div data-testid="idea-edit-form" />)
 jest.mock("../../web/static/js/components/idea_live_edit_content", () => () => <div data-testid="idea-live-edit-content" />)
-jest.mock("../../web/static/js/components/conditionally_draggable_idea_content", () => () => <div data-testid="conditionally-draggable-idea-content" />)
+jest.mock("../../web/static/js/components/idea_content_base", () => () => <div data-testid="idea-content-base" />)
 
 const { IDEA_GENERATION } = STAGES
 
 describe("Idea component", () => {
   const idea = {
+    id: 1,
     category: "sad",
     body: "redundant tests",
     user_id: 1,
@@ -73,14 +73,14 @@ describe("Idea component", () => {
   describe("when the idea is not in an edit state", () => {
     const ideaInDefaultState = { ...idea, inEditState: false }
 
-    it("renders <ConditionallyDraggableIdeaContent /> as a child", () => {
+    it("renders <IdeaContentBase /> as a child", () => {
       render(
         <Idea
           {...defaultProps}
           idea={ideaInDefaultState}
         />
       )
-      expect(screen.getByTestId("conditionally-draggable-idea-content")).toBeInTheDocument()
+      expect(screen.getByTestId("idea-content-base")).toBeInTheDocument()
     })
 
     it("does not render <IdeaEditForm/> as a child", () => {
