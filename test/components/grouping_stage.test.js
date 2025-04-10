@@ -4,7 +4,6 @@ import "@testing-library/jest-dom"
 
 import GroupingStage from "../../web/static/js/components/grouping_stage"
 
-// Mock the components to avoid React DnD context issues and other dependencies
 jest.mock("../../web/static/js/components/grouping_board", () => {
   return function MockGroupingBoard() {
     return <div data-testid="grouping-board" />
