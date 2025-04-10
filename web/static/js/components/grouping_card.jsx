@@ -23,7 +23,13 @@ const GroupingCard = forwardRef(
     }, ref
   ) => {
     const { id, category, x: ideaLeft = 0, y: ideaTop = 0, dragging_user_id: draggingUserId } = idea
-    const { attributes, listeners, setNodeRef: draggableRef, transform, isDragging } = useDraggable({ id })
+    const {
+      attributes,
+      listeners,
+      setNodeRef: draggableRef,
+      transform,
+      isDragging,
+    } = useDraggable({ id })
 
     const [dragStartPosition, setDragStartPosition] = useState({ left: ideaLeft, top: ideaTop })
 
@@ -47,7 +53,7 @@ const GroupingCard = forwardRef(
     const isDifferentUserDragging = draggingUserId && draggingUserId !== currentUser.id
 
     const style = {
-      position: "absolute",
+      position: "relative",
       top: dragStartPosition.top,
       left: dragStartPosition.left,
       transform: transform ? CSS.Translate.toString(transform) : undefined,
