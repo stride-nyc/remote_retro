@@ -93,4 +93,17 @@ GroupingCard.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-export default GroupingCard
+const MemoizedGroupingCard = React.memo(GroupingCard, (prevProps, nextProps) => {
+  const prevIdea = prevProps.idea
+  const nextIdea = nextProps.idea
+
+  return (
+    prevIdea.id === nextIdea.id
+    && prevIdea.x === nextIdea.x
+    && prevIdea.y === nextIdea.y
+    && prevIdea.dragging_user_id === nextIdea.dragging_user_id
+    && prevProps.groupId === nextProps.groupId
+  )
+})
+
+export default MemoizedGroupingCard

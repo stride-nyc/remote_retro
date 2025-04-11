@@ -1,3 +1,15 @@
+const batchGetBoundingClientRects = cardRefs => {
+  const rects = {}
+
+  Object.entries(cardRefs).forEach(([id, ref]) => {
+    if (ref) {
+      rects[Number(id)] = ref.getBoundingClientRect()
+    }
+  })
+
+  return rects
+}
+
 export default {
   findConnectedGroups: cardRefs => {
     const cardIds = Object.keys(cardRefs).map(Number)
@@ -7,11 +19,7 @@ export default {
       groupsMap[id] = new Set([id])
     })
 
-    const rects = {}
-    cardIds.forEach(id => {
-      const ref = cardRefs[id]
-      rects[id] = ref?.getBoundingClientRect()
-    })
+    const rects = batchGetBoundingClientRects(cardRefs)
 
     cardIds.forEach(id => {
       const overlappingIds = findOverlappingElements(id, rects)

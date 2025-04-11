@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useMemo } from "react"
 import { DndContext } from "@dnd-kit/core"
 import { restrictToParentElement } from "@dnd-kit/modifiers"
 import orderBy from "lodash/orderBy"
@@ -13,13 +13,6 @@ import styles from "./css_modules/grouping_board.css"
 
 export const GroupingBoard = props => {
   const { ideas, actions, userOptions, currentUser } = props
-  // // TEMP
-  // const { ideas, actions, userOptions } = props
-  // const [currentUser, setCurrentUser] = useState()
-  // useEffect(() => {
-  //   setCurrentUser({ id: Math.floor(Math.random() * 100) + 1 })
-  // }, [])
-  // // END EMP
 
   const [groups, setGroups] = useState([])
 
@@ -83,7 +76,9 @@ export const GroupingBoard = props => {
     actions.broadcastIdeaDragStateChange(active.id, null)
   }
 
-  const sortedIdeas = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+  const sortedIdeas = useMemo(() => {
+    return orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+  }, [ideas])
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
