@@ -57,6 +57,7 @@ export const GroupingBoard = props => {
       y: currentIdea?.y || 0,
     }
 
+    // TODO: Try stripping all this out
     actions.updateIdea(active.id, { dragging_user_id: currentUser.id })
     actions.broadcastIdeaDragStateChange(active.id, currentUser.id)
   }
@@ -78,6 +79,7 @@ export const GroupingBoard = props => {
       y: dragStartPosition.current.y + delta.y,
     }
 
+    // TODO: Do we need both?
     actions.ideaDraggedInGroupingStage(updatedPosition)
     actions.submitIdeaEditAsync(updatedPosition)
 

@@ -54,8 +54,8 @@ const GroupingCard = forwardRef(
 
     const style = {
       position: "relative",
-      top: dragStartPosition.top,
-      left: dragStartPosition.left,
+      top: isDragging ? dragStartPosition.top : ideaTop,
+      left: isDragging ? dragStartPosition.left : ideaLeft,
       transform: transform ? CSS.Translate.toString(transform) : undefined,
       margin: "4px 0 0 4px",
       opacity: isActive || isDifferentUserDragging ? 0.5 : 1,
