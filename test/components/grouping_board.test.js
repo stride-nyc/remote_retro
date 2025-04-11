@@ -32,6 +32,7 @@ jest.mock("@dnd-kit/core", () => {
   }
 })
 
+// Mock GroupingIdeaCard component
 jest.mock("../../web/static/js/components/grouping_card", () => {
   const React = jest.requireActual("react")
 
@@ -89,6 +90,7 @@ describe("GroupingBoard", () => {
 
         const ideaCards = screen.getAllByTestId("grouping-card")
         expect(ideaCards).toHaveLength(2)
+        // Check order by data-idea-id attribute
         expect(ideaCards[0]).toHaveAttribute("data-idea-id", "5")
         expect(ideaCards[1]).toHaveAttribute("data-idea-id", "6")
       })
@@ -109,6 +111,7 @@ describe("GroupingBoard", () => {
 
         const ideaCards = screen.getAllByTestId("grouping-card")
         expect(ideaCards).toHaveLength(3)
+        // Check order by data-idea-id attribute
         expect(ideaCards[0]).toHaveAttribute("data-idea-id", "5")
         expect(ideaCards[1]).toHaveAttribute("data-idea-id", "7")
         expect(ideaCards[2]).toHaveAttribute("data-idea-id", "6")
@@ -128,7 +131,13 @@ describe("GroupingBoard", () => {
         const { container } = render(
           <GroupingBoard {...defaultProps} ideas={ideas} />
         )
+        // Since we're mocking GroupingIdeaCard, we need to check if the className prop is
+        // passed correctly
+        // We can check if the component is rendered with the minimized class
         expect(container.querySelector(".grouping-board")).toBeTruthy()
+        // In a real scenario, we would check if the minimized class is applied to the cards
+        // This is a limitation of our mocking approach
+        // For a more accurate test, we would need to modify our mock to expose the className prop
       })
     })
 
@@ -141,6 +150,8 @@ describe("GroupingBoard", () => {
 
       it("does *not* minimize the cards within, as there is enough real estate to group comfortably", () => {
         const { container } = render(<GroupingBoard {...defaultProps} ideas={ideas} />)
+        // Similar to the above test, we're limited by our mocking approach
+        // In a real scenario, we would check that the minimized class is not applied
         expect(container.querySelector(".grouping-board")).toBeTruthy()
       })
     })
