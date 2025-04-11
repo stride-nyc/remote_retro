@@ -11,7 +11,7 @@ import styles from "./css_modules/grouping_card.css"
 
 const COLOR_BLACK = "#000000"
 
-const GroupingCard = forwardRef(
+const GroupingCardBase = forwardRef(
   (
     {
       idea,
@@ -85,7 +85,7 @@ const GroupingCard = forwardRef(
   }
 )
 
-GroupingCard.propTypes = {
+GroupingCardBase.propTypes = {
   idea: AppPropTypes.idea.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
   groupId: PropTypes.number,
@@ -93,7 +93,7 @@ GroupingCard.propTypes = {
   children: PropTypes.node.isRequired,
 }
 
-const MemoizedGroupingCard = React.memo(GroupingCard, (prevProps, nextProps) => {
+const GroupingCard = React.memo(GroupingCardBase, (prevProps, nextProps) => {
   const prevIdea = prevProps.idea
   const nextIdea = nextProps.idea
 
@@ -106,4 +106,4 @@ const MemoizedGroupingCard = React.memo(GroupingCard, (prevProps, nextProps) => 
   )
 })
 
-export default MemoizedGroupingCard
+export default GroupingCard

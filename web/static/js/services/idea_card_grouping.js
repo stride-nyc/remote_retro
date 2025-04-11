@@ -7,7 +7,13 @@ export default {
       groupsMap[id] = new Set([id])
     })
 
-    const rects = batchGetBoundingClientRects(cardRefs)
+    const rects = {}
+    cardIds.forEach(id => {
+      const ref = cardRefs[id]
+      if (ref && !rects[id]) {
+        rects[id] = ref.getBoundingClientRect()
+      }
+    })
 
     cardIds.forEach(id => {
       const overlappingIds = findOverlappingElements(id, rects)
@@ -41,18 +47,6 @@ const areElementsOverlapping = (rect1, rect2) => {
     && rect1.bottom > rect2.top
     && rect1.top < rect2.bottom
   )
-}
-
-const batchGetBoundingClientRects = cardRefs => {
-  const rects = {}
-
-  Object.entries(cardRefs).forEach(([id, ref]) => {
-    if (ref) {
-      rects[Number(id)] = ref.getBoundingClientRect()
-    }
-  })
-
-  return rects
 }
 
 const findOverlappingElements = (activeId, rects) => {
