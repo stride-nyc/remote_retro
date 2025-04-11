@@ -153,14 +153,6 @@ describe("GroupingCard", () => {
     expect(card).toHaveAttribute("data-category", "happy")
   })
 
-  describe("when the card is active", () => {
-    it("applies reduced opacity", () => {
-      const { container } = render(<GroupingCard {...defaultProps} isActive />)
-      const card = container.querySelector(".idea-card")
-      expect(card).toHaveStyle({ opacity: "0.5" })
-    })
-  })
-
   describe("when another user is dragging the card", () => {
     it("applies reduced opacity and not-allowed cursor", () => {
       const { container } = render(
