@@ -15,7 +15,6 @@ const GroupingCard = forwardRef(
   (
     {
       idea,
-      isActive,
       currentUser,
       groupId,
       userOptions: { highContrastOn },
@@ -58,7 +57,7 @@ const GroupingCard = forwardRef(
       left: isDragging ? dragStartPosition.left : ideaLeft,
       transform: transform ? CSS.Translate.toString(transform) : undefined,
       margin: "4px 0 0 4px",
-      opacity: isActive || isDifferentUserDragging ? 0.5 : 1,
+      opacity: isDragging || isDifferentUserDragging ? 0.5 : 1,
       cursor: isDifferentUserDragging ? "not-allowed" : "move",
     }
 
@@ -88,7 +87,6 @@ const GroupingCard = forwardRef(
 
 GroupingCard.propTypes = {
   idea: AppPropTypes.idea.isRequired,
-  isActive: PropTypes.bool,
   currentUser: AppPropTypes.presence.isRequired,
   groupId: PropTypes.number,
   userOptions: AppPropTypes.userOptions.isRequired,

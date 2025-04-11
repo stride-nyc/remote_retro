@@ -12,19 +12,19 @@ import GroupingCard from "./grouping_card"
 import styles from "./css_modules/grouping_board.css"
 
 export const GroupingBoard = props => {
-  // const { ideas, actions, userOptions, currentUser } = props
-  // TEMP
-  const { ideas, actions, userOptions } = props
-  const [currentUser, setCurrentUser] = useState()
-  useEffect(() => {
-    setCurrentUser({ id: Math.floor(Math.random() * 100) + 1 })
-  }, [])
-  // END EMP
+  const { ideas, actions, userOptions, currentUser } = props
+  // // TEMP
+  // const { ideas, actions, userOptions } = props
+  // const [currentUser, setCurrentUser] = useState()
+  // useEffect(() => {
+  //   setCurrentUser({ id: Math.floor(Math.random() * 100) + 1 })
+  // }, [])
+  // // END EMP
 
-  const [activeDraggable, setActiveDraggable] = useState(null)
   const [groups, setGroups] = useState([])
 
   const cardRefs = useRef({})
+  const dragStartPosition = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
     const newGroups = IdeaCardGrouping.findConnectedGroups(cardRefs.current)
@@ -47,51 +47,43 @@ export const GroupingBoard = props => {
     })
   }, [groups, ideas, actions])
 
-  const dragStartPosition = useRef({ x: 0, y: 0 })
+  const getUpdatedPostion = (active, delta) => {
+    const updatedPosition = {
+      id: active.id,
+      x: dragStartPosition.current.x + delta.x,
+      y: dragStartPosition.current.y + delta.y,
+    }
+
+    return updatedPosition
+  }
 
   const handleDragStart = ({ active }) => {
-    setActiveDraggable(active.id)
     const currentIdea = ideas.find(idea => idea.id === active.id)
     dragStartPosition.current = {
       x: currentIdea?.x || 0,
       y: currentIdea?.y || 0,
     }
 
-    // TODO: Try stripping all this out
     actions.updateIdea(active.id, { dragging_user_id: currentUser.id })
     actions.broadcastIdeaDragStateChange(active.id, currentUser.id)
   }
 
   const handleDragMove = ({ active, delta }) => {
-    const updatedPosition = {
-      id: active.id,
-      x: dragStartPosition.current.x + delta.x,
-      y: dragStartPosition.current.y + delta.y,
-    }
-
+    const updatedPosition = getUpdatedPostion(active, delta)
     actions.ideaDraggedInGroupingStage(updatedPosition)
   }
 
   const handleDragEnd = ({ active, delta }) => {
-    const updatedPosition = {
-      id: active.id,
-      x: dragStartPosition.current.x + delta.x,
-      y: dragStartPosition.current.y + delta.y,
-    }
-
-    // TODO: Do we need both?
-    actions.ideaDraggedInGroupingStage(updatedPosition)
+    const updatedPosition = getUpdatedPostion(active, delta)
     actions.submitIdeaEditAsync(updatedPosition)
 
     setGroups(IdeaCardGrouping.findConnectedGroups(cardRefs.current))
-    setActiveDraggable(null)
 
     actions.updateIdea(active.id, { dragging_user_id: null })
     actions.broadcastIdeaDragStateChange(active.id, null)
   }
 
-
-  const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+  const sortedIdeas = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
@@ -107,7 +99,7 @@ export const GroupingBoard = props => {
           modifiers={[restrictToParentElement]}
         >
           <div className={eligibleDragAreaClassname}>
-            {ideasSortedByBodyLengthAscending.map(idea => {
+            {sortedIdeas.map(idea => {
               const { id, body } = idea
               const group = groups.find(group => group.cardIds.includes(id))
               const groupId = group ? group.groupId : null
@@ -116,14 +108,11 @@ export const GroupingBoard = props => {
                 <GroupingCard
                   key={id}
                   idea={idea}
-                  isActive={activeDraggable === id}
                   currentUser={currentUser}
                   groupId={groupId}
                   userOptions={userOptions}
                   actions={actions}
-                  ref={el => {
-                    cardRefs.current[id] = el
-                  }}
+                  ref={el => { cardRefs.current[id] = el }}
                 >
                   <span>{body}</span>
                 </GroupingCard>
