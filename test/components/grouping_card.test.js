@@ -5,13 +5,16 @@ import "@testing-library/jest-dom"
 import GroupingCard from "../../web/static/js/components/grouping_card"
 import ColorPicker from "../../web/static/js/services/color_picker"
 
+const mockUseDraggable = jest.fn().mockReturnValue({
+  attributes: { "data-test": "draggable-attributes" },
+  listeners: { "data-test": "draggable-listeners" },
+  setNodeRef: jest.fn(),
+  transform: { x: 0, y: 0 },
+  isDragging: false,
+})
+
 jest.mock("@dnd-kit/core", () => ({
-  useDraggable: () => ({
-    attributes: { "data-test": "draggable-attributes" },
-    listeners: { "data-test": "draggable-listeners" },
-    setNodeRef: jest.fn(),
-    transform: { x: 0, y: 0 },
-  }),
+  useDraggable: () => mockUseDraggable(),
 }))
 
 jest.mock("@dnd-kit/utilities", () => ({
@@ -51,13 +54,96 @@ describe("GroupingCard", () => {
     expect(screen.getByTestId("card-content")).toHaveTextContent("Test content")
   })
 
-  it("applies the correct positioning based on idea coordinates", () => {
+  it("applies the correct positioning based on idea coordinates when not dragging", () => {
     const { container } = render(<GroupingCard {...defaultProps} />)
     const card = container.querySelector(".idea-card")
     expect(card).toHaveStyle({
       position: "relative",
       top: "20px",
       left: "10px",
+    })
+  })
+
+  it("updates position when idea coordinates change and not dragging", () => {
+    const { container, rerender } = render(<GroupingCard {...defaultProps} />)
+
+    const updatedIdea = {
+      ...defaultProps.idea,
+      x: 50,
+      y: 60,
+    }
+
+    rerender(
+      <GroupingCard
+        {...defaultProps}
+        idea={updatedIdea}
+      />
+    )
+
+    const card = container.querySelector(".idea-card")
+    expect(card).toHaveStyle({
+      position: "relative",
+      top: "60px",
+      left: "50px",
+    })
+  })
+
+  describe("when dragging", () => {
+    beforeEach(() => {
+      jest.clearAllMocks()
+      mockUseDraggable.mockReturnValue({
+        attributes: { "data-test": "draggable-attributes" },
+        listeners: { "data-test": "draggable-listeners" },
+        setNodeRef: jest.fn(),
+        transform: { x: 0, y: 0 },
+        isDragging: true,
+      })
+    })
+
+    afterEach(() => {
+      mockUseDraggable.mockReturnValue({
+        attributes: { "data-test": "draggable-attributes" },
+        listeners: { "data-test": "draggable-listeners" },
+        setNodeRef: jest.fn(),
+        transform: { x: 0, y: 0 },
+        isDragging: false,
+      })
+    })
+
+    it("uses dragStartPosition for positioning", () => {
+      const { container } = render(<GroupingCard {...defaultProps} />)
+      const card = container.querySelector(".idea-card")
+
+      expect(card).toHaveStyle({
+        position: "relative",
+        top: "20px",
+        left: "10px",
+      })
+    })
+
+    it("maintains dragStartPosition when idea coordinates change during dragging", () => {
+      const { container, rerender } = render(<GroupingCard {...defaultProps} />)
+
+      const updatedIdea = {
+        ...defaultProps.idea,
+        x: 50,
+        y: 60,
+      }
+
+      rerender(
+        <GroupingCard
+          {...defaultProps}
+          idea={updatedIdea}
+        />
+      )
+
+      const card = container.querySelector(".idea-card")
+
+      expect(card).toHaveStyle({
+        position: "relative",
+        top: "20px",
+        left: "10px",
+      })
     })
   })
 
