@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react"
+import React, { useState, useEffect, useRef, useMemo } from "react"
 import { DndContext } from "@dnd-kit/core"
 import { restrictToParentElement } from "@dnd-kit/modifiers"
 import orderBy from "lodash/orderBy"
@@ -14,10 +14,10 @@ import styles from "./css_modules/grouping_board.css"
 export const GroupingBoard = props => {
   const { ideas, actions, userOptions, currentUser } = props
 
-  const [activeDraggable, setActiveDraggable] = useState(null)
   const [groups, setGroups] = useState([])
 
   const cardRefs = useRef({})
+  const dragStartPosition = useRef({ x: 0, y: 0 })
 
   useEffect(() => {
     const newGroups = IdeaCardGrouping.findConnectedGroups(cardRefs.current)
@@ -40,33 +40,45 @@ export const GroupingBoard = props => {
     })
   }, [groups, ideas, actions])
 
+  const getUpdatedPostion = (active, delta) => {
+    const updatedPosition = {
+      id: active.id,
+      x: dragStartPosition.current.x + delta.x,
+      y: dragStartPosition.current.y + delta.y,
+    }
+
+    return updatedPosition
+  }
+
   const handleDragStart = ({ active }) => {
-    setActiveDraggable(active.id)
+    const currentIdea = ideas.find(idea => idea.id === active.id)
+    dragStartPosition.current = {
+      x: currentIdea?.x || 0,
+      y: currentIdea?.y || 0,
+    }
 
     actions.updateIdea(active.id, { dragging_user_id: currentUser.id })
     actions.broadcastIdeaDragStateChange(active.id, currentUser.id)
   }
 
-  const handleDragEnd = ({ active, delta }) => {
-    const ideaId = active.id
-
-    const currentIdea = ideas.find(idea => idea.id === ideaId)
-    const currentX = currentIdea?.x ? currentIdea.x : 0
-    const currentY = currentIdea?.y ? currentIdea.y : 0
-
-    const updatedPosition = { id: ideaId, x: currentX + delta.x, y: currentY + delta.y }
-
+  const handleDragMove = ({ active, delta }) => {
+    const updatedPosition = getUpdatedPostion(active, delta)
     actions.ideaDraggedInGroupingStage(updatedPosition)
+  }
+
+  const handleDragEnd = ({ active, delta }) => {
+    const updatedPosition = getUpdatedPostion(active, delta)
     actions.submitIdeaEditAsync(updatedPosition)
 
     setGroups(IdeaCardGrouping.findConnectedGroups(cardRefs.current))
-    setActiveDraggable(null)
 
     actions.updateIdea(active.id, { dragging_user_id: null })
     actions.broadcastIdeaDragStateChange(active.id, null)
   }
 
-  const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+  const sortedIdeas = useMemo(() => {
+    return orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+  }, [ideas])
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
@@ -77,11 +89,12 @@ export const GroupingBoard = props => {
       <div className={styles.boardAndSideGutterWrapper}>
         <DndContext
           onDragStart={handleDragStart}
+          onDragMove={handleDragMove}
           onDragEnd={handleDragEnd}
           modifiers={[restrictToParentElement]}
         >
           <div className={eligibleDragAreaClassname}>
-            {ideasSortedByBodyLengthAscending.map(idea => {
+            {sortedIdeas.map(idea => {
               const { id, body } = idea
               const group = groups.find(group => group.cardIds.includes(id))
               const groupId = group ? group.groupId : null
@@ -90,14 +103,11 @@ export const GroupingBoard = props => {
                 <GroupingCard
                   key={id}
                   idea={idea}
-                  isActive={activeDraggable === id}
                   currentUser={currentUser}
                   groupId={groupId}
                   userOptions={userOptions}
                   actions={actions}
-                  ref={el => {
-                    cardRefs.current[id] = el
-                  }}
+                  ref={el => { cardRefs.current[id] = el }}
                 >
                   <span>{body}</span>
                 </GroupingCard>

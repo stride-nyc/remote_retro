@@ -6,16 +6,58 @@ import _ from "lodash"
 
 import { GroupingBoard } from "../../web/static/js/components/grouping_board"
 
+const mockDragStart = jest.fn()
+const mockDragMove = jest.fn()
+const mockDragEnd = jest.fn()
+
+jest.mock("@dnd-kit/core", () => {
+  return {
+    DndContext: ({ children, onDragStart, onDragMove, onDragEnd }) => {
+      mockDragStart.mockImplementation(onDragStart)
+      mockDragMove.mockImplementation(onDragMove)
+      mockDragEnd.mockImplementation(onDragEnd)
+
+      return (
+        <div
+          data-testid="dnd-context"
+          data-ondragstart={onDragStart ? "function" : undefined}
+          data-ondragmove={onDragMove ? "function" : undefined}
+          data-ondragend={onDragEnd ? "function" : undefined}
+        >
+          {children}
+        </div>
+      )
+    },
+    restrictToParentElement: jest.fn(),
+  }
+})
+
 // Mock GroupingIdeaCard component
 jest.mock("../../web/static/js/components/grouping_card", () => {
-  const MockGroupingIdeaCard = ({ idea }) => (
-    <div data-testid="grouping-card" data-idea-id={idea.id}>
-      {idea.body}
+  const React = jest.requireActual("react")
+
+  const MockGroupingIdeaCard = React.forwardRef(({ idea, children }, ref) => (
+    <div ref={ref} data-testid="grouping-card" data-idea-id={idea.id}>
+      {children}
     </div>
-  )
+  ))
 
   return MockGroupingIdeaCard
 })
+
+
+jest.mock("../../web/static/js/services/idea_card_grouping", () => {
+  return {
+    __esModule: true,
+    default: {
+      findConnectedGroups: jest.fn().mockImplementation(() => {
+        return []
+      }),
+    },
+  }
+})
+
+const mockFindConnectedGroups = jest.requireMock("../../web/static/js/services/idea_card_grouping").default.findConnectedGroups
 
 describe("GroupingBoard", () => {
   const defaultProps = {
@@ -115,96 +157,135 @@ describe("GroupingBoard", () => {
     })
   })
 
-  describe("dropTargetSpec", () => {
-    let freshDropTargetSpec
-    let memoizedPush
+  beforeEach(() => {
+    jest.clearAllMocks()
+  })
 
-    // bring in fresh copy of module to avoid memoization of values contaminating tests
-    beforeEach(() => {
-      // Reset memoizedPush for each test
-      memoizedPush = {}
+  describe("drag and drop functionality", () => {
+    it("renders DndContext with all drag event handlers", () => {
+      render(<GroupingBoard {...defaultProps} />)
 
-      // Create a simpler implementation for testing
-      const dropTargetSpecMock = {
-        hover: (props, monitor) => {
-          const { draggedIdea } = monitor.getItem()
-
-          // Use fixed coordinates for testing
-          const x = 39
-          const y = 31
-
-          // Check for duplicative coordinates
-          const duplicativeHoverCoordinates = x === memoizedPush.x
-            && y === memoizedPush.y
-            && draggedIdea.id === memoizedPush.id
-
-          if (duplicativeHoverCoordinates) { return }
-
-          memoizedPush = { id: draggedIdea.id, x, y }
-
-          props.actions.ideaDraggedInGroupingStage(memoizedPush)
-        },
-      }
-
-      // Set our mock as the freshDropTargetSpec
-      freshDropTargetSpec = dropTargetSpecMock
+      const dndContext = screen.getByTestId("dnd-context")
+      expect(dndContext).toHaveAttribute("data-ondragstart", "function")
+      expect(dndContext).toHaveAttribute("data-ondragmove", "function")
+      expect(dndContext).toHaveAttribute("data-ondragend", "function")
     })
 
-    afterEach(() => {
-      jest.resetModules()
+    describe("handleDragStart", () => {
+      it("sets the dragStartPosition ref and updates dragging state", () => {
+        const updateIdea = jest.fn()
+        const broadcastIdeaDragStateChange = jest.fn()
+        const ideas = [{ id: 1, body: "test idea", x: 100, y: 200 }]
+        const currentUser = { id: 42 }
+
+        render(
+          <GroupingBoard
+            {...defaultProps}
+            ideas={ideas}
+            currentUser={currentUser}
+            actions={{
+              ...defaultProps.actions,
+              updateIdea,
+              broadcastIdeaDragStateChange,
+            }}
+          />
+        )
+
+        mockDragStart({ active: { id: 1 } })
+
+        expect(updateIdea).toHaveBeenCalledWith(1, { dragging_user_id: 42 })
+        expect(broadcastIdeaDragStateChange).toHaveBeenCalledWith(1, 42)
+      })
     })
 
-    describe("#hover", () => {
-      let ideaDraggedInGroupingStage
-      let props
-      let monitor
+    describe("handleDragMove", () => {
+      it("calls ideaDraggedInGroupingStage with updated position", () => {
+        const ideaDraggedInGroupingStage = jest.fn()
+        const ideas = [{ id: 1, body: "test idea", x: 100, y: 200 }]
 
-      beforeEach(() => {
-        ideaDraggedInGroupingStage = jest.fn()
-
-        props = {
-          actions: {
-            ideaDraggedInGroupingStage,
-          },
-        }
-
-        monitor = {
-          getSourceClientOffset: jest.fn(),
-          getItem: () => ({
-            draggedIdea: {
-              id: 54,
-            },
-          }),
-        }
-
-        freshDropTargetSpec.hover(props, monitor)
-      })
-
-      it("invokes the ideaDraggedInGroupingStage action with attrs of the idea from the drag", () => {
-        expect(ideaDraggedInGroupingStage).toHaveBeenCalledWith(
-          expect.objectContaining({
-            id: 54,
-          })
+        render(
+          <GroupingBoard
+            {...defaultProps}
+            ideas={ideas}
+            actions={{
+              ...defaultProps.actions,
+              ideaDraggedInGroupingStage,
+            }}
+          />
         )
-      })
 
-      it("also includes the reconciled x/y coordinates from the DragCoordinates service", () => {
-        expect(ideaDraggedInGroupingStage).toHaveBeenCalledWith(
-          expect.objectContaining({
-            x: 39,
-            y: 31,
-          })
+        mockDragStart({ active: { id: 1 } })
+
+        mockDragMove({ active: { id: 1 }, delta: { x: 50, y: 30 } })
+
+        expect(ideaDraggedInGroupingStage).toHaveBeenCalledWith({
+          id: 1,
+          x: 150, // 100 + 50
+          y: 230, // 200 + 30
+        })
+      })
+    })
+
+    describe("handleDragEnd", () => {
+      it("submits the idea edit and updates dragging state", () => {
+        const submitIdeaEditAsync = jest.fn()
+        const updateIdea = jest.fn()
+        const broadcastIdeaDragStateChange = jest.fn()
+        const ideas = [{ id: 1, body: "test idea", x: 100, y: 200 }]
+
+        mockFindConnectedGroups.mockReturnValueOnce([{ groupId: 5, cardIds: [1, 2] }])
+
+        render(
+          <GroupingBoard
+            {...defaultProps}
+            ideas={ideas}
+            actions={{
+              ...defaultProps.actions,
+              submitIdeaEditAsync,
+              updateIdea,
+              broadcastIdeaDragStateChange,
+            }}
+          />
         )
-      })
 
-      // the browser's hover event fires constantly, even when no movement,
-      // so no need to slam the server for a non-change
-      it("doesn't *re*-invoke ideaDraggedInGroupingStage when triggered with identical coordinates", () => {
-        // First call was already made in beforeEach
-        freshDropTargetSpec.hover(props, monitor)
-        freshDropTargetSpec.hover(props, monitor)
-        expect(ideaDraggedInGroupingStage).toHaveBeenCalledTimes(1)
+        mockDragStart({ active: { id: 1 } })
+
+        mockDragEnd({ active: { id: 1 }, delta: { x: 50, y: 30 } })
+
+        expect(submitIdeaEditAsync).toHaveBeenCalledWith({
+          id: 1,
+          x: 150, // 100 + 50
+          y: 230, // 200 + 30
+        })
+        expect(mockFindConnectedGroups).toHaveBeenCalled()
+        expect(updateIdea).toHaveBeenCalledWith(1, { dragging_user_id: null })
+        expect(broadcastIdeaDragStateChange).toHaveBeenCalledWith(1, null)
       })
+    })
+  })
+
+  describe("group synchronization", () => {
+    it("updates idea temp_group_id when groups change", () => {
+      const updateIdea = jest.fn()
+      const ideas = [
+        { id: 1, body: "idea 1", temp_group_id: null },
+        { id: 2, body: "idea 2", temp_group_id: null },
+      ]
+
+      mockFindConnectedGroups.mockReturnValueOnce([{ groupId: 5, cardIds: [1, 2] }])
+
+      render(
+        <GroupingBoard
+          {...defaultProps}
+          ideas={ideas}
+          actions={{
+            ...defaultProps.actions,
+            updateIdea,
+          }}
+        />
+      )
+      expect(updateIdea).toHaveBeenCalledWith(1, { temp_group_id: 5 })
+      expect(updateIdea).toHaveBeenCalledWith(2, { temp_group_id: 5 })
     })
   })
 })

@@ -10,7 +10,9 @@ export default {
     const rects = {}
     cardIds.forEach(id => {
       const ref = cardRefs[id]
-      rects[id] = ref?.getBoundingClientRect()
+      if (ref && !rects[id]) {
+        rects[id] = ref.getBoundingClientRect()
+      }
     })
 
     cardIds.forEach(id => {
