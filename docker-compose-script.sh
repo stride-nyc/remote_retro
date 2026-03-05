@@ -16,9 +16,9 @@ mix deps.get
 mix deps.compile
 mix compile
 
-# install project version of node (22.14.0) and use it
+# install project version of node (24.14.0) and use it
 
-nvm install 22.14.0 && nvm use 22.14.0
+nvm install 24.14.0 && nvm use 24.14.0
 
 # install yarn
 

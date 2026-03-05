@@ -70,7 +70,7 @@ _Note: If running into issues running the app locally, ensure the `hostname` in 
 ### Node Dependencies
 
 - Install nvm using brew `brew install nvm`
-- Install and use node (version 22.14.0) using nvm `nvm install 22.14.0 && nvm use 22.14.0`
+- Install and use node (version 24.14.0) using nvm `nvm install 24.14.0 && nvm use 24.14.0`
 - Enable corepack to get yarn - `corepack enable`
 - Install dependencies - `yarn install`
 
