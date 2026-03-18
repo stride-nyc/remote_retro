@@ -1,5 +1,5 @@
 #!/bin/sh
-set -e  # Exit on error
+set -e
 
 # add the elixir package manager
 mix local.hex --force
@@ -30,6 +30,3 @@ while ! nc -z db 5432; do sleep 1; done
 # run migrations
 mix ecto.create && mix ecto.migrate
 MIX_ENV=test mix ecto.create && mix ecto.migrate
-
-# run project
-mix
