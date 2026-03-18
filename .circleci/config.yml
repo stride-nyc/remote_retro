@@ -6,7 +6,7 @@ jobs:
     parallelism: 1
     machine:
       image: default
-    
+
     working_directory: ~/app
 
     steps:
@@ -39,7 +39,7 @@ jobs:
             else
                 echo "PostgreSQL is up and running!"
             fi
-            
+
             echo "Waiting for Phoenix app..."
             # Wait for Phoenix app to be available
             if ! timeout 300 sh -c 'until curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep -q "200"; do sleep 1; done'; then
@@ -260,19 +260,19 @@ jobs:
                 Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
               end
             '
-            
+
             echo "Running non-feature tests..."
             if ! docker-compose exec -e MIX_ENV="test" backend mix test --exclude feature_test --trace; then
               echo "Non-feature tests failed"
               exit 1
             fi
-            
+
             # echo "Running feature tests..."
             # if ! docker-compose exec -e MIX_ENV="test" backend mix test --only feature_test --trace; then
             #   echo "Feature tests failed"
             #   exit 1
             # fi
-          
+
             # Run coverage if token is available
             # if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
             #   echo "Running coverage report..."
@@ -285,6 +285,25 @@ jobs:
           path: screenshots
       - store_artifacts:
           path: browser_logs.log
+
+  deploy-staging:
+    machine: true
+    working_directory: ~/app # directory where steps will run
+    steps:
+      - checkout
+      - run:
+          name: Deploy to Staging in Gigalixir
+          command: |
+            git remote add gigalixir https://$GIGALIXIR_EMAIL:$GIGALIXIR_API_KEY@git.gigalixir.com/$STAGING_GIGALIXIR_APP_NAME.git
+            commit_range_from_previous_build=$(echo $CIRCLE_COMPARE_URL | sed -n -e 's/^.*compare\///p')
+
+            if git log $commit_range_from_previous_build --name-status --pretty="format:" | grep "phoenix_static_buildpack.config\config.exs\|prod.exs\|mix.exs\|mix.lock\|elixir_buildpack.config\|A[[:space:]]priv/repo/migrations"; then
+              echo "Executing deploy cleaned of old dependencies"
+              git -c http.extraheader="GIGALIXIR-CLEAN: true" push gigalixir HEAD:refs/heads/master --force;
+            else
+              echo "Executing deploy with hot code upgrade"
+              git -c http.extraheader="GIGALIXIR-HOT: true" push gigalixir HEAD:refs/heads/master --force;
+            fi
 
   deploy:
     machine: true
@@ -321,3 +340,9 @@ workflows:
           filters:
             branches:
               only: master
+      - deploy-staging:
+          requires:
+            - build
+          filters:
+            branches:
+              only: staging
