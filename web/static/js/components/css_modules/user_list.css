@@ -7,7 +7,7 @@
   padding-bottom: 0.5rem;
   padding-top: 0.5rem;
 
-  @media(min-width: 768px) {
+  @media (min-width: 768px) {
     padding-top: 1rem;
   }
 
@@ -20,15 +20,16 @@
 :global(.basic.segment).index {
   :global(.wrap) {
     max-width: 75rem;
-    max-height: 24rem;
+    max-height: 12rem;
+    min-height: 8rem;
     display: inline-block;
     white-space: initial;
     overflow-x: auto;
     padding-top: 0.25rem;
 
-    :global(.item), :global(.item:first-child){
+    :global(.item),
+    :global(.item:first-child) {
       margin: 0rem 1rem;
     }
   }
 }
-
