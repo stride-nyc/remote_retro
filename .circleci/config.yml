@@ -77,6 +77,30 @@ jobs: # basic units of work in a run
       - store_artifacts:
           path: screenshots
 
+  deploystaging:
+    machine:
+      enabled: true
+    working_directory: ~/app # directory where steps will run
+    steps:
+      - checkout
+      - run:
+          name: Deploy to Gigalixir
+          command: |
+            git remote add gigalixir https://$GIGALIXIR_EMAIL:$GIGALIXIR_API_KEY@git.gigalixir.com/$STAGING_GIGALIXIR_APP_NAME.git
+            commit_range_from_previous_build=$(echo $CIRCLE_COMPARE_URL | sed -n -e 's/^.*compare\///p')
+
+            # trigger full rebuilds when elixir deps or prod environment configs have changed
+            #   - also trigger full rebuilds when db migrations have been *added* since last push,
+            #     as these wouldn't be run when doing a hot upgrade, but are run on fresh builds
+
+            if git log $commit_range_from_previous_build --name-status --pretty="format:" | grep "phoenix_static_buildpack.config\config.exs\|prod.exs\|mix.exs\|mix.lock\|elixir_buildpack.config\|A[[:space:]]priv/repo/migrations"; then
+              echo "Executing deploy cleaned of old dependencies"
+              git -c http.extraheader="GIGALIXIR-CLEAN: true" push gigalixir HEAD:refs/heads/master --force;
+            else
+              echo "Executing deploy with hot code upgrade"
+              git -c http.extraheader="GIGALIXIR-HOT: true" push gigalixir HEAD:refs/heads/master --force;
+            fi
+
   deploy:
     machine:
       enabled: true
@@ -111,6 +135,12 @@ workflows:
   build-and-deploy:
     jobs:
       - build
+      - deploystaging:
+          requires:
+            - build
+          filters:
+            branches:
+              only: staging
       - deploy:
           requires:
             - build
