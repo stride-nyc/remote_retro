@@ -5,7 +5,24 @@
 
 This repository houses the application code for [RemoteRetro.org](http://remoteretro.org), a free web app that allows distributed teams to conduct Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](https://www.stride.build).
 
-## Running with Docker
+## Running Remote Retro
+
+### Running with devContainers
+
+DevContainers is a way to quickly setup Remote Retro to run on your machine for development. The main difference betwen this and running with docker is that devContainers are used for development and Docker is meant to run in production.
+
+If you are using VS Code:
+
+First, create a .env file with `cp .env-sample .env`. Note that you'll want to do this before you run the devContainer
+
+Follow the steps in the [Setup Google Cloud](#setup-google-cloud) section below.
+
+Then reopen VS Code and you should see a pop-up to prompt you to "reopen the project in a dev container". You can also use ctrl + shift + p and search for "reopen the project in a dev container".
+
+Lastly, you'll just need to run the app in the terminal. Skip to [And Voila](#and-voila)
+to run the app and visit the Dev url.
+
+### Running with Docker
 
 First, create a .env file with `cp .env-sample .env`.
 
@@ -20,13 +37,13 @@ While Docker compose is running, you can open the app at <http://localhost:4000>
 
 _Note: If running into issues running the app using Docker, ensure the `hostname` in `config/dev.exs` is `db`_
 
-## Running locally
+### Running locally
 
 First, create a .env file with `cp .env-sample .env`.
 
 Follow the steps in the [Setup Google Cloud](#setup-google-cloud) section below.
 
-### PostgreSQL
+#### PostgreSQL
 
 - Install [Homebrew](http://brew.sh/)
   - **Note:** You'll be prompted to install the command-line developer tools. Do it.
@@ -42,7 +59,7 @@ createuser -s postgres
 psql -h localhost
 ```
 
-### Elixir/Phoenix Dependencies
+#### Elixir/Phoenix Dependencies
 
 - Install erlang - `brew install erlang`
 - Install elixir 1.16
@@ -67,14 +84,14 @@ psql -h localhost
 
 _Note: If running into issues running the app locally, ensure the `hostname` in `config/dev.exs` is `localhost`_
 
-### Node Dependencies
+#### Node Dependencies
 
 - Install nvm using brew `brew install nvm`
 - Install and use node (version 24.14.0) using nvm `nvm install 24.14.0 && nvm use 24.14.0`
 - Enable corepack to get yarn - `corepack enable`
 - Install dependencies - `yarn install`
 
-### And Voila
+#### And Voila
 
 Start Phoenix endpoint with `mix`
 
