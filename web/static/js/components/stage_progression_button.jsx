@@ -30,10 +30,10 @@ export class StageProgressionButton extends Component {
 
   render() {
     const {
-      buttonDisabled,
-      className,
+      buttonDisabled = false,
+      className = "",
       currentUser,
-      reduxState,
+      reduxState = {},
       retroUpdateRequested,
       config,
     } = this.props
@@ -98,19 +98,11 @@ export class StageProgressionButton extends Component {
 StageProgressionButton.propTypes = {
   actions: AppPropTypes.actions.isRequired,
   currentUser: AppPropTypes.presence.isRequired,
-  className: PropTypes.string,
-  config: PropTypes.object,
-  reduxState: PropTypes.object,
+  className: PropTypes.string.isRequired,
+  config: PropTypes.object.isRequired,
+  reduxState: PropTypes.object.isRequired,
   buttonDisabled: PropTypes.bool,
   retroUpdateRequested: PropTypes.bool,
-}
-
-StageProgressionButton.defaultProps = {
-  className: "",
-  buttonDisabled: false,
-  retroUpdateRequested: false,
-  reduxState: {},
-  config: null,
 }
 
 const mapStateToProps = reduxState => ({

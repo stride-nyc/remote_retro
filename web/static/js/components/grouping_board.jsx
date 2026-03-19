@@ -1,47 +1,120 @@
-import React from "react"
-import { DropTarget } from "react-dnd"
+import React, { useState, useEffect, useRef, useMemo } from "react"
+import { DndContext } from "@dnd-kit/core"
+import { restrictToParentElement } from "@dnd-kit/modifiers"
+import orderBy from "lodash/orderBy"
 import PropTypes from "prop-types"
 import cx from "classnames"
-import orderBy from "lodash/orderBy"
 
-import GroupingIdeaCard from "./grouping_idea_card"
-import DragCoordinates from "../services/drag_coordinates"
 import * as AppPropTypes from "../prop_types"
+import IdeaCardGrouping from "../services/idea_card_grouping"
+
+import GroupingCard from "./grouping_card"
 import styles from "./css_modules/grouping_board.css"
 
-const IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION = 35
-
 export const GroupingBoard = props => {
-  const { ideas, actions, connectDropTarget, userOptions } = props
+  const { ideas, actions, userOptions, currentUser } = props
+
+  const [groups, setGroups] = useState([])
+
+  const cardRefs = useRef({})
+  const dragStartPosition = useRef({ x: 0, y: 0 })
+
+  useEffect(() => {
+    const newGroups = IdeaCardGrouping.findConnectedGroups(cardRefs.current)
+    setGroups(newGroups)
+  }, [ideas])
+
+  useEffect(() => {
+    const ideaGroupMap = new Map()
+
+    groups.forEach(({ groupId, cardIds }) => {
+      cardIds.forEach(cardId => ideaGroupMap.set(cardId, groupId))
+    })
+
+    ideas.forEach(({ id, temp_group_id: tempGroupId }) => {
+      const newGroupId = ideaGroupMap.get(id) || null
+
+      if (tempGroupId !== newGroupId) {
+        actions.updateIdea(id, { temp_group_id: newGroupId })
+      }
+    })
+  }, [groups, ideas, actions])
+
+  const getUpdatedPostion = (active, delta) => {
+    const updatedPosition = {
+      id: active.id,
+      x: dragStartPosition.current.x + delta.x,
+      y: dragStartPosition.current.y + delta.y,
+    }
+
+    return updatedPosition
+  }
+
+  const handleDragStart = ({ active }) => {
+    const currentIdea = ideas.find(idea => idea.id === active.id)
+    dragStartPosition.current = {
+      x: currentIdea?.x || 0,
+      y: currentIdea?.y || 0,
+    }
+
+    actions.updateIdea(active.id, { dragging_user_id: currentUser.id })
+    actions.broadcastIdeaDragStateChange(active.id, currentUser.id)
+  }
+
+  const handleDragMove = ({ active, delta }) => {
+    const updatedPosition = getUpdatedPostion(active, delta)
+    actions.ideaDraggedInGroupingStage(updatedPosition)
+  }
+
+  const handleDragEnd = ({ active, delta }) => {
+    const updatedPosition = getUpdatedPostion(active, delta)
+    actions.submitIdeaEditAsync(updatedPosition)
+
+    setGroups(IdeaCardGrouping.findConnectedGroups(cardRefs.current))
+
+    actions.updateIdea(active.id, { dragging_user_id: null })
+    actions.broadcastIdeaDragStateChange(active.id, null)
+  }
+
+  const sortedIdeas = useMemo(() => {
+    return orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
+  }, [ideas])
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
   const sideGutterClassname = cx(styles.sideGutter, "ui inverted basic padded segment")
   const bottomGutterClassname = cx(styles.bottomGutter, "ui inverted basic segment")
 
-  const cardClassName = cx({
-    minimized: ideas.length > IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION,
-  })
-
-  const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
-
   return (
     <React.Fragment>
       <div className={styles.boardAndSideGutterWrapper}>
-        {
-          connectDropTarget(
-            <div className={eligibleDragAreaClassname}>
-              {ideasSortedByBodyLengthAscending.map(idea => (
-                <GroupingIdeaCard
+        <DndContext
+          onDragStart={handleDragStart}
+          onDragMove={handleDragMove}
+          onDragEnd={handleDragEnd}
+          modifiers={[restrictToParentElement]}
+        >
+          <div className={eligibleDragAreaClassname}>
+            {sortedIdeas.map(idea => {
+              const { id, body } = idea
+              const group = groups.find(group => group.cardIds.includes(id))
+              const groupId = group ? group.groupId : null
+
+              return (
+                <GroupingCard
+                  key={id}
                   idea={idea}
-                  className={cardClassName}
-                  key={idea.id}
-                  actions={actions}
+                  currentUser={currentUser}
+                  groupId={groupId}
                   userOptions={userOptions}
-                />
-              ))}
-            </div>
-          )
-        }
+                  actions={actions}
+                  ref={el => { cardRefs.current[id] = el }}
+                >
+                  <span>{body}</span>
+                </GroupingCard>
+              )
+            })}
+          </div>
+        </DndContext>
         <div className={sideGutterClassname}>
           <h2 className="ui inverted header">
             <div className="content">
@@ -57,43 +130,9 @@ export const GroupingBoard = props => {
 
 GroupingBoard.propTypes = {
   ideas: AppPropTypes.ideas.isRequired,
-  userOptions: AppPropTypes.userOptions.isRequired,
-  connectDropTarget: PropTypes.func,
   actions: PropTypes.object.isRequired,
+  userOptions: AppPropTypes.userOptions.isRequired,
+  currentUser: AppPropTypes.presence.isRequired,
 }
 
-GroupingBoard.defaultProps = {
-  connectDropTarget: node => node,
-}
-
-let memoizedPush = {}
-
-// http://react-dnd.github.io/react-dnd/docs/api/drop-target#drop-target-specification
-export const dropTargetSpec = {
-  hover: ({ actions }, monitor) => {
-    const { draggedIdea } = monitor.getItem()
-
-    const { x, y } = DragCoordinates.reconcileMobileZoomOffsets(monitor)
-
-    // eslint-disable-next-line
-    const duplicativeHoverCoordinates =
-      x === memoizedPush.x && y === memoizedPush.y && draggedIdea.id === memoizedPush.id
-
-    if (duplicativeHoverCoordinates) { return }
-
-    memoizedPush = { id: draggedIdea.id, x, y }
-
-    actions.ideaDraggedInGroupingStage(memoizedPush)
-  },
-}
-
-// http://react-dnd.github.io/react-dnd/docs/api/drop-target#the-collecting-function
-const collect = connect => ({
-  connectDropTarget: connect.dropTarget(),
-})
-
-export default DropTarget(
-  "GROUPING_STAGE_IDEA_CARD",
-  dropTargetSpec,
-  collect
-)(GroupingBoard)
+export default GroupingBoard

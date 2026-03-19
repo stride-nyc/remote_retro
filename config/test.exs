@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # We don't run a server during test. If one is required,
 # you can enable the server option below.
@@ -8,20 +8,57 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
 
 config :remote_retro, :sql_sandbox, true
 
-config :wallaby, screenshot_on_failure: true
+# Increase log level for better debugging
+config :logger, level: :debug
+
+if System.get_env("WALLABY_LOCAL") do
+  IO.puts "Loading local Wallaby config..."
+
+  config :wallaby,
+    driver: Wallaby.Chrome,
+    base_url: "http://localhost:4001",
+    chromedriver: [
+      path: Path.expand("bin/chromedriver-mac-arm64/chromedriver", File.cwd!()),
+      headless: false,
+      args: [
+        "--port=4444",
+        "--disable-gpu",
+        "--no-sandbox",
+        "--remote-debugging-port=9222"]
+    ]
+
+  IO.puts "Chrome path: #{Path.expand("bin/chromedriver-mac-arm64/chromedriver")}"
+  IO.puts "Headless mode: false"
+
+else
+  IO.puts "Loading CI/CD Wallaby config..."
+  config :wallaby,
+    driver: Wallaby.Chrome,
+    chromedriver: [
+      headless: true,
+      args: [
+        "--disable-gpu",
+        "--no-sandbox",
+        "--disable-dev-shm-usage",]
+    ]
+end
+
 config :bamboo, :refute_timeout, 10
 
 {:ok, file} = File.open("browser_logs.log", [:write])
 Application.put_env(:wallaby, :js_logger, file)
 
 # Print only warnings and errors during test
-config :logger, level: :warn
+config :logger, level: :warning
 
 # allow test users to authenticate
 config :remote_retro, :auth_controller, RemoteRetroWeb.MockAuthController
 
 config :honeybadger,
-  environment_name: :test
+  environment_name: :test,
+  exclude_envs: [:test],
+  api_key: nil,
+  disabled: true
 
 config :remote_retro, RemoteRetro.Mailer, adapter: Bamboo.TestAdapter
 config :remote_retro, plug_init_mode: :runtime
@@ -31,9 +68,12 @@ config :remote_retro, RemoteRetro.Repo,
   username: "postgres",
   password: "postgres",
   database: "remote_retro_test",
-  hostname: "localhost",
-  ownership_timeout: 60_000,
-  pool: Ecto.Adapters.SQL.Sandbox
+  hostname: "db",
+  pool: Ecto.Adapters.SQL.Sandbox,
+  pool_size: 20,
+  queue_target: 5000,
+  queue_interval: 10000,
+  ownership_timeout: 60_000
 
 config :remote_retro, :oauth_client, RemoteRetro.OAuth.Client.InMemory
 config :remote_retro, :allow_user_masquerade, true

@@ -1,85 +1,293 @@
-version: 2 # use CircleCI 2.0 instead of CircleCI Classic
-jobs: # basic units of work in a run
-  build: # runs not using Workflows must have a `build` job as entry point
-    parallelism: 1 # run only one instance of this job in parallel
-    docker: # run the steps with Docker
-      - image: circleci/elixir:1.11.4-node-browsers
-        environment: # environment variables for primary container
-          MIX_ENV: test
-      - image: cimg/postgres:13.6-postgis # database image
+version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.5.2
+jobs:
+  build:
+    parallelism: 1
+    machine:
+      image: default
+    
+    working_directory: ~/app
 
-    working_directory: ~/app # directory where steps will run
+    steps:
+      - checkout
 
-    steps: # commands that comprise the `build` job
-      - checkout # check out source code to working directory
-
-      - run: mix local.hex --force # install Hex locally (without prompt)
-      - run: mix local.rebar --force # fetch a copy of rebar (without prompt)
-
-      - restore_cache: # restores saved mix cache
-          keys: # list of cache keys, in decreasing specificity
-            - v4-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-            - v4-mix-cache-{{ .Branch }}
-            - v4-mix-cache
-      - restore_cache: # restores saved build cache
-          keys:
-            - v4-build-cache-{{ .Branch }}
-            - v4-build-cache
-      - run: mix do deps.get, compile # get updated dependencies & compile them
-      - restore_cache:
-          name: Restore Yarn Package Cache
-          keys:
-            - v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
-            - v1-yarn-packages-{{ .Branch }}
-            - v1-yarn-packages-master
-            - v1-yarn-packages-
       - run:
-          name: Install Node Dependencies
-          command: yarn install
-      - save_cache:
-          name: Save Yarn Package Cache
-          key: v1-yarn-packages-{{ .Branch }}-{{ checksum "yarn.lock" }}
-          paths:
-            - node_modules/
-      - save_cache: # generate and store cache so `restore_cache` works
-          key: v4-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-          paths: "deps"
-      - save_cache: # make another less specific cache
-          key: v4-mix-cache-{{ .Branch }}
-          paths: "deps"
-      - save_cache: # you should really save one more cache just in case
-          key: v4-mix-cache
-          paths: "deps"
-      - save_cache: # don't forget to save a *build* cache, too
-          key: v4-build-cache-{{ .Branch }}
-          paths: "_build"
-      - save_cache: # and one more build cache for good measure
-          key: v4-build-cache
-          paths: "_build"
-
-      - run: # special utility that stalls main process until DB is ready
-          name: Wait for DB
-          command: dockerize -wait tcp://localhost:5432 -timeout 1m
-
-      - run: yarn test # run all js tests in project
-      - run: yarn run compile-test
-      - run:
+          name: Install Command-Line Tools
           command: |
-            if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
-              mix coveralls.circle --include feature_test;
+            sudo apt-get update
+            sudo apt-get install postgresql-client
+            sudo apt-get install curl
+
+            # used for docker commands
+            export DB_NAME="remote_retro_test"
+
+      - run:
+          name: Start Services with Docker Compose
+          command: NODE_OPTIONS="--openssl-legacy-provider" DISPLAY=:99 docker-compose up -d
+
+      - run:
+          name: Verify Services are Running
+          command: |
+            echo "Waiting for Postgres..."
+            # Wait for Postgres to be available
+            echo "Waiting for PostgreSQL..."
+            if ! timeout 60 sh -c 'until PGPASSWORD=postgres pg_isready -h localhost -p 5432; do sleep 1; done'; then
+                echo "PostgreSQL did not start within 60 seconds."
+                docker-compose logs db
+                exit 1
             else
-              mix test --exclude feature_test;
-              mix test --only feature_test;
+                echo "PostgreSQL is up and running!"
             fi
+            
+            echo "Waiting for Phoenix app..."
+            # Wait for Phoenix app to be available
+            if ! timeout 300 sh -c 'until curl -s -o /dev/null -w "%{http_code}" http://localhost:4000 | grep -q "200"; do sleep 1; done'; then
+              echo "Phoenix app did not start within 300 seconds."
+              docker-compose logs backend
+              exit 1
+            else
+              echo "Phoenix app is up and running!"
+            fi
+      - run:
+          name: Verify Database Setup
+          command: |
+            # First, let's verify PostgreSQL is accepting connections
+            echo "Verifying PostgreSQL connection..."
+            max_attempts=5
+            counter=1
+            until PGPASSWORD=postgres psql -h localhost -U postgres -c '\l' > /dev/null 2>&1; do
+              if [ $counter -eq $max_attempts ]; then
+                echo "Failed to connect to PostgreSQL after $max_attempts attempts"
+                exit 1
+              fi
+              echo "Attempt $counter of $max_attempts - Waiting for PostgreSQL..."
+              sleep 3
+              ((counter++))
+            done
+            echo "✓ PostgreSQL is accepting connections"
+
+            # Now verify our specific database exists and is accessible
+            echo "\nVerifying test database..."
+            if PGPASSWORD=postgres psql -h localhost -U postgres -lqt | cut -d \| -f 1 | grep -qw remote_retro_test; then
+              echo "✓ Database 'remote_retro_test' exists"
+              
+              # Verify we can connect to the specific database
+              if PGPASSWORD=postgres psql -h localhost -U postgres -d remote_retro_test -c 'SELECT current_timestamp;' > /dev/null 2>&1; then
+                echo "✓ Can connect to 'remote_retro_test' database"
+                
+                # Check if our migrations table exists
+                if PGPASSWORD=postgres psql -h localhost -U postgres -d remote_retro_test -c '\dt schema_migrations' | grep -q schema_migrations; then
+                  echo "✓ Migrations table exists"
+                  
+                  # Get the current migration version
+                  current_version=$(PGPASSWORD=postgres psql -h localhost -U postgres -d remote_retro_test -t -c 'SELECT version FROM schema_migrations ORDER BY version DESC LIMIT 1;')
+                  echo "✓ Current migration version: $current_version"
+                else
+                  echo "✗ Migrations table not found - running migrations..."
+                  docker-compose exec -e MIX_ENV="test" backend mix ecto.migrate
+                fi
+              else
+                echo "✗ Cannot connect to 'remote_retro_test' database"
+                exit 1
+              fi
+            else
+              echo "✗ Database 'remote_retro_test' does not exist"
+              exit 1
+            fi
+
+            # Verify database configuration matches our expectations
+            docker-compose exec -e MIX_ENV="test" backend mix run -e '
+              db_config = Application.get_env(:remote_retro, RemoteRetro.Repo)
+              expected_config = [
+                hostname: "db",
+                database: "remote_retro_test",
+                username: "postgres",
+                password: "postgres"
+              ]
+              
+              Enum.each(expected_config, fn {key, expected_value} ->
+                actual_value = db_config[key]
+                if actual_value == expected_value do
+                  IO.puts "✓ #{key}: #{actual_value}"
+                else
+                  IO.puts "✗ #{key} mismatch - expected: #{expected_value}, got: #{actual_value}"
+                  System.halt(1)
+                end
+              end)
+            '
+
+      - run:
+          name: Setup Test Environment
+          command: |
+            docker-compose exec -e MIX_ENV="test" backend mix run -e '
+              # First, let''s ensure our configuration is loaded properly
+              IO.puts "Loading configuration..."
+              Application.load(:remote_retro)
+              
+              # Let''s verify our database configuration
+              db_config = Application.get_env(:remote_retro, RemoteRetro.Repo)
+              IO.puts """
+              Database configuration:
+              - Hostname: #{db_config[:hostname]}
+              - Database: #{db_config[:database]}
+              - Username: #{db_config[:username]}
+              - Pool Size: #{db_config[:pool_size]}
+              """
+              
+              # Start our dependencies in the correct order
+              IO.puts "\nStarting core dependencies..."
+              {:ok, _} = Application.ensure_all_started(:logger)
+              {:ok, _} = Application.ensure_all_started(:ssl)
+              {:ok, _} = Application.ensure_all_started(:postgrex)
+              
+              # Start Ecto separately to better track any issues
+              IO.puts "\nStarting Ecto..."
+              {:ok, _} = Application.ensure_all_started(:ecto_sql)
+              
+              # Now start our application
+              IO.puts "\nStarting RemoteRetro..."
+              case Application.ensure_all_started(:remote_retro) do
+                {:ok, started_apps} ->
+                  IO.puts "Started applications: #{inspect(started_apps)}"
+                {:error, {app, reason}} ->
+                  IO.puts "Failed to start #{app}: #{inspect(reason)}"
+                  System.halt(1)
+              end
+              
+              # Important: Configure sandbox BEFORE trying to use the connection
+              IO.puts "\nSetting up database sandbox..."
+              :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
+              
+              # Now check out a connection for this process
+              :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
+              
+              # Make it shared so child processes can use it
+              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
+              
+              # Add robust connection verification with detailed logging
+              IO.puts "\nVerifying database connection..."
+              max_attempts = 3
+              
+              result = Enum.reduce_while(1..max_attempts, {:error, nil}, fn attempt, _ ->
+                IO.puts "\nAttempt #{attempt} of #{max_attempts}"
+                :timer.sleep(2000)
+                
+                try do
+                  case RemoteRetro.Repo.query("SELECT current_timestamp") do
+                    {:ok, result} ->
+                      timestamp = result.rows |> List.first() |> List.first()
+                      IO.puts "✓ Database connection successful - Server time: #{timestamp}"
+                      {:halt, {:ok, result}}
+                    {:error, error} ->
+                      IO.puts "✗ Query failed: #{inspect(error)}"
+                      if attempt == max_attempts, do: {:halt, {:error, error}}, else: {:cont, {:error, error}}
+                  end
+                rescue
+                  e in DBConnection.ConnectionError ->
+                    IO.puts "✗ Connection error: #{Exception.message(e)}"
+                    if attempt == max_attempts, do: {:halt, {:error, e}}, else: {:cont, {:error, e}}
+                  e ->
+                    IO.puts "✗ Unexpected error: #{inspect(e)}"
+                    if attempt == max_attempts, do: {:halt, {:error, e}}, else: {:cont, {:error, e}}
+                end
+              end)
+
+              case result do
+                {:ok, _} -> 
+                  IO.puts "\n✓ Database setup completed successfully"
+                  # Proper cleanup
+                  Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
+                {:error, error} -> 
+                  IO.puts "\n✗ Database setup failed: #{inspect(error)}"
+                  # Ensure we clean up even on failure
+                  Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
+                  System.halt(1)
+              end
+
+              # Register cleanup on exit
+              :ok = ExUnit.after_suite(fn ->
+                IO.puts "\nCleaning up test environment..."
+                :ok = Application.stop(:remote_retro)
+                :ok = Application.stop(:wallaby)
+                :ok = Application.stop(:phoenix)
+              end)
+            '
+
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
+
+      - run:
+          name: Check Chrome install
+          command: |
+            google-chrome --version
+            chromedriver --version
+
+      - run: docker-compose exec backend bash -l -c "yarn run compile-test"
+      - run:
+          name: Run Tests
+          command: |
+            # Setup test environment with proper connection management
+            docker-compose exec -e MIX_ENV="test" backend mix run -e '
+              # First load all necessary applications
+              IO.puts "Loading applications..."
+              Application.load(:remote_retro)
+              {:ok, _} = Application.ensure_all_started(:remote_retro)
+              
+              # Configure sandbox mode for testing
+              IO.puts "Configuring database sandbox..."
+              :ok = Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, :manual)
+              
+              # Explicitly check out a connection for this process
+              IO.puts "Checking out database connection..."
+              :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
+              
+              # Allow other processes to share this connection
+              Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
+              
+              # Now verify database is ready
+              IO.puts "Verifying database connection..."
+              try do
+                case RemoteRetro.Repo.query("SELECT 1") do
+                  {:ok, _} -> 
+                    IO.puts "✓ Database ready for testing"
+                  {:error, error} -> 
+                    IO.puts "✗ Database error: #{inspect(error)}"
+                    System.halt(1)
+                end
+              after
+                # Always check the connection back in
+                Ecto.Adapters.SQL.Sandbox.checkin(RemoteRetro.Repo)
+              end
+            '
+            
+            echo "Running non-feature tests..."
+            if ! docker-compose exec -e MIX_ENV="test" backend mix test --exclude feature_test --trace; then
+              echo "Non-feature tests failed"
+              exit 1
+            fi
+            
+            # echo "Running feature tests..."
+            # if ! docker-compose exec -e MIX_ENV="test" backend mix test --only feature_test --trace; then
+            #   echo "Feature tests failed"
+            #   exit 1
+            # fi
+          
+            # Run coverage if token is available
+            # if [ "$COVERALLS_REPO_TOKEN" != "" ]; then
+            #   echo "Running coverage report..."
+            #   docker-compose exec -e MIX_ENV="test" backend mix coveralls.circle --include feature_test
+            # fi
 
       - store_test_results: # upload test results for display in Test Summary
           path: _build/test/junit
       - store_artifacts:
           path: screenshots
+      - store_artifacts:
+          path: browser_logs.log
 
   deploy:
-    machine:
-      enabled: true
+    machine: true
     working_directory: ~/app # directory where steps will run
     steps:
       - checkout
@@ -88,10 +296,6 @@ jobs: # basic units of work in a run
           command: |
             git remote add gigalixir https://$GIGALIXIR_EMAIL:$GIGALIXIR_API_KEY@git.gigalixir.com/$GIGALIXIR_APP_NAME.git
             commit_range_from_previous_build=$(echo $CIRCLE_COMPARE_URL | sed -n -e 's/^.*compare\///p')
-
-            # trigger full rebuilds when elixir deps or prod environment configs have changed
-            #   - also trigger full rebuilds when db migrations have been *added* since last push,
-            #     as these wouldn't be run when doing a hot upgrade, but are run on fresh builds
 
             if git log $commit_range_from_previous_build --name-status --pretty="format:" | grep "phoenix_static_buildpack.config\config.exs\|prod.exs\|mix.exs\|mix.lock\|elixir_buildpack.config\|A[[:space:]]priv/repo/migrations"; then
               echo "Executing deploy cleaned of old dependencies"

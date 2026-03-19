@@ -6,7 +6,9 @@ import values from "lodash/values"
 
 import IdeaEditForm from "./idea_edit_form"
 import IdeaLiveEditContent from "./idea_live_edit_content"
-import ConditionallyDraggableIdeaContent from "./conditionally_draggable_idea_content"
+// eslint-disable-next-line import/no-cycle
+import IdeaContentBase from "./idea_content_base"
+
 import IdeaPermissions from "../services/idea_permissions"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea.css"
@@ -14,17 +16,21 @@ import {
   selectors,
   actions,
 } from "../redux"
+import STAGES from "../configs/stages"
 
-export const Idea = props => {
-  const {
-    idea,
-    currentUser,
-    isAnActionItemsStage,
-    users,
-    actions,
-    ideaGenerationCategories,
-  } = props
-
+export const Idea = ({
+  idea,
+  currentUser,
+  isAnActionItemsStage,
+  users,
+  actions = {},
+  ideaGenerationCategories,
+  assignee = null,
+  canUserEditIdeaContents,
+  isTabletOrAbove,
+  stage,
+  ...props
+}) => {
   const userIsEditing = idea.inEditState && idea.isLocalEdit
 
   let content
@@ -42,7 +48,20 @@ export const Idea = props => {
   } else if (idea.liveEditText) {
     content = <IdeaLiveEditContent idea={idea} />
   } else {
-    content = <ConditionallyDraggableIdeaContent {...props} />
+    const isIdeaGeneration = stage === STAGES.IDEA_GENERATION
+    const isIdeaDragEligible = isTabletOrAbove && isIdeaGeneration && canUserEditIdeaContents
+
+    content = (
+      <IdeaContentBase
+        {...props}
+        idea={idea}
+        currentUser={currentUser}
+        stage={stage}
+        isIdeaDragEligible={isIdeaDragEligible}
+        canUserEditIdeaContents
+        assignee={assignee}
+      />
+    )
   }
 
   return (
@@ -59,15 +78,10 @@ Idea.propTypes = {
   assignee: AppPropTypes.presence,
   users: AppPropTypes.presences.isRequired,
   ideaGenerationCategories: AppPropTypes.ideaGenerationCategories.isRequired,
-  actions: AppPropTypes.actions,
+  actions: AppPropTypes.actions.isRequired,
   canUserEditIdeaContents: PropTypes.bool.isRequired,
   isTabletOrAbove: PropTypes.bool.isRequired,
   isAnActionItemsStage: PropTypes.bool.isRequired,
-}
-
-Idea.defaultProps = {
-  actions: {},
-  assignee: null,
 }
 
 const mapStateToProps = (state, { idea, currentUser }) => ({

@@ -29,12 +29,17 @@ module.exports = {
     rules: [
       {
         test: /\.jsx?$/,
-        exclude: /(node_modules|polyfills)/,
+        exclude: /(polyfills|node_modules\/(?!(react-helmet-async)\/).*)/,
         use: [{
           loader: "babel-loader",
-          query: {
+          options: {
             cacheDirectory: true,
-          },
+            presets: ["@babel/preset-env", "@babel/preset-react"],
+            plugins: [
+              ["@babel/plugin-proposal-class-properties", { loose: true }],
+              "@babel/plugin-proposal-object-rest-spread"
+            ],
+          }
         }],
       },
       {

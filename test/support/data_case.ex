@@ -26,10 +26,22 @@ defmodule RemoteRetro.DataCase do
   end
 
   setup tags do
+    # Ensure application is started
+    Application.ensure_all_started(:remote_retro)
+    
+    # Set up sandbox mode
     :ok = Ecto.Adapters.SQL.Sandbox.checkout(RemoteRetro.Repo)
 
     unless tags[:async] do
       Ecto.Adapters.SQL.Sandbox.mode(RemoteRetro.Repo, {:shared, self()})
+    end
+
+    # Verify Repo is started
+    case Process.whereis(RemoteRetro.Repo) do
+      pid when is_pid(pid) -> 
+        IO.puts "Repo started successfully in test"
+      nil -> 
+        raise "Failed to start Repo in test"
     end
 
     :ok

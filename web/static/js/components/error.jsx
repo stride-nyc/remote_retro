@@ -6,9 +6,10 @@ import Modal from "react-modal"
 
 import { actions as actionCreators } from "../redux"
 
-export const Error = props => {
-  const { actions, config } = props
-
+export const Error = ({
+  actions = {},
+  config = null,
+}) => {
   if (!config) return null
 
   return (
@@ -33,13 +34,8 @@ export const Error = props => {
 }
 
 Error.propTypes = {
-  actions: PropTypes.object,
+  actions: PropTypes.object.isRequired,
   config: PropTypes.object,
-}
-
-Error.defaultProps = {
-  actions: {},
-  config: null,
 }
 
 const mapStateToProps = state => ({

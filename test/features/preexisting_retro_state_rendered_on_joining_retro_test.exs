@@ -2,9 +2,7 @@ defmodule PreExistingRetroStateRenderedOnJoiningRetroTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.{Idea}
 
-  import ShorterMaps
-
-  test "the rendering of ideas submitted prior to the user joining", ~M{session, retro, facilitator} do
+  test "the rendering of ideas submitted prior to the user joining", %{session: session, retro: retro, facilitator: facilitator} do
     Repo.insert!(%Idea{category: "happy", body: "continuous delivery!", retro_id: retro.id, user_id: facilitator.id})
 
     session = visit_retro(session, retro)

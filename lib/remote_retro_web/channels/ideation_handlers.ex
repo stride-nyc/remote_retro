@@ -1,10 +1,9 @@
 defmodule RemoteRetroWeb.IdeationHandlers do
   import Phoenix.Channel
-  import ShorterMaps
-
   use SlenderChannel
 
   alias RemoteRetro.{Repo, Idea}
+  alias RemoteRetroWeb.StacktraceSanitizer
 
   @idea_committed "idea_committed"
   @idea_edited "idea_edited"
@@ -25,11 +24,12 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     {:reply, reply_atom, socket}
   end
 
-  handle_in_and_broadcast("idea_live_edit", ~m{id, liveEditText})
-  handle_in_and_broadcast("idea_typing_event", ~m{userToken})
-  handle_in_and_broadcast_from("idea_edit_state_enabled", ~m{id})
-  handle_in_and_broadcast_from("idea_edit_state_disabled", ~m{id})
-  handle_in_and_broadcast_from("idea_dragged_in_grouping_stage", ~m{id, x, y})
+  handle_in_and_broadcast("idea_live_edit", %{"id" => id, "liveEditText" => liveEditText})
+  handle_in_and_broadcast("idea_typing_event", %{"userToken" => userToken})
+  handle_in_and_broadcast_from("idea_edit_state_enabled", %{"id" => id})
+  handle_in_and_broadcast_from("idea_edit_state_disabled", %{"id" => id})
+  handle_in_and_broadcast_from("idea_dragged_in_grouping_stage", %{"id" => id, "x" => x, "y" => y})
+  handle_in_and_broadcast_from("idea_drag_state_changed", %{"id" => id, "dragging_user_id" => dragging_user_id})
 
   defp atomic_insert_and_broadcast_from(idea_params, socket) do
     Repo.transaction(fn ->
@@ -39,7 +39,8 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, metadata: %{handler: @idea_committed}, stacktrace: __STACKTRACE__)
+      sanitized_stacktrace = StacktraceSanitizer.sanitize(__STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @idea_committed}, stacktrace: sanitized_stacktrace)
       {:error, %{}}
   end
 
@@ -56,7 +57,8 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, metadata: %{handler: @idea_edited}, stacktrace: __STACKTRACE__)
+      sanitized_stacktrace = StacktraceSanitizer.sanitize(__STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @idea_edited}, stacktrace: sanitized_stacktrace)
       {:error, %{}}
   end
 
@@ -67,17 +69,18 @@ defmodule RemoteRetroWeb.IdeationHandlers do
     end)
   rescue
     exception ->
-      Honeybadger.notify(exception, metadata: %{handler: @idea_deleted}, stacktrace: __STACKTRACE__)
+      sanitized_stacktrace = StacktraceSanitizer.sanitize(__STACKTRACE__)
+      Honeybadger.notify(exception, metadata: %{handler: @idea_deleted}, stacktrace: sanitized_stacktrace)
       {:error, %{}}
   end
 
-  defp insert_idea!(~m{body, category, userId, assigneeId}, socket) do
+  defp insert_idea!(%{"body" => body, "category" => category, "userId" => userId, "assigneeId" => assigneeId}, socket) do
     %Idea{
       body: body,
       category: category,
       retro_id: socket.assigns.retro_id,
       user_id: userId,
-      assignee_id: assigneeId,
+      assignee_id: assigneeId
     }
     |> Idea.changeset()
     |> Repo.insert!()

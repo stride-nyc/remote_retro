@@ -2,13 +2,10 @@ defmodule FirstTimeUserExperienceTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.{Participation}
 
-  import ShorterMaps
-
-
   describe "a user with no prior retro experience" do
     setup [:remove_any_prior_participations_in_retros]
 
-    test "is welcomed as a new user who can create a retrospective", ~M{session} do
+    test "is welcomed as a new user who can create a retrospective", %{session: session} do
       visit(session, "/retros")
 
       assert_has(session, Query.css("body", text: "Welcome, Test!"))
@@ -24,9 +21,34 @@ defmodule FirstTimeUserExperienceTest do
   end
 
   defp assert_user_can_create_their_first_retrospective(session) do
-    # the blue retro creation button isn't visible on page load due to javascript-managed delay
+    # Initial delay to ensure page is fully loaded
+    Process.sleep(4000)
+
+    # Maximize window
     session
-    |> click(Query.css("form .blue.button[type='submit']", visible: false))
-    |> assert_has(Query.css(".center.aligned.header", text: "Share the retro link below with teammates!"))
+    |> maximize_window()
+    |> assert_has(Query.css(".ui.modal.visible.active", count: 1))
+    |> find(Query.css(".ui.modal.visible.active"))
+    # Scroll to bottom of page
+    |> execute_script("""
+      window.scrollTo(0, document.body.scrollHeight);
+      document.documentElement.scrollTop = document.documentElement.scrollHeight;
+    """)
+    # Add a delay after scrolling
+    |> (fn(session) -> Process.sleep(2000); session end).()
+    |> click(Query.button("Let's Create Your First Retrospective!", class: "ui blue right labeled fluid icon button"))
+
+    # Add delay to allow for page transition
+    Process.sleep(4000)
+
+    # Wait for URL to change (indicating redirect)
+    assert session
+           |> current_path() =~ ~r/^\/retros\/[\w-]+$/
+
+    # Wait for share modal
+    session
+    |> assert_has(Query.css(".ui.modal.visible.active", count: 1))
+    |> find(Query.css(".ui.modal.visible.active"))
+    |> assert_has(Query.css(".ui.center.aligned.header", text: "Share the retro link below with teammates!"))
   end
 end

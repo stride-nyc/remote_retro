@@ -5,7 +5,13 @@ import classNames from "classnames"
 
 import styles from "./css_modules/idea_submission_form.css"
 
-const SelectDropdown = ({ labelName, value, onChange, selectOptions, showLabel }) => {
+const SelectDropdown = ({
+  labelName,
+  value = undefined,
+  onChange,
+  selectOptions,
+  showLabel = true,
+}) => {
   const divClasses = showLabel ? `${styles.flex} five wide inline field` : ""
   const selectClasses = classNames("ui dropdown", {
     [styles.select]: showLabel,
@@ -34,17 +40,10 @@ SelectDropdown.propTypes = {
   value: PropTypes.oneOfType([
     PropTypes.string,
     PropTypes.number,
-  ]),
+  ]).isRequired,
   onChange: PropTypes.func.isRequired,
   selectOptions: PropTypes.arrayOf(PropTypes.object).isRequired,
-  pointerText: PropTypes.string,
   showLabel: PropTypes.bool,
-}
-
-SelectDropdown.defaultProps = {
-  value: undefined,
-  pointerText: "",
-  showLabel: true,
 }
 
 export default SelectDropdown
