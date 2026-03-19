@@ -23,6 +23,8 @@ Any commits pushed from the master branch will deploy a "staging" job. Here is t
 
 Any commits pushed from the staging branch will deploy a "deploy-staging" job. That job does not complete because when that CICD job is triggered, it pushes to Gigalixier's git repo, which triggers a pre-commit hook, which builds the repo's dockerfile. The dockerfile builds locally but in circleCI's CICD pipeline it says 404 cannot find yarn.
 
+Note that I removed an elixir dependancy named brotli, the intent was to fix the staging pipeline first, and then reintroduce that dependancy after both the staging and production CICD pipeline is fixed.
+
 ## Running Remote Retro
 
 ### Running with devContainers
