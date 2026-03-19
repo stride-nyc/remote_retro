@@ -9,7 +9,7 @@ This repository houses the application code for [RemoteRetro.org](http://remoter
 
 ### Running with devContainers
 
-The main difference between this and running with Docker is that devContainers is a way to quickly setup Remote Retro to run on your machine for development.
+DevContainers is a way to quickly setup Remote Retro to run on your machine for development. The main difference betwen this and running with docker is that devContainers are used for development and Docker is meant to run in production.
 
 If you are using VS Code:
 
@@ -17,10 +17,10 @@ First, create a .env file with `cp .env-sample .env`. Note that you'll want to d
 
 Follow the steps in the [Setup Google Cloud](#setup-google-cloud) section below.
 
-The reopen VS Code and you should see a pop up to prompt you to "reopen the project in a dev container". You can also use ctrl + shift + p and start for "reopen the project in a dev container".
+Then reopen VS Code and you should see a pop-up to prompt you to "reopen the project in a dev container". You can also use ctrl + shift + p and search for "reopen the project in a dev container".
 
-Lately, you'll just need to run the app in the terminal. Skip to [And Voila](#and-voila)
-to run the app and visit the dev url.
+Lastly, you'll just need to run the app in the terminal. Skip to [And Voila](#and-voila)
+to run the app and visit the Dev url.
 
 ### Running with Docker
 
