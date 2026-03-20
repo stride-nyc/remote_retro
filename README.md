@@ -5,6 +5,24 @@
 
 This repository houses the application code for [RemoteRetro.org](http://remoteretro.org), a free web app that allows distributed teams to conduct Agile retrospectives. It is written in Elixir/Phoenix/React/Redux, and is sponsored by [Stride Consulting](https://www.stride.build).
 
+!!! Important: For development, use the development branch. If you are testing a change and want to deploy to staging, push a commit to staging.
+
+## Current problem(s) with remote retro
+
+Right now the highest priority fix is to get production deployments working again. After that, the priority should be to setup a staging environment to test changes before they are deployed to prod.
+
+Currently the produciton CICD pipeline is broken, and there is a chance to accomplish two priorities at the same time by fixing the staging CICD pipeline and hopefully that'll fix the production CICD pipeline.
+
+Note that the staging environment in Gigalixir cannot be accessed via url, it redirects to bitsaber.io. No one knows why that domain is not longer working and you cannot access the staging environment directly by visiting remote-retro-staging.gigalixirdns.com.
+
+### Possible Causes
+
+When a change is pushed to master, the CICD process breaks for different reasons for when we push a change to the staging pipeline.
+
+Any commits pushed from the master branch will deploy a "staging" job. Here is the second latest run on circleCI broke because of an unknown command called info. I removed the info line in the "./compile" fild and now it breaks because 'the server doesn't have a resource type "pods"'. Why does that error show up is a good question because there's no mention of the word pods in this codebase.
+
+Any commits pushed from the staging branch will deploy a "deploy-staging" job. That job does not complete because when that CICD job is triggered, it pushes to Gigalixier's git repo, which triggers a pre-commit hook, which builds the repo's dockerfile. The dockerfile builds locally but in circleCI's CICD pipeline it says 404 cannot find yarn.
+
 ## Running Remote Retro
 
 ### Running with devContainers
