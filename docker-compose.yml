@@ -8,6 +8,7 @@ services:
       - db
     environment:
       DATABASE_URL: "ecto://postgres:postgres@db/$DB_NAME"
+      DB_HOSTNAME: db
       NODE_OPTIONS: "--openssl-legacy-provider"
       REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID: "$REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_ID"
       REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET: "$REMOTE_RETRO_GOOGLE_OAUTH_CLIENT_SECRET"
