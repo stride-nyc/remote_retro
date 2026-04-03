@@ -43,7 +43,6 @@ defmodule RemoteRetro.Mixfile do
       {:ecto_sql, "~> 3.12"},
       {:ecto_psql_extras, "~> 0.7.4"},
       {:freedom_formatter, "~> 1.1", only: :dev},
-      {:distillery, "~> 2.1.1", only: :prod},
       {:excoveralls, "~> 0.13.3", only: :test},
       {:postgrex, "~> 0.19"},
       {:phoenix_bakery, "~> 0.1", [only: :prod, runtime: false]},
