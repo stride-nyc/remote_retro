@@ -1,0 +1,17 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(ls -la /Users/josiahwilkins/Developer/Stride/remote_retro/.cursor* /Users/josiahwilkins/Developer/Stride/remote_retro/.github/copilot*)",
+      "WebFetch(domain:gigalixir.readthedocs.io)",
+      "WebSearch",
+      "WebFetch(domain:www.gigalixir.com)",
+      "WebFetch(domain:docs.gigalixir.com)",
+      "WebFetch(domain:hexdocs.pm)",
+      "WebFetch(domain:github.com)",
+      "WebFetch(domain:raw.githubusercontent.com)",
+      "Bash(gigalixir logs:*)",
+      "Bash(grep -v \"^$\")",
+      "Bash(gigalixir config:*)"
+    ]
+  }
+}
