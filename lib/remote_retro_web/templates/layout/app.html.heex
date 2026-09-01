@@ -112,6 +112,8 @@
           </a>
           <div class="help-icon" id="stage-help-icon"></div>
 
+          <button class="dark-mode-toggle ui mini compact button" type="button" aria-label="Toggle dark mode">🌙</button>
+
           <%= if Plug.Conn.get_session(@conn, :current_user_id) do %>
             <a href="/logout" class="ui mini compact logout button">
               Log Out
@@ -119,6 +121,11 @@
           <% end %>
         </div>
       </div>
+      <script>
+        document.querySelector('.dark-mode-toggle').addEventListener('click', function() {
+          document.documentElement.dataset.theme = 'dark';
+        });
+      </script>
     <% end %>
       <%= @inner_content %>
     </main>
