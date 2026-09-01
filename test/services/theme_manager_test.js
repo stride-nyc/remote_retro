@@ -35,5 +35,15 @@ describe("ThemeManager", () => {
         expect(document.documentElement.dataset.theme).to.eql("dark")
       })
     })
+
+    context("when a 'dark' preference is saved in localStorage", () => {
+      it("applies dark mode regardless of OS setting", () => {
+        localStorage.setItem("theme", "dark")
+
+        ThemeManager.init()
+
+        expect(document.documentElement.dataset.theme).to.eql("dark")
+      })
+    })
   })
 })
