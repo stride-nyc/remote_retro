@@ -1,7 +1,7 @@
 import ThemeManager from "../../web/static/js/services/theme_manager"
 
-const stubMatchMedia = (prefersDark) => {
-  window.matchMedia = (query) => ({
+const stubMatchMedia = prefersDark => {
+  window.matchMedia = query => ({
     matches: prefersDark && query === "(prefers-color-scheme: dark)",
     media: query,
     onchange: null,
