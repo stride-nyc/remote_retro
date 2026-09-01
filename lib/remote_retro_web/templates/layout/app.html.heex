@@ -93,6 +93,13 @@
   </head>
 
   <body class={assigns[:body_class]}>
+    <script>
+      (function() {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      })();
+    </script>
     <%# Google Tag Manager (noscript) %>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K8F6B6H"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -125,6 +132,7 @@
         document.querySelector('.dark-mode-toggle').addEventListener('click', function() {
           var html = document.documentElement;
           html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+          localStorage.setItem('theme', html.dataset.theme);
         });
       </script>
     <% end %>
