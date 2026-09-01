@@ -46,4 +46,16 @@ describe("ThemeManager", () => {
       })
     })
   })
+
+  describe(".toggle()", () => {
+    context("when the current theme is light", () => {
+      it("saves 'dark' to localStorage", () => {
+        document.documentElement.dataset.theme = "light"
+
+        ThemeManager.toggle()
+
+        expect(localStorage.getItem("theme")).to.eql("dark")
+      })
+    })
+  })
 })
