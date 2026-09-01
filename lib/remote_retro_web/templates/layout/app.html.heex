@@ -123,7 +123,8 @@
       </div>
       <script>
         document.querySelector('.dark-mode-toggle').addEventListener('click', function() {
-          document.documentElement.dataset.theme = 'dark';
+          var html = document.documentElement;
+          html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
         });
       </script>
     <% end %>
