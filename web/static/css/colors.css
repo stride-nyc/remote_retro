@@ -10,4 +10,27 @@
   --magenta: #FD1884;
   --lightest-grey: #F2F2F2;
   --highlight-blue: #CCE2FE;
+
+  --bg-primary: #ffffff;
+  --bg-secondary: #F3F4F5;
+  --text-primary: rgba(0, 0, 0, 0.87);
+  --text-secondary: rgba(0, 0, 0, 0.6);
+  --border-color: rgba(34, 36, 38, 0.15);
+}
+
+:root[data-theme="dark"] {
+  --semantic-light-grey: #3d3d3d;
+  --semantic-divider-border-top-color: rgba(255, 255, 255, 0.15);
+  --semantic-secondary: #2d2d2d;
+  --semantic-dark-grey: #a0a0a0;
+  --semantic-sub-header-grey: rgba(255,255,255,.6);
+
+  --lightest-grey: #1e1e1e;
+  --highlight-blue: #1a3a5c;
+
+  --bg-primary: #1e1e1e;
+  --bg-secondary: #2d2d2d;
+  --text-primary: rgba(255, 255, 255, 0.87);
+  --text-secondary: rgba(255, 255, 255, 0.6);
+  --border-color: rgba(255, 255, 255, 0.15);
 }

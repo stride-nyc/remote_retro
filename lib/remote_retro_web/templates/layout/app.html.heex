@@ -93,6 +93,13 @@
   </head>
 
   <body class={assigns[:body_class]}>
+    <script>
+      (function() {
+        var saved = localStorage.getItem('theme');
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
+      })();
+    </script>
     <%# Google Tag Manager (noscript) %>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K8F6B6H"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
@@ -112,6 +119,8 @@
           </a>
           <div class="help-icon" id="stage-help-icon"></div>
 
+          <button class="dark-mode-toggle ui mini compact button" type="button" aria-label="Toggle dark mode">🌙</button>
+
           <%= if Plug.Conn.get_session(@conn, :current_user_id) do %>
             <a href="/logout" class="ui mini compact logout button">
               Log Out
@@ -119,6 +128,13 @@
           <% end %>
         </div>
       </div>
+      <script>
+        document.querySelector('.dark-mode-toggle').addEventListener('click', function() {
+          var html = document.documentElement;
+          html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+          localStorage.setItem('theme', html.dataset.theme);
+        });
+      </script>
     <% end %>
       <%= @inner_content %>
     </main>
