@@ -42,17 +42,12 @@ fi
 printGreenLine "asdf: installing global Node dependencies...";
 corepack enable
 
-# chromedriver@147+ ships an ESM-only `proxy-agent` dependency that its own
-# install script tries to require() (ERR_REQUIRE_ESM), and only declares
-# node >=22 support starting at chromedriver@150 - both break under the
-# node 20.x pinned in .tool-versions. 146.0.6 is the last version built on a
-# CommonJS-compatible proxy-agent, so it's pinned here rather than "latest".
-if npm install -g phantomjs-prebuilt chromedriver@146.0.6 >/dev/null; then
+if npm install -g phantomjs-prebuilt chromedriver@latest >/dev/null; then
   printGreenLine "asdf: Node $node_version installation complete!"
   printGreenLine "asdf: installing local Node dependencies...";
   yarn
 
   printGreenLine "\n!!!!!!!!!\nIMPORTANT\n!!!!!!!!!";
-  printGreenLine "We've installed chromedriver@146.0.6 (pinned - see the comment above this line), which expects a roughly matching version of Google Chrome. If your local Chrome has since updated well past that and 'mix e2e' fails to start a browser session, either bump this pin or move Node past 22 in .tool-versions so 'chromedriver@latest' installs cleanly again.";
+  printGreenLine "We've installed the latest chromedriver, which assumes you have the latest version of Google Chrome. Please ensure your Google Chrome is up to date, as this is required for your end-to-end tests to run locally.";
   printGreenLine "Thanks!";
 fi

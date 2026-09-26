@@ -2,9 +2,11 @@ module.exports={
     color: true,
     reporter: 'dot',
     spec: 'test/**/*_test.js',
-    // newer Node 20.x patch releases auto-detect ESM by source heuristics,
-    // which misfires on our JSX test files and skips the CommonJS/Babel
-    // pipeline below - force the pre-auto-detect module resolution.
+    // node's syntax-based ESM auto-detection (default since ~node 22, though
+    // some 20.x patch releases already do it) sees the top-level `import`s in
+    // these test files and loads them via the native ESM loader, bypassing
+    // @babel/register's require() hook - which is what actually transpiles
+    // their JSX. forcing plain commonjs require() restores that.
     'node-option': ['no-experimental-detect-module'],
     require: [
         'env-test',
