@@ -1,4 +1,4 @@
-use Mix.Config
+import Config
 
 # For production, we configure the host to read the PORT
 # from the system environment. Therefore, you will need
@@ -47,11 +47,6 @@ config :remote_retro, :allow_user_masquerade, false
 config :remote_retro, :extra_headers, "SameSite=None"
 
 config :remote_retro, live_dashboard_repos: [RemoteRetro.Repo]
-
-config :phoenix, static_compressors: [
-  PhoenixBakery.Gzip,
-  PhoenixBakery.Brotli,
-]
 
 config :honeybadger,
   api_key: "${HONEYBADGER_API_KEY}",

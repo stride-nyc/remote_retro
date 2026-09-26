@@ -31,7 +31,7 @@ defmodule RemoteRetro do
     path_to_migrations = Path.join([:code.priv_dir(:remote_retro), "repo/migrations"])
 
     Logger.info("Running migrations...")
-    Ecto.Migrator.run(RemoteRetro.Repo, path_to_migrations, :up, all: true)
+    {:ok, _, _} = Ecto.Migrator.with_repo(RemoteRetro.Repo, &Ecto.Migrator.run(&1, path_to_migrations, :up, all: true))
     Ecto.DevLogger.install(RemoteRetro.Repo)
 
     result

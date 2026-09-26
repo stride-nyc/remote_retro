@@ -2,8 +2,6 @@ defmodule RemoteRetro.TestHelpers do
   use Wallaby.DSL
   alias RemoteRetro.{Repo, Idea, Vote, User, Group}
 
-  import ShorterMaps
-
   @mock_google_user_info Application.get_env(:remote_retro, :mock_google_user_info)
 
   def persist_test_user(attribute_overrides \\ %{}) do
@@ -20,17 +18,18 @@ defmodule RemoteRetro.TestHelpers do
     user
   end
 
-  def persist_ideas_for_retro(~M{ideas} = context) do
-    ideas = Enum.map(ideas, fn idea ->
-      context = Map.put(context, :idea, idea)
-      context = persist_idea_for_retro(context)
-      context[:idea]
-    end)
+  def persist_ideas_for_retro(%{ideas: ideas} = context) do
+    ideas =
+      Enum.map(ideas, fn idea ->
+        context = Map.put(context, :idea, idea)
+        context = persist_idea_for_retro(context)
+        context[:idea]
+      end)
 
     Map.put(context, :ideas, ideas)
   end
 
-  def persist_idea_for_retro(~M{idea, retro, facilitator} = context) do
+  def persist_idea_for_retro(%{idea: idea, retro: retro, facilitator: facilitator} = context) do
     idea_author = Map.get(context, context[:idea_author] || :facilitator)
 
     idea =
@@ -42,7 +41,7 @@ defmodule RemoteRetro.TestHelpers do
     Map.put(context, :idea, idea)
   end
 
-  def persist_idea_for_retro(~M{retro} = context) do
+  def persist_idea_for_retro(%{retro: retro} = context) do
     idea_author = Map.get(context, context[:idea_author] || :facilitator)
 
     idea =
@@ -57,10 +56,10 @@ defmodule RemoteRetro.TestHelpers do
 
   defp persist_idea(user, idea, retro, options \\ [assignee_id: nil]) do
     %Idea{
-      idea |
-      assignee_id: options[:assignee_id],
-      retro_id: retro.id,
-      user_id: user.id,
+      idea
+      | assignee_id: options[:assignee_id],
+        retro_id: retro.id,
+        user_id: user.id
     }
     |> Repo.insert!()
   end
@@ -68,14 +67,14 @@ defmodule RemoteRetro.TestHelpers do
   def persist_group_for_retro(context) do
     {:ok, group} = %Group{} |> RemoteRetro.Repo.insert()
 
-    Map.merge(context, ~M{group})
+    Map.merge(context, %{group: group})
   end
 
-  def add_idea_to_group(~M{idea, group} = context) do
+  def add_idea_to_group(%{idea: idea, group: group} = context) do
     idea =
       Idea
       |> Repo.get!(idea.id)
-      |> Idea.changeset(%{ group_id: group.id })
+      |> Idea.changeset(%{group_id: group.id})
       |> Repo.update!(returning: true)
 
     Map.put(context, :idea, idea)
@@ -133,15 +132,15 @@ defmodule RemoteRetro.TestHelpers do
     visit(session, "/auth/google/callback?code=#{user.email}&test_override=true")
   end
 
-  def submit_action_item(session, ~M{assignee_name, body}) do
-    submit_idea(session, ~M{select_option: assignee_name, body})
+  def submit_action_item(session, %{assignee_name: assignee_name, body: body}) do
+    submit_idea(session, %{select_option: assignee_name, body: body})
   end
 
-  def submit_idea(session, ~M{category, body}) do
-    submit_idea(session, ~M{select_option: category, body})
+  def submit_idea(session, %{category: category, body: body}) do
+    submit_idea(session, %{select_option: category, body: body})
   end
 
-  def submit_idea(session, ~M{select_option, body}) do
+  def submit_idea(session, %{select_option: select_option, body: body}) do
     assert_has(session, Query.css("form"))
 
     session
@@ -153,7 +152,7 @@ defmodule RemoteRetro.TestHelpers do
     session
   end
 
-  def delete_idea(session, ~M{body}) do
+  def delete_idea(session, %{body: body}) do
     session
     |> stub_js_confirms
     |> find(Query.css(".ideas li", text: body))
@@ -161,7 +160,8 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def drag_idea(session, idea_text, from: from, to: to) do
-    execute_script(session,
+    execute_script(
+      session,
       """
       var allDraggableIdeas = Array.from(
         document.querySelectorAll("#{from} div[draggable=true]")
@@ -179,7 +179,8 @@ defmodule RemoteRetro.TestHelpers do
   end
 
   def drag_idea(session, idea_text, to_center_of: droppable_selector) do
-    execute_script(session,
+    execute_script(
+      session,
       """
       #{define_simulate_drag_and_drop_convenience_method()}
 

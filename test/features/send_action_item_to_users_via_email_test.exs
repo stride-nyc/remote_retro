@@ -3,13 +3,15 @@ defmodule SendActionItemToUsersViaEmailTest do
   use RemoteRetro.IntegrationCase, async: false
   use Bamboo.Test, shared: true
 
-  import ShorterMaps
-
   describe "retros that have advanced to the action item stage without grouping" do
     @tag [
-      retro_stage: "action-items",
+      retro_stage: "action-items"
     ]
-    test "allow action item creation and distribution", ~M{retro, session: facilitator_session, non_facilitator} do
+    test "allow action item creation and distribution", %{
+      retro: retro,
+      session: facilitator_session,
+      non_facilitator: non_facilitator
+    } do
       facilitator_session = visit_retro(facilitator_session, retro)
 
       # ensure non-facilitator has joined/is available as an assignee
@@ -31,9 +33,13 @@ defmodule SendActionItemToUsersViaEmailTest do
 
     @tag [
       retro_stage: "groups-action-items",
-      idea: %Idea{category: "happy", body: "Frequent Pairing"},
+      idea: %Idea{category: "happy", body: "Frequent Pairing"}
     ]
-    test "allow action item creation and distribution", ~M{retro, session: facilitator_session, non_facilitator} do
+    test "allow action item creation and distribution", %{
+      retro: retro,
+      session: facilitator_session,
+      non_facilitator: non_facilitator
+    } do
       facilitator_session = visit_retro(facilitator_session, retro)
 
       # ensure non-facilitator has joined/is available as an assignee

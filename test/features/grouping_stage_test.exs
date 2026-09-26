@@ -2,16 +2,15 @@ defmodule GroupingStageTest do
   use RemoteRetro.IntegrationCase, async: false
   alias RemoteRetro.Idea
 
-  import ShorterMaps
   describe "ideas in the grouping stage" do
     setup [:persist_ideas_for_retro]
 
     @tag [
       retro_stage: "grouping",
-      ideas: [%Idea{category: "sad", body: "splinters in the codebase", x: 105.5, y: 100.1}],
+      ideas: [%Idea{category: "sad", body: "splinters in the codebase", x: 105.5, y: 100.1}]
     ]
 
-    test "appear on the interface with coordinates mapped to transforms", ~M{retro, session} do
+    test "appear on the interface with coordinates mapped to transforms", %{retro: retro, session: session} do
       session = visit_retro(session, retro)
 
       idea_coordinates = parse_transform_coordinates_for_card(session, "splinters in the codebase")
@@ -21,9 +20,13 @@ defmodule GroupingStageTest do
 
     @tag [
       retro_stage: "grouping",
-      ideas: [%Idea{category: "sad", body: "rampant sickness", x: 80.5, y: 300.3}],
+      ideas: [%Idea{category: "sad", body: "rampant sickness", x: 80.5, y: 300.3}]
     ]
-    test "can be drag-and-dropped on one client and have their position update across all clients", ~M{retro, session, non_facilitator} do
+    test "can be drag-and-dropped on one client and have their position update across all clients", %{
+      retro: retro,
+      session: session,
+      non_facilitator: non_facilitator
+    } do
       session_one = visit_retro(session, retro)
 
       session_two = new_authenticated_browser_session(non_facilitator)
@@ -46,10 +49,10 @@ defmodule GroupingStageTest do
       retro_stage: "grouping",
       ideas: [
         %Idea{category: "sad", body: "rampant sickness", x: 0.0, y: 200.0},
-        %Idea{category: "sad", body: "getting sickness", x: 10.0, y: 210.0},
-      ],
+        %Idea{category: "sad", body: "getting sickness", x: 10.0, y: 210.0}
+      ]
     ]
-    test "ideas dynamically remove bolding when out of proximity", ~M{retro, session} do
+    test "ideas dynamically remove bolding when out of proximity", %{retro: retro, session: session} do
       session = visit_retro(session, retro)
 
       session |> assert_count_of_emboldened_ideas_to_be(2)
@@ -63,10 +66,10 @@ defmodule GroupingStageTest do
       retro_stage: "grouping",
       ideas: [
         %Idea{category: "sad", body: "rampant sickness", x: 0.0, y: 200.0},
-        %Idea{category: "sad", body: "getting sickness", x: 10.0, y: 210.0},
-      ],
+        %Idea{category: "sad", body: "getting sickness", x: 10.0, y: 210.0}
+      ]
     ]
-    test "ideas can be visible in high-contrast mode", ~M{retro, session} do
+    test "ideas can be visible in high-contrast mode", %{retro: retro, session: session} do
       session = visit_retro(session, retro)
 
       # ideas only get a box-shadow once the client-side grouping computation
@@ -93,7 +96,7 @@ defmodule GroupingStageTest do
       ]
     ]
     test "progressing to the voting stage creates groups by proximity, isolating lone ideas as their own group",
-         ~M{retro, session} do
+         %{retro: retro, session: session} do
       session = visit_retro(session, retro)
 
       click_and_confirm_progression_to(session, "Labeling")
@@ -109,7 +112,7 @@ defmodule GroupingStageTest do
       |> Wallaby.Element.attr("style")
 
     ~r/transform: translate3d\((?<x>.*)px,\s?(?<y>.*)px,\s0px\)/
-      |> Regex.named_captures(inline_style_string)
+    |> Regex.named_captures(inline_style_string)
   end
 
   defp assert_count_of_emboldened_ideas_to_be(session, count) do
