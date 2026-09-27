@@ -9,6 +9,7 @@
     "reprune-semantic-ui-on-web-changes": "nodemon -e jsx,heex --exec 'npm run prune-semantic-ui-to-used-selectors'",
     "precommit": "lint-staged",
     "postinstall": "bin/prepare_semantic_ui_for_consumption_by_phoenix",
+    "lint": "eslint . --cache --color --ext js --ext jsx",
     "test": "mocha --exit",
     "test:watch": "mocha --watch --watch-extensions jsx"
   },
