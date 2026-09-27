@@ -37,17 +37,14 @@ jobs:  # basic units of work in a run
             curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
             sudo apt-get install -y nodejs
 
-      - run:
-          name: DEBUG - node resolution
-          command: |
-            echo "PATH=$PATH"
-            which -a node
-            which -a yarn
+            # /usr/local/bin precedes /usr/bin on PATH, and this image bakes
+            # an old Node 14.16.0 at /usr/local/bin/node - the apt package
+            # above installs to /usr/bin/node, so it's shadowed unless we
+            # repoint /usr/local/bin at the new binaries.
+            sudo ln -sf /usr/bin/node /usr/local/bin/node
+            sudo ln -sf /usr/bin/npm /usr/local/bin/npm
+            sudo ln -sf /usr/bin/npx /usr/local/bin/npx
             node -v
-            type node
-            ls -la /usr/local/bin | grep -i node || true
-            ls -la /opt/circleci/.nvm 2>&1 || true
-            cat /home/circleci/.bashrc 2>&1 || true
 
       - restore_cache:
           name: Restore Yarn Package Cache
