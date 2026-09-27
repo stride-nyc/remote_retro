@@ -29,12 +29,12 @@ jobs:  # basic units of work in a run
 
       # cimg/elixir:1.11.4-browsers bundles Node 14.16.0 (apt-installed at
       # image-build time), which is too old for eslint@8 (needs >=14.17.0) -
-      # install a current Node release rather than relying on the image's
-      # bundled version.
+      # install the Node version pinned in .tool-versions rather than relying
+      # on the image's bundled version, so CI and local dev match.
       - run:
           name: Install current Node.js
           command: |
-            curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
+            curl -fsSL https://deb.nodesource.com/setup_24.x | sudo bash -
             sudo apt-get install -y nodejs
 
             # /usr/local/bin precedes /usr/bin on PATH, and this image bakes
