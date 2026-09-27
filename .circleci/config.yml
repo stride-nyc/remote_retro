@@ -82,17 +82,25 @@ jobs:  # basic units of work in a run
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
       - run:
-          name: DEBUG - chromedriver resolution
+          name: Install Chrome and matching chromedriver
           command: |
-            which chromedriver || echo "chromedriver not on PATH"
-            find / -xdev -iname 'chromedriver*' 2>/dev/null || true
-            dpkg -l | grep -i chrom || true
-            google-chrome --version || echo "no google-chrome"
-            chromium --version || echo "no chromium"
-            chromium-browser --version || echo "no chromium-browser"
-            ls -la /opt/google/chrome 2>&1 || true
-            cat /usr/local/bin/wait-for-browsers 2>&1 || true
-            true
+            # cimg/elixir:1.11.4-browsers, unlike the legacy
+            # circleci/elixir:1.11.4-node-browsers image it replaced, doesn't
+            # actually bundle a browser - install Chrome and a chromedriver
+            # built for the exact same version via Google's Chrome for
+            # Testing distribution, so Wallaby's feature tests have one.
+            curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
+            echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+            sudo apt-get update
+            sudo apt-get install -y google-chrome-stable unzip
+            google-chrome --version
+
+            CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
+            curl -fsSL "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip" -o /tmp/chromedriver.zip
+            unzip -j /tmp/chromedriver.zip chromedriver-linux64/chromedriver -d /tmp
+            sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
+            sudo chmod +x /usr/local/bin/chromedriver
+            chromedriver --version
 
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
