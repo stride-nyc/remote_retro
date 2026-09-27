@@ -92,7 +92,13 @@ defmodule RemoteRetro.TestHelpers do
 
   def new_authenticated_browser_session(user, metadata \\ %{}) do
     :timer.sleep(50)
-    {:ok, session} = Wallaby.start_session(metadata: metadata)
+    # wallaby's default window size (1280x800) renders a viewport shorter than
+    # the welcome modal's submit button position on first-time-user pages;
+    # modern chromedriver does a real coordinate-based click and won't
+    # auto-scroll a fixed-position modal into view, so the click silently
+    # lands on nothing. taller window avoids the button ever being
+    # off-screen.
+    {:ok, session} = Wallaby.start_session(metadata: metadata, window_size: [width: 1280, height: 1024])
     authenticate(session, user)
   end
 
