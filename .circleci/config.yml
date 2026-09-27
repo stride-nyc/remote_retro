@@ -37,6 +37,18 @@ jobs:  # basic units of work in a run
             curl -fsSL https://deb.nodesource.com/setup_20.x | sudo bash -
             sudo apt-get install -y nodejs
 
+      - run:
+          name: DEBUG - node resolution
+          command: |
+            echo "PATH=$PATH"
+            which -a node
+            which -a yarn
+            node -v
+            type node
+            ls -la /usr/local/bin | grep -i node || true
+            ls -la /opt/circleci/.nvm 2>&1 || true
+            cat /home/circleci/.bashrc 2>&1 || true
+
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
