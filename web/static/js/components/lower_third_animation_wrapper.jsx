@@ -5,7 +5,7 @@ import { TransitionGroup, CSSTransition } from "react-transition-group"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/lower_third_animation_wrapper.css"
 
-const LowerThirdAnimationWrapper = ({ children, stage }) => {
+function LowerThirdAnimationWrapper({ children, stage }) {
   return (
     <TransitionGroup
       component="div"

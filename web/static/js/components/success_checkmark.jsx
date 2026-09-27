@@ -2,7 +2,7 @@ import React from "react"
 import cx from "classnames"
 import PropTypes from "prop-types"
 
-const SuccessCheckmark = ({ cssModifier }) => {
+function SuccessCheckmark({ cssModifier }) {
   const classes = cx(["ui", "green", "check", "icon", cssModifier])
 
   return (

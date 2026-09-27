@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 
 import * as AppPropTypes from "../prop_types"
 
-export const StageHelp = props => {
+export function StageHelp(props) {
   const { stageConfig, actions } = props
 
   const handleClick = () => {
@@ -17,6 +17,7 @@ export const StageHelp = props => {
         className="portal"
         type="button"
         title="Access Stage Information"
+        aria-label="Access Stage Information"
         onClick={handleClick}
       >
         <i

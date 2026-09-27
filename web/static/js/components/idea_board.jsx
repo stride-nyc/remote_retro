@@ -3,13 +3,14 @@ import PropTypes from "prop-types"
 import includes from "lodash/includes"
 
 import * as AppPropTypes from "../prop_types"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import ColumnarBoardLayout from "./columnar_board_layout"
 import TabularBoardLayout from "./tabular_board_layout"
 import STAGES from "../configs/stages"
 
 const { ACTION_ITEMS, CLOSED } = STAGES
 
-const IdeaBoard = props => {
+function IdeaBoard(props) {
   const { stage, ideaGenerationCategories, isTabletOrAbove } = props
   const showActionItem = includes([ACTION_ITEMS, CLOSED], stage)
   const renderableColumnCategories = [...ideaGenerationCategories]

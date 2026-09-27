@@ -4,11 +4,12 @@ import PropTypes from "prop-types"
 
 import { VOTE_LIMIT } from "../configs/retro_configs"
 import styles from "./css_modules/votes_left.css"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import { selectors } from "../redux"
 
 import * as AppPropTypes from "../prop_types"
 
-export const VotesLeft = props => {
+export function VotesLeft(props) {
   const { cumulativeVoteCountForUser } = props
   const votesLeft = VOTE_LIMIT - cumulativeVoteCountForUser
   const votesText = votesLeft === 1 ? "Vote Left" : "Votes Left"

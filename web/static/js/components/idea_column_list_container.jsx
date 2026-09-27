@@ -1,6 +1,7 @@
 import React, { Component } from "react"
 import countBy from "lodash/countBy"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import IdeaList from "./idea_list"
 import * as AppPropTypes from "../prop_types"
 import STAGES from "../configs/stages"

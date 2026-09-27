@@ -31,14 +31,14 @@ export class ShareRetroLinkModal extends Component {
     }
   }
 
-  closeModal() {
-    this.setState({ closedByUser: true })
-  }
-
   handleCopyLink() {
     this.input.select()
     document.execCommand("copy")
     this.setState({ buttonClicked: true })
+  }
+
+  closeModal() {
+    this.setState({ closedByUser: true })
   }
 
   render() {
@@ -67,6 +67,7 @@ export class ShareRetroLinkModal extends Component {
             <button
               className="ui basic compact right floated icon button"
               type="button"
+              aria-label="Close"
               onClick={this.closeModal}
             >
               <i className="close icon" />

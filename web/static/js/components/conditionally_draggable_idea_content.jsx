@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import DraggableIdeaContent from "./draggable_idea_content"
 import IdeaContentBase from "./idea_content_base"
 
@@ -9,7 +10,7 @@ import STAGES from "../configs/stages"
 
 const { IDEA_GENERATION } = STAGES
 
-const ConditionallyDraggableIdeaContent = props => {
+function ConditionallyDraggableIdeaContent(props) {
   const {
     stage,
     canUserEditIdeaContents,

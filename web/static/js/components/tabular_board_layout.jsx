@@ -2,6 +2,7 @@ import React from "react"
 import classNames from "classnames"
 import { connect } from "react-redux"
 import { bindActionCreators } from "redux"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import { actions as actionCreators } from "../redux"
 
 import IdeaColumnListContainer from "./idea_column_list_container"
@@ -9,11 +10,11 @@ import IdeaColumnListContainer from "./idea_column_list_container"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/tabular_board_layout.css"
 
-export const TabularBoardLayout = props => {
+export function TabularBoardLayout(props) {
   const { categories, actions, selectedCategoryTab, votes } = props
 
   return (
-    <React.Fragment>
+    <>
       <div className="ui tabular menu">
         {categories.map(category => {
           const active = category === selectedCategoryTab
@@ -40,7 +41,7 @@ export const TabularBoardLayout = props => {
       <div className={styles.ideaListWrapper}>
         <IdeaColumnListContainer category={selectedCategoryTab} votes={votes} {...props} />
       </div>
-    </React.Fragment>
+    </>
   )
 }
 

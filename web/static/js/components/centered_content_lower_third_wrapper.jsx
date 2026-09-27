@@ -1,9 +1,10 @@
 import React from "react"
 import PropTypes from "prop-types"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import StageProgressionButton from "./stage_progression_button"
 import * as AppPropTypes from "../prop_types"
 
-const CenteredLowerThirdContentWrapper = props => {
+function CenteredLowerThirdContentWrapper(props) {
   const { currentUser, children, stageConfig } = props
 
   return (

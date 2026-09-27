@@ -2,11 +2,12 @@ import React from "react"
 import PropTypes from "prop-types"
 import * as AppPropTypes from "../prop_types"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import StageProgressionButton from "./stage_progression_button"
 import UserList from "./user_list"
 import styles from "./css_modules/centered_text_stage_wrapper.css"
 
-const CenteredTextStageWrapper = props => {
+function CenteredTextStageWrapper(props) {
   const { bodyMarkup, stageConfig, currentUser, children, headerText } = props
 
   return (

@@ -74,7 +74,6 @@ describe("<IdeaSubmissionLowerThirdContent />", () => {
       })
     })
 
-
     context("when there are 75 ideas", () => {
       let lowerThird
 
@@ -107,7 +106,6 @@ describe("<IdeaSubmissionLowerThirdContent />", () => {
       })
     })
   })
-
 
   context("when in an `action-items` stage", () => {
     context("and there are no action items", () => {

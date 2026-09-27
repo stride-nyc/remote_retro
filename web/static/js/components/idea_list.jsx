@@ -2,13 +2,17 @@ import React, { Component } from "react"
 import classNames from "classnames"
 import OverflowDetector from "./overflow_detector"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import Idea from "./idea"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_list.css"
 
 class IdeaList extends Component {
-  state = {
-    isOverflowed: false,
+  constructor(props) {
+    super(props)
+    this.state = {
+      isOverflowed: false,
+    }
   }
 
   handleListOverflowChange = isOverflowed => {

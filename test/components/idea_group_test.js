@@ -121,7 +121,6 @@ describe("IdeaGroup component", () => {
     expect(votingInterface.prop("currentUserHasExhaustedVotes")).to.eql(true)
   })
 
-
   it("renders an item for every idea associated with the given group", () => {
     const wrapper = shallow(
       <IdeaGroup {...defaultProps} />

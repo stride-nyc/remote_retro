@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import CenteredTextStageWrapper from "./centered_text_stage_wrapper"
 import ShareRetroLinkModal from "./share_retro_link_modal"
 import EmailOptInToggle from "./email_opt_in_toggle"
@@ -22,7 +23,7 @@ const nonFacilitatorInstructions = facilitatorName => (
   </span>
 )
 
-const LobbyStage = props => {
+function LobbyStage(props) {
   const { currentUser, facilitatorName, actions } = props
 
   const bodyMarkup = currentUser.is_facilitator ? facilitatorInstructions

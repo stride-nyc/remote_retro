@@ -75,10 +75,20 @@ module.exports = {
     "no-restricted-globals": "off",
     "jsx-a11y/no-autofocus": 0,
     "jsx-a11y/no-static-element-interactions": 0,
+    // airbnb sets assert: "both" (htmlFor *and* DOM nesting required); several
+    // Semantic UI components (e.g. toggle checkboxes) rely on the input/label
+    // being CSS siblings, so nesting isn't an option - htmlFor/id pairing
+    // alone is a valid, WCAG-compliant association.
+    "jsx-a11y/label-has-associated-control": ["error", { assert: "either" }],
     "import/no-named-as-default": "off",
     "react/jsx-props-no-spreading": "off",
     "import/no-import-module-exports": "off",
     "no-unused-expressions": ["error", { allowTernary: true }],
     "no-param-reassign": [2, { props: false }],
+    // conflicts with the idiomatic Redux reducer signature used throughout
+    // web/static/js/redux/*.js: `(state = initialState, action) => ...` -
+    // state must stay positionally first, so this can't be satisfied without
+    // breaking every reducer call site.
+    "default-param-last": "off",
   },
 }

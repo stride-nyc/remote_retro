@@ -9,7 +9,7 @@ import stages from "../configs/stages"
 
 const { GROUPS_LABELING } = stages
 
-const GroupLabelContainer = ({ groupWithAssociatedIdeasAndVotes, currentUser, actions, stage }) => {
+function GroupLabelContainer({ groupWithAssociatedIdeasAndVotes, currentUser, actions, stage }) {
   const displayGroupLabelInput = (currentUser.is_facilitator && stage === GROUPS_LABELING)
   const readonlyGroupLabelClasses = classNames("readonly-group-label", sharedGroupLabelTextStyles.groupLabelText, {
     unlabeled: !groupWithAssociatedIdeasAndVotes.label,

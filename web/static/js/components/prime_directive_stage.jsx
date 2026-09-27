@@ -1,6 +1,7 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import CenteredTextStageWrapper from "./centered_text_stage_wrapper"
 
 const primeDirectiveMarkup = (
@@ -21,7 +22,7 @@ const primeDirectiveMarkup = (
   </p>
 )
 
-const PrimeDirectiveStage = props => {
+function PrimeDirectiveStage(props) {
   return (
     <CenteredTextStageWrapper
       {...props}

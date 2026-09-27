@@ -6,7 +6,7 @@ import * as AppPropTypes from "../prop_types"
 
 import styles from "./css_modules/contact_stride_cta.css"
 
-const ContactStrideCTA = ({ alert, currentUser }) => {
+function ContactStrideCTA({ alert, currentUser }) {
   const wrapperClasses = cx(styles.wrapper, {
     active: !alert,
   })

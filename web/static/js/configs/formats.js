@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import happySadConfusedStageConfigs from "./happy_sad_confused_stage_configs"
 import startStopContinueStageConfigs from "./start_stop_continue_stage_configs"
 

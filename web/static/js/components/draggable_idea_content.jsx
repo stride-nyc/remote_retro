@@ -3,6 +3,7 @@ import { DragSource } from "react-dnd"
 import isFinite from "lodash/isFinite"
 import PropTypes from "prop-types"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import IdeaContentBase from "./idea_content_base"
 
 import * as AppPropTypes from "../prop_types"
@@ -13,7 +14,7 @@ export const dragSourceSpec = {
     const { id, category, body, assignee_id } = idea // eslint-disable-line camelcase
 
     return {
-      draggedIdea: { id, category, body, assignee_id },
+      draggedIdea: { id, category, body, assignee_id }, // eslint-disable-line camelcase
     }
   },
   canDrag: ({ idea }) => {
@@ -38,7 +39,7 @@ export const collect = connect => {
   }
 }
 
-const IdeaContentConnected = props => {
+function IdeaContentConnected(props) {
   const { connectDragSource, ...rest } = props
 
   // <connectDragSource requires a native html element for applying drag-n-drop handlers

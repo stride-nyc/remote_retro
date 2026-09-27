@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import StageConfig from "../services/stage_config"
 import actionTypes from "./action_types"
 

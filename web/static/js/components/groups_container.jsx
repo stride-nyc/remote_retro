@@ -5,6 +5,7 @@ import PropTypes from "prop-types"
 import FlipMove from "react-flip-move"
 import classNames from "classnames"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import { selectors } from "../redux/index"
 
 import LowerThird from "./lower_third"
@@ -28,8 +29,11 @@ const sortGroups = (groupsWithAssociatedIdeasAndVotes, isLabelingPlusVotingStage
 }
 
 export class GroupsContainer extends Component {
-  state = {
-    isGroupsListOverflowed: false,
+  constructor(props) {
+    super(props)
+    this.state = {
+      isGroupsListOverflowed: false,
+    }
   }
 
   handleOverflowChange = isGroupsListOverflowed => {

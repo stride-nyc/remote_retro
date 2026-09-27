@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import LobbyStage from "../components/lobby_stage"
 import PrimeDirectiveStage from "../components/prime_directive_stage"
 import GroupingStage from "../components/grouping_stage"

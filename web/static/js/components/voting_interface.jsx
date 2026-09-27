@@ -49,6 +49,7 @@ class VotingInterface extends React.Component {
               type="submit"
               disabled={userVoteCountForIdea === 0}
               className={`ui minus button ${styles.alterCountButton}`}
+              aria-label="Retract a vote"
               onClick={this.handleSubtractVoteClick}
             >
               <i className="minus icon" />
@@ -57,6 +58,7 @@ class VotingInterface extends React.Component {
               type="submit"
               disabled={currentUserHasExhaustedVotes}
               className={`ui plus button ${styles.alterCountButton}`}
+              aria-label="Cast a vote"
               onClick={this.handleAddVoteClick}
             >
               <i className="plus icon" />

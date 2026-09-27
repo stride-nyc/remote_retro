@@ -9,6 +9,7 @@ import * as AppPropTypes from "../prop_types"
 import { USER_TYPING_ANIMATION_DURATION } from "../services/user_activity"
 import styles from "./css_modules/idea_submission_form.css"
 import SelectDropdown from "./select_dropdown"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import { actions, selectors } from "../redux"
 
 const PLACEHOLDER_TEXTS = {
@@ -46,6 +47,16 @@ export class IdeaSubmissionForm extends Component {
     document.body.scrollTop = 0
   }
 
+  // eslint-disable-next-line camelcase
+  UNSAFE_componentWillReceiveProps(nextProps) {
+    const { alert } = this.props
+    const { isMobileDevice } = this.state
+
+    const alertDismissed = alert && !nextProps.alert
+
+    if (alertDismissed && !isMobileDevice) { this.ideaInput.focus() }
+  }
+
   componentDidUpdate(prevProps, prevState) {
     const { category } = this.state
     if (category !== prevState.category) { this.ideaInput.focus() }
@@ -74,16 +85,6 @@ export class IdeaSubmissionForm extends Component {
 
   handleAssigneeChange = event => {
     this.setState({ assigneeId: parseInt(event.target.value, 10) })
-  }
-
-  // eslint-disable-next-line camelcase
-  UNSAFE_componentWillReceiveProps(nextProps) {
-    const { alert } = this.props
-    const { isMobileDevice } = this.state
-
-    const alertDismissed = alert && !nextProps.alert
-
-    if (alertDismissed && !isMobileDevice) { this.ideaInput.focus() }
   }
 
   render() {

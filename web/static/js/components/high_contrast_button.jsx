@@ -4,7 +4,7 @@ import cx from "classnames"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/high_contrast_button.css"
 
-const HighContrastButton = props => {
+function HighContrastButton(props) {
   const { actions, userOptions, className } = props
 
   const wrapperClasses = cx(className, styles.wrapper)
@@ -13,8 +13,8 @@ const HighContrastButton = props => {
     <div className={wrapperClasses}>
       <button className="ui basic compact icon button" type="button" onClick={actions.toggleHighContrastOn}>
         <div className="ui toggle checkbox">
-          <input type="checkbox" name="public" checked={userOptions.highContrastOn} readOnly />
-          <label><i className="ui low vision icon" /> High Contrast</label>
+          <input id="high-contrast-toggle" type="checkbox" name="public" checked={userOptions.highContrastOn} readOnly />
+          <label htmlFor="high-contrast-toggle"><i className="ui low vision icon" /> High Contrast</label>
         </div>
       </button>
     </div>

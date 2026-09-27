@@ -6,10 +6,14 @@ import PropTypes from "prop-types"
 import Modal from "react-modal"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/stage_progression_button.css"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import { actions as actionCreators } from "../redux"
 
 export class StageProgressionButton extends Component {
-  state = { modalOpen: false }
+  constructor(props) {
+    super(props)
+    this.state = { modalOpen: false }
+  }
 
   handleStageProgressionButtonClick = () => {
     this.setState({ modalOpen: true })
@@ -56,7 +60,7 @@ export class StageProgressionButton extends Component {
             {/* eslint-disable-next-line react/no-danger */}
             <p dangerouslySetInnerHTML={{ __html: config.confirmationMessageHTML }} />
           </div>
-          <div className="actions" ref={ref => { this.modalActionsRef = ref }}>
+          <div className="actions">
             <button
               className={`ui negative ${retroUpdateRequested ? "disabled" : ""} button`}
               id="no"

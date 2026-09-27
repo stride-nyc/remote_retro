@@ -2,7 +2,7 @@ import React from "react"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/email_opt_in_toggle.css"
 
-const EmailOptInToggle = props => {
+function EmailOptInToggle(props) {
   const { actions, currentUser } = props
 
   return (
@@ -19,8 +19,8 @@ const EmailOptInToggle = props => {
         }}
       >
         <div className="ui toggle checkbox">
-          <input type="checkbox" name="public" checked={currentUser.email_opt_in} readOnly />
-          <label>Sign me up!</label>
+          <input id="email-opt-in" type="checkbox" name="public" checked={currentUser.email_opt_in} readOnly />
+          <label htmlFor="email-opt-in">Sign me up!</label>
         </div>
       </button>
     </div>

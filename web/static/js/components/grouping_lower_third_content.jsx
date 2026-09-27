@@ -2,9 +2,10 @@ import PropTypes from "prop-types"
 import React from "react"
 import * as AppPropTypes from "../prop_types"
 import HighContrastButton from "./high_contrast_button"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import StageProgressionButton from "./stage_progression_button"
 
-const GroupingLowerThirdContent = props => {
+function GroupingLowerThirdContent(props) {
   const { currentUser, stageConfig, userOptions, actions } = props
 
   return (

@@ -1,10 +1,11 @@
 import React from "react"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import CenteredContentLowerThirdWrapper from "./centered_content_lower_third_wrapper"
 
 import styles from "./css_modules/votes_left.css"
 
-const VotingLowerThirdContent = props => {
+function VotingLowerThirdContent(props) {
   return (
     <CenteredContentLowerThirdWrapper {...props}>
       <div className={`${styles.index}`}>
