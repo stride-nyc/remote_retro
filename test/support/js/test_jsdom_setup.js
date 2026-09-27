@@ -21,6 +21,11 @@ Object.getOwnPropertyNames(document.defaultView).forEach(property => {
   }
 })
 
-global.navigator = {
-  userAgent: "node.js",
-}
+// node >=21 ships its own global `navigator` as a getter-only property, so a
+// plain assignment throws ("Cannot set property navigator... which has only
+// a getter") - redefine the property instead of assigning to it.
+Object.defineProperty(global, "navigator", {
+  value: { userAgent: "node.js" },
+  configurable: true,
+  writable: true,
+})

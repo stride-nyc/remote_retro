@@ -85,8 +85,14 @@ jobs:  # basic units of work in a run
           name: DEBUG - chromedriver resolution
           command: |
             which chromedriver || echo "chromedriver not on PATH"
-            find / -xdev -iname 'chromedriver*' 2>/dev/null
+            find / -xdev -iname 'chromedriver*' 2>/dev/null || true
             dpkg -l | grep -i chrom || true
+            google-chrome --version || echo "no google-chrome"
+            chromium --version || echo "no chromium"
+            chromium-browser --version || echo "no chromium-browser"
+            ls -la /opt/google/chrome 2>&1 || true
+            cat /usr/local/bin/wait-for-browsers 2>&1 || true
+            true
 
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
