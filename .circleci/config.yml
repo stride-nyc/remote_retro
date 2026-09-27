@@ -1,9 +1,9 @@
-version: 2  # use CircleCI 2.0 instead of CircleCI Classic
+version: 2.1
 jobs:  # basic units of work in a run
   build:  # runs not using Workflows must have a `build` job as entry point
     parallelism: 1  # run only one instance of this job in parallel
     docker:  # run the steps with Docker
-      - image: circleci/elixir:1.11.4-node-browsers
+      - image: cimg/elixir:1.11.4-browsers
         environment:  # environment variables for primary container
           MIX_ENV: test
       - image: cimg/postgres:13.6-postgis # database image
@@ -26,6 +26,26 @@ jobs:  # basic units of work in a run
             - v4-build-cache-{{ .Branch }}
             - v4-build-cache
       - run: mix do deps.get, compile  # get updated dependencies & compile them
+
+      # cimg/elixir:1.11.4-browsers bundles Node 14.16.0 (apt-installed at
+      # image-build time), which is too old for eslint@8 (needs >=14.17.0) -
+      # install the Node version pinned in .tool-versions rather than relying
+      # on the image's bundled version, so CI and local dev match.
+      - run:
+          name: Install current Node.js
+          command: |
+            curl -fsSL https://deb.nodesource.com/setup_24.x | sudo bash -
+            sudo apt-get install -y nodejs
+
+            # /usr/local/bin precedes /usr/bin on PATH, and this image bakes
+            # an old Node 14.16.0 at /usr/local/bin/node - the apt package
+            # above installs to /usr/bin/node, so it's shadowed unless we
+            # repoint /usr/local/bin at the new binaries.
+            sudo ln -sf /usr/bin/node /usr/local/bin/node
+            sudo ln -sf /usr/bin/npm /usr/local/bin/npm
+            sudo ln -sf /usr/bin/npx /usr/local/bin/npx
+            node -v
+
       - restore_cache:
           name: Restore Yarn Package Cache
           keys:
@@ -61,6 +81,27 @@ jobs:  # basic units of work in a run
           name: Wait for DB
           command: dockerize -wait tcp://localhost:5432 -timeout 1m
 
+      - run:
+          name: Install Chrome and matching chromedriver
+          command: |
+            # cimg/elixir:1.11.4-browsers, unlike the legacy
+            # circleci/elixir:1.11.4-node-browsers image it replaced, doesn't
+            # actually bundle a browser - install Chrome and a chromedriver
+            # built for the exact same version via Google's Chrome for
+            # Testing distribution, so Wallaby's feature tests have one.
+            curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /usr/share/keyrings/google-chrome.gpg
+            echo "deb [arch=amd64 signed-by=/usr/share/keyrings/google-chrome.gpg] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+            sudo apt-get update
+            sudo apt-get install -y google-chrome-stable unzip
+            google-chrome --version
+
+            CHROME_VERSION=$(google-chrome --version | grep -oP '\d+\.\d+\.\d+\.\d+')
+            curl -fsSL "https://storage.googleapis.com/chrome-for-testing-public/${CHROME_VERSION}/linux64/chromedriver-linux64.zip" -o /tmp/chromedriver.zip
+            unzip -j /tmp/chromedriver.zip chromedriver-linux64/chromedriver -d /tmp
+            sudo mv /tmp/chromedriver /usr/local/bin/chromedriver
+            sudo chmod +x /usr/local/bin/chromedriver
+            chromedriver --version
+
       - run: yarn test # run all js tests in project
       - run: yarn run compile-test
       - run:
@@ -94,7 +135,7 @@ jobs:  # basic units of work in a run
             #   - also trigger full rebuilds when db migrations have been *added* since last push,
             #     as these wouldn't be run when doing a hot upgrade, but are run on fresh builds
 
-            if git log $commit_range_from_previous_build --name-status --pretty="format:" | grep "phoenix_static_buildpack.config\config.exs\|prod.exs\|mix.exs\|mix.lock\|elixir_buildpack.config\|A[[:space:]]priv/repo/migrations"; then
+            if git log $commit_range_from_previous_build --name-status --pretty="format:" | grep "phoenix_static_buildpack.config\|config.exs\|prod.exs\|mix.exs\|mix.lock\|elixir_buildpack.config\|A[[:space:]]priv/repo/migrations"; then
               echo "Executing deploy cleaned of old dependencies"
               git -c http.extraheader="GIGALIXIR-CLEAN: true" push gigalixir HEAD:refs/heads/master --force;
             else
