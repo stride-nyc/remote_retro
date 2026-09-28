@@ -30,6 +30,7 @@ import {
   selectors as voteSelectors,
 } from "./votes"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import {
   actions as alertActions,
   reducer as alert,

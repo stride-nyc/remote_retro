@@ -43,7 +43,7 @@ describe("HighContrastButton", () => {
       const wrapper = shallow(
         <HighContrastButton {...defaultProps} actions={actions} />
       )
-      wrapper.find("button").simulate("click")
+      wrapper.find("input[type='checkbox']").simulate("change")
     })
 
     it("invokes the toggleHighContrastOn action", () => {

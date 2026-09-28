@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import sharedStageConfigs from "./shared_stage_configs"
 import stageChangeInfoIdeaGenerationBuilder from "../components/stage_change_info_idea_generation_builder"
 import IdeationInterface from "../components/ideation_interface"

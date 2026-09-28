@@ -8,11 +8,12 @@ import * as AppPropTypes from "../prop_types"
 import VotingInterface from "./voting_interface"
 import IdeaEditDeleteIcons from "./idea_edit_delete_icons"
 import STAGES from "../configs/stages"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import { selectors, actions } from "../redux"
 
 const { VOTING, ACTION_ITEMS, CLOSED } = STAGES
 
-export const StageAwareIdeaControls = props => {
+export function StageAwareIdeaControls(props) {
   const {
     stage,
     isRetroClosed,

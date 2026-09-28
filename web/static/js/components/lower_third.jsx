@@ -1,5 +1,6 @@
 import React from "react"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import IdeaSubmissionLowerThirdContent from "./idea_submission_lower_third_content"
 import VotingLowerThirdContent from "./voting_lower_third_content"
 import LabelingLowerThirdContent from "./labeling_lower_third_content"
@@ -34,7 +35,7 @@ const stageToComponentMap = {
   [GROUPS_CLOSED]: ClosedLowerThirdContent,
 }
 
-const LowerThird = props => {
+function LowerThird(props) {
   const { stage } = props
 
   const StageSpecificComponent = stageToComponentMap[stage]

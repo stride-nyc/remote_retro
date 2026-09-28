@@ -40,7 +40,7 @@ const normalizePresencesWithForeignKeyForUsers = presences => {
   // eslint-disable-next-line camelcase
   return presences.map(({ token, id, online_at }) => ({
     user_id: id,
-    online_at,
+    online_at, // eslint-disable-line camelcase
     token,
   }))
 }

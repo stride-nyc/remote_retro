@@ -4,6 +4,7 @@ import PropTypes from "prop-types"
 import cx from "classnames"
 import orderBy from "lodash/orderBy"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import GroupingIdeaCard from "./grouping_idea_card"
 import DragCoordinates from "../services/drag_coordinates"
 import * as AppPropTypes from "../prop_types"
@@ -11,7 +12,7 @@ import styles from "./css_modules/grouping_board.css"
 
 const IDEA_COUNT_AT_WHICH_TO_TRIGGER_REAL_ESTATE_PRESERVATION = 35
 
-export const GroupingBoard = props => {
+export function GroupingBoard(props) {
   const { ideas, actions, connectDropTarget, userOptions } = props
 
   const eligibleDragAreaClassname = cx(styles.eligibleDragArea, "grouping-board")
@@ -25,7 +26,7 @@ export const GroupingBoard = props => {
   const ideasSortedByBodyLengthAscending = orderBy(ideas, ["body.length", "id"], ["desc", "asc"])
 
   return (
-    <React.Fragment>
+    <>
       <div className={styles.boardAndSideGutterWrapper}>
         {
           connectDropTarget(
@@ -51,7 +52,7 @@ export const GroupingBoard = props => {
         </div>
       </div>
       <div className={bottomGutterClassname} />
-    </React.Fragment>
+    </>
   )
 }
 

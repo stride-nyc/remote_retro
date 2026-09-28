@@ -2,7 +2,7 @@ import React from "react"
 
 import * as AppPropTypes from "../prop_types"
 
-const IdeaLiveEditContent = props => {
+function IdeaLiveEditContent(props) {
   const { idea } = props
 
   return (

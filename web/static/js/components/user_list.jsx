@@ -4,13 +4,14 @@ import classNames from "classnames"
 import PropTypes from "prop-types"
 import findIndex from "lodash/findIndex"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import UserListItem from "./user_list_item"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/user_list.css"
 import { selectors } from "../redux"
 
-export const UserList = ({ presences, wrap }) => {
+export function UserList({ presences, wrap }) {
   if (presences.length === 0) { return null }
 
   const sortedByArrival = presences.sort((a, b) => a.online_at - b.online_at)

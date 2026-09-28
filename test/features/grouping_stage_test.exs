@@ -69,6 +69,12 @@ defmodule GroupingStageTest do
     test "ideas can be visible in high-contrast mode", ~M{retro, session} do
       session = visit_retro(session, retro)
 
+      # ideas only get a box-shadow once the client-side grouping computation
+      # (which needs a real bounding-rect measurement from componentDidMount)
+      # assigns them an ephemeralGroupingId - wait for that to settle before
+      # toggling the color, or the assertion below can race it and see 0.
+      session |> assert_count_of_emboldened_ideas_to_be(2)
+
       click(session, Query.css("button", text: "High Contrast"))
 
       assert_count_of_high_contrast_color_borders_is(session, 2)

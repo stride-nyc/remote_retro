@@ -1,11 +1,12 @@
 import React from "react"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import CategoryColumn from "./category_column"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/columnar_board_layout.css"
 
-const ColumnarBoardLayout = props => {
+function ColumnarBoardLayout(props) {
   const { categories } = props
 
   return (

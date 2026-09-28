@@ -20,7 +20,7 @@ const GROUPING_VIEWPORT_WIDTH = "width=1440"
 // by a conditional render at some point in the future, as we need the width to fall back to
 // its default when *leaving* the grouping stage, which it won't do on unmount if we house it in the
 // GroupingStage component, which we would otherwise do.
-export const ViewportMetaTag = props => {
+export function ViewportMetaTag(props) {
   const {
     alert,
     stage,

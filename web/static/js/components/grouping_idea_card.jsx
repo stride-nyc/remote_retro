@@ -7,6 +7,7 @@ import cx from "classnames"
 
 import * as AppPropTypes from "../prop_types"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import { dragSourceSpec, collect } from "./draggable_idea_content"
 import ColorPicker from "../services/color_picker"
 import { COLLISION_BUFFER } from "../services/collisions"

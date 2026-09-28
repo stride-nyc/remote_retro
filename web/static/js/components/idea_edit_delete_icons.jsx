@@ -4,7 +4,7 @@ import classNames from "classnames"
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/idea_edit_delete_icons.css"
 
-const IdeaEditDeleteIcons = props => {
+function IdeaEditDeleteIcons(props) {
   const { idea, actions } = props
 
   const disabled = idea.inEditState || idea.deletionSubmitted

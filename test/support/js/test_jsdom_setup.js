@@ -7,16 +7,18 @@ const jsdom = new JSDOM("<!doctype html><html><body><div id=\"root\"></div></bod
 })
 global.document = jsdom.window.document
 global.window = document.defaultView
-// jsdom exposes some globals (e.g. HTMLCollection) as non-enumerable getters,
-// which Object.keys skips - use getOwnPropertyNames instead, and guard the
-// assignment since a few of those getters throw when accessed this way.
+// getOwnPropertyNames (not keys) - jsdom defines most WebIDL interface
+// constructors (HTMLCollection, NodeList, etc.) as non-enumerable own
+// properties on the window instance, so Object.keys silently misses them.
 Object.getOwnPropertyNames(document.defaultView).forEach(property => {
   if (typeof global[property] === "undefined") {
     try {
-      exposedProperties.push(property)
       global[property] = document.defaultView[property]
+      exposedProperties.push(property)
     } catch (e) {
-      // not exposable on the global object - skip it
+      // a handful of window properties (e.g. the literal "undefined" key
+      // jsdom defines for legacy-browser compatibility) aren't assignable
+      // on `global` - safe to skip, nothing relies on those.
     }
   }
 })

@@ -1,7 +1,7 @@
 import React from "react"
 import * as AppPropTypes from "../prop_types"
 
-const Room = props => {
+function Room(props) {
   const { stageConfig } = props
 
   const StageUIComponent = stageConfig.uiComponent

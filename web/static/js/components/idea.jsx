@@ -6,6 +6,7 @@ import values from "lodash/values"
 
 import IdeaEditForm from "./idea_edit_form"
 import IdeaLiveEditContent from "./idea_live_edit_content"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import ConditionallyDraggableIdeaContent from "./conditionally_draggable_idea_content"
 import IdeaPermissions from "../services/idea_permissions"
 import * as AppPropTypes from "../prop_types"
@@ -15,7 +16,7 @@ import {
   actions,
 } from "../redux"
 
-export const Idea = props => {
+export function Idea(props) {
   const {
     idea,
     currentUser,

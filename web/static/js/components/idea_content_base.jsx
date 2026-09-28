@@ -1,12 +1,13 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import StageAwareIdeaControls from "./stage_aware_idea_controls"
 
 import * as AppPropTypes from "../prop_types"
 import styles from "./css_modules/conditionally_draggable_idea_content.css"
 
-const IdeaContentBase = props => {
+function IdeaContentBase(props) {
   const {
     idea,
     currentUser,

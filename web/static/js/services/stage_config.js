@@ -1,3 +1,4 @@
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import formats from "../configs/formats"
 
 let formatReference

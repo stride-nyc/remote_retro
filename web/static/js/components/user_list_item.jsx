@@ -3,6 +3,7 @@ import PropTypes from "prop-types"
 import includes from "lodash/includes"
 import { bindActionCreators } from "redux"
 import { connect } from "react-redux"
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import { selectors, actions } from "../redux"
 import { VOTE_LIMIT } from "../configs/retro_configs"
 import * as AppPropTypes from "../prop_types"
@@ -12,7 +13,7 @@ import STAGES from "../configs/stages"
 
 const { VOTING, GROUPS_VOTING } = STAGES
 
-export const UserListItem = ({ user, votes, isVotingStage, currentUser, actions }) => {
+export function UserListItem({ user, votes, isVotingStage, currentUser, actions }) {
   const imgSrc = user.picture.replace("sz=50", "sz=200")
   const votesByUser = votes.filter(vote => vote.user_id === user.id).length
   const allVotesIn = votesByUser >= VOTE_LIMIT
@@ -35,6 +36,7 @@ export const UserListItem = ({ user, votes, isVotingStage, currentUser, actions 
         <button
           type="button"
           title={`Transfer facilitatorship to ${user.given_name}`}
+          aria-label={`Transfer facilitatorship to ${user.given_name}`}
           className={styles.transferFacilitatorship}
           onClick={() => passFacilitatorshipTo(user)}
         >

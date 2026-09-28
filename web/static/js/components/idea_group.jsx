@@ -16,8 +16,11 @@ const { GROUPS_VOTING, GROUPS_LABELING } = STAGES
 const CATEGORY_ICON_HEIGHT_WIDTH = 18
 
 class IdeaGroup extends Component {
-  state = {
-    listIsOverflowed: false,
+  constructor(props) {
+    super(props)
+    this.state = {
+      listIsOverflowed: false,
+    }
   }
 
   handleListOverflowChange = listIsOverflowed => {

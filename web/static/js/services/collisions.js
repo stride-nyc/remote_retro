@@ -75,7 +75,9 @@ export const COLLISION_BUFFER = 3
 const _buildIdeaBoxWithIdentifier = ({ id, x, y, height, width }) => {
   const { Box, Vector } = SeparatingAxisTheorum
   const ideaBox = new Box(
-    new Vector(x, y), width + COLLISION_BUFFER, height + COLLISION_BUFFER
+    new Vector(x, y),
+    width + COLLISION_BUFFER,
+    height + COLLISION_BUFFER
   ).toPolygon()
 
   ideaBox.id = id

@@ -1,13 +1,14 @@
 import React from "react"
 import PropTypes from "prop-types"
 
+// eslint-disable-next-line import/no-cycle -- intentional config-driven component resolution
 import IdeaSubmissionForm from "./idea_submission_form"
 import StageProgressionButton from "./stage_progression_button"
 
 import * as AppPropTypes from "../prop_types"
 import { IDEA_GENERATION_IDEA_COUNT_LIMIT } from "../configs/retro_configs"
 
-const IdeaSubmissionLowerThirdContent = props => {
+function IdeaSubmissionLowerThirdContent(props) {
   const { isAnActionItemsStage, stageConfig, ideas, currentUser } = props
   const isIdeaGenerationStage = !isAnActionItemsStage
   const isAtIdeaGenerationIdeaCountLimit = isIdeaGenerationStage

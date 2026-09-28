@@ -6,7 +6,7 @@ import Modal from "react-modal"
 
 import { actions as actionCreators } from "../redux"
 
-export const Error = props => {
+export function Error(props) {
   const { actions, config } = props
 
   if (!config) return null

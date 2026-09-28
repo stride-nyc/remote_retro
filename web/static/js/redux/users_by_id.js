@@ -42,7 +42,7 @@ export const selectors = {
     return presences.map(presence => {
       // eslint-disable-next-line camelcase
       const { user_id, ...restOfPresenceAttrs } = presence
-      const user = usersById[user_id]
+      const user = usersById[user_id] // eslint-disable-line camelcase
       return {
         ...user,
         ...restOfPresenceAttrs,
