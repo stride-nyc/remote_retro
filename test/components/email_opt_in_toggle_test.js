@@ -44,7 +44,7 @@ describe("EmailOptInToggle", () => {
         />
       )
 
-      emailOptInToggleWrapper.find("button").simulate("click")
+      emailOptInToggleWrapper.find("input[type='checkbox']").simulate("change")
     })
 
     it("sends the updated preference to the server for persistence", () => {
