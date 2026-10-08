@@ -13,7 +13,7 @@ const stubMatchMedia = prefersDark => {
 describe("ThemeManager", () => {
   beforeEach(() => {
     localStorage.clear()
-    delete document.documentElement.dataset.theme
+    document.documentElement.removeAttribute("data-theme")
     stubMatchMedia(false)
   })
 
@@ -22,7 +22,7 @@ describe("ThemeManager", () => {
       it("sets data-theme to 'light' on the html element", () => {
         ThemeManager.init()
 
-        expect(document.documentElement.dataset.theme).to.eql("light")
+        expect(document.documentElement.getAttribute("data-theme")).to.eql("light")
       })
     })
 
@@ -32,7 +32,7 @@ describe("ThemeManager", () => {
 
         ThemeManager.init()
 
-        expect(document.documentElement.dataset.theme).to.eql("dark")
+        expect(document.documentElement.getAttribute("data-theme")).to.eql("dark")
       })
     })
 
@@ -42,7 +42,7 @@ describe("ThemeManager", () => {
 
         ThemeManager.init()
 
-        expect(document.documentElement.dataset.theme).to.eql("dark")
+        expect(document.documentElement.getAttribute("data-theme")).to.eql("dark")
       })
     })
   })
@@ -50,7 +50,7 @@ describe("ThemeManager", () => {
   describe(".toggle()", () => {
     context("when the current theme is light", () => {
       it("saves 'dark' to localStorage", () => {
-        document.documentElement.dataset.theme = "light"
+        document.documentElement.setAttribute("data-theme", "light")
 
         ThemeManager.toggle()
 
