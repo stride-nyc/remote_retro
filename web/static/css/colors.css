@@ -1,5 +1,8 @@
 :root {
   --semantic-light-grey: #DCDDDE;
+  /* de-emphasized text on backgrounds that are not theme-aware; stays light in
+     both themes so 'faded' never reads as more prominent than active content */
+  --semantic-faded-text: #DCDDDE;
   --semantic-divider-border-top-color: rgba(34, 36, 38, 0.15);
   --semantic-teal: #00B5AD;
   --semantic-green: #2EB84D;

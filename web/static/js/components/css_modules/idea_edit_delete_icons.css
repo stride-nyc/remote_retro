@@ -39,7 +39,7 @@
   }
 
   &:global(.disabled .icon) {
-    color: var(--semantic-light-grey);
+    color: var(--semantic-faded-text);
     pointer-events: none;
   }
 }

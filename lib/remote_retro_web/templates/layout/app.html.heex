@@ -93,19 +93,38 @@
   </head>
 
   <body class={assigns[:body_class]}>
-    <script>
-      (function() {
-        var saved = localStorage.getItem('theme');
-        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-        document.documentElement.dataset.theme = saved || (prefersDark ? 'dark' : 'light');
-      })();
-    </script>
     <%# Google Tag Manager (noscript) %>
     <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-K8F6B6H"
     height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
     <%# End Google Tag Manager (noscript) %>
     <main role="main">
     <%= unless assigns[:omit_header] do %>
+      <%# theming only runs on pages that render the toggle; the landing page's
+          backgrounds are not theme-aware and would be unreadable in dark mode %>
+      <script>
+        (function() {
+          function readTheme() {
+            try { return localStorage.getItem('theme'); } catch (e) { return null; }
+          }
+          function writeTheme(value) {
+            try { localStorage.setItem('theme', value); } catch (e) { /* storage blocked: theme is session-only */ }
+          }
+
+          var html = document.documentElement;
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          html.dataset.theme = readTheme() || (prefersDark ? 'dark' : 'light');
+
+          document.addEventListener('DOMContentLoaded', function() {
+            var toggle = document.querySelector('.dark-mode-toggle');
+            if (!toggle) return;
+
+            toggle.addEventListener('click', function() {
+              html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+              writeTheme(html.dataset.theme);
+            });
+          });
+        })();
+      </script>
       <div class="ui segment branded-header-container">
         <a href="/">
           <div class="ui teal header left-branded-header">
@@ -128,13 +147,6 @@
           <% end %>
         </div>
       </div>
-      <script>
-        document.querySelector('.dark-mode-toggle').addEventListener('click', function() {
-          var html = document.documentElement;
-          html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
-          localStorage.setItem('theme', html.dataset.theme);
-        });
-      </script>
     <% end %>
       <%= @inner_content %>
     </main>
