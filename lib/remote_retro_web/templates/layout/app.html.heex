@@ -99,6 +99,32 @@
     <%# End Google Tag Manager (noscript) %>
     <main role="main">
     <%= unless assigns[:omit_header] do %>
+      <%# theming only runs on pages that render the toggle; the landing page's
+          backgrounds are not theme-aware and would be unreadable in dark mode %>
+      <script>
+        (function() {
+          function readTheme() {
+            try { return localStorage.getItem('theme'); } catch (e) { return null; }
+          }
+          function writeTheme(value) {
+            try { localStorage.setItem('theme', value); } catch (e) { /* storage blocked: theme is session-only */ }
+          }
+
+          var html = document.documentElement;
+          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+          html.dataset.theme = readTheme() || (prefersDark ? 'dark' : 'light');
+
+          document.addEventListener('DOMContentLoaded', function() {
+            var toggle = document.querySelector('.dark-mode-toggle');
+            if (!toggle) return;
+
+            toggle.addEventListener('click', function() {
+              html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
+              writeTheme(html.dataset.theme);
+            });
+          });
+        })();
+      </script>
       <div class="ui segment branded-header-container">
         <a href="/">
           <div class="ui teal header left-branded-header">
@@ -111,6 +137,8 @@
             <div class="ui tiny image"><img height="21" width="21" src={Routes.static_url(@conn, "/images/stride_logo.png")} alt="Stride" /></div>
           </a>
           <div class="help-icon" id="stage-help-icon"></div>
+
+          <button class="dark-mode-toggle ui mini compact button" type="button" aria-label="Toggle dark mode">🌙</button>
 
           <%= if Plug.Conn.get_session(@conn, :current_user_id) do %>
             <a href="/logout" class="ui mini compact logout button">

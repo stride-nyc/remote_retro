@@ -17,7 +17,7 @@
     text-decoration: underline;
   }
   &:global(.unlabeled) {
-    color: var(--semantic-light-grey);
+    color: var(--semantic-faded-text);
     text-decoration: none;
   }
 }

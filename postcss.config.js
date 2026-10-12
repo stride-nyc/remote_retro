@@ -7,7 +7,10 @@ module.exports = {
   plugins: [
     postCssImport,
     postCssNested,
-    postCssCssVariables(),
+    // preserve: true keeps the :root[data-theme="dark"] block and the var()
+    // references (dark mode needs them resolved at runtime) while still emitting
+    // the static fallback declaration first for IE 11
+    postCssCssVariables({ preserve: true }),
     autoPrefixer,
   ],
 }
