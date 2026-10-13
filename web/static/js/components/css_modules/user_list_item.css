@@ -26,7 +26,7 @@
     transform: translate(0.2rem, -0.4rem);
 
     i {
-      background-color: white;
+      background-color: var(--surface-raised);
       margin-right: 0;
 
       &:before {

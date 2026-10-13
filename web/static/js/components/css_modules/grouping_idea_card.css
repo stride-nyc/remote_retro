@@ -63,8 +63,8 @@
   border: 1px solid var(--semantic-dark-grey);
   border-radius: 3px;
 
-  color: rgba(0, 0, 0, 0.8);
-  background-color: white;
+  color: var(--text-primary);
+  background-color: var(--surface-raised);
 
   /* disable text selection on mobile drags */
   -webkit-touch-callout: none; /* iOS Safari */

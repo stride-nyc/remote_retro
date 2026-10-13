@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
+    <meta charset="utf-8">
     <link rel="preconnect" href={Routes.static_url(@conn, "/")} />
     <link rel="dns-prefetch" href="https://ghbtns.com" />
     <link rel="dns-prefetch" href="https://api.github.com" />
@@ -61,7 +62,43 @@
         }
       </script>
     <% end %>
-    <meta charset="utf-8">
+    <%# set the theme before first paint so no page flashes the wrong palette %>
+    <script>
+      (function() {
+        function readTheme() {
+          try { return localStorage.getItem('theme'); } catch (e) { return null; }
+        }
+        function writeTheme(value) {
+          try { localStorage.setItem('theme', value); } catch (e) { /* storage blocked: theme is session-only */ }
+        }
+
+        var html = document.documentElement;
+        var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
+
+        function render(theme) {
+          html.setAttribute('data-theme', theme);
+          var toggles = document.querySelectorAll('.dark-mode-toggle');
+          for (var i = 0; i < toggles.length; i++) {
+            toggles[i].textContent = theme === 'dark' ? '☀️' : '🌙';
+            toggles[i].setAttribute('aria-pressed', theme === 'dark');
+          }
+        }
+
+        render(readTheme() || (prefersDark ? 'dark' : 'light'));
+
+        document.addEventListener('DOMContentLoaded', function() {
+          render(html.getAttribute('data-theme'));
+
+          document.addEventListener('click', function(event) {
+            if (!event.target.closest || !event.target.closest('.dark-mode-toggle')) return;
+
+            var next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+            render(next);
+            writeTheme(next);
+          });
+        });
+      })();
+    </script>
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content={assigns[:description] || "The world's best tool for conducting remote retrospectives"}>
@@ -99,32 +136,6 @@
     <%# End Google Tag Manager (noscript) %>
     <main role="main">
     <%= unless assigns[:omit_header] do %>
-      <%# theming only runs on pages that render the toggle; the landing page's
-          backgrounds are not theme-aware and would be unreadable in dark mode %>
-      <script>
-        (function() {
-          function readTheme() {
-            try { return localStorage.getItem('theme'); } catch (e) { return null; }
-          }
-          function writeTheme(value) {
-            try { localStorage.setItem('theme', value); } catch (e) { /* storage blocked: theme is session-only */ }
-          }
-
-          var html = document.documentElement;
-          var prefersDark = window.matchMedia && window.matchMedia('(prefers-color-scheme: dark)').matches;
-          html.dataset.theme = readTheme() || (prefersDark ? 'dark' : 'light');
-
-          document.addEventListener('DOMContentLoaded', function() {
-            var toggle = document.querySelector('.dark-mode-toggle');
-            if (!toggle) return;
-
-            toggle.addEventListener('click', function() {
-              html.dataset.theme = html.dataset.theme === 'dark' ? 'light' : 'dark';
-              writeTheme(html.dataset.theme);
-            });
-          });
-        })();
-      </script>
       <div class="ui segment branded-header-container">
         <a href="/">
           <div class="ui teal header left-branded-header">
@@ -147,6 +158,8 @@
           <% end %>
         </div>
       </div>
+    <% else %>
+      <button class="dark-mode-toggle headerless ui mini compact button" type="button" aria-label="Toggle dark mode">🌙</button>
     <% end %>
       <%= @inner_content %>
     </main>

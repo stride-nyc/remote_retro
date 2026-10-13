@@ -1,3 +1,5 @@
+@import '../../../css/colors.css';
+
 .idea-wrapper {
   padding: 0.2rem 0 0.2rem 0.25rem;
   overflow: auto;
@@ -8,6 +10,6 @@
 }
 
 .edited-indicator {
-  color: #A0A0A8;
+  color: var(--text-muted);
   font-size: 0.85rem;
 }

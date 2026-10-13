@@ -3,7 +3,7 @@
 .index {
   transition: background-color 300ms, border-bottom 300ms;
   border-bottom: 1px solid var(--semantic-light-grey);
-  background-color: rgba(255, 255, 255, 0.75);
+  background-color: var(--idea-row-bg);
 
   &:first-child {
     margin-top: -1px;

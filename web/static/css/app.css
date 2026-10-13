@@ -1,4 +1,5 @@
 @import './colors.css';
+@import './dark.css';
 @import '../js/components/css_modules/grouping_idea_card.css';
 
 :global(.ReactModal__Overlay.ReactModal__Overlay--after-open) {
@@ -32,7 +33,7 @@ If you truly need to make text bold, use the <strong></strong> tag
   }
 
   .gradient-background {
-    background-image: linear-gradient(to bottom left, white, #D7C7E1);
+    background-image: var(--gradient-background);
   }
 
   .stride-link {
@@ -223,6 +224,7 @@ If you truly need to make text bold, use the <strong></strong> tag
 
 :global .ui.branded-header-container {
   background: var(--lightest-grey);
+  color: var(--text-primary);
 
   display: flex;
   justify-content: space-between;
@@ -279,6 +281,20 @@ If you truly need to make text bold, use the <strong></strong> tag
       vertical-align: bottom;
     }
   }
+}
+
+/* the header renders this inline; header-less pages (landing) float it */
+:global .dark-mode-toggle {
+  line-height: 1;
+  padding: 0.5em 0.65em;
+}
+
+:global .dark-mode-toggle.headerless {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  z-index: 3;
+  box-shadow: 0 1px 4px var(--shadow-color);
 }
 
 :global .visually-hidden {
