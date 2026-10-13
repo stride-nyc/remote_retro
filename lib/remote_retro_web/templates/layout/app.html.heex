@@ -48,7 +48,7 @@
           Honeybadger.configure({
             apiKey: '<%= Application.get_env(:honeybadger, :api_key) %>',
             revision: '<%= Application.get_env(:remote_retro, :source_version) %>',
-            environment: 'production',
+            environment: '<%= Application.get_env(:remote_retro, :environment_name) %>',
           })
         })
       </script>

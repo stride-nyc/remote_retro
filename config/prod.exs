@@ -37,6 +37,7 @@ config :logger, level: :info
 
 config :remote_retro, :oauth_client, OAuth2.Client
 config :remote_retro, :source_version, "${SOURCE_VERSION}"
+config :remote_retro, :environment_name, "${ENVIRONMENT_NAME}"
 
 # DANGER: if someone tries to change this line, they're up to no good.
 config :remote_retro, :auth_controller, RemoteRetroWeb.AuthController
@@ -56,7 +57,7 @@ config :phoenix, static_compressors: [
 config :honeybadger,
   api_key: "${HONEYBADGER_API_KEY}",
   hostname: "${HOST}",
-  environment_name: :production,
+  environment_name: "${ENVIRONMENT_NAME}",
   project_root: "${HOST}",
   revision: "${SOURCE_VERSION}"
 
