@@ -83,4 +83,4 @@ User action -> React component -> RetroChannel.push()
 - `config/config.exs` -- base config (database, endpoints, email via Bamboo/SendGrid)
 - `config/dev.exs` / `config/test.exs` / `config/prod.exs` -- environment overrides
 - `webpack.config.js` / `webpack.config.test.js` / `webpack.config.production.js` -- separate Webpack configs per environment
-- Deployment: Gigalixir with hot upgrades; CI via CircleCI (runs unit + e2e tests, then deploys on green)
+- Deployment: Gigalixir; CI via CircleCI runs unit + e2e tests and deploys every merge to master to staging (`remote-retro-staging`). Production deploys are triggered by pushing a date-based tag (`vYYYY-MM-DD`) via `bin/deploy-production`, which CircleCI's `release` workflow picks up

@@ -87,32 +87,43 @@ jobs: # basic units of work in a run
           name: Deploy to Gigalixir
           command: |
             git remote add gigalixir https://$GIGALIXIR_EMAIL:$GIGALIXIR_API_KEY@git.gigalixir.com/$GIGALIXIR_APP_NAME.git
-            commit_range_from_previous_build="<< pipeline.git.base_revision >>...<< pipeline.git.revision >>"
-
-            # trigger full rebuilds when elixir deps or prod environment configs have changed
-            #   - also trigger full rebuilds when db migrations have been *added* since last push,
-            #     as these wouldn't be run when doing a hot upgrade, but are run on fresh builds
-
-            if git log $commit_range_from_previous_build --name-status --pretty="format:" | grep "phoenix_static_buildpack.config\config.exs\|prod.exs\|mix.exs\|mix.lock\|elixir_buildpack.config\|A[[:space:]]priv/repo/migrations"; then
-              echo "Executing deploy cleaned of old dependencies"
-              git -c http.extraheader="GIGALIXIR-CLEAN: true" push gigalixir HEAD:refs/heads/master --force;
-            else
-              echo "Executing deploy with hot code upgrade"
-              git -c http.extraheader="GIGALIXIR-HOT: true" push gigalixir HEAD:refs/heads/master --force;
-            fi
+            git -c http.extraheader="GIGALIXIR-CLEAN: true" push gigalixir HEAD:refs/heads/master --force
 
       - run:
           name: Notify HoneyBadger of Deploy
           command: |
             curl --data "deploy[environment]=production&deploy[revision]=$CIRCLE_SHA1&deploy[repository]=https://github.com/stride-nyc/remote_retro&api_key=$HONEYBADGER_API_KEY" "https://api.honeybadger.io/v1/deploys"
 
+  deploy-staging:
+    machine:
+      image: ubuntu-2204:current
+    working_directory: ~/app # directory where steps will run
+    steps:
+      - checkout
+      - run:
+          name: Deploy to Gigalixir staging
+          command: |
+            git remote add gigalixir-staging https://$GIGALIXIR_EMAIL:$GIGALIXIR_API_KEY@git.gigalixir.com/remote-retro-staging.git
+            git push gigalixir-staging HEAD:refs/heads/master --force
+
 workflows:
-  build-and-deploy:
+  # every merge to master is tested and deployed to staging
+  build-and-deploy-staging:
     jobs:
       - build
-      - deploy:
+      - deploy-staging:
           requires:
             - build
           filters:
             branches:
               only: master
+
+  # production deploys are triggered by pushing a date-based tag (see bin/deploy-production)
+  release:
+    jobs:
+      - deploy:
+          filters:
+            tags:
+              only: /^v[0-9]{4}-[0-9]{2}-[0-9]{2}(-[0-9]+)?$/
+            branches:
+              ignore: /.*/
