@@ -21,4 +21,24 @@ defmodule DarkModeTest do
 
     refute_has(session, Query.css("html[data-theme='dark']"))
   end
+
+  test "the toggle is reachable on pages that omit the branded header", ~M{session} do
+    # the landing page is the header-less page, and it only renders for signed-out users
+    session = visit(session, "/logout")
+    session = visit(session, "/")
+
+    click(session, Query.css(".dark-mode-toggle.headerless"))
+
+    assert_has(session, Query.css("html[data-theme='dark']"))
+  end
+
+  @tag [retro_stage: "idea-generation"]
+  test "the chosen theme survives navigation to another page", ~M{retro, session} do
+    session = visit_retro(session, retro)
+    click(session, Query.css(".dark-mode-toggle"))
+
+    session = visit(session, "/faq")
+
+    assert_has(session, Query.css("html[data-theme='dark']"))
+  end
 end

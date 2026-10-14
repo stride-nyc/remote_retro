@@ -1,3 +1,8 @@
+/*
+  Theme tokens. Every surface/text/border color in the app should resolve to one
+  of these so that the `:root[data-theme="dark"]` block below is the only place
+  dark mode needs to be described.
+*/
 :root {
   --semantic-light-grey: #DCDDDE;
   /* de-emphasized text on backgrounds that are not theme-aware; stays light in
@@ -16,24 +21,45 @@
 
   --bg-primary: #ffffff;
   --bg-secondary: #F3F4F5;
+  /* cards, modals and anything that reads as sitting above the page */
+  --surface-raised: #ffffff;
+  --surface-hover: #F8F9FA;
   --text-primary: rgba(0, 0, 0, 0.87);
   --text-secondary: rgba(0, 0, 0, 0.6);
+  --text-muted: rgba(0, 0, 0, 0.45);
   --border-color: rgba(34, 36, 38, 0.15);
+  --link-color: #4183C4;
+  --gradient-background: linear-gradient(to bottom left, white, #D7C7E1);
+  --idea-row-bg: rgba(255, 255, 255, 0.75);
+  --semantic-inverted-background: #1a1c1d;
+  --shadow-color: rgba(0, 0, 0, 0.2);
 }
 
 :root[data-theme="dark"] {
-  --semantic-light-grey: #3d3d3d;
-  --semantic-divider-border-top-color: rgba(255, 255, 255, 0.15);
-  --semantic-secondary: #2d2d2d;
-  --semantic-dark-grey: #a0a0a0;
-  --semantic-sub-header-grey: rgba(255,255,255,.6);
+  --semantic-light-grey: #3a3f48;
+  --semantic-divider-border-top-color: rgba(255, 255, 255, 0.14);
+  /* both accents are lifted a notch so they clear 4.5:1 against dark surfaces */
+  --semantic-teal: #2BD9D1;
+  --semantic-green: #4BD96B;
+  --semantic-secondary: #1e2127;
+  --semantic-dark-grey: #a6adb8;
+  --semantic-sub-header-grey: rgba(255,255,255,.68);
 
-  --lightest-grey: #1e1e1e;
-  --highlight-blue: #1a3a5c;
+  --magenta: #FF5BA3;
+  --lightest-grey: #1e2127;
+  --highlight-blue: #1d3a5c;
 
-  --bg-primary: #1e1e1e;
-  --bg-secondary: #2d2d2d;
-  --text-primary: rgba(255, 255, 255, 0.87);
-  --text-secondary: rgba(255, 255, 255, 0.6);
-  --border-color: rgba(255, 255, 255, 0.15);
+  --bg-primary: #16181d;
+  --bg-secondary: #1e2127;
+  --surface-raised: #252931;
+  --surface-hover: #2e333c;
+  --text-primary: rgba(255, 255, 255, 0.92);
+  --text-secondary: rgba(255, 255, 255, 0.68);
+  --text-muted: rgba(255, 255, 255, 0.5);
+  --border-color: rgba(255, 255, 255, 0.14);
+  --link-color: #7CB4EE;
+  --gradient-background: linear-gradient(to bottom left, #16181d, #2d2440);
+  --idea-row-bg: rgba(255, 255, 255, 0.03);
+  --semantic-inverted-background: #0f1115;
+  --shadow-color: rgba(0, 0, 0, 0.6);
 }

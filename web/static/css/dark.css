@@ -1,0 +1,299 @@
+@import './colors.css';
+
+/*
+  Dark mode override layer for Semantic UI.
+
+  Semantic ships as a pre-built stylesheet we don't compile, so its hardcoded
+  light surfaces can't be tokenized at the source. Instead every surface the app
+  actually renders is re-pointed at the theme tokens here, scoped to
+  [data-theme="dark"]. Everything owned by this repo should use the tokens
+  directly rather than growing this file.
+*/
+:global [data-theme="dark"] {
+  /*
+    Deliberately NOT setting a background on <html>: when both html and body
+    carry one, body's background stops propagating to the canvas and paints as
+    its own box instead, which hides z-index:-1 descendants like the grouped
+    idea list in idea_group.css.
+  */
+  body {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  a {
+    color: var(--link-color);
+  }
+
+  /* ---------- surfaces ---------- */
+  .ui.segment,
+  .ui.segments,
+  .ui.segments > .segment {
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+    box-shadow: 0 1px 2px 0 var(--shadow-color);
+  }
+
+  .ui.segments,
+  .ui.segments > .segment {
+    box-shadow: none;
+  }
+
+  .ui.basic.segment,
+  .ui.attached.segment {
+    background: transparent;
+    box-shadow: none;
+  }
+
+  .ui.secondary.segment {
+    background: var(--bg-secondary);
+  }
+
+  /* gutters flanking the grouping board are already dark; keep them darker than
+     the board itself so the board edges stay visible */
+  .ui.inverted.segment {
+    background: var(--semantic-inverted-background);
+  }
+
+  .ui.menu,
+  .ui.tabular.menu .item {
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+  }
+
+  .ui.tabular.menu .active.item {
+    background: var(--bg-primary);
+    color: var(--text-primary);
+  }
+
+  .ui.message {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    box-shadow: 0 0 0 1px var(--border-color) inset;
+  }
+
+  /* ---------- text ---------- */
+  h1, h2, h3, h4, h5, h6,
+  .ui.header,
+  .ui.header > .content,
+  .ui.icon.header,
+  .ui.items > .item > .content > .header,
+  .ui.list .item .header,
+  .ui.list > .item,
+  .ui.items > .item,
+  .ui.form .field > label,
+  .ui.checkbox label,
+  .ui.checkbox + label,
+  p, li, label {
+    color: var(--text-primary);
+  }
+
+  .ui.header .sub.header,
+  .ui.items > .item .meta,
+  .ui.items > .item .description,
+  .ui.items > .item .extra,
+  .ui.list .item .description,
+  .ui.form .field .ui.label,
+  .sub.header {
+    color: var(--text-secondary);
+  }
+
+  /* semantic sets grey/black icon colors with !important */
+  i.grey.icon,
+  i.gray.icon {
+    color: var(--semantic-dark-grey) !important;
+  }
+
+  i.black.icon,
+  i.icon {
+    color: inherit;
+  }
+
+  /* ---------- borders & dividers ---------- */
+  .ui.divider,
+  .ui.dividing.header,
+  .ui.divided.grid > .row > .column,
+  .ui.divided.grid > .column:not(.row),
+  .ui.items > .item + .item,
+  .ui.list > .item + .item,
+  hr {
+    border-color: var(--border-color);
+  }
+
+  .ui.divider:not(.vertical):not(.horizontal) {
+    border-top-color: var(--border-color);
+    border-bottom-color: transparent;
+  }
+
+  /* ---------- controls ---------- */
+  /*
+    only the default grey button is re-skinned. :not() keeps Semantic's colored
+    variants on their accent backgrounds, and keeps .labeled buttons transparent
+    (Semantic blanks their background; painting it hides the z-index:-1 vote
+    counter that sits inside them)
+  */
+  .ui.button:not(.teal):not(.blue):not(.green):not(.red):not(.inverted):not(.basic):not(.labeled),
+  .ui.labeled.icon.button:not(.teal):not(.blue):not(.green):not(.red) {
+    background-color: var(--surface-hover);
+    color: var(--text-primary);
+  }
+
+  .ui.button:not(.teal):not(.blue):not(.green):not(.red):not(.inverted):not(.basic):not(.labeled):hover,
+  .ui.button:not(.teal):not(.blue):not(.green):not(.red):not(.inverted):not(.basic):not(.labeled):focus,
+  .ui.labeled.icon.button:not(.teal):not(.blue):not(.green):not(.red):hover,
+  .ui.labeled.icon.button:not(.teal):not(.blue):not(.green):not(.red):focus {
+    background-color: #3a4049;
+    color: var(--text-primary);
+  }
+
+  .ui.basic.button,
+  .ui.basic.buttons .button {
+    background: transparent !important;
+    color: var(--text-primary) !important;
+    box-shadow: 0 0 0 1px var(--border-color) inset !important;
+  }
+
+  .ui.basic.button:hover {
+    background: var(--surface-hover) !important;
+    color: var(--text-primary) !important;
+  }
+
+  /* colored buttons keep Semantic's accent background untouched */
+
+  .ui.label:not(.teal):not(.blue):not(.green):not(.red) {
+    background-color: var(--surface-hover);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+  }
+
+  input,
+  textarea,
+  select,
+  .ui.input > input,
+  .ui.form input:not([type]),
+  .ui.form input[type="text"],
+  .ui.form input[type="email"],
+  .ui.form input[type="number"],
+  .ui.form input[type="password"],
+  .ui.form textarea,
+  .ui.form select,
+  .ui.selection.dropdown {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+  }
+
+  input:focus,
+  textarea:focus,
+  .ui.input > input:focus,
+  .ui.form input:focus,
+  .ui.form textarea:focus {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    border-color: var(--semantic-teal);
+  }
+
+  ::placeholder {
+    color: var(--text-muted);
+  }
+
+  .ui.selection.dropdown .menu,
+  .ui.dropdown .menu {
+    background: var(--surface-raised);
+    border-color: var(--border-color);
+  }
+
+  .ui.dropdown .menu > .item {
+    color: var(--text-primary);
+    border-top-color: var(--border-color);
+  }
+
+  .ui.dropdown .menu > .item:hover {
+    background: var(--surface-hover);
+    color: var(--text-primary);
+  }
+
+  /* ---------- modals & overlays ---------- */
+  .ui.modal,
+  .ui.modal > .header,
+  .ui.modal > .content {
+    background: var(--surface-raised);
+    color: var(--text-primary);
+  }
+
+  .ui.modal > .header,
+  .ui.modal > .actions {
+    border-color: var(--border-color);
+    color: var(--text-primary);
+  }
+
+  .ui.modal > .actions {
+    background: var(--bg-secondary);
+  }
+
+  .ui.dimmer {
+    background-color: rgba(0, 0, 0, 0.75);
+  }
+
+  /* react-modal sets a white 75% overlay inline, so this needs !important */
+  .ReactModal__Overlay {
+    background-color: rgba(0, 0, 0, 0.75) !important;
+  }
+
+  .ui.loader:before {
+    border-color: var(--border-color);
+  }
+
+  .ui.loader,
+  .ui.text.loader {
+    color: var(--text-primary);
+  }
+
+  /* ---------- stage progression steps ---------- */
+  .ui.steps .step,
+  .ui.steps .step:after {
+    background: var(--surface-raised);
+    color: var(--text-primary);
+    border-color: var(--border-color);
+  }
+
+  .ui.steps .step .title,
+  .ui.steps .step .description {
+    color: var(--text-primary);
+  }
+
+  .ui.steps .step.active,
+  .ui.steps .step.active:after {
+    background: var(--surface-hover);
+  }
+
+  .ui.steps .step.disabled {
+    background: var(--bg-secondary);
+  }
+
+  /* ---------- scrollbars ---------- */
+  ::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.06);
+  }
+
+  ::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.22);
+  }
+
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.35);
+  }
+
+  /* ---------- brand marks ---------- */
+  /*
+    These logos are dark-on-transparent and vanish against dark surfaces.
+    invert() flips their lightness and hue-rotate() puts the hue back, so
+    brand colors stay recognizable instead of turning into their complements.
+  */
+  img[src*="stride_logo"],
+  .trusted-by img {
+    filter: invert(1) hue-rotate(180deg);
+  }
+}

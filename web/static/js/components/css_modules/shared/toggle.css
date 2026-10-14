@@ -1,6 +1,8 @@
+@import '../../../../css/colors.css';
+
 .toggle {
   :global(.ui.basic.button) {
-    background-color: white;
+    background-color: var(--surface-raised);
     white-space: nowrap;
   }
 
