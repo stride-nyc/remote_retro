@@ -11,5 +11,6 @@ Classic Redux (v3) — one file per domain slice (`votes.js`, `ideas.js`, `group
 - `reducer` (also the module's `default` export) — a `switch (action.type) { case ...: return ...; default: return state }`, handling `SET_INITIAL_STATE` to hydrate from the server-provided initial payload.
 - `selectors` — plain functions of `(state, ...)` for any derived/computed data consumers need, so components don't recompute the same derivation inline.
 - Action type strings are centralized in `action_types.js` and referenced as `actionTypes.SOME_TYPE`, never as inline string literals in a reducer/action creator.
+- Reducers handle both optimistic local updates and authoritative server broadcasts.
 - Optimistic UI updates (submit immediately, reconcile on channel ack/error) follow the existing pattern: dispatch an optimistic action with a generated `optimisticUUID` (via `uuidv4`), then reconcile via `push.receive("ok", ...)` / `push.receive("error", ...)`.
 - Remember the backend sends snake_case keys (`user_id`, `idea_id`) over the channel — don't casing-normalize them unless the rest of that slice already does.

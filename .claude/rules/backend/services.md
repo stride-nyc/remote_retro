@@ -1,7 +1,6 @@
 ---
 paths:
   - "lib/remote_retro_web/services/**/*.ex"
-  - "lib/remote_retro/**/*.ex"
 ---
 
 # Backend services / domain modules

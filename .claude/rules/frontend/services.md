@@ -5,7 +5,7 @@ paths:
 
 # Frontend services
 
-Plain JS helper/business-logic modules with no React or Redux dependency — pure functions and framework-agnostic wrappers (e.g. `retro_channel.js` wraps the Phoenix channel client, `idea_permissions.js` centralizes permission checks).
+Plain JS helper/business-logic modules with no React or Redux dependency — pure functions and framework-agnostic wrappers (e.g. `retro_channel.js` is a thin wrapper over the Phoenix channel client that pushes events and subscribes to broadcasts, `idea_permissions.js` centralizes permission checks).
 
 - Export a plain object (often the `default` export) of related functions rather than individual named exports, matching the existing modules.
 - Keep these modules importable and testable without mounting any React component or Redux store — that separation is the reason logic lives here instead of in a component or redux module.
