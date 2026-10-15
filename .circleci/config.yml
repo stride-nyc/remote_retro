@@ -1,9 +1,12 @@
 version: 2.1
+orbs:
+  browser-tools: circleci/browser-tools@1.4.6 # cimg browsers images don't ship Chrome/chromedriver
+  node: circleci/node@5.0.2 # cimg images can't pin a node version
 jobs: # basic units of work in a run
   build: # runs not using Workflows must have a `build` job as entry point
     parallelism: 1 # run only one instance of this job in parallel
     docker: # run the steps with Docker
-      - image: circleci/elixir:1.11.4-node-browsers
+      - image: cimg/elixir:1.11.4-browsers
         environment: # environment variables for primary container
           MIX_ENV: test
       - image: cimg/postgres:13.6-postgis # database image
@@ -12,6 +15,10 @@ jobs: # basic units of work in a run
 
     steps: # commands that comprise the `build` job
       - checkout # check out source code to working directory
+      - node/install:
+          node-version: "14.16.0" # keep in sync with .tool-versions
+      - browser-tools/install-chrome
+      - browser-tools/install-chromedriver
 
       - run: mix local.hex --force # install Hex locally (without prompt)
       - run: mix local.rebar --force # fetch a copy of rebar (without prompt)
