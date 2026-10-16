@@ -42,7 +42,7 @@ fi
 printGreenLine "asdf: installing global Node dependencies...";
 npm config set scripts-prepend-node-path true
 
-if npm install -g yarn phantomjs-prebuilt chromedriver >/dev/null; then
+if npm install -g yarn chromedriver >/dev/null; then
   printGreenLine "asdf: Node $node_version installation complete!"
   printGreenLine "asdf: installing local Node dependencies...";
   yarn
