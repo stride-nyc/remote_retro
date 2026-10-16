@@ -5,20 +5,26 @@ const config = require("./webpack.dev.config.js")
 
 const { port } = config.devServer
 
-new WebpackDevServer(webpack(config), {
-  publicPath: config.output.publicPath,
+const server = new WebpackDevServer({
+  host: "0.0.0.0",
+  port,
   hot: true,
   compress: true,
-  clientLogLevel: "none",
-  overlay: true,
+  client: {
+    logging: "none",
+    overlay: true,
+  },
   headers: { "Access-Control-Allow-Origin": "*" },
-  stats: config.stats,
-}).listen(port, "0.0.0.0", err => {
-  if (err) {
-    console.error(err)
-  } else {
-    console.log("[info] Webpack compiling assets...\n")
-  }
+  devMiddleware: {
+    publicPath: config.output.publicPath,
+    stats: config.stats,
+  },
+}, webpack(config))
+
+server.start().then(() => {
+  console.log("[info] Webpack compiling assets...\n")
+}).catch(err => {
+  console.error(err)
 })
 
 // Exit on end of STDIN
