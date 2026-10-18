@@ -6,6 +6,22 @@ defmodule RemoteRetro.OAuth.Client.InMemory do
   defdelegate put_param(client, param_name, param_value), to: OAuth2.Client
   defdelegate put_serializer(client, format, serializer), to: OAuth2.Client
 
+  def get_token!(_client, code: "invalid_grant_code") do
+    raise %OAuth2.Error{reason: ~s(Server responded with status: 400\n\nBody:\n\n%{"error" => "invalid_grant"})}
+  end
+
+  def get_token!(_client, code: "closed_code") do
+    raise %OAuth2.Error{reason: :closed}
+  end
+
+  def get_token!(_client, code: "timeout_code") do
+    raise %OAuth2.Error{reason: :timeout}
+  end
+
+  def get_token!(_client, code: "invalid_client_code") do
+    raise %OAuth2.Error{reason: ~s(Server responded with status: 401\n\nBody:\n\n%{"error" => "invalid_client"})}
+  end
+
   def get_token!(_client, _code) do
     %OAuth2.Client{
       authorize_url: "https://accounts.google.com/o/oauth2/auth",

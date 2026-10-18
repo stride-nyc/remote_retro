@@ -161,6 +161,9 @@
     <% else %>
       <button class="dark-mode-toggle headerless ui mini compact button" type="button" aria-label="Toggle dark mode">🌙</button>
     <% end %>
+      <%= if error = get_flash(@conn, :error) do %>
+        <div class="ui negative message" role="alert"><%= error %></div>
+      <% end %>
       <%= @inner_content %>
     </main>
     <%= if assigns[:include_js] do %>
