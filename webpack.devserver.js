@@ -8,7 +8,7 @@ const { port } = config.devServer
 const server = new WebpackDevServer({
   host: "0.0.0.0",
   port,
-  hot: true,
+  hot: "only",
   compress: true,
   client: {
     logging: "none",
@@ -17,6 +17,9 @@ const server = new WebpackDevServer({
   headers: { "Access-Control-Allow-Origin": "*" },
   devMiddleware: {
     publicPath: config.output.publicPath,
+    // webpack-dev-middleware 5 uses memfs, which disables WriteFileWebpackPlugin;
+    // Phoenix serves images, favicon and robots.txt from priv/static, so write to disk
+    writeToDisk: filePath => !/hot-update/.test(filePath),
     stats: config.stats,
   },
 }, webpack(config))
