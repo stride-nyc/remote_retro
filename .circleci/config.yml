@@ -18,6 +18,18 @@ jobs: # basic units of work in a run
       - node/install:
           node-version: "24.21.0" # keep in sync with .tool-versions
       - run: corepack enable # yarn version comes from `packageManager` in package.json
+      - run:
+          name: Install Erlang and Elixir from .tool-versions # the cimg/elixir 1.11.4 image ships Erlang 23.1
+          command: |
+            OTP=$(awk '/^erlang/ {print $2}' .tool-versions)
+            ELIXIR=$(awk '/^elixir/ {print $2}' .tool-versions)
+            mkdir -p /tmp/otp
+            curl -fsSL "https://builds.hex.pm/builds/otp/ubuntu-20.04/OTP-${OTP}.tar.gz" | tar xz -C /tmp/otp --strip-components=1
+            /tmp/otp/Install -minimal "$HOME/erlang"
+            curl -fsSL -o /tmp/elixir.zip "https://builds.hex.pm/builds/elixir/v${ELIXIR}.zip"
+            unzip -q /tmp/elixir.zip -d "$HOME/elixir"
+            echo 'export PATH="$HOME/erlang/bin:$HOME/elixir/bin:$PATH"' >> "$BASH_ENV"
+      - run: elixir --version
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
 
@@ -26,13 +38,13 @@ jobs: # basic units of work in a run
 
       - restore_cache: # restores saved mix cache
           keys: # list of cache keys, in decreasing specificity
-            - v4-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
-            - v4-mix-cache-{{ .Branch }}
-            - v4-mix-cache
+            - v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+            - v5-mix-cache-{{ .Branch }}
+            - v5-mix-cache
       - restore_cache: # restores saved build cache
           keys:
-            - v4-build-cache-{{ .Branch }}
-            - v4-build-cache
+            - v5-build-cache-{{ .Branch }}
+            - v5-build-cache
       - run: mix do deps.get, compile # get updated dependencies & compile them
       - restore_cache:
           name: Restore Yarn Package Cache
@@ -50,19 +62,19 @@ jobs: # basic units of work in a run
           paths:
             - node_modules/
       - save_cache: # generate and store cache so `restore_cache` works
-          key: v4-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
+          key: v5-mix-cache-{{ .Branch }}-{{ checksum "mix.lock" }}
           paths: "deps"
       - save_cache: # make another less specific cache
-          key: v4-mix-cache-{{ .Branch }}
+          key: v5-mix-cache-{{ .Branch }}
           paths: "deps"
       - save_cache: # you should really save one more cache just in case
-          key: v4-mix-cache
+          key: v5-mix-cache
           paths: "deps"
       - save_cache: # don't forget to save a *build* cache, too
-          key: v4-build-cache-{{ .Branch }}
+          key: v5-build-cache-{{ .Branch }}
           paths: "_build"
       - save_cache: # and one more build cache for good measure
-          key: v4-build-cache
+          key: v5-build-cache
           paths: "_build"
 
       - run: # special utility that stalls main process until DB is ready
