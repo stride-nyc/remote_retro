@@ -51,6 +51,13 @@ defmodule RemoteRetro.AuthControllerTest do
     end
   end
 
+  test "a callback without a code redirects home with a flash", ~M{conn} do
+    conn = get(conn, "/auth/google/callback?error=access_denied")
+
+    assert redirected_to(conn) == "/"
+    assert get_flash(conn, :error) =~ "couldn't sign you in"
+  end
+
   describe ".logout" do
     test "clears the session", ~M{conn} do
       conn = Plug.Test.init_test_session(conn, %{

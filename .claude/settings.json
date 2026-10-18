@@ -1,0 +1,7 @@
+{
+  "mcpServers": {
+    "honeybadger": {
+      "url": "https://mcp.honeybadger.io/mcp"
+    }
+  }
+}
