@@ -40,9 +40,8 @@ else
 fi
 
 printGreenLine "asdf: installing global Node dependencies...";
-npm config set scripts-prepend-node-path true
-
-if npm install -g yarn phantomjs-prebuilt chromedriver >/dev/null; then
+# corepack ships with Node and provides the yarn version pinned by `packageManager` in package.json
+if corepack enable && npm install -g chromedriver >/dev/null; then
   printGreenLine "asdf: Node $node_version installation complete!"
   printGreenLine "asdf: installing local Node dependencies...";
   yarn

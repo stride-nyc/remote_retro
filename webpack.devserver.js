@@ -5,20 +5,29 @@ const config = require("./webpack.dev.config.js")
 
 const { port } = config.devServer
 
-new WebpackDevServer(webpack(config), {
-  publicPath: config.output.publicPath,
-  hot: true,
+const server = new WebpackDevServer({
+  host: "0.0.0.0",
+  port,
+  hot: "only",
   compress: true,
-  clientLogLevel: "none",
-  overlay: true,
+  client: {
+    logging: "none",
+    overlay: true,
+  },
   headers: { "Access-Control-Allow-Origin": "*" },
-  stats: config.stats,
-}).listen(port, "0.0.0.0", err => {
-  if (err) {
-    console.error(err)
-  } else {
-    console.log("[info] Webpack compiling assets...\n")
-  }
+  devMiddleware: {
+    publicPath: config.output.publicPath,
+    // webpack-dev-middleware 5 uses memfs, which disables WriteFileWebpackPlugin;
+    // Phoenix serves images, favicon and robots.txt from priv/static, so write to disk
+    writeToDisk: filePath => !/hot-update/.test(filePath),
+    stats: config.stats,
+  },
+}, webpack(config))
+
+server.start().then(() => {
+  console.log("[info] Webpack compiling assets...\n")
+}).catch(err => {
+  console.error(err)
 })
 
 // Exit on end of STDIN

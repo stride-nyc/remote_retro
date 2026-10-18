@@ -9,6 +9,36 @@ config :remote_retro, RemoteRetroWeb.Endpoint,
 config :remote_retro, :sql_sandbox, true
 
 config :wallaby, screenshot_on_failure: true
+
+# Restates wallaby's default chromedriver capabilities (setting `capabilities` replaces them)
+# plus `preferredColorScheme=1`, which forces a light `prefers-color-scheme`: headless Chrome
+# otherwise follows the OS theme, and the dark mode tests expect to start in light mode.
+config :wallaby,
+  chromedriver: [
+    capabilities: %{
+      javascriptEnabled: false,
+      loadImages: false,
+      version: "",
+      rotatable: false,
+      takesScreenshot: true,
+      cssSelectorsEnabled: true,
+      nativeEvents: false,
+      platform: "ANY",
+      unhandledPromptBehavior: "accept",
+      loggingPrefs: %{browser: "DEBUG"},
+      chromeOptions: %{
+        args: [
+          "--no-sandbox",
+          "window-size=1280,800",
+          "--disable-gpu",
+          "--headless",
+          "--fullscreen",
+          "--blink-settings=preferredColorScheme=1",
+          "--user-agent=Mozilla/5.0 (Windows NT 6.1) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.36"
+        ]
+      }
+    }
+  ]
 config :bamboo, :refute_timeout, 10
 
 {:ok, file} = File.open("browser_logs.log", [:write])

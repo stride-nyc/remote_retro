@@ -17,6 +17,13 @@ const { IDEA_GENERATION } = STAGES
 
 Enzyme.configure({ adapter: new Adapter() })
 
+// node >=21 ships a getter-only global `navigator`; make it assignable so tests can stub it
+Object.defineProperty(global, "navigator", {
+  value: global.navigator,
+  configurable: true,
+  writable: true,
+})
+
 global.expect = expect
 global.Image = function Image() {}
 global.Honeybadger = { notify: () => {}, setContext: () => {} }
