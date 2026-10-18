@@ -1,6 +1,7 @@
 {
   "repository": {},
   "license": "MIT",
+  "packageManager": "yarn@1.22.22+sha512.a6b2f7906b721bba3d67d4aff083df04dad64c399707841b7acf00f6b133b7ac24255f2652fa22ae3534329dc6180534e98d17432037ff6fd140556e2bb3137e",
   "scripts": {
     "compile-production": "npm run prune-semantic-ui-to-used-selectors && NODE_OPTIONS=--openssl-legacy-provider webpack --mode production --config='webpack.dll.js' && NODE_OPTIONS=--openssl-legacy-provider webpack --config='webpack.prod.config.js'",
     "compile-test": "npm run prune-semantic-ui-to-used-selectors && NODE_OPTIONS=--openssl-legacy-provider webpack --config='webpack.dll.js' && NODE_OPTIONS=--openssl-legacy-provider NODE_ENV=test webpack --config='webpack.shared.config.js'",

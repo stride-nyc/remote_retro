@@ -17,6 +17,7 @@ jobs: # basic units of work in a run
       - checkout # check out source code to working directory
       - node/install:
           node-version: "24.21.0" # keep in sync with .tool-versions
+      - run: corepack enable # yarn version comes from `packageManager` in package.json
       - browser-tools/install-chrome
       - browser-tools/install-chromedriver
 
