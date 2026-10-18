@@ -14,7 +14,7 @@ config :remote_retro,
 config :remote_retro, RemoteRetroWeb.Endpoint,
   url: [host: "localhost"],
   secret_key_base: "mMAbzpoDyu8/YhHYO02sTGhC4RVb2KoqEx1hy0BLtWu8KckeeRz/nFA9TpY+bIaN",
-  render_errors: [view: RemoteRetroWeb.ErrorView, accepts: ~w(html json)],
+  render_errors: [view: RemoteRetroWeb.ErrorView, accepts: ~w(html)],
   pubsub_server: RemoteRetro.PubSub,
   live_view: [signing_salt: "FglCNt_sd7C22gLB"]
 

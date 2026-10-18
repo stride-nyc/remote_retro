@@ -13,6 +13,18 @@ defmodule RemoteRetro.PageControllerTest do
     end
   end
 
+  describe "requests that only accept json" do
+    test "get an html 406 rather than crashing while rendering the error", ~M{conn} do
+      {status, _headers, body} =
+        assert_error_sent(406, fn ->
+          conn |> put_req_header("accept", "application/json") |> get("/")
+        end)
+
+      assert status == 406
+      assert body =~ "Internal server error"
+    end
+  end
+
   describe "unauthenticated visits to root" do
     test "asks users to authenticate", ~M{conn} do
       conn = get(conn, "/")
