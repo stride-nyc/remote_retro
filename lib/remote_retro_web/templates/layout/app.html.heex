@@ -51,6 +51,12 @@
             revision: '<%= Application.get_env(:remote_retro, :source_version) %>',
             environment: '<%= Application.get_env(:remote_retro, :environment_name) %>',
           })
+
+          <%# drop errors thrown by users' browser extensions; we can't act on them %>
+          Honeybadger.beforeNotify(notice => {
+            const topFrame = (notice.backtrace || [])[0]
+            if (topFrame && /^[a-z-]+-extension:\/\//.test(topFrame.file)) return false
+          })
         })
       </script>
     <% else %>
