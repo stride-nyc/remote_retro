@@ -45,7 +45,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const interval = setInterval(() => {
       const { presences } = store.getState()
 
-      if (!presences.length) { return }
+      // wait for our own presence: others may arrive first, leaving currentUser undefined
+      if (!presences.some(presence => presence.token === userToken)) { return }
 
       console.timeEnd("joined -> presences found and app mounted")
       renderWithHotReload()
